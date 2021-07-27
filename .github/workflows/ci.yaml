@@ -98,7 +98,6 @@ jobs:
             - name: Run integration test suite vs Postgresql
               run: composer run-script integration
               env:
-                  TEST_CONFIG: "phpunit-integration-legacy.xml"
                   DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
     mysql-tests:
@@ -152,7 +151,6 @@ jobs:
             -   name: Run integration test suite vs MySQL
                 run: composer run-script integration
                 env:
-                    TEST_CONFIG: "phpunit-integration-legacy.xml"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
 
     mariadb-tests:
@@ -206,5 +204,4 @@ jobs:
             -   name: Run integration test suite vs MariaDB
                 run: composer run-script integration
                 env:
-                    TEST_CONFIG: "phpunit-integration-legacy.xml"
-                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mariadb.ports[3306] }}/testdb"
