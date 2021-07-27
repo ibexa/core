@@ -104,4 +104,4 @@ jobs:
               env:
                   TEST_CONFIG: "phpunit-integration-legacy.xml"
                   DB: "postgresql"
-                  DATABASE: "pgsql://postgres@localhost/testdb"
+                  DATABASE: "pgsql://postgres:postgres@postgres/testdb"
