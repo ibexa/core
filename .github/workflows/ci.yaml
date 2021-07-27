@@ -50,7 +50,7 @@ jobs:
 #              run: composer run-script --timeout=600 test
 
     postgres-tests:
-        needs: tests
+#        needs: tests
         services:
             postgres:
                 image: postgres
