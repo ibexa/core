@@ -103,5 +103,5 @@ jobs:
               run: composer run-script --timeout=600 integration
               env:
                   TEST_CONFIG: "phpunit-integration-legacy.xml"
-                  DB: "postgresql"
+                  DB: "testdb"
                   DATABASE: "pgsql://postgres:postgres@postgres/testdb"
