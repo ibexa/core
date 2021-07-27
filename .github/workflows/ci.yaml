@@ -53,7 +53,7 @@ jobs:
 #        needs: tests
         services:
             postgres:
-                image: postgres
+                image: postgres:10
                 ports:
                     - 5432
                 env:
@@ -65,7 +65,7 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
         runs-on: "ubuntu-20.04"
-        timeout-minutes: 15
+        timeout-minutes: 20
         continue-on-error: ${{ matrix.experimental }}
 
         strategy:
@@ -96,7 +96,113 @@ jobs:
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             - name: Run integration test suite vs Postgresql
-              run: composer run-script --timeout=600 integration
+              run: composer run-script integration
               env:
                   TEST_CONFIG: "phpunit-integration-legacy.xml"
                   DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
+
+    mysql-tests:
+        #        needs: tests
+        services:
+            mysql:
+                image: mysql:8.0
+                ports:
+                    - 3306/tcp
+                env:
+                    MYSQL_USER: mysql
+                    MYSQL_PASSWORD: mysql
+                    MYSQL_DATABASE: testdb
+                options: >-
+                    --health-cmd="mysqladmin ping"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+        runs-on: "ubuntu-20.04"
+        timeout-minutes: 20
+        continue-on-error: ${{ matrix.experimental }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                experimental: [ false ]
+                php:
+                    - '7.4'
+                composer_options: [ "" ]
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Setup PHP Action
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+                    extensions: pdo_mysql, gd
+                    tools: cs2pr
+
+            -   uses: "ramsey/composer-install@v1"
+                with:
+                    dependency-versions: "highest"
+                    composer-options: "${{ matrix.composer_options }}"
+
+            -   name: Setup problem matchers for PHPUnit
+                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            -   name: Run integration test suite vs MySQL
+                run: composer run-script integration
+                env:
+                    TEST_CONFIG: "phpunit-integration-legacy.xml"
+                    DATABASE: "mysql://mysql:mysql@localhost:${{ job.services.mysql.ports[3306] }}/testdb"
+
+    mariadb-tests:
+        #        needs: tests
+        services:
+            mariadb:
+                image: mariadb:10.3
+                ports:
+                    - 3306/tcp
+                env:
+                    MYSQL_USER: mysql
+                    MYSQL_PASSWORD: mysql
+                    MYSQL_DATABASE: testdb
+                options: >-
+                    --health-cmd="mysqladmin ping"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+        runs-on: "ubuntu-20.04"
+        timeout-minutes: 20
+        continue-on-error: ${{ matrix.experimental }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                experimental: [ false ]
+                php:
+                    - '7.4'
+                composer_options: [ "" ]
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Setup PHP Action
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+                    extensions: pdo_mysql, gd
+                    tools: cs2pr
+
+            -   uses: "ramsey/composer-install@v1"
+                with:
+                    dependency-versions: "highest"
+                    composer-options: "${{ matrix.composer_options }}"
+
+            -   name: Setup problem matchers for PHPUnit
+                run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            -   name: Run integration test suite vs MariaDB
+                run: composer run-script integration
+                env:
+                    TEST_CONFIG: "phpunit-integration-legacy.xml"
+                    DATABASE: "mysql://mysql:mysql@localhost:${{ job.services.mysql.ports[3306] }}/testdb"
