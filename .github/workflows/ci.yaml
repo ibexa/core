@@ -9,48 +9,47 @@ on:
     pull_request: ~
 
 jobs:
-#    tests:
-#        name: Tests
-#        runs-on: "ubuntu-20.04"
-#        timeout-minutes: 10
-#        continue-on-error: ${{ matrix.experimental }}
-#
-#        strategy:
-#            fail-fast: false
-#            matrix:
-#                php:
-#                    - '7.4'
-#                composer_options: [ "" ]
-#                experimental: [false]
-#
-#        steps:
-#            - uses: actions/checkout@v2
-#
-#            - name: Setup PHP Action
-#              uses: shivammathur/setup-php@v2
-#              with:
-#                  php-version: ${{ matrix.php }}
-#                  coverage: none
-#                  extensions: pdo_sqlite, gd
-#                  tools: cs2pr
-#
-#            - uses: "ramsey/composer-install@v1"
-#              with:
-#                  dependency-versions: "highest"
-#                  composer-options: "${{ matrix.composer_options }}"
-#
-#            - name: Setup problem matchers for PHPUnit
-#              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-#
-#            # If package has code style checks
-#            - name: Run code style check
-#              run: composer run-script check-cs -- --format=checkstyle | cs2pr
-#
-#            - name: Run unit test suites
-#              run: composer run-script --timeout=600 test
+    tests:
+        name: Tests
+        runs-on: "ubuntu-20.04"
+        timeout-minutes: 10
+        continue-on-error: ${{ matrix.experimental }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                php:
+                    - '7.4'
+                composer_options: [ "" ]
+                experimental: [false]
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  coverage: none
+                  extensions: pdo_sqlite, gd
+                  tools: cs2pr
+
+            - uses: "ramsey/composer-install@v1"
+              with:
+                  dependency-versions: "highest"
+                  composer-options: "${{ matrix.composer_options }}"
+
+            - name: Setup problem matchers for PHPUnit
+              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            # If package has code style checks
+            - name: Run code style check
+              run: composer run-script check-cs -- --format=checkstyle | cs2pr
+
+            - name: Run unit test suites
+              run: composer run-script --timeout=600 test
 
     postgres-tests:
-#        needs: tests
         services:
             postgres:
                 image: postgres:10
@@ -65,7 +64,7 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
         runs-on: "ubuntu-20.04"
-        timeout-minutes: 20
+        timeout-minutes: 60
         continue-on-error: ${{ matrix.experimental }}
 
         strategy:
@@ -101,7 +100,6 @@ jobs:
                   DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
     mysql-tests:
-        #        needs: tests
         services:
             mysql:
                 image: mysql:8.0
@@ -118,7 +116,7 @@ jobs:
                     --health-timeout=5s
                     --health-retries=5
         runs-on: "ubuntu-20.04"
-        timeout-minutes: 20
+        timeout-minutes: 60
         continue-on-error: ${{ matrix.experimental }}
 
         strategy:
@@ -154,7 +152,6 @@ jobs:
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
 
     mariadb-tests:
-        #        needs: tests
         services:
             mariadb:
                 image: mariadb:10.3
@@ -171,7 +168,7 @@ jobs:
                     --health-timeout=5s
                     --health-retries=5
         runs-on: "ubuntu-20.04"
-        timeout-minutes: 20
+        timeout-minutes: 60
         continue-on-error: ${{ matrix.experimental }}
 
         strategy:
