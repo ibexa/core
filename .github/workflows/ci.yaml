@@ -153,7 +153,7 @@ jobs:
                 run: composer run-script integration
                 env:
                     TEST_CONFIG: "phpunit-integration-legacy.xml"
-                    DATABASE: "mysql://mysql:mysql@localhost:${{ job.services.mysql.ports[3306] }}/testdb"
+                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
 
     mariadb-tests:
         #        needs: tests
@@ -207,4 +207,4 @@ jobs:
                 run: composer run-script integration
                 env:
                     TEST_CONFIG: "phpunit-integration-legacy.xml"
-                    DATABASE: "mysql://mysql:mysql@localhost:${{ job.services.mysql.ports[3306] }}/testdb"
+                    DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
