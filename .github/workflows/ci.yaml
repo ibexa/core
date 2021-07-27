@@ -12,7 +12,7 @@ jobs:
     tests:
         name: Tests
         runs-on: "ubuntu-20.04"
-        timeout-minutes: 10
+        timeout-minutes: 20
         continue-on-error: ${{ matrix.experimental }}
 
         strategy:
@@ -47,7 +47,7 @@ jobs:
               run: composer run-script check-cs -- --format=checkstyle | cs2pr
 
             - name: Run unit test suites
-              run: composer run-script --timeout=600 test
+              run: composer run-script test
 
     postgres-tests:
         services:
