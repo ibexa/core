@@ -96,7 +96,10 @@
         "fix-cs": "php-cs-fixer fix -v --config=.php-cs-fixer.php --show-progress=dots",
         "check-cs": "@fix-cs --diff --dry-run",
         "unit": "phpunit -c phpunit.xml",
-        "integration": "phpunit -c phpunit-integration-legacy.xml",
+        "integration": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit -c phpunit-integration-legacy.xml"
+        ],
         "test": [
             "@unit",
             "@integration"
