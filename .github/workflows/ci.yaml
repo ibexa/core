@@ -113,7 +113,7 @@ jobs:
                     MYSQL_PASSWORD: mysql
                     MYSQL_DATABASE: testdb
                 options: >-
-                    --health-cmd="mysqladmin ping"
+                    --health-cmd=mysqladmin ping
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
@@ -166,7 +166,7 @@ jobs:
                     MYSQL_PASSWORD: mysql
                     MYSQL_DATABASE: testdb
                 options: >-
-                    --health-cmd="mysqladmin ping"
+                    --health-cmd=mysqladmin ping
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
