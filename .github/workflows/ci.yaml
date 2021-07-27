@@ -55,7 +55,7 @@ jobs:
             postgres:
                 image: postgres
                 ports:
-                    - 5432:5432
+                    - 5432
                 env:
                     POSTGRES_PASSWORD: postgres
                     POSTGRES_DB: testdb
@@ -65,7 +65,7 @@ jobs:
                     --health-timeout 5s
                     --health-retries 5
         runs-on: "ubuntu-20.04"
-        timeout-minutes: 10
+        timeout-minutes: 15
         continue-on-error: ${{ matrix.experimental }}
 
         strategy:
@@ -95,12 +95,8 @@ jobs:
             - name: Setup problem matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-#            - name: Configure Postgresql database
-#              run: |
-#                docker exec postgres psql -c "CREATE EXTENSION pgcrypto;" -U postgres testdb
-
             - name: Run integration test suite vs Postgresql
               run: composer run-script --timeout=600 integration
               env:
                   TEST_CONFIG: "phpunit-integration-legacy.xml"
-                  DATABASE: "pgsql://postgres:postgres@localhost:5432/testdb"
+                  DATABASE: "pgsql://postgres:postgres@localhost:{{ job.services.postgres.ports[5432] }}/testdb"
