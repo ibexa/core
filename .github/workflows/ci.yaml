@@ -100,9 +100,12 @@ jobs:
                   DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
 
     mysql-tests:
+        permissions:
+            packages: read
+            contents: read
         services:
             mysql:
-                image: mysql:8.0
+                image: ghcr.io/ezsystems/ezplatform-kernel/mysql:8.0
                 ports:
                     - 3306/tcp
                 env:
