@@ -63,7 +63,6 @@ jobs:
                     --health-interval 10s
                     --health-timeout 5s
                     --health-retries 5
-                    --tmpfs
         runs-on: "ubuntu-20.04"
         timeout-minutes: 60
         continue-on-error: ${{ matrix.experimental }}
@@ -116,7 +115,7 @@ jobs:
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
-                    --tmpfs
+                    --tmpfs /var/lib/mysql
         runs-on: "ubuntu-20.04"
         timeout-minutes: 60
         continue-on-error: ${{ matrix.experimental }}
@@ -169,7 +168,7 @@ jobs:
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
-                    --tmpfs
+                    --tmpfs /var/lib/mysql
         runs-on: "ubuntu-20.04"
         timeout-minutes: 60
         continue-on-error: ${{ matrix.experimental }}
