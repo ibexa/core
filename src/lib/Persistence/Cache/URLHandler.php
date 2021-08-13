@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\API\Repository\Values\URL\URLQuery;
-use eZ\Publish\SPI\Persistence\URL\Handler as URLHandlerInterface;
-use eZ\Publish\SPI\Persistence\URL\URLUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
+use Ibexa\Contracts\Core\Persistence\URL\Handler as URLHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct;
 
 /**
  * SPI cache for URL Handler.
@@ -94,3 +94,5 @@ class URLHandler extends AbstractHandler implements URLHandlerInterface
         return $this->persistenceHandler->urlHandler()->findUsages($id);
     }
 }
+
+class_alias(URLHandler::class, 'eZ\Publish\Core\Persistence\Cache\URLHandler');

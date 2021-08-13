@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware;
+namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -192,3 +192,5 @@ class ConfigurationProcessor
         return $this->contextualizer;
     }
 }
+
+class_alias(ConfigurationProcessor::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor');

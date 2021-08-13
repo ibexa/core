@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Notification;
+namespace Ibexa\Core\Persistence\Legacy\Notification;
 
-use eZ\Publish\SPI\Persistence\Notification\Notification;
-use eZ\Publish\SPI\Persistence\Notification\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use RuntimeException;
 
 class Mapper
@@ -69,3 +69,5 @@ class Mapper
         return $notification;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Notification\Mapper');

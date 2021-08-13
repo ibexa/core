@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\User;
+namespace Ibexa\Core\Persistence\Legacy\User;
 
-use eZ\Publish\SPI\Persistence\User;
-use eZ\Publish\SPI\Persistence\User\UserTokenUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\User;
+use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
 
 /**
  * User Gateway.
@@ -76,3 +76,5 @@ abstract class Gateway
      */
     abstract public function removeRoleAssignmentById(int $roleAssignmentId): void;
 }
+
+class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\User\Gateway');

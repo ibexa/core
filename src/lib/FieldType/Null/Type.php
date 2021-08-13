@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Null;
+namespace Ibexa\Core\FieldType\Null;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\FieldType\FieldType;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
  * ATTENTION: For testing purposes only!
@@ -79,7 +79,7 @@ class Type extends FieldType
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @param \eZ\Publish\Core\FieldType\Null\Value $value
      */
@@ -134,3 +134,5 @@ class Type extends FieldType
         return true;
     }
 }
+
+class_alias(Type::class, 'eZ\Publish\Core\FieldType\Null\Type');

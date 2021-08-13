@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Image;
+namespace Ibexa\Core\FieldType\Image;
 
-use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
  * Value for Image field type.
@@ -184,3 +184,5 @@ class Value extends BaseValue
         throw new PropertyNotFoundException($propertyName, static::class);
     }
 }
+
+class_alias(Value::class, 'eZ\Publish\Core\FieldType\Image\Value');

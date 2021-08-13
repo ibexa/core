@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Url;
+namespace Ibexa\Core\FieldType\Url;
 
-use eZ\Publish\SPI\FieldType\GatewayBasedStorage;
-use eZ\Publish\SPI\FieldType\StorageGateway;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use eZ\Publish\SPI\Persistence\Content\Field;
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\FieldType\StorageGateway;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -141,3 +141,5 @@ class UrlStorage extends GatewayBasedStorage
     {
     }
 }
+
+class_alias(UrlStorage::class, 'eZ\Publish\Core\FieldType\Url\UrlStorage');

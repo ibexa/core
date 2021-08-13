@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
-use eZ\Publish\Core\Base\Exceptions\DatabaseException;
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway;
-use eZ\Publish\SPI\Persistence\Content\Type;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\Type\Group;
-use eZ\Publish\SPI\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Doctrine\DBAL\DBALException;
 use PDOException;
 
@@ -333,3 +333,5 @@ final class ExceptionConversion extends Gateway
         }
     }
 }
+
+class_alias(ExceptionConversion::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion');

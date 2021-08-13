@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Controller;
+namespace Ibexa\Core\MVC\Symfony\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 
 abstract class Controller implements ContainerAwareInterface
 {
@@ -90,7 +90,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \eZ\Publish\API\Repository\Repository
+     * @return \Ibexa\Contracts\Core\Repository\Repository
      */
     public function getRepository()
     {
@@ -125,3 +125,5 @@ abstract class Controller implements ContainerAwareInterface
         return $this->container->get('security.authorization_checker')->isGranted($attribute);
     }
 }
+
+class_alias(Controller::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Controller');

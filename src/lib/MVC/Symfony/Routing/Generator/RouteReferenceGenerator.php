@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Routing\Generator;
+namespace Ibexa\Core\MVC\Symfony\Routing\Generator;
 
-use eZ\Publish\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
-use eZ\Publish\Core\MVC\Symfony\RequestStackAware;
-use eZ\Publish\Core\MVC\Symfony\Routing\RouteReference;
+use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\RequestStackAware;
+use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,3 +48,5 @@ class RouteReferenceGenerator implements RouteReferenceGeneratorInterface
         return $event->getRouteReference();
     }
 }
+
+class_alias(RouteReferenceGenerator::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator');

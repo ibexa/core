@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 
 /**
  * Action to remove a field from content objects.
@@ -103,3 +103,5 @@ class RemoveField extends Action
         }
     }
 }
+
+class_alias(RemoveField::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField');

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Filter;
+namespace Ibexa\Contracts\Core\Persistence\Filter;
 
-use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
  * @internal for internal use by Repository Filtering.
@@ -22,3 +22,5 @@ interface CriterionVisitor
         FilteringCriterion $criterion
     ): string;
 }
+
+class_alias(CriterionVisitor::class, 'eZ\Publish\SPI\Persistence\Filter\CriterionVisitor');

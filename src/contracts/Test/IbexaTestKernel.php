@@ -10,12 +10,12 @@ namespace Ibexa\Contracts\Core\Test;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\DBAL\Connection;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ChainConfigResolver;
-use eZ\Bundle\EzPublishCoreBundle\EzPublishCoreBundle;
-use eZ\Bundle\EzPublishLegacySearchEngineBundle\EzPublishLegacySearchEngineBundle;
-use eZ\Publish\API\Repository;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\SPI\Persistence\TransactionHandler;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
+use Ibexa\Bundle\Core\EzPublishCoreBundle;
+use Ibexa\Bundle\LegacySearchEngine\EzPublishLegacySearchEngineBundle;
+use Ibexa\Contracts\Core\Repository;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use FOS\JsRoutingBundle\FOSJsRoutingBundle;
 use JMS\TranslationBundle\JMSTranslationBundle;
 use Liip\ImagineBundle\LiipImagineBundle;

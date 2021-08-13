@@ -6,25 +6,25 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy;
+namespace Ibexa\Core\Persistence\Legacy;
 
-use eZ\Publish\SPI\Persistence\Handler as HandlerInterface;
-use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandler;
-use eZ\Publish\SPI\Persistence\Content\Location\Trash\Handler as TrashHandler;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
-use eZ\Publish\SPI\Persistence\Content\Section\Handler as SectionHandler;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
-use eZ\Publish\SPI\Persistence\Content\UrlAlias\Handler as UrlAliasHandler;
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard\Handler as UrlWildcardHandler;
-use eZ\Publish\SPI\Persistence\User\Handler as UserHandler;
-use eZ\Publish\SPI\Persistence\TransactionHandler as SPITransactionHandler;
-use eZ\Publish\Core\Persistence\Legacy\URL\Handler as UrlHandler;
-use eZ\Publish\SPI\Persistence\Bookmark\Handler as BookmarkHandler;
-use eZ\Publish\SPI\Persistence\Notification\Handler as NotificationHandler;
-use eZ\Publish\SPI\Persistence\UserPreference\Handler as UserPreferenceHandler;
-use eZ\Publish\SPI\Persistence\Setting\Handler as SettingHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as HandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as UrlAliasHandler;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as UrlWildcardHandler;
+use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler as SPITransactionHandler;
+use Ibexa\Core\Persistence\Legacy\URL\Handler as UrlHandler;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
+use Ibexa\Contracts\Core\Persistence\Notification\Handler as NotificationHandler;
+use Ibexa\Contracts\Core\Persistence\UserPreference\Handler as UserPreferenceHandler;
+use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
 
 /**
  * The main handler for Legacy Storage Engine.
@@ -259,3 +259,5 @@ class Handler implements HandlerInterface
         $this->transactionHandler->rollback();
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Handler');

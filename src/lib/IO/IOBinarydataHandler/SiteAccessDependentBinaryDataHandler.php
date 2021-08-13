@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\IO\IOBinarydataHandler;
+namespace Ibexa\Core\IO\IOBinarydataHandler;
 
-use eZ\Bundle\EzPublishIOBundle\ApiLoader\HandlerRegistry;
-use eZ\Publish\Core\IO\IOBinarydataHandler;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\SPI\IO\BinaryFileCreateStruct;
+use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
+use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 
 /**
  * @internal
@@ -72,3 +72,5 @@ final class SiteAccessDependentBinaryDataHandler implements IOBinaryDataHandler
         return $this->getHandler()->deleteDirectory($spiPath);
     }
 }
+
+class_alias(SiteAccessDependentBinaryDataHandler::class, 'eZ\Publish\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler');

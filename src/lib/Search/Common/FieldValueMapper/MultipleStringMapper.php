@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common\FieldValueMapper;
+namespace Ibexa\Core\Search\Common\FieldValueMapper;
 
-use eZ\Publish\SPI\Search\FieldType;
-use eZ\Publish\SPI\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType;
+use Ibexa\Contracts\Core\Search\Field;
 
 /**
  * Common multiple string field value mapper implementation.
@@ -47,3 +47,5 @@ class MultipleStringMapper extends StringMapper
         return $values;
     }
 }
+
+class_alias(MultipleStringMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\MultipleStringMapper');

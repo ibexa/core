@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Collector;
+namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\ConfigSuggestion;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion;
 
 class SuggestionCollector implements SuggestionCollectorInterface
 {
@@ -41,3 +41,5 @@ class SuggestionCollector implements SuggestionCollectorInterface
         return !empty($this->suggestions);
     }
 }
+
+class_alias(SuggestionCollector::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollector');

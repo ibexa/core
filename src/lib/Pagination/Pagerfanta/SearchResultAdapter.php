@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Pagination\Pagerfanta;
+namespace Ibexa\Core\Pagination\Pagerfanta;
 
-use eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Pagerfanta\Adapter\AdapterInterface;
 
 /**
@@ -44,3 +44,5 @@ interface SearchResultAdapter extends AdapterInterface
      */
     public function getMaxScore(): ?float;
 }
+
+class_alias(SearchResultAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\SearchResultAdapter');

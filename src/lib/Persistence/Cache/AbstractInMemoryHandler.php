@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
-use eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCache;
+use Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface;
+use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 
 /**
  * Abstract handler for use in other SPI Handlers.
@@ -291,3 +291,5 @@ abstract class AbstractInMemoryHandler
         );
     }
 }
+
+class_alias(AbstractInMemoryHandler::class, 'eZ\Publish\Core\Persistence\Cache\AbstractInMemoryHandler');

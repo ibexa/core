@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\UserPreference;
+namespace Ibexa\Core\Persistence\Legacy\UserPreference;
 
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 
 abstract class Gateway
 {
@@ -47,3 +47,5 @@ abstract class Gateway
      */
     abstract public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array;
 }
+
+class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\UserPreference\Gateway');

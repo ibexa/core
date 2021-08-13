@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\Content;
+namespace Ibexa\Contracts\Core\Persistence\Content;
 
-use eZ\Publish\SPI\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
  * Struct containing accessible properties on Location entities.
@@ -129,3 +129,5 @@ class Location extends ValueObject
      */
     public $sortOrder;
 }
+
+class_alias(Location::class, 'eZ\Publish\SPI\Persistence\Content\Location');

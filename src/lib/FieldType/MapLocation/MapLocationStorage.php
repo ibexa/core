@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\MapLocation;
+namespace Ibexa\Core\FieldType\MapLocation;
 
-use eZ\Publish\SPI\FieldType\GatewayBasedStorage;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use eZ\Publish\SPI\Persistence\Content\Field;
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
 
 /**
  * Storage for the MapLocation field type.
@@ -80,3 +80,5 @@ class MapLocationStorage extends GatewayBasedStorage
         return is_array($field->value->externalData) ? $field->value->externalData['address'] : null;
     }
 }
+
+class_alias(MapLocationStorage::class, 'eZ\Publish\Core\FieldType\MapLocation\MapLocationStorage');

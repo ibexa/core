@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\SiteAccess\Config;
+namespace Ibexa\Bundle\Core\SiteAccess\Config;
 
-use eZ\Publish\Core\IO\IOConfigProvider;
+use Ibexa\Core\IO\IOConfigProvider;
 
 /**
  * @internal
@@ -39,3 +39,5 @@ final class IOConfigResolver implements IOConfigProvider
         return $this->complexConfigProcessor->processComplexSetting('io.url_prefix');
     }
 }
+
+class_alias(IOConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\Config\IOConfigResolver');

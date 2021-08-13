@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\EventListener;
+namespace Ibexa\Bundle\Core\EventListener;
 
-use eZ\Publish\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
-use eZ\Publish\Core\MVC\Symfony\Event\ScopeChangeEvent;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
-use eZ\Publish\Core\MVC\Symfony\View\ViewManagerInterface;
+use Ibexa\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConfigScopeListener implements EventSubscriberInterface
@@ -69,3 +69,5 @@ class ConfigScopeListener implements EventSubscriberInterface
         $this->viewProviders = $viewProviders;
     }
 }
+
+class_alias(ConfigScopeListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ConfigScopeListener');

@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Templating;
+namespace Ibexa\Core\MVC\Symfony\Templating;
 
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\Core\Helper\TranslationHelper;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\RequestStackAware;
-use eZ\Publish\Core\MVC\Symfony\Routing\UrlAliasRouter;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Core\Helper\TranslationHelper;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\RequestStackAware;
+use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -24,7 +24,7 @@ class GlobalHelper
     /** @var \eZ\Publish\Core\MVC\ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \eZ\Publish\API\Repository\LocationService */
+    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
     protected $locationService;
 
     /** @var \Symfony\Component\Routing\RouterInterface */
@@ -130,7 +130,7 @@ class GlobalHelper
     /**
      * Returns the root location.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
      */
     public function getRootLocation()
     {
@@ -171,3 +171,5 @@ class GlobalHelper
         return $this->configResolver;
     }
 }
+
+class_alias(GlobalHelper::class, 'eZ\Publish\Core\MVC\Symfony\Templating\GlobalHelper');

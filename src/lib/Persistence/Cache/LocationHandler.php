@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence\Content\Location;
-use eZ\Publish\SPI\Persistence\Content\Location\CreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandlerInterface;
-use eZ\Publish\SPI\Persistence\Content\Location\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 
 /**
  * @see \eZ\Publish\SPI\Persistence\Content\Location\Handler
@@ -430,3 +430,5 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return implode('|', $translations) . '|' . (int)$useAlwaysAvailable;
     }
 }
+
+class_alias(LocationHandler::class, 'eZ\Publish\Core\Persistence\Cache\LocationHandler');

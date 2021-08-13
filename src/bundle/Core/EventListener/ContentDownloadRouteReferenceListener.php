@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\EventListener;
+namespace Ibexa\Bundle\Core\EventListener;
 
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\Helper\TranslationHelper;
-use eZ\Publish\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\Helper\TranslationHelper;
+use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
 use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\OptionsResolver\Options;
@@ -119,3 +119,5 @@ class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
         );
     }
 }
+
+class_alias(ContentDownloadRouteReferenceListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ContentDownloadRouteReferenceListener');

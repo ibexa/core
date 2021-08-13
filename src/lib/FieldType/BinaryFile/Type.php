@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\BinaryFile;
+namespace Ibexa\Core\FieldType\BinaryFile;
 
-use eZ\Publish\Core\FieldType\BinaryBase\Type as BinaryBaseType;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Core\FieldType\BinaryBase\Type as BinaryBaseType;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
  * The TextLine field type.
@@ -111,3 +111,5 @@ class Type extends BinaryBaseType
         return $result;
     }
 }
+
+class_alias(Type::class, 'eZ\Publish\Core\FieldType\BinaryFile\Type');

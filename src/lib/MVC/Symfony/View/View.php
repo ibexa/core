@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\View;
+namespace Ibexa\Core\MVC\Symfony\View;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -128,3 +128,5 @@ interface View
      */
     public function getResponse();
 }
+
+class_alias(View::class, 'eZ\Publish\Core\MVC\Symfony\View\View');

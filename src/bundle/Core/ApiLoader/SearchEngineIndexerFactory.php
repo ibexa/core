@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\ApiLoader;
+namespace Ibexa\Bundle\Core\ApiLoader;
 
-use eZ\Bundle\EzPublishCoreBundle\ApiLoader\Exception\InvalidSearchEngineIndexer;
-use eZ\Publish\Core\Search\Common\Indexer as SearchEngineIndexer;
+use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngineIndexer;
+use Ibexa\Core\Search\Common\Indexer as SearchEngineIndexer;
 
 /**
  * The search engine indexer factory.
@@ -81,3 +81,5 @@ class SearchEngineIndexerFactory
         return $this->searchEngineIndexers[$repositoryConfig['search']['engine']];
     }
 }
+
+class_alias(SearchEngineIndexerFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\SearchEngineIndexerFactory');

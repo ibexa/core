@@ -4,20 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\User;
+namespace Ibexa\Core\FieldType\User;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use eZ\Publish\Core\FieldType\FieldType;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\SPI\Persistence\User\Handler as SPIUserHandler;
-use eZ\Publish\Core\Repository\User\PasswordValidatorInterface;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\PasswordHashService;
+use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
+use Ibexa\Core\Repository\User\PasswordValidatorInterface;
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use LogicException;
 
 /**
@@ -85,7 +85,7 @@ class Type extends FieldType
     /** @var \eZ\Publish\SPI\Persistence\User\Handler */
     private $userHandler;
 
-    /** @var \eZ\Publish\API\Repository\PasswordHashService */
+    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
     private $passwordHashService;
 
     /** @var \eZ\Publish\Core\Repository\User\PasswordValidatorInterface */
@@ -169,7 +169,7 @@ class Type extends FieldType
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @param \eZ\Publish\Core\FieldType\User\Value $value
      */
@@ -299,9 +299,9 @@ class Type extends FieldType
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
      * @param \eZ\Publish\Core\FieldType\User\Value $fieldValue The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
@@ -560,3 +560,5 @@ class Type extends FieldType
         return ($fieldDefinition->fieldSettings[self::PASSWORD_TTL_SETTING] ?? null) > 0;
     }
 }
+
+class_alias(Type::class, 'eZ\Publish\Core\FieldType\User\Type');

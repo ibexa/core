@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Notification;
+namespace Ibexa\Contracts\Core\Persistence\Notification;
 
-use eZ\Publish\API\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
 
 interface Handler
 {
@@ -25,7 +25,7 @@ interface Handler
      * Update Notification ValueObject in persistent storage.
      * There's no edit feature but it's essential to mark Notification as read.
      *
-     * @param \eZ\Publish\API\Repository\Values\Notification\Notification $notification
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
      * @param \eZ\Publish\SPI\Persistence\Notification\UpdateStruct $updateStruct
      *
      * @return \eZ\Publish\SPI\Persistence\Notification\Notification
@@ -67,7 +67,9 @@ interface Handler
     public function countNotifications(int $currentUserId): int;
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Notification\Notification $notification
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
      */
     public function delete(APINotification $notification): void;
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Notification\Handler');

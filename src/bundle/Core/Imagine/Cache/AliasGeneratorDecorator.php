@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Imagine\Cache;
+namespace Ibexa\Bundle\Core\Imagine\Cache;
 
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
-use eZ\Publish\SPI\Variation\VariationHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Routing\RequestContext;
 
@@ -44,8 +44,8 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Field $field
-     * @param \eZ\Publish\API\Repository\Values\Content\VersionInfo $versionInfo
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param string $variationName
      * @param array $parameters
      *
@@ -76,8 +76,8 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Field $field
-     * @param \eZ\Publish\API\Repository\Values\Content\VersionInfo $versionInfo
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param string $variationName
      *
      * @return string
@@ -112,3 +112,5 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
         ];
     }
 }
+
+class_alias(AliasGeneratorDecorator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Cache\AliasGeneratorDecorator');

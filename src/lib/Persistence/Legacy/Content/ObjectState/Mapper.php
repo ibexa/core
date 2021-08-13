@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\ObjectState;
+namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState;
 
-use eZ\Publish\SPI\Persistence\Content\ObjectState;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Group;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\InputStruct;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 
 /**
  * Mapper for ObjectState and object state Group objects.
@@ -191,3 +191,5 @@ class Mapper
         return $objectState;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Mapper');

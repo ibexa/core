@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\EventListener;
+namespace Ibexa\Bundle\Core\EventListener;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Routing\Generator;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\Generator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use eZ\Publish\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -49,3 +49,5 @@ class RoutingListener implements EventSubscriberInterface
         $this->urlAliasGenerator->setExcludedUriPrefixes($this->configResolver->getParameter('content.tree_root.excluded_uri_prefixes'));
     }
 }
+
+class_alias(RoutingListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\RoutingListener');

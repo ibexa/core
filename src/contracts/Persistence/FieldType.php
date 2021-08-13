@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence;
+namespace Ibexa\Contracts\Core\Persistence;
 
 /**
  * The field type interface which field types available to storage engines have to implement.
@@ -20,3 +20,5 @@ interface FieldType
      */
     public function getEmptyValue();
 }
+
+class_alias(FieldType::class, 'eZ\Publish\SPI\Persistence\FieldType');

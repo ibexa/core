@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common;
+namespace Ibexa\Core\Search\Common;
 
-use eZ\Publish\SPI\FieldType\Indexable;
+use Ibexa\Contracts\Core\FieldType\Indexable;
 use OutOfBoundsException;
 
 /**
@@ -50,3 +50,5 @@ class FieldRegistry
         return $this->types[$name];
     }
 }
+
+class_alias(FieldRegistry::class, 'eZ\Publish\Core\Search\Common\FieldRegistry');

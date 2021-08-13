@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException as APINotFoundException;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\SPI\Persistence\Content\UrlAlias\Handler as UrlAliasHandlerInterface;
-use eZ\Publish\SPI\Persistence\Content\UrlAlias;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as UrlAliasHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 
 /**
  * @see \eZ\Publish\SPI\Persistence\Content\UrlAlias\Handler
@@ -457,3 +457,5 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
         );
     }
 }
+
+class_alias(UrlAliasHandler::class, 'eZ\Publish\Core\Persistence\Cache\UrlAliasHandler');

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository;
+namespace Ibexa\Contracts\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\SPI\FieldType\Value;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\FieldType\Value;
 
 /**
  * Interface that FieldTypes expose to the public API.
@@ -160,7 +160,7 @@ interface FieldType
      *
      * @param mixed $fieldSettings
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     public function fieldSettingsToHash($fieldSettings);
 
@@ -169,7 +169,7 @@ interface FieldType
      *
      * This is the reverse operation of {@link fieldSettingsToHash()}.
      *
-     * @param array|hash|scalar|null $fieldSettingsHash
+     * @param array|scalar|null $fieldSettingsHash
      *
      * @return mixed
      */
@@ -180,7 +180,7 @@ interface FieldType
      *
      * @param mixed $validatorConfiguration
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     public function validatorConfigurationToHash($validatorConfiguration);
 
@@ -188,7 +188,7 @@ interface FieldType
      * Converts the given $validatorConfigurationHash to a validator
      * configuration of the type.
      *
-     * @param array|hash|scalar|null $validatorConfigurationHash
+     * @param array|scalar|null $validatorConfigurationHash
      *
      * @return mixed
      */
@@ -221,10 +221,12 @@ interface FieldType
     /**
      * Validates a field value based on the validator configuration in the field definition.
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
      * @param \eZ\Publish\SPI\FieldType\Value $value The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
      */
     public function validateValue(FieldDefinition $fieldDef, Value $value): iterable;
 }
+
+class_alias(FieldType::class, 'eZ\Publish\API\Repository\FieldType');

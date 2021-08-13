@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Language;
+namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
-use eZ\Publish\SPI\Persistence\Content\Language;
-use eZ\Publish\SPI\Persistence\Content\Language\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 
 /**
  * Language Mapper.
@@ -58,3 +58,5 @@ class Mapper
         return $languages;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\Mapper');

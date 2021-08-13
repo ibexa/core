@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
+namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalOr;
-use eZ\Publish\SPI\Persistence\Filter\CriterionVisitor;
-use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use eZ\Publish\SPI\Repository\Values\Filter\CriterionQueryBuilder;
-use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr;
+use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor;
+use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
  * @internal for internal use by Repository Filtering
@@ -37,7 +37,7 @@ final class LogicalOrQueryBuilder implements CriterionQueryBuilder
         FilteringCriterion $criterion
     ): ?string {
         $constraints = [];
-        /** @var \eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalOr $criterion */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOr $criterion */
         foreach ($criterion->criteria as $_criterion) {
             /** @var \eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion $_criterion */
             $constraint = $this->criterionVisitor->visitCriteria($queryBuilder, $_criterion);
@@ -53,3 +53,5 @@ final class LogicalOrQueryBuilder implements CriterionQueryBuilder
         return (string)$queryBuilder->expr()->orX(...$constraints);
     }
 }
+
+class_alias(LogicalOrQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder');

@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
+namespace Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
-use eZ\Publish\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use PDO;
 
 class DoctrineStorage extends Gateway
@@ -238,3 +238,5 @@ class DoctrineStorage extends Gateway
         $deleteQuery->execute();
     }
 }
+
+class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage');

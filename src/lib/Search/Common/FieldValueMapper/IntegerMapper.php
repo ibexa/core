@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common\FieldValueMapper;
+namespace Ibexa\Core\Search\Common\FieldValueMapper;
 
-use eZ\Publish\Core\Search\Common\FieldValueMapper;
-use eZ\Publish\SPI\Search\FieldType\IntegerField;
-use eZ\Publish\SPI\Search\Field;
+use Ibexa\Core\Search\Common\FieldValueMapper;
+use Ibexa\Contracts\Core\Search\FieldType\IntegerField;
+use Ibexa\Contracts\Core\Search\Field;
 
 /**
  * Common integer field value mapper implementation.
@@ -51,3 +51,5 @@ class IntegerMapper extends FieldValueMapper
         return (int)$value;
     }
 }
+
+class_alias(IntegerMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\IntegerMapper');

@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\SiteAccess;
+namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use eZ\Publish\Core\MVC\Exception\InvalidSiteAccessException;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Psr\Log\LoggerInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\CompoundInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\CompoundInterface;
 use InvalidArgumentException;
 
 class Router implements SiteAccessRouterInterface, SiteAccessAware
@@ -271,3 +271,5 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
         $this->siteAccess = $siteAccess;
     }
 }
+
+class_alias(Router::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Router');

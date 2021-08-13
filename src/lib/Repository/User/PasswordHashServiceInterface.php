@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\User;
+namespace Ibexa\Core\Repository\User;
 
-use eZ\Publish\API\Repository\PasswordHashService;
+use Ibexa\Contracts\Core\Repository\PasswordHashService;
 
 /**
  * @deprecated since eZ Platform 3.3.0, to be removed in eZ Platform 4.0.0. Use
@@ -17,3 +17,5 @@ use eZ\Publish\API\Repository\PasswordHashService;
 interface PasswordHashServiceInterface extends PasswordHashService
 {
 }
+
+class_alias(PasswordHashServiceInterface::class, 'eZ\Publish\Core\Repository\User\PasswordHashServiceInterface');

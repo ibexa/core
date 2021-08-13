@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content;
+namespace Ibexa\Core\Persistence\Legacy\Content;
 
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\Type;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\UpdateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\Core\Persistence\FieldTypeRegistry;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Core\Persistence\FieldTypeRegistry;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 
 /**
  * Field Handler.
@@ -490,3 +490,5 @@ class FieldHandler
         );
     }
 }
+
+class_alias(FieldHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldHandler');

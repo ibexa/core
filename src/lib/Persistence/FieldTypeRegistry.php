@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence;
+namespace Ibexa\Core\Persistence;
 
-use eZ\Publish\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
-use eZ\Publish\SPI\FieldType\FieldType as SPIFieldType;
-use eZ\Publish\SPI\Persistence\FieldType as FieldTypeInterface;
+use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
+use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Contracts\Core\Persistence\FieldType as FieldTypeInterface;
 
 /**
  * Registry for field types available to storage engines.
@@ -79,3 +79,5 @@ class FieldTypeRegistry
         return $this->coreFieldTypes[$identifier];
     }
 }
+
+class_alias(FieldTypeRegistry::class, 'eZ\Publish\Core\Persistence\FieldTypeRegistry');

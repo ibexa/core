@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Notification;
+namespace Ibexa\Core\Persistence\Legacy\Notification;
 
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\SPI\Persistence\Notification\CreateStruct;
-use eZ\Publish\SPI\Persistence\Notification\Handler as HandlerInterface;
-use eZ\Publish\SPI\Persistence\Notification\Notification;
-use eZ\Publish\SPI\Persistence\Notification\UpdateStruct;
-use eZ\Publish\API\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Notification\Handler as HandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
 
 class Handler implements HandlerInterface
 {
@@ -115,3 +115,5 @@ class Handler implements HandlerInterface
         $this->gateway->delete($notification->id);
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Notification\Handler');

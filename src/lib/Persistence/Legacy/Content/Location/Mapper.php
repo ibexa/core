@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Location;
+namespace Ibexa\Core\Persistence\Legacy\Content\Location;
 
-use eZ\Publish\SPI\Persistence\Content\Location;
-use eZ\Publish\SPI\Persistence\Content\Location\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 
 /**
  * Mapper for Location objects.
@@ -100,3 +100,5 @@ class Mapper
         return $struct;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper');

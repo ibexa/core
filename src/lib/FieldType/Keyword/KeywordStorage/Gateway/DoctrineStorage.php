@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Keyword\KeywordStorage\Gateway;
+namespace Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
-use eZ\Publish\Core\FieldType\Keyword\KeywordStorage\Gateway;
-use eZ\Publish\SPI\Persistence\Content\Field;
+use Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
 use RuntimeException;
 
 class DoctrineStorage extends Gateway
@@ -367,3 +367,5 @@ class DoctrineStorage extends Gateway
         $deleteQuery->execute();
     }
 }
+
+class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage');

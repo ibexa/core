@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\SiteAccess;
+namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use function iterator_to_array;
 
 class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
@@ -92,3 +92,5 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
         return $saRelationMap[$repository][$rootLocationId];
     }
 }
+
+class_alias(SiteAccessService::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessService');

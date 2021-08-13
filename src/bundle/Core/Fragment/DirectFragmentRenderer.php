@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Fragment;
+namespace Ibexa\Bundle\Core\Fragment;
 
-use eZ\Bundle\EzPublishCoreBundle\EventListener\ViewControllerListener;
-use eZ\Publish\Core\MVC\Symfony\Templating\Exception\InvalidResponseException;
-use eZ\Publish\Core\MVC\Symfony\View\Renderer\TemplateRenderer;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Bundle\Core\EventListener\ViewControllerListener;
+use Ibexa\Core\MVC\Symfony\Templating\Exception\InvalidResponseException;
+use Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer;
+use Ibexa\Core\MVC\Symfony\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -160,3 +160,5 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
         return self::NAME;
     }
 }
+
+class_alias(DirectFragmentRenderer::class, 'eZ\Bundle\EzPublishCoreBundle\Fragment\DirectFragmentRenderer');

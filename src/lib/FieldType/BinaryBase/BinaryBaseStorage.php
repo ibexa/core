@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\BinaryBase;
+namespace Ibexa\Core\FieldType\BinaryBase;
 
-use eZ\Publish\SPI\FieldType\BinaryBase\RouteAwarePathGenerator;
-use eZ\Publish\SPI\FieldType\GatewayBasedStorage;
-use eZ\Publish\Core\IO\IOServiceInterface;
-use eZ\Publish\SPI\FieldType\BinaryBase\PathGenerator;
-use eZ\Publish\SPI\FieldType\StorageGateway;
-use eZ\Publish\SPI\IO\MimeTypeDetector;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator;
+use Ibexa\Contracts\Core\FieldType\StorageGateway;
+use Ibexa\Contracts\Core\IO\MimeTypeDetector;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 /**
  * Storage for binary files.
@@ -194,3 +194,5 @@ class BinaryBaseStorage extends GatewayBasedStorage
     {
     }
 }
+
+class_alias(BinaryBaseStorage::class, 'eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage');

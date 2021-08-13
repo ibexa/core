@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Event;
+namespace Ibexa\Core\MVC\Symfony\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 
 /**
  * This event is triggered after SiteAccess matching process and allows further control on it and the associated request.
@@ -65,3 +65,5 @@ class PostSiteAccessMatchEvent extends Event
         return $this->requestType;
     }
 }
+
+class_alias(PostSiteAccessMatchEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent');

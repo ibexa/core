@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Filter\Content;
+namespace Ibexa\Contracts\Core\Persistence\Filter\Content;
 
-use eZ\Publish\API\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 
 /**
  * Content Filtering ContentHandler.
@@ -22,3 +22,5 @@ interface Handler
      */
     public function find(Filter $filter): iterable;
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Filter\Content\Handler');

@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware;
+namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -234,3 +234,5 @@ interface ContextualizerInterface
      */
     public function getGroupsBySiteAccess();
 }
+
+class_alias(ContextualizerInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface');

@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\Templating\Twig;
+namespace Ibexa\Core\MVC\Symfony\Templating\Twig;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\ConfigResolverInterface;
 
 /**
  * @internal
@@ -43,3 +43,5 @@ final class ResourceProvider implements ResourceProviderInterface
         return $this->configResolver->getParameter('fielddefinition_edit_templates');
     }
 }
+
+class_alias(ResourceProvider::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\ResourceProvider');

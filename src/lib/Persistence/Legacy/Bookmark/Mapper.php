@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Bookmark;
+namespace Ibexa\Core\Persistence\Legacy\Bookmark;
 
-use eZ\Publish\SPI\Persistence\Bookmark\Bookmark;
-use eZ\Publish\SPI\Persistence\Bookmark\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
+use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 
 /**
  * Bookmark mapper.
@@ -68,3 +68,5 @@ class Mapper
         return $bookmark;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Mapper');

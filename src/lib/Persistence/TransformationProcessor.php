@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence;
+namespace Ibexa\Core\Persistence;
 
-use eZ\Publish\Core\Persistence\TransformationProcessor\PcreCompiler;
+use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
 
 /**
  * Interface for processing a set of transformations on a string.
@@ -129,3 +129,5 @@ abstract class TransformationProcessor
         return $string;
     }
 }
+
+class_alias(TransformationProcessor::class, 'eZ\Publish\Core\Persistence\TransformationProcessor');

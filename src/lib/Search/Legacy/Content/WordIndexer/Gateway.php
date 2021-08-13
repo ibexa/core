@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Legacy\Content\WordIndexer;
+namespace Ibexa\Core\Search\Legacy\Content\WordIndexer;
 
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\Core\Search\Legacy\Content\FullTextData;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Core\Search\Legacy\Content\FullTextData;
 
 /**
  * The WordIndexer Gateway abstracts indexing of content full text data.
@@ -41,3 +41,5 @@ abstract class Gateway
      */
     abstract public function purgeIndex();
 }
+
+class_alias(Gateway::class, 'eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Gateway');

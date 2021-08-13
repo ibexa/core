@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Imagine;
+namespace Ibexa\Bundle\Core\Imagine;
 
-use eZ\Publish\Core\FieldType\Image\Value as ImageValue;
+use Ibexa\Core\FieldType\Image\Value as ImageValue;
 
 interface PlaceholderProvider
 {
@@ -20,3 +20,5 @@ interface PlaceholderProvider
      */
     public function getPlaceholder(ImageValue $value, array $options = []): string;
 }
+
+class_alias(PlaceholderProvider::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderProvider');

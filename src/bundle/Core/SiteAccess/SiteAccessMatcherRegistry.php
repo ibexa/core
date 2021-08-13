@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\SiteAccess;
+namespace Ibexa\Bundle\Core\SiteAccess;
 
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 final class SiteAccessMatcherRegistry implements SiteAccessMatcherRegistryInterface
 {
@@ -29,7 +29,7 @@ final class SiteAccessMatcherRegistry implements SiteAccessMatcherRegistryInterf
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function getMatcher(string $identifier): Matcher
     {
@@ -45,3 +45,5 @@ final class SiteAccessMatcherRegistry implements SiteAccessMatcherRegistryInterf
         return isset($this->matchers[$identifier]);
     }
 }
+
+class_alias(SiteAccessMatcherRegistry::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\SiteAccessMatcherRegistry');

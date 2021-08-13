@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException as APINotFoundException;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard;
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard\Handler as UrlWildcardHandlerInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as UrlWildcardHandlerInterface;
 
 class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerInterface
 {
@@ -165,3 +165,5 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
         return $this->persistenceHandler->urlWildcardHandler()->exactSourceUrlExists($sourceUrl);
     }
 }
+
+class_alias(UrlWildcardHandler::class, 'eZ\Publish\Core\Persistence\Cache\UrlWildcardHandler');

@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
-use eZ\Publish\Core\Base\Exceptions\BadStateException;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
+use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use RuntimeException;
 
 /**
@@ -1453,3 +1453,5 @@ final class DoctrineDatabase extends Gateway
         return $queryBuilder->execute();
     }
 }
+
+class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase');

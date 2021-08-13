@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\URLChecker;
+namespace Ibexa\Bundle\Core\URLChecker;
 
 interface URLHandlerRegistryInterface
 {
@@ -36,3 +36,5 @@ interface URLHandlerRegistryInterface
      */
     public function getHandler($scheme);
 }
+
+class_alias(URLHandlerRegistryInterface::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\URLHandlerRegistryInterface');

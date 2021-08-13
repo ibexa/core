@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\FieldType;
+namespace Ibexa\Contracts\Core\FieldType;
 
 interface ValueSerializerInterface
 {
@@ -51,3 +51,5 @@ interface ValueSerializerInterface
      */
     public function decode(?string $data, array $context = []): ?array;
 }
+
+class_alias(ValueSerializerInterface::class, 'eZ\Publish\SPI\FieldType\ValueSerializerInterface');

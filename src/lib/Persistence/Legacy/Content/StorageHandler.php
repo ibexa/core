@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content;
+namespace Ibexa\Core\Persistence\Legacy\Content;
 
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 /**
  * Handler for external storages.
@@ -97,3 +97,5 @@ class StorageHandler
             ->deleteFieldData($versionInfo, $ids, $this->context);
     }
 }
+
+class_alias(StorageHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\StorageHandler');

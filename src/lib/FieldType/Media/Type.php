@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Media;
+namespace Ibexa\Core\FieldType\Media;
 
-use eZ\Publish\Core\FieldType\BinaryBase\Type as BaseType;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
-use eZ\Publish\SPI\fieldType\Value as SPIValue;
+use Ibexa\Core\FieldType\BinaryBase\Type as BaseType;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\FieldType\Value as BaseValue;
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 
 /**
  * The TextLine field type.
@@ -132,7 +132,7 @@ class Type extends BaseType
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @param \eZ\Publish\Core\FieldType\Media\Value $value
      */
@@ -275,3 +275,5 @@ class Type extends BaseType
         return false;
     }
 }
+
+class_alias(Type::class, 'eZ\Publish\Core\FieldType\Media\Type');

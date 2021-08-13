@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\FieldType\View;
+namespace Ibexa\Core\MVC\Symfony\FieldType\View;
 
 use InvalidArgumentException;
 
@@ -53,3 +53,5 @@ class ParameterProviderRegistry implements ParameterProviderRegistryInterface
         $this->providers[$fieldTypeIdentifier] = $parameterProvider;
     }
 }
+
+class_alias(ParameterProviderRegistry::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry');

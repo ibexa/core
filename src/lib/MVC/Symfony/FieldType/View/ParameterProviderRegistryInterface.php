@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\FieldType\View;
+namespace Ibexa\Core\MVC\Symfony\FieldType\View;
 
 /**
  * Interface for fieldtypes view parameter provider registry.
@@ -39,3 +39,5 @@ interface ParameterProviderRegistryInterface
      */
     public function setParameterProvider(ParameterProviderInterface $parameterProvider, $fieldTypeIdentifier);
 }
+
+class_alias(ParameterProviderRegistryInterface::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistryInterface');

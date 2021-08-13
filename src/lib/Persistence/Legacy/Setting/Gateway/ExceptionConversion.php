@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Setting\Gateway;
+namespace Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
-use eZ\Publish\Core\Base\Exceptions\DatabaseException;
-use eZ\Publish\Core\Persistence\Legacy\Setting\Gateway;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 use Doctrine\DBAL\DBALException;
 use PDOException;
 
@@ -86,3 +86,5 @@ final class ExceptionConversion extends Gateway
         }
     }
 }
+
+class_alias(ExceptionConversion::class, 'eZ\Publish\Core\Persistence\Legacy\Setting\Gateway\ExceptionConversion');

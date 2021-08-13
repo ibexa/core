@@ -6,26 +6,26 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence\Handler as PersistenceHandlerInterface;
-use eZ\Publish\Core\Persistence\Cache\SectionHandler as CacheSectionHandler;
-use eZ\Publish\Core\Persistence\Cache\LocationHandler as CacheLocationHandler;
-use eZ\Publish\Core\Persistence\Cache\ContentHandler as CacheContentHandler;
-use eZ\Publish\Core\Persistence\Cache\ContentLanguageHandler as CacheContentLanguageHandler;
-use eZ\Publish\Core\Persistence\Cache\ContentTypeHandler as CacheContentTypeHandler;
-use eZ\Publish\Core\Persistence\Cache\UserHandler as CacheUserHandler;
-use eZ\Publish\Core\Persistence\Cache\TransactionHandler as CacheTransactionHandler;
-use eZ\Publish\Core\Persistence\Cache\TrashHandler as CacheTrashHandler;
-use eZ\Publish\Core\Persistence\Cache\UrlAliasHandler as CacheUrlAliasHandler;
-use eZ\Publish\Core\Persistence\Cache\ObjectStateHandler as CacheObjectStateHandler;
-use eZ\Publish\Core\Persistence\Cache\URLHandler as CacheUrlHandler;
-use eZ\Publish\Core\Persistence\Cache\BookmarkHandler as CacheBookmarkHandler;
-use eZ\Publish\Core\Persistence\Cache\NotificationHandler as CacheNotificationHandler;
-use eZ\Publish\Core\Persistence\Cache\UserPreferenceHandler as CacheUserPreferenceHandler;
-use eZ\Publish\Core\Persistence\Cache\UrlWildcardHandler as CacheUrlWildcardHandler;
-use eZ\Publish\Core\Persistence\Cache\SettingHandler as SettingHandler;
-use eZ\Publish\SPI\Persistence\Setting\Handler as SPISettingHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandlerInterface;
+use Ibexa\Core\Persistence\Cache\SectionHandler as CacheSectionHandler;
+use Ibexa\Core\Persistence\Cache\LocationHandler as CacheLocationHandler;
+use Ibexa\Core\Persistence\Cache\ContentHandler as CacheContentHandler;
+use Ibexa\Core\Persistence\Cache\ContentLanguageHandler as CacheContentLanguageHandler;
+use Ibexa\Core\Persistence\Cache\ContentTypeHandler as CacheContentTypeHandler;
+use Ibexa\Core\Persistence\Cache\UserHandler as CacheUserHandler;
+use Ibexa\Core\Persistence\Cache\TransactionHandler as CacheTransactionHandler;
+use Ibexa\Core\Persistence\Cache\TrashHandler as CacheTrashHandler;
+use Ibexa\Core\Persistence\Cache\UrlAliasHandler as CacheUrlAliasHandler;
+use Ibexa\Core\Persistence\Cache\ObjectStateHandler as CacheObjectStateHandler;
+use Ibexa\Core\Persistence\Cache\URLHandler as CacheUrlHandler;
+use Ibexa\Core\Persistence\Cache\BookmarkHandler as CacheBookmarkHandler;
+use Ibexa\Core\Persistence\Cache\NotificationHandler as CacheNotificationHandler;
+use Ibexa\Core\Persistence\Cache\UserPreferenceHandler as CacheUserPreferenceHandler;
+use Ibexa\Core\Persistence\Cache\UrlWildcardHandler as CacheUrlWildcardHandler;
+use Ibexa\Core\Persistence\Cache\SettingHandler as SettingHandler;
+use Ibexa\Contracts\Core\Persistence\Setting\Handler as SPISettingHandler;
 
 /**
  * Persistence Cache Handler class.
@@ -294,3 +294,5 @@ class Handler implements PersistenceHandlerInterface
         $this->transactionHandler->rollback();
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Cache\Handler');

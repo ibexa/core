@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\ApiLoader;
+namespace Ibexa\Bundle\Core\ApiLoader;
 
-use eZ\Bundle\EzPublishCoreBundle\ApiLoader\Exception\InvalidSearchEngine;
-use eZ\Publish\SPI\Search\Handler as SearchHandler;
+use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine;
+use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 
 /**
  * The search engine factory.
@@ -81,3 +81,5 @@ class SearchEngineFactory
         return $this->searchEngines[$repositoryConfig['search']['engine']];
     }
 }
+
+class_alias(SearchEngineFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\SearchEngineFactory');

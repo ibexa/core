@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence;
+namespace Ibexa\Contracts\Core\Persistence;
 
-use eZ\Publish\SPI\Persistence\Setting\Handler as SettingHandler;
+use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
 
 /**
  * The main handler for Storage Engine.
@@ -124,3 +124,5 @@ interface Handler
      */
     public function rollback();
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Handler');

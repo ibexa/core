@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\SiteAccess;
+namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 
 /**
  * Provides methods for accessing Site Access information.
@@ -36,3 +36,5 @@ interface SiteAccessServiceInterface
      */
     public function getSiteAccessesRelation(?SiteAccess $siteAccess = null): array;
 }
+
+class_alias(SiteAccessServiceInterface::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface');

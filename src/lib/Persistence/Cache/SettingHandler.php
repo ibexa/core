@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence\Setting\Handler as SettingHandlerInterface;
-use eZ\Publish\SPI\Persistence\Setting\Setting;
+use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Setting\Setting;
 
 /**
  * @see \eZ\Publish\SPI\Persistence\Setting\Handler
@@ -80,3 +80,5 @@ final class SettingHandler extends AbstractHandler implements SettingHandlerInte
         );
     }
 }
+
+class_alias(SettingHandler::class, 'eZ\Publish\Core\Persistence\Cache\SettingHandler');

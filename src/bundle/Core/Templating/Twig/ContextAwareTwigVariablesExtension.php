@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Templating\Twig;
+namespace Ibexa\Bundle\Core\Templating\Twig;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\ConfigResolverInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
@@ -28,3 +28,5 @@ final class ContextAwareTwigVariablesExtension extends AbstractExtension impleme
         return $this->configResolver->getParameter('twig_variables');
     }
 }
+
+class_alias(ContextAwareTwigVariablesExtension::class, 'eZ\Bundle\EzPublishCoreBundle\Templating\Twig\ContextAwareTwigVariablesExtension');

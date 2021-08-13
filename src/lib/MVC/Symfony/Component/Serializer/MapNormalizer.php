@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\Component\Serializer;
+namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Map;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 final class MapNormalizer extends PropertyNormalizer
@@ -30,3 +30,5 @@ final class MapNormalizer extends PropertyNormalizer
         return $data instanceof Map;
     }
 }
+
+class_alias(MapNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\MapNormalizer');

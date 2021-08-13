@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType;
+namespace Ibexa\Core\FieldType;
 
-use eZ\Publish\SPI\FieldType\FieldType as SPIFieldType;
-use eZ\Publish\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
+use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException;
 
 /**
  * Registry for SPI FieldTypes.
@@ -91,3 +91,5 @@ class FieldTypeRegistry
         return $this->concreteFieldTypesIdentifiers;
     }
 }
+
+class_alias(FieldTypeRegistry::class, 'eZ\Publish\Core\FieldType\FieldTypeRegistry');

@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\Templating\Twig;
+namespace Ibexa\Core\MVC\Symfony\Templating\Twig;
 
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\MVC\Symfony\Templating\Exception\MissingFieldBlockException;
-use eZ\Publish\Core\MVC\Symfony\Templating\FieldBlockRendererInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\MVC\Symfony\Templating\Exception\MissingFieldBlockException;
+use Ibexa\Core\MVC\Symfony\Templating\FieldBlockRendererInterface;
 use Twig\Environment;
 use Twig\Template;
 
@@ -232,7 +232,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     /**
      * Returns the template block for the settings of the field definition $definition.
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $definition
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $definition
      * @param int $type Either self::VIEW or self::EDIT
      *
      * @return array
@@ -315,7 +315,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     /**
      * @return array|\Twig\Template[]
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     private function getResources(string $resourceType): array
     {
@@ -345,3 +345,5 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         return $resources;
     }
 }
+
+class_alias(FieldBlockRenderer::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer');

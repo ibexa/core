@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\TransformationProcessor;
+namespace Ibexa\Core\Persistence\TransformationProcessor;
 
-use eZ\Publish\Core\Persistence\Utf8Converter;
-use eZ\Publish\Core\Persistence\TransformationProcessor;
+use Ibexa\Core\Persistence\Utf8Converter;
+use Ibexa\Core\Persistence\TransformationProcessor;
 use RuntimeException;
 
 /**
@@ -286,3 +286,5 @@ class PcreCompiler
         return hexdec(preg_replace('/[^[:xdigit:]]/', '', (string)$value));
     }
 }
+
+class_alias(PcreCompiler::class, 'eZ\Publish\Core\Persistence\TransformationProcessor\PcreCompiler');

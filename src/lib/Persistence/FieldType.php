@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence;
+namespace Ibexa\Core\Persistence;
 
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\Persistence\FieldType as FieldTypeInterface;
-use eZ\Publish\SPI\FieldType\FieldType as SPIFieldType;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\FieldType as FieldTypeInterface;
+use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 
 /**
  * This class represents a FieldType available to SPI users.
@@ -53,3 +53,5 @@ class FieldType implements FieldTypeInterface, FieldTypeInterface\IsEmptyValue
         );
     }
 }
+
+class_alias(FieldType::class, 'eZ\Publish\Core\Persistence\FieldType');

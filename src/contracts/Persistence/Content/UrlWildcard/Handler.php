@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\Content\UrlWildcard;
+namespace Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 
 /**
  * The UrlWildcard Handler interface provides nice urls with wildcards management.
@@ -37,7 +37,7 @@ interface Handler
     /**
      * removes an url wildcard.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
      *
      * @param mixed $id
      */
@@ -46,7 +46,7 @@ interface Handler
     /**
      * Loads a url wild card.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
      *
      * @param mixed $id
      *
@@ -67,7 +67,7 @@ interface Handler
     /**
      * Performs lookup for given (source) URL.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
      *
      * @param string $sourceUrl
      *
@@ -84,3 +84,5 @@ interface Handler
      */
     public function exactSourceUrlExists(string $sourceUrl): bool;
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\UrlWildcard\Handler');

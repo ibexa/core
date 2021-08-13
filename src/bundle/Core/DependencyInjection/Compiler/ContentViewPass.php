@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler;
+namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 /**
  * The ContentViewPass adds DIC compiler pass related to content view.
@@ -20,3 +20,5 @@ class ContentViewPass extends ViewManagerPass
     const ADD_VIEW_PROVIDER_METHOD = 'addContentViewProvider';
     const VIEW_TYPE = 'eZ\Publish\Core\MVC\Symfony\View\ContentView';
 }
+
+class_alias(ContentViewPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ContentViewPass');

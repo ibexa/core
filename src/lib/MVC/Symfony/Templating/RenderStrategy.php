@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\Templating;
+namespace Ibexa\Core\MVC\Symfony\Templating;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\SPI\MVC\Templating\RenderStrategy as SPIRenderStrategy;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\MVC\Templating\RenderStrategy as SPIRenderStrategy;
 
 final class RenderStrategy implements SPIRenderStrategy
 {
@@ -46,3 +46,5 @@ final class RenderStrategy implements SPIRenderStrategy
         ));
     }
 }
+
+class_alias(RenderStrategy::class, 'eZ\Publish\Core\MVC\Symfony\Templating\RenderStrategy');

@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\View\Builder\Registry;
+namespace Ibexa\Core\MVC\Symfony\View\Builder\Registry;
 
-use eZ\Publish\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
+use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
 
 /**
  * A registry of ViewBuilders that uses the ViewBuilder's match() method to identify the builder against
@@ -56,3 +56,5 @@ class ControllerMatch implements ViewBuilderRegistry
         return null;
     }
 }
+
+class_alias(ControllerMatch::class, 'eZ\Publish\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch');

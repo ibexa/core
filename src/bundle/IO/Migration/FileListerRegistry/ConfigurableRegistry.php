@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishIOBundle\Migration\FileListerRegistry;
+namespace Ibexa\Bundle\IO\Migration\FileListerRegistry;
 
-use eZ\Bundle\EzPublishIOBundle\Migration\FileListerRegistry;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Bundle\IO\Migration\FileListerRegistry;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 /**
  * A registry of FileListerInterfaces which is configurable via the array passed to its constructor.
@@ -53,3 +53,5 @@ final class ConfigurableRegistry implements FileListerRegistry
         return array_keys($this->registry);
     }
 }
+
+class_alias(ConfigurableRegistry::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileListerRegistry\ConfigurableRegistry');

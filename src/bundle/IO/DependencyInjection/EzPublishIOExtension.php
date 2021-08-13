@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishIOBundle\DependencyInjection;
+namespace Ibexa\Bundle\IO\DependencyInjection;
 
 use ArrayObject;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -125,3 +125,5 @@ class EzPublishIOExtension extends Extension
         return $configuration;
     }
 }
+
+class_alias(EzPublishIOExtension::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\EzPublishIOExtension');

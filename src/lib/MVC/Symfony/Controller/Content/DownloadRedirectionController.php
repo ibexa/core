@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Controller\Content;
+namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\MVC\Symfony\Controller\Controller;
-use eZ\Publish\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\MVC\Symfony\Controller\Controller;
+use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class DownloadRedirectionController extends Controller
 {
-    /** @var \eZ\Publish\API\Repository\ContentService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
     /** @var \Symfony\Component\Routing\RouterInterface */
@@ -91,3 +91,5 @@ class DownloadRedirectionController extends Controller
         throw new InvalidArgumentException("Could not find any Field with ID $fieldId in Content item with ID {$content->id}");
     }
 }
+
+class_alias(DownloadRedirectionController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController');

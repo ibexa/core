@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\FieldType;
+namespace Ibexa\Contracts\Core\FieldType;
 
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 /**
  * Field Type External Storage gateway base class.
@@ -52,3 +52,5 @@ abstract class GatewayBasedStorage implements FieldStorage
         return $this->storeFieldData($versionInfo, $field, $context);
     }
 }
+
+class_alias(GatewayBasedStorage::class, 'eZ\Publish\SPI\FieldType\GatewayBasedStorage');

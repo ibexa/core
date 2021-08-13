@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration;
+namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
-use eZ\Publish\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
-use eZ\Publish\Core\MVC\Exception\ParameterNotFoundException;
+use Ibexa\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -333,3 +333,5 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
         $this->tooEarlyLoadedList[$blame][] = $paramName;
     }
 }
+
+class_alias(ConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver');

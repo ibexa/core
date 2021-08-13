@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\User;
+namespace Ibexa\Contracts\Core\Persistence\User;
 
-use eZ\Publish\SPI\Persistence\User;
+use Ibexa\Contracts\Core\Persistence\User;
 
 /**
  * Storage Engine handler for user module.
@@ -30,7 +30,7 @@ interface Handler
      *
      * @param mixed $userId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If user is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User
      */
@@ -43,7 +43,7 @@ interface Handler
      *
      * @param string $login
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If user is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User
      */
@@ -79,7 +79,7 @@ interface Handler
      *
      * @param string $hash
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If user is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User
      */
@@ -133,7 +133,7 @@ interface Handler
      *
      * @param mixed $roleId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role with defined status is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role with defined status is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -150,7 +150,7 @@ interface Handler
      * @param mixed $roleId
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -162,7 +162,7 @@ interface Handler
      * @param string $identifier
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -173,7 +173,7 @@ interface Handler
      *
      * @param mixed $roleId ID of the role the draft was created from.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -191,7 +191,7 @@ interface Handler
      *
      * @param mixed $roleAssignmentId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role assignment is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role assignment is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\RoleAssignment
      */
@@ -253,7 +253,7 @@ interface Handler
      *
      * @todo Throw on invalid Role Id?
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
      */
     public function addPolicyByRoleDraft($roleId, Policy $policy);
 
@@ -267,7 +267,7 @@ interface Handler
      *
      * @todo Throw on invalid Role Id?
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
      */
     public function addPolicy($roleId, Policy $policy);
 
@@ -278,7 +278,7 @@ interface Handler
      *
      * @param \eZ\Publish\SPI\Persistence\User\Policy $policy
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $policy->limitation is empty (null, empty string/array..)
      */
     public function updatePolicy(Policy $policy);
 
@@ -343,3 +343,5 @@ interface Handler
      */
     public function removeRoleAssignment($roleAssignmentId);
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\User\Handler');

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration;
+namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 /**
@@ -87,3 +87,5 @@ class ConfigParser implements ParserInterface
         }
     }
 }
+
+class_alias(ConfigParser::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigParser');

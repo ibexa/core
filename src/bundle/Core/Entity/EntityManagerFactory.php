@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Entity;
+namespace Ibexa\Bundle\Core\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Bundle\EzPublishCoreBundle\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
@@ -69,3 +69,5 @@ class EntityManagerFactory
         return sprintf('doctrine.orm.ibexa_%s_entity_manager', $connection);
     }
 }
+
+class_alias(EntityManagerFactory::class, 'eZ\Bundle\EzPublishCoreBundle\Entity\EntityManagerFactory');

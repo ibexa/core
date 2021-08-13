@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway;
+namespace Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use DOMDocument;
-use eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway;
-use eZ\Publish\Core\IO\UrlRedecoratorInterface;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
+use Ibexa\Core\IO\UrlRedecoratorInterface;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use PDO;
 
 /**
@@ -457,3 +457,5 @@ class DoctrineStorage extends Gateway
         ;
     }
 }
+
+class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage');

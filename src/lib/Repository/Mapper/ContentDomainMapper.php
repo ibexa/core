@@ -4,38 +4,38 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Mapper;
+namespace Ibexa\Core\Repository\Mapper;
 
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
-use eZ\Publish\API\Repository\Values\Content\Content as APIContent;
-use eZ\Publish\Core\FieldType\FieldTypeRegistry;
-use eZ\Publish\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
-use eZ\Publish\SPI\Persistence\Content\Handler as ContentHandler;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandler;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as TypeHandler;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo as APIVersionInfo;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\Repository\Values\Content\Relation;
-use eZ\Publish\API\Repository\Values\Content\Location as APILocation;
-use eZ\Publish\Core\Repository\Values\Content\Location;
-use eZ\Publish\SPI\Persistence\Content as SPIContent;
-use eZ\Publish\SPI\Persistence\Content\Location as SPILocation;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo as SPIVersionInfo;
-use eZ\Publish\SPI\Persistence\Content\ContentInfo as SPIContentInfo;
-use eZ\Publish\SPI\Persistence\Content\Relation as SPIRelation;
-use eZ\Publish\SPI\Persistence\Content\Type as SPIContentType;
-use eZ\Publish\SPI\Persistence\Content\Location\CreateStruct as SPILocationCreateStruct;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as TypeHandler;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
+use Ibexa\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
+use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
+use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct as SPILocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use DateTime;
-use eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
+use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 
 /**
  * ContentDomainMapper is an internal service.
@@ -62,7 +62,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
     /** @var \eZ\Publish\SPI\Persistence\Content\Language\Handler */
     protected $contentLanguageHandler;
 
-    /** @var \eZ\Publish\Core\Repository\Helper\FieldTypeRegistry */
+    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
     protected $fieldTypeRegistry;
 
     /** @var \eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\ThumbnailStrategy */
@@ -92,7 +92,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      * Builds a Content domain object from value object.
      *
      * @param \eZ\Publish\SPI\Persistence\Content $spiContent
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param array $prioritizedLanguages Prioritized language codes to filter fields on
      * @param string|null $fieldAlwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
@@ -173,7 +173,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      * @param string[] $prioritizedLanguages
      * @param bool $useAlwaysAvailable
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
      */
     public function buildContentProxyList(
         array $infoList,
@@ -198,7 +198,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      * @throws InvalidArgumentType On invalid $contentType
      *
      * @param \eZ\Publish\SPI\Persistence\Content\Field[] $spiFields
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType|\eZ\Publish\SPI\Persistence\Content\Type $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|\eZ\Publish\SPI\Persistence\Content\Type $contentType
      * @param array $prioritizedLanguages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param string|null $alwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
@@ -330,7 +330,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      *
      * @param \eZ\Publish\SPI\Persistence\Content\ContentInfo $spiContentInfo
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\ContentInfo
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
      */
     public function buildContentInfoDomainObject(SPIContentInfo $spiContentInfo)
     {
@@ -383,10 +383,10 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      * Builds API Relation object from provided SPI Relation object.
      *
      * @param \eZ\Publish\SPI\Persistence\Content\Relation $spiRelation
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $sourceContentInfo
-     * @param \eZ\Publish\API\Repository\Values\Content\ContentInfo $destinationContentInfo
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $sourceContentInfo
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContentInfo
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Relation
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation
      */
     public function buildRelationDomainObject(
         SPIRelation $spiRelation,
@@ -456,12 +456,12 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
 
     /**
      * @param \eZ\Publish\SPI\Persistence\Content\Location $spiLocation
-     * @param \eZ\Publish\API\Repository\Values\Content\Content|null $content
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|null $content
      * @param \eZ\Publish\SPI\Persistence\Content\ContentInfo|null $spiContentInfo
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function buildLocationWithContent(
         SPILocation $spiLocation,
@@ -494,7 +494,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      *
      * @param \eZ\Publish\SPI\Persistence\Content\Location $spiLocation
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
      */
     private function buildRootLocation(SPILocation $spiLocation): APILocation
     {
@@ -569,7 +569,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      *
      * Loading of Content objects are done in bulk.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $result SPI search result with SPI ContentInfo items as hits
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $result SPI search result with SPI ContentInfo items as hits
      * @param array $languageFilter
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ContentInfo[] ContentInfo we did not find content for is returned.
@@ -626,7 +626,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      * This is done in order to be able to:
      * Load ContentInfo objects in bulk, generate proxy objects for Content that will loaded in bulk on-demand (on use).
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Search\SearchResult $result SPI search result with SPI Location items as hits
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $result SPI search result with SPI Location items as hits
      * @param array $languageFilter
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Location[] Locations we did not find content info for is returned.
@@ -668,10 +668,10 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
     /**
      * Creates an array of SPI location create structs from given array of API location create structs.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\LocationCreateStruct $locationCreateStruct
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $parentLocation
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct $locationCreateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $parentLocation
      * @param mixed $mainLocation
      * @param mixed $contentId
      * @param mixed $contentVersionNo
@@ -809,7 +809,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
     /**
      * Validates given translated list $list, which should be an array of strings with language codes as keys.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @param mixed $list
      * @param string $argumentName
@@ -873,3 +873,5 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
         return $spiLocation->id === $spiLocation->parentId;
     }
 }
+
+class_alias(ContentDomainMapper::class, 'eZ\Publish\Core\Repository\Mapper\ContentDomainMapper');

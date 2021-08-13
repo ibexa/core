@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Notification\Renderer;
+namespace Ibexa\Core\Notification\Renderer;
 
 class Registry
 {
@@ -42,3 +42,5 @@ class Registry
         return isset($this->registry[$alias]);
     }
 }
+
+class_alias(Registry::class, 'eZ\Publish\Core\Notification\Renderer\Registry');

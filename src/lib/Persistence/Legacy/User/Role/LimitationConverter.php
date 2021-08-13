@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\User\Role;
+namespace Ibexa\Core\Persistence\Legacy\User\Role;
 
-use eZ\Publish\SPI\Persistence\User\Policy;
+use Ibexa\Contracts\Core\Persistence\User\Policy;
 
 /**
  * Limitation converter.
@@ -58,3 +58,5 @@ class LimitationConverter
         }
     }
 }
+
+class_alias(LimitationConverter::class, 'eZ\Publish\Core\Persistence\Legacy\User\Role\LimitationConverter');

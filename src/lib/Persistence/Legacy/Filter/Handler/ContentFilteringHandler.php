@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Filter\Handler;
+namespace Ibexa\Core\Persistence\Legacy\Filter\Handler;
 
-use eZ\Publish\API\Repository\Values\Filter\Filter;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldHandler;
-use eZ\Publish\Core\Persistence\Legacy\Filter\Gateway\Gateway as FilteringGateway;
-use eZ\Publish\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
-use eZ\Publish\SPI\Persistence\Content\ContentItem;
-use eZ\Publish\SPI\Persistence\Filter\Content\Handler;
-use eZ\Publish\SPI\Persistence\Filter\Content\LazyContentItemListIterator;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
+use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway as FilteringGateway;
+use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper;
+use Ibexa\Contracts\Core\Persistence\Content\ContentItem;
+use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler;
+use Ibexa\Contracts\Core\Persistence\Filter\Content\LazyContentItemListIterator;
 
 /**
  * @internal for internal use by Repository Storage abstraction
@@ -73,3 +73,5 @@ final class ContentFilteringHandler implements Handler
         return $list;
     }
 }
+
+class_alias(ContentFilteringHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler');

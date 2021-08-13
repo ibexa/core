@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
 /**
  * Log un-cached & cached use of SPI Persistence.
@@ -250,3 +250,5 @@ class PersistenceLogger
         return $this->unCachedHandlers;
     }
 }
+
+class_alias(PersistenceLogger::class, 'eZ\Publish\Core\Persistence\Cache\PersistenceLogger');

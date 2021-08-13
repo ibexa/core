@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type\Update\Handler;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\Update\Handler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater;
-use eZ\Publish\SPI\Persistence\Content\Type;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
 
 /**
  * Doctrine database based type update handler.
@@ -54,3 +54,5 @@ final class DoctrineDatabase extends Handler
         );
     }
 }
+
+class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase');

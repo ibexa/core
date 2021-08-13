@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Section;
+namespace Ibexa\Core\Persistence\Legacy\Content\Section;
 
-use eZ\Publish\SPI\Persistence\Content\Section\Handler as BaseSectionHandler;
-use eZ\Publish\SPI\Persistence\Content\Section;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException as NotFound;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as BaseSectionHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Section;
+use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use RuntimeException;
 
 /**
@@ -79,7 +79,7 @@ class Handler implements BaseSectionHandler
      *
      * @param mixed $id
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If section is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If section is not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Section
      */
@@ -111,7 +111,7 @@ class Handler implements BaseSectionHandler
      *
      * @param string $identifier
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If section is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If section is not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Section
      */
@@ -229,3 +229,5 @@ class Handler implements BaseSectionHandler
         return $this->sectionGateway->countRoleAssignmentsUsingSection($sectionId);
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Section\Handler');

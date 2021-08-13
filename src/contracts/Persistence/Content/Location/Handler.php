@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\Content\Location;
+namespace Ibexa\Contracts\Core\Persistence\Content\Location;
 
-use eZ\Publish\SPI\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 
 /**
  * The Location Handler interface defines operations on Location elements in the storage engine.
@@ -20,7 +20,7 @@ interface Handler
      * @param string[]|null $translations If set, NotFound is thrown if content is not in given translation.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Location
      */
@@ -45,7 +45,7 @@ interface Handler
      *
      * @param int $locationId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return array Location ids are in the index, Content ids in the value.
      */
@@ -58,7 +58,7 @@ interface Handler
      * @param string[]|null $translations If set, NotFound is thrown if content is not in given translation.
      * @param bool $useAlwaysAvailable Respect always available flag on content, where main language is valid translation fallback.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Location
      */
@@ -104,7 +104,7 @@ interface Handler
      * @param mixed $sourceId
      * @param mixed $destinationParentId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If $sourceId or $destinationParentId are invalid
      *
      * @return Location the newly created Location.
      */
@@ -194,7 +194,7 @@ interface Handler
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Location
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if parent Location does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if parent Location does not exist
      */
     public function create(CreateStruct $location);
 
@@ -251,3 +251,5 @@ interface Handler
      */
     public function loadAllLocations($offset, $limit);
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Location\Handler');

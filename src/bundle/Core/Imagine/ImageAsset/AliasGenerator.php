@@ -6,16 +6,16 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Imagine\ImageAsset;
+namespace Ibexa\Bundle\Core\Imagine\ImageAsset;
 
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\FieldType\ImageAsset\AssetMapper;
-use eZ\Publish\SPI\FieldType\Value;
-use eZ\Publish\SPI\Variation\Values\Variation;
-use eZ\Publish\SPI\Variation\VariationHandler;
-use eZ\Publish\Core\FieldType\ImageAsset\Value as ImageAssetValue;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
+use Ibexa\Contracts\Core\FieldType\Value;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
+use Ibexa\Contracts\Core\Variation\VariationHandler;
+use Ibexa\Core\FieldType\ImageAsset\Value as ImageAssetValue;
 
 /**
  * Alias Generator Decorator allowing generate variations based on passed ImageAsset\Value.
@@ -25,7 +25,7 @@ class AliasGenerator implements VariationHandler
     /** @var \eZ\Publish\SPI\Variation\VariationHandler */
     private $innerAliasGenerator;
 
-    /** @var \eZ\Publish\API\Repository\ContentService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
     /** @var \eZ\Publish\Core\FieldType\ImageAsset\AssetMapper */
@@ -33,7 +33,7 @@ class AliasGenerator implements VariationHandler
 
     /**
      * @param \eZ\Publish\SPI\Variation\VariationHandler $innerAliasGenerator
-     * @param \eZ\Publish\API\Repository\ContentService $contentService
+     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
      * @param \eZ\Publish\Core\FieldType\ImageAsset\AssetMapper $assetMapper
      */
     public function __construct(
@@ -79,3 +79,5 @@ class AliasGenerator implements VariationHandler
         return $value instanceof ImageAssetValue;
     }
 }
+
+class_alias(AliasGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\ImageAsset\AliasGenerator');

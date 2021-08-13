@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\FieldValue;
+namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue;
 
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 
 /**
  * Converter for field values in legacy storage.
@@ -65,3 +65,5 @@ interface Converter
      */
     public function getIndexColumn();
 }
+
+class_alias(Converter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter');

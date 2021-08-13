@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Content;
+namespace Ibexa\Contracts\Core\Persistence\Content;
 
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
  * Content item Value Object - a composite of Content and Type instances.
@@ -55,3 +55,5 @@ final class ContentItem extends ValueObject
         return $this->type;
     }
 }
+
+class_alias(ContentItem::class, 'eZ\Publish\SPI\Persistence\Content\ContentItem');

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\Security\User;
+namespace Ibexa\Core\MVC\Symfony\Security\User;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\Core\MVC\Symfony\Security\UserInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 final class EmailProvider extends BaseProvider
@@ -32,3 +32,5 @@ final class EmailProvider extends BaseProvider
         }
     }
 }
+
+class_alias(EmailProvider::class, 'eZ\Publish\Core\MVC\Symfony\Security\User\EmailProvider');

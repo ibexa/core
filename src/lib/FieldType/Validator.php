@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType;
+namespace Ibexa\Core\FieldType;
 
-use eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException as PropertyNotFound;
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException as PropertyNotFound;
 
 /**
  * Base field type validator validator.
@@ -117,7 +117,7 @@ abstract class Validator
      *
      * @internal
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      *
      * @param array $constraints
      */
@@ -145,7 +145,7 @@ abstract class Validator
      *
      * @param string $name
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      *
      * @return mixed
      */
@@ -165,7 +165,7 @@ abstract class Validator
      * @param string $name
      * @param mixed $value
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
     public function __set($name, $value)
     {
@@ -176,3 +176,5 @@ abstract class Validator
         $this->constraints[$name] = $value;
     }
 }
+
+class_alias(Validator::class, 'eZ\Publish\Core\FieldType\Validator');

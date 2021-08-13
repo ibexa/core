@@ -4,22 +4,22 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
-use eZ\Publish\SPI\Persistence\Content\Type;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as BaseContentTypeHandler;
-use eZ\Publish\SPI\Persistence\Content\Type\CreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\UpdateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\Type\Group;
-use eZ\Publish\SPI\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\Update\Handler as UpdateHandler;
-use eZ\Publish\Core\Persistence\Legacy\Exception;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Base\Exceptions\BadStateException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as BaseContentTypeHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as UpdateHandler;
+use Ibexa\Core\Persistence\Legacy\Exception;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 class Handler implements BaseContentTypeHandler
 {
@@ -92,8 +92,8 @@ class Handler implements BaseContentTypeHandler
     /**
      * @param mixed $groupId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If type group contains types
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If type group with id is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type group contains types
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with id is not found
      */
     public function deleteGroup($groupId)
     {
@@ -106,7 +106,7 @@ class Handler implements BaseContentTypeHandler
     /**
      * @param mixed $groupId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If type group with $groupId is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with $groupId is not found
      *
      * @return Group
      */
@@ -143,7 +143,7 @@ class Handler implements BaseContentTypeHandler
     /**
      * @param string $identifier
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If type group with $identifier is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type group with $identifier is not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Type\Group
      */
@@ -217,7 +217,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @param string $identifier
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If defined type is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If defined type is not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Type
      */
@@ -235,7 +235,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @param mixed $remoteId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If defined type is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If defined type is not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Type
      */
@@ -349,7 +349,7 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If type is defined and still has content
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type is defined and still has content
      *
      * @param mixed $contentTypeId
      * @param int $status
@@ -379,7 +379,7 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $modifierId
      * @param mixed $contentTypeId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If type with defined status is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If type with defined status is not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Type
      */
@@ -437,8 +437,8 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $contentTypeId
      * @param int $status
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If group or type with provided status is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If $groupId is last group on $contentTypeId or
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group or type with provided status is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If $groupId is last group on $contentTypeId or
      *                                                                 not a group assigned to type
      *
      * @todo Add throws for NotFound and BadState when group is not assigned to type
@@ -461,8 +461,8 @@ class Handler implements BaseContentTypeHandler
      * @param mixed $groupId
      * @param mixed $contentTypeId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If group or type with provided status is not found
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If type is already part of group
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group or type with provided status is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If type is already part of group
      *
      * @todo Above throws are not implemented
      */
@@ -476,7 +476,7 @@ class Handler implements BaseContentTypeHandler
     /**
      * Returns field definition for the given field definition id.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If field definition is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field definition is not found
      *
      * @param mixed $id
      * @param int $status One of Type::STATUS_DEFINED|Type::STATUS_DRAFT|Type::STATUS_MODIFIED
@@ -666,3 +666,5 @@ class Handler implements BaseContentTypeHandler
         $this->contentTypeGateway->removeByUserAndVersion($userId, $status);
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Handler');

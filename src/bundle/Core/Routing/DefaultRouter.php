@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Routing;
+namespace Ibexa\Bundle\Core\Routing;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\URILexer;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -177,3 +177,5 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
         return $context;
     }
 }
+
+class_alias(DefaultRouter::class, 'eZ\Bundle\EzPublishCoreBundle\Routing\DefaultRouter');

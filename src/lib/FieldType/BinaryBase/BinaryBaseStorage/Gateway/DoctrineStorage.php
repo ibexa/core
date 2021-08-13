@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
+namespace Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
 use PDO;
 
 /**
@@ -478,3 +478,5 @@ abstract class DoctrineStorage extends Gateway
         return $countMap;
     }
 }
+
+class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway\DoctrineStorage');

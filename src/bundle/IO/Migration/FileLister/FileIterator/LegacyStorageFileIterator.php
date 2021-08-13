@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileIterator;
+namespace Ibexa\Bundle\IO\Migration\FileLister\FileIterator;
 
-use eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileRowReaderInterface;
-use eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileIteratorInterface;
+use Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface;
+use Ibexa\Bundle\IO\Migration\FileLister\FileIteratorInterface;
 
 /**
  * Iterator for entries in legacy's file tables.
@@ -76,3 +76,5 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
         $this->item = $fileId;
     }
 }
+
+class_alias(LegacyStorageFileIterator::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileIterator\LegacyStorageFileIterator');

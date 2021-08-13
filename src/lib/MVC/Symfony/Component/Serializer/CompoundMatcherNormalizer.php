@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Component\Serializer;
+namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
 class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer
 {
@@ -32,3 +32,5 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer
         return $data instanceof Matcher\Compound;
     }
 }
+
+class_alias(CompoundMatcherNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer');

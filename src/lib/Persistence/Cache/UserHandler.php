@@ -4,17 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence\User\UserTokenUpdateStruct;
-use eZ\Publish\SPI\Persistence\User\Handler as UserHandlerInterface;
-use eZ\Publish\SPI\Persistence\User;
-use eZ\Publish\SPI\Persistence\User\Role;
-use eZ\Publish\SPI\Persistence\User\RoleAssignment;
-use eZ\Publish\SPI\Persistence\User\RoleCopyStruct;
-use eZ\Publish\SPI\Persistence\User\RoleCreateStruct;
-use eZ\Publish\SPI\Persistence\User\RoleUpdateStruct;
-use eZ\Publish\SPI\Persistence\User\Policy;
+use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\User;
+use Ibexa\Contracts\Core\Persistence\User\Role;
+use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
+use Ibexa\Contracts\Core\Persistence\User\RoleCopyStruct;
+use Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct;
+use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\User\Policy;
 
 /**
  * Cache handler for user module.
@@ -578,3 +578,5 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         return $return;
     }
 }
+
+class_alias(UserHandler::class, 'eZ\Publish\Core\Persistence\Cache\UserHandler');

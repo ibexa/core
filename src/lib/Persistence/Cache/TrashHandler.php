@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence\Content\Location\Trash\Handler as TrashHandlerInterface;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\SPI\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandlerInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Persistence\Content\Relation;
 
 /**
  * @see \eZ\Publish\SPI\Persistence\Content\Location\Trash\Handler
@@ -165,3 +165,5 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         return $return;
     }
 }
+
+class_alias(TrashHandler::class, 'eZ\Publish\Core\Persistence\Cache\TrashHandler');

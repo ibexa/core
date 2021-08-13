@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Routing;
+namespace Ibexa\Bundle\Core\Routing;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Routing\UrlAliasRouter as BaseUrlAliasRouter;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter as BaseUrlAliasRouter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
@@ -40,9 +40,9 @@ class UrlAliasRouter extends BaseUrlAliasRouter
      *
      * @param string $pathinfo
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\URLAlias
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
      */
     protected function getUrlAlias($pathinfo)
     {
@@ -59,3 +59,5 @@ class UrlAliasRouter extends BaseUrlAliasRouter
         return $this->urlAliasService->lookup($pathPrefix . $pathinfo);
     }
 }
+
+class_alias(UrlAliasRouter::class, 'eZ\Bundle\EzPublishCoreBundle\Routing\UrlAliasRouter');

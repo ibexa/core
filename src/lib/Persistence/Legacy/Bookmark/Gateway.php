@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Bookmark;
+namespace Ibexa\Core\Persistence\Legacy\Bookmark;
 
-use eZ\Publish\SPI\Persistence\Bookmark\Bookmark;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 
 /**
  * Base class for bookmark gateways.
@@ -69,3 +69,5 @@ abstract class Gateway
      */
     abstract public function locationSwapped(int $location1Id, int $location2Id): void;
 }
+
+class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway');

@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony;
+namespace Ibexa\Core\MVC\Symfony;
 
 /**
  * Interface for configuration dumpers.
@@ -23,3 +23,5 @@ interface ConfigDumperInterface
      */
     public function dump(array $configArray, $options = self::OPT_DEFAULT);
 }
+
+class_alias(ConfigDumperInterface::class, 'eZ\Publish\Core\MVC\Symfony\ConfigDumperInterface');

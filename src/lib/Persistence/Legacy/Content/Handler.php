@@ -4,22 +4,22 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content;
+namespace Ibexa\Core\Persistence\Legacy\Content;
 
 use Exception;
-use eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Handler as BaseContentHandler;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\CreateStruct;
-use eZ\Publish\SPI\Persistence\Content\UpdateStruct;
-use eZ\Publish\SPI\Persistence\Content\MetadataUpdateStruct;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use eZ\Publish\SPI\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException as NotFound;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as BaseContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
+use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -209,8 +209,8 @@ class Handler implements BaseContentHandler
      *
      * @return \eZ\Publish\SPI\Persistence\Content The published Content
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function publish($contentId, $versionNo, MetadataUpdateStruct $metaDataUpdateStruct)
     {
@@ -690,7 +690,7 @@ class Handler implements BaseContentHandler
      *
      * {@inheritdoc}
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If content or version is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If content or version is not found
      *
      * @param mixed $contentId
      * @param mixed|null $versionNo Copy all versions if left null
@@ -782,7 +782,7 @@ class Handler implements BaseContentHandler
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
      *
      * @param mixed $relationId
-     * @param int $type {@see \eZ\Publish\API\Repository\Values\Content\Relation::COMMON,
+     * @param int $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::EMBED,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::LINK,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::FIELD}
@@ -797,7 +797,7 @@ class Handler implements BaseContentHandler
      *
      * @param mixed $sourceContentId Source Content ID
      * @param mixed|null $sourceContentVersionNo Source Content Version, null if not specified
-     * @param int|null $type {@see \eZ\Publish\API\Repository\Values\Content\Relation::COMMON,
+     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::EMBED,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::LINK,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::FIELD}
@@ -825,7 +825,7 @@ class Handler implements BaseContentHandler
      * Only loads relations against published versions.
      *
      * @param mixed $destinationContentId Destination Content ID
-     * @param int|null $type {@see \eZ\Publish\API\Repository\Values\Content\Relation::COMMON,
+     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::EMBED,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::LINK,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::FIELD}
@@ -905,3 +905,5 @@ class Handler implements BaseContentHandler
         return $this->load($contentId, $versionNo);
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Handler');

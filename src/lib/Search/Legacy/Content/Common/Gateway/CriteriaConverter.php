@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Legacy\Content\Common\Gateway;
+namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 
 /**
  * Content locator gateway implementation using the DoctrineDatabase.
@@ -49,7 +49,7 @@ class CriteriaConverter
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function convertCriteria(
         QueryBuilder $query,
@@ -67,3 +67,5 @@ class CriteriaConverter
         );
     }
 }
+
+class_alias(CriteriaConverter::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter');

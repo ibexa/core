@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\User;
+namespace Ibexa\Core\Persistence\Legacy\User;
 
-use eZ\Publish\SPI\Persistence\User;
-use eZ\Publish\SPI\Persistence\User\Role;
-use eZ\Publish\SPI\Persistence\User\RoleCreateStruct;
-use eZ\Publish\SPI\Persistence\User\Policy;
-use eZ\Publish\SPI\Persistence\User\RoleAssignment;
+use Ibexa\Contracts\Core\Persistence\User;
+use Ibexa\Contracts\Core\Persistence\User\Role;
+use Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct;
+use Ibexa\Contracts\Core\Persistence\User\Policy;
+use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 
 /**
  * mapper for User related objects.
@@ -255,3 +255,5 @@ class Mapper
         return $role;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\User\Mapper');

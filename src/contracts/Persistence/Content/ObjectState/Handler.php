@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\Content\ObjectState;
+namespace Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 
 /**
  * The Object State Handler interface provides managing of object states and groups.
@@ -25,7 +25,7 @@ interface Handler
      *
      * @param mixed $groupId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the group was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState\Group
      */
@@ -36,7 +36,7 @@ interface Handler
      *
      * @param string $identifier
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the group was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState\Group
      */
@@ -96,7 +96,7 @@ interface Handler
      *
      * @param mixed $stateId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the state was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState
      */
@@ -108,7 +108,7 @@ interface Handler
      * @param string $identifier
      * @param mixed $groupId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the state was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState
      */
@@ -172,3 +172,5 @@ interface Handler
      */
     public function getContentCount($stateId);
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\ObjectState\Handler');

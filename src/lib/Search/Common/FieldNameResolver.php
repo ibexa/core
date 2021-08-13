@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common;
+namespace Ibexa\Core\Search\Common;
 
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
-use eZ\Publish\API\Repository\Values\Content\Query\CustomFieldInterface;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use RuntimeException;
 
 /**
@@ -90,10 +90,10 @@ class FieldNameResolver
      * can be targeted.
      *
      * @deprecated since 6.2, use getFieldTypes instead
-     * @see \eZ\Publish\API\Repository\Values\Content\Query\CustomFieldInterface
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
      * @see \eZ\Publish\SPI\FieldType\Indexable
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param string $fieldDefinitionIdentifier
      * @param string|null $fieldTypeIdentifier
      * @param string|null $name
@@ -119,10 +119,10 @@ class FieldNameResolver
      * $name specific field type and field from its Indexable implementation
      * can be targeted.
      *
-     * @see \eZ\Publish\API\Repository\Values\Content\Query\CustomFieldInterface
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
      * @see \eZ\Publish\SPI\FieldType\Indexable
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param string $fieldDefinitionIdentifier
      * @param string|null $fieldTypeIdentifier
      * @param string|null $name
@@ -180,10 +180,10 @@ class FieldNameResolver
      *
      * Will return null if no sortable field is found.
      *
-     * @see \eZ\Publish\API\Repository\Values\Content\Query\CustomFieldInterface
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
      * @see \eZ\Publish\SPI\FieldType\Indexable
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\SortClause $sortClause
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause $sortClause
      * @param string $contentTypeIdentifier
      * @param string $fieldDefinitionIdentifier
      * @param string|null $name
@@ -307,3 +307,5 @@ class FieldNameResolver
         return reset($fieldName);
     }
 }
+
+class_alias(FieldNameResolver::class, 'eZ\Publish\Core\Search\Common\FieldNameResolver');

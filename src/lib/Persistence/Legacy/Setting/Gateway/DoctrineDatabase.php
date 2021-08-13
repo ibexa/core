@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Setting\Gateway;
+namespace Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
-use eZ\Publish\Core\Persistence\Legacy\Setting\Gateway;
+use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
 /**
  * @internal Gateway implementation is considered internal. Use Persistence Setting Handler instead.
@@ -142,3 +142,5 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 }
+
+class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Setting\Gateway\DoctrineDatabase');

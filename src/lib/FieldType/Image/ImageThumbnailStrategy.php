@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\FieldType\Image;
+namespace Ibexa\Core\FieldType\Image;
 
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\Thumbnail;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo as APIVersionInfo;
-use eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy;
-use eZ\Publish\SPI\Variation\VariationHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
+use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy;
+use Ibexa\Contracts\Core\Variation\VariationHandler;
 
 class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy
 {
@@ -58,3 +58,5 @@ class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy
         ]);
     }
 }
+
+class_alias(ImageThumbnailStrategy::class, 'eZ\Publish\Core\FieldType\Image\ImageThumbnailStrategy');

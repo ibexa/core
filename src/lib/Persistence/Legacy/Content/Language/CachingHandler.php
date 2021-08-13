@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Language;
+namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
-use eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCache;
-use eZ\Publish\SPI\Persistence\Content\Language;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as BaseLanguageHandler;
-use eZ\Publish\SPI\Persistence\Content\Language\CreateStruct;
+use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
+use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as BaseLanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 
 /**
  * Language Handler.
@@ -73,7 +73,7 @@ class CachingHandler implements BaseLanguageHandler
      *
      * @param mixed $id
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language could not be found by $id
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $id
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Language
      */
@@ -130,7 +130,7 @@ class CachingHandler implements BaseLanguageHandler
      *
      * @param string $languageCode
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Language
      */
@@ -226,3 +226,5 @@ class CachingHandler implements BaseLanguageHandler
         );
     }
 }
+
+class_alias(CachingHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\CachingHandler');

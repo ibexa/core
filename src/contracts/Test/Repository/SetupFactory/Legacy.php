@@ -4,26 +4,26 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\SetupFactory;
+namespace Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 
 use Doctrine\DBAL\Connection;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\ServiceTags;
-use eZ\Publish\API\Repository\Tests\LegacySchemaImporter;
-use eZ\Publish\Core\Base\ServiceContainer;
-use eZ\Publish\SPI\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
-use eZ\Publish\SPI\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
-use eZ\Publish\SPI\Tests\Persistence\Fixture;
-use eZ\Publish\SPI\Tests\Persistence\FixtureImporter;
-use eZ\Publish\SPI\Tests\Persistence\YamlFixture;
+use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
+use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
+use Ibexa\Core\Base\ServiceContainer;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use eZ\Publish\API\Repository\Tests\SetupFactory;
-use eZ\Publish\API\Repository\Tests\IdManager;
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLanguageHandler;
+use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
+use Ibexa\Tests\Core\Repository\IdManager;
+use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLanguageHandler;
 use Exception;
-use eZ\Publish\Core\Repository\Values\User\UserReference;
+use Ibexa\Core\Repository\Values\User\UserReference;
 use Symfony\Component\Filesystem\Filesystem;
-use eZ\Publish\Core\Base\Container\Compiler;
+use Ibexa\Core\Core\Base\Container\Compiler;
 
 /**
  * A Test Factory is used to setup the infrastructure for a tests, based on a
@@ -142,7 +142,7 @@ class Legacy extends SetupFactory
      * @param bool $initializeFromScratch if the back end should be initialized
      *                                    from scratch or re-used
      *
-     * @return \eZ\Publish\API\Repository\Repository
+     * @return \Ibexa\Contracts\Core\Repository\Repository
      */
     public function getRepository($initializeFromScratch = true)
     {
@@ -152,7 +152,7 @@ class Legacy extends SetupFactory
         }
 
         $this->clearInternalCaches();
-        /** @var \eZ\Publish\API\Repository\Repository $repository */
+        /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
         $repository = $this->getServiceContainer()->get($this->repositoryReference);
 
         // Set admin user as current user by default
@@ -180,7 +180,7 @@ class Legacy extends SetupFactory
     /**
      * Returns a repository specific ID manager.
      *
-     * @return \eZ\Publish\API\Repository\Tests\IdManager
+     * @return \Ibexa\Tests\Integration\Core\Repository\IdManager
      */
     public function getIdManager()
     {
@@ -378,3 +378,5 @@ class Legacy extends SetupFactory
             ->addTag(ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER);
     }
 }
+
+class_alias(Legacy::class, 'eZ\Publish\API\Repository\Tests\SetupFactory\Legacy');

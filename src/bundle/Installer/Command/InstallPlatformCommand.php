@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace EzSystems\PlatformInstallerBundle\Command;
+namespace Ibexa\Bundle\Installer\Command;
 
 use Doctrine\DBAL\Connection;
-use eZ\Bundle\EzPublishCoreBundle\ApiLoader\RepositoryConfigurationProvider;
-use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
+use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -270,3 +270,5 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         return ['ezplatform:install'];
     }
 }
+
+class_alias(InstallPlatformCommand::class, 'EzSystems\PlatformInstallerBundle\Command\InstallPlatformCommand');

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Controller;
+namespace Ibexa\Core\MVC\Symfony\Controller;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\View\LoginFormView;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\View\LoginFormView;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
 
@@ -41,3 +41,5 @@ class SecurityController
         return $view;
     }
 }
+
+class_alias(SecurityController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\SecurityController');

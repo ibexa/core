@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony;
+namespace Ibexa\Core\MVC\Symfony;
 
 final class MVCEvents
 {
@@ -76,3 +76,5 @@ final class MVCEvents
      */
     const CACHE_CLEAR_CONTENT = 'ezpublish.cache_clear.content';
 }
+
+class_alias(MVCEvents::class, 'eZ\Publish\Core\MVC\Symfony\MVCEvents');

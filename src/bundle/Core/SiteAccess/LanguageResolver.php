@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\SiteAccess;
+namespace Ibexa\Bundle\Core\SiteAccess;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver;
 
 /**
  * Resolves language settings for use in SiteAccess aware Repository.
@@ -36,3 +36,5 @@ final class LanguageResolver extends AbstractLanguageResolver
         return $this->configResolver->getParameter('languages');
     }
 }
+
+class_alias(LanguageResolver::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\LanguageResolver');

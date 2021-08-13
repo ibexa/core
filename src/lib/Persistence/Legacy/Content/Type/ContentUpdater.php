@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
-use eZ\Publish\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
-use eZ\Publish\SPI\Persistence\Content\Type;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 
 /**
  * Class to update content objects to a new type version.
@@ -150,3 +150,5 @@ class ContentUpdater
         return $this->contentGateway->getContentIdsByContentTypeId($contentTypeId);
     }
 }
+
+class_alias(ContentUpdater::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater');

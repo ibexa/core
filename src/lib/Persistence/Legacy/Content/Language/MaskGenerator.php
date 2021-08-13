@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Language;
+namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 
 /**
  * Language MaskGenerator.
@@ -36,7 +36,7 @@ class MaskGenerator
      *
      * @deprecated Move towards using {@see generateLanguageMaskFromLanguageCodes()} or the other generate* methods.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language(s) in $languageCodes was not be found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language(s) in $languageCodes was not be found
      *
      * @param array $languages
      *
@@ -91,7 +91,7 @@ class MaskGenerator
      *
      * @return int
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function generateLanguageIndicator($languageCode, $alwaysAvailable)
     {
@@ -205,7 +205,7 @@ class MaskGenerator
     /**
      * Generates a language mask from plain array of language codes and always available flag.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language(s) in $languageCodes was not be found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language(s) in $languageCodes was not be found
      *
      * @param string[] $languageCodes
      * @param bool $isAlwaysAvailable
@@ -233,7 +233,7 @@ class MaskGenerator
      *
      * @param \eZ\Publish\SPI\Persistence\Content\Field[] $fields
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function generateLanguageMaskForFields(
         array $fields,
@@ -255,3 +255,5 @@ class MaskGenerator
         );
     }
 }
+
+class_alias(MaskGenerator::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator');

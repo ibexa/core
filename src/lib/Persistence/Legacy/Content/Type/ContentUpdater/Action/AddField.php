@@ -4,17 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 
 /**
  * Action to add a field to content objects.
@@ -202,3 +202,5 @@ class AddField extends Action
         return $field;
     }
 }
+
+class_alias(AddField::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField');

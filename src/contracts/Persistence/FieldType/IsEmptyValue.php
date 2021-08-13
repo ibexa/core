@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\FieldType;
+namespace Ibexa\Contracts\Core\Persistence\FieldType;
 
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 
 /**
  * The field type interface which field types available to storage engines have to implement.
@@ -24,3 +24,5 @@ interface IsEmptyValue
      */
     public function isEmptyValue(FieldValue $fieldValue): bool;
 }
+
+class_alias(IsEmptyValue::class, 'eZ\Publish\SPI\Persistence\FieldType\IsEmptyValue');

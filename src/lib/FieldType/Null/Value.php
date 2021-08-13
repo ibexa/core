@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Null;
+namespace Ibexa\Core\FieldType\Null;
 
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
  * Value for Null field type.
@@ -38,3 +38,5 @@ class Value extends BaseValue
         return (string)$this->value;
     }
 }
+
+class_alias(Value::class, 'eZ\Publish\Core\FieldType\Null\Value');

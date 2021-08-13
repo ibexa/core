@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishIOBundle\Migration\FileLister;
+namespace Ibexa\Bundle\IO\Migration\FileLister;
 
-use eZ\Bundle\EzPublishIOBundle\ApiLoader\HandlerRegistry;
-use eZ\Bundle\EzPublishIOBundle\Migration\FileListerInterface;
-use eZ\Bundle\EzPublishIOBundle\Migration\MigrationHandler;
-use eZ\Publish\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
+use Ibexa\Bundle\IO\Migration\FileListerInterface;
+use Ibexa\Bundle\IO\Migration\MigrationHandler;
+use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Iterator;
 use LimitIterator;
 use Psr\Log\LoggerInterface;
@@ -67,3 +67,5 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         return $metadataList;
     }
 }
+
+class_alias(BinaryFileLister::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\BinaryFileLister');

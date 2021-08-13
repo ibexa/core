@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\User;
+namespace Ibexa\Core\FieldType\User;
 
-use eZ\Publish\SPI\FieldType\GatewayBasedStorage;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
-use eZ\Publish\SPI\Persistence\Content\Field;
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
 
 /**
  * Description of UserStorage.
@@ -121,3 +121,5 @@ class UserStorage extends GatewayBasedStorage
         return $this->gateway->countUsersWithUnsupportedHashType($supportedHashTypes);
     }
 }
+
+class_alias(UserStorage::class, 'eZ\Publish\Core\FieldType\User\UserStorage');

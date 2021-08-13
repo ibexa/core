@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\User;
+namespace Ibexa\Core\Repository\User;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Repository\Validator\UserPasswordValidator;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Repository\Validator\UserPasswordValidator;
 
 /**
  * @internal
@@ -29,3 +29,5 @@ final class PasswordValidator implements PasswordValidatorInterface
         return (new UserPasswordValidator($configuration['PasswordValueValidator']))->validate($password);
     }
 }
+
+class_alias(PasswordValidator::class, 'eZ\Publish\Core\Repository\User\PasswordValidator');

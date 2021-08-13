@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Limitation;
+namespace Ibexa\Core\Limitation;
 
-use eZ\Publish\SPI\Persistence\Handler as SPIPersistenceHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as SPIPersistenceHandler;
 
 /**
  * LocationLimitation is a Content limitation.
@@ -24,3 +24,5 @@ class AbstractPersistenceLimitationType
         $this->persistence = $persistence;
     }
 }
+
+class_alias(AbstractPersistenceLimitationType::class, 'eZ\Publish\Core\Limitation\AbstractPersistenceLimitationType');

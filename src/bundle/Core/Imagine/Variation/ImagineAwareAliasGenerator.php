@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Imagine\Variation;
+namespace Ibexa\Bundle\Core\Imagine\Variation;
 
-use eZ\Bundle\EzPublishCoreBundle\Imagine\IORepositoryResolver;
-use eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\IO\IOServiceInterface;
-use eZ\Publish\SPI\Variation\Values\ImageVariation;
-use eZ\Publish\SPI\Variation\VariationHandler;
+use Ibexa\Bundle\Core\Imagine\IORepositoryResolver;
+use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
+use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Imagine\Image\ImagineInterface;
 
 /**
@@ -53,8 +53,8 @@ class ImagineAwareAliasGenerator implements VariationHandler
      *
      * {@inheritdoc}
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function getVariation(
         Field $field,
@@ -102,8 +102,8 @@ class ImagineAwareAliasGenerator implements VariationHandler
      *
      * @return \eZ\Publish\Core\IO\Values\BinaryFile
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function getVariationBinaryFile($originalPath, $variationName)
     {
@@ -119,3 +119,5 @@ class ImagineAwareAliasGenerator implements VariationHandler
         return $this->ioService->loadBinaryFile($variationPath);
     }
 }
+
+class_alias(ImagineAwareAliasGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Variation\ImagineAwareAliasGenerator');

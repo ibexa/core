@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Filter\Location;
+namespace Ibexa\Contracts\Core\Persistence\Filter\Location;
 
-use eZ\Publish\SPI\Persistence\Filter\LazyListIterator;
+use Ibexa\Contracts\Core\Persistence\Filter\LazyListIterator;
 
 /**
  * SPI Persistence Content Item list iterator.
@@ -20,7 +20,7 @@ use eZ\Publish\SPI\Persistence\Filter\LazyListIterator;
 class LazyLocationListIterator extends LazyListIterator
 {
     /**
-     * @return \eZ\Publish\API\Repository\Values\Content\LocationList[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationList[]
      *
      * @throws \Exception
      */
@@ -29,3 +29,5 @@ class LazyLocationListIterator extends LazyListIterator
         yield from parent::getIterator();
     }
 }
+
+class_alias(LazyLocationListIterator::class, 'eZ\Publish\SPI\Persistence\Filter\Location\LazyLocationListIterator');

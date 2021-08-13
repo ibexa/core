@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Controller\Content;
+namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\Core\MVC\Symfony\Controller\Controller;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
-use eZ\Publish\Core\MVC\Symfony\Event\APIContentExceptionEvent;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
-use eZ\Publish\Core\MVC\Symfony\View\ViewManagerInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\Symfony\Controller\Controller;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\Event\APIContentExceptionEvent;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -177,3 +177,5 @@ class ViewController extends Controller
         }
     }
 }
+
+class_alias(ViewController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Content\ViewController');

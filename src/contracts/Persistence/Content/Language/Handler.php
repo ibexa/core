@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\Content\Language;
+namespace Ibexa\Contracts\Core\Persistence\Content\Language;
 
-use eZ\Publish\SPI\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language;
 
 /**
  * Language Handler interface.
@@ -34,7 +34,7 @@ interface Handler
      *
      * @param mixed $id
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language could not be found by $id
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $id
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Language
      */
@@ -57,7 +57,7 @@ interface Handler
      *
      * @param string $languageCode
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language could not be found by $languageCode
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Language
      */
@@ -93,3 +93,5 @@ interface Handler
      */
     public function delete($id);
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Language\Handler');

@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard;
+namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard;
 
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard;
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard\Handler as BaseUrlWildcardHandler;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as BaseUrlWildcardHandler;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 /**
  * The UrlWildcard Handler provides nice urls with wildcards management.
@@ -95,7 +95,7 @@ class Handler implements BaseUrlWildcardHandler
     /**
      * removes an url wildcard.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
      *
      * @param mixed $id
      */
@@ -107,7 +107,7 @@ class Handler implements BaseUrlWildcardHandler
     /**
      * Loads a url wild card.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
      *
      * @param mixed $id
      *
@@ -142,7 +142,7 @@ class Handler implements BaseUrlWildcardHandler
     /**
      * Performs lookup for given URL.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the url wild card was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the url wild card was not found
      *
      * @param string $sourceUrl
      *
@@ -242,3 +242,5 @@ class Handler implements BaseUrlWildcardHandler
         return $destinationUrl;
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Handler');

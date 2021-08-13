@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Author;
+namespace Ibexa\Core\FieldType\Author;
 
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
  * Value for Author field type.
@@ -50,3 +50,5 @@ class Value extends BaseValue
         return implode(', ', $authorNames);
     }
 }
+
+class_alias(Value::class, 'eZ\Publish\Core\FieldType\Author\Value');

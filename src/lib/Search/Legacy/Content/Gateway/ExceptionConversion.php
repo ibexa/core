@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Legacy\Content\Gateway;
+namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
-use eZ\Publish\Core\Base\Exceptions\DatabaseException;
-use eZ\Publish\Core\Search\Legacy\Content\Gateway;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Search\Legacy\Content\Gateway;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Doctrine\DBAL\DBALException;
 use PDOException;
 
@@ -43,3 +43,5 @@ class ExceptionConversion extends Gateway
         }
     }
 }
+
+class_alias(ExceptionConversion::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway\ExceptionConversion');

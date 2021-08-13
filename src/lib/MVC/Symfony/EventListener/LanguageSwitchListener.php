@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\EventListener;
+namespace Ibexa\Core\MVC\Symfony\EventListener;
 
-use eZ\Publish\Core\Helper\TranslationHelper;
-use eZ\Publish\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\Helper\TranslationHelper;
+use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -57,3 +57,5 @@ class LanguageSwitchListener implements EventSubscriberInterface
         }
     }
 }
+
+class_alias(LanguageSwitchListener::class, 'eZ\Publish\Core\MVC\Symfony\EventListener\LanguageSwitchListener');

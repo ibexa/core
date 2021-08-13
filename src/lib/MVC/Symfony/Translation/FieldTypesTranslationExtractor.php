@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Translation;
+namespace Ibexa\Core\MVC\Symfony\Translation;
 
-use eZ\Publish\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\ExtractorInterface;
@@ -39,3 +39,5 @@ class FieldTypesTranslationExtractor implements ExtractorInterface
         return $catalogue;
     }
 }
+
+class_alias(FieldTypesTranslationExtractor::class, 'eZ\Publish\Core\MVC\Symfony\Translation\FieldTypesTranslationExtractor');

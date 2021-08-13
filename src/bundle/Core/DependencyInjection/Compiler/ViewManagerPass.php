@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler;
+namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,3 +41,5 @@ abstract class ViewManagerPass implements CompilerPassInterface
         }
     }
 }
+
+class_alias(ViewManagerPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ViewManagerPass');

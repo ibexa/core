@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Notification;
+namespace Ibexa\Core\Persistence\Legacy\Notification;
 
-use eZ\Publish\SPI\Persistence\Notification\CreateStruct;
-use eZ\Publish\SPI\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 
 abstract class Gateway
 {
@@ -71,3 +71,5 @@ abstract class Gateway
      */
     abstract public function delete(int $notificationId): void;
 }
+
+class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Notification\Gateway');

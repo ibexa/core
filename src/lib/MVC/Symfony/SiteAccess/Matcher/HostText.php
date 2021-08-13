@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher;
+namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
-use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 class HostText extends Regex implements VersatileMatcher
 {
@@ -69,3 +69,5 @@ class HostText extends Regex implements VersatileMatcher
         return $this->request;
     }
 }
+
+class_alias(HostText::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\HostText');

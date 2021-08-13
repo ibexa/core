@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common\EventSubscriber;
+namespace Ibexa\Core\Search\Common\EventSubscriber;
 
-use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
-use eZ\Publish\SPI\Search\Handler as SearchHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 
 /**
  * @internal
@@ -59,3 +59,5 @@ abstract class AbstractSearchEventSubscriber
         }
     }
 }
+
+class_alias(AbstractSearchEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\AbstractSearchEventSubscriber');

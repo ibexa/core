@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Image\IO;
+namespace Ibexa\Core\FieldType\Image\IO;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\IO\IOServiceInterface;
-use eZ\Publish\Core\IO\Values\BinaryFile;
-use eZ\Publish\Core\IO\Values\BinaryFileCreateStruct;
-use eZ\Publish\Core\IO\Values\MissingBinaryFile;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\Values\BinaryFile;
+use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use Ibexa\Core\IO\Values\MissingBinaryFile;
 
 /**
  * Legacy Image IOService.
@@ -265,3 +265,5 @@ class Legacy implements IOServiceInterface
         return strpos($internalPath, $this->draftPrefix) === 0;
     }
 }
+
+class_alias(Legacy::class, 'eZ\Publish\Core\FieldType\Image\IO\Legacy');

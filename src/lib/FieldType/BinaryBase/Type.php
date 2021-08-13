@@ -4,17 +4,17 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\BinaryBase;
+namespace Ibexa\Core\FieldType\BinaryBase;
 
-use eZ\Publish\Core\FieldType\FieldType;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use eZ\Publish\Core\FieldType\Media\Value;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\SPI\FieldType\BinaryBase\RouteAwarePathGenerator;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\SPI\Persistence\Content\FieldValue as PersistenceValue;
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\FieldType\Media\Value;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
  * Base FileType class for Binary field types (i.e. BinaryBase & Media).
@@ -106,7 +106,7 @@ abstract class Type extends FieldType
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @param \eZ\Publish\Core\FieldType\BinaryBase\Value $value
      */
@@ -287,9 +287,9 @@ abstract class Type extends FieldType
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
      * @param \eZ\Publish\Core\FieldType\BinaryBase\Value $fieldValue The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
@@ -399,3 +399,5 @@ abstract class Type extends FieldType
         return true;
     }
 }
+
+class_alias(Type::class, 'eZ\Publish\Core\FieldType\BinaryBase\Type');

@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\QueryType;
+namespace Ibexa\Core\QueryType;
 
 /**
  * Registry of QueryType objects.
@@ -35,3 +35,5 @@ interface QueryTypeRegistry
      */
     public function getQueryType($name);
 }
+
+class_alias(QueryTypeRegistry::class, 'eZ\Publish\Core\QueryType\QueryTypeRegistry');

@@ -4,21 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Location;
+namespace Ibexa\Core\Persistence\Legacy\Content\Location;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\Location;
-use eZ\Publish\SPI\Persistence\Content\Location\CreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Location\UpdateStruct;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as BaseLocationHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Handler as ContentHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\TreeHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Handler as ObjectStateHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
-use eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
-use eZ\Publish\SPI\Persistence\Content\MetadataUpdateStruct;
-use eZ\Publish\SPI\Persistence\Content\Location\Trashed;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as BaseLocationHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
+use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler as ObjectStateHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
+use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 
 /**
  * The Location Handler interface defines operations on Location elements in the storage engine.
@@ -233,7 +233,7 @@ class Handler implements BaseLocationHandler
      *
      * @return Location the newly created Location.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function copySubtree($sourceId, $destinationParentId, $newOwnerId = null)
     {
@@ -604,3 +604,5 @@ class Handler implements BaseLocationHandler
         return $this->locationMapper->createLocationsFromRows($rows);
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Handler');

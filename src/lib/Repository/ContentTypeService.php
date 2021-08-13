@@ -6,50 +6,50 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository;
+namespace Ibexa\Core\Repository;
 
-use eZ\Publish\API\Repository\ContentTypeService as ContentTypeServiceInterface;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\Repository as RepositoryInterface;
-use eZ\Publish\Core\FieldType\FieldTypeRegistry;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException as APINotFoundException;
-use eZ\Publish\API\Repository\Exceptions\BadStateException as APIBadStateException;
-use eZ\Publish\API\Repository\Values\User\User;
-use eZ\Publish\SPI\Persistence\User\Handler as UserHandler;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType as APIContentType;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft as APIContentTypeDraft;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup as APIContentTypeGroup;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeUpdateStruct;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeCreateStruct as APIContentTypeCreateStruct;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupUpdateStruct;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupCreateStruct;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type as SPIContentType;
-use eZ\Publish\SPI\Persistence\Content\Type\CreateStruct as SPIContentTypeCreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\Group\CreateStruct as SPIContentTypeGroupCreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\Group\UpdateStruct as SPIContentTypeGroupUpdateStruct;
-use eZ\Publish\SPI\FieldType\FieldType as SPIFieldType;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Base\Exceptions\BadStateException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\ContentTypeValidationException;
-use eZ\Publish\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException;
-use eZ\Publish\Core\Base\Exceptions\UnauthorizedException;
-use eZ\Publish\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInterface;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException as APIBadStateException;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as APIContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft as APIContentTypeDraft;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup as APIContentTypeGroup;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct as APIContentTypeCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct as SPIContentTypeCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as SPIContentTypeGroupCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as SPIContentTypeGroupUpdateStruct;
+use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\ContentTypeValidationException;
+use Ibexa\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException;
+use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Core\FieldType\ValidationError;
 use DateTime;
 use Exception;
 
 class ContentTypeService implements ContentTypeServiceInterface
 {
-    /** @var \eZ\Publish\API\Repository\Repository */
+    /** @var \Ibexa\Contracts\Core\Repository\Repository */
     protected $repository;
 
     /** @var \eZ\Publish\SPI\Persistence\Content\Type\Handler */
@@ -70,19 +70,19 @@ class ContentTypeService implements ContentTypeServiceInterface
     /** @var \eZ\Publish\Core\FieldType\FieldTypeRegistry */
     protected $fieldTypeRegistry;
 
-    /** @var \eZ\Publish\API\Repository\PermissionResolver */
+    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \eZ\Publish\API\Repository\Repository $repository
+     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param \eZ\Publish\SPI\Persistence\Content\Type\Handler $contentTypeHandler
      * @param \eZ\Publish\SPI\Persistence\User\Handler $userHandler
      * @param \eZ\Publish\Core\Repository\Mapper\ContentDomainMapper $contentDomainMapper
      * @param \eZ\Publish\Core\Repository\Mapper\ContentTypeDomainMapper $contentTypeDomainMapper
      * @param \eZ\Publish\Core\FieldType\FieldTypeRegistry $fieldTypeRegistry
-     * @param \eZ\Publish\API\Repository\PermissionResolver $permissionResolver
+     * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
      * @param array $settings
      */
     public function __construct(
@@ -111,12 +111,12 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Create a Content Type Group object.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If a group with the same identifier already exists
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If a group with the same identifier already exists
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup
      */
     public function createContentTypeGroup(ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct): APIContentTypeGroup
     {
@@ -217,11 +217,11 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Update a Content Type Group object.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the given identifier (if set) already exists
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier (if set) already exists
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup the content type group to be updated
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup the content type group to be updated
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct
      */
     public function updateContentTypeGroup(APIContentTypeGroup $contentTypeGroup, ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct): void
     {
@@ -281,8 +281,8 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * This method only deletes an content type group which has content types without any content instances
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete a content type group
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If  a to be deleted content type has instances
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete a content type group
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If  a to be deleted content type has instances
      */
     public function deleteContentTypeGroup(APIContentTypeGroup $contentTypeGroup): void
     {
@@ -318,7 +318,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentType
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeCreateStruct $contentTypeCreateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct $contentTypeCreateStruct
      */
     protected function validateInputContentTypeCreateStruct(APIContentTypeCreateStruct $contentTypeCreateStruct): void
     {
@@ -475,7 +475,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
      * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentType
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups
      */
     protected function validateInputContentTypeGroups(array $contentTypeGroups): void
     {
@@ -634,20 +634,20 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * The content type is created in the state STATUS_DRAFT.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException In case when
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException In case when
      *         - array of content type groups does not contain at least one content type group
      *         - identifier or remoteId in the content type create struct already exists
      *         - there is a duplicate field identifier in the content type create struct
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
      *         if a field definition in the $contentTypeCreateStruct is not valid
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeValidationException
      *         if a multiple field definitions of a same singular type are given
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeCreateStruct $contentTypeCreateStruct
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups Required array of {@link APIContentTypeGroup} to link type with (must contain one)
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct $contentTypeCreateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups Required array of {@link APIContentTypeGroup} to link type with (must contain one)
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
      */
     public function createContentType(APIContentTypeCreateStruct $contentTypeCreateStruct, array $contentTypeGroups): APIContentTypeDraft
     {
@@ -832,7 +832,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Validates FieldDefinitionCreateStruct.
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
      * @param \eZ\Publish\SPI\FieldType\FieldType $fieldType
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
@@ -901,14 +901,14 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Get a Content Type object draft by id.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If the content type draft owned by the current user can not be found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content type draft owned by the current user can not be found
      *
      * @param int $contentTypeId
      * @param bool $ignoreOwnership if true, method will return draft even if the owner is different than currently logged in user
      *
      * @todo Use another exception when user of draft is someone else
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
      */
     public function loadContentTypeDraft(int $contentTypeId, bool $ignoreOwnership = false): APIContentTypeDraft
     {
@@ -970,12 +970,12 @@ class ContentTypeService implements ContentTypeServiceInterface
      * This is a complete copy of the content
      * type which has the state STATUS_DRAFT.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If there is already a draft assigned to another user
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If there is already a draft assigned to another user
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
      */
     public function createContentTypeDraft(APIContentType $contentType): APIContentTypeDraft
     {
@@ -1015,12 +1015,12 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * Does not update fields (fieldDefinitions), use {@link updateFieldDefinition()} to update them.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to update a content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the given identifier or remoteId already exists
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier or remoteId already exists
      *         or there is no draft assigned to the authenticated user
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeUpdateStruct $contentTypeUpdateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct $contentTypeUpdateStruct
      */
     public function updateContentTypeDraft(APIContentTypeDraft $contentTypeDraft, ContentTypeUpdateStruct $contentTypeUpdateStruct): void
     {
@@ -1095,10 +1095,10 @@ class ContentTypeService implements ContentTypeServiceInterface
      * given, only the draft content type will be deleted. Otherwise, if content type in state
      * STATUS_DEFINED is given, all content type data will be deleted.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If there exist content objects of this type
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If there exist content objects of this type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete a content type
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      */
     public function deleteContentType(APIContentType $contentType): void
     {
@@ -1133,12 +1133,12 @@ class ContentTypeService implements ContentTypeServiceInterface
      * New Type will have $creator as creator / modifier, created / modified should be updated with current time,
      * updated remoteId and identifier should be appended with '_' + unique string.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the current-user is not allowed to copy a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current-user is not allowed to copy a content type
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
-     * @param \eZ\Publish\API\Repository\Values\User\User $creator if null the current-user is used
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $creator if null the current-user is used
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentType
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
      */
     public function copyContentType(APIContentType $contentType, User $creator = null): ContentType
     {
@@ -1169,11 +1169,11 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Assigns a content type to a content type group.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to unlink a content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the content type is already assigned the given group
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to unlink a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the content type is already assigned the given group
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
      */
     public function assignContentTypeGroup(APIContentType $contentType, APIContentTypeGroup $contentTypeGroup): void
     {
@@ -1210,12 +1210,12 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Unassign a content type from a group.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to link a content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the content type is not assigned this the given group.
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If $contentTypeGroup is the last group assigned to the content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to link a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the content type is not assigned this the given group.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If $contentTypeGroup is the last group assigned to the content type
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
      */
     public function unassignContentTypeGroup(APIContentType $contentType, APIContentTypeGroup $contentTypeGroup): void
     {
@@ -1261,17 +1261,17 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * The content type must be in state DRAFT.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the identifier in already exists in the content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the identifier in already exists in the content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
      *         if a field definition in the $contentTypeCreateStruct is not valid
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If field definition of the same non-repeatable type is being
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If field definition of the same non-repeatable type is being
      *                                                                 added to the ContentType that already contains one
      *                                                                 or field definition that can't be added to a ContentType that
      *                                                                 has Content instances is being added to such ContentType
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
      */
     public function addFieldDefinition(APIContentTypeDraft $contentTypeDraft, FieldDefinitionCreateStruct $fieldDefinitionCreateStruct): void
     {
@@ -1350,11 +1350,11 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Remove a field definition from an existing Type.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the given field definition does not belong to the given type
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given field definition does not belong to the given type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      */
     public function removeFieldDefinition(APIContentTypeDraft $contentTypeDraft, APIFieldDefinition $fieldDefinition): void
     {
@@ -1392,13 +1392,13 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Update a field definition.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the field id in the update struct is not found or does not belong to the content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field id in the update struct is not found or does not belong to the content type
      *                                                                        If the given identifier is used in an existing field of the given content type
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft the content type draft
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition the field definition which should be updated
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft the content type draft
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition the field definition which should be updated
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
      */
     public function updateFieldDefinition(APIContentTypeDraft $contentTypeDraft, APIFieldDefinition $fieldDefinition, FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct): void
     {
@@ -1450,11 +1450,11 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * This method updates content objects, depending on the changed field definitions.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException If the content type has no draft
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the content type has no field definitions
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish a content type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If the content type has no draft
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the content type has no field definitions
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish a content type
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
      */
     public function publishContentTypeDraft(APIContentTypeDraft $contentTypeDraft): void
     {
@@ -1515,7 +1515,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @param string $identifier
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupCreateStruct
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct
      */
     public function newContentTypeGroupCreateStruct(string $identifier): ContentTypeGroupCreateStruct
     {
@@ -1533,7 +1533,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @param string $identifier
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeCreateStruct
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct
      */
     public function newContentTypeCreateStruct(string $identifier): APIContentTypeCreateStruct
     {
@@ -1551,7 +1551,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a new content type update struct.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeUpdateStruct
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct
      */
     public function newContentTypeUpdateStruct(): ContentTypeUpdateStruct
     {
@@ -1561,7 +1561,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a new content type update struct.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupUpdateStruct
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct
      */
     public function newContentTypeGroupUpdateStruct(): ContentTypeGroupUpdateStruct
     {
@@ -1577,7 +1577,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @param string $fieldTypeIdentifier the required field type identifier
      * @param string $identifier the required identifier for the field definition
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct
      */
     public function newFieldDefinitionCreateStruct(string $identifier, string $fieldTypeIdentifier): FieldDefinitionCreateStruct
     {
@@ -1592,7 +1592,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Instantiates a field definition update class.
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionUpdateStruct
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct
      */
     public function newFieldDefinitionUpdateStruct(): FieldDefinitionUpdateStruct
     {
@@ -1604,7 +1604,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @since 6.0.1
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      *
      * @return bool
      */
@@ -1614,14 +1614,14 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft $contentTypeDraft
      * @param string $languageCode
      *
-     * @return \eZ\Publish\API\Repository\Values\ContentType\ContentTypeDraft
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function removeContentTypeTranslation(APIContentTypeDraft $contentTypeDraft, string $languageCode): APIContentTypeDraft
     {
@@ -1662,3 +1662,5 @@ class ContentTypeService implements ContentTypeServiceInterface
         $this->contentTypeHandler->deleteByUserAndStatus($userId, ContentType::STATUS_DRAFT);
     }
 }
+
+class_alias(ContentTypeService::class, 'eZ\Publish\Core\Repository\ContentTypeService');

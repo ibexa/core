@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\IO;
+namespace Ibexa\Core\IO;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\IO\Exception\BinaryFileNotFoundException;
-use eZ\Publish\Core\IO\Exception\InvalidBinaryAbsolutePathException;
-use eZ\Publish\Core\IO\Values\BinaryFile;
-use eZ\Publish\Core\IO\Values\MissingBinaryFile;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\Exception\InvalidBinaryAbsolutePathException;
+use Ibexa\Core\IO\Values\BinaryFile;
+use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -128,3 +128,5 @@ class TolerantIOService extends IOService
         $this->logger->info("BinaryFile with id $id not found");
     }
 }
+
+class_alias(TolerantIOService::class, 'eZ\Publish\Core\IO\TolerantIOService');

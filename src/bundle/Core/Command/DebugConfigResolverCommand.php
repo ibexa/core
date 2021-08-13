@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Command;
+namespace Ibexa\Bundle\Core\Command;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -117,3 +117,5 @@ EOM
         return ['ezplatform:debug:config-resolver', 'ezplatform:debug:config'];
     }
 }
+
+class_alias(DebugConfigResolverCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\DebugConfigResolverCommand');

@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishIOBundle\DependencyInjection\Compiler;
+namespace Ibexa\Bundle\IO\DependencyInjection\Compiler;
 
 use ArrayObject;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -106,7 +106,7 @@ class IOConfigurationPass implements CompilerPassInterface
      * Returns from $factories the factory for handler $type.
      *
      * @param ContainerBuilder $container
-     * @param \eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory[]|ArrayObject|ContainerAware[] $factories
+     * @param \eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory[]|ArrayObject $factories
      * @param string $type
      *
      * @return \eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory
@@ -123,3 +123,5 @@ class IOConfigurationPass implements CompilerPassInterface
         return $factories[$type];
     }
 }
+
+class_alias(IOConfigurationPass::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\Compiler\IOConfigurationPass');

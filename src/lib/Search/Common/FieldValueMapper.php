@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common;
+namespace Ibexa\Core\Search\Common;
 
-use eZ\Publish\SPI\Search\Field;
+use Ibexa\Contracts\Core\Search\Field;
 
 /**
  * Maps raw field values to something search engine can understand.
@@ -37,3 +37,5 @@ abstract class FieldValueMapper
      */
     abstract public function map(Field $field);
 }
+
+class_alias(FieldValueMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper');

@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Cache\Tests\InMemory;
+namespace Ibexa\Tests\Core\Persistence\Cache\InMemory;
 
-use eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCache;
+use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -194,7 +194,7 @@ class InMemoryCacheTest extends TestCase
     }
 }
 
-namespace eZ\Publish\Core\Persistence\Cache\InMemory;
+namespace Ibexa\Core\Core\Persistence\Cache\InMemory;
 
 /**
  * Overloads microtime(true) calls in InMemoryCache in order to be able to test expiry.
@@ -209,3 +209,5 @@ function microtime($asFloat = false)
 
     return \microtime($asFloat);
 }
+
+class_alias(InMemoryCacheTest::class, 'eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCacheTest');

@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\URL;
+namespace Ibexa\Contracts\Core\Persistence\URL;
 
-use eZ\Publish\API\Repository\Values\URL\URLQuery;
+use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 
 /**
  * The URL Handler interface defines operations on URLs in the storage engine.
@@ -26,7 +26,7 @@ interface Handler
     /**
      * Selects URLs data using $query.
      *
-     * @param \eZ\Publish\API\Repository\Values\URL\URLQuery $query
+     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLQuery $query
      *
      * @return array
      */
@@ -48,7 +48,7 @@ interface Handler
      *
      * @return \eZ\Publish\SPI\Persistence\URL\URL
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function loadById($id);
 
@@ -59,7 +59,9 @@ interface Handler
      *
      * @return \eZ\Publish\SPI\Persistence\URL\URL
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function loadByUrl($url);
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\URL\Handler');

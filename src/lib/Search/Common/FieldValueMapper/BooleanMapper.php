@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common\FieldValueMapper;
+namespace Ibexa\Core\Search\Common\FieldValueMapper;
 
-use eZ\Publish\Core\Search\Common\FieldValueMapper;
-use eZ\Publish\SPI\Search\FieldType\BooleanField;
-use eZ\Publish\SPI\Search\Field;
+use Ibexa\Core\Search\Common\FieldValueMapper;
+use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
+use Ibexa\Contracts\Core\Search\Field;
 
 /**
  * Common boolean field value mapper implementation.
@@ -39,3 +39,5 @@ class BooleanMapper extends FieldValueMapper
         return (bool)$field->value;
     }
 }
+
+class_alias(BooleanMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\BooleanMapper');

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Fragment;
+namespace Ibexa\Bundle\Core\Fragment;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
@@ -65,3 +65,5 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
         return $this->innerRenderer->getName();
     }
 }
+
+class_alias(InlineFragmentRenderer::class, 'eZ\Bundle\EzPublishCoreBundle\Fragment\InlineFragmentRenderer');

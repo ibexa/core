@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\ObjectState;
+namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState;
 
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Handler as BaseObjectStateHandler;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\InputStruct;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as BaseObjectStateHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 /**
  * The Object State Handler class provides managing of object states and groups.
@@ -61,7 +61,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @param mixed $groupId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the group was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState\Group
      */
@@ -81,7 +81,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @param string $identifier
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the group was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the group was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState\Group
      */
@@ -183,7 +183,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @param mixed $stateId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the state was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState
      */
@@ -204,7 +204,7 @@ class Handler implements BaseObjectStateHandler
      * @param string $identifier
      * @param mixed $groupId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException if the state was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the state was not found
      *
      * @return \eZ\Publish\SPI\Persistence\Content\ObjectState
      */
@@ -269,7 +269,7 @@ class Handler implements BaseObjectStateHandler
      * Deletes a object state. The state of the content objects is reset to the
      * first object state in the group.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If state with $stateId doesn't exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If state with $stateId doesn't exist
      *
      * @param mixed $stateId
      */
@@ -320,7 +320,7 @@ class Handler implements BaseObjectStateHandler
      *
      * The $state is the id of the state within one group.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If no state is found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If no state is found
      *
      * @param mixed $contentId
      * @param mixed $stateGroupId
@@ -350,3 +350,5 @@ class Handler implements BaseObjectStateHandler
         return $this->objectStateGateway->getContentCount($stateId);
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Handler');

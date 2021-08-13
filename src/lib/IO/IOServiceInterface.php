@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\IO;
+namespace Ibexa\Core\IO;
 
-use eZ\Publish\Core\IO\Values\BinaryFile;
-use eZ\Publish\Core\IO\Values\BinaryFileCreateStruct;
+use Ibexa\Core\IO\Values\BinaryFile;
+use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 
 /**
  * Interface for Input/Output handling of binary files.
@@ -171,3 +171,5 @@ interface IOServiceInterface
      */
     public function deleteDirectory($path);
 }
+
+class_alias(IOServiceInterface::class, 'eZ\Publish\Core\IO\IOServiceInterface');

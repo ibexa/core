@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence\Content\ObjectState;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Group;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Handler as ObjectStateHandlerInterface;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\InputStruct;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
 
 /**
  * @see \eZ\Publish\SPI\Persistence\Content\ObjectState\Handler
@@ -298,3 +298,5 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
         return $this->persistenceHandler->objectStateHandler()->getContentCount($stateId);
     }
 }
+
+class_alias(ObjectStateHandler::class, 'eZ\Publish\Core\Persistence\Cache\ObjectStateHandler');

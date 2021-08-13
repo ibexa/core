@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider;
+namespace Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigBuilderInterface;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigBuilderInterface;
 
 /**
  * Interface for DIC extensions which provide policies to be exposed for permissions in the Repository.
@@ -61,3 +61,5 @@ interface PolicyProviderInterface
      */
     public function addPolicies(ConfigBuilderInterface $configBuilder);
 }
+
+class_alias(PolicyProviderInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider\PolicyProviderInterface');

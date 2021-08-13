@@ -4,21 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\User;
+namespace Ibexa\Core\Persistence\Legacy\User;
 
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\SPI\Persistence\User;
-use eZ\Publish\SPI\Persistence\User\UserTokenUpdateStruct;
-use eZ\Publish\SPI\Persistence\User\Handler as BaseUserHandler;
-use eZ\Publish\SPI\Persistence\User\Role;
-use eZ\Publish\SPI\Persistence\User\RoleCopyStruct;
-use eZ\Publish\SPI\Persistence\User\RoleCreateStruct;
-use eZ\Publish\SPI\Persistence\User\RoleUpdateStruct;
-use eZ\Publish\SPI\Persistence\User\Policy;
-use eZ\Publish\Core\Persistence\Legacy\Exception\RoleNotFound;
-use eZ\Publish\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
-use eZ\Publish\Core\Persistence\Legacy\User\Role\LimitationConverter;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException as NotFound;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Persistence\User;
+use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\User\Handler as BaseUserHandler;
+use Ibexa\Contracts\Core\Persistence\User\Role;
+use Ibexa\Contracts\Core\Persistence\User\RoleCopyStruct;
+use Ibexa\Contracts\Core\Persistence\User\RoleCreateStruct;
+use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\User\Policy;
+use Ibexa\Core\Persistence\Legacy\Exception\RoleNotFound;
+use Ibexa\Core\Persistence\Legacy\User\Role\Gateway as RoleGateway;
+use Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter;
+use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use LogicException;
 
 /**
@@ -74,7 +74,7 @@ class Handler implements BaseUserHandler
      *
      * @param \eZ\Publish\SPI\Persistence\User $user
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function create(User $user)
     {
@@ -86,7 +86,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $userId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If user is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User
      */
@@ -106,7 +106,7 @@ class Handler implements BaseUserHandler
      *
      * @param string $login
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If user is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User
      */
@@ -172,7 +172,7 @@ class Handler implements BaseUserHandler
      *
      * @param string $hash
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If user is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If user is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User
      */
@@ -192,7 +192,7 @@ class Handler implements BaseUserHandler
      *
      * @param \eZ\Publish\SPI\Persistence\User $user
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function update(User $user)
     {
@@ -229,7 +229,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $userId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     public function delete($userId)
     {
@@ -257,7 +257,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role with defined status is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role with defined status is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -319,7 +319,7 @@ class Handler implements BaseUserHandler
      * @param mixed $roleId
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role with given status does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role with given status does not exist
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -345,7 +345,7 @@ class Handler implements BaseUserHandler
      * @param string $identifier
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -370,7 +370,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleId ID of the role the draft was created from.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\Role
      */
@@ -615,7 +615,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleAssignmentId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If role assignment is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If role assignment is not found
      *
      * @return \eZ\Publish\SPI\Persistence\User\RoleAssignment
      */
@@ -672,3 +672,5 @@ class Handler implements BaseUserHandler
         return $this->mapper->mapRoleAssignments($data);
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\User\Handler');

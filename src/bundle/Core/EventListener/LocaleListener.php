@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\EventListener;
+namespace Ibexa\Bundle\Core\EventListener;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -67,3 +67,5 @@ class LocaleListener implements EventSubscriberInterface
         $this->innerListener->setDefaultLocale($event);
     }
 }
+
+class_alias(LocaleListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\LocaleListener');

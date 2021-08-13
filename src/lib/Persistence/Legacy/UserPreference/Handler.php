@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\UserPreference;
+namespace Ibexa\Core\Persistence\Legacy\UserPreference;
 
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreferenceSetStruct;
-use eZ\Publish\SPI\Persistence\UserPreference\Handler as HandlerInterface;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreference;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Persistence\UserPreference\Handler as HandlerInterface;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 
 class Handler implements HandlerInterface
 {
@@ -79,3 +79,5 @@ class Handler implements HandlerInterface
         );
     }
 }
+
+class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\UserPreference\Handler');

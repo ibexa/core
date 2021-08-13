@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence\Content\Section\Handler as SectionHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandlerInterface;
 
 /**
  * @see \eZ\Publish\SPI\Persistence\Content\Section\Handler
@@ -142,3 +142,5 @@ class SectionHandler extends AbstractHandler implements SectionHandlerInterface
         return $this->persistenceHandler->sectionHandler()->countRoleAssignmentsUsingSection($sectionId);
     }
 }
+
+class_alias(SectionHandler::class, 'eZ\Publish\Core\Persistence\Cache\SectionHandler');

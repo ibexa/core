@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Gateway;
+namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 
 use Doctrine\DBAL\Connection;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
-use eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Gateway;
-use eZ\Publish\Core\Persistence\TransformationProcessor;
-use eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
-use eZ\Publish\Core\Search\Legacy\Content\FullTextData;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as SPITypeHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
+use Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
+use Ibexa\Core\Persistence\TransformationProcessor;
+use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
+use Ibexa\Core\Search\Legacy\Content\FullTextData;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
 
 /**
  * WordIndexer gateway implementation using the Doctrine database.
@@ -339,3 +339,5 @@ class DoctrineDatabase extends Gateway
         return $wordArray;
     }
 }
+
+class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Gateway\DoctrineDatabase');

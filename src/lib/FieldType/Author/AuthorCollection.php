@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Author;
+namespace Ibexa\Core\FieldType\Author;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use ArrayObject;
 
 /**
@@ -74,3 +74,5 @@ class AuthorCollection extends ArrayObject
         $this->exchangeArray($aAuthors);
     }
 }
+
+class_alias(AuthorCollection::class, 'eZ\Publish\Core\FieldType\Author\AuthorCollection');

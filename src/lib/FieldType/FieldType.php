@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType;
+namespace Ibexa\Core\FieldType;
 
-use eZ\Publish\SPI\FieldType\Comparable;
-use eZ\Publish\SPI\FieldType\FieldType as SPIFieldType;
-use eZ\Publish\Core\Persistence\TransformationProcessor;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\SPI\Persistence\Content\FieldValue as PersistenceValue;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Contracts\Core\FieldType\Comparable;
+use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Core\Persistence\TransformationProcessor;
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 
 /**
  * Base class for field types, the most basic storage unit of data inside eZ Publish.
@@ -123,9 +123,9 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * that no validation errors occurred. Overwrite in derived types, if
      * validation is supported.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
      * @param \eZ\Publish\Core\FieldType\Value $value The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
@@ -173,7 +173,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * This is a base implementation, expecting best practice validator configuration format used by
      * field types in standard eZ publish installation. Overwrite in derived types if needed.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @param mixed $validatorConfiguration
      */
@@ -232,7 +232,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * This is a base implementation, expecting best practice field settings format used by
      * field types in standard eZ publish installation. Overwrite in derived types if needed.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @param mixed $fieldSettings
      */
@@ -366,8 +366,8 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * Note that this method must also cope with the empty value for the field
      * type as e.g. returned by {@link getEmptyValue()}.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
      *
      * @param mixed $inputValue
      *
@@ -438,7 +438,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *  }
      * </code>
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the parameter is not an instance of the supported value subtype.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the parameter is not an instance of the supported value subtype.
      *
      * @param mixed $value A value returned by {@see createValueFromInput()}.
      */
@@ -472,7 +472,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *  }
      * </code>
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @param \eZ\Publish\Core\FieldType\Value $value
      */
@@ -487,7 +487,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param mixed $fieldSettings
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     public function fieldSettingsToHash($fieldSettings)
     {
@@ -504,7 +504,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * a hash format. Overwrite this in your specific implementation, if
      * necessary.
      *
-     * @param array|hash|scalar|null $fieldSettingsHash
+     * @param array|scalar|null $fieldSettingsHash
      *
      * @return mixed
      */
@@ -522,7 +522,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      *
      * @param mixed $validatorConfiguration
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     public function validatorConfigurationToHash($validatorConfiguration)
     {
@@ -538,7 +538,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * convention an array for all internal field types. Overwrite this method,
      * if necessary.
      *
-     * @param array|hash|scalar|null $validatorConfigurationHash
+     * @param array|scalar|null $validatorConfigurationHash
      *
      * @return mixed
      */
@@ -582,3 +582,5 @@ abstract class FieldType extends SPIFieldType implements Comparable
         return $this->toHash($value1) === $this->toHash($value2);
     }
 }
+
+class_alias(FieldType::class, 'eZ\Publish\Core\FieldType\FieldType');

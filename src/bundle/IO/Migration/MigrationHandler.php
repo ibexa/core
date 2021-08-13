@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishIOBundle\Migration;
+namespace Ibexa\Bundle\IO\Migration;
 
-use eZ\Bundle\EzPublishIOBundle\ApiLoader\HandlerRegistry;
+use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -78,3 +78,5 @@ abstract class MigrationHandler implements MigrationHandlerInterface
         $this->logInfo("File with id $id not found");
     }
 }
+
+class_alias(MigrationHandler::class, 'eZ\Bundle\EzPublishIOBundle\Migration\MigrationHandler');

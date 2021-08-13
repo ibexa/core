@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Author;
+namespace Ibexa\Core\FieldType\Author;
 
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\FieldType\Indexable;
-use eZ\Publish\SPI\Search;
-use eZ\Publish\SPI\Search\FieldType\MultipleIdentifierField;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\FieldType\Indexable;
+use Ibexa\Contracts\Core\Search;
+use Ibexa\Contracts\Core\Search\FieldType\MultipleIdentifierField;
 
 /**
  * Indexable definition for Author field type.
@@ -127,3 +127,5 @@ class SearchField implements Indexable
         return 'sort_value';
     }
 }
+
+class_alias(SearchField::class, 'eZ\Publish\Core\FieldType\Author\SearchField');

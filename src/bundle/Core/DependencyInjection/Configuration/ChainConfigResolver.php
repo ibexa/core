@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration;
+namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Exception\ParameterNotFoundException;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 
 class ChainConfigResolver implements ConfigResolverInterface
 {
@@ -113,3 +113,5 @@ class ChainConfigResolver implements ConfigResolverInterface
         throw new \LogicException('getDefaultNamespace() is not supported by the ChainConfigResolver');
     }
 }
+
+class_alias(ChainConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ChainConfigResolver');

@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence;
+namespace Ibexa\Contracts\Core\Persistence;
 
 /**
  * Content value object, bound to a version.
@@ -29,3 +29,5 @@ class Content extends ValueObject
      */
     public $fields;
 }
+
+class_alias(Content::class, 'eZ\Publish\SPI\Persistence\Content');

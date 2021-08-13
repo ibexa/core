@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\View;
+namespace Ibexa\Core\MVC\Symfony\View;
 
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Traversable;
-use eZ\Publish\SPI\MVC\View\VariableProvider;
+use Ibexa\Contracts\Core\MVC\View\VariableProvider;
 
 final class GenericVariableProviderRegistry implements VariableProviderRegistry
 {
@@ -43,3 +43,5 @@ final class GenericVariableProviderRegistry implements VariableProviderRegistry
         return isset($this->twigVariableProviders[$identifier]);
     }
 }
+
+class_alias(GenericVariableProviderRegistry::class, 'eZ\Publish\Core\MVC\Symfony\View\GenericVariableProviderRegistry');

@@ -4,24 +4,24 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
+namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
-use eZ\Publish\API\Repository\LanguageService;
-use eZ\Publish\Core\FieldType\FieldSettings;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\LanguageService;
+use Ibexa\Core\FieldType\FieldSettings;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use DOMDocument;
 
 class SelectionConverter implements Converter
 {
-    /** @var \eZ\Publish\API\Repository\LanguageService */
+    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
     private $languageService;
 
     /**
-     * @param \eZ\Publish\API\Repository\LanguageService $languageService
+     * @param \Ibexa\Contracts\Core\Repository\LanguageService $languageService
      */
     public function __construct(
         LanguageService $languageService
@@ -192,3 +192,5 @@ class SelectionConverter implements Converter
         return $xml;
     }
 }
+
+class_alias(SelectionConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter');

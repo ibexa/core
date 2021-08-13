@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Validator;
+namespace Ibexa\Core\Repository\Validator;
 
-use eZ\Publish\API\Repository\Values\Content\ContentCreateStruct;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\FieldType\FieldTypeRegistry;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Repository\Mapper\ContentMapper;
-use eZ\Publish\SPI\Repository\Validator\ContentValidator;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\Mapper\ContentMapper;
+use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 
 /**
  * @internal Meant for internal use by Repository
@@ -49,7 +49,7 @@ final class ContentCreateStructValidator implements ContentValidator
             throw new InvalidArgumentException('$object', 'Not supported');
         }
 
-        /** @var \eZ\Publish\API\Repository\Values\Content\ContentCreateStruct $contentCreateStruct */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct */
         $contentCreateStruct = $object;
 
         $languageCodes = $this->contentMapper->getLanguageCodesForCreate($contentCreateStruct);
@@ -99,3 +99,5 @@ final class ContentCreateStructValidator implements ContentValidator
         return $allFieldErrors;
     }
 }
+
+class_alias(ContentCreateStructValidator::class, 'eZ\Publish\Core\Repository\Validator\ContentCreateStructValidator');

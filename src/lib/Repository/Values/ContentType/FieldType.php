@@ -6,17 +6,17 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Values\ContentType;
+namespace Ibexa\Core\Repository\Values\ContentType;
 
-use eZ\Publish\API\Repository\FieldType as FieldTypeInterface;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
-use eZ\Publish\SPI\FieldType\FieldType as SPIFieldTypeInterface;
-use eZ\Publish\SPI\FieldType\Value;
+use Ibexa\Contracts\Core\Repository\FieldType as FieldTypeInterface;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
+use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldTypeInterface;
+use Ibexa\Contracts\Core\FieldType\Value;
 
 /**
  * This class represents a FieldType available to Public API users.
  *
- * @see \eZ\Publish\API\Repository\FieldType
+ * @see \Ibexa\Contracts\Core\Repository\FieldType
  *
  * @internal Meant for internal use by Repository, type hint against API object instead.
  */
@@ -208,7 +208,7 @@ class FieldType implements FieldTypeInterface
      *
      * @param mixed $fieldSettings
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     public function fieldSettingsToHash($fieldSettings)
     {
@@ -220,7 +220,7 @@ class FieldType implements FieldTypeInterface
      *
      * This is the reverse operation of {@link fieldSettingsToHash()}.
      *
-     * @param array|hash|scalar|null $fieldSettingsHash
+     * @param array|scalar|null $fieldSettingsHash
      *
      * @return mixed
      */
@@ -234,7 +234,7 @@ class FieldType implements FieldTypeInterface
      *
      * @param mixed $validatorConfiguration
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     public function validatorConfigurationToHash($validatorConfiguration)
     {
@@ -245,7 +245,7 @@ class FieldType implements FieldTypeInterface
      * Converts the given $validatorConfigurationHash to a validator
      * configuration of the type.
      *
-     * @param array|hash|scalar|null $validatorConfigurationHash
+     * @param array|scalar|null $validatorConfigurationHash
      *
      * @return mixed
      */
@@ -287,7 +287,7 @@ class FieldType implements FieldTypeInterface
     /**
      * Validates a field value based on the validator configuration in the field definition.
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
      * @param \eZ\Publish\SPI\FieldType\Value $value The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
@@ -297,3 +297,5 @@ class FieldType implements FieldTypeInterface
         return $this->internalFieldType->validate($fieldDef, $value);
     }
 }
+
+class_alias(FieldType::class, 'eZ\Publish\Core\Repository\Values\ContentType\FieldType');

@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository;
+namespace Ibexa\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd;
-use eZ\Publish\Core\Repository\Permission\PermissionCriterionResolver;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Core\Repository\Permission\PermissionCriterionResolver;
 
 /**
  * Handler for permissions Criterion.
@@ -22,9 +22,9 @@ class PermissionsCriterionHandler extends PermissionCriterionResolver
      *
      * @uses \eZ\Publish\Core\Repository\Permission\PermissionCriterionResolver::getPermissionsCriterion()
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      *
-     * @return bool|\eZ\Publish\API\Repository\Values\Content\Query\Criterion
+     * @return bool|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
      */
     public function addPermissionsCriterion(Criterion &$criterion)
     {
@@ -48,3 +48,5 @@ class PermissionsCriterionHandler extends PermissionCriterionResolver
         return true;
     }
 }
+
+class_alias(PermissionsCriterionHandler::class, 'eZ\Publish\Core\Repository\PermissionsCriterionHandler');

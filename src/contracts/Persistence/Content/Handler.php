@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Persistence\Content;
+namespace Ibexa\Contracts\Core\Persistence\Content;
 
 // @todo We must verify whether we want to type cast on the "Criterion" interface or abstract class
-use eZ\Publish\SPI\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 
 /**
  * The Content Handler interface defines content operations on the storage engine.
@@ -122,7 +122,7 @@ interface Handler
     /**
      * Returns the version object for a content/version identified by $contentId and $versionNo.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If version is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If version is not found
      *
      * @param int|string $contentId
      * @param int|null $versionNo Version number to load, loads current version if null.
@@ -238,7 +238,7 @@ interface Handler
      * Copies all fields and relations from $contentId in $version (or all versions if false)
      * to a new object which is returned. Version numbers are maintained.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If content or version is not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If content or version is not found
      *
      * @param mixed $contentId
      * @param mixed|null $versionNo Copy all versions if left null
@@ -267,7 +267,7 @@ interface Handler
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
      *
      * @param mixed $relationId
-     * @param int $type {@see \eZ\Publish\API\Repository\Values\Content\Relation::COMMON,
+     * @param int $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::EMBED,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::LINK,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::FIELD}
@@ -279,7 +279,7 @@ interface Handler
      *
      * @param mixed $sourceContentId Source Content ID
      * @param mixed|null $sourceContentVersionNo Source Content Version, null if not specified
-     * @param int|null $type {@see \eZ\Publish\API\Repository\Values\Content\Relation::COMMON,
+     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::EMBED,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::LINK,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::FIELD}
@@ -292,7 +292,7 @@ interface Handler
      * Counts relations from $destinationContentId only against published versions. Optionally, count only those with $type.
      *
      * @param int $destinationContentId Destination Content ID
-     * @param int|null $type The relation type bitmask {@see \eZ\Publish\API\Repository\Values\Content\Relation}
+     * @param int|null $type The relation type bitmask {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation}
      *
      * @return int
      */
@@ -304,7 +304,7 @@ interface Handler
      * Only loads relations against published versions.
      *
      * @param mixed $destinationContentId Destination Content ID
-     * @param int|null $type {@see \eZ\Publish\API\Repository\Values\Content\Relation::COMMON,
+     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::EMBED,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::LINK,
      *                 \eZ\Publish\API\Repository\Values\Content\Relation::FIELD}
@@ -321,7 +321,7 @@ interface Handler
      * @param int $destinationContentId Destination Content ID
      * @param int $offset
      * @param int $limit
-     * @param int|null $type The relation type bitmask {@see \eZ\Publish\API\Repository\Values\Content\Relation}
+     * @param int|null $type The relation type bitmask {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation}
      *
      * @return \eZ\Publish\SPI\Persistence\Content\Relation[]
      */
@@ -340,7 +340,7 @@ interface Handler
      * @param int $versionNo
      * @param \eZ\Publish\SPI\Persistence\Content\MetadataUpdateStruct $metaDataUpdateStruct
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      *
      * @return \eZ\Publish\SPI\Persistence\Content The published Content
      */
@@ -365,3 +365,5 @@ interface Handler
      */
     public function deleteTranslationFromDraft($contentId, $versionNo, $languageCode);
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Handler');

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\URL;
+namespace Ibexa\Core\Persistence\Legacy\URL;
 
-use eZ\Publish\SPI\Persistence\URL\URL;
-use eZ\Publish\SPI\Persistence\URL\URLUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\URL\URL;
+use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct;
 
 /**
  * URL Mapper.
@@ -60,3 +60,5 @@ class Mapper
         return $urls;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Mapper');

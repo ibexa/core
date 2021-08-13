@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Bookmark;
+namespace Ibexa\Contracts\Core\Persistence\Bookmark;
 
 interface Handler
 {
@@ -24,7 +24,7 @@ interface Handler
      *
      * @param int $bookmarkId
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function delete(int $bookmarkId): void;
 
@@ -68,3 +68,5 @@ interface Handler
      */
     public function locationSwapped(int $location1Id, int $location2Id): void;
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Bookmark\Handler');

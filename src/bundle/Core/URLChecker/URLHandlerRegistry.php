@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\URLChecker;
+namespace Ibexa\Bundle\Core\URLChecker;
 
 use InvalidArgumentException;
 
@@ -49,3 +49,5 @@ class URLHandlerRegistry implements URLHandlerRegistryInterface
         return $this->handlers[$scheme];
     }
 }
+
+class_alias(URLHandlerRegistry::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\URLHandlerRegistry');

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\ApiLoader;
+namespace Ibexa\Bundle\Core\ApiLoader;
 
-use eZ\Bundle\EzPublishCoreBundle\ApiLoader\Exception\InvalidStorageEngine;
-use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
+use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 
 /**
  * The storage engine factory.
@@ -78,3 +78,5 @@ class StorageEngineFactory
         return $this->storageEngines[$repositoryConfig['storage']['engine']];
     }
 }
+
+class_alias(StorageEngineFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\StorageEngineFactory');

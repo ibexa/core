@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\FieldValue;
+namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
 
 class ConverterRegistry
 {
@@ -79,3 +79,5 @@ class ConverterRegistry
         return $this->converterMap[$typeName];
     }
 }
+
+class_alias(ConverterRegistry::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry');

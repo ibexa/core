@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\User;
+namespace Ibexa\Core\Repository\User;
 
-use eZ\Publish\API\Repository\Values\User\User;
-use eZ\Publish\Core\Repository\User\Exception\UnsupportedPasswordHashType;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 
 /**
  * @internal
@@ -71,3 +71,5 @@ final class PasswordHashService implements PasswordHashServiceInterface
         return $passwordHash === $this->createPasswordHash($plainPassword, $hashType);
     }
 }
+
+class_alias(PasswordHashService::class, 'eZ\Publish\Core\Repository\User\PasswordHashService');

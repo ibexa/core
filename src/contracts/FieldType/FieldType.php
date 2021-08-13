@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\FieldType;
+namespace Ibexa\Contracts\Core\FieldType;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 
 /**
  * The field type interface which all field types have to implement.
@@ -50,7 +50,7 @@ abstract class FieldType
      * The used $value can be assumed to be already accepted by {@link FieldType::acceptValue()}.
      *
      * @param \eZ\Publish\SPI\FieldType\Value $value
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
      * @param string $languageCode
      *
      * @return string
@@ -122,9 +122,9 @@ abstract class FieldType
     /**
      * Validates a field based on the validator configuration in the field definition.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \eZ\Publish\API\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDef The field definition of the field
      * @param \eZ\Publish\SPI\FieldType\Value $value The field value for which an action is performed
      *
      * @return \eZ\Publish\SPI\FieldType\ValidationError[]
@@ -147,7 +147,7 @@ abstract class FieldType
     /**
      * Applies the default values to the given $validatorConfiguration of a FieldDefinitionCreateStruct.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @param mixed $validatorConfiguration
      */
@@ -168,7 +168,7 @@ abstract class FieldType
     /**
      * Applies the default values to the fieldSettings of a FieldDefinitionCreateStruct.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @param mixed $fieldSettings
      */
@@ -234,8 +234,8 @@ abstract class FieldType
      * Note that this method must also cope with the empty value for the field
      * type as e.g. returned by {@link getEmptyValue()}.
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the parameter is not of the supported value sub type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the value does not match the expected structure
      *
      * @param mixed $inputValue
      *
@@ -278,7 +278,7 @@ abstract class FieldType
      *
      * @param mixed $fieldSettings
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     abstract public function fieldSettingsToHash($fieldSettings);
 
@@ -288,7 +288,7 @@ abstract class FieldType
      * This is the reverse operation of {@link fieldSettingsToHash()}.
      * See the class description for more details on a hash format.
      *
-     * @param array|hash|scalar|null $fieldSettingsHash
+     * @param array|scalar|null $fieldSettingsHash
      *
      * @return mixed
      */
@@ -301,7 +301,7 @@ abstract class FieldType
      *
      * @param mixed $validatorConfiguration
      *
-     * @return array|hash|scalar|null
+     * @return array|scalar|null
      */
     abstract public function validatorConfigurationToHash($validatorConfiguration);
 
@@ -311,7 +311,7 @@ abstract class FieldType
      *
      * See the class description for more details on a hash format.
      *
-     * @param array|hash|scalar|null $validatorConfigurationHash
+     * @param array|scalar|null $validatorConfigurationHash
      *
      * @return mixed
      */
@@ -379,3 +379,5 @@ abstract class FieldType
      */
     abstract public function getRelations(Value $value);
 }
+
+class_alias(FieldType::class, 'eZ\Publish\SPI\FieldType\FieldType');

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher;
+namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
-use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
 class HostElement implements VersatileMatcher
 {
@@ -110,3 +110,5 @@ class HostElement implements VersatileMatcher
         return $this->hostElements = $elements;
     }
 }
+
+class_alias(HostElement::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\HostElement');

@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Filter;
+namespace Ibexa\Contracts\Core\Persistence\Filter;
 
-use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 
 /**
  * @internal for internal use by Repository Filtering.
@@ -21,3 +21,5 @@ interface SortClauseVisitor
      */
     public function visitSortClauses(FilteringQueryBuilder $queryBuilder, array $sortClauses): void;
 }
+
+class_alias(SortClauseVisitor::class, 'eZ\Publish\SPI\Persistence\Filter\SortClauseVisitor');

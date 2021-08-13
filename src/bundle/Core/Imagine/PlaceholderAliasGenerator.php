@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Imagine;
+namespace Ibexa\Bundle\Core\Imagine;
 
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
-use eZ\Publish\Core\FieldType\Image\Value as ImageValue;
-use eZ\Publish\Core\FieldType\Value;
-use eZ\Publish\Core\IO\IOServiceInterface;
-use eZ\Publish\SPI\Variation\VariationHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
+use Ibexa\Core\FieldType\Image\Value as ImageValue;
+use Ibexa\Core\FieldType\Value;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Contracts\Core\Variation\VariationHandler;
 use InvalidArgumentException;
 use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
@@ -116,3 +116,5 @@ class PlaceholderAliasGenerator implements VariationHandler
         return true;
     }
 }
+
+class_alias(PlaceholderAliasGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderAliasGenerator');

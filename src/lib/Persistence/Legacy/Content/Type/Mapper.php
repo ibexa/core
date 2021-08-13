@@ -4,18 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator;
-use eZ\Publish\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\Type;
-use eZ\Publish\SPI\Persistence\Content\Type\CreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\UpdateStruct;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\Type\Group;
-use eZ\Publish\SPI\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
+use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
+use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCreateStruct;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 
 /**
  * Mapper for Content Type Handler.
@@ -518,3 +518,5 @@ class Mapper
         return $mlFieldDefinitionData;
     }
 }
+
+class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Mapper');

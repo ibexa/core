@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\DependencyInjection;
+namespace Ibexa\Bundle\Core\DependencyInjection;
 
 /**
  * "Enum" for the Symfony Service tag names provided by the Extension.
@@ -25,3 +25,5 @@ class ServiceTags
      */
     public const FILTERING_SORT_CLAUSE_QUERY_BUILDER = 'ezplatform.filter.sort_clause.query_builder';
 }
+
+class_alias(ServiceTags::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\ServiceTags');

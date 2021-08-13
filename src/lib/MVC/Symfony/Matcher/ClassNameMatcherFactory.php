@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Matcher;
+namespace Ibexa\Core\MVC\Symfony\Matcher;
 
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\MVC\RepositoryAwareInterface;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Core\MVC\RepositoryAwareInterface;
+use Ibexa\Core\MVC\Symfony\View\View;
 use SplObjectStorage;
 use InvalidArgumentException;
 
@@ -20,7 +20,7 @@ use InvalidArgumentException;
  */
 class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
 {
-    /** @var \eZ\Publish\API\Repository\Repository */
+    /** @var \Ibexa\Contracts\Core\Repository\Repository */
     protected $repository;
 
     /**
@@ -145,3 +145,5 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
         $this->matchConfig = $matchConfig;
     }
 }
+
+class_alias(ClassNameMatcherFactory::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory');

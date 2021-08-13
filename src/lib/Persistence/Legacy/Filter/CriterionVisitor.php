@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Filter;
+namespace Ibexa\Core\Persistence\Legacy\Filter;
 
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\SPI\Persistence\Filter\CriterionVisitor as FilteringCriterionVisitor;
-use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor as FilteringCriterionVisitor;
+use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use function sprintf;
 
 /**
@@ -33,7 +33,7 @@ final class CriterionVisitor implements FilteringCriterionVisitor
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException if there's no builder for a criterion
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if there's no builder for a criterion
      */
     public function visitCriteria(
         FilteringQueryBuilder $queryBuilder,
@@ -56,3 +56,5 @@ final class CriterionVisitor implements FilteringCriterionVisitor
         );
     }
 }
+
+class_alias(CriterionVisitor::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionVisitor');

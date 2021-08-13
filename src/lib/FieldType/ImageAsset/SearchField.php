@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\FieldType\ImageAsset;
+namespace Ibexa\Core\FieldType\ImageAsset;
 
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\FieldType\Indexable;
-use eZ\Publish\SPI\Search;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\FieldType\Indexable;
+use Ibexa\Contracts\Core\Search;
 
 /**
  * Indexable definition for Image Asset field type.
@@ -77,3 +77,5 @@ class SearchField implements Indexable
         return $this->getDefaultMatchField();
     }
 }
+
+class_alias(SearchField::class, 'eZ\Publish\Core\FieldType\ImageAsset\SearchField');

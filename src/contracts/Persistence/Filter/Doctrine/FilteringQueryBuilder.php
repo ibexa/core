@@ -6,17 +6,17 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Filter\Doctrine;
+namespace Ibexa\Contracts\Core\Persistence\Filter\Doctrine;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\Core\Base\Exceptions\DatabaseException;
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use function sprintf;
 
 /**
@@ -243,3 +243,5 @@ final class FilteringQueryBuilder extends QueryBuilder
         return $this;
     }
 }
+
+class_alias(FilteringQueryBuilder::class, 'eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder');

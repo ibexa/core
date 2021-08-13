@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\UserPreference;
+namespace Ibexa\Contracts\Core\Persistence\UserPreference;
 
 interface Handler
 {
@@ -25,7 +25,7 @@ interface Handler
      * @param int $userId
      * @param string $name
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException If no value is found for given preference name.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If no value is found for given preference name.
      *
      * @return \eZ\Publish\SPI\Persistence\UserPreference\UserPreference
      */
@@ -47,3 +47,5 @@ interface Handler
      */
     public function countUserPreferences(int $userId): int;
 }
+
+class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\UserPreference\Handler');

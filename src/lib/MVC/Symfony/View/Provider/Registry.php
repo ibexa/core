@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\View\Provider;
+namespace Ibexa\Core\MVC\Symfony\View\Provider;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\MVC\Symfony\View\View;
 
 class Registry
 {
@@ -45,3 +45,5 @@ class Registry
         $this->viewProviders = $viewProviders;
     }
 }
+
+class_alias(Registry::class, 'eZ\Publish\Core\MVC\Symfony\View\Provider\Registry');

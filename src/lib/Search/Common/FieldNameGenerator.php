@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Common;
+namespace Ibexa\Core\Search\Common;
 
-use eZ\Publish\SPI\Search\FieldType;
+use Ibexa\Contracts\Core\Search\FieldType;
 
 /**
  * Generator for search backend field names.
@@ -89,3 +89,5 @@ class FieldNameGenerator
         return $name . '_' . $typeName;
     }
 }
+
+class_alias(FieldNameGenerator::class, 'eZ\Publish\Core\Search\Common\FieldNameGenerator');

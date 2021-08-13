@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Cache;
+namespace Ibexa\Core\Persistence\Cache;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException as APINotFoundException;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreferenceSetStruct;
-use eZ\Publish\SPI\Persistence\UserPreference\Handler;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreference;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Persistence\UserPreference\Handler;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 
 /**
  * SPI cache for UserPreference Handler.
@@ -102,3 +102,5 @@ class UserPreferenceHandler extends AbstractInMemoryPersistenceHandler implement
         return $this->persistenceHandler->userPreferenceHandler()->loadUserPreferences($userId, $offset, $limit);
     }
 }
+
+class_alias(UserPreferenceHandler::class, 'eZ\Publish\Core\Persistence\Cache\UserPreferenceHandler');

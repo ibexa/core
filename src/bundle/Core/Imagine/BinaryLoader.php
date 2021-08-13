@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Imagine;
+namespace Ibexa\Bundle\Core\Imagine;
 
 use Exception;
-use eZ\Publish\Core\IO\Exception\InvalidBinaryFileIdException;
-use eZ\Publish\Core\IO\IOServiceInterface;
-use eZ\Publish\Core\IO\Values\MissingBinaryFile;
+use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Binary\Loader\LoaderInterface;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Model\Binary;
@@ -65,3 +65,5 @@ class BinaryLoader implements LoaderInterface
         }
     }
 }
+
+class_alias(BinaryLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\BinaryLoader');

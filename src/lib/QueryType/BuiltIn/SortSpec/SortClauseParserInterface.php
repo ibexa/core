@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\QueryType\BuiltIn\SortSpec;
+namespace Ibexa\Core\QueryType\BuiltIn\SortSpec;
 
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
 interface SortClauseParserInterface
 {
@@ -19,3 +19,5 @@ interface SortClauseParserInterface
 
     public function supports(string $name): bool;
 }
+
+class_alias(SortClauseParserInterface::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface');

@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\EmailAddress;
+namespace Ibexa\Core\FieldType\EmailAddress;
 
-use eZ\Publish\Core\FieldType\Value as BaseValue;
+use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
  * Value for EMailAddress field type.
@@ -38,3 +38,5 @@ class Value extends BaseValue
         return (string)$this->email;
     }
 }
+
+class_alias(Value::class, 'eZ\Publish\Core\FieldType\EmailAddress\Value');

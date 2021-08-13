@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProvider;
+namespace Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider;
 
-use eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverterInterface;
-use eZ\Publish\Core\MVC\Symfony\RequestStackAware;
+use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use Ibexa\Core\MVC\Symfony\RequestStackAware;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -51,3 +51,5 @@ class LocaleParameterProvider implements ParameterProviderInterface
         return $parameters;
     }
 }
+
+class_alias(LocaleParameterProvider::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider');

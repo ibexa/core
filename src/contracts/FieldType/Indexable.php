@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\FieldType;
+namespace Ibexa\Contracts\Core\FieldType;
 
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 
 /**
  * The field type interface which all field types have to implement to be
@@ -54,3 +54,5 @@ interface Indexable
      */
     public function getDefaultSortField();
 }
+
+class_alias(Indexable::class, 'eZ\Publish\SPI\FieldType\Indexable');

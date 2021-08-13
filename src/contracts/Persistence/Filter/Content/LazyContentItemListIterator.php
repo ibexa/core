@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Persistence\Filter\Content;
+namespace Ibexa\Contracts\Core\Persistence\Filter\Content;
 
-use eZ\Publish\SPI\Persistence\Filter\LazyListIterator;
+use Ibexa\Contracts\Core\Persistence\Filter\LazyListIterator;
 
 /**
  * SPI Persistence Content Item list iterator.
@@ -29,3 +29,5 @@ class LazyContentItemListIterator extends LazyListIterator
         yield from parent::getIterator();
     }
 }
+
+class_alias(LazyContentItemListIterator::class, 'eZ\Publish\SPI\Persistence\Filter\Content\LazyContentItemListIterator');

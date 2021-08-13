@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Routing\Generator;
+namespace Ibexa\Core\MVC\Symfony\Routing\Generator;
 
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Routing\Generator;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\Generator;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -63,7 +63,7 @@ class UrlAliasGenerator extends Generator
      * Generates the URL from $urlResource and $parameters.
      * Entries in $parameters will be added in the query string.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param array $parameters
      *
      * @return string
@@ -171,7 +171,7 @@ class UrlAliasGenerator extends Generator
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\Content\Location $location
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
      * @param string|null $siteAccess
      *
      * @return string
@@ -257,3 +257,5 @@ class UrlAliasGenerator extends Generator
         return strtr($url, $this->unsafeCharMap);
     }
 }
+
+class_alias(UrlAliasGenerator::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator');

@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\SharedGateway\DatabasePlatform;
+namespace Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
-use eZ\Publish\Core\Base\Exceptions\DatabaseException;
-use eZ\Publish\Core\Persistence\Legacy\SharedGateway\Gateway;
+use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway;
 
 final class SqliteGateway implements Gateway
 {
@@ -70,3 +70,5 @@ final class SqliteGateway implements Gateway
         return $this->lastInsertedIds[$sequenceName];
     }
 }
+
+class_alias(SqliteGateway::class, 'eZ\Publish\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\SqliteGateway');

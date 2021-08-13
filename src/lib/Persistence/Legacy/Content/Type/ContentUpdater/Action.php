@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater;
+namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 
 /**
  * Updater action base class.
@@ -37,3 +37,5 @@ abstract class Action
      */
     abstract public function apply($contentId);
 }
+
+class_alias(Action::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action');

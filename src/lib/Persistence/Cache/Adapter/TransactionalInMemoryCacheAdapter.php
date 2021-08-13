@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Cache\Adapter;
+namespace Ibexa\Core\Persistence\Cache\Adapter;
 
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Psr\Cache\CacheItemInterface;
@@ -306,3 +306,5 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         }
     }
 }
+
+class_alias(TransactionalInMemoryCacheAdapter::class, 'eZ\Publish\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter');
