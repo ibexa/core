@@ -150,7 +150,7 @@ class BinaryFileIntegrationTest extends FileBaseIntegrationTest
                     'fileSize' => filesize($path),
                     'mimeType' => 'image/jpeg',
                     'downloadCount' => 0,
-                    'uri' => __DIR__ . '/_fixtures/image.jpg',
+                    'uri' => __DIR__ . '/../../Repository/FieldType/_fixtures/image.png',
                 ],
                 'sortKey' => '',
             ]
@@ -201,7 +201,7 @@ class BinaryFileIntegrationTest extends FileBaseIntegrationTest
                     // on purpuse wrong, as it should be ignored by storage
                     'mimeType' => 'foo/bar',
                     'downloadCount' => 23,
-                    'uri' => __DIR__ . '/_fixtures/image.jpg',
+                    'uri' => __DIR__ . '/../../Repository/FieldType/_fixtures/image.png',
                 ],
                 'sortKey' => '',
             ]
