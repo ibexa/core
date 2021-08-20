@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Core\Persistence\Legacy;
 
+use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\ServiceContainer;
 use Ibexa\Core\Persistence\Legacy\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
@@ -22,6 +23,7 @@ use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SPISectionHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as SPIUrlAliasHandler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler as SPITransactionHandler;
+use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
 
 /**
  * Test case for Repository Handler.
@@ -291,13 +293,11 @@ class HandlerTest extends TestCase
     protected function getContainer()
     {
         if (!isset(self::$container)) {
-            $config = include __DIR__ . '/../../../../../../config.php';
-            $installDir = $config['install_dir'];
+            $installDir = self::getInstallationDir();
 
-            /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder */
-            $containerBuilder = include $config['container_builder_path'];
+            $containerBuilder = new LegacyTestContainerBuilder();
 
-            /* @var \Symfony\Component\DependencyInjection\Loader\YamlFileLoader $loader */
+            $loader = $containerBuilder->getCoreLoader();
             $loader->load('search_engines/legacy.yml');
             $loader->load('tests/integration_legacy.yml');
 
@@ -313,7 +313,7 @@ class HandlerTest extends TestCase
             self::$container = new ServiceContainer(
                 $containerBuilder,
                 $installDir,
-                $config['cache_dir'],
+                Legacy::getCacheDir(),
                 true,
                 true
             );
