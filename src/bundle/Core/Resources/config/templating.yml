@@ -44,7 +44,7 @@ services:
         arguments:
             - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
             - '@ezpublish.api.repository'
-            - 'Ibexa\Core\Core\MVC\Symfony\Matcher\ContentBased'
+            - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
     ezpublish.content_view.matcher_factory.dynamically_configured:
         class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
@@ -65,7 +65,7 @@ services:
         arguments:
             - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
             - '@ezpublish.api.repository'
-            - 'Ibexa\Core\Core\MVC\Symfony\Matcher\ContentBased'
+            - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
     ezpublish.content_view.default_matcher_factory.dynamically_configured:
         class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
@@ -86,7 +86,7 @@ services:
         arguments:
             - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
             - '@ezpublish.api.repository'
-            - 'Ibexa\Core\Core\MVC\Symfony\Matcher\ContentBased'
+            - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
     ezpublish.location_view.matcher_factory.dynamically_configured:
         class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator

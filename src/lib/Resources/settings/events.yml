@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Core\Repository\EventSubscriber\:
+        resource: '../../Repository/EventSubscriber/*'
