@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
-use eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand;
-use eZ\Bundle\EzPublishCoreBundle\EventListener\BackwardCompatibleCommandListener;
+use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
+use Ibexa\Bundle\Core\EventListener\BackwardCompatibleCommandListener;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;

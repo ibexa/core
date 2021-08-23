@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\MapLocation;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\MapLocation;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 class MapLocationTest extends FieldTypeTest
 {
@@ -20,7 +20,7 @@ class MapLocationTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return FieldType
+     * @return \Ibexa\Core\FieldType\FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -342,3 +342,5 @@ class MapLocationTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(MapLocationTest::class, 'eZ\Publish\Core\FieldType\Tests\MapLocationTest');

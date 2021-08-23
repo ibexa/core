@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Notification\Gateway;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Notification\Gateway;
 
 use Doctrine\DBAL\FetchMode;
-use eZ\Publish\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\SPI\Persistence\Notification\CreateStruct;
-use eZ\Publish\SPI\Persistence\Notification\Notification;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 
 class DoctrineDatabaseTest extends TestCase
 {
@@ -188,3 +188,5 @@ class DoctrineDatabaseTest extends TestCase
         return is_array($data) ? $data : [];
     }
 }
+
+class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\Gateway\DoctrineDatabaseTest');

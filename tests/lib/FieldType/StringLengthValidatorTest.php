@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\API\Repository\Values\Translation\Message;
-use eZ\Publish\Core\FieldType\TextLine\Value as TextLineValue;
-use eZ\Publish\Core\FieldType\Validator\StringLengthValidator;
-use eZ\Publish\Core\FieldType\Validator;
-use eZ\Publish\API\Repository\Values\Translation\Plural;
-use eZ\Publish\SPI\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
+use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
+use Ibexa\Core\FieldType\Validator\StringLengthValidator;
+use Ibexa\Core\FieldType\Validator;
+use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -403,3 +403,5 @@ class StringLengthValidatorTest extends TestCase
         ];
     }
 }
+
+class_alias(StringLengthValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\StringLengthValidatorTest');

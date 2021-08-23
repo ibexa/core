@@ -4,18 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Security\Tests\EventListener;
+namespace Ibexa\Tests\Core\MVC\Symfony\Security\EventListener;
 
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\User\User as APIUser;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute;
-use eZ\Publish\Core\MVC\Symfony\Security\EventListener\SecurityListener;
-use eZ\Publish\Core\MVC\Symfony\Security\InteractiveLoginToken;
-use eZ\Publish\Core\MVC\Symfony\Security\UserInterface;
-use eZ\Publish\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
+use Ibexa\Core\MVC\Symfony\Security\EventListener\SecurityListener;
+use Ibexa\Core\MVC\Symfony\Security\InteractiveLoginToken;
+use Ibexa\Core\MVC\Symfony\Security\UserInterface;
+use Ibexa\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -412,3 +412,5 @@ class SecurityListenerTest extends TestCase
         $this->listener->onKernelRequest($event);
     }
 }
+
+class_alias(SecurityListenerTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\EventListener\SecurityListenerTest');

@@ -4,20 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Helper\Tests;
+namespace Ibexa\Tests\Core\Helper;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\FieldTypeService;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\Content as APIContent;
-use eZ\Publish\Core\FieldType\TextLine\Type as TextLineType;
-use eZ\Publish\Core\FieldType\TextLine\Value;
-use eZ\Publish\Core\Helper\FieldHelper;
-use eZ\Publish\Core\Helper\TranslationHelper;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldType;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\FieldTypeService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Core\FieldType\TextLine\Type as TextLineType;
+use Ibexa\Core\FieldType\TextLine\Value;
+use Ibexa\Core\Helper\FieldHelper;
+use Ibexa\Core\Helper\TranslationHelper;
+use Ibexa\Core\Repository\Values\ContentType\FieldType;
 use PHPUnit\Framework\TestCase;
 
 class FieldHelperTest extends TestCase
@@ -135,3 +135,5 @@ class FieldHelperTest extends TestCase
         $this->assertFalse($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }
 }
+
+class_alias(FieldHelperTest::class, 'eZ\Publish\Core\Helper\Tests\FieldHelperTest');

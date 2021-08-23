@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
 /**
  * Test case for operations in the ContentTypeServiceAuthorization using in memory storage.
@@ -598,3 +598,5 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         /* END: Use Case */
     }
 }
+
+class_alias(ContentTypeServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\ContentTypeServiceAuthorizationTest');

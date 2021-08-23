@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\URL\Query\Criterion;
-use eZ\Publish\API\Repository\Values\URL\Query\SortClause;
-use eZ\Publish\API\Repository\Values\URL\URL;
-use eZ\Publish\API\Repository\Values\URL\URLQuery;
-use eZ\Publish\API\Repository\Values\URL\URLUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\URL\URL;
+use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
+use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
 use DateTime;
-use eZ\Publish\API\Repository\Values\URL\UsageSearchResult;
+use Ibexa\Contracts\Core\Repository\Values\URL\UsageSearchResult;
 
 /**
  * Test case for operations in the UserService using in memory storage.
@@ -940,3 +940,5 @@ class URLServiceTest extends BaseURLServiceTest
         ], $usagesSearchResults);
     }
 }
+
+class_alias(URLServiceTest::class, 'eZ\Publish\API\Repository\Tests\URLServiceTest');

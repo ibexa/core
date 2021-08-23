@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\ISBN\Type as ISBN;
-use eZ\Publish\Core\FieldType\ISBN\Value as ISBNValue;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\ISBN\Type as ISBN;
+use Ibexa\Core\FieldType\ISBN\Value as ISBNValue;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
  * @group fieldType
@@ -26,7 +26,7 @@ class ISBNTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return FieldType
+     * @return \Ibexa\Core\FieldType\FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -334,3 +334,5 @@ class ISBNTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(ISBNTest::class, 'eZ\Publish\Core\FieldType\Tests\ISBNTest');

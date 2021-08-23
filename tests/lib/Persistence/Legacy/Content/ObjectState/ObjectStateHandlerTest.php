@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\ObjectState;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Handler;
-use eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Mapper;
-use eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Gateway;
-use eZ\Publish\SPI\Persistence\Content\ObjectState;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Group;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\InputStruct;
-use eZ\Publish\API\Repository\Tests\BaseTest as APIBaseTest;
+use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper;
+use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest as APIBaseTest;
 
 /**
  * Test case for Object state Handler.
@@ -717,3 +717,5 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         return $this->gatewayMock;
     }
 }
+
+class_alias(ObjectStateHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\ObjectState\ObjectStateHandlerTest');

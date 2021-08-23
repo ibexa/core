@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\Section;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Section;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\SPI\Persistence\Content\Section;
-use eZ\Publish\Core\Persistence\Legacy\Content\Section\Handler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Section\Gateway;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Contracts\Core\Persistence\Content\Section;
+use Ibexa\Core\Persistence\Legacy\Content\Section\Handler;
+use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
 
 /**
  * Test case for Section Handler.
@@ -351,3 +351,5 @@ class SectionHandlerTest extends TestCase
         return $this->gatewayMock;
     }
 }
+
+class_alias(SectionHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Section\SectionHandlerTest');

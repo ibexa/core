@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 /**
  * Base class for content type specific tests.
@@ -164,3 +164,5 @@ abstract class BaseContentTypeServiceTest extends BaseTest
         return $draft;
     }
 }
+
+class_alias(BaseContentTypeServiceTest::class, 'eZ\Publish\API\Repository\Tests\BaseContentTypeServiceTest');

@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Regression;
+namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\Persistence\Legacy\Exception\TypeNotFound as TypeNotFoundException;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Core\Persistence\Legacy\Exception\TypeNotFound as TypeNotFoundException;
 
 /**
  * Regression tests for the issue EZP-21109.
@@ -140,3 +140,5 @@ class EZP21109EzIntegerTest extends BaseTest
         }
     }
 }
+
+class_alias(EZP21109EzIntegerTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP21109EzIntegerTest');

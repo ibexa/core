@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests;
+namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\TestCase;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Router;
-use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilder;
 
 abstract class RouterBaseTest extends TestCase
 {
@@ -86,3 +86,5 @@ abstract class RouterBaseTest extends TestCase
      */
     abstract public function getSiteAccessProviderSettings(): array;
 }
+
+class_alias(RouterBaseTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterBaseTest');

@@ -4,19 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Persistence\FieldType;
 
-use eZ\Publish\API\Repository\Tests\Container\Compiler\SetAllServicesPublicPass;
-use eZ\Publish\Core\Persistence;
-use eZ\Publish\Core\Persistence\TransformationProcessor\DefinitionBased;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy;
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Type;
-use eZ\Publish\SPI\Persistence\Content\UpdateStruct;
-use eZ\Publish\SPI\Tests\Persistence\FixtureImporter;
-use eZ\Publish\SPI\Tests\Persistence\YamlFixture;
+use Ibexa\Core\Persistence;
+use Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
+use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -604,11 +603,11 @@ abstract class BaseIntegrationTest extends TestCase
      * Returns the Handler.
      *
      * @param string $identifier
-     * @param \eZ\Publish\SPI\FieldType\FieldType $fieldType
-     * @param \eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter $fieldValueConverter
-     * @param \eZ\Publish\SPI\FieldType\FieldStorage $externalStorage
+     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
+     * @param \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter $fieldValueConverter
+     * @param \Ibexa\Contracts\Core\FieldType\FieldStorage $externalStorage
      *
-     * @return \eZ\Publish\SPI\Persistence\Handler
+     * @return \Ibexa\Contracts\Core\Persistence\Handler
      */
     protected function getHandler($identifier, $fieldType, $fieldValueConverter, $externalStorage)
     {
@@ -633,3 +632,5 @@ abstract class BaseIntegrationTest extends TestCase
         return self::$container->get('ezpublish.spi.persistence.legacy');
     }
 }
+
+class_alias(BaseIntegrationTest::class, 'eZ\Publish\SPI\Tests\FieldType\BaseIntegrationTest');

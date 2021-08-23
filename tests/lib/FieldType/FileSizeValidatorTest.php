@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\BinaryFile\Value as BinaryFileValue;
-use eZ\Publish\Core\FieldType\Validator\FileSizeValidator;
-use eZ\Publish\Core\IO\Values\BinaryFile;
-use eZ\Publish\Core\FieldType\Validator;
-use eZ\Publish\API\Repository\IOServiceInterface;
-use eZ\Publish\API\Repository\Values\Translation\Message;
-use eZ\Publish\SPI\FieldType\ValidationError;
-use eZ\Publish\API\Repository\Values\Translation\Plural;
+use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
+use Ibexa\Core\FieldType\Validator\FileSizeValidator;
+use Ibexa\Core\IO\Values\BinaryFile;
+use Ibexa\Core\FieldType\Validator;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\Values\Translation\Plural;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -306,3 +306,5 @@ class FileSizeValidatorTest extends TestCase
         ];
     }
 }
+
+class_alias(FileSizeValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\FileSizeValidatorTest');

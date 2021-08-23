@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\Keyword\Value as KeywordValue;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query;
+use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
 /**
  * Integration test for use field type.
@@ -632,3 +632,5 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $this->assertEquals(1, $searchResult->totalCount);
     }
 }
+
+class_alias(KeywordIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\KeywordIntegrationTest');

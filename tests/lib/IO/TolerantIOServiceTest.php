@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\IO\Tests;
+namespace Ibexa\Tests\Core\IO;
 
-use eZ\Publish\Core\IO\TolerantIOService;
-use eZ\Publish\Core\IO\Values\MissingBinaryFile;
+use Ibexa\Core\IO\TolerantIOService;
+use Ibexa\Core\IO\Values\MissingBinaryFile;
 
 /**
  * Test case for the TolerantIOService.
@@ -78,3 +78,5 @@ class TolerantIOServiceTest extends IOServiceTest
         );
     }
 }
+
+class_alias(TolerantIOServiceTest::class, 'eZ\Publish\Core\IO\Tests\TolerantIOServiceTest');

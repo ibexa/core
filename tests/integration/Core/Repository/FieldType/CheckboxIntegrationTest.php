@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\Checkbox\Value as CheckboxValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 
 /**
  * Integration test for use field type.
@@ -347,3 +347,5 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         return parent::getSearchTargetValueTwo();
     }
 }
+
+class_alias(CheckboxIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\CheckboxIntegrationTest');

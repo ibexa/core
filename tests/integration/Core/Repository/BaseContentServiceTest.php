@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 /**
  * Base class for content specific tests.
@@ -431,3 +431,5 @@ abstract class BaseContentServiceTest extends BaseTest
         return $contentDraft;
     }
 }
+
+class_alias(BaseContentServiceTest::class, 'eZ\Publish\API\Repository\Tests\BaseContentServiceTest');

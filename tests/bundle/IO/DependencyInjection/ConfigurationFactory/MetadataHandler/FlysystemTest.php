@@ -4,7 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactory\MetadataHandler;
+namespace Ibexa\Tests\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler;
+
+use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\MetadataHandler\Flysystem;
 
 class FlysystemTest
 {
@@ -26,3 +28,5 @@ class FlysystemTest
         return 'ezpublish.core.io.metadata_handler.flysystem';
     }
 }
+
+class_alias(FlysystemTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactory\MetadataHandler\FlysystemTest');

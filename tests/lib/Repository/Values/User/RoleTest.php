@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Tests\Values\User;
+namespace Ibexa\Tests\Core\Repository\Values\User;
 
-use eZ\Publish\API\Repository\Tests\Values\ValueObjectTestTrait;
-use eZ\Publish\Core\Repository\Values\User\Role;
+use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use Ibexa\Core\Repository\Values\User\Role;
 use PHPUnit\Framework\TestCase;
 
 class RoleTest extends TestCase
@@ -88,3 +88,5 @@ class RoleTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
+
+class_alias(RoleTest::class, 'eZ\Publish\Core\Repository\Tests\Values\User\RoleTest');

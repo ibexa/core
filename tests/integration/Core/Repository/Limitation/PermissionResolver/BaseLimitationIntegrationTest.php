@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver;
+namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\ValueObject;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * Base class for all Limitation integration tests.
@@ -100,3 +100,5 @@ abstract class BaseLimitationIntegrationTest extends BaseTest
         );
     }
 }
+
+class_alias(BaseLimitationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\BaseLimitationIntegrationTest');

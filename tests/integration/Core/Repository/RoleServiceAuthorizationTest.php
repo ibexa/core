@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 
 /**
  * Test case for operations in the RoleService using in memory storage.
@@ -670,3 +670,5 @@ class RoleServiceAuthorizationTest extends BaseTest
         return $role;
     }
 }
+
+class_alias(RoleServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\RoleServiceAuthorizationTest');

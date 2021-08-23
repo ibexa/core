@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortClauseParser;
+namespace Ibexa\Tests\Core\QueryType\BuiltIn\SortSpec\SortClauseParser;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause\MapLocationDistance;
-use eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\MapDistanceSortClauseParser;
-use eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortSpecParserInterface;
-use eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Token;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\MapLocationDistance;
+use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\MapDistanceSortClauseParser;
+use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecParserInterface;
+use Ibexa\Core\QueryType\BuiltIn\SortSpec\Token;
 use PHPUnit\Framework\TestCase;
 
 final class MapDistanceSortClauseParserTest extends TestCase
@@ -69,3 +69,5 @@ final class MapDistanceSortClauseParserTest extends TestCase
         $this->assertTrue($this->mapDistanceSortClauseParser->supports('map_distance'));
     }
 }
+
+class_alias(MapDistanceSortClauseParserTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortClauseParser\MapDistanceSortClauseParserTest');

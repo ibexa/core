@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\IO\Tests;
+namespace Ibexa\Tests\Core\IO;
 
 use PHPUnit\Framework\TestCase;
-use eZ\Publish\Core\IO\UrlRedecorator;
-use eZ\Publish\Core\IO\UrlDecorator;
+use Ibexa\Core\IO\UrlRedecorator;
+use Ibexa\Core\IO\UrlDecorator;
 
 class UrlRedecoratorTest extends TestCase
 {
@@ -69,3 +69,5 @@ class UrlRedecoratorTest extends TestCase
         );
     }
 }
+
+class_alias(UrlRedecoratorTest::class, 'eZ\Publish\Core\IO\Tests\UrlRedecoratorTest');

@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\User\Role\Gateway;
+namespace Ibexa\Tests\Core\Persistence\Legacy\User\Role\Gateway;
 
 use Doctrine\DBAL\ParameterType;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase;
-use eZ\Publish\SPI\Persistence\User\Role;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase;
+use Ibexa\Contracts\Core\Persistence\User\Role;
 
 /**
  * Test case for eZ\Publish\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase.
@@ -190,3 +190,5 @@ class DoctrineDatabaseTest extends TestCase
         return $this->databaseGateway;
     }
 }
+
+class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\User\Role\Gateway\DoctrineDatabaseTest');

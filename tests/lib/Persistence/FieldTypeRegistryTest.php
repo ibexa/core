@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Tests;
+namespace Ibexa\Tests\Core\Persistence;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\FieldTypeRegistry;
-use eZ\Publish\SPI\FieldType\FieldType as SPIFieldType;
-use eZ\Publish\SPI\Persistence\FieldType as SPIPersistenceFieldType;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\FieldTypeRegistry;
+use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
+use Ibexa\Contracts\Core\Persistence\FieldType as SPIPersistenceFieldType;
 
 /**
  * Test case for FieldTypeRegistry.
@@ -107,3 +107,5 @@ class FieldTypeRegistryTest extends TestCase
         return $this->createMock(SPIFieldType::class);
     }
 }
+
+class_alias(FieldTypeRegistryTest::class, 'eZ\Publish\Core\Persistence\Tests\FieldTypeRegistryTest');

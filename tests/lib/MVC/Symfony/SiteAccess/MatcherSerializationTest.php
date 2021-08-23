@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests;
+namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
-use eZ\Publish\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use PHPUnit\Framework\TestCase;
 
 class MatcherSerializationTest extends TestCase
@@ -171,3 +171,5 @@ class MatcherSerializationTest extends TestCase
         return [$matcherBeforeSerialization, $matcherAfterDeserialization];
     }
 }
+
+class_alias(MatcherSerializationTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\MatcherSerializationTest');

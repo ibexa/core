@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Cache\Tests\Adapter;
+namespace Ibexa\Tests\Core\Persistence\Cache\Adapter;
 
-use eZ\Publish\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
-use eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCache;
+use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
+use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
 use PHPUnit\Framework\TestCase;
@@ -236,3 +236,5 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         }
     }
 }
+
+class_alias(InMemoryClearingProxyAdapterTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\Adapter\InMemoryClearingProxyAdapterTest');

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\View\Tests;
+namespace Ibexa\Tests\Core\MVC\Symfony\View;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\MVC\Symfony\View\View;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -150,3 +150,5 @@ abstract class AbstractViewTest extends TestCase
         ];
     }
 }
+
+class_alias(AbstractViewTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\AbstractViewTest');

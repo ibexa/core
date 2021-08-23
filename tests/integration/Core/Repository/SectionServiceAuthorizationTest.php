@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\API\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 /**
  * Test case for operations in the SectionService using in memory storage.
@@ -304,3 +304,5 @@ class SectionServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
+
+class_alias(SectionServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\SectionServiceAuthorizationTest');

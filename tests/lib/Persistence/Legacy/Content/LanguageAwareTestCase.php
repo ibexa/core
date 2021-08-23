@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
-use eZ\Publish\Core\Persistence;
-use eZ\Publish\Core\Search\Legacy\Content\Mapper\FullTextMapper;
-use eZ\Publish\Core\Search\Common\FieldNameGenerator;
-use eZ\Publish\Core\Search\Common\FieldRegistry;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Ibexa\Core\Persistence;
+use Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper;
+use Ibexa\Core\Search\Common\FieldNameGenerator;
+use Ibexa\Core\Search\Common\FieldRegistry;
 
 /**
  * Test case for Language aware classes.
@@ -23,7 +23,7 @@ abstract class LanguageAwareTestCase extends TestCase
     /**
      * Language handler.
      *
-     * @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\CachingLanguageHandler
+     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
     protected $languageHandler;
 
@@ -37,7 +37,7 @@ abstract class LanguageAwareTestCase extends TestCase
     /**
      * Returns a language handler mock.
      *
-     * @return \eZ\Publish\Core\Persistence\Legacy\Content\Language\Handler
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
     protected function getLanguageHandler()
     {
@@ -153,3 +153,5 @@ abstract class LanguageAwareTestCase extends TestCase
         ];
     }
 }
+
+class_alias(LanguageAwareTestCase::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase');

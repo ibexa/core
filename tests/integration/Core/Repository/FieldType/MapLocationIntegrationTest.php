@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\MapLocation\Value as MapLocationValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\MapLocation\Value as MapLocationValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 
 /**
  * Integration test for use field type.
@@ -368,3 +368,5 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
         ];
     }
 }
+
+class_alias(MapLocationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\MapLocationIntegrationTest');

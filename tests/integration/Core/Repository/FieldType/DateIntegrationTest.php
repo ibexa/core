@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\Date\Value as DateValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\FieldType\Date\Type;
+use Ibexa\Core\FieldType\Date\Value as DateValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Date\Type;
 use DateTime;
 
 /**
@@ -404,3 +404,5 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         return new DateTime('1970-01-02');
     }
 }
+
+class_alias(DateIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\DateIntegrationTest');

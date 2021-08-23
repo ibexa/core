@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\Entity;
+namespace Ibexa\Tests\Bundle\Core\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
-use eZ\Bundle\EzPublishCoreBundle\ApiLoader\RepositoryConfigurationProvider;
-use eZ\Bundle\EzPublishCoreBundle\Entity\EntityManagerFactory;
+use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -156,3 +156,5 @@ class EntityManagerFactoryTest extends TestCase
         return $this->createMock(EntityManagerInterface::class);
     }
 }
+
+class_alias(EntityManagerFactoryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Entity\EntityManagerFactoryTest');

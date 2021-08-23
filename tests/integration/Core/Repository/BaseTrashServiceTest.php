@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\ParameterType;
 
@@ -58,3 +58,5 @@ abstract class BaseTrashServiceTest extends BaseTest
         $query->execute();
     }
 }
+
+class_alias(BaseTrashServiceTest::class, 'eZ\Publish\API\Repository\Tests\BaseTrashServiceTest');

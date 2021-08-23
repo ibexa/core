@@ -4,20 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Tests\Service\Mock;
+namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\Repository\FieldTypeService;
-use eZ\Publish\Core\Repository\Helper\RelationProcessor;
-use eZ\Publish\Core\Repository\Tests\Service\Mock\Base as BaseServiceMockTest;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\FieldType\Value;
-use eZ\Publish\API\Repository\Values\Content\Relation;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\SPI\FieldType\FieldType;
-use eZ\Publish\SPI\Persistence\Content\Relation\CreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Core\Repository\FieldTypeService;
+use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\Value;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\FieldType\FieldType;
+use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -694,3 +694,5 @@ class RelationProcessorTest extends BaseServiceMockTest
         return $this->createMock(FieldTypeService::class);
     }
 }
+
+class_alias(RelationProcessorTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\RelationProcessorTest');

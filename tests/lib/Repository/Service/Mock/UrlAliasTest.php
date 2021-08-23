@@ -6,20 +6,20 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Tests\Service\Mock;
+namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException as ApiNotFoundException;
-use eZ\Publish\API\Repository\LanguageResolver;
-use eZ\Publish\Core\Repository\Helper\NameSchemaService;
-use eZ\Publish\Core\Repository\LocationService;
-use eZ\Publish\Core\Repository\URLAliasService;
-use eZ\Publish\Core\Repository\Tests\Service\Mock\Base as BaseServiceMockTest;
-use eZ\Publish\SPI\Persistence\Content\UrlAlias as SPIUrlAlias;
-use eZ\Publish\API\Repository\Values\Content\URLAlias;
-use eZ\Publish\Core\Repository\Values\Content\Location;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Base\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as ApiNotFoundException;
+use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Core\Repository\Helper\NameSchemaService;
+use Ibexa\Core\Repository\LocationService;
+use Ibexa\Core\Repository\URLAliasService;
+use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias as SPIUrlAlias;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
+use Ibexa\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Base\Exceptions\ForbiddenException;
 use Exception;
 
 /**
@@ -3411,3 +3411,5 @@ class UrlAliasTest extends BaseServiceMockTest
             ->willReturn($spiUrlAliases);
     }
 }
+
+class_alias(UrlAliasTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UrlAliasTest');

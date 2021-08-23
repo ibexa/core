@@ -6,12 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\URL\Gateway;
+namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Gateway;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
-use eZ\Publish\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
-use eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\MatchAll;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion\MatchAll as MatchAllCriterion;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
+use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler\MatchAll;
 
 /**
  * @covers \eZ\Publish\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase
@@ -69,7 +70,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testFind(): void
     {
-        $criterion = new \eZ\Publish\API\Repository\Values\URL\Query\Criterion\MatchAll();
+        $criterion = new MatchAllCriterion();
         $results = $this->gateway->find($criterion, 0, 10);
 
         self::assertEquals(
@@ -86,7 +87,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testFindWithDisabledCounting(): void
     {
-        $criterion = new \eZ\Publish\API\Repository\Values\URL\Query\Criterion\MatchAll();
+        $criterion = new MatchAllCriterion();
         $results = $this->gateway->find($criterion, 0, 10, [], false);
 
         self::assertEquals(
@@ -111,3 +112,5 @@ class DoctrineDatabaseTest extends TestCase
         return $this->gateway;
     }
 }
+
+class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Gateway\DoctrineDatabaseTest');

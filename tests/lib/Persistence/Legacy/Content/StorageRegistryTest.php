@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageRegistry;
-use eZ\Publish\SPI\FieldType\FieldStorage;
-use eZ\Publish\Core\FieldType\NullStorage;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
+use Ibexa\Contracts\Core\FieldType\FieldStorage;
+use Ibexa\Core\FieldType\NullStorage;
 
 /**
  * Test case for StorageRegistry.
@@ -61,10 +61,12 @@ class StorageRegistryTest extends TestCase
     /**
      * Returns a mock for Storage.
      *
-     * @return Storage
+     * @return \Ibexa\Contracts\Core\FieldType\FieldStorage
      */
     protected function getStorageMock()
     {
         return $this->createMock(FieldStorage::class);
     }
 }
+
+class_alias(StorageRegistryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\StorageRegistryTest');

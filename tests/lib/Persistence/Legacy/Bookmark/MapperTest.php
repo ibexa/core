@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Bookmark;
 
-use eZ\Publish\Core\Persistence\Legacy\Bookmark\Mapper;
-use eZ\Publish\SPI\Persistence\Bookmark\Bookmark;
-use eZ\Publish\SPI\Persistence\Bookmark\CreateStruct;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
+use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use PHPUnit\Framework\TestCase;
 
 class MapperTest extends TestCase
@@ -79,3 +79,5 @@ class MapperTest extends TestCase
         $this->assertEquals($objects, $this->mapper->extractBookmarksFromRows($rows));
     }
 }
+
+class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark\MapperTest');

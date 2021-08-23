@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\URL;
+namespace Ibexa\Tests\Core\Persistence\Legacy\URL;
 
-use eZ\Publish\API\Repository\Values\URL\Query\Criterion;
-use eZ\Publish\API\Repository\Values\URL\Query\SortClause;
-use eZ\Publish\API\Repository\Values\URL\URLQuery;
-use eZ\Publish\Core\Persistence\Legacy\URL\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\URL\Handler;
-use eZ\Publish\Core\Persistence\Legacy\URL\Mapper;
-use eZ\Publish\SPI\Persistence\URL\URL;
-use eZ\Publish\SPI\Persistence\URL\URLUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
+use Ibexa\Core\Persistence\Legacy\URL\Gateway;
+use Ibexa\Core\Persistence\Legacy\URL\Handler;
+use Ibexa\Core\Persistence\Legacy\URL\Mapper;
+use Ibexa\Contracts\Core\Persistence\URL\URL;
+use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
@@ -199,3 +199,5 @@ class HandlerTest extends TestCase
         return $url;
     }
 }
+
+class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\HandlerTest');

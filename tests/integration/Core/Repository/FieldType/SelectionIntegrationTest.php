@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\Selection\Value as SelectionValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Selection\Value as SelectionValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 
 /**
  * Integration test for use field type.
@@ -429,3 +429,5 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 }
+
+class_alias(SelectionIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\SelectionIntegrationTest');

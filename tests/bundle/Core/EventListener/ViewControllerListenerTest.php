@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\EventListener;
+namespace Ibexa\Tests\Bundle\Core\EventListener;
 
-use eZ\Bundle\EzPublishCoreBundle\EventListener\ViewControllerListener;
-use eZ\Publish\Core\MVC\Symfony\View\Builder\ViewBuilder;
-use eZ\Publish\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Bundle\Core\EventListener\ViewControllerListener;
+use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder;
+use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class ViewControllerListenerTest extends TestCase
     /** @var ViewControllerListener */
     private $controllerListener;
 
-    /** @var \Symfony\Component\HttpKernel\Event\FilterControllerEvent|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Symfony\Component\HttpKernel\Event\ControllerEvent */
     private $event;
 
     /** @var Request */
@@ -73,7 +73,7 @@ class ViewControllerListenerTest extends TestCase
     {
         $this->assertSame(
             [KernelEvents::CONTROLLER => ['getController', 10]],
-            $this->controllerListener->getSubscribedEvents()
+            $this->controllerListener::getSubscribedEvents()
         );
     }
 
@@ -152,7 +152,7 @@ class ViewControllerListenerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|ControllerEvent
+     * @return \Symfony\Component\HttpKernel\Event\ControllerEvent
      */
     protected function createEvent()
     {
@@ -164,3 +164,5 @@ class ViewControllerListenerTest extends TestCase
         );
     }
 }
+
+class_alias(ViewControllerListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\ViewControllerListenerTest');

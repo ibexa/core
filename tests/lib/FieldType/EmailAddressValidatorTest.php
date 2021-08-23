@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\EmailAddress\Value as EmailAddressValue;
-use eZ\Publish\Core\FieldType\Validator\EmailAddressValidator;
-use eZ\Publish\Core\FieldType\Validator;
+use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
+use Ibexa\Core\FieldType\Validator\EmailAddressValidator;
+use Ibexa\Core\FieldType\Validator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -106,3 +106,5 @@ class EmailAddressValidatorTest extends TestCase
         }
     }
 }
+
+class_alias(EmailAddressValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\EmailAddressValidatorTest');

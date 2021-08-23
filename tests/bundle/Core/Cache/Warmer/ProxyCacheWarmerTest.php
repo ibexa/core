@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\Cache\Warmer;
+namespace Ibexa\Tests\Bundle\Core\Cache\Warmer;
 
-use eZ\Bundle\EzPublishCoreBundle\Cache\Warmer\ProxyCacheWarmer;
-use eZ\Publish\Core\Repository\ProxyFactory\ProxyGeneratorInterface;
+use Ibexa\Bundle\Core\Cache\Warmer\ProxyCacheWarmer;
+use Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface;
 use PHPUnit\Framework\TestCase;
 
 final class ProxyCacheWarmerTest extends TestCase
@@ -41,3 +41,5 @@ final class ProxyCacheWarmerTest extends TestCase
         $this->proxyCacheWarmer->warmUp('/cache/dir');
     }
 }
+
+class_alias(ProxyCacheWarmerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Cache\Warmer\ProxyCacheWarmerTest');

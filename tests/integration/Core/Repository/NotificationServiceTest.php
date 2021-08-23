@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Values\Notification\CreateStruct;
-use eZ\Publish\API\Repository\Values\Notification\Notification;
-use eZ\Publish\API\Repository\Values\Notification\NotificationList;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
+use Ibexa\Contracts\Core\Repository\Values\Notification\NotificationList;
 
 /**
  * Test case for the NotificationService.
@@ -199,3 +199,5 @@ class NotificationServiceTest extends BaseTest
         /* END: Use Case */
     }
 }
+
+class_alias(NotificationServiceTest::class, 'eZ\Publish\API\Repository\Tests\NotificationServiceTest');

@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
 /**
  * Test case for operations in the LanguageService using in memory storage.
@@ -191,3 +191,5 @@ class LanguageServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
+
+class_alias(LanguageServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\LanguageServiceAuthorizationTest');

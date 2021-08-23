@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\Integer\Value as IntegerValue;
-use eZ\Publish\Core\FieldType\Validator\IntegerValueValidator;
-use eZ\Publish\Core\FieldType\Validator;
-use eZ\Publish\SPI\FieldType\ValidationError;
-use eZ\Publish\API\Repository\Values\Translation\Message;
+use Ibexa\Core\FieldType\Integer\Value as IntegerValue;
+use Ibexa\Core\FieldType\Validator\IntegerValueValidator;
+use Ibexa\Core\FieldType\Validator;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -381,3 +381,5 @@ class IntegerValueValidatorTest extends TestCase
         ];
     }
 }
+
+class_alias(IntegerValueValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\IntegerValueValidatorTest');

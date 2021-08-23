@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\Gateway;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom;
-use eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Factory\RandomSortClauseHandlerFactory;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Factory\RandomSortClauseHandlerFactory;
 use PHPUnit\Framework\TestCase;
 
 class RandomSortClauseHandlerFactoryTest extends TestCase
@@ -98,3 +98,5 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
         ];
     }
 }
+
+class_alias(RandomSortClauseHandlerFactoryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Gateway\RandomSortClauseHandlerFactoryTest');

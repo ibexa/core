@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\Field;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot;
 
 /**
  * Integration test for searching and sorting with Field criterion and Field sort clause.
@@ -779,3 +779,5 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
         }
     }
 }
+
+class_alias(SearchMultivaluedBaseIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\SearchMultivaluedBaseIntegrationTest');

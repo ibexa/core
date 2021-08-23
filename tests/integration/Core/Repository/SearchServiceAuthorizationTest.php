@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
 /**
  * Test case for operations in the SearchService.
@@ -212,3 +212,5 @@ class SearchServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
+
+class_alias(SearchServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\SearchServiceAuthorizationTest');

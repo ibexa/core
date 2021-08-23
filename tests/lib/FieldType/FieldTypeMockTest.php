@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
 use PHPUnit\Framework\TestCase;
-use eZ\Publish\Core\FieldType\FieldType;
+use Ibexa\Core\FieldType\FieldType;
 
 class FieldTypeMockTest extends TestCase
 {
@@ -279,3 +279,5 @@ class FieldTypeMockTest extends TestCase
         ];
     }
 }
+
+class_alias(FieldTypeMockTest::class, 'eZ\Publish\Core\FieldType\Tests\FieldTypeMockTest');

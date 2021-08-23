@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests;
+namespace Ibexa\Tests\Bundle\Core;
 
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -293,3 +293,5 @@ class ConfigResolverTest extends TestCase
         $this->assertSame($newDefaultScope, $configResolver->getDefaultScope());
     }
 }
+
+class_alias(ConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ConfigResolverTest');

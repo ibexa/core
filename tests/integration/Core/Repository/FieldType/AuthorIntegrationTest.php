@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\Author\Author;
-use eZ\Publish\Core\FieldType\Author\AuthorCollection;
-use eZ\Publish\Core\FieldType\Author\Type;
-use eZ\Publish\Core\FieldType\Author\Value as AuthorValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Author\Author;
+use Ibexa\Core\FieldType\Author\AuthorCollection;
+use Ibexa\Core\FieldType\Author\Type;
+use Ibexa\Core\FieldType\Author\Value as AuthorValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 
 /**
  * Integration test for use field type.
@@ -552,3 +552,5 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 }
+
+class_alias(AuthorIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\AuthorIntegrationTest');

@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver;
+namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\User\Limitation\LocationLimitation;
-use eZ\Publish\SPI\Limitation\Target\Version;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
+use Ibexa\Contracts\Core\Limitation\Target\Version;
 
 class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTest
 {
@@ -95,3 +95,5 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTest
         );
     }
 }
+
+class_alias(LocationLimitationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\LocationLimitationIntegrationTest');

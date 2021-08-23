@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark\Gateway;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Bookmark\Gateway;
 
-use eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\SPI\Persistence\Bookmark\Bookmark;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use PDO;
 
 class DoctrineDatabaseTest extends TestCase
@@ -171,3 +171,5 @@ class DoctrineDatabaseTest extends TestCase
         return is_array($data) ? $data : [];
     }
 }
+
+class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark\Gateway\DoctrineDatabaseTest');

@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache\Tests;
+namespace Ibexa\Tests\Core\Persistence\Cache;
 
-use eZ\Publish\API\Repository\Values\Content\Trash\TrashItemDeleteResult;
-use eZ\Publish\Core\Persistence\Cache\ContentHandler;
-use eZ\Publish\Core\Persistence\Cache\LocationHandler;
-use eZ\Publish\SPI\Persistence\Content\Location;
-use eZ\Publish\SPI\Persistence\Content\Location\Trash\Handler as TrashHandler;
-use eZ\Publish\SPI\Persistence\Content\Location\Trashed;
-use eZ\Publish\SPI\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
+use Ibexa\Core\Persistence\Cache\ContentHandler;
+use Ibexa\Core\Persistence\Cache\LocationHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
+use Ibexa\Contracts\Core\Persistence\Content\Relation;
 
 /**
  * Test case for Persistence\Cache\SectionHandler.
@@ -251,3 +251,5 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $handler->emptyTrash();
     }
 }
+
+class_alias(TrashHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\TrashHandlerTest');

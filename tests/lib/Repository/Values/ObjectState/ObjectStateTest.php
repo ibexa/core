@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Tests\Values\ObjectState;
+namespace Ibexa\Tests\Core\Repository\Values\ObjectState;
 
-use eZ\Publish\API\Repository\Tests\Values\ValueObjectTestTrait;
-use eZ\Publish\Core\Repository\Tests\Values\MultiLanguageTestTrait;
-use eZ\Publish\Core\Repository\Values\ObjectState\ObjectState;
+use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use Ibexa\Tests\Core\Repository\Values\MultiLanguageTestTrait;
+use Ibexa\Core\Repository\Values\ObjectState\ObjectState;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -133,3 +133,5 @@ class ObjectStateTest extends TestCase
         $this->fail('Unsetting read-only property succeeded');
     }
 }
+
+class_alias(ObjectStateTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ObjectState\ObjectStateTest');

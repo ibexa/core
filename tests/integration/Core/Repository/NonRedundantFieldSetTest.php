@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 /**
  * Test case for create and update Content operations in the ContentService with regard to
@@ -787,3 +787,5 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
         return $mappedFields;
     }
 }
+
+class_alias(NonRedundantFieldSetTest::class, 'eZ\Publish\API\Repository\Tests\NonRedundantFieldSetTest');

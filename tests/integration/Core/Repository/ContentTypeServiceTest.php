@@ -4,20 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Content\Language;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use eZ\Publish\API\Repository\Values\Translation\Message;
+use Ibexa\Contracts\Core\Repository\Values\Content\Language;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Exception;
-use eZ\Publish\Core\FieldType\TextLine\Value as TextLineValue;
+use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 
 /**
  * Test case for operations in the ContentTypeService using in memory storage.
@@ -863,18 +863,20 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
      * $expectedDefinitionCreates have been correctly created in
      * $actualDefinitions.
      *
-     * @param \eZ\Publish\API\Repository\Values\FieldDefinitionCreateStruct[] $expectedDefinitionCreates
-     * @param \eZ\Publish\API\Repository\Values\FieldDefinition[] $actualDefinitions
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct[] $expectedDefinitionCreates
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] $actualDefinitions
      */
-    protected function assertFieldDefinitionsCorrect(array $expectedDefinitionCreates, array $actualDefinitions)
-    {
-        $this->assertEquals(
-            count($expectedDefinitionCreates),
-            count($actualDefinitions),
+    protected function assertFieldDefinitionsCorrect(
+        array $expectedDefinitionCreates,
+        array $actualDefinitions
+    ): void {
+        $this->assertSameSize(
+            $expectedDefinitionCreates,
+            $actualDefinitions,
             'Count of field definition creates did not match count of field definitions.'
         );
 
-        $sorter = function ($a, $b) {
+        $sorter = static function ($a, $b) {
             return strcmp($a->identifier, $b->identifier);
         };
 
@@ -894,12 +896,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
      *
      * Asserts that the given $actualDefinition is correctly created from the
      * create struct in $expectedCreate.
-     *
-     * @param \eZ\Publish\API\Repository\Values\FieldDefinitionCreateStruct $expectedDefinitionCreate
-     * @param \eZ\Publish\API\Repository\Values\FieldDefinition $actualDefinition
      */
-    protected function assertFieldDefinitionsEqual($expectedCreate, $actualDefinition)
-    {
+    protected function assertFieldDefinitionsEqual(
+        FieldDefinitionCreateStruct $expectedCreate,
+        FieldDefinition $actualDefinition
+    ): void {
         foreach ($expectedCreate as $propertyName => $propertyValue) {
             $this->assertEquals(
                 $expectedCreate->$propertyName,
@@ -4543,3 +4544,5 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $contentTypeDraft = $contentTypeService->loadContentTypeDraft($draft->id);
     }
 }
+
+class_alias(ContentTypeServiceTest::class, 'eZ\Publish\API\Repository\Tests\ContentTypeServiceTest');

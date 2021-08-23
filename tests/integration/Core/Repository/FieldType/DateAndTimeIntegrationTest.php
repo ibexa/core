@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use DateTime;
 
 /**
@@ -398,3 +398,5 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         return parent::getSearchTargetValueTwo();
     }
 }
+
+class_alias(DateAndTimeIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\DateAndTimeIntegrationTest');

@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlWildcard;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 
 /**
  * Test case for UrlWildcard Mapper.
@@ -129,3 +129,5 @@ class UrlWildcardMapperTest extends TestCase
         return new Mapper();
     }
 }
+
+class_alias(UrlWildcardMapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlWildcard\UrlWildcardMapperTest');

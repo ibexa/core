@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\API\Repository\Values\Content\LocationCreateStruct;
-use eZ\Publish\Core\Repository\Values\Content\Relation;
-use eZ\Publish\API\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 /**
  * Base integration test for field types handling content relations.
@@ -166,3 +166,5 @@ trait RelationSearchBaseIntegrationTestTrait
         );
     }
 }
+
+class_alias(RelationSearchBaseIntegrationTestTrait::class, 'eZ\Publish\API\Repository\Tests\FieldType\RelationSearchBaseIntegrationTestTrait');

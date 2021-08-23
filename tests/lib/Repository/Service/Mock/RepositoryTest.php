@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Tests\Service\Mock;
+namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
-use eZ\Publish\Core\Repository\Tests\Service\Mock\Base as BaseServiceMockTest;
+use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 
 /**
  * Mock test case for Repository.
@@ -116,3 +116,5 @@ class RepositoryTest extends BaseServiceMockTest
         $mockedRepository->rollback();
     }
 }
+
+class_alias(RepositoryTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\RepositoryTest');

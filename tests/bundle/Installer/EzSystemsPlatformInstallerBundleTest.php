@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\PlatformInstallerBundleTests;
+namespace Ibexa\Tests\Bundle\Installer;
 
 use EzSystems\DoctrineSchemaBundle\DependencyInjection\DoctrineSchemaExtension;
-use EzSystems\PlatformInstallerBundle\DependencyInjection\Compiler\InstallerTagPass;
-use EzSystems\PlatformInstallerBundle\EzSystemsPlatformInstallerBundle;
+use Ibexa\Bundle\Installer\DependencyInjection\Compiler\InstallerTagPass;
+use Ibexa\Bundle\Installer\EzSystemsPlatformInstallerBundle;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -58,3 +58,5 @@ class EzSystemsPlatformInstallerBundleTest extends TestCase
         $this->bundle->build($container);
     }
 }
+
+class_alias(EzSystemsPlatformInstallerBundleTest::class, 'EzSystems\PlatformInstallerBundleTests\EzSystemsPlatformInstallerBundleTest');

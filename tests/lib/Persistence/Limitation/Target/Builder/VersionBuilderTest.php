@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Tests\Limitation\Target\Builder;
+namespace Ibexa\Tests\Core\Persistence\Limitation\Target\Builder;
 
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\SPI\Limitation\Target\Builder\VersionBuilder;
-use eZ\Publish\SPI\Limitation\Target;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
+use Ibexa\Contracts\Core\Limitation\Target;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -136,3 +136,5 @@ class VersionBuilderTest extends TestCase
         self::assertEquals($expectedTargetVersion, $versionBuilder->build());
     }
 }
+
+class_alias(VersionBuilderTest::class, 'eZ\Publish\SPI\Tests\Limitation\Target\Builder\VersionBuilderTest');

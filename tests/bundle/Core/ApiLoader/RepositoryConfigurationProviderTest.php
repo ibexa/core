@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\ApiLoader;
+namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
-use eZ\Bundle\EzPublishCoreBundle\ApiLoader\RepositoryConfigurationProvider;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Core\MVC\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 
 class RepositoryConfigurationProviderTest extends TestCase
@@ -137,3 +137,5 @@ class RepositoryConfigurationProviderTest extends TestCase
         return $this->createMock(ConfigResolverInterface::class);
     }
 }
+
+class_alias(RepositoryConfigurationProviderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ApiLoader\RepositoryConfigurationProviderTest');

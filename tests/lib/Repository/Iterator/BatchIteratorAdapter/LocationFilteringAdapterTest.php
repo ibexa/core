@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter;
+namespace Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter;
 
-use eZ\Publish\API\Repository\Iterator\BatchIteratorAdapter\LocationFilteringAdapter;
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\LocationList;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\MatchAll;
-use eZ\Publish\API\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\LocationFilteringAdapter;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchAll;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use PHPUnit\Framework\TestCase;
 
 final class LocationFilteringAdapterTest extends TestCase
@@ -59,3 +59,5 @@ final class LocationFilteringAdapterTest extends TestCase
         $this->assertEquals(0, $originalFilter->getLimit());
     }
 }
+
+class_alias(LocationFilteringAdapterTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter\LocationFilteringAdapterTest');

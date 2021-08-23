@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Notification;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Notification;
 
-use eZ\Publish\Core\Persistence\Legacy\Notification\Mapper;
-use eZ\Publish\SPI\Persistence\Notification\Notification;
-use eZ\Publish\SPI\Persistence\Notification\UpdateStruct;
+use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
+use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use PHPUnit\Framework\TestCase;
 
 class MapperTest extends TestCase
@@ -112,3 +112,5 @@ class MapperTest extends TestCase
         ]), $this->mapper->createNotificationFromUpdateStruct($updateStruct));
     }
 }
+
+class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\MapperTest');

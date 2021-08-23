@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig;
+namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Templating\Twig\ResourceProvider;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider;
 use PHPUnit\Framework\TestCase;
 
 class ResourceProviderTest extends TestCase
@@ -183,3 +183,5 @@ class ResourceProviderTest extends TestCase
         return $mock;
     }
 }
+
+class_alias(ResourceProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\ResourceProviderTest');

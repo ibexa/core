@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased;
+namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
-use eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 
 class MultipleValuedTest extends BaseTest
 {
@@ -61,3 +61,5 @@ class MultipleValuedTest extends BaseTest
         return $this->getMockForAbstractClass(MultipleValued::class);
     }
 }
+
+class_alias(MultipleValuedTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\MultipleValuedTest');

@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests;
+namespace Ibexa\Tests\Core\Persistence\Legacy;
 
 use Doctrine\DBAL\Connection;
 use Exception;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\CachingHandler;
-use eZ\Publish\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler;
-use eZ\Publish\Core\Persistence\Legacy\TransactionHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler;
+use Ibexa\Core\Persistence\Legacy\TransactionHandler;
 
 /**
  * Test case for TransactionHandler.
@@ -194,3 +194,5 @@ class TransactionHandlerTest extends \PHPUnit\Framework\TestCase
         return $this->languageHandlerMock;
     }
 }
+
+class_alias(TransactionHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\TransactionHandlerTest');

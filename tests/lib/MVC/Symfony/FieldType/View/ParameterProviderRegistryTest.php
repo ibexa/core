@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\FieldType\Tests\View;
+namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View;
 
-use eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
-use eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry;
+use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
+use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderRegistryTest extends TestCase
@@ -50,3 +50,5 @@ class ParameterProviderRegistryTest extends TestCase
         $this->assertSame($provider, $registry->getParameterProvider('foo'));
     }
 }
+
+class_alias(ParameterProviderRegistryTest::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\Tests\View\ParameterProviderRegistryTest');

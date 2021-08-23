@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 /**
  * Test case for FieldValue Converter Registry.
@@ -58,12 +58,12 @@ class FieldValueConverterRegistryTest extends TestCase
     }
 
     /**
-     * Returns a mock for Storage.
-     *
-     * @return Storage
+     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
      */
     protected function getFieldValueConverterMock()
     {
         return $this->createMock(Converter::class);
     }
 }
+
+class_alias(FieldValueConverterRegistryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValueConverterRegistryTest');

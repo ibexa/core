@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlAlias;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
-use eZ\Publish\Core\Persistence\TransformationProcessor;
-use eZ\Publish\Core\Persistence\TransformationProcessor\PcreCompiler;
-use eZ\Publish\Core\Persistence\TransformationProcessor\PreprocessedBased;
-use eZ\Publish\Core\Persistence\Utf8Converter;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
+use Ibexa\Core\Persistence\TransformationProcessor;
+use Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler;
+use Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased;
+use Ibexa\Core\Persistence\Utf8Converter;
 use PHPUnit\Framework\TestSuite;
 
 /**
@@ -216,10 +216,10 @@ class SlugConverterTest extends TestCase
                 new Utf8Converter()
             ),
             [
-                __DIR__ . '../../../../../Tests/TransformationProcessor/_fixtures/transformations/ascii.tr.result',
-                __DIR__ . '../../../../../Tests/TransformationProcessor/_fixtures/transformations/basic.tr.result',
-                __DIR__ . '../../../../../Tests/TransformationProcessor/_fixtures/transformations/latin.tr.result',
-                __DIR__ . '../../../../../Tests/TransformationProcessor/_fixtures/transformations/search.tr.result',
+                __DIR__ . '/../../../TransformationProcessor/_fixtures/transformations/ascii.tr.result',
+                __DIR__ . '/../../../TransformationProcessor/_fixtures/transformations/basic.tr.result',
+                __DIR__ . '/../../../TransformationProcessor/_fixtures/transformations/latin.tr.result',
+                __DIR__ . '/../../../TransformationProcessor/_fixtures/transformations/search.tr.result',
             ]
         );
         $slugConverter = new SlugConverter($transformationProcessor);
@@ -328,3 +328,5 @@ class SlugConverterTest extends TestCase
         return new TestSuite(__CLASS__);
     }
 }
+
+class_alias(SlugConverterTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlAlias\SlugConverterTest');

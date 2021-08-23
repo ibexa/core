@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\RelationList\Value as RelationListValue;
-use eZ\Publish\Core\FieldType\RelationList\Type as RelationListType;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\Repository\Values\Content\Relation;
-use eZ\Publish\API\Repository\Values\Content\Content;
+use Ibexa\Core\FieldType\RelationList\Value as RelationListValue;
+use Ibexa\Core\FieldType\RelationList\Type as RelationListType;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 /**
  * Integration test for use field type.
@@ -456,3 +456,5 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return [13, 14];
     }
 }
+
+class_alias(RelationListIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\RelationListIntegrationTest');

@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Values\User\Limitation;
+namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
-use eZ\Publish\API\Repository\Values\User\Limitation\NewSectionLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation;
 
 /**
  * Test case for the {@link \eZ\Publish\API\Repository\Values\User\Limitation\NewSectionLimitation}
@@ -129,3 +129,5 @@ class NewSectionLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
+
+class_alias(NewSectionLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\NewSectionLimitationTest');

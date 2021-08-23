@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Tests\SetupFactory\Legacy as LegacySetupFactory;
+use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 
 /**
  * Test case for maximum number of languages supported in the LanguageService.
  *
- * @see eZ\Publish\API\Repository\LanguageService
+ * @see \Ibexa\Contracts\Core\Repository\LanguageService
  * @group integration
  * @group language
  */
@@ -90,3 +90,5 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTest
         $this->languageService->createLanguage($languageCreate);
     }
 }
+
+class_alias(LanguageServiceMaximumSupportedLanguagesTest::class, 'eZ\Publish\API\Repository\Tests\LanguageServiceMaximumSupportedLanguagesTest');

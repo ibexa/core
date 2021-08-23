@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Matcher\Tests;
+namespace Ibexa\Tests\Core\MVC\Symfony\Matcher;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver;
-use eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
-use eZ\Publish\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
+use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
+use Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
 use PHPUnit\Framework\TestCase;
 
 class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
@@ -77,3 +77,5 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
         ];
     }
 }
+
+class_alias(DynamicallyConfiguredMatcherFactoryDecoratorTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\DynamicallyConfiguredMatcherFactoryDecoratorTest');

@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\SPI\Specification\Tests\Content;
+namespace Ibexa\Tests\Core\Specification\Content;
 
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\SPI\Specification\Content\ContentContainerSpecification;
-use eZ\Publish\SPI\Specification\Content\ContentSpecification;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Specification\Content\ContentContainerSpecification;
+use Ibexa\Contracts\Core\Specification\Content\ContentSpecification;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -61,3 +61,5 @@ final class ContentContainerSpecificationTest extends TestCase
         ];
     }
 }
+
+class_alias(ContentContainerSpecificationTest::class, 'eZ\Publish\SPI\Specification\Tests\Content\ContentContainerSpecificationTest');

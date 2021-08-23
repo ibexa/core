@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference\Gateway;
+namespace Ibexa\Tests\Core\Persistence\Legacy\UserPreference\Gateway;
 
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
-use eZ\Publish\Core\Persistence\Legacy\UserPreference\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
+use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway\DoctrineDatabase;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 
 class DoctrineDatabaseTest extends TestCase
 {
@@ -147,3 +147,5 @@ class DoctrineDatabaseTest extends TestCase
         return reset($result);
     }
 }
+
+class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference\Gateway\DoctrineDatabaseTest');

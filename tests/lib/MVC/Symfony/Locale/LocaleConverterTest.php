@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Locale\Tests;
+namespace Ibexa\Tests\Core\MVC\Symfony\Locale;
 
-use eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverter;
+use Ibexa\Core\MVC\Symfony\Locale\LocaleConverter;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -98,3 +98,5 @@ class LocaleConverterTest extends TestCase
         ];
     }
 }
+
+class_alias(LocaleConverterTest::class, 'eZ\Publish\Core\MVC\Symfony\Locale\Tests\LocaleConverterTest');

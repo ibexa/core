@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Regression;
+namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use eZ\Publish\Core\FieldType\RelationList\Value as RelationListValue;
-use eZ\Publish\Core\FieldType\Relation\Value as RelationValue;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Core\FieldType\RelationList\Value as RelationListValue;
+use Ibexa\Core\FieldType\Relation\Value as RelationValue;
 
 class EZP22408DeleteRelatedObjectTest extends BaseTest
 {
@@ -144,7 +144,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
     /**
      * @param string $name
      * @param array $relationListTarget Array of destination content ids
-     * @param id $singleRelationTarget Content id
+     * @param int $singleRelationTarget Content id
      *
      * @return \eZ\Publish\API\Repository\Values\Content\Content
      */
@@ -183,3 +183,5 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         return $this->getRepository()->getLocationService()->newLocationCreateStruct(2);
     }
 }
+
+class_alias(EZP22408DeleteRelatedObjectTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP22408DeleteRelatedObjectTest');

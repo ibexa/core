@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\PHPUnitConstraint;
+namespace Ibexa\Tests\Core\Repository\PHPUnitConstraint;
 
-use eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException;
-use eZ\Publish\API\Repository\Translatable;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Contracts\Core\Repository\Translatable;
 use PHPUnit\Framework\Constraint\Constraint as AbstractPHPUnitConstraint;
 
 /**
@@ -105,3 +105,5 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
         return "contain the messages: '{$messages}'";
     }
 }
+
+class_alias(AllValidationErrorsOccur::class, 'eZ\Publish\API\Repository\Tests\PHPUnitConstraint\AllValidationErrorsOccur');

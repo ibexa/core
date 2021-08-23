@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\UserPreference\UserPreferenceSetStruct;
-use eZ\Publish\API\Repository\Values\UserPreference\UserPreference;
-use eZ\Publish\API\Repository\Values\UserPreference\UserPreferenceList;
+use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference;
+use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceList;
 
 /**
  * Test case for the UserPreferenceService.
@@ -142,3 +142,5 @@ class UserPreferenceServiceTest extends BaseTest
         $this->assertEquals(5, $userPreferenceCount);
     }
 }
+
+class_alias(UserPreferenceServiceTest::class, 'eZ\Publish\API\Repository\Tests\UserPreferenceServiceTest');

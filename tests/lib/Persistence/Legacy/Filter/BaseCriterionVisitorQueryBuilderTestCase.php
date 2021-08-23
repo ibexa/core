@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Filter;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Filter;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
-use eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
-use eZ\Publish\Core\Persistence\Legacy\Filter\CriterionVisitor;
-use eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor;
+use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use PHPUnit\Framework\TestCase;
 
 abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
@@ -103,3 +103,5 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
         ];
     }
 }
+
+class_alias(BaseCriterionVisitorQueryBuilderTestCase::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Filter\BaseCriterionVisitorQueryBuilderTestCase');

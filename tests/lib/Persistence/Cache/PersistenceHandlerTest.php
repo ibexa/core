@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache\Tests;
+namespace Ibexa\Tests\Core\Persistence\Cache;
 
-use eZ\Publish\SPI\Persistence as SPIPersistence;
-use eZ\Publish\Core\Persistence\Cache;
+use Ibexa\Contracts\Core\Persistence as SPIPersistence;
+use Ibexa\Core\Persistence\Cache;
 
 /**
  * Test case for Persistence\Cache\Handler.
@@ -168,3 +168,5 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTest
         $this->assertInstanceOf(Cache\TransactionHandler::class, $handler);
     }
 }
+
+class_alias(PersistenceHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\PersistenceHandlerTest');

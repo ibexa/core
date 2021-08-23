@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\TextBlock\Type as TextBlockType;
-use eZ\Publish\Core\FieldType\TextBlock\Value as TextBlockValue;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\TextBlock\Type as TextBlockType;
+use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
  * @group fieldType
@@ -353,3 +353,5 @@ class TextBlockTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(TextBlockTest::class, 'eZ\Publish\Core\FieldType\Tests\TextBlockTest');

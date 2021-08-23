@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Values\Content;
+namespace Ibexa\Tests\Core\Repository\Values\Content;
 
-use eZ\Publish\API\Repository\Values\Content\Language;
-use eZ\Publish\API\Repository\Tests\Values\ValueObjectTestTrait;
+use Ibexa\Contracts\Core\Repository\Values\Content\Language;
+use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
 use PHPUnit\Framework\TestCase;
 
 class LanguageTest extends TestCase
@@ -92,3 +92,5 @@ class LanguageTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
+
+class_alias(LanguageTest::class, 'eZ\Publish\API\Repository\Tests\Values\Content\LanguageTest');

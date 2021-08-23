@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Tests;
-use eZ\Publish\API\Repository;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
 /**
  * Integration test for legacy storage field types.
@@ -41,7 +41,7 @@ use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
  *
  * @todo Finalize dependencies to other tests (including groups!)
  */
-abstract class BaseIntegrationTest extends Tests\BaseTest
+abstract class BaseIntegrationTest extends BaseTest
 {
     /**
      * Content version archive limit (default).
@@ -1216,3 +1216,5 @@ abstract class BaseIntegrationTest extends Tests\BaseTest
         }
     }
 }
+
+class_alias(BaseIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\BaseIntegrationTest');

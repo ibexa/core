@@ -4,11 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Persistence\FieldType;
 
-use eZ\Publish\Core\Persistence\Legacy;
-use eZ\Publish\Core\FieldType;
-use eZ\Publish\SPI\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Handler;
+use Ibexa\Core\Persistence\Legacy;
+use Ibexa\Core\FieldType;
+use Ibexa\Contracts\Core\Persistence\Content;
 
 /**
  * Integration test for legacy storage field types.
@@ -44,10 +45,8 @@ class CountryIntegrationTest extends BaseIntegrationTest
 
     /**
      * Get handler with required custom field types registered.
-     *
-     * @return Handler
      */
-    public function getCustomHandler()
+    public function getCustomHandler(): Handler
     {
         $fieldType = new FieldType\Country\Type(
             [
@@ -148,3 +147,5 @@ class CountryIntegrationTest extends BaseIntegrationTest
         );
     }
 }
+
+class_alias(CountryIntegrationTest::class, 'eZ\Publish\SPI\Tests\FieldType\CountryIntegrationTest');

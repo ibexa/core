@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\View\Tests;
+namespace Ibexa\Tests\Core\MVC\Symfony\View;
 
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Core\MVC\Symfony\View\View;
 
 /**
  * @group mvc
@@ -87,3 +87,5 @@ class ContentViewTest extends AbstractViewTest
         return $this->valueParams;
     }
 }
+
+class_alias(ContentViewTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\ContentViewTest');

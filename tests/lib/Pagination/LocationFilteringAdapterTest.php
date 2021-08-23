@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Pagination\Tests;
+namespace Ibexa\Tests\Core\Pagination;
 
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\LocationList;
-use eZ\Publish\API\Repository\Values\Filter\Filter;
-use eZ\Publish\Core\Pagination\Pagerfanta\LocationFilteringAdapter;
-use eZ\Publish\Core\Search\Tests\TestCase;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Core\Pagination\Pagerfanta\LocationFilteringAdapter;
+use Ibexa\Tests\Core\Search\TestCase;
 
 final class LocationFilteringAdapterTest extends TestCase
 {
@@ -91,3 +91,5 @@ final class LocationFilteringAdapterTest extends TestCase
         ]);
     }
 }
+
+class_alias(LocationFilteringAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\LocationFilteringAdapterTest');

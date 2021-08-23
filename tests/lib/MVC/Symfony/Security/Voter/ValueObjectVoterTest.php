@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Security\Tests\Voter;
+namespace Ibexa\Tests\Core\MVC\Symfony\Security\Voter;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\MVC\Symfony\Controller\Content\ViewController;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Voter\ValueObjectVoter;
-use eZ\Publish\Core\Repository\Permission\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\MVC\Symfony\Controller\Content\ViewController;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Voter\ValueObjectVoter;
+use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use PHPUnit\Framework\TestCase;
@@ -187,3 +187,5 @@ class ValueObjectVoterTest extends TestCase
         ];
     }
 }
+
+class_alias(ValueObjectVoterTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\Voter\ValueObjectVoterTest');

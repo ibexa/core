@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\Float\Type;
-use eZ\Publish\Core\FieldType\Float\Value as FloatValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Float\Type;
+use Ibexa\Core\FieldType\Float\Value as FloatValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 
 /**
  * Integration test for use field type.
@@ -356,3 +356,5 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
         return false;
     }
 }
+
+class_alias(FloatIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\FloatIntegrationTest');

@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Cache\Tests;
+namespace Ibexa\Tests\Core\Persistence\Cache;
 
-use eZ\Publish\Core\Persistence\Cache\PersistenceLogger;
+use Ibexa\Core\Persistence\Cache\PersistenceLogger;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -110,3 +110,5 @@ class PersistenceLoggerTest extends TestCase
         $this->assertEquals(['uncached' => 1, 'miss' => 0, 'hit' => 0, 'memory' => 0], $calls[1]['stats']);
     }
 }
+
+class_alias(PersistenceLoggerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\PersistenceLoggerTest');

@@ -4,18 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Search\Tests;
+namespace Ibexa\Tests\Core\Search;
 
 use ArrayObject;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion as APICriterion;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause as APISortClause;
-use eZ\Publish\API\Repository\Values\Content\Query\CustomFieldInterface;
-use eZ\Publish\SPI\Search\FieldType as SPIFieldType;
-use eZ\Publish\Core\Search\Common\FieldNameResolver;
-use eZ\Publish\Core\Search\Common\FieldRegistry;
-use eZ\Publish\SPI\FieldType\Indexable;
-use eZ\Publish\SPI\Persistence\Content\Type\Handler as SPIContentTypeHandler;
-use eZ\Publish\Core\Search\Common\FieldNameGenerator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as APICriterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause as APISortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
+use Ibexa\Contracts\Core\Search\FieldType as SPIFieldType;
+use Ibexa\Core\Search\Common\FieldNameResolver;
+use Ibexa\Core\Search\Common\FieldRegistry;
+use Ibexa\Contracts\Core\FieldType\Indexable;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
+use Ibexa\Core\Search\Common\FieldNameGenerator;
 
 /**
  * Test case for FieldNameResolver.
@@ -862,3 +862,5 @@ class FieldNameResolverTest extends TestCase
         return $this->createMock(APISortClause::class);
     }
 }
+
+class_alias(FieldNameResolverTest::class, 'eZ\Publish\Core\Search\Tests\FieldNameResolverTest');

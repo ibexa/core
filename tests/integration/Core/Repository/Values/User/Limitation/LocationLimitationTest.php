@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Values\User\Limitation;
+namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
-use eZ\Publish\API\Repository\Values\User\Limitation\LocationLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 
 /**
  * Test case for the {@link \eZ\Publish\API\Repository\Values\User\Limitation\LocationLimitation}
@@ -96,3 +96,5 @@ class LocationLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
+
+class_alias(LocationLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\LocationLimitationTest');

@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Values\Content;
+namespace Ibexa\Tests\Core\Repository\Values\Content;
 
-use eZ\Publish\API\Repository\Tests\Values\ValueObjectTestTrait;
-use eZ\Publish\API\Repository\Values\Content\Section;
+use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use PHPUnit\Framework\TestCase;
 
 class SectionTest extends TestCase
@@ -90,3 +90,5 @@ class SectionTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
+
+class_alias(SectionTest::class, 'eZ\Publish\API\Repository\Tests\Values\Content\SectionTest');

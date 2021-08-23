@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\Imagine;
+namespace Ibexa\Tests\Bundle\Core\Imagine;
 
-use eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderProvider;
-use eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderProviderRegistry;
+use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
+use Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry;
 use PHPUnit\Framework\TestCase;
 
 class PlaceholderProviderRegistryTest extends TestCase
@@ -87,3 +87,5 @@ class PlaceholderProviderRegistryTest extends TestCase
         return $this->createMock(PlaceholderProvider::class);
     }
 }
+
+class_alias(PlaceholderProviderRegistryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\PlaceholderProviderRegistryTest');

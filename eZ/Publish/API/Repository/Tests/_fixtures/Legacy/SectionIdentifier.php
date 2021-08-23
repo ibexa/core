@@ -1,12 +1,14 @@
 <?php
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state([
     'facets' => [],
-    'searchHits' =>
-        [
+    'searchHits' => [
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 4,
                         'title' => 'Users',
                     ],
@@ -15,8 +17,7 @@ return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state
                 'highlight' => null,
             ]),
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 10,
                         'title' => 'Anonymous User',
                     ],
@@ -25,8 +26,7 @@ return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state
                 'highlight' => null,
             ]),
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 11,
                         'title' => 'Members',
                     ],
@@ -35,8 +35,7 @@ return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state
                 'highlight' => null,
             ]),
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 12,
                         'title' => 'Administrator users',
                     ],
@@ -45,8 +44,7 @@ return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state
                 'highlight' => null,
             ]),
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 13,
                         'title' => 'Editors',
                     ],
@@ -55,8 +53,7 @@ return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state
                 'highlight' => null,
             ]),
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 14,
                         'title' => 'Administrator User',
                     ],
@@ -65,8 +62,7 @@ return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state
                 'highlight' => null,
             ]),
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 42,
                         'title' => 'Anonymous Users',
                     ],
@@ -75,8 +71,7 @@ return eZ\Publish\API\Repository\Values\Content\Search\SearchResult::__set_state
                 'highlight' => null,
             ]),
             eZ\Publish\API\Repository\Values\Content\Search\SearchHit::__set_state([
-                'valueObject' =>
-                    [
+                'valueObject' => [
                         'id' => 59,
                         'title' => 'Partners',
                     ],

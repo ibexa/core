@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Pagination\Tests;
+namespace Ibexa\Tests\Core\Pagination;
 
-use eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection;
-use eZ\Publish\Core\Pagination\Pagerfanta\Pagerfanta;
-use eZ\Publish\Core\Pagination\Pagerfanta\SearchResultAdapter;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
+use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
+use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 use PHPUnit\Framework\TestCase;
 
 final class PagerfantaTest extends TestCase
@@ -71,3 +71,5 @@ final class PagerfantaTest extends TestCase
         );
     }
 }
+
+class_alias(PagerfantaTest::class, 'eZ\Publish\Core\Pagination\Tests\PagerfantaTest');

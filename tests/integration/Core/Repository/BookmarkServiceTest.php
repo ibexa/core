@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Bookmark\BookmarkList;
+use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
 
 /**
  * Test case for the BookmarkService.
@@ -150,3 +150,5 @@ class BookmarkServiceTest extends BaseTest
         }, $bookmarks->items));
     }
 }
+
+class_alias(BookmarkServiceTest::class, 'eZ\Publish\API\Repository\Tests\BookmarkServiceTest');

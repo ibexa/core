@@ -4,16 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\Image\Type as ImageType;
-use eZ\Publish\Core\FieldType\Image\Value as ImageValue;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\SPI\FieldType\BinaryBase\MimeTypeDetector;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\FieldType\Validator\FileExtensionBlackListValidator;
-use eZ\Publish\Core\FieldType\Validator\ImageValidator;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\FieldType\Image\Type as ImageType;
+use Ibexa\Core\FieldType\Image\Value as ImageValue;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\IO\MimeTypeDetector;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
+use Ibexa\Core\FieldType\Validator\ImageValidator;
+use Ibexa\Core\MVC\ConfigResolverInterface;
 
 /**
  * @group fieldType
@@ -37,7 +37,7 @@ class ImageTest extends FieldTypeTest
     }
 
     /**
-     * @return \eZ\Publish\SPI\FieldType\BinaryBase\MimeTypeDetector
+     * @return \Ibexa\Contracts\Core\IO\MimeTypeDetector
      */
     protected function getMimeTypeDetectorMock()
     {
@@ -57,7 +57,7 @@ class ImageTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return FieldType
+     * @return \Ibexa\Core\FieldType\FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -898,3 +898,5 @@ class ImageTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(ImageTest::class, 'eZ\Publish\Core\FieldType\Tests\ImageTest');

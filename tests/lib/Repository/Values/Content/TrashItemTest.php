@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Tests\Values\Content;
+namespace Ibexa\Tests\Core\Repository\Values\Content;
 
-use eZ\Publish\API\Repository\Tests\Values\ValueObjectTestTrait;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\Core\Repository\Values\Content\TrashItem;
+use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Core\Repository\Values\Content\TrashItem;
 use PHPUnit\Framework\TestCase;
 
 class TrashItemTest extends TestCase
@@ -101,3 +101,5 @@ class TrashItemTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
+
+class_alias(TrashItemTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\TrashItemTest');

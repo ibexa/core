@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Controller\Tests;
+namespace Ibexa\Tests\Core\MVC\Symfony\Controller;
 
-use eZ\Publish\Core\MVC\Symfony\Controller\Controller;
+use Ibexa\Core\MVC\Symfony\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -73,3 +73,5 @@ class ControllerTest extends TestCase
         self::assertSame($tplResult, $response->getContent());
     }
 }
+
+class_alias(ControllerTest::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Tests\ControllerTest');

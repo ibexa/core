@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference;
+namespace Ibexa\Tests\Core\Persistence\Legacy\UserPreference;
 
-use eZ\Publish\Core\Persistence\Legacy\UserPreference\Mapper;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreference;
+use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use PHPUnit\Framework\TestCase;
 
 class MapperTest extends TestCase
@@ -60,3 +60,5 @@ class MapperTest extends TestCase
         $this->assertEquals($objects, $this->mapper->extractUserPreferencesFromRows($rows));
     }
 }
+
+class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference\MapperTest');

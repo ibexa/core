@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\Location;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location;
 
-use eZ\Publish\API\Repository\Values\Content\Trash\TrashItemDeleteResult;
-use eZ\Publish\API\Repository\Values\Content\Trash\TrashItemDeleteResultList;
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\Location\Trash\Handler;
-use eZ\Publish\SPI\Persistence\Content\Location\Trash\TrashResult;
-use eZ\Publish\SPI\Persistence\Content\Location\Trashed;
-use eZ\Publish\Core\Persistence\Legacy\Content as CoreContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Trash\Handler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\TrashResult;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
+use Ibexa\Core\Persistence\Legacy\Content as CoreContent;
 
 /**
  * Test case for TrashHandlerTest.
@@ -601,3 +601,5 @@ class TrashHandlerTest extends TestCase
         $this->assertCount(1, $trashResult);
     }
 }
+
+class_alias(TrashHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Location\TrashHandlerTest');

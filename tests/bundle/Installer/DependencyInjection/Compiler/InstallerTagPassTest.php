@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace EzSystems\PlatformInstallerBundleTests\DependencyInjection\Compiler;
+namespace Ibexa\Tests\Bundle\Installer\DependencyInjection\Compiler;
 
-use EzSystems\PlatformInstallerBundle\Command\InstallPlatformCommand;
-use EzSystems\PlatformInstallerBundle\DependencyInjection\Compiler\InstallerTagPass;
+use Ibexa\Bundle\Installer\Command\InstallPlatformCommand;
+use Ibexa\Bundle\Installer\DependencyInjection\Compiler\InstallerTagPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -54,3 +54,5 @@ class InstallerTagPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new InstallerTagPass());
     }
 }
+
+class_alias(InstallerTagPassTest::class, 'EzSystems\PlatformInstallerBundleTests\DependencyInjection\Compiler\InstallerTagPassTest');

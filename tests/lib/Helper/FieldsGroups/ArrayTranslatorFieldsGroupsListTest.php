@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Helper\Tests\FieldsGroups;
+namespace Ibexa\Tests\Core\Helper\FieldsGroups;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -152,3 +152,5 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
             ->getMockForAbstractClass();
     }
 }
+
+class_alias(ArrayTranslatorFieldsGroupsListTest::class, 'eZ\Publish\Core\Helper\Tests\FieldsGroups\ArrayTranslatorFieldsGroupsListTest');

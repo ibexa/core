@@ -4,18 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection;
+namespace Ibexa\Tests\Bundle\Core\DependencyInjection;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\QueryTypePass;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\Common;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\Content;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\EzPublishCoreExtension;
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\ServiceTags;
-use eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder;
-use eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\Filter\CustomSortClauseQueryBuilder;
-use eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
-use eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\StubPolicyProvider;
-use eZ\Publish\SPI\Repository\Values\Filter;
+use Ibexa\Bundle\Core\DependencyInjection\Compiler\QueryTypePass;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Common;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Content;
+use Ibexa\Bundle\Core\DependencyInjection\EzPublishCoreExtension;
+use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
+use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder;
+use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomSortClauseQueryBuilder;
+use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
+use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\StubPolicyProvider;
+use Ibexa\Contracts\Core\Repository\Values\Filter;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass;
@@ -890,3 +890,5 @@ class EzPublishCoreExtensionTest extends AbstractExtensionTestCase
         return $this->extension;
     }
 }
+
+class_alias(EzPublishCoreExtensionTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\EzPublishCoreExtensionTest');

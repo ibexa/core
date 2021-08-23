@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\VariationPurger;
+namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPurger;
 
-use eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\ImageFileRowReader;
-use eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\LegacyStorageImageFileList;
-use eZ\Publish\Core\IO\IOConfigProvider;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader;
+use Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList;
+use Ibexa\Core\IO\IOConfigProvider;
+use Ibexa\Core\MVC\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 
 class LegacyStorageImageFileListTest extends TestCase
@@ -80,3 +80,5 @@ class LegacyStorageImageFileListTest extends TestCase
         $this->rowReaderMock->expects($this->any())->method('getCount')->willReturn(count($fileList));
     }
 }
+
+class_alias(LegacyStorageImageFileListTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\VariationPurger\LegacyStorageImageFileListTest');

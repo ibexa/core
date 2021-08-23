@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests;
+namespace Ibexa\Tests\Bundle\Core;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ChainConfigResolver;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Exception\ParameterNotFoundException;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use PHPUnit\Framework\TestCase;
 
 class ChainConfigResolverTest extends TestCase
@@ -284,3 +284,5 @@ class ChainConfigResolverTest extends TestCase
             ->getMock();
     }
 }
+
+class_alias(ChainConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ChainConfigResolverTest');

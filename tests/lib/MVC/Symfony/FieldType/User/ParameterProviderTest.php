@@ -6,16 +6,16 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\MVC\Symfony\FieldType\Tests\User;
+namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\User;
 
 use DateInterval;
 use DateTimeImmutable;
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\User\PasswordInfo;
-use eZ\Publish\API\Repository\Values\User\User;
-use eZ\Publish\Core\FieldType\User\Value;
-use eZ\Publish\Core\MVC\Symfony\FieldType\User\ParameterProvider;
+use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Core\FieldType\User\Value;
+use Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
@@ -89,3 +89,5 @@ class ParameterProviderTest extends TestCase
         return $field;
     }
 }
+
+class_alias(ParameterProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\Tests\User\ParameterProviderTest');

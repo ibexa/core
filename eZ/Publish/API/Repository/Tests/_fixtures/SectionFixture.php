@@ -1,58 +1,63 @@
 <?php
-return array(
-    array(
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+return [
+    [
         1 => new \eZ\Publish\API\Repository\Values\Content\Section(
-            array(
-                "id" => 1,
-                "name" => "Standard",
-                "identifier" => "standard",
-            )
+            [
+                'id' => 1,
+                'name' => 'Standard',
+                'identifier' => 'standard',
+            ]
         ),
         2 => new \eZ\Publish\API\Repository\Values\Content\Section(
-            array(
-                "id" => 2,
-                "name" => "Users",
-                "identifier" => "users",
-            )
+            [
+                'id' => 2,
+                'name' => 'Users',
+                'identifier' => 'users',
+            ]
         ),
         3 => new \eZ\Publish\API\Repository\Values\Content\Section(
-            array(
-                "id" => 3,
-                "name" => "Media",
-                "identifier" => "media",
-            )
+            [
+                'id' => 3,
+                'name' => 'Media',
+                'identifier' => 'media',
+            ]
         ),
         4 => new \eZ\Publish\API\Repository\Values\Content\Section(
-            array(
-                "id" => 4,
-                "name" => "Setup",
-                "identifier" => "setup",
-            )
+            [
+                'id' => 4,
+                'name' => 'Setup',
+                'identifier' => 'setup',
+            ]
         ),
         5 => new \eZ\Publish\API\Repository\Values\Content\Section(
-            array(
-                "id" => 5,
-                "name" => "Design",
-                "identifier" => "design",
-            )
+            [
+                'id' => 5,
+                'name' => 'Design',
+                'identifier' => 'design',
+            ]
         ),
         6 => new \eZ\Publish\API\Repository\Values\Content\Section(
-            array(
-                "id" => 6,
-                "name" => "Restricted",
-                "identifier" => "",
-            )
+            [
+                'id' => 6,
+                'name' => 'Restricted',
+                'identifier' => '',
+            ]
         ),
-    ),
-    array(
-        "standard" => 1,
-        "users" => 2,
-        "media" => 3,
-        "setup" => 4,
-        "design" => 5,
-    ),
-    array(
-        "2" => array(
+    ],
+    [
+        'standard' => 1,
+        'users' => 2,
+        'media' => 3,
+        'setup' => 4,
+        'design' => 5,
+    ],
+    [
+        '2' => [
                     4 => true,
                     10 => true,
                     11 => true,
@@ -61,25 +66,25 @@ return array(
                     14 => true,
                     42 => true,
                     59 => true,
-                ),
-        "3" => array(
+                ],
+        '3' => [
                     41 => true,
                     49 => true,
                     50 => true,
                     51 => true,
-                ),
-        "4" => array(
+                ],
+        '4' => [
                     45 => true,
                     52 => true,
-                ),
-        "5" => array(
+                ],
+        '5' => [
                     54 => true,
                     56 => true,
-                ),
-        "1" => array(
+                ],
+        '1' => [
                     57 => true,
                     58 => true,
-                ),
-    ),
-    6
-);
+                ],
+    ],
+    6,
+];

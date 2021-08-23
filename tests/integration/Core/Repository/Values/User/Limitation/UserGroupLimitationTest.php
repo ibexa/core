@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Values\User\Limitation;
+namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
-use eZ\Publish\API\Repository\Values\User\Limitation\UserGroupLimitation;
-use eZ\Publish\API\Repository\Values\User\User;
-use eZ\Publish\API\Repository\Values\User\UserGroup;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 /**
  * Test case for the {@link \eZ\Publish\API\Repository\Values\User\Limitation\UserGroupLimitation}
@@ -175,3 +175,5 @@ class UserGroupLimitationTest extends BaseLimitationTest
         return $draft;
     }
 }
+
+class_alias(UserGroupLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\UserGroupLimitationTest');

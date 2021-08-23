@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Tests\LocationResolver;
+namespace Ibexa\Tests\Core\Repository\LocationResolver;
 
-use eZ\Publish\API\Repository\Exceptions\BadStateException;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
-use eZ\Publish\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
+use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
 
 final class PermissionAwareLocationResolverTest extends TestCase
@@ -131,3 +131,5 @@ final class PermissionAwareLocationResolverTest extends TestCase
         $this->locationResolver->resolveLocation($contentInfo);
     }
 }
+
+class_alias(PermissionAwareLocationResolverTest::class, 'eZ\Publish\Core\Repository\Tests\LocationResolver\PermissionAwareLocationResolverTest');

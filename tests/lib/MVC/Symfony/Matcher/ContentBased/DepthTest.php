@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased;
+namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Repository;
 
 class DepthTest extends BaseTest
 {
@@ -151,3 +151,5 @@ class DepthTest extends BaseTest
         return $repository;
     }
 }
+
+class_alias(DepthTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\DepthTest');

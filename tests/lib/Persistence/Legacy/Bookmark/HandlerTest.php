@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Bookmark;
 
-use eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\Bookmark\Handler;
-use eZ\Publish\Core\Persistence\Legacy\Bookmark\Mapper;
-use eZ\Publish\SPI\Persistence\Bookmark\Bookmark;
-use eZ\Publish\SPI\Persistence\Bookmark\CreateStruct;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Handler;
+use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
+use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
@@ -212,3 +212,5 @@ class HandlerTest extends TestCase
         $this->handler->locationSwapped($location1Id, $location2Id);
     }
 }
+
+class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark\HandlerTest');

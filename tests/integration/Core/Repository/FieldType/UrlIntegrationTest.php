@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
-use eZ\Publish\Core\FieldType\Url\Value as UrlValue;
-use eZ\Publish\API\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Url\Value as UrlValue;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 
 /**
  * Integration test for use field type.
@@ -378,3 +378,5 @@ class UrlIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 }
+
+class_alias(UrlIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\UrlIntegrationTest');

@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased;
+namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
-use eZ\Publish\API\Repository\URLAliasService;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\URLAlias;
-use eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias as UrlAliasMatcher;
-use eZ\Publish\API\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias as UrlAliasMatcher;
+use Ibexa\Contracts\Core\Repository\Repository;
 
 class UrlAliasTest extends BaseTest
 {
@@ -158,3 +158,5 @@ class UrlAliasTest extends BaseTest
         $this->matcher->matchContentInfo($this->getContentInfoMock());
     }
 }
+
+class_alias(UrlAliasTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\UrlAliasTest');

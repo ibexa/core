@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 
 /**
  * Test case for operations in the URLWildcardService.
@@ -78,3 +78,5 @@ class URLWildcardServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
+
+class_alias(URLWildcardServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\URLWildcardServiceAuthorizationTest');

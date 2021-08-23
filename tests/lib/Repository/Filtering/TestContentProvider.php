@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\Filtering;
+namespace Ibexa\Tests\Core\Repository\Filtering;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Section;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 
 class TestContentProvider
 {
@@ -196,3 +196,5 @@ class TestContentProvider
         return $sectionService->createSection($sectionCreate);
     }
 }
+
+class_alias(TestContentProvider::class, 'eZ\Publish\API\Repository\Tests\Filtering\TestContentProvider');

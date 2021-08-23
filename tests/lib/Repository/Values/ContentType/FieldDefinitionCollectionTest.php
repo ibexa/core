@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Tests\Values\ContentType;
+namespace Ibexa\Tests\Core\Repository\Values\ContentType;
 
 use Closure;
-use eZ\Publish\API\Repository\Exceptions\OutOfBoundsException;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use PHPUnit\Framework\TestCase;
 
 final class FieldDefinitionCollectionTest extends TestCase
@@ -394,3 +394,5 @@ final class FieldDefinitionCollectionTest extends TestCase
         };
     }
 }
+
+class_alias(FieldDefinitionCollectionTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ContentType\FieldDefinitionCollectionTest');

@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\SettingService;
-use eZ\Publish\API\Repository\Values\Setting\Setting;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\SettingService;
+use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
 
 /**
  * Test case for operations in the SettingService using in memory storage.
@@ -226,3 +226,5 @@ final class SettingServiceTest extends BaseTest
         $settingService->deleteSetting($setting);
     }
 }
+
+class_alias(SettingServiceTest::class, 'eZ\Publish\API\Repository\Tests\SettingServiceTest');

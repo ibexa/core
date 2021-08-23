@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\SiteAccess;
+namespace Ibexa\Tests\Bundle\Core\SiteAccess;
 
-use eZ\Bundle\EzPublishCoreBundle\SiteAccess\MatcherBuilder;
-use eZ\Bundle\EzPublishCoreBundle\SiteAccess\SiteAccessMatcherRegistryInterface;
-use eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher;
-use eZ\Bundle\EzPublishCoreBundle\SiteAccess\Matcher as CoreMatcher;
+use Ibexa\Bundle\Core\SiteAccess\MatcherBuilder;
+use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
+use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
+use Ibexa\Bundle\Core\SiteAccess\Matcher as CoreMatcher;
 use PHPUnit\Framework\TestCase;
 
 class MatcherBuilderTest extends TestCase
@@ -87,3 +87,5 @@ class MatcherBuilderTest extends TestCase
         $matcherBuilder->buildMatcher("@$serviceId", $matchingConfig, $request);
     }
 }
+
+class_alias(MatcherBuilderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\SiteAccess\MatcherBuilderTest');

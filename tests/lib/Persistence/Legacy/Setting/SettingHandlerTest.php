@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Setting;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Setting;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Setting\Handler;
-use eZ\Publish\Core\Persistence\Legacy\Setting\Gateway;
-use eZ\Publish\SPI\Persistence\Setting\Setting;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Setting\Handler;
+use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
+use Ibexa\Contracts\Core\Persistence\Setting\Setting;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SettingHandlerTest extends TestCase
@@ -199,3 +199,5 @@ class SettingHandlerTest extends TestCase
         return $this->gatewayMock;
     }
 }
+
+class_alias(SettingHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Setting\SettingHandlerTest');

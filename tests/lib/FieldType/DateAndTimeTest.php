@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\DateAndTime\Type as DateAndTime;
-use eZ\Publish\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\DateAndTime\Type as DateAndTime;
+use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use DateInterval;
 use stdClass;
 
@@ -27,7 +27,7 @@ class DateAndTimeTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return FieldType
+     * @return \Ibexa\Core\FieldType\FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -461,3 +461,5 @@ class DateAndTimeTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(DateAndTimeTest::class, 'eZ\Publish\Core\FieldType\Tests\DateAndTimeTest');

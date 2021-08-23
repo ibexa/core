@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\SearchService\Aggregation\DataSetBuilder;
+namespace Ibexa\Tests\Integration\Core\Repository\SearchService\Aggregation\DataSetBuilder;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Aggregation;
-use eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\TermAggregationResult;
-use eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry;
 
 /**
  * @internal
@@ -69,3 +69,5 @@ final class TermAggregationDataSetBuilder
         return TermAggregationResult::createForAggregation($this->aggregation, $entries);
     }
 }
+
+class_alias(TermAggregationDataSetBuilder::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\DataSetBuilder\TermAggregationDataSetBuilder');

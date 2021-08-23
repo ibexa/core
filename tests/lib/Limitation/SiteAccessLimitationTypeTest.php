@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Limitation\Tests;
+namespace Ibexa\Tests\Core\Limitation;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\API\Repository\Values\User\Limitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\SiteAccessLimitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
-use eZ\Publish\Core\Limitation\SiteAccessLimitationType;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
+use Ibexa\Core\Limitation\SiteAccessLimitationType;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 
 /**
  * Test Case for LimitationType.
@@ -308,3 +308,5 @@ class SiteAccessLimitationTypeTest extends Base
         self::assertSame('1817462202', $limitationType->generateSiteAccessValue('behat_site'));
     }
 }
+
+class_alias(SiteAccessLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\SiteAccessLimitationTypeTest');

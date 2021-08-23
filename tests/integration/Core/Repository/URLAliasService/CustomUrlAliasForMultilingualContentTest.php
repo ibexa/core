@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\URLAliasService;
+namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Tests\BaseTest;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 final class CustomUrlAliasForMultilingualContentTest extends BaseTest
 {
@@ -57,3 +57,5 @@ final class CustomUrlAliasForMultilingualContentTest extends BaseTest
         );
     }
 }
+
+class_alias(CustomUrlAliasForMultilingualContentTest::class, 'eZ\Publish\API\Repository\Tests\URLAliasService\CustomUrlAliasForMultilingualContentTest');

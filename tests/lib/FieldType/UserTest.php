@@ -4,23 +4,23 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
 use DateTimeImmutable;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\API\Repository\PasswordHashService;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\FieldType\User\Type;
-use eZ\Publish\Core\FieldType\User\Type as UserType;
-use eZ\Publish\Core\FieldType\User\Value as UserValue;
-use eZ\Publish\Core\Repository\Values\User\User as RepositoryUser;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Persistence\Cache\UserHandler;
-use eZ\Publish\Core\Repository\User\PasswordValidatorInterface;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition as CoreFieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\Persistence\User;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\PasswordHashService;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\FieldType\User\Type;
+use Ibexa\Core\FieldType\User\Type as UserType;
+use Ibexa\Core\FieldType\User\Value as UserValue;
+use Ibexa\Core\Repository\Values\User\User as RepositoryUser;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Persistence\Cache\UserHandler;
+use Ibexa\Core\Repository\User\PasswordValidatorInterface;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinition as CoreFieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\User;
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
 /**
@@ -894,3 +894,5 @@ class UserTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(UserTest::class, 'eZ\Publish\Core\FieldType\Tests\UserTest');

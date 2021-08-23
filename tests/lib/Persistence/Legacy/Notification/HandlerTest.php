@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Notification;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Notification;
 
-use eZ\Publish\API\Repository\Values\Notification\Notification as APINotification;
-use eZ\Publish\Core\Persistence\Legacy\Notification\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\Notification\Mapper;
-use eZ\Publish\Core\Persistence\Legacy\Notification\Handler;
-use eZ\Publish\SPI\Persistence\Notification\CreateStruct;
-use eZ\Publish\SPI\Persistence\Notification\Notification;
-use eZ\Publish\SPI\Persistence\Notification\UpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Notification\Notification as APINotification;
+use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
+use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
+use Ibexa\Core\Persistence\Legacy\Notification\Handler;
+use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Notification\Notification;
+use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
@@ -224,3 +224,5 @@ class HandlerTest extends TestCase
         $this->handler->delete($notification);
     }
 }
+
+class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\HandlerTest');

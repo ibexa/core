@@ -4,15 +4,16 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Persistence\FieldType;
 
-use eZ\Publish\Core\Persistence\Legacy;
-use eZ\Publish\Core\IO;
-use eZ\Publish\Core\FieldType;
-use eZ\Publish\Core\Base\Utils\DeprecationWarnerInterface;
-use eZ\Publish\Core\FieldType\Image\AliasCleanerInterface;
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\Field;
+use Ibexa\Core\Persistence\Legacy;
+use Ibexa\Core\IO;
+use Ibexa\Core\FieldType;
+use Ibexa\Core\Base\Utils\DeprecationWarnerInterface;
+use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Tests\Integration\Core\FieldType\FileBaseIntegrationTest;
 use PHPUnit\Framework\MockObject\MockObject;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -353,3 +354,5 @@ class ImageIntegrationTest extends FileBaseIntegrationTest
         );
     }
 }
+
+class_alias(ImageIntegrationTest::class, 'eZ\Publish\SPI\Tests\FieldType\ImageIntegrationTest');

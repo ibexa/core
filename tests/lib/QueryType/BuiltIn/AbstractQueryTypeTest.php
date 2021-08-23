@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\QueryType\BuiltIn\Tests;
+namespace Ibexa\Tests\Core\QueryType\BuiltIn;
 
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
-use eZ\Publish\Core\QueryType\QueryType;
-use eZ\Publish\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
+use Ibexa\Core\QueryType\QueryType;
+use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractQueryTypeTest extends TestCase
@@ -101,3 +101,5 @@ abstract class AbstractQueryTypeTest extends TestCase
 
     abstract protected function getExpectedSupportedParameters(): array;
 }
+
+class_alias(AbstractQueryTypeTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\AbstractQueryTypeTest');

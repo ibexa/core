@@ -6,10 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver;
+namespace Ibexa\Tests\Integration\Core\Limitation\PermissionResolver;
 
-use eZ\Publish\API\Repository\Values\User\Limitation\LanguageLimitation;
-use eZ\Publish\SPI\Limitation\Target;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
+use Ibexa\Contracts\Core\Limitation\Target;
+use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
 
 /**
  * Integration test for chosen use cases of calls to PermissionResolver::canUser.
@@ -275,3 +276,5 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTest
         $this->assertCanUser($expectedResult, 'content', 'remove', $limitations, $content, [$target]);
     }
 }
+
+class_alias(LanguageLimitationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\LanguageLimitationIntegrationTest');

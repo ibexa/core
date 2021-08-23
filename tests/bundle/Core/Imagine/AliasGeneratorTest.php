@@ -4,18 +4,18 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\Imagine;
+namespace Ibexa\Tests\Bundle\Core\Imagine;
 
-use eZ\Bundle\EzPublishCoreBundle\Imagine\AliasGenerator;
-use eZ\Bundle\EzPublishCoreBundle\Imagine\Variation\ImagineAwareAliasGenerator;
-use eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\FieldType\Image\Value as ImageValue;
-use eZ\Publish\Core\FieldType\TextLine\Value as TextLineValue;
-use eZ\Publish\SPI\FieldType\Value as FieldTypeValue;
-use eZ\Publish\Core\IO\IOServiceInterface;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\SPI\Variation\Values\ImageVariation;
+use Ibexa\Bundle\Core\Imagine\AliasGenerator;
+use Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator;
+use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Image\Value as ImageValue;
+use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
+use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
 use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
@@ -492,3 +492,5 @@ class AliasGeneratorTest extends TestCase
         );
     }
 }
+
+class_alias(AliasGeneratorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\AliasGeneratorTest');

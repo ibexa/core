@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
-use eZ\Publish\API\Repository\NotificationService;
-use eZ\Publish\API\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\NotificationService;
+use Ibexa\Contracts\Core\Repository\Repository;
 
 /**
  * Test case for operations in the Repository using in memory storage.
@@ -328,3 +328,5 @@ class RepositoryTest extends BaseTest
         $repository->rollback();
     }
 }
+
+class_alias(RepositoryTest::class, 'eZ\Publish\API\Repository\Tests\RepositoryTest');

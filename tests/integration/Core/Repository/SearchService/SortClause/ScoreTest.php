@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\SearchService\SortClause;
+namespace Ibexa\Tests\Integration\Core\Repository\SearchService\SortClause;
 
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 
 final class ScoreTest extends AbstractSortClauseTest
 {
@@ -153,3 +153,5 @@ final class ScoreTest extends AbstractSortClauseTest
         $this->refreshSearch($repository);
     }
 }
+
+class_alias(ScoreTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\SortClause\ScoreTest');

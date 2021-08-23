@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\Tests\FieldType;
+namespace Ibexa\Tests\Integration\Core\Persistence\FieldType;
 
-use eZ\Publish\Core\Persistence\Legacy;
-use eZ\Publish\Core\FieldType;
-use eZ\Publish\SPI\Persistence\Content;
+use Ibexa\Core\Persistence\Legacy;
+use Ibexa\Core\FieldType;
+use Ibexa\Contracts\Core\Persistence\Content;
 
 /**
  * Integration test for legacy storage field types.
@@ -46,7 +46,7 @@ class ISBNIntegrationTest extends BaseIntegrationTest
     /**
      * Get handler with required custom field types registered.
      *
-     * @return Handler
+     * @return \Ibexa\Contracts\Core\Persistence\Handler
      */
     public function getCustomHandler()
     {
@@ -134,3 +134,5 @@ class ISBNIntegrationTest extends BaseIntegrationTest
         );
     }
 }
+
+class_alias(ISBNIntegrationTest::class, 'eZ\Publish\SPI\Tests\FieldType\ISBNIntegrationTest');

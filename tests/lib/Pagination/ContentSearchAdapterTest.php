@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Pagination\Tests;
+namespace Ibexa\Tests\Core\Pagination;
 
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\Core\Pagination\Pagerfanta\ContentSearchAdapter;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Core\Pagination\Pagerfanta\ContentSearchAdapter;
 
 class ContentSearchAdapterTest extends ContentSearchHitAdapterTest
 {
@@ -43,3 +43,5 @@ class ContentSearchAdapterTest extends ContentSearchHitAdapterTest
         return $expectedResult;
     }
 }
+
+class_alias(ContentSearchAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\ContentSearchAdapterTest');

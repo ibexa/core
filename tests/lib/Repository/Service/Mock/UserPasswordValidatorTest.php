@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Tests\Service\Mock;
+namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Repository\Validator\UserPasswordValidator;
-use eZ\Publish\Core\Search\Tests\TestCase;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\Validator\UserPasswordValidator;
+use Ibexa\Tests\Core\Search\TestCase;
 
 class UserPasswordValidatorTest extends TestCase
 {
@@ -194,3 +194,5 @@ class UserPasswordValidatorTest extends TestCase
         ];
     }
 }
+
+class_alias(UserPasswordValidatorTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UserPasswordValidatorTest');

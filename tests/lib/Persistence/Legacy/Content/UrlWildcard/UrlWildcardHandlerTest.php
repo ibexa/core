@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlWildcard;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\TestCase;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Handler;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard;
+use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 
 /**
  * Test case for UrlWildcard Handler.
@@ -254,3 +254,5 @@ class UrlWildcardHandlerTest extends TestCase
         return $this->urlWildcardHandler;
     }
 }
+
+class_alias(UrlWildcardHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlWildcard\UrlWildcardHandlerTest');

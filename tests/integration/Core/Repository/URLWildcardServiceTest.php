@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Values\Content\URLWildcard;
-use eZ\Publish\API\Repository\Values\Content\URLWildcardTranslationResult;
-use eZ\Publish\API\Repository\Values\Content\URLWildcardUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 
 /**
  * Test case for operations in the URLWildcardService.
@@ -538,3 +538,5 @@ class URLWildcardServiceTest extends BaseTest
         /* END: Use Case */
     }
 }
+
+class_alias(URLWildcardServiceTest::class, 'eZ\Publish\API\Repository\Tests\URLWildcardServiceTest');

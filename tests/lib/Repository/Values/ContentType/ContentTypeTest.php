@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Tests\Values\ContentType;
+namespace Ibexa\Tests\Core\Repository\Values\ContentType;
 
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
 use PHPUnit\Framework\TestCase;
 
 class ContentTypeTest extends TestCase
@@ -172,3 +172,5 @@ class ContentTypeTest extends TestCase
         );
     }
 }
+
+class_alias(ContentTypeTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ContentType\ContentTypeTest');

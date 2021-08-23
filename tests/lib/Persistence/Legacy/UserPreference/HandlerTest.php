@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference;
+namespace Ibexa\Tests\Core\Persistence\Legacy\UserPreference;
 
-use eZ\Publish\Core\Persistence\Legacy\UserPreference\Gateway;
-use eZ\Publish\Core\Persistence\Legacy\UserPreference\Mapper;
-use eZ\Publish\Core\Persistence\Legacy\UserPreference\Handler;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreferenceSetStruct;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreference;
+use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
+use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
+use Ibexa\Core\Persistence\Legacy\UserPreference\Handler;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
@@ -117,3 +117,5 @@ class HandlerTest extends TestCase
         $this->assertEquals($objects, $this->handler->loadUserPreferences($ownerId, $offset, $limit));
     }
 }
+
+class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference\HandlerTest');

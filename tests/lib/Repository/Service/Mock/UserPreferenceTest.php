@@ -6,17 +6,17 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Tests\Service\Mock;
+namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\Core\Repository\Tests\Service\Mock\Base as BaseServiceMockTest;
-use eZ\Publish\Core\Repository\UserPreferenceService;
-use eZ\Publish\Core\Repository\Values\User\UserReference;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreference;
-use eZ\Publish\SPI\Persistence\UserPreference\UserPreferenceSetStruct;
-use eZ\Publish\API\Repository\Values\UserPreference\UserPreferenceSetStruct as APIUserPreferenceSetStruct;
-use eZ\Publish\API\Repository\Values\UserPreference\UserPreference as APIUserPreference;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use Ibexa\Core\Repository\UserPreferenceService;
+use Ibexa\Core\Repository\Values\User\UserReference;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
+use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct as APIUserPreferenceSetStruct;
+use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference as APIUserPreference;
 
 class UserPreferenceTest extends BaseServiceMockTest
 {
@@ -234,3 +234,5 @@ class UserPreferenceTest extends BaseServiceMockTest
         ]);
     }
 }
+
+class_alias(UserPreferenceTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UserPreferenceTest');

@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\EventListener;
+namespace Ibexa\Tests\Bundle\Core\EventListener;
 
-use eZ\Bundle\EzPublishCoreBundle\EventListener\RejectExplicitFrontControllerRequestsListener;
+use Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -282,3 +282,5 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         ];
     }
 }
+
+class_alias(RejectExplicitFrontControllerRequestsListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\RejectExplicitFrontControllerRequestsListenerTest');

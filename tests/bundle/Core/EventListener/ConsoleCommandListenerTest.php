@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\EventListener;
+namespace Ibexa\Tests\Bundle\Core\EventListener;
 
-use eZ\Bundle\EzPublishCoreBundle\EventListener\ConsoleCommandListener;
-use eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\Stubs\TestOutput;
-use eZ\Publish\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Bundle\Core\EventListener\ConsoleCommandListener;
+use Ibexa\Tests\Bundle\Core\EventListener\Stubs\TestOutput;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\ConsoleEvents;
@@ -124,3 +124,5 @@ class ConsoleCommandListenerTest extends TestCase
         return $siteAccessProviderMock;
     }
 }
+
+class_alias(ConsoleCommandListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\ConsoleCommandListenerTest');

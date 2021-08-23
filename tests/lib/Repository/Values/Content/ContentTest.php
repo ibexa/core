@@ -4,10 +4,10 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Tests\Values\Content;
+namespace Ibexa\Tests\Core\Repository\Values\Content;
 
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 
 class ContentTest extends TestCase
@@ -55,3 +55,5 @@ class ContentTest extends TestCase
         $this->assertEquals($name, $object->getName());
     }
 }
+
+class_alias(ContentTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\ContentTest');

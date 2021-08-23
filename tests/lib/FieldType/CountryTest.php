@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\Country\Type as Country;
-use eZ\Publish\Core\FieldType\Country\Value as CountryValue;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\FieldType\Country\Exception\InvalidValue;
+use Ibexa\Core\FieldType\Country\Type as Country;
+use Ibexa\Core\FieldType\Country\Value as CountryValue;
+use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Country\Exception\InvalidValue;
 
 /**
  * @group fieldType
@@ -32,7 +32,7 @@ class CountryTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return FieldType
+     * @return \Ibexa\Core\FieldType\FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -641,3 +641,5 @@ class CountryTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(CountryTest::class, 'eZ\Publish\Core\FieldType\Tests\CountryTest');

@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\API\Repository\Values\URL\Query\Criterion;
-use eZ\Publish\API\Repository\Values\URL\URLQuery;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 
 class URLServiceAuthorizationTest extends BaseURLServiceTest
 {
@@ -127,3 +127,5 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         /* END: Use Case */
     }
 }
+
+class_alias(URLServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\URLServiceAuthorizationTest');

@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver;
+namespace Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver;
 
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\API\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 /**
  * Test mix of chosen core Content Limitations.
@@ -116,3 +116,5 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
         ];
     }
 }
+
+class_alias(ContentLimitationsMixIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\ContentLimitationsMixIntegrationTest');

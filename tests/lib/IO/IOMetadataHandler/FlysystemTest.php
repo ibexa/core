@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\IO\Tests\IOMetadataHandler;
+namespace Ibexa\Tests\Core\IO\IOMetadataHandler;
 
-use eZ\Publish\Core\IO\IOMetadataHandler\Flysystem;
-use eZ\Publish\SPI\IO\BinaryFile as SPIBinaryFile;
-use eZ\Publish\SPI\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
+use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
+use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use League\Flysystem\FileNotFoundException;
 use League\Flysystem\FilesystemInterface;
 use PHPUnit\Framework\TestCase;
@@ -165,3 +165,5 @@ class FlysystemTest extends TestCase
         $this->handler->deleteDirectory('some/path');
     }
 }
+
+class_alias(FlysystemTest::class, 'eZ\Publish\Core\IO\Tests\IOMetadataHandler\FlysystemTest');

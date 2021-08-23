@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlAlias;
+namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
-use eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase;
-use eZ\Publish\SPI\Persistence\Content\UrlAlias;
-use eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
-use eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
+use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 
 /**
  * Test case for UrlAliasMapper.
@@ -294,3 +294,5 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         return new Mapper($languageMaskGenerator);
     }
 }
+
+class_alias(UrlAliasMapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlAlias\UrlAliasMapperTest');

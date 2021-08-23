@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Limitation\Tests;
+namespace Ibexa\Tests\Core\Limitation;
 
 use PHPUnit\Framework\TestCase;
-use eZ\Publish\API\Repository\Values\User\User as APIUser;
-use eZ\Publish\SPI\Persistence\Handler as SPIHandler;
+use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use Ibexa\Contracts\Core\Persistence\Handler as SPIHandler;
 
 abstract class Base extends TestCase
 {
@@ -65,3 +65,5 @@ abstract class Base extends TestCase
         parent::tearDown();
     }
 }
+
+class_alias(Base::class, 'eZ\Publish\Core\Limitation\Tests\Base');

@@ -4,11 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
-use eZ\Publish\Core\FieldType\Keyword\Type as KeywordType;
-use eZ\Publish\Core\FieldType\Keyword\Value as KeywordValue;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Keyword\Type as KeywordType;
+use Ibexa\Core\FieldType\Keyword\Value as KeywordValue;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
  * @group fieldType
@@ -25,7 +25,7 @@ class KeywordTest extends FieldTypeTest
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return FieldType
+     * @return \Ibexa\Core\FieldType\FieldType
      */
     protected function createFieldTypeUnderTest()
     {
@@ -262,3 +262,5 @@ class KeywordTest extends FieldTypeTest
         ];
     }
 }
+
+class_alias(KeywordTest::class, 'eZ\Publish\Core\FieldType\Tests\KeywordTest');

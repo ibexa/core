@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\SPI\FieldType\Tests;
+namespace Ibexa\Tests\Core\FieldType;
 
 use PHPUnit\Framework\TestCase;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
-use eZ\Publish\SPI\FieldType\Value as SPIValue;
-use eZ\Publish\SPI\FieldType\ValidationError;
-use eZ\Publish\SPI\FieldType\FieldType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
+use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\FieldType\FieldType;
 
-abstract class FieldTypeTest extends TestCase
+abstract class BaseFieldTypeTest extends TestCase
 {
     /**
      * Generic cache for the getFieldTypeUnderTest() method.
@@ -37,7 +37,7 @@ abstract class FieldTypeTest extends TestCase
      * NOT take care for test case wide caching of the field type, just return
      * a new instance from this method!
      *
-     * @return FieldType
+     * @return \Ibexa\Core\FieldType\FieldType
      */
     abstract protected function createFieldTypeUnderTest();
 
@@ -949,3 +949,5 @@ abstract class FieldTypeTest extends TestCase
 
     // @todo: More test methods …
 }
+
+class_alias(BaseFieldTypeTest::class, 'eZ\Publish\SPI\FieldType\Tests\FieldTypeTest');

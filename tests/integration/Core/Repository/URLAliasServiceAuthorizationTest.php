@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 
 class URLAliasServiceAuthorizationTest extends BaseTest
 {
@@ -105,3 +105,5 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
+
+class_alias(URLAliasServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\URLAliasServiceAuthorizationTest');

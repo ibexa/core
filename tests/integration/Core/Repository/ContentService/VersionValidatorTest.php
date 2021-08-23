@@ -6,16 +6,16 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\ContentService;
+namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
-use eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException;
-use eZ\Publish\API\Repository\Tests\BaseTest;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\FieldType\FieldTypeRegistry;
-use eZ\Publish\Core\Repository\Validator\VersionValidator;
-use eZ\Publish\Core\Repository\Values\Content\TrashItem;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Validator\VersionValidator;
+use Ibexa\Core\Repository\Values\Content\TrashItem;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
 
 /**
  * @internal
@@ -126,3 +126,5 @@ final class VersionValidatorTest extends BaseTest
         $this->contentService->publishVersion($contentDraft->versionInfo);
     }
 }
+
+class_alias(VersionValidatorTest::class, 'eZ\Publish\API\Repository\Tests\ContentService\VersionValidatorTest');

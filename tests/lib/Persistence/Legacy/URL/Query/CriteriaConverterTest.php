@@ -4,13 +4,13 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query;
+namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\API\Repository\Values\URL\Query\Criterion;
-use eZ\Publish\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
-use eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
+use Ibexa\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 use PHPUnit\Framework\TestCase;
 
 class CriteriaConverterTest extends TestCase
@@ -80,3 +80,5 @@ class CriteriaConverterTest extends TestCase
         );
     }
 }
+
+class_alias(CriteriaConverterTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriteriaConverterTest');

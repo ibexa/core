@@ -4,18 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
 use EzSystems\EzPlatformSolrSearchEngine\Tests\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Core\Repository\Values\Content\Location;
+use Ibexa\Tests\Core\Repository\Common;
 
 /**
  * Test case for Location operations in the SearchService.
@@ -35,7 +36,7 @@ class SearchServiceLocationTest extends BaseTest
      *
      * @dataProvider getFacetedSearches
      *
-     * @see \eZ\Publish\API\Repository\SearchService::findLoctions()
+     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
      */
     public function testFindFacetedLocation(LocationQuery $query, $fixture)
     {
@@ -1478,3 +1479,5 @@ class SearchServiceLocationTest extends BaseTest
         return __DIR__ . '/_fixtures/' . getenv('fixtureDir') . '/';
     }
 }
+
+class_alias(SearchServiceLocationTest::class, 'eZ\Publish\API\Repository\Tests\SearchServiceLocationTest');

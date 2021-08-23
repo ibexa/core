@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\SiteAccessAware\Tests\Language;
+namespace Ibexa\Tests\Core\Repository\SiteAccessAware\Language;
 
-use eZ\Publish\Core\Repository\SiteAccessAware\Language\LanguageResolver;
+use Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver;
 use PHPUnit\Framework\TestCase;
 
 class LanguageResolverTest extends TestCase
@@ -75,3 +75,5 @@ class LanguageResolverTest extends TestCase
         ];
     }
 }
+
+class_alias(LanguageResolverTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\Language\LanguageResolverTest');

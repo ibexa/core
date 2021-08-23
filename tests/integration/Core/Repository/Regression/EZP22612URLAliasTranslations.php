@@ -4,9 +4,9 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests\Regression;
+namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
-use eZ\Publish\API\Repository\Tests\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 class EZP22612URLAliasTranslations extends BaseTest
 {
@@ -59,3 +59,5 @@ class EZP22612URLAliasTranslations extends BaseTest
         );
     }
 }
+
+class_alias(EZP22612URLAliasTranslations::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP22612URLAliasTranslations');

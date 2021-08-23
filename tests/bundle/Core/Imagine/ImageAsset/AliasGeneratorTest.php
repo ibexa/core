@@ -6,17 +6,17 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\ImageAsset;
+namespace Ibexa\Tests\Bundle\Core\Imagine\ImageAsset;
 
-use eZ\Bundle\EzPublishCoreBundle\Imagine\ImageAsset\AliasGenerator;
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\FieldType\ImageAsset;
-use eZ\Publish\Core\FieldType\Image;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\SPI\Variation\Values\Variation;
-use eZ\Publish\SPI\Variation\VariationHandler;
+use Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\ImageAsset;
+use Ibexa\Core\FieldType\Image;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Variation\Values\Variation;
+use Ibexa\Contracts\Core\Variation\VariationHandler;
 use PHPUnit\Framework\TestCase;
 
 class AliasGeneratorTest extends TestCase
@@ -140,3 +140,5 @@ class AliasGeneratorTest extends TestCase
         $this->assertFalse($this->aliasGenerator->supportsValue(new Image\Value()));
     }
 }
+
+class_alias(AliasGeneratorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\ImageAsset\AliasGeneratorTest');

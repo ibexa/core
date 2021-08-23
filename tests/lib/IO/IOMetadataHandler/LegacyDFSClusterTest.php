@@ -4,15 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\IO\Tests\IOMetadataHandler;
+namespace Ibexa\Tests\Core\IO\IOMetadataHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\Core\IO\IOMetadataHandler\LegacyDFSCluster;
-use eZ\Publish\SPI\IO\BinaryFile as SPIBinaryFile;
-use eZ\Publish\SPI\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster;
+use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
+use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\Statement;
-use eZ\Publish\Core\IO\UrlDecorator;
+use Ibexa\Core\IO\UrlDecorator;
 use PHPUnit\Framework\TestCase;
 use DateTime;
 
@@ -261,3 +261,5 @@ class LegacyDFSClusterTest extends TestCase
         return $this->createMock(Statement::class);
     }
 }
+
+class_alias(LegacyDFSClusterTest::class, 'eZ\Publish\Core\IO\Tests\IOMetadataHandler\LegacyDFSClusterTest');

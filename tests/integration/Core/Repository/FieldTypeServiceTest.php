@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
 /**
  * Test case for operations in the FieldTypeService using in memory storage.
@@ -126,3 +126,5 @@ class FieldTypeServiceTest extends BaseTest
         $this->assertFalse($typeExists);
     }
 }
+
+class_alias(FieldTypeServiceTest::class, 'eZ\Publish\API\Repository\Tests\FieldTypeServiceTest');

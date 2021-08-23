@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\API\Repository\Tests\Values\Filter;
+namespace Ibexa\Tests\Core\Repository\Values\Filter;
 
-use eZ\Publish\API\Repository\Exceptions\BadStateException;
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
-use eZ\Publish\API\Repository\Values\URL\Query\SortClause as URLQuerySortClause;
-use eZ\Publish\API\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause as URLQuerySortClause;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use PHPUnit\Framework\TestCase;
 use function md5;
 use function sprintf;
@@ -64,7 +64,7 @@ final class FilterTest extends TestCase
                 new SortClause\Location\Priority(),
                 1,
             ],
-            'Expected an instance of "eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause", ' .
+            'Expected an instance of "Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause", ' .
             'got "integer" at position 1',
         ];
 
@@ -74,8 +74,8 @@ final class FilterTest extends TestCase
                 new URLQuerySortClause\URL(Query::SORT_DESC),
                 Query::SORT_ASC,
             ],
-            'Expected an instance of "eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause", ' .
-            'got "eZ\Publish\API\Repository\Values\URL\Query\SortClause\URL" at position 1',
+            'Expected an instance of "Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause", ' .
+            'got "Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause\URL" at position 1',
         ];
 
         yield [
@@ -86,7 +86,7 @@ final class FilterTest extends TestCase
                 new class('', Query::SORT_DESC) extends URLQuerySortClause {
                 },
             ],
-            'Expected an instance of "eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause", ' .
+            'Expected an instance of "Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause", ' .
             'got "string" at position 2',
         ];
     }
@@ -447,3 +447,5 @@ final class FilterTest extends TestCase
         yield 'Empty Filter' => [new Filter()];
     }
 }
+
+class_alias(FilterTest::class, 'eZ\Publish\API\Repository\Tests\Values\Filter\FilterTest');

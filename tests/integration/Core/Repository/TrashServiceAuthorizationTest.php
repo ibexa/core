@@ -4,14 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\API\Repository\Tests;
+namespace Ibexa\Tests\Integration\Core\Repository;
 
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\User\Limitation\LanguageLimitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation;
-use eZ\Publish\Core\Repository\Repository;
-use eZ\Publish\Core\Repository\TrashService;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
+use Ibexa\Core\Repository\Repository;
+use Ibexa\Core\Repository\TrashService;
 
 /**
  * Test case for operations in the TrashService using in memory storage.
@@ -314,3 +314,5 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         $trashService->trash($parentLocation);
     }
 }
+
+class_alias(TrashServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\TrashServiceAuthorizationTest');

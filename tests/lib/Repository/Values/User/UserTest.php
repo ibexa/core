@@ -4,12 +4,12 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace eZ\Publish\Core\Repository\Tests\Values\User;
+namespace Ibexa\Tests\Core\Repository\Values\User;
 
-use eZ\Publish\API\Repository\Tests\Values\ValueObjectTestTrait;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\Repository\Values\User\User;
+use Ibexa\Tests\Core\Repository\Values\ValueObjectTestTrait;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\User\User;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -147,3 +147,5 @@ class UserTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
+
+class_alias(UserTest::class, 'eZ\Publish\Core\Repository\Tests\Values\User\UserTest');

@@ -6,18 +6,18 @@
  */
 declare(strict_types=1);
 
-namespace eZ\Publish\Core\Repository\Tests\Service\Mock;
+namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
-use eZ\Publish\API\Repository\Exceptions\ContentValidationException;
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\UnauthorizedException;
-use eZ\Publish\Core\Repository\Tests\Service\Mock\Base as BaseServiceMockTest;
-use eZ\Publish\API\Repository\Values\Content\URLWildcard;
-use eZ\Publish\Core\Repository\URLWildcardService;
-use eZ\Publish\SPI\Persistence\Content\UrlWildcard as SPIURLWildcard;
-use eZ\Publish\API\Repository\Values\Content\URLWildcardTranslationResult;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
+use Ibexa\Core\Repository\URLWildcardService;
+use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard as SPIURLWildcard;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 
 /**
  * Mock Test case for UrlWildcard Service.
@@ -773,3 +773,5 @@ class UrlWildcardTest extends BaseServiceMockTest
             ->getMock();
     }
 }
+
+class_alias(UrlWildcardTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UrlWildcardTest');
