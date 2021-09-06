@@ -49,14 +49,14 @@ final class LocationFilteringAdapterTest extends TestCase
 
         $adapter = new LocationFilteringAdapter($locationService, $originalFilter, self::EXAMPLE_LANGUAGE_FILTER);
 
-        $this->assertSame(
-            $locationList->getIterator(),
-            $adapter->fetch(self::EXAMPLE_OFFSET, self::EXAMPLE_LIMIT)
+        self::assertEqualsCanonicalizing(
+            iterator_to_array($locationList->getIterator()),
+            iterator_to_array($adapter->fetch(self::EXAMPLE_OFFSET, self::EXAMPLE_LIMIT))
         );
 
-        // Input $filter reminds untouched
-        $this->assertEquals(0, $originalFilter->getOffset());
-        $this->assertEquals(0, $originalFilter->getLimit());
+        // Input $filter remains untouched
+        self::assertEquals(0, $originalFilter->getOffset());
+        self::assertEquals(0, $originalFilter->getLimit());
     }
 }
 
