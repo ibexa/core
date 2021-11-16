@@ -97,7 +97,7 @@
             "eZ\\Bundle\\EzPublishDebugBundle\\": "src/bundle/Debug",
             "eZ\\Bundle\\EzPublishIOBundle\\": "src/bundle/IO",
             "eZ\\Bundle\\EzPublishLegacySearchEngineBundle\\": "src/bundle/LegacySearchEngine",
-            "EzSystems\\PlatformInstallerBundle\\": "src/bundle/Installer"
+            "EzSystems\\PlatformInstallerBundle\\": "src/bundle/RepositoryInstaller"
         }
     },
     "autoload-dev": {
