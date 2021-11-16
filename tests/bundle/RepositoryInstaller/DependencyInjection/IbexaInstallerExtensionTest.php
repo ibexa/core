@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Bundle\Installer\DependencyInjection;
+namespace Ibexa\Tests\Bundle\RepositoryInstaller\DependencyInjection;
 
 use Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;

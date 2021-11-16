@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Bundle\Installer;
+namespace Ibexa\Tests\Bundle\RepositoryInstaller;
 
 use EzSystems\DoctrineSchemaBundle\DependencyInjection\DoctrineSchemaExtension;
 use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\InstallerTagPass;
