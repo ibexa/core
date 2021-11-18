@@ -86,7 +86,6 @@ class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new InjectEntityManagerMappingsPass());
         $container->addCompilerPass(new SessionConfigurationPass());
 
-
         // Storage passes
         $container->addCompilerPass(new ExternalStorageRegistryPass());
         // Legacy Storage passes
