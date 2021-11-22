@@ -78,7 +78,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
     public function getAlias()
     {
-        return 'ezpublish';
+        return 'ibexa';
     }
 
     /**

@@ -51,7 +51,7 @@ class Configuration extends SiteAccessConfiguration
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('ezpublish');
+        $treeBuilder = new TreeBuilder('ibexa');
 
         $rootNode = $treeBuilder->getRootNode();
 
