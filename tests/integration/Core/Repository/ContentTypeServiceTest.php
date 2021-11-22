@@ -121,9 +121,12 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $group
         );
 
+        // Sleep to avoid in-memory cache
+        sleep(1);
+
         return [
             'createStruct' => $groupCreate,
-            'group' => $group,
+            'group' => $contentTypeService->loadContentTypeGroup($group->id),
         ];
     }
 
