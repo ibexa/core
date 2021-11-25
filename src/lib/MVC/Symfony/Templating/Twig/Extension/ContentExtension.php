@@ -94,6 +94,14 @@ class ContentExtension extends AbstractExtension
             ),
             new TwigFunction(
                 'ez_field_is_empty',
+                [$this, 'isFieldEmpty'],
+                [
+                    'deprecated' => '4.0',
+                    'alternative' => 'ibexa_field_is_empty',
+                ]
+            ),
+            new TwigFunction(
+                'ibexa_field_is_empty',
                 [$this, 'isFieldEmpty']
             ),
             new TwigFunction(
