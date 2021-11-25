@@ -98,6 +98,14 @@ class ContentExtension extends AbstractExtension
             ),
             new TwigFunction(
                 'ez_field_name',
+                [$this, 'getTranslatedFieldDefinitionName'],
+                [
+                    'deprecated' => '4.0',
+                    'alternative' => 'ibexa_field_name',
+                ]
+            ),
+            new TwigFunction(
+                'ibexa_field_name',
                 [$this, 'getTranslatedFieldDefinitionName']
             ),
             new TwigFunction(
