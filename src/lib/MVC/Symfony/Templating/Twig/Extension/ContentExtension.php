@@ -58,6 +58,14 @@ class ContentExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'ez_content_name',
+                [$this, 'getTranslatedContentName'],
+                [
+                    'deprecated' => '4.0',
+                    'alternative' => 'ibexa_content_name',
+                ]
+            ),
+            new TwigFunction(
+                'ibexa_content_name',
                 [$this, 'getTranslatedContentName']
             ),
             new TwigFunction(
