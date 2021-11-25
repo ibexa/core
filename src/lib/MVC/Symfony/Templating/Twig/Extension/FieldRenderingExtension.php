@@ -55,14 +55,25 @@ class FieldRenderingExtension extends AbstractExtension
 
     public function getFunctions()
     {
+        $renderFieldCallable = function (Environment $environment, Content $content, $fieldIdentifier, array $params = []) {
+            $this->fieldBlockRenderer->setTwig($environment);
+
+            return $this->renderField($content, $fieldIdentifier, $params);
+        };
         return [
             new TwigFunction(
                 'ez_render_field',
-                function (Environment $environment, Content $content, $fieldIdentifier, array $params = []) {
-                    $this->fieldBlockRenderer->setTwig($environment);
-
-                    return $this->renderField($content, $fieldIdentifier, $params);
-                },
+                $renderFieldCallable,
+                [
+                    'is_safe' => ['html'],
+                    'needs_environment' => true,
+                    'deprecated' => '4.0',
+                    'alternative' => 'ibexa_render_field',
+                ]
+            ),
+            new TwigFunction(
+                'ibexa_render_field',
+                $renderFieldCallable,
                 ['is_safe' => ['html'], 'needs_environment' => true]
             ),
             new TwigFunction(
