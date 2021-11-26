@@ -408,7 +408,7 @@ EOT;
      *
      * The configuration is available at:
      * <code>
-     * ezpublish:
+     * ibexa:
      *     url_alias:
      *         slug_converter:
      *             transformation: name_of_transformation_group_to_use
@@ -455,7 +455,7 @@ EOT;
      *
      * The configuration is available at:
      * <code>
-     * ezpublish:
+     * ibexa:
      *     url_wildcards:
      *         enabled: true
      * </code>
@@ -484,7 +484,7 @@ EOT;
      *
      * The configuration is available at:
      * <code>
-     * ezpublish:
+     * ibexa:
      *     orm:
      *         entity_mappings:
      *              IbexaCoreBundle:
