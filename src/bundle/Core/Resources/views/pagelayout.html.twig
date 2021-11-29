@@ -8,7 +8,7 @@
     <title>{{ title|default( 'Home' ) }}</title>
     <meta name="generator" content="Ibexa DXP"/>
     {% if content is defined and content.contentInfo.mainLocationId %}
-        <link rel="canonical" href="{{ ez_path(content) }}" />
+        <link rel="canonical" href="{{ ibexa_path(content) }}" />
     {% endif %}
 </head>
 <body>

@@ -4,8 +4,8 @@
     <h3>{{ content.name }}</h3>
 {% else %}
     {% if location is defined %}
-        <h3><a href="{{ ez_path(location) }}">{{ content_name }}</a></h3>
+        <h3><a href="{{ ibexa_path(location) }}">{{ content_name }}</a></h3>
     {% else %}
-        <h3><a href="{{ ez_path(content) }}">{{ content_name }}</a></h3>
+        <h3><a href="{{ ibexa_path(content) }}">{{ content_name }}</a></h3>
     {% endif %}
 {% endif %}
