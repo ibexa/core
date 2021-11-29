@@ -130,6 +130,14 @@ class ContentExtension extends AbstractExtension
             ),
             new TwigFunction(
                 'ez_content_field_identifier_first_filled_image',
+                [$this, 'getFirstFilledImageFieldIdentifier'],
+                [
+                    'deprecated' => '4.0',
+                    'alternative' => 'ibexa_content_field_identifier_first_filled_image',
+                ]
+            ),
+            new TwigFunction(
+                'ibexa_content_field_identifier_first_filled_image',
                 [$this, 'getFirstFilledImageFieldIdentifier']
             ),
         ];
@@ -170,7 +178,7 @@ class ContentExtension extends AbstractExtension
 
     /**
      * Returns the translated field, very similar to getTranslatedFieldValue but this returns the whole field.
-     * To be used with ez_image_alias for example, which requires the whole field.
+     * To be used with ibexa_image_alias for example, which requires the whole field.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      * @param string $fieldDefIdentifier Identifier for the field we want to get.
