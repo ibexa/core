@@ -73,7 +73,19 @@ class FileSizeExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('ez_file_size', [$this, 'sizeFilter']),
+            new TwigFilter(
+                'ez_file_size',
+                [$this, 'sizeFilter'],
+                [
+                    'deprecated' => '4.0',
+                    'alternative' => 'ibexa_file_size',
+                ]
+            ),
+            new TwigFilter(
+                'ibexa_file_size',
+                [$this, 'sizeFilter']
+            ),
+
         ];
     }
 

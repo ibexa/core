@@ -60,6 +60,12 @@ class FieldRenderingExtension extends AbstractExtension
 
             return $this->renderField($content, $fieldIdentifier, $params);
         };
+
+        $renderFieldDefinitionSettingsCallable = function (Environment $environment, FieldDefinition $fieldDefinition, array $params = []) {
+            $this->fieldBlockRenderer->setTwig($environment);
+
+            return $this->renderFieldDefinitionSettings($fieldDefinition, $params);
+        };
         return [
             new TwigFunction(
                 'ez_render_field',
@@ -78,11 +84,17 @@ class FieldRenderingExtension extends AbstractExtension
             ),
             new TwigFunction(
                 'ez_render_field_definition_settings',
-                function (Environment $environment, FieldDefinition $fieldDefinition, array $params = []) {
-                    $this->fieldBlockRenderer->setTwig($environment);
-
-                    return $this->renderFieldDefinitionSettings($fieldDefinition, $params);
-                },
+                $renderFieldDefinitionSettingsCallable,
+                [
+                    'is_safe' => ['html'],
+                    'needs_environment' => true,
+                    'deprecated' => '4.0',
+                    'alternative' => 'ibexa_render_field_definition_settings',
+                ]
+            ),
+            new TwigFunction(
+                'ibexa_render_field_definition_settings',
+                $renderFieldDefinitionSettingsCallable,
                 ['is_safe' => ['html'], 'needs_environment' => true]
             ),
         ];

@@ -46,7 +46,7 @@ class RoutingExtension extends AbstractExtension
                 [$this, 'getRouteReference'],
                 [
                     'deprecated' => '4.0',
-                    'alternative' => 'ibexa_route'
+                    'alternative' => 'ibexa_route',
                 ]
             ),
             new TwigFunction(
@@ -59,7 +59,7 @@ class RoutingExtension extends AbstractExtension
                 [
                     'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
                     'deprecated' => '4.0',
-                    'alternative' => 'ibexa_path'
+                    'alternative' => 'ibexa_path',
                 ]
             ),
             new TwigFunction(
@@ -75,7 +75,7 @@ class RoutingExtension extends AbstractExtension
                 [
                     'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
                     'deprecated' => '4.0',
-                    'alternative' => 'ibexa_url'
+                    'alternative' => 'ibexa_url',
                 ]
             ),
             new TwigFunction(

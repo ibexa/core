@@ -209,7 +209,7 @@
             'version': versionInfo.versionNo
         } ) %}
         <a href="{{ ibexa_path( route_reference ) }}"
-            {{ block( 'field_attributes' ) }}>{{ field.value.fileName }}</a>&nbsp;({{ field.value.fileSize|ez_file_size( 1 ) }})
+            {{ block( 'field_attributes' ) }}>{{ field.value.fileName }}</a>&nbsp;({{ field.value.fileSize|ibexa_file_size( 1 ) }})
     {% endif %}
 {% endapply %}
 {% endblock %}
