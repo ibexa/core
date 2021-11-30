@@ -116,16 +116,6 @@ class FileSizeExtension extends AbstractExtension
 
         return $formatter->format($number);
     }
-
-    /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
-     */
-    public function getName()
-    {
-        return 'ezpublish.fileSize';
-    }
 }
 
 class_alias(FileSizeExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension');

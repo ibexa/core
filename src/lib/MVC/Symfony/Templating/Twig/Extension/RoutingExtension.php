@@ -88,11 +88,6 @@ class RoutingExtension extends AbstractExtension
         ];
     }
 
-    public function getName(): string
-    {
-        return 'ezpublish.routing';
-    }
-
     /**
      * @param mixed $resource
      * @param array $params

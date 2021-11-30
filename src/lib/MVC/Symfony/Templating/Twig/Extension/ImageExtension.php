@@ -30,11 +30,6 @@ class ImageExtension extends AbstractExtension
         $this->assetMapper = $assetMapper;
     }
 
-    public function getName()
-    {
-        return 'ezpublish.image';
-    }
-
     public function getFunctions()
     {
         return [

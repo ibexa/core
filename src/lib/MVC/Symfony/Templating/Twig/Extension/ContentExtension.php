@@ -144,16 +144,6 @@ class ContentExtension extends AbstractExtension
     }
 
     /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
-     */
-    public function getName()
-    {
-        return 'ezpublish.content';
-    }
-
-    /**
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $content Must be a valid Content or ContentInfo object.
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *

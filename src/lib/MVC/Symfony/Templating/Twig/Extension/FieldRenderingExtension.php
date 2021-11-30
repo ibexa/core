@@ -48,11 +48,6 @@ class FieldRenderingExtension extends AbstractExtension
         $this->translationHelper = $translationHelper;
     }
 
-    public function getName()
-    {
-        return 'ezpublish.field_rendering';
-    }
-
     public function getFunctions()
     {
         $renderFieldCallable = function (Environment $environment, Content $content, $fieldIdentifier, array $params = []) {
