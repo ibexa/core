@@ -261,7 +261,7 @@ interface Handler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If field is not found
      */
-    public function removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId);
+    public function removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId, ?string $fieldTypeIdentifier = null);
 
     /**
      * This method updates the given $fieldDefinition on a Type.

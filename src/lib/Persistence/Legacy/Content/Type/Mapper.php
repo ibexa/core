@@ -34,16 +34,22 @@ class Mapper
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
     private $maskGenerator;
 
+    private StorageDispatcherInterface $storageDispatcher;
+
     /**
      * Creates a new content type mapper.
      *
      * @param \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry $converterRegistry
      * @param \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator $maskGenerator
      */
-    public function __construct(ConverterRegistry $converterRegistry, MaskGenerator $maskGenerator)
-    {
+    public function __construct(
+        ConverterRegistry $converterRegistry,
+        MaskGenerator $maskGenerator,
+        StorageDispatcherInterface $storageDispatcher
+    ) {
         $this->converterRegistry = $converterRegistry;
         $this->maskGenerator = $maskGenerator;
+        $this->storageDispatcher = $storageDispatcher;
     }
 
     /**
@@ -459,6 +465,8 @@ class Mapper
             $storageFieldDef,
             $fieldDef
         );
+
+        $this->storageDispatcher->loadFieldConstraintsData($fieldDef);
     }
 
     /**

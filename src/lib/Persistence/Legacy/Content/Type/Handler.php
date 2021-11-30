@@ -40,6 +40,8 @@ class Handler implements BaseContentTypeHandler
      */
     protected $updateHandler;
 
+    private StorageDispatcherInterface $storageDispatcher;
+
     /**
      * Creates a new content type handler.
      *
@@ -50,11 +52,13 @@ class Handler implements BaseContentTypeHandler
     public function __construct(
         Gateway $contentTypeGateway,
         Mapper $mapper,
-        UpdateHandler $updateHandler
+        UpdateHandler $updateHandler,
+        StorageDispatcherInterface $storageDispatcher
     ) {
         $this->contentTypeGateway = $contentTypeGateway;
         $this->mapper = $mapper;
         $this->updateHandler = $updateHandler;
+        $this->storageDispatcher = $storageDispatcher;
     }
 
     /**
@@ -535,6 +539,8 @@ class Handler implements BaseContentTypeHandler
             $fieldDefinition,
             $storageFieldDef
         );
+
+        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition);
     }
 
     /**
@@ -549,9 +555,15 @@ class Handler implements BaseContentTypeHandler
      *
      * @return bool
      */
-    public function removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId)
+    public function removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId, ?string $fieldTypeIdentifier = null)
     {
+        if ($fieldTypeIdentifier === null) {
+            $fieldTypeIdentifier = $this->getFieldDefinition($fieldDefinitionId, $status)->fieldType;
+        }
+
+        $this->storageDispatcher->deleteFieldConstraintsData($fieldTypeIdentifier, $fieldDefinitionId);
         $this->contentTypeGateway->deleteFieldDefinition($contentTypeId, $status, $fieldDefinitionId);
+
         // @todo FIXME: Return true only if deletion happened
         return true;
     }
@@ -572,6 +584,7 @@ class Handler implements BaseContentTypeHandler
         $storageFieldDef = new StorageFieldDefinition();
         $this->mapper->toStorageFieldDefinition($fieldDefinition, $storageFieldDef);
         $this->contentTypeGateway->updateFieldDefinition($contentTypeId, $status, $fieldDefinition, $storageFieldDef);
+        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition);
     }
 
     /**
