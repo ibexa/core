@@ -12,7 +12,7 @@ use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
-use EzSystems\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
+use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;

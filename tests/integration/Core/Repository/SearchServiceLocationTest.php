@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Tests\Integration\Core\Repository;
 
-use EzSystems\EzPlatformSolrSearchEngine\Tests\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use Ibexa\Solr\LegacySetupFactory as LegacySolrSetupFactory;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
