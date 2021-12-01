@@ -107,6 +107,7 @@ class SectionService implements SectionServiceInterface
             }
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         $this->repository->beginTransaction();
@@ -159,6 +160,7 @@ class SectionService implements SectionServiceInterface
                 }
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 

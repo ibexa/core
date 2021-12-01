@@ -33,6 +33,7 @@ class UserConverter implements Converter
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         // There is no contained data. All data is external. So we just do nothing here.
+        
     }
 
     /**
@@ -41,6 +42,7 @@ class UserConverter implements Converter
     public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         // There is no contained data. All data is external. So we just do nothing here.
+        
     }
 
     /**

@@ -94,6 +94,7 @@ class LanguageService implements LanguageServiceInterface
             }
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         $createStruct = new CreateStruct(

@@ -139,35 +139,35 @@ trait FacetedSearchProvider
                 $fixtureDir . '/FacetTerm.php',
             ],
             /* @todo: It needs to be defined how this one is supposed to work.
-            array(
-                new $queryClass(
-                    array(
-                        'filter'      => new Criterion\SectionId( array( 1 ) ),
-                        'offset'      => 0,
-                        'limit'       => 10,
-                        'facetBuilders' => array(
-                            new FacetBuilder\CriterionFacetBuilder()
-                        ),
-                        'sortClauses' => array( new SortClause\ContentId() )
-                    )
-                ),
-                $fixtureDir . '/FacetCriterion.php',
-            ), // */
+               array(
+                   new $queryClass(
+                       array(
+                           'filter'      => new Criterion\SectionId( array( 1 ) ),
+                           'offset'      => 0,
+                           'limit'       => 10,
+                           'facetBuilders' => array(
+                               new FacetBuilder\CriterionFacetBuilder()
+                           ),
+                           'sortClauses' => array( new SortClause\ContentId() )
+                       )
+                   ),
+                   $fixtureDir . '/FacetCriterion.php',
+               ), // */
             /* @todo: Add sane ranges here:
-            array(
-                new $queryClass(
-                    array(
-                        'filter'      => new Criterion\SectionId( array( 1 ) ),
-                        'offset'      => 0,
-                        'limit'       => 10,
-                        'facetBuilders' => array(
-                            new FacetBuilder\DateRangeFacetBuilder( array() )
-                        ),
-                        'sortClauses' => array( new SortClause\ContentId() )
-                    )
-                ),
-                $fixtureDir . '/FacetDateRange.php',
-            ), // */
+               array(
+                   new $queryClass(
+                       array(
+                           'filter'      => new Criterion\SectionId( array( 1 ) ),
+                           'offset'      => 0,
+                           'limit'       => 10,
+                           'facetBuilders' => array(
+                               new FacetBuilder\DateRangeFacetBuilder( array() )
+                           ),
+                           'sortClauses' => array( new SortClause\ContentId() )
+                       )
+                   ),
+                   $fixtureDir . '/FacetDateRange.php',
+               ), // */
             [
                 new $queryClass(
                     [

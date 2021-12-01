@@ -101,6 +101,7 @@ class ObjectStateService implements ObjectStateServiceInterface
             );
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         $this->repository->beginTransaction();
@@ -216,6 +217,7 @@ class ObjectStateService implements ObjectStateServiceInterface
                 }
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 
@@ -294,6 +296,7 @@ class ObjectStateService implements ObjectStateServiceInterface
             );
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         $this->repository->beginTransaction();
@@ -385,6 +388,7 @@ class ObjectStateService implements ObjectStateServiceInterface
                 }
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 

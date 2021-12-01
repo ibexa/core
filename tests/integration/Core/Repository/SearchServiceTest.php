@@ -7,7 +7,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use function count;
-use EzSystems\EzPlatformSolrSearchEngine\Tests\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
+use Ibexa\Solr\LegacySetupFactory as LegacySolrSetupFactory;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -1165,7 +1165,6 @@ class SearchServiceTest extends BaseTest
         $locationService = $repository->getLocationService();
 
         $locationCreateStruct = $locationService->newLocationCreateStruct(2); // Home
-
         $createStruct = $contentService->newContentCreateStruct($galleryType, 'eng-GB');
         $createStruct->setField('name', 'Image gallery');
         $createStruct->setField('image', 49); // Images folder
@@ -4087,7 +4086,6 @@ class SearchServiceTest extends BaseTest
         } else {
             // This is how it should eventually work for all search engines,
             // with required reindexing listeners properly implemented.
-
             $result = $searchService->findContent($query);
 
             // Assert last hit manually, as id will change because it is created in test
@@ -4177,7 +4175,6 @@ class SearchServiceTest extends BaseTest
         } else {
             // This is how it should eventually work for all search engines,
             // with required reindexing listeners properly implemented.
-
             $result = $searchService->findLocations($query);
 
             // Assert last two hits manually, as ids will change because they are created
@@ -4444,7 +4441,6 @@ class SearchServiceTest extends BaseTest
             false
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             SearchResult::class,
             $searchResult

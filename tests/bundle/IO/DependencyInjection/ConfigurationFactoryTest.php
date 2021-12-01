@@ -49,6 +49,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
         $this->assertInstanceOf(ArrayNodeDefinition::class, $node);
 
         // @todo customized testing of configuration node ?
+        
     }
 
     public function testConfigureHandler()

@@ -47,6 +47,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->createRole($roleCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -75,6 +76,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->loadRole($role->id);
         /* END: Use Case */
+        
     }
 
     /**
@@ -103,6 +105,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->loadRoleByIdentifier($role->identifier);
         /* END: Use Case */
+        
     }
 
     /**
@@ -124,7 +127,6 @@ class RoleServiceAuthorizationTest extends BaseTest
         // Get the role service
         $roleService = $repository->getRoleService();
         /* END: Use Case */
-
         $this->assertEquals([], $roleService->loadRoles());
     }
 
@@ -154,7 +156,6 @@ class RoleServiceAuthorizationTest extends BaseTest
 
         $repository->getPermissionResolver()->setCurrentUserReference($user);
         /* END: Use Case */
-
         $this->assertCount(6, $roleService->loadRoles());
     }
 
@@ -184,6 +185,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->deleteRole($role);
         /* END: Use Case */
+        
     }
 
     /**
@@ -231,6 +233,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         );
         $roleService->publishRoleDraft($roleDraft);
         /* END: Use Case */
+        
     }
 
     /**
@@ -255,7 +258,6 @@ class RoleServiceAuthorizationTest extends BaseTest
 
         // @todo uncomment when support for multilingual names and descriptions is added EZP-24776
         // $roleCreate->mainLanguageCode = 'eng-US';
-
         // Create a new role with two policies
         $roleDraft = $roleService->createRole($roleCreate);
         $roleService->addPolicyByRoleDraft(
@@ -273,6 +275,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->removePolicyByRoleDraft($roleDraft, $roleDraft->getPolicies()[0]);
         /* END: Use Case */
+        
     }
 
     /**
@@ -306,6 +309,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->removePolicyByRoleDraft($roleDraft, $policyDraft);
         /* END: Use Case */
+        
     }
 
     /**
@@ -340,6 +344,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->assignRoleToUserGroup($role, $userGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -381,6 +386,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->assignRoleToUserGroup($role, $userGroup, $limitation);
         /* END: Use Case */
+        
     }
 
     /**
@@ -424,6 +430,7 @@ class RoleServiceAuthorizationTest extends BaseTest
             }
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -452,6 +459,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->assignRoleToUser($role, $user);
         /* END: Use Case */
+        
     }
 
     /**
@@ -487,6 +495,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->assignRoleToUser($role, $user, $limitation);
         /* END: Use Case */
+        
     }
 
     /**
@@ -523,6 +532,7 @@ class RoleServiceAuthorizationTest extends BaseTest
             }
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -551,6 +561,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->getRoleAssignments($role);
         /* END: Use Case */
+        
     }
 
     /**
@@ -571,7 +582,6 @@ class RoleServiceAuthorizationTest extends BaseTest
         // Set "Editor" user as current user.
         $repository->getPermissionResolver()->setCurrentUserReference($user);
         /* END: Use Case */
-
         $this->assertSame([], $roleService->getRoleAssignmentsForUser($user));
     }
 
@@ -596,7 +606,6 @@ class RoleServiceAuthorizationTest extends BaseTest
 
         $repository->getPermissionResolver()->setCurrentUserReference($user);
         /* END: Use Case */
-
         $roleAssignments = $roleService->getRoleAssignmentsForUser($user);
         $this->assertCount(1, $roleAssignments);
 
@@ -636,6 +645,7 @@ class RoleServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $roleService->getRoleAssignmentsForUserGroup($userGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -659,7 +669,6 @@ class RoleServiceAuthorizationTest extends BaseTest
 
         // @todo uncomment when support for multilingual names and descriptions is added EZP-24776
         // $roleCreate->mainLanguageCode = 'eng-GB';
-
         $roleCreate->addPolicy($policyCreate);
 
         // Create a new role instance.
@@ -667,7 +676,6 @@ class RoleServiceAuthorizationTest extends BaseTest
         $roleService->publishRoleDraft($roleDraft);
         $role = $roleService->loadRole($roleDraft->id);
         /* END: Inline */
-
         return $role;
     }
 }

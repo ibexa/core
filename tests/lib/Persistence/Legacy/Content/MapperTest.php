@@ -252,6 +252,7 @@ class MapperTest extends LanguageAwareTestCase
 
         // parentLocations
         // fields
+        
     }
 
     /**

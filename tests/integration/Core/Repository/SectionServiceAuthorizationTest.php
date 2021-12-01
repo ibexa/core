@@ -46,6 +46,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $sectionService->createSection($sectionCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -78,6 +79,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $sectionService->loadSection($sectionId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -96,7 +98,6 @@ class SectionServiceAuthorizationTest extends BaseTest
         // Publish demo installation.
         // $standardSectionId is the ID of the "Standard" section in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $sectionService = $repository->getSectionService();
 
@@ -114,6 +115,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $sectionService->updateSection($section, $sectionUpdate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -149,7 +151,6 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $sections = $sectionService->loadSections();
         /* END: Use Case */
-
         $this->assertEquals([], $sections);
     }
 
@@ -193,7 +194,6 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $sections = $sectionService->loadSections();
         /* END: Use Case */
-
         // Only Sections the user has access to should be loaded
         $this->assertEquals([$expectedSection], $sections);
     }
@@ -228,6 +228,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $sectionService->loadSectionByIdentifier('uniqueKey');
         /* END: Use Case */
+        
     }
 
     /**
@@ -248,7 +249,6 @@ class SectionServiceAuthorizationTest extends BaseTest
         // Publish demo installation.
         // $standardSectionId is the ID of the "Standard" section in a eZ
         // Publish demo installation.
-
         // RemoteId of the "Media" page of an eZ Publish demo installation
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
 
@@ -270,6 +270,7 @@ class SectionServiceAuthorizationTest extends BaseTest
         // This call will fail with a "UnauthorizedException"
         $sectionService->assignSection($contentInfo, $section);
         /* END: Use Case */
+        
     }
 
     /**
@@ -302,6 +303,7 @@ class SectionServiceAuthorizationTest extends BaseTest
         // This call will fail with a "UnauthorizedException"
         $sectionService->deleteSection($section);
         /* END: Use Case */
+        
     }
 }
 

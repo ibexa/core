@@ -32,7 +32,6 @@ class NotificationServiceTest extends BaseTest
         $notificationService = $repository->getNotificationService();
         $notificationList = $notificationService->loadNotifications(0, 25);
         /* END: Use Case */
-
         $this->assertInstanceOf(NotificationList::class, $notificationList);
         $this->assertIsArray($notificationList->items);
         $this->assertIsInt($notificationList->totalCount);
@@ -53,7 +52,6 @@ class NotificationServiceTest extends BaseTest
         // $notificationId is the ID of an existing notification
         $notification = $notificationService->getNotification($notificationId);
         /* END: Use Case */
-
         $this->assertInstanceOf(Notification::class, $notification);
         $this->assertEquals($notificationId, $notification->id);
     }
@@ -73,7 +71,6 @@ class NotificationServiceTest extends BaseTest
         $notificationService->markNotificationAsRead($notification);
         $notification = $notificationService->getNotification($notificationId);
         /* END: Use Case */
-
         $this->assertFalse($notification->isPending);
     }
 
@@ -88,7 +85,6 @@ class NotificationServiceTest extends BaseTest
         $notificationService = $repository->getNotificationService();
         $notificationPendingCount = $notificationService->getPendingNotificationCount();
         /* END: Use Case */
-
         $this->assertEquals(3, $notificationPendingCount);
     }
 
@@ -103,7 +99,6 @@ class NotificationServiceTest extends BaseTest
         $notificationService = $repository->getNotificationService();
         $notificationCount = $notificationService->getNotificationCount();
         /* END: Use Case */
-
         $this->assertEquals(5, $notificationCount);
     }
 
@@ -120,7 +115,6 @@ class NotificationServiceTest extends BaseTest
         $notification = $notificationService->getNotification($notificationId);
         $notificationService->deleteNotification($notification);
         /* END: Use Case */
-
         try {
             $notificationService->getNotification($notificationId);
             $this->fail('Notification ' . $notificationId . ' not deleted.');
@@ -151,7 +145,6 @@ class NotificationServiceTest extends BaseTest
 
         $notification = $notificationService->createNotification($createStruct);
         /* END: Use Case */
-
         $this->assertInstanceOf(Notification::class, $notification);
         $this->assertGreaterThan(0, $notification->id);
     }
@@ -176,6 +169,7 @@ class NotificationServiceTest extends BaseTest
         // This call will fail because notification owner is not specified
         $notificationService->createNotification($createStruct);
         /* END: Use Case */
+        
     }
 
     /**
@@ -198,6 +192,7 @@ class NotificationServiceTest extends BaseTest
         // This call will fail because notification type is not specified
         $notificationService->createNotification($createStruct);
         /* END: Use Case */
+        
     }
 }
 

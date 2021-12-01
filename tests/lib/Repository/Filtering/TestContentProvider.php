@@ -55,6 +55,7 @@ class TestContentProvider
             return $contentService->loadContentByRemoteId(self::CONTENT_REMOTE_IDS['parent']);
         } catch (NotFoundException $e) {
             // don't do anything
+            
         }
 
         $parentFolder = $this->testInstance->createFolder(

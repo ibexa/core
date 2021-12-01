@@ -27,7 +27,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
         // Create container for articles
-
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
@@ -37,7 +36,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $folder = $contentService->publishVersion($draft->versionInfo);
 
         // Create one article in the container
-
         $contentType = $contentTypeService->loadContentTypeByIdentifier('article');
         $locationCreateStruct = $locationService->newLocationCreateStruct(
             $folder->contentInfo->mainLocationId
@@ -49,7 +47,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $article = $contentService->publishVersion($draft->versionInfo);
 
         // Rename article container
-
         $draft = $contentService->createContentDraft($folder->contentInfo);
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
 
@@ -61,14 +58,12 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $activePath = '/Articles-UPDATED/Article';
 
         // Lookup history first to warm-up URL alias object lookup cache by ID
-
         $urlAliasHistorized = $urlAliasService->lookup($historyPath);
 
         $this->assertEquals($historyPath, $urlAliasHistorized->path);
         $this->assertTrue($urlAliasHistorized->isHistory);
 
         // Reverse lookup once to warm-up URL alias ID cache by Location ID
-
         $urlAlias = $urlAliasService->reverseLookup(
             $locationService->loadLocation($article->contentInfo->mainLocationId)
         );
@@ -78,7 +73,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
 
         // Reverse lookup again to trigger return of URL alias object lookup cache by ID,
         // through URL alias ID cache by Location ID
-
         $urlAlias = $urlAliasService->reverseLookup(
             $locationService->loadLocation($article->contentInfo->mainLocationId)
         );
@@ -95,7 +89,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $urlAliasService = $this->getRepository()->getURLAliasService();
 
         // Create container for articles
-
         $contentType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $locationCreateStruct = $locationService->newLocationCreateStruct(2);
         $contentCreateStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
@@ -105,7 +98,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $folder = $contentService->publishVersion($draft->versionInfo);
 
         // Create one article in the container
-
         $contentType = $contentTypeService->loadContentTypeByIdentifier('article');
         $locationCreateStruct = $locationService->newLocationCreateStruct(
             $folder->contentInfo->mainLocationId
@@ -117,7 +109,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $article = $contentService->publishVersion($draft->versionInfo);
 
         // Rename article container
-
         $draft = $contentService->createContentDraft($folder->contentInfo);
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
 
@@ -129,7 +120,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $activePath = '/Articles-UPDATED/Article';
 
         // Reverse lookup to warm-up URL alias ID cache by Location ID
-
         $urlAlias = $urlAliasService->reverseLookup(
             $locationService->loadLocation($article->contentInfo->mainLocationId)
         );
@@ -145,7 +135,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         $this->assertFalse($urlAlias->isHistory);
 
         // Lookup history URL one to warm-up URL alias ID cache by URL
-
         $urlAliasHistorized = $urlAliasService->lookup($historyPath);
 
         $this->assertEquals($historyPath, $urlAliasHistorized->path);
@@ -153,7 +142,6 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
 
         // Lookup history URL again to trigger return of URL alias object reverse lookup cache by ID,
         // through URL alias ID cache by URL
-
         $urlAliasHistorized = $urlAliasService->lookup($historyPath);
 
         $this->assertEquals($historyPath, $urlAliasHistorized->path);

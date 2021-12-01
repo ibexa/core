@@ -148,6 +148,7 @@ abstract class FileSearchBaseIntegrationTest extends SearchBaseIntegrationTest
             }
         } catch (UnexpectedValueException $e) {
             // The directory to cleanup just doesn't exist
+            
         }
     }
 

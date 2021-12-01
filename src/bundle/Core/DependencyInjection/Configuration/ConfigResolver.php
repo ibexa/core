@@ -296,7 +296,6 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
                 // !! The remaining cases are most likely "not safe", typically:
                 // - ctor('$dynamic_param$') => this should be avoided, use setter or use config resolver instead
                 // - config resolver use in service factory => the service (or decorator, if any) should be marked lazy
-
                 // Possible exception: Class name based services, can't be resolved as namespace is omitted from
                 // compiled function. In this case we won't know if it was updateable and "safe", so we warn to be sure
                 if (!in_array($serviceName, $resettableServiceIds, true) && !$container->has($serviceName)) {

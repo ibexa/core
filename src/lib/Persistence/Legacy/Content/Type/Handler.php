@@ -596,6 +596,7 @@ class Handler implements BaseContentTypeHandler
             $this->updateHandler->deleteOldType($fromType);
         } catch (Exception\TypeNotFound $e) {
             // If no old type is found, no updates are necessary to it
+            
         }
 
         $this->updateHandler->publishNewType($toType, Type::STATUS_DEFINED);

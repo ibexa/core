@@ -32,7 +32,6 @@ class BookmarkServiceTest extends BaseTest
         $location = $repository->getLocationService()->loadLocation($this->generateId('location', self::LOCATION_ID_BOOKMARKED));
         $isBookmarked = $repository->getBookmarkService()->isBookmarked($location);
         /* END: Use Case */
-
         $this->assertTrue($isBookmarked);
     }
 
@@ -47,7 +46,6 @@ class BookmarkServiceTest extends BaseTest
         $location = $repository->getLocationService()->loadLocation($this->generateId('location', self::LOCATION_ID_NOT_BOOKMARKED));
         $isBookmarked = $repository->getBookmarkService()->isBookmarked($location);
         /* END: Use Case */
-
         $this->assertFalse($isBookmarked);
     }
 
@@ -67,7 +65,6 @@ class BookmarkServiceTest extends BaseTest
         $bookmarkService->createBookmark($location);
         $afterCreateBookmark = $bookmarkService->isBookmarked($location);
         /* END: Use Case */
-
         $this->assertFalse($beforeCreateBookmark);
         $this->assertTrue($afterCreateBookmark);
     }
@@ -89,6 +86,7 @@ class BookmarkServiceTest extends BaseTest
         $location = $locationService->loadLocation($this->generateId('location', self::LOCATION_ID_BOOKMARKED));
         $bookmarkService->createBookmark($location);
         /* END: Use Case */
+        
     }
 
     /**
@@ -108,7 +106,6 @@ class BookmarkServiceTest extends BaseTest
         $bookmarkService->deleteBookmark($location);
         $afterDeleteBookmark = $bookmarkService->isBookmarked($location);
         /* END: Use Case */
-
         $this->assertTrue($beforeDeleteBookmark);
         $this->assertFalse($afterDeleteBookmark);
     }
@@ -130,6 +127,7 @@ class BookmarkServiceTest extends BaseTest
         $location = $locationService->loadLocation($this->generateId('location', self::LOCATION_ID_NOT_BOOKMARKED));
         $bookmarkService->deleteBookmark($location);
         /* END: Use Case */
+        
     }
 
     /**
@@ -142,7 +140,6 @@ class BookmarkServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $bookmarks = $repository->getBookmarkService()->loadBookmarks(1, 3);
         /* END: Use Case */
-
         $this->assertInstanceOf(BookmarkList::class, $bookmarks);
         $this->assertEquals($bookmarks->totalCount, 5);
         // Assert bookmarks order: recently added should be first

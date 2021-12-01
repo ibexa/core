@@ -171,6 +171,7 @@ class BinaryStreamResponse extends Response
                 if ($start <= $end) {
                     if ($start < 0 || $end > $fileSize - 1) {
                         $this->setStatusCode(416); // HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
+                        
                     } elseif ($start !== 0 || $end !== $fileSize - 1) {
                         $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
                         $this->offset = $start;

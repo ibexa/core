@@ -58,7 +58,6 @@ class ParentContentTypeLimitationTest extends BaseLimitationTest
         $draft = $this->createWikiPageDraft();
         $content = $contentService->publishVersion($draft->versionInfo);
         /* END: Use Case */
-
         $this->assertEquals(
             'An awesome wiki page',
             $content->getFieldValue('title')->text
@@ -105,6 +104,7 @@ class ParentContentTypeLimitationTest extends BaseLimitationTest
 
         $this->createWikiPageDraft();
         /* END: Use Case */
+        
     }
 }
 

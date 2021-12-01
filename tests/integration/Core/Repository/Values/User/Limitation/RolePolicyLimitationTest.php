@@ -55,7 +55,6 @@ class RolePolicyLimitationTest extends BaseLimitationTest
         $subtreePathString = '/1/2/';
 
         // EZP-26476 use case:
-
         // create new role with overlapping limitation
         $roleName = 'role_with_overlapping_policies';
         $roleCreateStruct = $roleService->newRoleCreateStruct($roleName);

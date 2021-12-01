@@ -35,7 +35,6 @@ class UserGroupLimitationTest extends BaseLimitationTest
 
         $draft = $this->prepareLimitationAndContent($user, $userGroup);
         /* END: Use Case */
-
         $this->assertEquals(
             'An awesome wiki page',
             $draft->getFieldValue('title')->text
@@ -60,6 +59,7 @@ class UserGroupLimitationTest extends BaseLimitationTest
 
         $this->prepareLimitationAndContent($user, $userGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -84,7 +84,6 @@ class UserGroupLimitationTest extends BaseLimitationTest
             )
         );
         /* END: Inline */
-
         return $userGroup;
     }
 
@@ -154,7 +153,6 @@ class UserGroupLimitationTest extends BaseLimitationTest
             $contentService->loadContentInfo($contentId)
         );
         /* END: Inline */
-
         return $draft;
     }
 }

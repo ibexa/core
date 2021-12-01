@@ -34,7 +34,6 @@ abstract class BaseLimitationTest extends BaseTest
 
         $content = $contentService->publishVersion($draft->versionInfo);
         /* END: Inline */
-
         return $content;
     }
 
@@ -82,7 +81,6 @@ abstract class BaseLimitationTest extends BaseTest
             [$locationCreate]
         );
         /* END: Inline */
-
         return $draft;
     }
 

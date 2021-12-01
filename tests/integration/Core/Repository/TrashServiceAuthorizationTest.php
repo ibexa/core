@@ -50,6 +50,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         // This call will fail with an "UnauthorizedException"
         $trashService->loadTrashItem($trashItem->id);
         /* END: Use Case */
+        
     }
 
     /**
@@ -171,6 +172,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         // This call will fail with an "UnauthorizedException"
         $trashService->recover($trashItem);
         /* END: Use Case */
+        
     }
 
     /**
@@ -195,7 +197,6 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         // $anonymousUserId is the ID of the "Anonymous" user
         // $homeLocationId is the ID of the "Home" location in an eZ Publish
         // demo installation
-
         $trashItem = $this->createTrashItem();
 
         // Get the new parent location
@@ -210,6 +211,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         // This call will fail with an "UnauthorizedException"
         $trashService->recover($trashItem, $newParentLocation);
         /* END: Use Case */
+        
     }
 
     /**
@@ -241,6 +243,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         // This call will fail with an "UnauthorizedException"
         $trashService->emptyTrash();
         /* END: Use Case */
+        
     }
 
     /**
@@ -272,6 +275,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         // This call will fail with an "UnauthorizedException"
         $trashService->deleteTrashItem($trashItem);
         /* END: Use Case */
+        
     }
 
     public function testTrashRequiresPremissionsToRemoveAllSubitems()

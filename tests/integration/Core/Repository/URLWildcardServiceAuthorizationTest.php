@@ -31,7 +31,6 @@ class URLWildcardServiceAuthorizationTest extends BaseTest
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $urlWildcardService = $repository->getURLWildcardService();
 
@@ -40,6 +39,7 @@ class URLWildcardServiceAuthorizationTest extends BaseTest
         $this->expectException(UnauthorizedException::class);
         $urlWildcardService->create('/articles/*', '/content/{1}');
         /* END: Use Case */
+        
     }
 
     /**
@@ -72,6 +72,7 @@ class URLWildcardServiceAuthorizationTest extends BaseTest
         $this->expectException(UnauthorizedException::class);
         $urlWildcardService->remove($urlWildcard);
         /* END: Use Case */
+        
     }
 }
 

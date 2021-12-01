@@ -70,6 +70,7 @@ final class SettingService implements SettingServiceInterface
             }
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         return $this->buildSettingDomainObject(

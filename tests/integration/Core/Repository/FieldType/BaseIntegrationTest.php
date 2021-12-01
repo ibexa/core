@@ -261,6 +261,7 @@ abstract class BaseIntegrationTest extends BaseTest
     public function postCreationHook(Repository\Repository $repository, Repository\Values\Content\Content $content)
     {
         // Do nothing by default
+        
     }
 
     public function getValidContentTypeConfiguration(): array
@@ -322,6 +323,7 @@ abstract class BaseIntegrationTest extends BaseTest
             return $contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
         } catch (NotFoundException $e) {
             // Move on to creating Content Type
+            
         }
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct(

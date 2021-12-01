@@ -49,7 +49,6 @@ class SubtreeLimitationTest extends BaseLimitationTest
 
         $userService->updateUserGroup($userGroup, $groupUpdate);
         /* END: Use Case */
-
         $this->assertEquals(
             'eZ Editors',
             $userService->loadUserGroup($userGroupId)
@@ -84,6 +83,7 @@ class SubtreeLimitationTest extends BaseLimitationTest
         // This call will fail with an UnauthorizedException
         $userService->loadUserGroup($userGroupId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -167,6 +167,7 @@ class SubtreeLimitationTest extends BaseLimitationTest
 
         $permissionResolver->setCurrentUserReference($user);
         /* END: Inline */
+        
     }
 }
 

@@ -41,6 +41,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         $this->expectException(UnauthorizedException::class);
         $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US');
         /* END: Use Case */
+        
     }
 
     /**
@@ -68,6 +69,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         // This call will fail with an UnauthorizedException
         $urlAliasService->createGlobalUrlAlias('module:content/search?SearchText=eZ', '/Home/My-New-Site', 'eng-US');
         /* END: Use Case */
+        
     }
 
     /**
@@ -103,6 +105,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         // This call will fail with an UnauthorizedException
         $urlAliasService->removeAliases($initialAliases);
         /* END: Use Case */
+        
     }
 }
 

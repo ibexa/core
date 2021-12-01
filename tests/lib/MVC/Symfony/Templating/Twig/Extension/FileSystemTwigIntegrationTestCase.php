@@ -44,7 +44,6 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
             ]
         );
         // end changes
-
         foreach ($outputs as $match) {
             $config = array_merge(
                 [

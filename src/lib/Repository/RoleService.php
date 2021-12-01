@@ -121,6 +121,7 @@ class RoleService implements RoleServiceInterface
             );
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         $limitationValidationErrors = $this->validateRoleCreateStruct($roleCreateStruct);
@@ -203,6 +204,7 @@ class RoleService implements RoleServiceInterface
             );
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         foreach ($role->getPolicies() as $policy) {
@@ -323,7 +325,7 @@ class RoleService implements RoleServiceInterface
                 /* Throw exception if:
                  * - A published role with the same identifier exists, AND
                  * - The ID of the published role does not match the original ID of the draft
-                */
+                 */
                 $existingSPIRole = $this->userHandler->loadRoleByIdentifier($roleUpdateStruct->identifier);
                 $SPIRoleDraft = $this->userHandler->loadRole($loadedRoleDraft->id, Role::STATUS_DRAFT);
                 if ($existingSPIRole->id != $SPIRoleDraft->originalId) {
@@ -335,6 +337,7 @@ class RoleService implements RoleServiceInterface
                 }
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 
@@ -858,6 +861,7 @@ class RoleService implements RoleServiceInterface
                 );
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 
@@ -905,6 +909,7 @@ class RoleService implements RoleServiceInterface
                     );
                 } catch (APINotFoundException $e) {
                     // Do nothing
+                    
                 }
             }
         }

@@ -111,7 +111,6 @@ abstract class BaseContentTypeServiceTest extends BaseTest
             $groups
         );
         /* END: Inline */
-
         return $contentTypeDraft;
     }
 
@@ -128,7 +127,6 @@ abstract class BaseContentTypeServiceTest extends BaseTest
         $sectionId = $this->generateId('section', 1);
         /* BEGIN: Inline */
         // $parentLocationId is the id of the "/Design/eZ-publish" Location
-
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
         $locationService = $repository->getLocationService();
@@ -160,7 +158,6 @@ abstract class BaseContentTypeServiceTest extends BaseTest
         // Create a draft
         $draft = $contentService->createContent($contentCreate, [$locationCreate]);
         /* END: Inline */
-
         return $draft;
     }
 }

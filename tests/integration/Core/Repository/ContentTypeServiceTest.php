@@ -56,7 +56,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             'new-group'
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentTypeGroupCreateStruct::class,
             $groupCreate
@@ -107,15 +106,13 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $groupCreate->creatorId = $this->generateId('user', $permissionResolver->getCurrentUserReference()->getUserId());
         $groupCreate->creationDate = $this->createDateTime();
         /* @todo uncomment when support for multilingual names and descriptions is added
-        $groupCreate->mainLanguageCode = 'ger-DE';
-        $groupCreate->names = array( 'eng-GB' => 'A name.' );
-        $groupCreate->descriptions = array( 'eng-GB' => 'A description.' );
-        */
-
+           $groupCreate->mainLanguageCode = 'ger-DE';
+           $groupCreate->names = array( 'eng-GB' => 'A name.' );
+           $groupCreate->descriptions = array( 'eng-GB' => 'A description.' );
+           */
         $groupCreate->isSystem = true;
         $group = $contentTypeService->createContentTypeGroup($groupCreate);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentTypeGroup::class,
             $group
@@ -204,6 +201,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws an Exception, since group "Content" already exists
         $contentTypeService->createContentTypeGroup($groupCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -225,7 +223,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // $contentTypeGroupId is the ID of an existing content type group
         $loadedGroup = $contentTypeService->loadContentTypeGroup($contentTypeGroupId);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentTypeGroup::class,
             $loadedGroup
@@ -304,7 +301,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             'Media'
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentTypeGroup::class,
             $loadedGroup
@@ -350,6 +346,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             'not-exists'
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -368,7 +365,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Loads an array with all content type groups
         $loadedGroups = $contentTypeService->loadContentTypeGroups();
         /* END: Use Case */
-
         self::assertIsArray($loadedGroups);
 
         foreach ($loadedGroups as $loadedGroup) {
@@ -436,7 +432,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $groupUpdate = $contentTypeService->newContentTypeGroupUpdateStruct();
         /* END: Use Case */
-
         self::assertInstanceOf(
             ContentTypeGroupUpdateStruct::class,
             $groupUpdate
@@ -466,21 +461,19 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $groupUpdate->modificationDate = $this->createDateTime();
         $groupUpdate->isSystem = true;
         /* @todo uncomment when support for multilingual names and descriptions is added
-        $groupUpdate->mainLanguageCode = 'eng-GB';
-
-        $groupUpdate->names = array(
-            'eng-GB' => 'A name',
-            'eng-US' => 'A name',
-        );
-        $groupUpdate->descriptions = array(
-            'eng-GB' => 'A description',
-            'eng-US' => 'A description',
-        );
-        */
-
+                $groupUpdate->mainLanguageCode = 'eng-GB';
+        
+                $groupUpdate->names = array(
+                    'eng-GB' => 'A name',
+                    'eng-US' => 'A name',
+                );
+                $groupUpdate->descriptions = array(
+                    'eng-GB' => 'A description',
+                    'eng-US' => 'A description',
+                );
+                */
         $contentTypeService->updateContentTypeGroup($group, $groupUpdate);
         /* END: Use Case */
-
         $updatedGroup = $contentTypeService->loadContentTypeGroup($group->id);
 
         self::assertInstanceOf(
@@ -567,6 +560,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Exception, because group with identifier "Users" exists
         $contentTypeService->updateContentTypeGroup($group, $groupUpdate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -593,7 +587,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->deleteContentTypeGroup($group);
         /* END: Use Case */
-
         // loadContentTypeGroup should throw NotFoundException
         $contentTypeService->loadContentTypeGroup($group->id);
 
@@ -618,7 +611,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             'new-type'
         );
         /* END: Use Case */
-
         self::assertInstanceOf(
             ContentTypeCreateStruct::class,
             $typeCreate
@@ -671,7 +663,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $fieldDefinitionCreate = $contentTypeService->newFieldDefinitionCreateStruct('title', 'ezstring');
         /* END: Use Case */
-
         $this->assertInstanceOf(
             FieldDefinitionCreateStruct::class,
             $fieldDefinitionCreate
@@ -728,6 +719,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since group contains types
         $contentTypeService->deleteContentTypeGroup($contentGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -826,7 +818,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $groups
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentType::class,
             $contentTypeDraft
@@ -1005,6 +996,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since type "folder" exists
         $contentTypeService->createContentType($typeCreate, $groups);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1040,6 +1032,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since "folder" type has this remote ID
         $contentTypeService->createContentType($typeCreate, $groups);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1076,6 +1069,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, due to duplicate "title" field
         $contentTypeService->createContentType($typeCreate, $groups);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1156,7 +1150,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $validationErrors = $e->getFieldErrors();
         }
         /* END: Use Case */
-
         /* @var $validationErrors */
         $this->assertTrue(isset($validationErrors));
         $this->assertIsArray($validationErrors);
@@ -1214,7 +1207,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $typeUpdate = $contentTypeService->newContentTypeUpdateStruct();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentTypeUpdateStruct::class,
             $typeUpdate
@@ -1257,7 +1249,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeDraft->id
         );
         /* END: Use Case */
-
         $this->assertEquals(
             $contentTypeDraft,
             $contentTypeDraftReloaded
@@ -1283,6 +1274,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since 2342 does not exist
         $contentTypeDraft = $contentTypeService->loadContentTypeDraft($nonExistingContentTypeId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1363,7 +1355,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->updateContentTypeDraft($contentTypeDraft, $typeUpdate);
         /* END: Use Case */
-
         $updatedType = $contentTypeService->loadContentTypeDraft(
             $contentTypeDraft->id
         );
@@ -1486,6 +1477,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since type "folder" already exists
         $contentTypeService->updateContentTypeDraft($contentTypeDraft, $typeUpdate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1510,6 +1502,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since remote ID of type "folder" is used
         $contentTypeService->updateContentTypeDraft($contentTypeDraft, $typeUpdate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1590,7 +1583,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefCreate);
         /* END: Use Case */
-
         $loadedType = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
 
         $this->assertInstanceOf(
@@ -1652,6 +1644,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws an exception
         $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1694,7 +1687,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $validationErrors = $e->getFieldErrors();
         }
         /* END: Use Case */
-
         /* @var $validationErrors */
         $this->assertTrue(isset($validationErrors));
         $this->assertIsArray($validationErrors);
@@ -1753,6 +1745,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws an exception because $userContentTypeDraft already contains non-repeatable field type definition 'ezuser'
         $contentTypeService->addFieldDefinition($userContentTypeDraft, $fieldDefCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1806,6 +1799,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             [$contentTypeService->loadContentTypeGroupByIdentifier('Content')]
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -1848,6 +1842,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws an exception because 'ezuser' type field definition can't be added to ContentType that already has Content instances
         $contentTypeService->addFieldDefinition($folderContentTypeDraft, $fieldDefCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1870,7 +1865,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->removeFieldDefinition($contentTypeDraft, $bodyField);
         /* END: Use Case */
-
         $loadedType = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
 
         $this->assertInstanceOf(
@@ -1933,6 +1927,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, sine "body" has already been removed
         $contentTypeService->removeFieldDefinition($loadedDraft, $bodyField);
         /* END: Use Case */
+        
     }
 
     /**
@@ -2257,7 +2252,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $updateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
         /* END: Use Case */
-
         self::assertInstanceOf(
             FieldDefinitionUpdateStruct::class,
             $updateStruct
@@ -2329,7 +2323,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $bodyUpdateStruct
         );
         /* END: Use Case */
-
         $loadedDraft = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
         $this->assertInstanceOf(
             FieldDefinition::class,
@@ -2386,7 +2379,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $bodyUpdateStruct
         );
         /* END: Use Case */
-
         $contentType = $contentTypeService->loadContentTypeDraft($contentTypeDraft->id);
 
         self::assertEquals(
@@ -2499,6 +2491,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $bodyUpdateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -2532,6 +2525,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $bodyUpdateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -2550,7 +2544,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         /* END: Use Case */
-
         $publishedType = $contentTypeService->loadContentType($contentTypeDraft->id);
 
         $this->assertInstanceOf(
@@ -2675,6 +2668,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since no draft exists anymore
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         /* END: Use Case */
+        
     }
 
     /**
@@ -2730,7 +2724,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Loads the standard "user_group" type
         $userGroupType = $contentTypeService->loadContentType($userGroupId);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentType::class,
             $userGroupType
@@ -2947,6 +2940,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since type with ID 2342 does not exist
         $contentTypeService->loadContentType($nonExistentTypeId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -2967,7 +2961,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $articleType = $contentTypeService->loadContentTypeByIdentifier('article');
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentType::class,
             $articleType
@@ -3013,6 +3006,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws an exception, since no type with this identifier exists
         $contentTypeService->loadContentTypeByIdentifier('sindelfingen');
         /* END: Use Case */
+        
     }
 
     /**
@@ -3033,7 +3027,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             '25b4268cdcd01921b808a0d854b877ef'
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentType::class,
             $userGroupType
@@ -3077,6 +3070,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws an exception, since no type with this remote ID exists
         $contentTypeService->loadContentTypeByRemoteId('not-exists');
         /* END: Use Case */
+        
     }
 
     /**
@@ -3123,7 +3117,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Loads all types from content type group "Users"
         $types = $contentTypeService->loadContentTypes($contentTypeGroup);
         /* END: Use Case */
-
         $this->assertIsArray($types);
 
         return $types;
@@ -3176,7 +3169,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $commentTypeDraft = $contentTypeService->createContentTypeDraft($commentType);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentTypeDraft::class,
             $commentTypeDraft
@@ -3285,6 +3277,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws exception, since type draft already exists
         $contentTypeService->createContentTypeDraft($commentType);
         /* END: Use Case */
+        
     }
 
     /**
@@ -3306,7 +3299,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->deleteContentType($commentType);
         /* END: Use Case */
-
         $contentTypeService->loadContentType($commentType->id);
         $this->fail('Content type could be loaded after delete.');
     }
@@ -3332,6 +3324,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // least on content object of type "user" in an eZ Publish demo
         $contentTypeService->deleteContentType($contentType);
         /* END: Use Case */
+        
     }
 
     /**
@@ -3362,7 +3355,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             return $contentType->identifier;
         }, $contentTypes);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ContentType::class,
             $copiedType
@@ -3492,7 +3484,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Complete copy of the "comment" type
         $copiedType = $contentTypeService->copyContentType($commentType, $user);
         /* END: Use Case */
-
         $this->assertPropertiesCorrect(
             [
                 'creatorId' => $user->id,
@@ -3523,7 +3514,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->assignContentTypeGroup($folderType, $mediaGroup);
         /* END: Use Case */
-
         $loadedType = $contentTypeService->loadContentType($folderType->id);
 
         foreach ($loadedType->contentTypeGroups as $loadedGroup) {
@@ -3562,6 +3552,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeService->assignContentTypeGroup($folderType, $assignedGroup);
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -3587,7 +3578,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         $contentTypeService->unassignContentTypeGroup($folderType, $contentGroup);
         /* END: Use Case */
-
         $loadedType = $contentTypeService->loadContentType($folderType->id);
 
         foreach ($loadedType->contentTypeGroups as $assignedGroup) {
@@ -3623,6 +3613,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Throws an exception, since "Media" group is not assigned to "folder"
         $contentTypeService->unassignContentTypeGroup($folderType, $notAssignedGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -3648,6 +3639,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeService->unassignContentTypeGroup($folderType, $assignedGroup);
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -3667,9 +3659,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Get create struct and set language property
         $groupCreate = $contentTypeService->newContentTypeGroupCreateStruct('new-group');
         /* @todo uncomment when support for multilingual names and descriptions is added
-        $groupCreate->mainLanguageCode = 'eng-GB';
-        */
-
+           $groupCreate->mainLanguageCode = 'eng-GB';
+           */
         // Start a new transaction
         $repository->beginTransaction();
 
@@ -3692,7 +3683,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             return;
         }
         /* END: Use Case */
-
         $this->fail('Can still load content type group after rollback');
     }
 
@@ -3713,9 +3703,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Get create struct and set language property
         $groupCreate = $contentTypeService->newContentTypeGroupCreateStruct('new-group');
         /* @todo uncomment when support for multilingual names and descriptions is added
-        $groupCreate->mainLanguageCode = 'eng-GB';
-        */
-
+           $groupCreate->mainLanguageCode = 'eng-GB';
+           */
         // Start a new transaction
         $repository->beginTransaction();
 
@@ -3734,7 +3723,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Load created content type group
         $group = $contentTypeService->loadContentTypeGroup($groupId);
         /* END: Use Case */
-
         $this->assertEquals($groupId, $group->id);
     }
 
@@ -3777,7 +3765,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Load updated group, it will be unchanged
         $updatedGroup = $contentTypeService->loadContentTypeGroupByIdentifier('Setup');
         /* END: Use Case */
-
         $this->assertEquals('Setup', $updatedGroup->identifier);
     }
 
@@ -3822,7 +3809,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             'Teardown'
         );
         /* END: Use Case */
-
         $this->assertEquals('Teardown', $updatedGroup->identifier);
     }
 
@@ -3868,9 +3854,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeService->loadContentTypeGroupByIdentifier('new-group');
         } catch (NotFoundException $e) {
             // Expected error path
+            
         }
         /* END: Use Case */
-
         $this->assertTrue(isset($e), 'Group not deleted after rollback');
     }
 
@@ -3916,9 +3902,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeService->loadContentTypeGroupByIdentifier('new-group');
         } catch (NotFoundException $e) {
             // Expected error path
+            
         }
         /* END: Use Case */
-
         $this->assertTrue(isset($e), 'Group not deleted after commit.');
     }
 
@@ -3976,9 +3962,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeService->loadContentTypeByIdentifier('blog-post');
         } catch (NotFoundException $e) {
             // Expected execution path
+            
         }
         /* END: Use Case */
-
         $this->assertTrue(isset($e), 'Can still load content type after rollback.');
     }
 
@@ -4034,7 +4020,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Load the newly created content type
         $contentType = $contentTypeService->loadContentTypeByIdentifier('blog-post');
         /* END: Use Case */
-
         $this->assertEquals($contentTypeDraft->id, $contentType->id);
     }
 
@@ -4076,9 +4061,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeService->loadContentType($copiedType->id);
         } catch (NotFoundException $e) {
             // Expected execution path
+            
         }
         /* END: Use Case */
-
         $this->assertTrue(isset($e), 'Can still load copied content type after rollback.');
     }
 
@@ -4118,7 +4103,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Load the new content type copy.
         $copiedContentType = $contentTypeService->loadContentType($contentTypeId);
         /* END: Use Case */
-
         $this->assertEquals($contentTypeId, $copiedContentType->id);
     }
 
@@ -4157,7 +4141,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         // Load currently deleted and rollbacked content type
         $commentType = $contentTypeService->loadContentTypeByIdentifier('comment');
         /* END: Use Case */
-
         $this->assertEquals('comment', $commentType->identifier);
     }
 
@@ -4198,9 +4181,9 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeService->loadContentTypeByIdentifier('comment');
         } catch (NotFoundException $e) {
             // Expected execution path
+            
         }
         /* END: Use Case */
-
         $this->assertTrue(isset($e), 'Can still load content type after rollback.');
     }
 
@@ -4243,7 +4226,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeIds[] = $contentType->id;
         }
         /* END: Use Case */
-
         $this->assertFalse(
             in_array($folderType->id, $contentTypeIds),
             'Folder content type is still in media group after rollback.'
@@ -4289,7 +4271,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             $contentTypeIds[] = $contentType->id;
         }
         /* END: Use Case */
-
         $this->assertTrue(
             in_array($folderType->id, $contentTypeIds),
             'Folder content type not in media group after commit.'
@@ -4314,7 +4295,6 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $isFolderUsed = $contentTypeService->isContentTypeUsed($folderType);
         $isEventUsed = $contentTypeService->isContentTypeUsed($eventType);
         /* END: Use Case */
-
         $this->assertTrue($isFolderUsed);
         $this->assertFalse($isEventUsed);
     }

@@ -719,6 +719,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
                 );
             } catch (NotFoundException $e) {
                 // Do nothing
+                
             }
         }
 

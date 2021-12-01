@@ -82,6 +82,7 @@ class Type extends FieldType
     protected function checkValueStructure(BaseValue $value)
     {
         // Does nothing
+        
     }
 
     /**

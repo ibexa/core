@@ -1123,6 +1123,7 @@ class SearchEngineIndexingTest extends BaseTest
             return $contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
         } catch (NotFoundException $e) {
             // continue creation process
+            
         }
 
         $nameField = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');

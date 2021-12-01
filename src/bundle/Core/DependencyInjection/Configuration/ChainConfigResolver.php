@@ -77,6 +77,7 @@ class ChainConfigResolver implements ConfigResolverInterface
                 return $resolver->getParameter($paramName, $namespace, $scope);
             } catch (ParameterNotFoundException $e) {
                 // Do nothing, just let the next resolver handle it
+                
             }
         }
 

@@ -1434,6 +1434,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->fail('Location was not deleted!');
         } catch (NotFoundException $e) {
             // Do nothing
+            
         }
     }
 

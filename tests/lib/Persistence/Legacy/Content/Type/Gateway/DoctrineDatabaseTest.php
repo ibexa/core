@@ -360,13 +360,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
 
         /*
-         * Store mapper fixture
-         *
-        file_put_contents(
-            dirname( __DIR__ ) . '/_fixtures/map_load_type.php',
-            "<?php\n\nreturn " . var_export( $rows, true ) . ";\n"
-        );
-         */
+        * Store mapper fixture
+        *
+                file_put_contents(
+           dirname( __DIR__ ) . '/_fixtures/map_load_type.php',
+           "<?php\n\nreturn " . var_export( $rows, true ) . ";\n"
+                );
+        */
+        
     }
 
     public function testLoadTypeDataByIdentifier()

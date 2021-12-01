@@ -176,6 +176,7 @@ class Type extends FieldType
     protected function checkValueStructure(BaseValue $value)
     {
         // Does nothing
+        
     }
 
     /**
@@ -362,6 +363,7 @@ class Type extends FieldType
                 );
             } catch (NotFoundException $e) {
                 // Do nothing
+                
             }
         }
 
@@ -372,6 +374,7 @@ class Type extends FieldType
                     $user = $this->userHandler->loadByEmail($email);
                 } catch (LogicException $exception) {
                     // There are multiple users with the same email
+                    
                 }
 
                 // Don't prevent email update
@@ -388,6 +391,7 @@ class Type extends FieldType
                 }
             } catch (NotFoundException $e) {
                 // Do nothing
+                
             }
         }
 

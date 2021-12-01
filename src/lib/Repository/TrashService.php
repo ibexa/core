@@ -354,6 +354,7 @@ class TrashService implements TrashServiceInterface
                 );
             } catch (APIUnauthorizedException $e) {
                 // Do nothing, thus exclude items the current user doesn't have read access to.
+                
             }
         }
 

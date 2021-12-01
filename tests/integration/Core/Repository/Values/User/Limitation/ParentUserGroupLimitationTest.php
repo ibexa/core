@@ -71,7 +71,6 @@ class ParentUserGroupLimitationTest extends BaseLimitationTest
 
         $draft = $this->createWikiPageDraft();
         /* END: Use Case */
-
         $this->assertEquals(
             'An awesome wiki page',
             $draft->getFieldValue('title')->text
@@ -132,6 +131,7 @@ class ParentUserGroupLimitationTest extends BaseLimitationTest
 
         $this->createWikiPageDraft();
         /* END: Use Case */
+        
     }
 }
 

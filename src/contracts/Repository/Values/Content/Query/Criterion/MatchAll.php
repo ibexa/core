@@ -23,6 +23,7 @@ class MatchAll extends Criterion implements FilteringCriterion, TrashCriterion
     public function __construct()
     {
         // Do NOT call parent constructor. It tries to be too smart.
+        
     }
 
     public function getSpecifications(): array

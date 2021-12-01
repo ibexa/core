@@ -742,7 +742,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         // Compile time handlers
         // These are defined at compile time, and hence can't be set at runtime using env()
         // config/env/generic.php takes care about letting you set them by env variables
-
         // Session handler, by default set to file based (instead of ~) in order to be able to use %ezplatform.session.save_path%
         $container->setParameter('ezplatform.session.handler_id', 'session.handler.native_file');
 

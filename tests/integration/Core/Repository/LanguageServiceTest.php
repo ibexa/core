@@ -35,7 +35,6 @@ class LanguageServiceTest extends BaseTest
 
         $languageCreate = $languageService->newLanguageCreateStruct();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             LanguageCreateStruct::class,
             $languageCreate
@@ -73,7 +72,6 @@ class LanguageServiceTest extends BaseTest
 
         $language = $languageService->createLanguage($languageCreate);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             Language::class,
             $language
@@ -146,6 +144,7 @@ class LanguageServiceTest extends BaseTest
         // the language code "nor-NO" already exists.
         $languageService->createLanguage($languageCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -206,6 +205,7 @@ class LanguageServiceTest extends BaseTest
 
         $languageService->loadLanguageById($nonExistentLanguageId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -235,7 +235,6 @@ class LanguageServiceTest extends BaseTest
             'New language name.'
         );
         /* END: Use Case */
-
         // Verify that the service returns an updated language instance.
         $this->assertInstanceOf(
             Language::class,
@@ -297,7 +296,6 @@ class LanguageServiceTest extends BaseTest
 
         $enabledLanguage = $languageService->loadLanguageById($language->id);
         /* END: Use Case */
-
         $this->assertTrue($enabledLanguage->enabled);
     }
 
@@ -326,7 +324,6 @@ class LanguageServiceTest extends BaseTest
 
         $enabledLanguage = $languageService->loadLanguageById($language->id);
         /* END: Use Case */
-
         $this->assertFalse($enabledLanguage->enabled);
     }
 
@@ -354,7 +351,6 @@ class LanguageServiceTest extends BaseTest
         // Now load the newly created language by it's language code
         $language = $languageService->loadLanguage('eng-NZ');
         /* END: Use Case */
-
         $this->assertPropertiesCorrect(
             [
                 'id' => $languageId,
@@ -459,7 +455,6 @@ class LanguageServiceTest extends BaseTest
             );
         }
         /* END: Use Case */
-
         // eng-US, eng-GB, ger-DE + 2 newly created
         $this->assertCount(5, $languages);
     }
@@ -505,7 +500,6 @@ class LanguageServiceTest extends BaseTest
         // Delete the newly created language
         $languageService->deleteLanguage($language);
         /* END: Use Case */
-
         // +1 -1
         $this->assertEquals($beforeCount, count($languageService->loadLanguages()));
 
@@ -538,7 +532,6 @@ class LanguageServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $editorsGroupId is the ID of the "Editors" user group in an eZ
         // Publish demo installation
-
         $languageService = $repository->getContentLanguageService();
 
         $languageCreateEnglish = $languageService->newLanguageCreateStruct();
@@ -564,6 +557,7 @@ class LanguageServiceTest extends BaseTest
         // new language is used by a content object.
         $languageService->deleteLanguage($language);
         /* END: Use Case */
+        
     }
 
     /**
@@ -621,9 +615,9 @@ class LanguageServiceTest extends BaseTest
             $languageService->loadLanguage('eng-NZ');
         } catch (NotFoundException $e) {
             // Expected execution path
+            
         }
         /* END: Use Case */
-
         $this->assertTrue(isset($e), 'Can still load language after rollback');
     }
 
@@ -664,7 +658,6 @@ class LanguageServiceTest extends BaseTest
         // Load new language
         $language = $languageService->loadLanguage('eng-NZ');
         /* END: Use Case */
-
         $this->assertEquals('eng-NZ', $language->languageCode);
     }
 
@@ -702,7 +695,6 @@ class LanguageServiceTest extends BaseTest
         // Load updated version, name will still be "English (American)"
         $updatedLanguage = $languageService->loadLanguage('eng-US');
         /* END: Use Case */
-
         $this->assertEquals('English (American)', $updatedLanguage->name);
     }
 
@@ -740,7 +732,6 @@ class LanguageServiceTest extends BaseTest
         // Load updated version, name will be "My English"
         $updatedLanguage = $languageService->loadLanguage('eng-US');
         /* END: Use Case */
-
         $this->assertEquals('My English', $updatedLanguage->name);
     }
 }

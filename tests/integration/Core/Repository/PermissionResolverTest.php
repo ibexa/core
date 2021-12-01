@@ -46,11 +46,9 @@ class PermissionResolverTest extends BaseTest
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
         // Only a UserReference has previously been set to the $repository
-
         $permissionResolver = $repository->getPermissionResolver();
         $anonymousUserReference = $permissionResolver->getCurrentUserReference();
         /* END: Use Case */
-
         self::assertEquals(
             $anonymousUserReference->getUserId(),
             $repository->getUserService()->loadUser($anonymousUserId)->id
@@ -76,7 +74,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $administratorUserId contains the ID of the administrator user
-
         $permissionResolver = $repository->getPermissionResolver();
 
         $userService = $repository->getUserService();
@@ -87,7 +84,6 @@ class PermissionResolverTest extends BaseTest
         // Set administrator user as current user reference
         $permissionResolver->setCurrentUserReference($administratorUser);
         /* END: Use Case */
-
         $this->assertEquals(
             $administratorUserId,
             $permissionResolver->getCurrentUserReference()->getUserId()
@@ -114,7 +110,6 @@ class PermissionResolverTest extends BaseTest
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
 
@@ -125,7 +120,6 @@ class PermissionResolverTest extends BaseTest
         // to content removal
         $hasAccess = $permissionResolver->hasAccess('content', 'remove', $anonymousUser);
         /* END: Use Case */
-
         $this->assertFalse($hasAccess);
     }
 
@@ -145,7 +139,6 @@ class PermissionResolverTest extends BaseTest
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
 
@@ -159,7 +152,6 @@ class PermissionResolverTest extends BaseTest
         // to content removal
         $hasAccess = $permissionResolver->hasAccess('content', 'remove');
         /* END: Use Case */
-
         $this->assertFalse($hasAccess);
     }
 
@@ -177,7 +169,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $administratorUserId contains the ID of the administrator user
-
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
 
@@ -187,7 +178,6 @@ class PermissionResolverTest extends BaseTest
         // This call will return true
         $hasAccess = $permissionResolver->hasAccess('content', 'read', $administratorUser);
         /* END: Use Case */
-
         $this->assertTrue($hasAccess);
     }
 
@@ -207,7 +197,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $administratorUserId contains the ID of the administrator user
-
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
 
@@ -220,7 +209,6 @@ class PermissionResolverTest extends BaseTest
         // This call will return true
         $hasAccess = $permissionResolver->hasAccess('content', 'read');
         /* END: Use Case */
-
         $this->assertTrue($hasAccess);
     }
 
@@ -247,7 +235,6 @@ class PermissionResolverTest extends BaseTest
         // to reading content
         $permissionSets = $permissionResolver->hasAccess('content', 'read');
         /* END: Use Case */
-
         $this->assertIsArray(
             $permissionSets
         );
@@ -275,7 +262,6 @@ class PermissionResolverTest extends BaseTest
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
         // $homeId contains the ID of the "Home" frontpage
-
         $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
@@ -298,6 +284,7 @@ class PermissionResolverTest extends BaseTest
             $contentService->deleteContent($contentInfo);
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -320,7 +307,6 @@ class PermissionResolverTest extends BaseTest
         /* BEGIN: Use Case */
         // $administratorUserId contains the ID of the administrator user
         // $homeId contains the ID of the "Home" frontpage
-
         $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
@@ -340,7 +326,6 @@ class PermissionResolverTest extends BaseTest
         // Performing an action having necessary permissions will succeed
         $contentService->deleteContent($contentInfo);
         /* END: Use Case */
-
         $this->assertTrue($canUser);
         $contentService->loadContent($homeId);
     }
@@ -361,7 +346,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $imagesFolderId contains the ID of the "Images" folder
-
         $user = $this->createUserVersion1();
 
         $permissionResolver = $repository->getPermissionResolver();
@@ -377,7 +361,6 @@ class PermissionResolverTest extends BaseTest
         // This call will return true
         $canUser = $permissionResolver->canUser('content', 'read', $imagesFolder);
         /* END: Use Case */
-
         $this->assertTrue($canUser);
     }
 
@@ -399,7 +382,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $administratorUserId contains the ID of the administrator user
-
         $user = $this->createUserVersion1();
 
         $permissionResolver = $repository->getPermissionResolver();
@@ -423,6 +405,7 @@ class PermissionResolverTest extends BaseTest
             $content = $contentService->loadContent($administratorUserId);
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -444,7 +427,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $userGroupContentTypeId contains the ID of the "UserGroup" ContentType
-
         $user = $this->createUserVersion1();
 
         $permissionResolver = $repository->getPermissionResolver();
@@ -462,6 +444,7 @@ class PermissionResolverTest extends BaseTest
         // which can not be checked for user access
         $permissionResolver->canUser('content', 'create', $userGroupContentType);
         /* END: Use Case */
+        
     }
 
     /**
@@ -481,7 +464,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $homeLocationId contains the ID of the "Home" location
-
         $user = $this->createUserVersion1();
 
         $permissionResolver = $repository->getPermissionResolver();
@@ -517,7 +499,6 @@ class PermissionResolverTest extends BaseTest
             [$locationCreateStruct]
         );
         /* END: Use Case */
-
         $this->assertTrue($canUser);
         $this->assertEquals(
             'My awesome forums',
@@ -544,7 +525,6 @@ class PermissionResolverTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $homeLocationId contains the ID of the "Home" frontpage location
-
         $user = $this->createUserVersion1();
 
         $permissionResolver = $repository->getPermissionResolver();
@@ -583,6 +563,7 @@ class PermissionResolverTest extends BaseTest
             );
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -604,7 +585,6 @@ class PermissionResolverTest extends BaseTest
         /* BEGIN: Use Case */
         // $imagesLocationId contains the ID of the "Images" location
         // $filesLocationId contains the ID of the "Files" location
-
         $user = $this->createUserVersion1();
 
         $permissionResolver = $repository->getPermissionResolver();
@@ -639,7 +619,6 @@ class PermissionResolverTest extends BaseTest
         // Performing an action having necessary permissions will succeed
         $contentDraft = $contentService->createContent($contentCreateStruct, $locationCreateStructs);
         /* END: Use Case */
-
         $this->assertTrue($canUser);
         $this->assertEquals(
             'My multipurpose folder',
@@ -668,7 +647,6 @@ class PermissionResolverTest extends BaseTest
         /* BEGIN: Use Case */
         // $homeLocationId contains the ID of the "Home" location
         // $administratorUsersLocationId contains the ID of the "Administrator users" location
-
         $user = $this->createUserVersion1();
 
         $permissionResolver = $repository->getPermissionResolver();
@@ -706,6 +684,7 @@ class PermissionResolverTest extends BaseTest
             $contentDraft = $contentService->createContent($contentCreateStruct, $locationCreateStructs);
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -755,6 +734,7 @@ class PermissionResolverTest extends BaseTest
             [$rootUrlAlias]
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -896,7 +876,6 @@ class PermissionResolverTest extends BaseTest
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
         // $homeId contains the ID of the "Home" frontpage
-
         $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
@@ -915,7 +894,6 @@ class PermissionResolverTest extends BaseTest
         // will be empty array
         $lookupLimitations = $permissionResolver->lookupLimitations('content', 'remove', $contentInfo);
         /* END: Use Case */
-
         $this->assertFalse($lookupLimitations->hasAccess);
         $this->assertEquals($lookupLimitations->roleLimitations, []);
         $this->assertEquals($lookupLimitations->lookupPolicyLimitations, []);
@@ -939,7 +917,6 @@ class PermissionResolverTest extends BaseTest
         /* BEGIN: Use Case */
         // $administratorUserId contains the ID of the administrator user
         // $homeId contains the ID of the "Home" frontpage
-
         $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
         $permissionResolver = $repository->getPermissionResolver();
@@ -956,7 +933,6 @@ class PermissionResolverTest extends BaseTest
         // This call will return true
         $lookupLimitations = $permissionResolver->lookupLimitations('content', 'remove', $contentInfo);
         /* END: Use Case */
-
         $this->assertTrue($lookupLimitations->hasAccess);
         $this->assertEquals($lookupLimitations->roleLimitations, []);
         $this->assertEquals($lookupLimitations->lookupPolicyLimitations, []);
@@ -1119,7 +1095,6 @@ class PermissionResolverTest extends BaseTest
         $roleService->assignRoleToUser($role, $user, $roleLimitation);
         $permissionResolver->setCurrentUserReference($user);
         /* END: Use Case */
-
         $expected = new LookupLimitationResult(
             true,
             [$roleLimitation],
@@ -1175,7 +1150,6 @@ class PermissionResolverTest extends BaseTest
         $roleService->assignRoleToUser($role, $user, $roleLimitation);
         $permissionResolver->setCurrentUserReference($user);
         /* END: Use Case */
-
         $expectedPolicy = current(array_filter($role->getPolicies(), static function ($policy) use ($module, $function) {
             return $policy->module === $module && $policy->function === $function;
         }));
@@ -1233,7 +1207,6 @@ class PermissionResolverTest extends BaseTest
         $roleService->assignRoleToUser($role, $user, $roleLimitation);
         $permissionResolver->setCurrentUserReference($user);
         /* END: Use Case */
-
         $expected = new LookupLimitationResult(
             false,
             [],

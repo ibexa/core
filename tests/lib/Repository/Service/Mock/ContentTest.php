@@ -5089,7 +5089,6 @@ class ContentTest extends BaseServiceMockTest
             ->with($this->equalTo($contentType->id))
             ->will($this->returnValue($contentType));
         */
-
         $contentUpdateStruct = new ContentUpdateStruct(
             [
                 'fields' => $structFields,

@@ -62,12 +62,10 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Use Case */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         $userGroup = $userService->loadUserGroup($mainGroupId);
         /* END: Use Case */
-
         $this->assertInstanceOf(UserGroup::class, $userGroup);
 
         // User group happens to also be a Content; isUserGroup() should be true and isUser() should be false
@@ -108,7 +106,6 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Use Case */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         $user = $this->createUserWithPolicies(
@@ -122,7 +119,6 @@ class UserServiceTest extends BaseTest
 
         $userGroup = $userService->loadUserGroup($mainGroupId);
         /* END: Use Case */
-
         $this->assertInstanceOf(UserGroup::class, $userGroup);
 
         // User group happens to also be a Content; isUserGroup() should be true and isUser() should be false
@@ -150,6 +146,7 @@ class UserServiceTest extends BaseTest
         // This call will fail with a NotFoundException
         $userService->loadUserGroup($nonExistingGroupId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -181,7 +178,6 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Use Case */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         $userGroup = $userService->loadUserGroup($mainGroupId);
@@ -192,6 +188,7 @@ class UserServiceTest extends BaseTest
             $this->assertInstanceOf(UserGroup::class, $subUserGroup);
         }
         /* END: Use Case */
+        
     }
 
     /**
@@ -241,7 +238,6 @@ class UserServiceTest extends BaseTest
 
         $groupCreate = $userService->newUserGroupCreateStruct('eng-US');
         /* END: Use Case */
-
         self::assertInstanceOf(
             UserGroupCreateStruct::class,
             $groupCreate
@@ -302,7 +298,6 @@ class UserServiceTest extends BaseTest
             $groupType
         );
         /* END: Use Case */
-
         $this->assertSame($groupType, $groupCreate->contentType);
     }
 
@@ -320,7 +315,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $userGroup = $this->createUserGroupVersion1();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             UserGroup::class,
             $userGroup
@@ -369,7 +363,6 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Use Case */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         // Load main group
@@ -387,6 +380,7 @@ class UserServiceTest extends BaseTest
             $parentUserGroup
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -404,7 +398,6 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Use Case */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         // Load main group
@@ -421,6 +414,7 @@ class UserServiceTest extends BaseTest
             $parentUserGroup
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -438,7 +432,6 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Use Case */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         // Load main group
@@ -451,6 +444,7 @@ class UserServiceTest extends BaseTest
         // only mandatory field "name" is not set.
         $userService->createUserGroup($userGroupCreate, $parentUserGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -467,7 +461,6 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Use Case */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         $repository->beginTransaction();
@@ -500,7 +493,6 @@ class UserServiceTest extends BaseTest
             return;
         }
         /* END: Use Case */
-
         $this->fail('User group object still exists after rollback.');
     }
 
@@ -523,7 +515,6 @@ class UserServiceTest extends BaseTest
         // Delete the currently created user group again
         $userService->deleteUserGroup($userGroup);
         /* END: Use Case */
-
         // We use the NotFoundException here for verification
         $userService->loadUserGroup($userGroup->id);
     }
@@ -571,7 +562,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $membersGroupId is the ID of the "Members" user group in an eZ
         // Publish demo installation
-
         $userGroup = $this->createUserGroupVersion1();
 
         // Load the new parent group
@@ -590,7 +580,6 @@ class UserServiceTest extends BaseTest
             $membersUserGroup
         );
         /* END: Use Case */
-
         $subUserGroupIds = array_map(
             static function ($content) {
                 return $content->id;
@@ -655,7 +644,6 @@ class UserServiceTest extends BaseTest
 
         $groupUpdate = $userService->newUserGroupUpdateStruct();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             UserGroupUpdateStruct::class,
             $groupUpdate
@@ -689,7 +677,6 @@ class UserServiceTest extends BaseTest
             $groupUpdate
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             UserGroup::class,
             $userGroup
@@ -729,7 +716,6 @@ class UserServiceTest extends BaseTest
             $groupUpdate
         );
         /* END: Use Case */
-
         $this->assertEquals('Sindelfingen', $userGroup->getFieldValue('name', 'eng-US'));
 
         $versionInfo = $userGroup->getVersionInfo();
@@ -769,7 +755,6 @@ class UserServiceTest extends BaseTest
             $groupUpdate
         );
         /* END: Use Case */
-
         $this->assertEquals(
             '3c61299780663bafa3af2101e52125da',
             $userGroup->contentInfo->remoteId
@@ -813,6 +798,7 @@ class UserServiceTest extends BaseTest
         // field "name" does not accept the given value
         $userService->updateUserGroup($userGroup, $groupUpdate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -834,7 +820,6 @@ class UserServiceTest extends BaseTest
             'eng-US'
         );
         /* END: Use Case */
-
         self::assertInstanceOf(
             UserCreateStruct::class,
             $userCreate
@@ -914,7 +899,6 @@ class UserServiceTest extends BaseTest
             $userType
         );
         /* END: Use Case */
-
         $this->assertSame($userType, $userCreate->contentType);
     }
 
@@ -948,7 +932,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $user = $this->createUserVersion1();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             User::class,
             $user
@@ -997,7 +980,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $editorsGroupId is the ID of the "Editors" user group in an eZ
         // Publish demo installation
-
         $userService = $repository->getUserService();
 
         // Instantiate a create struct with mandatory properties
@@ -1011,7 +993,6 @@ class UserServiceTest extends BaseTest
         // Do not set the mandatory fields "first_name" and "last_name"
         //$userCreate->setField( 'first_name', 'Example' );
         //$userCreate->setField( 'last_name', 'User' );
-
         // Load parent group for the user
         $group = $userService->loadUserGroup($editorsGroupId);
 
@@ -1019,6 +1000,7 @@ class UserServiceTest extends BaseTest
         // mandatory fields "first_name" and "last_name" are not set.
         $userService->createUser($userCreate, [$group]);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1037,7 +1019,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $editorsGroupId is the ID of the "Editors" user group in an eZ
         // Publish demo installation
-
         $userService = $repository->getUserService();
 
         // Instantiate a create struct with mandatory properties
@@ -1059,6 +1040,7 @@ class UserServiceTest extends BaseTest
         // value for the firled "first_name" is not accepted by the field type.
         $userService->createUser($userCreate, [$group]);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1075,7 +1057,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $editorsGroupId is the ID of the "Editors" user group in an eZ
         // Publish demo installation
-
         $userService = $repository->getUserService();
 
         // Instantiate a create struct with mandatory properties
@@ -1098,6 +1079,7 @@ class UserServiceTest extends BaseTest
             // user with "admin" login already exists.
             $userService->createUser($userCreate, [$group]);
             /* END: Use Case */
+            
         } catch (ContentFieldValidationException $e) {
             // Exception is caught, as there is no other way to check exception properties.
             $this->assertValidationErrorOccurs($e, 'The user login \'%login%\' is used by another user. You must enter a unique login.');
@@ -1133,7 +1115,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $editorsGroupId is the ID of the "Editors" user group in an eZ
         // Publish demo installation
-
         $userService = $repository->getUserService();
 
         // Instantiate a create struct with mandatory properties
@@ -1184,7 +1165,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $editorsGroupId is the ID of the "Editors" user group in an eZ
         // Publish demo installation
-
         $userService = $repository->getUserService();
 
         // Instantiate a create struct with mandatory properties
@@ -1249,7 +1229,6 @@ class UserServiceTest extends BaseTest
             return;
         }
         /* END: Use Case */
-
         $this->fail('User object still exists after rollback.');
     }
 
@@ -1329,7 +1308,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $user = $this->createTestUserWithPassword('H@xxi0r!', $userContentType);
         /* END: Use Case */
-
         $this->assertInstanceOf(User::class, $user);
     }
 
@@ -1351,7 +1329,6 @@ class UserServiceTest extends BaseTest
         // Load the newly created user
         $userReloaded = $userService->loadUser($user->id, Language::ALL);
         /* END: Use Case */
-
         $this->assertEquals($user, $userReloaded);
 
         // User happens to also be a Content; isUser() should be true and isUserGroup() should be false
@@ -1379,6 +1356,7 @@ class UserServiceTest extends BaseTest
         // an id equal to self::DB_INT_MAX should exist.
         $userService->loadUser($nonExistingUserId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -1397,7 +1375,6 @@ class UserServiceTest extends BaseTest
         // Load the newly created user credentials
         $credentialsValid = $userService->checkUserCredentials($user, 'VerySecret@Password.1234');
         /* END: Use Case */
-
         $this->assertTrue($credentialsValid);
     }
 
@@ -1417,7 +1394,6 @@ class UserServiceTest extends BaseTest
         // Load the newly created user credentials
         $credentialsValid = $userService->checkUserCredentials($user, 'NotSoSecretPassword');
         /* END: Use Case */
-
         $this->assertFalse($credentialsValid);
     }
 
@@ -1439,7 +1415,6 @@ class UserServiceTest extends BaseTest
         // Load the newly created user
         $userReloaded = $userService->loadUserByLogin('User');
         /* END: Use Case */
-
         $this->assertPropertiesCorrect(
             [
                 'login' => $user->login,
@@ -1478,6 +1453,7 @@ class UserServiceTest extends BaseTest
         // login/password combination does not exist.
         $userService->loadUserByLogin('user42');
         /* END: Use Case */
+        
     }
 
     /**
@@ -1498,7 +1474,6 @@ class UserServiceTest extends BaseTest
         // Lookup by user login should ignore casing
         $userReloaded = $userService->loadUserByLogin('USER');
         /* END: Use Case */
-
         $this->assertPropertiesCorrect(
             [
                 'login' => $user->login,
@@ -1538,6 +1513,7 @@ class UserServiceTest extends BaseTest
         // Lookup by user login by email should behave as normal
         $userService->loadUserByLogin('user@example.com');
         /* END: Use Case */
+        
     }
 
     /**
@@ -1558,7 +1534,6 @@ class UserServiceTest extends BaseTest
         // Load the newly created user
         $usersReloaded = $userService->loadUsersByEmail('user@example.com', Language::ALL);
         /* END: Use Case */
-
         $this->assertEquals([$user], $usersReloaded);
     }
 
@@ -1581,7 +1556,6 @@ class UserServiceTest extends BaseTest
         // login/password combination does not exist.
         $emptyUserList = $userService->loadUsersByEmail('user42@example.com');
         /* END: Use Case */
-
         $this->assertEquals([], $emptyUserList);
     }
 
@@ -1606,7 +1580,6 @@ class UserServiceTest extends BaseTest
         // Delete the currently created user
         $userService->deleteUser($user);
         /* END: Use Case */
-
         // We use the NotFoundException here to verify that the user not exists
         $userService->loadUser($user->id);
     }
@@ -1642,7 +1615,6 @@ class UserServiceTest extends BaseTest
 
         $repository->getPermissionResolver()->setCurrentUserReference($user);
         /* END: Use Case */
-
         $this->assertEquals(0, $bookmarkService->loadBookmarks(0, 9999)->totalCount);
     }
 
@@ -1661,7 +1633,6 @@ class UserServiceTest extends BaseTest
         // Create a new update struct instance
         $userUpdate = $userService->newUserUpdateStruct();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             UserUpdateStruct::class,
             $userUpdate
@@ -1710,7 +1681,6 @@ class UserServiceTest extends BaseTest
         // Updated the user record.
         $userVersion2 = $userService->updateUser($user, $userUpdate);
         /* END: Use Case */
-
         $this->assertInstanceOf(User::class, $userVersion2);
 
         return $userVersion2;
@@ -1766,7 +1736,6 @@ class UserServiceTest extends BaseTest
         // Updated the user record.
         $userVersion2 = $userService->updateUser($user, $userUpdate);
         /* END: Use Case */
-
         $this->assertInstanceOf(User::class, $user);
 
         $this->assertEquals(
@@ -1873,7 +1842,6 @@ class UserServiceTest extends BaseTest
         // The contentInfo->remoteId will be changed now.
         $remoteId = $userVersion2->contentInfo->remoteId;
         /* END: Use Case */
-
         $this->assertEquals('85e10037d1ac0a00aa75443ced483e08', $remoteId);
     }
 
@@ -1915,7 +1883,6 @@ class UserServiceTest extends BaseTest
             $userVersion2->getFieldValue('last_name')
         );
         /* END: Use Case */
-
         $this->assertEquals('Hello World', $name);
     }
 
@@ -1954,6 +1921,7 @@ class UserServiceTest extends BaseTest
         $userService->updateUser($user, $userUpdate);
 
         /* END: Use Case */
+        
     }
 
     /**
@@ -1991,6 +1959,7 @@ class UserServiceTest extends BaseTest
         $userService->updateUser($user, $userUpdate);
 
         /* END: Use Case */
+        
     }
 
     /**
@@ -2014,6 +1983,7 @@ class UserServiceTest extends BaseTest
             // the password does not follow specified rules
             $userService->updateUser($user, $userUpdate);
             /* END: Use Case */
+            
         } catch (ContentFieldValidationException $e) {
             // Exception is caught, as there is no other way to check exception properties.
             $this->assertValidationErrorOccurs($e, 'User password must include at least one special character');
@@ -2046,7 +2016,6 @@ class UserServiceTest extends BaseTest
 
         $user = $userService->updateUser($user, $userUpdate);
         /* END: Use Case */
-
         $this->assertInstanceOf(User::class, $user);
     }
 
@@ -2157,7 +2126,6 @@ class UserServiceTest extends BaseTest
             $userGroupNames[] = $userGroup->getFieldValue('name');
         }
         /* END: Use Case */
-
         $this->assertEquals(['Editors'], $userGroupNames);
     }
 
@@ -2204,7 +2172,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $administratorGroupId is the ID of the "Administrator" group in an
         // eZ Publish demo installation
-
         $user = $this->createUserVersion1();
 
         // Assign group to newly created user
@@ -2219,7 +2186,6 @@ class UserServiceTest extends BaseTest
             $userGroupNames[] = $userGroup->getFieldValue('name');
         }
         /* END: Use Case */
-
         sort($userGroupNames, SORT_STRING);
 
         $this->assertEquals(
@@ -2250,7 +2216,6 @@ class UserServiceTest extends BaseTest
         $user = $this->createUserVersion1();
         // $editorsGroupId is the ID of the "Editors" group in an
         // eZ Publish demo installation
-
         // This call will fail with an "InvalidArgumentException", because the
         // user is already assigned to the "Editors" group
         $userService->assignUserToUserGroup(
@@ -2258,6 +2223,7 @@ class UserServiceTest extends BaseTest
             $userService->loadUserGroup($editorsGroupId)
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -2277,7 +2243,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         // $anonymousGroupId is the ID of the "Anonymous Users" group in an eZ
         // Publish demo installation
-
         $user = $this->createUserVersion1();
 
         // Assign group to newly created user
@@ -2298,7 +2263,6 @@ class UserServiceTest extends BaseTest
             $userGroupNames[] = $userGroup->getFieldValue('name');
         }
         /* END: Use Case */
-
         $this->assertEquals(['Anonymous Users'], $userGroupNames);
     }
 
@@ -2320,7 +2284,6 @@ class UserServiceTest extends BaseTest
         $user = $this->createUserVersion1();
         // $administratorGroupId is the ID of the "Administrator" group in an
         // eZ Publish demo installation
-
         // This call will fail with an "InvalidArgumentException", because the
         // user is not assigned to the "Administrator" group
         $userService->unAssignUserFromUserGroup(
@@ -2328,6 +2291,7 @@ class UserServiceTest extends BaseTest
             $userService->loadUserGroup($administratorGroupId)
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -2355,6 +2319,7 @@ class UserServiceTest extends BaseTest
             $userService->loadUserGroup($editorsGroupId)
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -2763,7 +2728,6 @@ class UserServiceTest extends BaseTest
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Inline */
         // $mainGroupId is the ID of the main "Users" group
-
         $userService = $repository->getUserService();
 
         // Load main group
@@ -2779,7 +2743,6 @@ class UserServiceTest extends BaseTest
             $parentUserGroup
         );
         /* END: Inline */
-
         return $userGroup;
     }
 
@@ -2976,7 +2939,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $errors = $userService->validatePassword('pass');
         /* END: Use Case */
-
         $this->assertEmpty($errors);
     }
 
@@ -2996,7 +2958,6 @@ class UserServiceTest extends BaseTest
 
         $actualErrors = $userService->validatePassword($password, $context);
         /* END: Use Case */
-
         $this->assertEquals($expectedErrors, $actualErrors);
     }
 
@@ -3062,7 +3023,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $passwordInfo = $userService->getPasswordInfo($user);
         /* END: Use Case */
-
         $passwordUpdatedAt = $user->passwordUpdatedAt;
         if ($passwordUpdatedAt instanceof DateTime) {
             $passwordUpdatedAt = DateTimeImmutable::createFromFormat(DateTime::ATOM, $passwordUpdatedAt->format(DateTime::ATOM));
@@ -3092,7 +3052,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $passwordInfo = $userService->getPasswordInfo($user);
         /* END: Use Case */
-
         $this->assertEquals(new PasswordInfo(), $passwordInfo);
     }
 
@@ -3106,7 +3065,6 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $passwordInfo = $userService->getPasswordInfo($user);
         /* END: Use Case */
-
         $passwordUpdatedAt = $user->passwordUpdatedAt;
         if ($passwordUpdatedAt instanceof DateTime) {
             $passwordUpdatedAt = DateTimeImmutable::createFromFormat(DateTime::ATOM, $passwordUpdatedAt->format(DateTime::ATOM));

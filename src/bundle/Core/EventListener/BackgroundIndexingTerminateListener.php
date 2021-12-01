@@ -90,6 +90,7 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
                 }
             } catch (NotFoundException $e) {
                 // Catch this so we delete the index for this content below
+                
             }
 
             $this->searchHandler->deleteContent($contentInfo->id);
@@ -117,6 +118,7 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
                 }
             } catch (NotFoundException $e) {
                 // Catch this so we delete the index for this content below
+                
             }
 
             $this->searchHandler->deleteContent($location->contentId);

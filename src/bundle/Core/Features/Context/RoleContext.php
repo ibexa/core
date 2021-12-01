@@ -59,6 +59,7 @@ class RoleContext implements Context
             $role = $this->roleService->loadRoleByIdentifier($identifier);
         } catch (ApiExceptions\NotFoundException $e) {
             // Role not found, do nothing, returns null
+            
         }
 
         return $role;

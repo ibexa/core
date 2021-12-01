@@ -52,7 +52,6 @@ class ParentOwnerLimitationTest extends BaseLimitationTest
 
         $draft = $this->createWikiPageDraft();
         /* END: Use Case */
-
         $this->assertEquals(
             'An awesome wiki page',
             $draft->getFieldValue('title')->text
@@ -93,6 +92,7 @@ class ParentOwnerLimitationTest extends BaseLimitationTest
 
         $this->createWikiPageDraft();
         /* END: Use Case */
+        
     }
 }
 

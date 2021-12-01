@@ -134,6 +134,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         if ($contentTypeGroupCreateStruct->creationDate === null) {
@@ -244,6 +245,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 );
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 
@@ -326,7 +328,6 @@ class ContentTypeService implements ContentTypeServiceInterface
     protected function validateInputContentTypeCreateStruct(APIContentTypeCreateStruct $contentTypeCreateStruct): void
     {
         // Required properties
-
         if ($contentTypeCreateStruct->identifier === null) {
             throw new InvalidArgumentException('$contentTypeCreateStruct', "Property 'identifier' is required");
         }
@@ -382,7 +383,6 @@ class ContentTypeService implements ContentTypeServiceInterface
         }
 
         // Optional properties
-
         if ($contentTypeCreateStruct->descriptions !== null) {
             $this->contentDomainMapper->validateTranslatedList(
                 $contentTypeCreateStruct->descriptions,
@@ -515,7 +515,6 @@ class ContentTypeService implements ContentTypeServiceInterface
         string $argumentName = '$fieldDefinitionCreateStruct'
     ): void {
         // Required properties
-
         if ($fieldDefinitionCreateStruct->fieldTypeIdentifier === null) {
             throw new InvalidArgumentException($argumentName, "Property 'fieldTypeIdentifier' is required");
         }
@@ -555,7 +554,6 @@ class ContentTypeService implements ContentTypeServiceInterface
         }
 
         // Optional properties
-
         if ($fieldDefinitionCreateStruct->names !== null) {
             $this->contentDomainMapper->validateTranslatedList(
                 $fieldDefinitionCreateStruct->names,
@@ -630,6 +628,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         // validatorConfiguration
         // fieldSettings
         // defaultValue
+        
     }
 
     /**
@@ -677,6 +676,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
         } catch (APINotFoundException $e) {
             // Do nothing
+            
         }
 
         if ($contentTypeCreateStruct->remoteId !== null) {
@@ -691,6 +691,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 );
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 
@@ -1052,6 +1053,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 );
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 
@@ -1066,6 +1068,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 );
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 

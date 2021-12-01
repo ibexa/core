@@ -43,7 +43,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         /* BEGIN: Use Case */
         $trashItem = $this->createTrashItem();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             TrashItem::class,
             $trashItem
@@ -106,6 +105,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         // location was marked as trashed in the main storage
         $locationService->loadLocationByRemoteId($mediaRemoteId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -125,7 +125,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // All invocations to loadLocationByRemoteId() to one of the above
         // collected remoteIds will return in an "NotFoundException"
         /* END: Use Case */
-
         $locationService = $repository->getLocationService();
         foreach ($remoteIds as $remoteId) {
             try {
@@ -133,6 +132,7 @@ class TrashServiceTest extends BaseTrashServiceTest
                 $this->fail("Location '{$remoteId}' should exist.'");
             } catch (NotFoundException $e) {
                 // echo $e->getFile(), ' +', $e->getLine(), PHP_EOL;
+                
             }
         }
 
@@ -234,7 +234,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Reload the trash item
         $trashItemReloaded = $trashService->loadTrashItem($trashItem->id);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             APITrashItem::class,
             $trashItemReloaded
@@ -291,6 +290,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         // with the ID 1342 should exist in an eZ Publish demo installation
         $trashService->loadTrashItem($nonExistingTrashId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -317,7 +317,6 @@ class TrashServiceTest extends BaseTrashServiceTest
             $mediaRemoteId
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             APILocation::class,
             $location
@@ -333,6 +332,7 @@ class TrashServiceTest extends BaseTrashServiceTest
             $this->fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
+            
         }
     }
 
@@ -461,6 +461,7 @@ class TrashServiceTest extends BaseTrashServiceTest
                 );
             } catch (NotFoundException $e) {
                 // All well
+                
             }
         }
 
@@ -469,6 +470,7 @@ class TrashServiceTest extends BaseTrashServiceTest
             $this->fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
+            
         }
     }
 
@@ -489,7 +491,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         /* BEGIN: Use Case */
         // $homeLocationId is the ID of the "Home" location in an eZ Publish
         // demo installation
-
         $trashItem = $this->createTrashItem();
 
         // Get the new parent location
@@ -498,7 +499,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Recover location with new location
         $location = $trashService->recover($trashItem, $newParentLocation);
         /* END: Use Case */
-
         $this->assertPropertiesCorrect(
             [
                 'remoteId' => $trashItem->remoteId,
@@ -520,6 +520,7 @@ class TrashServiceTest extends BaseTrashServiceTest
             $this->fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
+            
         }
     }
 
@@ -546,7 +547,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Recover location with new location
         $trashService->recover($trashItem);
         /* END: Use Case */
-
         $this->refreshSearch($repository);
 
         $this->assertEquals(
@@ -559,6 +559,7 @@ class TrashServiceTest extends BaseTrashServiceTest
             $this->fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
+            
         }
     }
 
@@ -582,7 +583,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         /* BEGIN: Use Case */
         // $homeLocationId is the ID of the "Home" location in an eZ Publish
         // demo installation
-
         $trashItem = $this->createTrashItem();
 
         // Get the new parent location
@@ -591,7 +591,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Recover location with new location
         $trashService->recover($trashItem, $newParentLocation);
         /* END: Use Case */
-
         $this->refreshSearch($repository);
 
         $this->assertEquals(
@@ -604,6 +603,7 @@ class TrashServiceTest extends BaseTrashServiceTest
             $this->fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
+            
         }
     }
 
@@ -807,7 +807,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Load all trashed locations
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             SearchResult::class,
             $searchResult
@@ -895,7 +894,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Load all trashed locations, search result should be empty
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
-
         $this->assertEquals(0, $searchResult->count);
 
         // Try to load content
@@ -939,7 +937,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Load all trashed locations, search result should be empty
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
-
         $this->assertEquals(0, $searchResult->totalCount);
 
         // Try to load content
@@ -963,7 +960,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         /* BEGIN: Use Case */
         // $demoDesignLocationId is the ID of the "Demo Design" location in an eZ
         // Publish demo installation
-
         $trashItem = $this->createTrashItem();
 
         // Trash one more location
@@ -980,7 +976,6 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Load all trashed locations, should only contain the Demo Design location
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
-
         $foundIds = array_map(
             static function ($trashItem) {
                 return $trashItem->id;
@@ -1223,7 +1218,6 @@ class TrashServiceTest extends BaseTrashServiceTest
             }
         }
         /* END: Inline */
-
         return $remoteIds;
     }
 

@@ -178,7 +178,6 @@ class ContentHandlerTest extends TestCase
         $res = $handler->create($createStruct);
 
         // @todo Make subsequent tests
-
         $this->assertInstanceOf(
             Content::class,
             $res,

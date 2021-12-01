@@ -27,7 +27,6 @@ abstract class BaseContentServiceTest extends BaseTest
         $sectionId = $this->generateId('section', 1);
         /* BEGIN: Inline */
         // $parentLocationId is the id of the /Design/eZ-publish node
-
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
         $locationService = $repository->getLocationService();
@@ -58,7 +57,6 @@ abstract class BaseContentServiceTest extends BaseTest
 
         $content = $contentService->publishVersion($draft->getVersionInfo());
         /* END: Inline */
-
         return $content;
     }
 
@@ -79,7 +77,6 @@ abstract class BaseContentServiceTest extends BaseTest
         $sectionId = $this->generateId('section', 1);
         /* BEGIN: Inline */
         // $parentLocationId is the id of the /Design/eZ-publish node
-
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
         $locationService = $repository->getLocationService();
@@ -112,7 +109,6 @@ abstract class BaseContentServiceTest extends BaseTest
         // Create a draft
         $draft = $contentService->createContent($contentCreate, [$locationCreate]);
         /* END: Inline */
-
         return $draft;
     }
 
@@ -133,7 +129,6 @@ abstract class BaseContentServiceTest extends BaseTest
         // Publish this draft
         $content = $contentService->publishVersion($draft->getVersionInfo());
         /* END: Inline */
-
         return $content;
     }
 
@@ -155,7 +150,6 @@ abstract class BaseContentServiceTest extends BaseTest
         // Create a new draft from the published content
         $draftVersion2 = $contentService->createContentDraft($content->contentInfo);
         /* END: Inline */
-
         return $draftVersion2;
     }
 
@@ -187,7 +181,6 @@ abstract class BaseContentServiceTest extends BaseTest
             $contentUpdate
         );
         /* END: Inline */
-
         return $draftVersion2;
     }
 
@@ -232,7 +225,6 @@ abstract class BaseContentServiceTest extends BaseTest
             $contentUpdate
         );
         /* END: Inline */
-
         return [$draftVersion2, $userAdmin2->id];
     }
 
@@ -254,7 +246,6 @@ abstract class BaseContentServiceTest extends BaseTest
         // Publish the updated draft
         $contentVersion2 = $contentService->publishVersion($draftVersion2->getVersionInfo());
         /* END: Inline */
-
         return $contentVersion2;
     }
 
@@ -285,7 +276,6 @@ abstract class BaseContentServiceTest extends BaseTest
             $contentUpdate
         );
         /* END: Inline */
-
         return $draft;
     }
 
@@ -329,7 +319,6 @@ abstract class BaseContentServiceTest extends BaseTest
             $draftVersion2->getVersionInfo()
         );
         /* END: Inline */
-
         return $contentVersion2;
     }
 

@@ -123,6 +123,7 @@ class Mapper
                 $role->status = $row['ezrole_version'] != 0 ? Role::STATUS_DRAFT : Role::STATUS_DEFINED;
                 $role->originalId = $row['ezrole_version'] ? (int)$row['ezrole_version'] : Role::STATUS_DEFINED;
                 // skip name and description as they don't exist in legacy
+                
             }
         }
 

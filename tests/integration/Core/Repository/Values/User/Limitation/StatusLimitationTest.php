@@ -29,7 +29,6 @@ class StatusLimitationTest extends BaseLimitationTest
         // Publish demo installation.
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         // Load the user service
         $userService = $repository->getUserService();
 
@@ -71,7 +70,6 @@ class StatusLimitationTest extends BaseLimitationTest
             $draft->getVersionInfo()->versionNo
         );
         /* END: Use Case */
-
         $this->assertEquals(
             'An awesome wiki page',
             $loadedDraft->getFieldValue('title')->text
@@ -92,7 +90,6 @@ class StatusLimitationTest extends BaseLimitationTest
         // Publish demo installation.
         // $administratorUserId is  the ID of the "Administrator" user in a eZ
         // Publish demo installation.
-
         // Load the user service
         $userService = $repository->getUserService();
 
@@ -142,6 +139,7 @@ class StatusLimitationTest extends BaseLimitationTest
             $draft->getVersionInfo()->versionNo
         );
         /* END: Use Case */
+        
     }
 }
 

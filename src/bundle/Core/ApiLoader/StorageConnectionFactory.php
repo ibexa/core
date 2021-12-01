@@ -34,7 +34,6 @@ class StorageConnectionFactory implements ContainerAwareInterface
         $repositoryConfig = $this->repositoryConfigurationProvider->getRepositoryConfig();
         // Taking provided connection name if any.
         // Otherwise, just fallback to the default connection.
-
         if (isset($repositoryConfig['storage']['connection'])) {
             $doctrineConnectionId = sprintf('doctrine.dbal.%s_connection', $repositoryConfig['storage']['connection']);
         } else {

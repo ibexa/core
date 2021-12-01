@@ -51,6 +51,7 @@ class NewObjectStateLimitationTest extends BaseLimitationTest
 
         $objectStateService->setContentState($draft->contentInfo, $objectState->getObjectStateGroup(), $objectState);
         /* END: Use Case */
+        
     }
 
     /**
@@ -101,6 +102,7 @@ class NewObjectStateLimitationTest extends BaseLimitationTest
 
         $objectStateService->setContentState($draft->contentInfo, $objectState->getObjectStateGroup(), $objectState);
         /* END: Use Case */
+        
     }
 }
 

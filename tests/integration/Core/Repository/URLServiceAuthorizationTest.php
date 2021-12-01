@@ -27,7 +27,6 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $urlService = $repository->getURLService();
 
@@ -39,6 +38,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         $this->expectException(UnauthorizedException::class);
         $urlService->findUrls($query);
         /* END: Use Case */
+        
     }
 
     /**
@@ -57,7 +57,6 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $urlService = $repository->getURLService();
 
@@ -70,6 +69,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         // This call will fail with an UnauthorizedException
         $urlService->updateUrl($url, $updateStruct);
         /* END: Use Case */
+        
     }
 
     /**
@@ -88,7 +88,6 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $urlService = $repository->getURLService();
 
@@ -97,6 +96,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         // This call will fail with an UnauthorizedException
         $urlService->loadById($urlId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -116,7 +116,6 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user in a eZ
         // Publish demo installation.
-
         $userService = $repository->getUserService();
         $urlService = $repository->getURLService();
 
@@ -125,6 +124,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         // This call will fail with an UnauthorizedException
         $urlService->loadByUrl($url);
         /* END: Use Case */
+        
     }
 }
 

@@ -41,6 +41,7 @@ class NullConverter implements Converter
     {
         // There is no contained data. All data is external. So we just do
         // nothing here.
+        
     }
 
     /**
@@ -53,6 +54,7 @@ class NullConverter implements Converter
     {
         // There is no contained data. All data is external. So we just do
         // nothing here.
+        
     }
 
     /**
@@ -65,6 +67,7 @@ class NullConverter implements Converter
     {
         // There is no contained data. All data is external. So we just do
         // nothing here.
+        
     }
 
     /**
@@ -77,6 +80,7 @@ class NullConverter implements Converter
     {
         // There is no contained data. All data is external. So we just do
         // nothing here.
+        
     }
 
     /**

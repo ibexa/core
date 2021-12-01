@@ -47,7 +47,6 @@ class ObjectStateServiceTest extends BaseTest
             'publishing'
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectStateGroupCreateStruct::class,
             $objectStateGroupCreate
@@ -92,7 +91,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $objectStateGroupUpdate = $objectStateService->newObjectStateGroupUpdateStruct();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectStateGroupUpdateStruct::class,
             $objectStateGroupUpdate
@@ -139,7 +137,6 @@ class ObjectStateServiceTest extends BaseTest
             'pending'
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectStateCreateStruct::class,
             $objectStateCreate
@@ -185,7 +182,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $objectStateUpdate = $objectStateService->newObjectStateUpdateStruct();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectStateUpdateStruct::class,
             $objectStateUpdate
@@ -246,7 +242,6 @@ class ObjectStateServiceTest extends BaseTest
             $objectStateGroupCreate
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectStateGroup::class,
             $createdObjectStateGroup
@@ -338,7 +333,6 @@ class ObjectStateServiceTest extends BaseTest
             $objectStateGroupId
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectStateGroup::class,
             $loadedObjectStateGroup
@@ -381,6 +375,7 @@ class ObjectStateServiceTest extends BaseTest
             $nonExistentObjectStateGroupId
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -453,7 +448,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $loadedObjectStateGroups = $objectStateService->loadObjectStateGroups();
         /* END: Use Case */
-
         $this->assertIsArray($loadedObjectStateGroups);
 
         $this->assertObjectsLoadedByIdentifiers(
@@ -558,7 +552,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $loadedObjectStateGroups = $objectStateService->loadObjectStateGroups(2);
         /* END: Use Case */
-
         $this->assertIsArray($loadedObjectStateGroups);
 
         $this->assertObjectsLoadedByIdentifiers(
@@ -608,7 +601,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $loadedObjectStateGroups = $objectStateService->loadObjectStateGroups(1, 2);
         /* END: Use Case */
-
         $this->assertIsArray($loadedObjectStateGroups);
 
         $this->assertObjectsLoadedByIdentifiers(
@@ -642,7 +634,6 @@ class ObjectStateServiceTest extends BaseTest
         // Loads all object states in $objectStateGroup
         $loadedObjectStates = $objectStateService->loadObjectStates($objectStateGroup);
         /* END: Use Case */
-
         $this->assertIsArray(
             $loadedObjectStates
         );
@@ -695,7 +686,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $allObjectGroups = $objectStateService->loadObjectStateGroups();
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectStateGroup::class,
             $updatedObjectStateGroup
@@ -870,7 +860,6 @@ class ObjectStateServiceTest extends BaseTest
             $objectStateCreateStruct
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(ObjectState::class, $createdObjectState);
         // Object sequences are renumbered
         $objectStateCreateStruct->priority = 2;
@@ -1031,7 +1020,6 @@ class ObjectStateServiceTest extends BaseTest
             $objectStateId
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectState::class,
             $loadedObjectState
@@ -1159,6 +1147,7 @@ class ObjectStateServiceTest extends BaseTest
             $nonExistingObjectStateId
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -1388,7 +1377,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $allObjectStates = $objectStateService->loadObjectStates($loadedObjectState->getObjectStateGroup());
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectState::class,
             $updatedObjectState
@@ -1560,7 +1548,6 @@ class ObjectStateServiceTest extends BaseTest
             $objectStateId
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectState::class,
             $loadedObjectState
@@ -1599,7 +1586,6 @@ class ObjectStateServiceTest extends BaseTest
             $ezLockObjectStateGroup
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectState::class,
             $ezLockObjectState
@@ -1663,7 +1649,6 @@ class ObjectStateServiceTest extends BaseTest
             $customObjectStateGroup
         );
         /* END: Use Case */
-
         $this->assertInstanceOf(
             ObjectState::class,
             $initialObjectState
@@ -1710,7 +1695,6 @@ class ObjectStateServiceTest extends BaseTest
             $lockedObjectState
         );
         /* END: Use Case */
-
         $ezLockObjectState = $objectStateService->getContentState(
             $contentInfo,
             $ezLockObjectStateGroup
@@ -1760,6 +1744,7 @@ class ObjectStateServiceTest extends BaseTest
             $lockedObjectState
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -1782,7 +1767,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $objectCount = $objectStateService->getContentCount($notLockedObjectState);
         /* END: Use Case */
-
         $this->assertEquals(18, $objectCount);
     }
 
@@ -1809,7 +1793,6 @@ class ObjectStateServiceTest extends BaseTest
         // state, to the first state of the same object state group
         $objectStateService->deleteObjectState($notLockedObjectState);
         /* END: Use Case */
-
         $lockedObjectState = $objectStateService->loadObjectState($lockedObjectStateId);
 
         // All objects transferred
@@ -1842,7 +1825,6 @@ class ObjectStateServiceTest extends BaseTest
 
         $objectStateService->deleteObjectStateGroup($loadedObjectStateGroup);
         /* END: Use Case */
-
         try {
             $objectStateService->loadObjectStateGroup($objectStateGroupId);
             $this->fail(

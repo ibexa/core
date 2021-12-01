@@ -357,6 +357,7 @@ class FieldHandler
                 }
 
                 // If no above conditions were met - do nothing
+                
             }
         }
 

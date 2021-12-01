@@ -27,6 +27,7 @@ class CustomSortClauseQueryBuilder implements SortClauseQueryBuilder
         FilteringSortClause $sortClause
     ): void {
         // Do nothing
+        
     }
 }
 

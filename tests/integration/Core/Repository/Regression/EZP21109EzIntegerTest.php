@@ -138,6 +138,7 @@ class EZP21109EzIntegerTest extends BaseTest
             $contentTypeService->deleteContentType($contentType);
         } catch (TypeNotFoundException $e) {
             // This shouldn't throw an error
+            
         }
     }
 }

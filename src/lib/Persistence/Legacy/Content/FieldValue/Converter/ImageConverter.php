@@ -49,6 +49,7 @@ class ImageConverter extends BinaryFileConverter
             // otherwise the image is unprocessed and the DB field stays empty
             // there will be a subsequent call to this method, after the image
             // has been stored
+            
         }
     }
 

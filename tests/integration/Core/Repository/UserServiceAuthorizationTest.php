@@ -42,6 +42,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->loadUserGroup($userGroup->id);
         /* END: Use Case */
+        
     }
 
     /**
@@ -94,6 +95,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->loadSubUserGroups($userGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -128,6 +130,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->createUserGroup($userGroupCreate, $parentUserGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -155,6 +158,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->deleteUserGroup($userGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -189,6 +193,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->moveUserGroup($userGroup, $newParentUserGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -226,6 +231,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->updateUserGroup($userGroup, $userGroupUpdateStruct);
         /* END: Use Case */
+        
     }
 
     /**
@@ -269,6 +275,7 @@ class UserServiceAuthorizationTest extends BaseTest
             [$parentUserGroup]
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -294,6 +301,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->deleteUser($user);
         /* END: Use Case */
+        
     }
 
     /**
@@ -322,6 +330,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->updateUser($user, $userUpdateStruct);
         /* END: Use Case */
+        
     }
 
     /**
@@ -367,7 +376,6 @@ class UserServiceAuthorizationTest extends BaseTest
         /* BEGIN: Use Case */
         // $administratorGroupId is the ID of the "Administrator" group in an
         // eZ Publish demo installation
-
         $user = $this->createUserVersion1();
 
         // Now set the currently created "Editor" as current user
@@ -379,6 +387,7 @@ class UserServiceAuthorizationTest extends BaseTest
             $userService->loadUserGroup($administratorGroupId)
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -401,7 +410,6 @@ class UserServiceAuthorizationTest extends BaseTest
         /* BEGIN: Use Case */
         // $memberGroupId is the ID of the "Members" group in an eZ Publish
         // demo installation
-
         $user = $this->createUserVersion1();
 
         // Assign group to newly created user
@@ -419,6 +427,7 @@ class UserServiceAuthorizationTest extends BaseTest
             $userService->loadUserGroup($editorsGroupId)
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -445,6 +454,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->loadUserGroupsOfUser($user);
         /* END: Use Case */
+        
     }
 
     /**
@@ -472,6 +482,7 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->loadUsersOfUserGroup($userGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -487,7 +498,6 @@ class UserServiceAuthorizationTest extends BaseTest
         /* BEGIN: Inline */
         // $mainGroupId is the ID of the main "Users" group in an eZ Publish
         // demo installation
-
         $userService = $repository->getUserService();
 
         // Load main group
@@ -503,7 +513,6 @@ class UserServiceAuthorizationTest extends BaseTest
             $parentUserGroup
         );
         /* END: Inline */
-
         return $userGroup;
     }
 }

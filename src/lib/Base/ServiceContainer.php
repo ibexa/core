@@ -169,6 +169,7 @@ class ServiceContainer implements Container
         if (!$this->innerContainer instanceof ContainerInterface) {
             throw new RuntimeException('Inner Container is not initialized');
             // Do nothing
+            
         }
 
         // Compile container if necessary

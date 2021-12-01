@@ -345,7 +345,6 @@ abstract class BaseTest extends TestCase
         // Create a new user instance.
         $user = $userService->createUser($userCreate, [$group]);
         /* END: Inline */
-
         return $user;
     }
 
@@ -443,7 +442,6 @@ abstract class BaseTest extends TestCase
         // Create a new user instance.
         $user = $userService->createUser($userCreate, [$userGroup]);
         /* END: Inline */
-
         return $user;
     }
 
@@ -530,7 +528,7 @@ abstract class BaseTest extends TestCase
         $searchHandlerProperty = new \ReflectionProperty($repository, 'searchHandler');
         $searchHandlerProperty->setAccessible(true);
 
-        /** @var \EzSystems\EzPlatformSolrSearchEngine\Handler $searchHandler */
+        /** @var \Ibexa\Solr\Handler $searchHandler */
         $searchHandler = $searchHandlerProperty->getValue($repository);
 
         $searchHandler->commit();

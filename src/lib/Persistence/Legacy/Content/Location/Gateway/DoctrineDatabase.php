@@ -904,7 +904,6 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->execute();
 
         // convert all these assignments to nodes
-
         while ($row = $statement->fetch(FetchMode::ASSOCIATIVE)) {
             $isMain = (bool)$row['is_main'];
             // set null for main to indicate that new Location ID is required

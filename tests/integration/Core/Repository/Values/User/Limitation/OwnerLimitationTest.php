@@ -80,7 +80,6 @@ class OwnerLimitationTest extends BaseLimitationTest
             $contentService->loadContentInfo($content->id)
         );
         /* END: Use Case */
-
         $contentService->loadContent($content->id);
     }
 
@@ -141,6 +140,7 @@ class OwnerLimitationTest extends BaseLimitationTest
             $contentService->loadContentInfo($content->id)
         );
         /* END: Use Case */
+        
     }
 }
 

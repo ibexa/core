@@ -31,7 +31,6 @@ class FieldTypeServiceTest extends BaseTest
         // Contains the list of all registered field types
         $fieldTypes = $fieldTypeService->getFieldTypes();
         /* END: Use Case */
-
         // Require at least 1 field type
         $this->assertNotCount(0, $fieldTypes);
 
@@ -60,7 +59,6 @@ class FieldTypeServiceTest extends BaseTest
         // Contains the "ezurl" FieldType
         $fieldType = $fieldTypeService->getFieldType('ezurl');
         /* END: Use Case */
-
         $this->assertInstanceof(
             FieldType::class,
             $fieldType
@@ -88,6 +86,7 @@ class FieldTypeServiceTest extends BaseTest
         // Throws and exception since type does not exist
         $fieldType = $fieldTypeService->getFieldType('sindelfingen');
         /* END: Use Case */
+        
     }
 
     /**
@@ -105,7 +104,6 @@ class FieldTypeServiceTest extends BaseTest
         // Returns true, since 'ezurl' type exists
         $typeExists = $fieldTypeService->hasFieldType('ezurl');
         /* END: Use Case */
-
         $this->assertTrue($typeExists);
     }
 
@@ -124,7 +122,6 @@ class FieldTypeServiceTest extends BaseTest
         // Returns false, since type does not exist
         $typeExists = $fieldTypeService->hasFieldType('sindelfingen');
         /* END: Use Case */
-
         $this->assertFalse($typeExists);
     }
 }

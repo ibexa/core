@@ -62,6 +62,7 @@ class LocationServiceAuthorizationTest extends BaseTest
             $locationCreate
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -122,6 +123,7 @@ class LocationServiceAuthorizationTest extends BaseTest
             $locationCreateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -150,6 +152,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $locationService->loadLocation($editorsGroupId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -200,6 +203,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $locationService->loadLocationByRemoteId($editorsRemoteId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -268,6 +272,7 @@ class LocationServiceAuthorizationTest extends BaseTest
             $locationUpdateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -288,10 +293,8 @@ class LocationServiceAuthorizationTest extends BaseTest
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" Location in
         // an eZ Publish demo installation
-
         // $demoDesignLocationId is the ID of the "Demo Design" Location in an eZ
         // Publish demo installation
-
         // Load the location service
         $locationService = $repository->getLocationService();
 
@@ -309,6 +312,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $locationService->swapLocation($mediaLocation, $demoDesignLocation);
         /* END: Use Case */
+        
     }
 
     /**
@@ -339,6 +343,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $locationService->hideLocation($visibleLocation);
         /* END: Use Case */
+        
     }
 
     /**
@@ -372,6 +377,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $locationService->unhideLocation($hiddenLocation);
         /* END: Use Case */
+        
     }
 
     /**
@@ -402,6 +408,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $locationService->deleteLocation($location);
         /* END: Use Case */
+        
     }
 
     /**
@@ -533,6 +540,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         // permission to delete $secondLocation which is in the subtree of the $firstLocation
         $locationService->deleteLocation($firstLocation);
         /* END: Use Case */
+        
     }
 
     /**
@@ -555,10 +563,8 @@ class LocationServiceAuthorizationTest extends BaseTest
 
         // $mediaLocationId is the ID of the "Media" Location in
         // an eZ Publish demo installation
-
         // $demoDesignLocationId is the ID of the "Demo Design" Location in an eZ
         // Publish demo installation
-
         // Load the location service
         $locationService = $repository->getLocationService();
 
@@ -577,6 +583,7 @@ class LocationServiceAuthorizationTest extends BaseTest
             $newParentLocation
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -599,10 +606,8 @@ class LocationServiceAuthorizationTest extends BaseTest
 
         // $mediaLocationId is the ID of the "Media" page location in
         // an eZ Publish demo installation
-
         // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
         // Publish demo installation
-
         // Load the location service
         $locationService = $repository->getLocationService();
 
@@ -621,6 +626,7 @@ class LocationServiceAuthorizationTest extends BaseTest
             $newParentLocation
         );
         /* END: Use Case */
+        
     }
 }
 

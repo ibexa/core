@@ -67,6 +67,7 @@ abstract class AbstractInMemoryPersistenceHandler extends AbstractInMemoryHandle
     protected function init(): void
     {
         // overload to add init logic if needed in handler
+        
     }
 }
 

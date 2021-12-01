@@ -472,6 +472,7 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
 
         if ($deletedCount) {
             $this->cache->clear();//!TIMBER!: Deletes all cache
+            
         }
 
         return $deletedCount;

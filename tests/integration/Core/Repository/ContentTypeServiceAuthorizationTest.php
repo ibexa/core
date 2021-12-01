@@ -46,17 +46,17 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         $groupCreate->creatorId = $creatorId;
         $groupCreate->creationDate = $this->createDateTime();
         /* @todo uncomment when support for multilingual names and descriptions is added EZP-24776
-        $groupCreate->mainLanguageCode = 'ger-DE';
-        $groupCreate->names = array( 'eng-GB' => 'A name.' );
-        $groupCreate->descriptions = array( 'eng-GB' => 'A description.' );
-        */
-
+           $groupCreate->mainLanguageCode = 'ger-DE';
+           $groupCreate->names = array( 'eng-GB' => 'A name.' );
+           $groupCreate->descriptions = array( 'eng-GB' => 'A description.' );
+           */
         // Set anonymous user
         $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
 
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->createContentTypeGroup($groupCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -89,24 +89,24 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         $groupUpdate->modifierId = $modifierId;
         $groupUpdate->modificationDate = $this->createDateTime();
         /* @todo uncomment when support for multilingual names and descriptions is added EZP-24776
-        $groupUpdate->mainLanguageCode = 'eng-GB';
-
-        $groupUpdate->names = array(
-            'eng-GB' => 'A name',
-            'eng-US' => 'A name',
-        );
-        $groupUpdate->descriptions = array(
-            'eng-GB' => 'A description',
-            'eng-US' => 'A description',
-        );
-        */
-
+                $groupUpdate->mainLanguageCode = 'eng-GB';
+        
+                $groupUpdate->names = array(
+                    'eng-GB' => 'A name',
+                    'eng-US' => 'A name',
+                );
+                $groupUpdate->descriptions = array(
+                    'eng-GB' => 'A description',
+                    'eng-US' => 'A description',
+                );
+                */
         // Set anonymous user
         $permissionResolver->setCurrentUserReference($userService->loadUser($anonymousUserId));
 
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->updateContentTypeGroup($group, $groupUpdate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -135,7 +135,6 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         $contentTypeService->createContentTypeGroup($groupCreate);
 
         // ...
-
         $group = $contentTypeService->loadContentTypeGroupByIdentifier('new-group');
 
         // Set anonymous user
@@ -144,6 +143,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->deleteContentTypeGroup($group);
         /* END: Use Case */
+        
     }
 
     /**
@@ -201,6 +201,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->createContentType($typeCreate, [$contentTypeGroup]);
         /* END: Use Case */
+        
     }
 
     /**
@@ -253,6 +254,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->updateContentTypeDraft($contentTypeDraft, $typeUpdate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -309,6 +311,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -342,6 +345,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->removeFieldDefinition($contentTypeDraft, $bodyField);
         /* END: Use Case */
+        
     }
 
     /**
@@ -400,6 +404,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
             $bodyUpdateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -431,6 +436,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->publishContentTypeDraft($contentTypeDraft);
         /* END: Use Case */
+        
     }
 
     /**
@@ -463,6 +469,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->createContentTypeDraft($commentType);
         /* END: Use Case */
+        
     }
 
     /**
@@ -495,6 +502,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->deleteContentType($commentType);
         /* END: Use Case */
+        
     }
 
     /**
@@ -527,6 +535,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->copyContentType($commentType);
         /* END: Use Case */
+        
     }
 
     /**
@@ -560,6 +569,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->assignContentTypeGroup($folderType, $mediaGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -598,6 +608,7 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         // This call will fail with a "UnauthorizedException"
         $contentTypeService->unassignContentTypeGroup($folderType, $contentGroup);
         /* END: Use Case */
+        
     }
 }
 

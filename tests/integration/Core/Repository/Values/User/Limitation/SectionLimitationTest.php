@@ -67,7 +67,6 @@ class SectionLimitationTest extends BaseLimitationTest
         // Load the images folder
         $images = $contentService->loadContentByRemoteId('e7ff633c6b8e0fd3531e74c6e712bead');
         /* END: Use Case */
-
         $this->assertEquals(
             'Images',
             $images->getFieldValue('name')->text
@@ -128,6 +127,7 @@ class SectionLimitationTest extends BaseLimitationTest
         // cannot access the "Media" section
         $contentService->loadContentByRemoteId('e7ff633c6b8e0fd3531e74c6e712bead');
         /* END: Use Case */
+        
     }
 }
 

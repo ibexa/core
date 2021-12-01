@@ -623,6 +623,7 @@ class ContentService implements ContentServiceInterface
                 );
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         } else {
             $contentCreateStruct->remoteId = $this->contentDomainMapper->getUniqueHash($contentCreateStruct);
@@ -874,6 +875,7 @@ class ContentService implements ContentServiceInterface
                 }
             } catch (APINotFoundException $e) {
                 // Do nothing
+                
             }
         }
 

@@ -275,7 +275,6 @@ final class FilterTest extends TestCase
         ];
 
         // pagination / slices support:
-
         $filter = new Filter();
         $filter->sliceBy(10, 0);
 

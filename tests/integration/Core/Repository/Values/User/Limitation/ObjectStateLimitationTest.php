@@ -91,7 +91,6 @@ class ObjectStateLimitationTest extends BaseLimitationTest
 
         $contentService->deleteContent($draft->contentInfo);
         /* END: Use Case */
-
         $this->expectException(NotFoundException::class);
 
         $contentService->loadContent($draft->id);
@@ -170,6 +169,7 @@ class ObjectStateLimitationTest extends BaseLimitationTest
 
         $contentService->deleteContent($draft->contentInfo);
         /* END: Use Case */
+        
     }
 
     /**
@@ -248,6 +248,7 @@ class ObjectStateLimitationTest extends BaseLimitationTest
 
         $contentService->deleteContent($draft->contentInfo);
         /* END: Use Case */
+        
     }
 
     /**

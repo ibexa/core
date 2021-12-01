@@ -463,6 +463,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     public function checkFullTextSupport()
     {
         // Does nothing
+        
     }
 
     protected function getFullTextIndexedFieldData()

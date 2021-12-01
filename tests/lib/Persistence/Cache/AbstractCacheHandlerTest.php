@@ -288,6 +288,7 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
 
         // Assert use of tags would probably need custom logic as internal property is [$tag => $tag] value and we don't want to know that.
         //$this->assertAttributeEquals([], 'tags', $cacheItem);
+        
     }
 }
 

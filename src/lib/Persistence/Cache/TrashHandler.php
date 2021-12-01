@@ -126,6 +126,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
             }
             $offset += self::EMPTY_TRASH_BULK_SIZE;
             // Once offset is larger than total count we can exit
+            
         } while ($trashedItems->totalCount > $offset);
 
         $return = $this->persistenceHandler->trashHandler()->emptyTrash();

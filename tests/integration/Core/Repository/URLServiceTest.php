@@ -518,6 +518,7 @@ class URLServiceTest extends BaseURLServiceTest
         $this->expectException(InvalidArgumentValue::class);
         $urlService->findUrls($query);
         /* END: Use Case */
+        
     }
 
     /**
@@ -539,6 +540,7 @@ class URLServiceTest extends BaseURLServiceTest
         $this->expectException(InvalidArgumentValue::class);
         $urlService->findUrls($query);
         /* END: Use Case */
+        
     }
 
     /**
@@ -680,7 +682,6 @@ class URLServiceTest extends BaseURLServiceTest
 
         $urlAfterUpdate = $urlService->updateUrl($urlBeforeUpdate, $updateStruct);
         /* END: Use Case */
-
         $this->assertInstanceOf(URL::class, $urlAfterUpdate);
         $this->assertPropertiesCorrect([
             'id' => 23,
@@ -716,7 +717,6 @@ class URLServiceTest extends BaseURLServiceTest
 
         $urlAfterUpdate = $urlService->updateUrl($urlBeforeUpdate, $updateStruct);
         /* END: Use Case */
-
         $this->assertInstanceOf(URL::class, $urlAfterUpdate);
         $this->assertPropertiesCorrect([
             'id' => $id,
@@ -753,6 +753,7 @@ class URLServiceTest extends BaseURLServiceTest
         // This call will fail with a InvalidArgumentException
         $urlService->updateUrl($urlBeforeUpdate, $updateStruct);
         /* END: Use Case */
+        
     }
 
     /**
@@ -771,7 +772,6 @@ class URLServiceTest extends BaseURLServiceTest
 
         $url = $urlService->loadById($id);
         /* END: Use Case */
-
         $this->assertInstanceOf(URL::class, $url);
         $this->assertPropertiesCorrect([
             'id' => 23,
@@ -800,6 +800,7 @@ class URLServiceTest extends BaseURLServiceTest
         $this->expectException(NotFoundException::class);
         $urlService->loadById($nonExistentUrlId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -818,7 +819,6 @@ class URLServiceTest extends BaseURLServiceTest
         $url = $urlService->loadByUrl($urlAddr);
 
         /* END: Use Case */
-
         $this->assertInstanceOf(URL::class, $url);
         $this->assertPropertiesCorrect([
             'id' => 23,
@@ -847,6 +847,7 @@ class URLServiceTest extends BaseURLServiceTest
         $this->expectException(NotFoundException::class);
         $urlService->loadByUrl($nonExistentUrl);
         /* END: Use Case */
+        
     }
 
     /**
@@ -864,7 +865,6 @@ class URLServiceTest extends BaseURLServiceTest
         $urlService = $repository->getURLService();
         $updateStruct = $urlService->createUpdateStruct();
         /* END: Use Case */
-
         $this->assertInstanceOf(URLUpdateStruct::class, $updateStruct);
 
         return $updateStruct;
@@ -903,7 +903,6 @@ class URLServiceTest extends BaseURLServiceTest
 
         $usagesSearchResults = $urlService->findUsages($loadedUrl, $offset, $limit);
         /* END: Use Case */
-
         $this->assertInstanceOf(UsageSearchResult::class, $usagesSearchResults);
         $this->assertEquals($expectedTotalCount, $usagesSearchResults->totalCount);
         $this->assertUsagesSearchResultItems($usagesSearchResults, $expectedContentInfos);
@@ -935,7 +934,6 @@ class URLServiceTest extends BaseURLServiceTest
 
         $usagesSearchResults = $urlService->findUsages($loadedUrl);
         /* END: Use Case */
-
         $this->assertInstanceOf(UsageSearchResult::class, $usagesSearchResults);
         $this->assertPropertiesCorrect([
             'totalCount' => 0,

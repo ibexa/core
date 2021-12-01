@@ -1639,7 +1639,6 @@ final class DoctrineDatabase extends Gateway
             $query->execute();
         } elseif ($loadedRelationType & $type) {
             // If relation type is composite update bitmask
-
             $query
                 ->update(self::CONTENT_RELATION_TABLE)
                 ->set(

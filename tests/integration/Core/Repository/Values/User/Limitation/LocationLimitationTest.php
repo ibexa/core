@@ -47,7 +47,6 @@ class LocationLimitationTest extends BaseLimitationTest
 
         $draft = $this->createWikiPageDraft();
         /* END: Use Case */
-
         $this->assertEquals(
             'An awesome wiki page',
             $draft->getFieldValue('title')->text
@@ -86,6 +85,7 @@ class LocationLimitationTest extends BaseLimitationTest
 
         $this->createWikiPageDraft();
         /* END: Use Case */
+        
     }
 }
 

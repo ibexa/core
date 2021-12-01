@@ -147,6 +147,7 @@ class ContentViewBuilder implements ViewBuilder
                 $location = $this->locationLoader->loadLocation($content->contentInfo);
             } catch (NotFoundException $e) {
                 // nothing else to do
+                
             }
         }
 

@@ -62,7 +62,6 @@ class Mapper
         $group->name = $struct->name;
 
         // $group->description is intentionally left out, since DB structure does not support it, yet
-
         $group->identifier = $struct->identifier;
         $group->created = $struct->created;
         $group->modified = $struct->modified;

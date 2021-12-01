@@ -340,6 +340,7 @@ class Handler implements SearchHandlerInterface
     public function indexLocation(Location $location)
     {
         // Not needed with Legacy Storage/Search Engine
+        
     }
 
     /**
@@ -356,6 +357,7 @@ class Handler implements SearchHandlerInterface
     public function deleteTranslation(int $contentId, string $languageCode): void
     {
         // Not needed with Legacy Storage/Search Engine
+        
     }
 
     /**
@@ -367,6 +369,7 @@ class Handler implements SearchHandlerInterface
     public function deleteLocation($locationId, $contentId)
     {
         // Not needed with Legacy Storage/Search Engine
+        
     }
 
     /**
@@ -385,6 +388,7 @@ class Handler implements SearchHandlerInterface
     public function commit($flush = false)
     {
         // Not needed with Legacy Storage/Search Engine
+        
     }
 
     public function supports(int $capabilityFlag): bool

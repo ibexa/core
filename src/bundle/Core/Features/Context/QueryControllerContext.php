@@ -215,6 +215,7 @@ class QueryControllerContext extends RawMinkContext implements Context
     public function theViewedContentSMainLocationIdIsMappedToTheParentLocationIdQueryTypeParameter()
     {
         // not sure how to assert that
+        
     }
 
     /**
@@ -223,6 +224,7 @@ class QueryControllerContext extends RawMinkContext implements Context
     public function aLocationChildrenQueryIsBuiltFromTheLocationChildrenQueryType()
     {
         // not sure how to assert that either
+        
     }
 
     /**
@@ -231,6 +233,7 @@ class QueryControllerContext extends RawMinkContext implements Context
     public function aLocationSearchIsExecutedWithTheLocationChildrenQuery()
     {
         // still not sure...
+        
     }
 
     /**

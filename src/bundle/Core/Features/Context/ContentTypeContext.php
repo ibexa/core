@@ -203,6 +203,7 @@ class ContentTypeContext implements Context
             $this->contentTypeService->deleteContentType($contentType);
         } catch (ApiExceptions\NotFoundException $e) {
             // nothing to do
+            
         }
     }
 
@@ -216,6 +217,7 @@ class ContentTypeContext implements Context
             $this->contentTypeService->assignContentTypeGroup($contentType, $contentTypeGroup);
         } catch (ApiExceptions\InvalidArgumentException $exception) {
             //do nothing
+            
         }
     }
 

@@ -917,7 +917,6 @@ class UserHandlerTest extends TestCase
         $handler = $this->getUserHandler();
 
         $policies = $handler->loadPoliciesByUserId(10); // Anonymous user
-
         // Verify, that we received an array of Policy objects
         $this->assertTrue(
             array_reduce(

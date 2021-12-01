@@ -344,6 +344,7 @@ class Legacy extends SetupFactory
     protected function externalBuildContainer(ContainerBuilder $containerBuilder)
     {
         // Does nothing by default
+        
     }
 
     /**

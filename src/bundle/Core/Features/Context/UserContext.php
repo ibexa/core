@@ -132,6 +132,7 @@ class UserContext implements Context
             $this->userService->deleteUser($existingUser);
         } catch (NotFoundException $e) {
             // do nothing
+            
         }
 
         if (!$parentGroup) {
@@ -195,7 +196,6 @@ class UserContext implements Context
 
                 return $this->createUser($username, $email, $password, $parentGroup);
             } // else
-
             // Parent Group does not exist yet, so create it at "root" User Group.
             $rootGroup = $this->userService->loadUserGroup(self::USERGROUP_ROOT_CONTENT_ID);
             $parentGroup = $this->createUserGroup($parentGroupName, $rootGroup);
@@ -203,7 +203,6 @@ class UserContext implements Context
             return $this->createUser($username, $email, $password, $parentGroup);
         }
         // else,
-
         $user = $this->searchUserByLogin($username);
         if (!$user) {
             $user = $this->createUser($username, $email, $password);
@@ -239,6 +238,7 @@ class UserContext implements Context
                 $user = $this->userService->loadUserByLogin($username);
             } catch (ApiExceptions\NotFoundException $e) {
                 // nothing to do
+                
             }
         }
         if ($user) {
@@ -246,6 +246,7 @@ class UserContext implements Context
                 $this->userService->deleteUser($user);
             } catch (ApiExceptions\NotFoundException $e) {
                 // nothing to do
+                
             }
         }
     }

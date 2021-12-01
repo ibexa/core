@@ -45,7 +45,6 @@ class SearchServiceAuthorizationTest extends BaseTest
         // Should return Content with location id: 2 as the anonymous user should have access to standard section
         $searchResult = $searchService->findContent(new Query(['filter' => new Criterion\LocationId(2)]));
         /* END: Use Case */
-
         self::assertEquals(1, $searchResult->totalCount, 'Search query should return totalCount of 1');
         self::assertNotEmpty($searchResult->searchHits, '$searchResult->searchHits should not be empty');
         self::assertEquals('Home', $searchResult->searchHits[0]->valueObject->contentInfo->name);
@@ -75,7 +74,6 @@ class SearchServiceAuthorizationTest extends BaseTest
         // This call will return an empty search result
         $searchResult = $searchService->findContent(new Query(['filter' => new Criterion\LocationId(5)]));
         /* END: Use Case */
-
         self::assertEmpty(
             $searchResult->searchHits,
             'Expected Not Found exception, got content with name: ' .
@@ -114,6 +112,7 @@ class SearchServiceAuthorizationTest extends BaseTest
             )
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -149,7 +148,6 @@ class SearchServiceAuthorizationTest extends BaseTest
         // Search for matching content
         $searchResultWithPermissions = $searchService->findContent($query, []);
         /* END: Use Case */
-
         $this->assertEquals(1, $searchResultWithoutPermissions->totalCount);
         $this->assertEquals(0, $searchResultWithPermissions->totalCount);
     }
@@ -178,7 +176,6 @@ class SearchServiceAuthorizationTest extends BaseTest
             false
         );
         /* END: Use Case */
-
         self::assertInstanceOf(
             Content::class,
             $content
@@ -212,6 +209,7 @@ class SearchServiceAuthorizationTest extends BaseTest
             new Criterion\ContentId(12)
         );
         /* END: Use Case */
+        
     }
 }
 

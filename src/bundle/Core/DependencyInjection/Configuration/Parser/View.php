@@ -76,6 +76,7 @@ EOT
     public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
     {
         // Nothing to do here.
+        
     }
 }
 

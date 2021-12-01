@@ -29,7 +29,6 @@ abstract class BaseURLServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $searchResult = $repository->getURLService()->findUrls($query);
         /* END: Use Case */
-
         $this->assertInstanceOf(SearchResult::class, $searchResult);
         $this->assertSame($expectedTotalCount, $searchResult->totalCount);
         $this->assertSearchResultItems($searchResult, $expectedUrls, $ignoreOrder);

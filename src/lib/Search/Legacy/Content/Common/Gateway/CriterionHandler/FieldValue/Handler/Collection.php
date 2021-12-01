@@ -54,7 +54,6 @@ class Collection extends Handler
 
                 $singleValueExpr = 'like';
             // No break here, rest is handled by shared code with ::CONTAINS below
-
             case Criterion\Operator::CONTAINS:
                 $value = isset($value) ? $value : $this->prepareLikeString($criterion->value);
                 $quotedColumn = $column;

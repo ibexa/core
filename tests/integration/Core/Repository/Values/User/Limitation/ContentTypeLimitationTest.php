@@ -79,7 +79,6 @@ class ContentTypeLimitationTest extends BaseLimitationTest
             $contentUpdate
         );
         /* END: Use Case */
-
         $this->assertEquals(
             'Your wiki page',
             $updateContent->getFieldValue('title')->text
@@ -144,6 +143,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
         // This call fails with an UnauthorizedException
         $contentService->createContentDraft($content->contentInfo);
         /* END: Use Case */
+        
     }
 
     /**
@@ -212,6 +212,7 @@ class ContentTypeLimitationTest extends BaseLimitationTest
             $contentUpdate
         );
         /* END: Use Case */
+        
     }
 }
 

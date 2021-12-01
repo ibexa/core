@@ -38,7 +38,6 @@ class URLWildcardServiceTest extends BaseTest
         // Create a new url wildcard
         $urlWildcard = $urlWildcardService->create('/articles/*', '/content/{1}');
         /* END: Use Case */
-
         $this->assertInstanceOf(
             URLWildcard::class,
             $urlWildcard
@@ -96,7 +95,6 @@ class URLWildcardServiceTest extends BaseTest
         // Create a new url wildcard
         $urlWildcard = $urlWildcardService->create('/articles/*', '/content/{1}', true);
         /* END: Use Case */
-
         $this->assertPropertiesCorrect(
             [
                 'sourceUrl' => '/articles/*',
@@ -129,6 +127,7 @@ class URLWildcardServiceTest extends BaseTest
         // sourceUrl '/articles/*' already exists.
         $urlWildcardService->create('/articles/*', '/content/data/{1}');
         /* END: Use Case */
+        
     }
 
     /**
@@ -150,6 +149,7 @@ class URLWildcardServiceTest extends BaseTest
         // number of patterns '*' does not match the number of {\d} placeholders
         $urlWildcardService->create('/articles/*', '/content/{1}/year{2}');
         /* END: Use Case */
+        
     }
 
     /**
@@ -171,6 +171,7 @@ class URLWildcardServiceTest extends BaseTest
         // number of patterns '*' does not match the number of {\d} placeholders
         $urlWildcardService->create('/articles/*/*/*', '/content/{1}/year/{2}/{4}');
         /* END: Use Case */
+        
     }
 
     /**
@@ -194,7 +195,6 @@ class URLWildcardServiceTest extends BaseTest
         // Load newly created url wildcard
         $urlWildcard = $urlWildcardService->load($urlWildcardId);
         /* END: Use Case */
-
         $this->assertInstanceOf(
             URLWildcard::class,
             $urlWildcard
@@ -243,6 +243,7 @@ class URLWildcardServiceTest extends BaseTest
         // This call will fail with a NotFoundException
         $urlWildcardService->load(42);
         /* END: Use Case */
+        
     }
 
     /**
@@ -316,6 +317,7 @@ class URLWildcardServiceTest extends BaseTest
         // This call will fail with a NotFoundException
         $urlWildcardService->load($urlWildcardId);
         /* END: Use Case */
+        
     }
 
     /**
@@ -338,7 +340,6 @@ class URLWildcardServiceTest extends BaseTest
         // Load all available url wildcards
         $allUrlWildcards = $urlWildcardService->loadAll();
         /* END: Use Case */
-
         $this->assertEquals(
             [
                 $urlWildcardOne,
@@ -368,7 +369,6 @@ class URLWildcardServiceTest extends BaseTest
         // Load all available url wildcards
         $allUrlWildcards = $urlWildcardService->loadAll(1);
         /* END: Use Case */
-
         $this->assertEquals([$urlWildcardTwo], $allUrlWildcards);
     }
 
@@ -392,7 +392,6 @@ class URLWildcardServiceTest extends BaseTest
         // Load all available url wildcards
         $allUrlWildcards = $urlWildcardService->loadAll(0, 1);
         /* END: Use Case */
-
         $this->assertEquals([$urlWildcardOne], $allUrlWildcards);
     }
 
@@ -412,7 +411,6 @@ class URLWildcardServiceTest extends BaseTest
         // Load all available url wildcards
         $allUrlWildcards = $urlWildcardService->loadAll();
         /* END: Use Case */
-
         $this->assertSame([], $allUrlWildcards);
     }
 
@@ -437,7 +435,6 @@ class URLWildcardServiceTest extends BaseTest
         // Translate a given url
         $result = $urlWildcardService->translate('/articles/2012/05/sindelfingen');
         /* END: Use Case */
-
         $this->assertInstanceOf(
             URLWildcardTranslationResult::class,
             $result
@@ -484,7 +481,6 @@ class URLWildcardServiceTest extends BaseTest
         // Translate a given url
         $result = $urlWildcardService->translate('/articles/2012/05/sindelfingen');
         /* END: Use Case */
-
         $this->assertPropertiesCorrect(
             [
                 'uri' => '/content/sindelfingen/year/2012',
@@ -514,7 +510,6 @@ class URLWildcardServiceTest extends BaseTest
         // Translate a given url
         $result = $urlWildcardService->translate('/articles/2012/05/sindelfingen/42');
         /* END: Use Case */
-
         $this->assertEquals('/content/42/bar/2012', $result->uri);
     }
 
@@ -537,6 +532,7 @@ class URLWildcardServiceTest extends BaseTest
         // url alias matches against the given url.
         $urlWildcardService->translate('/sindelfingen');
         /* END: Use Case */
+        
     }
 }
 

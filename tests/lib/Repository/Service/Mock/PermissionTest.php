@@ -448,6 +448,7 @@ class PermissionTest extends BaseServiceMockTest
 
                 if ($policy->limitations === 'notfound') {
                     break 2; // no more execution after exception
+                    
                 }
             }
         }

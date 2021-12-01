@@ -59,6 +59,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
             $objectStateGroupCreate
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -108,6 +109,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
             $groupUpdateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -144,6 +146,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         // delete object state groups
         $objectStateService->deleteObjectStateGroup($loadedObjectStateGroup);
         /* END: Use Case */
+        
     }
 
     /**
@@ -195,6 +198,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
             $objectStateCreateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -245,6 +249,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
             $updateStateStruct
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -283,6 +288,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
             23
         );
         /* END: Use Case */
+        
     }
 
     /**
@@ -317,6 +323,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         // delete object states
         $objectStateService->deleteObjectState($notLockedObjectState);
         /* END: Use Case */
+        
     }
 
     /**
@@ -364,6 +371,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
             $lockedObjectState
         );
         /* END: Use Case */
+        
     }
 }
 

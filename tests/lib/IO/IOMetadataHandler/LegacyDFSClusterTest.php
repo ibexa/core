@@ -87,7 +87,6 @@ class LegacyDFSClusterTest extends TestCase
         $spiCreateStruct->mimeType = 'image/png';
         $spiCreateStruct->size = 123;
         $spiCreateStruct->mtime = 1307155242; // Invalid, should be a DateTime
-
         $this->handler->create($spiCreateStruct);
     }
 

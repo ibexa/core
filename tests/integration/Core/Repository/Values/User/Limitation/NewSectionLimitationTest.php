@@ -60,7 +60,6 @@ class NewSectionLimitationTest extends BaseLimitationTest
             $sectionService->loadSection($sectionId)
         );
         /* END: Use Case */
-
         $this->assertSame(
             $sectionId,
             $contentService->loadContentInfo($contentId)->sectionId
@@ -114,6 +113,7 @@ class NewSectionLimitationTest extends BaseLimitationTest
             $sectionService->loadSection($otherSectionId)
         );
         /* END: Use Case */
+        
     }
 }
 

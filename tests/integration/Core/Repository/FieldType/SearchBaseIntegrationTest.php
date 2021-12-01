@@ -217,6 +217,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
     public function checkFullTextSupport()
     {
         // Does nothing by default, override in a concrete test case as needed
+        
     }
 
     /**
@@ -242,6 +243,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
     protected function checkSearchEngineSupport()
     {
         // Does nothing by default, override in a concrete test case as needed
+        
     }
 
     protected function checkCustomFieldsSupport()

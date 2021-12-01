@@ -62,7 +62,6 @@ class IOServiceTest extends TestCase
         $result = $uploadTest->run(); // Fails because of unset cgi param and missing php-cgi exe
         // Params bellow makes the code execute but fails:
         //->run( null, array( 'cgi' => 'php' ) );
-
         if ($result->failureCount() > 0) {
             self::fail(
                 'Failed file upload test, failureCount() > 0: ' .

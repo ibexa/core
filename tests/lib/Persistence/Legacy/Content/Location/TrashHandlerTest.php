@@ -538,6 +538,7 @@ class TrashHandlerTest extends TestCase
         $this->assertEmpty($trashResult->items);
         $this->assertIsIterable($trashResult);
         $this->assertCount(0, $trashResult);// Can't assert as empty, however we can count it.
+        
     }
 
     public function testFindTrashItemsWithLimits()

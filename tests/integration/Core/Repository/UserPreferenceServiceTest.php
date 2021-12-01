@@ -31,7 +31,6 @@ class UserPreferenceServiceTest extends BaseTest
         $userPreferenceService = $repository->getUserPreferenceService();
         $userPreferenceList = $userPreferenceService->loadUserPreferences(0, 25);
         /* END: Use Case */
-
         $this->assertInstanceOf(UserPreferenceList::class, $userPreferenceList);
         $this->assertIsArray($userPreferenceList->items);
         $this->assertIsInt($userPreferenceList->totalCount);
@@ -52,7 +51,6 @@ class UserPreferenceServiceTest extends BaseTest
         // $userPreferenceName is the name of an existing preference
         $userPreference = $userPreferenceService->getUserPreference($userPreferenceName);
         /* END: Use Case */
-
         $this->assertInstanceOf(UserPreference::class, $userPreference);
         $this->assertEquals($userPreferenceName, $userPreference->name);
     }
@@ -78,7 +76,6 @@ class UserPreferenceServiceTest extends BaseTest
         $userPreferenceService->setUserPreference([$setStruct]);
         $userPreference = $userPreferenceService->getUserPreference($userPreferenceName);
         /* END: Use Case */
-
         $this->assertInstanceOf(UserPreference::class, $userPreference);
         $this->assertEquals($userPreferenceName, $userPreference->name);
     }
@@ -104,6 +101,7 @@ class UserPreferenceServiceTest extends BaseTest
         // This call will fail because value is not specified
         $userPreferenceService->setUserPreference([$setStruct]);
         /* END: Use Case */
+        
     }
 
     /**
@@ -126,6 +124,7 @@ class UserPreferenceServiceTest extends BaseTest
         // This call will fail because value is not specified
         $userPreferenceService->setUserPreference([$setStruct]);
         /* END: Use Case */
+        
     }
 
     /**
@@ -139,7 +138,6 @@ class UserPreferenceServiceTest extends BaseTest
         $userPreferenceService = $repository->getUserPreferenceService();
         $userPreferenceCount = $userPreferenceService->getUserPreferenceCount();
         /* END: Use Case */
-
         $this->assertEquals(5, $userPreferenceCount);
     }
 }

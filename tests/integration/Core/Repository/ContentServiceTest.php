@@ -429,7 +429,6 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $contentCreate1 = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
         // Required field "name" is not set
-
         $this->expectException(ContentFieldValidationException::class);
 
         // Throws a ContentFieldValidationException, since a required field is missing
@@ -467,7 +466,6 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $parentLocationId = $this->generateId('location', 56);
         // $parentLocationId is a valid location ID
-
         $contentTypeService = $this->getRepository()->getContentTypeService();
 
         $contentType = $contentTypeService->loadContentTypeByIdentifier(self::FORUM_IDENTIFIER);
@@ -731,7 +729,6 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
-
         // Load the ContentInfo for "Media" folder
         $contentInfo = $this->contentService->loadContentInfo($mediaFolderId);
 
@@ -753,7 +750,6 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
-
         // Load the VersionInfo for "Media" folder
         $versionInfo = $this->contentService->loadVersionInfoById($mediaFolderId);
 
@@ -866,7 +862,6 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
-
         // Load the ContentInfo for "Media" folder
         $contentInfo = $this->contentService->loadContentInfo($mediaFolderId);
 
@@ -889,7 +884,6 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
-
         // Load the ContentInfo for "Media" folder
         $contentInfo = $this->contentService->loadContentInfo($mediaFolderId);
 
@@ -916,7 +910,6 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
         // $mediaFolderId contains the ID of the "Media" folder
-
         // Load the Content for "Media" folder, any language and current version
         $content = $this->contentService->loadContent($mediaFolderId);
 
@@ -2029,7 +2022,6 @@ class ContentServiceTest extends BaseContentServiceTest
         $metadataUpdate->alwaysAvailable = false;
         $metadataUpdate->publishedDate = $this->createDateTime(441759600); // 1984/01/01
         $metadataUpdate->modificationDate = $this->createDateTime(441759600); // 1984/01/01
-
         // Update the metadata of the published content object
         $content = $this->contentService->updateContentMetadata(
             $content->contentInfo,
@@ -3939,7 +3931,6 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->publishVersion($demoDesignDraft->getVersionInfo());
         // We will not publish new Content draft, therefore relation from it
         // will not be loaded as reverse relation for "Media" page
-
         $relations = $this->contentService->loadRelations($media->versionInfo);
         $reverseRelations = $this->contentService->loadReverseRelations($media->contentInfo);
 

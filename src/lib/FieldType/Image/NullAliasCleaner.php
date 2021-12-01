@@ -21,6 +21,7 @@ final class NullAliasCleaner implements AliasCleanerInterface
     public function removeAliases($originalPath): void
     {
         // Nothing to do
+        
     }
 }
 

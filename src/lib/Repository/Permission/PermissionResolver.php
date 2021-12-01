@@ -165,6 +165,7 @@ class PermissionResolver implements PermissionResolverInterface
         }
 
         return false; // No policies matching $module and $function, or they contained limitations
+        
     }
 
     public function canUser(string $module, string $function, ValueObject $object, array $targets = []): bool
@@ -244,6 +245,7 @@ class PermissionResolver implements PermissionResolverInterface
                     if ($accessVote !== LimitationType::ACCESS_GRANTED) {
                         $limitationsPass = false;
                         break; // Break to next policy, all limitations must pass
+                        
                     }
                 }
                 if ($limitationsPass) {
@@ -253,6 +255,7 @@ class PermissionResolver implements PermissionResolverInterface
         }
 
         return false; // None of the limitation sets wanted to let you in, sorry!
+        
     }
 
     /**

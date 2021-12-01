@@ -38,7 +38,6 @@ abstract class BaseTrashServiceTest extends BaseTest
         // Trash the "Community" page location
         $trashItem = $trashService->trash($mediaLocation);
         /* END: Inline */
-
         return $trashItem;
     }
 

@@ -35,7 +35,7 @@ class Type extends FieldType
             'default' => self::DEFAULT_EMPTY,
         ],
         /*
-         * @var DateInterval
+         * @var \DateInterval
          * Used only if defaultValueType is set to DEFAULT_CURRENT_DATE_ADJUSTED
          */
         'dateInterval' => [

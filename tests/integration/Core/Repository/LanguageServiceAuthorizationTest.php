@@ -49,6 +49,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
         // This call will fail with a "UnauthorizedException"
         $languageService->createLanguage($languageCreate);
         /* END: Use Case */
+        
     }
 
     /**
@@ -86,6 +87,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
         // This call will fail with a "UnauthorizedException"
         $languageService->updateLanguageName($language, 'New language name.');
         /* END: Use Case */
+        
     }
 
     /**
@@ -121,6 +123,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
         // This call will fail with a "UnauthorizedException"
         $languageService->enableLanguage($language);
         /* END: Use Case */
+        
     }
 
     /**
@@ -156,6 +159,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
         // This call will fail with a "UnauthorizedException"
         $languageService->disableLanguage($language);
         /* END: Use Case */
+        
     }
 
     /**
@@ -191,6 +195,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
         // This call will fail with a "UnauthorizedException"
         $languageService->deleteLanguage($language);
         /* END: Use Case */
+        
     }
 }
 

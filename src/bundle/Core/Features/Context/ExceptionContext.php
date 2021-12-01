@@ -46,6 +46,7 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
     public function itIsConvertedToAnSymfonyComponentSecurityCoreExceptionAccessDeniedException()
     {
         // unsure how to assert this :)
+        
     }
 
     /**

@@ -248,7 +248,6 @@ class FieldNameResolver
         }
 
         // Else, generate field name from field type's index definition
-
         $indexFieldType = $this->fieldRegistry->getType($fieldTypeIdentifier);
 
         // If $name is not given use default field name

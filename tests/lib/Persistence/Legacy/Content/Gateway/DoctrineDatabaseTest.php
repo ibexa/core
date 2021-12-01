@@ -711,10 +711,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $orig = include __DIR__ . '/../_fixtures/extract_content_from_rows_multiple_versions.php';
 
         /*$this->storeFixture(
-            __DIR__ . '/../_fixtures/extract_content_from_rows_multiple_versions.php',
-            $res
-        );*/
-
+              __DIR__ . '/../_fixtures/extract_content_from_rows_multiple_versions.php',
+              $res
+          );*/
         $this->assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows_multiple_versions.php) and tests needs to be adapted.');
     }
 
@@ -731,10 +730,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $orig = include __DIR__ . '/../_fixtures/extract_content_from_rows.php';
 
         /*$this->storeFixture(
-            __DIR__ . '/../_fixtures/extract_content_from_rows.php',
-            $res
-        );*/
-
+              __DIR__ . '/../_fixtures/extract_content_from_rows.php',
+              $res
+          );*/
         $this->assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows.php) and tests needs to be adapted.');
     }
 
