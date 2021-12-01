@@ -39,7 +39,7 @@ class ImageExtension extends AbstractExtension
                 [
                     'is_safe' => ['html'],
                     'deprecated' => '4.0',
-                    'alternative' => 'ibexa_image_alias'
+                    'alternative' => 'ibexa_image_alias',
                 ]
             ),
             new TwigFunction(
@@ -53,7 +53,7 @@ class ImageExtension extends AbstractExtension
                 [
                     'is_safe' => ['html'],
                     'deprecated' => '4.0',
-                    'alternative' => 'ibexa_content_field_identifier_image_asset'
+                    'alternative' => 'ibexa_content_field_identifier_image_asset',
                 ]
             ),
             new TwigFunction(

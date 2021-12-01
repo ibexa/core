@@ -85,7 +85,6 @@ class FileSizeExtension extends AbstractExtension
                 'ibexa_file_size',
                 [$this, 'sizeFilter']
             ),
-
         ];
     }
 

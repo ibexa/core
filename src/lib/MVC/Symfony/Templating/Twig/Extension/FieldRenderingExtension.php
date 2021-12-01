@@ -61,6 +61,7 @@ class FieldRenderingExtension extends AbstractExtension
 
             return $this->renderFieldDefinitionSettings($fieldDefinition, $params);
         };
+
         return [
             new TwigFunction(
                 'ez_render_field',

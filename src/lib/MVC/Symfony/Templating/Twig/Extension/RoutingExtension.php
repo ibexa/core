@@ -82,7 +82,7 @@ class RoutingExtension extends AbstractExtension
                 'ibexa_url',
                 [$this, 'getUrl'],
                 [
-                    'is_safe_callback' => [$this, 'isUrlGenerationSafe']
+                    'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
                 ]
             ),
         ];
