@@ -15,7 +15,7 @@ interface FieldConstraintsStorage
     public function storeFieldConstraintsData(
         int $fieldDefinitionId,
         FieldTypeConstraints $fieldTypeConstraints
-    );
+    ): void;
 
     public function getFieldConstraintsData(
         int $fieldDefinitionId
