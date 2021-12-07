@@ -407,8 +407,8 @@ class FloatTest extends FieldTypeTest
     public function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), [], 'en_GB', ''],
-            [new FloatValue(23.42), [], 'en_GB', '23.42'],
+            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new FloatValue(23.42), '23.42', [], 'en_GB'],
         ];
     }
 

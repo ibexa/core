@@ -19,8 +19,20 @@
         <env name="DATABASE_URL" value="sqlite://:memory:" />
     </php>
     <testsuites>
-        <testsuite name="integration_repository">
+        <testsuite name="integration_core">
             <directory>tests/integration/Core</directory>
+        </testsuite>
+        <testsuite name="integration_debug">
+            <directory>tests/integration/Debug</directory>
+        </testsuite>
+        <testsuite name="integration_io">
+            <directory>tests/integration/IO</directory>
+        </testsuite>
+        <testsuite name="integration_legacy_search_engine">
+            <directory>tests/integration/LegacySearchEngine</directory>
+        </testsuite>
+        <testsuite name="integration_repository_installer">
+            <directory>tests/integration/RepositoryInstaller</directory>
         </testsuite>
     </testsuites>
     <filter>

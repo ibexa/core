@@ -384,8 +384,12 @@ class RelationTest extends FieldTypeTest
     /**
      * @dataProvider provideDataForGetName
      */
-    public function testGetName(SPIValue $value, array $fieldSettings = [], string $languageCode = 'en_GB', string $expected)
-    {
+    public function testGetName(
+        SPIValue $value,
+        string $expected,
+        array $fieldSettings = [],
+        string $languageCode = 'en_GB'
+    ): void {
         /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(FieldDefinition::class);
         $fieldDefinitionMock->method('getFieldSettings')->willReturn($fieldSettings);
@@ -399,13 +403,13 @@ class RelationTest extends FieldTypeTest
     {
         return [
             'empty_destination_content_id' => [
-                $this->getEmptyValueExpectation(), [], 'en_GB', '',
+                $this->getEmptyValueExpectation(), '', [], 'en_GB',
             ],
             'destination_content_id' => [
-                new Value(self::DESTINATION_CONTENT_ID), [], 'en_GB', 'name_en_GB',
+                new Value(self::DESTINATION_CONTENT_ID), 'name_en_GB', [], 'en_GB',
             ],
             'destination_content_id_de_DE' => [
-                new Value(self::DESTINATION_CONTENT_ID), [], 'de_DE', 'Name_de_DE',
+                new Value(self::DESTINATION_CONTENT_ID), 'Name_de_DE', [], 'de_DE',
             ],
         ];
     }

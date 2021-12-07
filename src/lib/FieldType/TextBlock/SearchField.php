@@ -41,7 +41,7 @@ class SearchField implements Indexable
      */
     private function extractShortText($string)
     {
-        return mb_substr(strtok(trim($string), "\r\n"), 0, 255);
+        return mb_substr(strtok(trim((string)$string), "\r\n"), 0, 255);
     }
 
     public function getIndexDefinition()

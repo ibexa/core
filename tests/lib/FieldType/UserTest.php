@@ -867,8 +867,8 @@ class UserTest extends FieldTypeTest
     public function provideDataForGetName(): array
     {
         return [
-            [$this->getEmptyValueExpectation(), [], 'en_GB', ''],
-            [new UserValue(['login' => 'johndoe']), [], 'en_GB', 'johndoe'],
+            [$this->getEmptyValueExpectation(), '', [], 'en_GB'],
+            [new UserValue(['login' => 'johndoe']), 'johndoe', [], 'en_GB'],
         ];
     }
 }

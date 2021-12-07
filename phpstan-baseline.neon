@@ -1,0 +1,462 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\ViewManagerPass\\)\\:\\:VIEW_PROVIDER_IDENTIFIER\\.$#"
+			count: 2
+			path: src/bundle/Core/DependencyInjection/Compiler/ViewManagerPass.php
+
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\ViewManagerPass\\)\\:\\:VIEW_TYPE\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Compiler/ViewManagerPass.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\ConfigResolver\\:\\:logTooEarlyLoadedListIfNeeded\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
+
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\Templates\\)\\:\\:INFO\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Templates.php
+
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\Templates\\)\\:\\:INFO_TEMPLATE_KEY\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Templates.php
+
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\Templates\\)\\:\\:NODE_KEY\\.$#"
+			count: 5
+			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Templates.php
+
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\View\\)\\:\\:INFO\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/Parser/View.php
+
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\View\\)\\:\\:NODE_KEY\\.$#"
+			count: 2
+			path: src/bundle/Core/DependencyInjection/Configuration/Parser/View.php
+
+		-
+			message: "#^Call to an undefined method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\ContentTypeContext\\:\\:processSettings\\(\\)\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/ContentTypeContext.php
+
+		-
+			message: "#^Call to an undefined method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\ContentTypeContext\\:\\:processValidator\\(\\)\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/ContentTypeContext.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\QueryControllerContext\\:\\:\\$repository\\.$#"
+			count: 7
+			path: src/bundle/Core/Features/Context/QueryControllerContext.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\UserContext\\:\\:ensureUserExists\\(\\) invoked with 2 parameters, 3\\-4 required\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/UserContext.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\UserContext\\:\\:iHaveUser\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User but return statement is missing\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/UserContext.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\UserContext\\:\\:iHaveUserInGroup\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User but return statement is missing\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/UserContext.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\UserContext\\:\\:iHaveUserWithUsernameEmailAndPassword\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User but return statement is missing\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/UserContext.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\IO\\\\BinaryStreamResponse\\:\\:sendContent\\(\\) should return \\$this\\(Ibexa\\\\Bundle\\\\IO\\\\BinaryStreamResponse\\) but return statement is missing\\.$#"
+			count: 1
+			path: src/bundle/IO/BinaryStreamResponse.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\IO\\\\BinaryStreamResponse\\:\\:setContent\\(\\) should return \\$this\\(Ibexa\\\\Bundle\\\\IO\\\\BinaryStreamResponse\\) but return statement is missing\\.$#"
+			count: 1
+			path: src/bundle/IO/BinaryStreamResponse.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/contracts/Repository/Values/ValueObject.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Core\\\\Base\\\\Exceptions\\\\LimitationValidationException\\:\\:\\$validationErrors\\.$#"
+			count: 1
+			path: src/lib/Base/Exceptions/LimitationValidationException.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\BinaryBase\\\\BinaryBaseStorage\\:\\:deleteFieldData\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\BinaryBase\\\\BinaryBaseStorage\\:\\:getIndexData\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\> but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/lib/FieldType/Date/Value.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 2
+			path: src/lib/FieldType/DateAndTime/Value.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Image\\\\ImageStorage\\:\\:deleteFieldData\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/Image/ImageStorage.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/lib/FieldType/Image/Value.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\MapLocation\\\\MapLocationStorage\\:\\:deleteFieldData\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/MapLocation/MapLocationStorage.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\MapLocation\\\\MapLocationStorage\\\\Gateway\\\\DoctrineStorage\\:\\:getFieldData\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/MapLocation/MapLocationStorage/Gateway/DoctrineStorage.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/lib/FieldType/Time/Value.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Url\\\\UrlStorage\\:\\:deleteFieldData\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/Url/UrlStorage.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Url\\\\UrlStorage\\:\\:getIndexData\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\> but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/Url/UrlStorage.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\User\\\\UserStorage\\:\\:getIndexData\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\> but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/FieldType/User/UserStorage.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController\\:\\:\\$locationProvider\\.$#"
+			count: 2
+			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ContentBased\\\\Id\\\\LocationRemote\\:\\:matchContentInfo\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Matcher/ContentBased/Id/LocationRemote.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ContentBased\\\\Id\\\\LocationRemote\\:\\:matchLocation\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Matcher/ContentBased/Id/LocationRemote.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
+
+		-
+			message: "#^Access to undefined constant static\\(Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\Compound\\)\\:\\:NAME\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Compound.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\GlobalHelper\\:\\:getRequestedUriString\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Templating/GlobalHelper.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\GlobalHelper\\:\\:getViewParametersString\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Templating/GlobalHelper.php
+
+		-
+			message: "#^Class Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\SelectionConverter constructor invoked with 0 parameters, 1 required\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SelectionConverter.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Handler\\:\\:deleteContent\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Handler.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Handler\\:\\:deleteVersion\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Handler.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Handler\\:\\:move\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Handler\\:\\:removeSubtree\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Handler\\:\\:swap\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\TreeHandler\\:\\:removeSubtree\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/TreeHandler.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\Handler\\:\\:addFieldDefinition\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\FieldDefinition but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
+
+		-
+			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\UrlAlias referenced with incorrect case\\: Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\URLAlias\\.$#"
+			count: 2
+			path: src/lib/Repository/URLAliasService.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\LanguagesTest\\:\\:\\$minimalConfig\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Configuration/Parser/LanguagesTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Stub\\\\QueryTypeBundle\\\\QueryType\\\\TestQueryType\\:\\:getQuery\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query but return statement is missing\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Stub/QueryTypeBundle/QueryType/TestQueryType.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Stub\\\\QueryTypeBundle\\\\QueryType\\\\TestQueryType\\:\\:getSupportedParameters\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Stub/QueryTypeBundle/QueryType/TestQueryType.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RoutingListenerTest\\:\\:\\$container\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/RoutingListenerTest.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:\\$session\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\Stubs\\\\ViewManager\\:\\:renderContent\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/Stubs/ViewManager.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\Stubs\\\\ViewManager\\:\\:renderContentView\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/Stubs/ViewManager.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\Stubs\\\\ViewManager\\:\\:renderLocation\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/Stubs/ViewManager.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\Stubs\\\\ViewProvider\\:\\:getView\\(\\) should return Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\View\\\\View but return statement is missing\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/Stubs/ViewProvider.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Fragment\\\\FragmentRendererBaseTest\\:\\:\\$innerRenderer\\.$#"
+			count: 1
+			path: tests/bundle/Core/Fragment/FragmentRendererBaseTest.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\UrlAliasRouterTest\\:\\:\\$container\\.$#"
+			count: 1
+			path: tests/bundle/Core/Routing/UrlAliasRouterTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\AuthorIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/AuthorIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\BinaryFileIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/BinaryFileIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\CheckboxIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/CheckboxIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\CountryIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/CountryIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\DateAndTimeIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/DateAndTimeIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\EmailAddressIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/EmailAddressIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\FloatIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/FloatIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ISBNIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/ISBNIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\IntegerIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/IntegerIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\KeywordIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/KeywordIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\MapLocationIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/MapLocationIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\MediaIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/MediaIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\RelationIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/RelationIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\RelationListIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/RelationListIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SelectionIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/SelectionIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\TextBlockIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/TextBlockIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\TextLineIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/TextLineIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\TimeIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/TimeIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\UrlIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/UrlIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\UserIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/UserIntegrationTest.php
+
+		-
+			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/Regression/EZP20018LanguageTest.php
+
+		-
+			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
+			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			count: 5
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Instantiated class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Exceptions\\\\InvalidArgumentException is abstract\\.$#"
+			count: 2
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			count: 3
+			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Base\\\\Container\\\\Compiler\\\\Stubs\\\\GatewayBasedStorageHandler\\:\\:deleteFieldData\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Base\\\\Container\\\\Compiler\\\\Stubs\\\\GatewayBasedStorageHandler\\:\\:getIndexData\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\> but return statement is missing\\.$#"
+			count: 1
+			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Base\\\\Container\\\\Compiler\\\\Stubs\\\\GatewayBasedStorageHandler\\:\\:hasFieldData\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
+
+		-
+			message: "#^Class Symfony\\\\Component\\\\Validator\\\\ConstraintViolation constructor invoked with 1 parameter, 6\\-10 required\\.$#"
+			count: 1
+			path: tests/lib/FieldType/Generic/GenericTest.php
+
+		-
+			message: "#^Class Ibexa\\\\Core\\\\FieldType\\\\ISBN\\\\Type does not have a constructor and must be instantiated without any parameters\\.$#"
+			count: 1
+			path: tests/lib/FieldType/ISBNTest.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\ImageTest\\:\\:\\$mimeTypeDetectorMock\\.$#"
+			count: 1
+			path: tests/lib/FieldType/ImageTest.php
+
+		-
+			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\Url\\\\Gateway\\\\DoctrineStorageTest\\:\\:\\$storageGateway\\.$#"
+			count: 1
+			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
+
+		-
+			message: "#^Undefined variable\\: \\$ret$#"
+			count: 1
+			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
+
