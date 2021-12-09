@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Filter;
 
 use IteratorAggregate;
+use ReturnTypeWillChange;
 use RuntimeException;
 
 /**
@@ -48,7 +49,7 @@ abstract class LazyListIterator implements IteratorAggregate
         return $this->totalCount;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator(): iterable
     {
         if (0 === $this->totalCount) {
