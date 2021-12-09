@@ -49,7 +49,7 @@ class ContentTypeHandlerTest extends TestCase
      */
     protected $updateHandlerMock;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject */
     protected $storageDispatcherMock;
 
     public function testCreateGroup()
