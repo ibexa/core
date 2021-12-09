@@ -935,7 +935,10 @@ class ContentTypeHandlerTest extends TestCase
         );
         $mapperMock->expects($this->once())
             ->method('toStorageFieldDefinition')
-            ->with($fieldDef, $this->isInstanceOf(StorageFieldDefinition::class));
+            ->with(
+                $this->identicalTo($fieldDef),
+                $this->isInstanceOf(StorageFieldDefinition::class)
+            );
 
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects($this->once())
