@@ -482,14 +482,21 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function removeFieldDefinition($typeId, $status, $fieldDefinitionId, ?string $fieldTypeIdentifier = null)
-    {
-        $this->logger->logCall(__METHOD__, ['type' => $typeId, 'status' => $status, 'field' => $fieldDefinitionId]);
+    public function removeFieldDefinition(
+        int $typeId,
+        int $status,
+        FieldDefinition $fieldDefinition
+    ): void {
+        $this->logger->logCall(__METHOD__, [
+            'type' => $typeId,
+            'status' => $status,
+            'field' => $fieldDefinition,
+        ]);
+
         $this->persistenceHandler->contentTypeHandler()->removeFieldDefinition(
             $typeId,
             $status,
-            $fieldDefinitionId,
-            $fieldTypeIdentifier
+            $fieldDefinition
         );
 
         if ($status === Type::STATUS_DEFINED) {

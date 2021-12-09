@@ -1383,8 +1383,10 @@ class ContentTypeService implements ContentTypeServiceInterface
             $this->contentTypeHandler->removeFieldDefinition(
                 $contentTypeDraft->id,
                 SPIContentType::STATUS_DRAFT,
-                $fieldDefinition->id,
-                $fieldDefinition->fieldTypeIdentifier
+                $this->contentTypeHandler->getFieldDefinition(
+                    $fieldDefinition->id,
+                    SPIContentType::STATUS_DRAFT
+                ),
             );
             $this->repository->commit();
         } catch (Exception $e) {

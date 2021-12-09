@@ -340,11 +340,13 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     /**
      * {@inheritdoc}
      */
-    public function removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId, ?string $fieldTypeIdentifier = null)
-    {
+    public function removeFieldDefinition(
+        int $contentTypeId,
+        int $status,
+        FieldDefinition $fieldDefinition
+    ): void {
         $this->deleteTypeCache($contentTypeId, $status);
-
-        return $this->innerHandler->removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId, $fieldTypeIdentifier);
+        $this->innerHandler->removeFieldDefinition($contentTypeId, $status, $fieldDefinition);
     }
 
     /**

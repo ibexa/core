@@ -923,9 +923,7 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handler = $this->getHandler();
-        $res = $handler->removeFieldDefinition(23, 1, 42, 'ezstring');
-
-        $this->assertTrue($res);
+        $handler->removeFieldDefinition(23, 1, new FieldDefinition(['id' => 42, 'fieldType' => 'ezstring']));
     }
 
     public function testUpdateFieldDefinition()

@@ -555,15 +555,21 @@ class Handler implements BaseContentTypeHandler
      *
      * @return bool
      */
-    public function removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId, ?string $fieldTypeIdentifier = null)
-    {
-        $fieldTypeIdentifier ??= $this->getFieldDefinition($fieldDefinitionId, $status)->fieldType;
+    public function removeFieldDefinition(
+        int $contentTypeId,
+        int $status,
+        FieldDefinition $fieldDefinition
+    ): void {
+        $this->storageDispatcher->deleteFieldConstraintsData(
+            $fieldDefinition->fieldType,
+            $fieldDefinition->id
+        );
 
-        $this->storageDispatcher->deleteFieldConstraintsData($fieldTypeIdentifier, $fieldDefinitionId);
-        $this->contentTypeGateway->deleteFieldDefinition($contentTypeId, $status, $fieldDefinitionId);
-
-        // @todo FIXME: Return true only if deletion happened
-        return true;
+        $this->contentTypeGateway->deleteFieldDefinition(
+            $contentTypeId,
+            $status,
+            $fieldDefinition->id
+        );
     }
 
     /**

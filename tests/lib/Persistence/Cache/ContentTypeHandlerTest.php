@@ -137,7 +137,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
             ['addFieldDefinition', [5, 1, new SPITypeFieldDefinition()]],
             [
                 'removeFieldDefinition',
-                [5, 0, 7],
+                [5, 0, new SPITypeFieldDefinition(['id' => 7])],
                 [
                     ['type', [5], false],
                     ['type_map', [], false],
@@ -146,7 +146,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
                 null,
                 ['t-5', 'tm', 'cft-5'],
             ],
-            ['removeFieldDefinition', [5, 1, 7]],
+            ['removeFieldDefinition', [5, 1, new SPITypeFieldDefinition(['id' => 7])]],
             [
                 'updateFieldDefinition',
                 [5, 0, new SPITypeFieldDefinition()],
