@@ -562,6 +562,11 @@ class ContentTypeHandlerTest extends TestCase
             $this->returnValue(0)
         );
 
+        $gatewayMock->expects($this->once())->method('loadTypeData')->with(23, 0)->willReturn([]);
+
+        $mapperMock = $this->getMapperMock();
+        $mapperMock->expects($this->once())->method('extractTypesFromRows')->with([])->willReturn([new Type()]);
+
         $gatewayMock->expects(
             $this->once()
         )->method(

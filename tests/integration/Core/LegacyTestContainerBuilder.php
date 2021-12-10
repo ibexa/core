@@ -64,6 +64,7 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
             new FileLocator([$settingsPath, __DIR__ . '/Resources/settings'])
         );
 
+        $loader->load('fieldtype_constraints_storage.yaml');
         $loader->load('fieldtype_external_storages.yml');
         $loader->load('fieldtype_services.yml');
         $loader->load('fieldtypes.yml');

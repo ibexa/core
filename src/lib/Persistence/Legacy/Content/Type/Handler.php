@@ -330,6 +330,8 @@ class Handler implements BaseContentTypeHandler
                 $fieldDef,
                 $storageFieldDef
             );
+
+            $this->storageDispatcher->storeFieldConstraintsData($fieldDef);
         }
 
         return $contentType;
@@ -367,6 +369,16 @@ class Handler implements BaseContentTypeHandler
                 '$contentTypeId',
                 'Content Type with the given ID still has Content items and cannot be deleted'
             );
+        }
+
+        try {
+            $fieldDefinitions = $this->load($contentTypeId, $status)->fieldDefinitions;
+        } catch (Exception\TypeNotFound $e) {
+            $fieldDefinitions = [];
+        }
+
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            $this->storageDispatcher->deleteFieldConstraintsData($fieldDefinition->fieldType, $fieldDefinition->id);
         }
 
         $this->contentTypeGateway->delete($contentTypeId, $status);
