@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Tests\Core\FieldType\Url;
 
-use Ibexa\Contracts\Core\FieldType\StorageGateway;
+use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -211,11 +211,11 @@ class UrlStorageTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGateway $gateway
+     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
      *
      * @return \Ibexa\Core\FieldType\Url\UrlStorage|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedStorage(StorageGateway $gateway)
+    protected function getPartlyMockedStorage(StorageGatewayInterface $gateway)
     {
         return $this->getMockBuilder(UrlStorage::class)
             ->setMethods(null)

@@ -9,7 +9,7 @@ namespace Ibexa\Contracts\Core\FieldType;
 /**
  * Base class for FieldType external storage gateways.
  */
-abstract class StorageGateway
+abstract class StorageGateway implements StorageGatewayInterface
 {
     /**
      * Get sequence name bound to database table and column.

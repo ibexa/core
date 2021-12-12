@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\FieldType\StorageGateway as SPIStorageGateway;
 /**
  * Abstract base class for storage gateways.
  *
- * @deprecated Since 6.11. Extend {@link \Ibexa\Contracts\Core\FieldType\StorageGateway} class instead.
+ * @deprecated Since 6.11. Extend {@link \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface} class instead.
  */
 abstract class StorageGateway extends SPIStorageGateway
 {

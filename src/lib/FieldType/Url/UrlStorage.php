@@ -7,7 +7,7 @@
 namespace Ibexa\Core\FieldType\Url;
 
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
-use Ibexa\Contracts\Core\FieldType\StorageGateway;
+use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Psr\Log\LoggerInterface;
@@ -26,10 +26,10 @@ class UrlStorage extends GatewayBasedStorage
     /**
      * Construct from gateways.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGateway $gateway
+     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
      * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct(StorageGateway $gateway, LoggerInterface $logger = null)
+    public function __construct(StorageGatewayInterface $gateway, LoggerInterface $logger = null)
     {
         parent::__construct($gateway);
         $this->logger = $logger;

@@ -9,7 +9,7 @@ namespace Ibexa\Core\FieldType\BinaryBase;
 use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator;
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
-use Ibexa\Contracts\Core\FieldType\StorageGateway;
+use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -42,13 +42,13 @@ class BinaryBaseStorage extends GatewayBasedStorage
     /**
      * Construct from gateways.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGateway $gateway
+     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
      * @param \Ibexa\Core\IO\IOServiceInterface $ioService
      * @param \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator $pathGenerator
      * @param \Ibexa\Contracts\Core\IO\MimeTypeDetector $mimeTypeDetector
      */
     public function __construct(
-        StorageGateway $gateway,
+        StorageGatewayInterface $gateway,
         IOServiceInterface $ioService,
         PathGenerator $pathGenerator,
         MimeTypeDetector $mimeTypeDetector
