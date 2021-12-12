@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 /**
  * Field Type External Storage gateway base class.
  *
- * @template T of \Ibexa\Contracts\Core\FieldType\StorageGateway
+ * @template T of \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface
  */
 abstract class GatewayBasedStorage implements FieldStorage
 {
