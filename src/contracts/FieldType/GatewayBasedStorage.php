@@ -12,23 +12,23 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 /**
  * Field Type External Storage gateway base class.
  *
- * @template T of \Ibexa\Contracts\Core\FieldType\StorageGateway
+ * @template T of \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface
  */
 abstract class GatewayBasedStorage implements FieldStorage
 {
     /**
      * Field Type External Storage Gateway.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\StorageGateway
+     * @var \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface
      * @phpstan-var T
      */
     protected $gateway;
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGateway $gateway
+     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
      * @phpstan-param T $gateway
      */
-    public function __construct(StorageGateway $gateway)
+    public function __construct(StorageGatewayInterface $gateway)
     {
         $this->gateway = $gateway;
     }

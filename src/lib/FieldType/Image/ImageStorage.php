@@ -7,7 +7,7 @@
 namespace Ibexa\Core\FieldType\Image;
 
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
-use Ibexa\Contracts\Core\FieldType\StorageGateway;
+use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -43,7 +43,7 @@ class ImageStorage extends GatewayBasedStorage
     protected $filePathNormalizer;
 
     public function __construct(
-        StorageGateway $gateway,
+        StorageGatewayInterface $gateway,
         IOServiceInterface $ioService,
         PathGenerator $pathGenerator,
         MetadataHandler $imageSizeMetadataHandler,
