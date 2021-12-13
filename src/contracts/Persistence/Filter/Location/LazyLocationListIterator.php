@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Filter\Location;
 
 use Ibexa\Contracts\Core\Persistence\Filter\LazyListIterator;
+use ReturnTypeWillChange;
 
 /**
  * SPI Persistence Content Item list iterator.
@@ -24,7 +25,7 @@ class LazyLocationListIterator extends LazyListIterator
      *
      * @throws \Exception
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator(): iterable
     {
         yield from parent::getIterator();

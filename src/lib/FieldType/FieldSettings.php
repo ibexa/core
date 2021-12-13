@@ -9,6 +9,7 @@ namespace Ibexa\Core\FieldType;
 use ArrayObject;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
+use ReturnTypeWillChange;
 
 /**
  * Container for field type specific properties.
@@ -45,7 +46,7 @@ class FieldSettings extends ArrayObject
      *
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($index)
     {
         if (!parent::offsetExists($index)) {
