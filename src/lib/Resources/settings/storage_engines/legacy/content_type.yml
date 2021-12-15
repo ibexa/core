@@ -20,6 +20,7 @@ services:
         arguments:
             - "@ezpublish.persistence.legacy.field_value_converter.registry"
             - '@ezpublish.persistence.legacy.language.mask_generator'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
 
     ezpublish.persistence.legacy.content_type.content_updater:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
@@ -49,6 +50,7 @@ services:
             - "@ezpublish.persistence.legacy.content_type.gateway"
             - "@ezpublish.persistence.legacy.content_type.mapper"
             - "@ezpublish.persistence.legacy.content_type.update_handler"
+            - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
 
     ezpublish.spi.persistence.legacy.content_type.handler.caching:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler
@@ -59,3 +61,17 @@ services:
 
     ezpublish.spi.persistence.legacy.content_type.handler:
         alias: ezpublish.spi.persistence.legacy.content_type.handler.caching
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistryInterface:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistry
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistry:
+        arguments:
+            $storages: !tagged_iterator { tag: ibexa.field_type.storage.external.constraints.handler, index_by: alias }
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcher
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcher:
+        arguments:
+            $registry: '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistryInterface'

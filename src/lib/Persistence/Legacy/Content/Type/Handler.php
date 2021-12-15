@@ -40,6 +40,8 @@ class Handler implements BaseContentTypeHandler
      */
     protected $updateHandler;
 
+    private StorageDispatcherInterface $storageDispatcher;
+
     /**
      * Creates a new content type handler.
      *
@@ -50,11 +52,13 @@ class Handler implements BaseContentTypeHandler
     public function __construct(
         Gateway $contentTypeGateway,
         Mapper $mapper,
-        UpdateHandler $updateHandler
+        UpdateHandler $updateHandler,
+        StorageDispatcherInterface $storageDispatcher
     ) {
         $this->contentTypeGateway = $contentTypeGateway;
         $this->mapper = $mapper;
         $this->updateHandler = $updateHandler;
+        $this->storageDispatcher = $storageDispatcher;
     }
 
     /**
@@ -326,6 +330,8 @@ class Handler implements BaseContentTypeHandler
                 $fieldDef,
                 $storageFieldDef
             );
+
+            $this->storageDispatcher->storeFieldConstraintsData($fieldDef);
         }
 
         return $contentType;
@@ -363,6 +369,16 @@ class Handler implements BaseContentTypeHandler
                 '$contentTypeId',
                 'Content Type with the given ID still has Content items and cannot be deleted'
             );
+        }
+
+        try {
+            $fieldDefinitions = $this->load($contentTypeId, $status)->fieldDefinitions;
+        } catch (Exception\TypeNotFound $e) {
+            $fieldDefinitions = [];
+        }
+
+        foreach ($fieldDefinitions as $fieldDefinition) {
+            $this->storageDispatcher->deleteFieldConstraintsData($fieldDefinition->fieldType, $fieldDefinition->id);
         }
 
         $this->contentTypeGateway->delete($contentTypeId, $status);
@@ -535,6 +551,8 @@ class Handler implements BaseContentTypeHandler
             $fieldDefinition,
             $storageFieldDef
         );
+
+        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition);
     }
 
     /**
@@ -549,11 +567,21 @@ class Handler implements BaseContentTypeHandler
      *
      * @return bool
      */
-    public function removeFieldDefinition($contentTypeId, $status, $fieldDefinitionId)
-    {
-        $this->contentTypeGateway->deleteFieldDefinition($contentTypeId, $status, $fieldDefinitionId);
-        // @todo FIXME: Return true only if deletion happened
-        return true;
+    public function removeFieldDefinition(
+        int $contentTypeId,
+        int $status,
+        FieldDefinition $fieldDefinition
+    ): void {
+        $this->storageDispatcher->deleteFieldConstraintsData(
+            $fieldDefinition->fieldType,
+            $fieldDefinition->id
+        );
+
+        $this->contentTypeGateway->deleteFieldDefinition(
+            $contentTypeId,
+            $status,
+            $fieldDefinition->id
+        );
     }
 
     /**
@@ -572,6 +600,7 @@ class Handler implements BaseContentTypeHandler
         $storageFieldDef = new StorageFieldDefinition();
         $this->mapper->toStorageFieldDefinition($fieldDefinition, $storageFieldDef);
         $this->contentTypeGateway->updateFieldDefinition($contentTypeId, $status, $fieldDefinition, $storageFieldDef);
+        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition);
     }
 
     /**

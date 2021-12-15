@@ -18,6 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
+use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as UpdateHandler;
 use Ibexa\Core\Persistence\Legacy\Exception;
 use PHPUnit\Framework\TestCase;
@@ -47,6 +48,9 @@ class ContentTypeHandlerTest extends TestCase
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
      */
     protected $updateHandlerMock;
+
+    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject */
+    protected $storageDispatcherMock;
 
     public function testCreateGroup()
     {
@@ -107,7 +111,12 @@ class ContentTypeHandlerTest extends TestCase
 
         $handlerMock = $this->getMockBuilder(Handler::class)
             ->setMethods(['loadGroup'])
-            ->setConstructorArgs([$gatewayMock, $mapperMock, $this->getUpdateHandlerMock()])
+            ->setConstructorArgs([
+                $gatewayMock,
+                $mapperMock,
+                $this->getUpdateHandlerMock(),
+                $this->getStorageDispatcherMock(),
+            ])
             ->getMock();
 
         $handlerMock->expects($this->once())
@@ -515,7 +524,12 @@ class ContentTypeHandlerTest extends TestCase
 
         $handlerMock = $this->getMockBuilder(Handler::class)
             ->setMethods(['load'])
-            ->setConstructorArgs([$gatewayMock, $this->getMapperMock(), $this->getUpdateHandlerMock()])
+            ->setConstructorArgs([
+                $gatewayMock,
+                $this->getMapperMock(),
+                $this->getUpdateHandlerMock(),
+                $this->getStorageDispatcherMock(),
+            ])
             ->getMock();
 
         $handlerMock->expects($this->once())
@@ -547,6 +561,11 @@ class ContentTypeHandlerTest extends TestCase
         )->will(
             $this->returnValue(0)
         );
+
+        $gatewayMock->expects($this->once())->method('loadTypeData')->with(23, 0)->willReturn([]);
+
+        $mapperMock = $this->getMapperMock();
+        $mapperMock->expects($this->once())->method('extractTypesFromRows')->with([])->willReturn([new Type()]);
 
         $gatewayMock->expects(
             $this->once()
@@ -604,7 +623,12 @@ class ContentTypeHandlerTest extends TestCase
 
         $handlerMock = $this->getMockBuilder(Handler::class)
             ->setMethods(['load', 'internalCreate'])
-            ->setConstructorArgs([$gatewayMock, $mapperMock, $this->getUpdateHandlerMock()])
+            ->setConstructorArgs([
+                $gatewayMock,
+                $mapperMock,
+                $this->getUpdateHandlerMock(),
+                $this->getStorageDispatcherMock(),
+            ])
             ->getMock();
 
         $handlerMock->expects($this->once())
@@ -651,7 +675,12 @@ class ContentTypeHandlerTest extends TestCase
 
         $handlerMock = $this->getMockBuilder(Handler::class)
             ->setMethods(['load', 'internalCreate', 'update'])
-            ->setConstructorArgs([$gatewayMock, $mapperMock, $this->getUpdateHandlerMock()])
+            ->setConstructorArgs([
+                $gatewayMock,
+                $mapperMock,
+                $this->getUpdateHandlerMock(),
+                $this->getStorageDispatcherMock(),
+            ])
             ->getMock();
 
         $userId = 42;
@@ -847,6 +876,12 @@ class ContentTypeHandlerTest extends TestCase
 
         $fieldDef = new FieldDefinition();
 
+        $storageDispatcherMock = $this->getStorageDispatcherMock();
+        $storageDispatcherMock
+            ->expects($this->once())
+            ->method('storeFieldConstraintsData')
+            ->with($fieldDef);
+
         $handler = $this->getHandler();
         $handler->addFieldDefinition(23, 1, $fieldDef);
 
@@ -877,6 +912,12 @@ class ContentTypeHandlerTest extends TestCase
 
     public function testRemoveFieldDefinition()
     {
+        $storageDispatcherMock = $this->getStorageDispatcherMock();
+        $storageDispatcherMock
+            ->expects($this->once())
+            ->method('deleteFieldConstraintsData')
+            ->with('ezstring', 42);
+
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects($this->once())
             ->method('deleteFieldDefinition')
@@ -887,25 +928,21 @@ class ContentTypeHandlerTest extends TestCase
             );
 
         $handler = $this->getHandler();
-        $res = $handler->removeFieldDefinition(23, 1, 42);
-
-        $this->assertTrue($res);
+        $handler->removeFieldDefinition(23, 1, new FieldDefinition(['id' => 42, 'fieldType' => 'ezstring']));
     }
 
     public function testUpdateFieldDefinition()
     {
+        $fieldDef = new FieldDefinition();
+
         $mapperMock = $this->getMapperMock(
             ['toStorageFieldDefinition']
         );
         $mapperMock->expects($this->once())
             ->method('toStorageFieldDefinition')
             ->with(
-                $this->isInstanceOf(
-                    FieldDefinition::class
-                ),
-                $this->isInstanceOf(
-                    StorageFieldDefinition::class
-                )
+                $this->identicalTo($fieldDef),
+                $this->isInstanceOf(StorageFieldDefinition::class)
             );
 
         $gatewayMock = $this->getGatewayMock();
@@ -914,17 +951,17 @@ class ContentTypeHandlerTest extends TestCase
             ->with(
                 $this->equalTo(23),
                 $this->equalTo(1),
-                $this->isInstanceOf(
-                    FieldDefinition::class
-                )
+                $fieldDef
             );
 
-        $fieldDef = new FieldDefinition();
+        $storageDispatcherMock = $this->getStorageDispatcherMock();
+        $storageDispatcherMock
+            ->expects($this->once())
+            ->method('storeFieldConstraintsData')
+            ->with($fieldDef);
 
         $handler = $this->getHandler();
-        $res = $handler->updateFieldDefinition(23, 1, $fieldDef);
-
-        $this->assertNull($res);
+        $handler->updateFieldDefinition(23, 1, $fieldDef);
     }
 
     public function testPublish()
@@ -1012,7 +1049,8 @@ class ContentTypeHandlerTest extends TestCase
         return new Handler(
             $this->getGatewayMock(),
             $this->getMapperMock(),
-            $this->getUpdateHandlerMock()
+            $this->getUpdateHandlerMock(),
+            $this->getStorageDispatcherMock()
         );
     }
 
@@ -1032,6 +1070,7 @@ class ContentTypeHandlerTest extends TestCase
                     $this->getGatewayMock(),
                     $this->getMapperMock(),
                     $this->getUpdateHandlerMock(),
+                    $this->getStorageDispatcherMock(),
                 ]
             )
             ->getMock();
@@ -1090,6 +1129,18 @@ class ContentTypeHandlerTest extends TestCase
     }
 
     /**
+     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    public function getStorageDispatcherMock(): StorageDispatcherInterface
+    {
+        if (!isset($this->storageDispatcherMock)) {
+            $this->storageDispatcherMock = $this->createMock(StorageDispatcherInterface::class);
+        }
+
+        return $this->storageDispatcherMock;
+    }
+
+    /**
      * Returns a CreateStruct fixture.
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
@@ -1132,7 +1183,12 @@ class ContentTypeHandlerTest extends TestCase
 
         $handlerMock = $this->getMockBuilder(Handler::class)
             ->setMethods(['load', 'update'])
-            ->setConstructorArgs([$this->getGatewayMock(), $mapperMock, $this->getUpdateHandlerMock()])
+            ->setConstructorArgs([
+                $this->getGatewayMock(),
+                $mapperMock,
+                $this->getUpdateHandlerMock(),
+                $this->getStorageDispatcherMock(),
+            ])
             ->getMock();
 
         $handlerMock->expects($this->once())

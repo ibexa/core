@@ -12,6 +12,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase as ContentTypeGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper as ContentTypeMapper;
+use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as ContentTypeUpdateHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 
@@ -82,10 +83,15 @@ class AbstractTestCase extends LanguageAwareTestCase
                 new ContentTypeGateway(
                     $this->getDatabaseConnection(),
                     $this->getSharedGateway(),
-                    $this->getLanguageMaskGenerator()
+                    $this->getLanguageMaskGenerator(),
                 ),
-                new ContentTypeMapper($this->getConverterRegistry(), $this->getLanguageMaskGenerator()),
-                $this->createMock(ContentTypeUpdateHandler::class)
+                new ContentTypeMapper(
+                    $this->getConverterRegistry(),
+                    $this->getLanguageMaskGenerator(),
+                    $this->createMock(StorageDispatcherInterface::class)
+                ),
+                $this->createMock(ContentTypeUpdateHandler::class),
+                $this->createMock(StorageDispatcherInterface::class)
             );
         }
 

@@ -19,6 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
+use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
@@ -30,7 +31,11 @@ class MapperTest extends TestCase
     {
         $createStruct = $this->getGroupCreateStructFixture();
 
-        $mapper = new Mapper($this->getConverterRegistryMock(), $this->getMaskGeneratorMock());
+        $mapper = new Mapper(
+            $this->getConverterRegistryMock(),
+            $this->getMaskGeneratorMock(),
+            $this->getStorageDispatcherMock()
+        );
 
         $group = $mapper->createGroupFromCreateStruct($createStruct);
 
@@ -81,7 +86,11 @@ class MapperTest extends TestCase
     {
         $struct = $this->getContentTypeCreateStructFixture();
 
-        $mapper = new Mapper($this->getConverterRegistryMock(), $this->getMaskGeneratorMock());
+        $mapper = new Mapper(
+            $this->getConverterRegistryMock(),
+            $this->getMaskGeneratorMock(),
+            $this->getStorageDispatcherMock()
+        );
         $type = $mapper->createTypeFromCreateStruct($struct);
 
         foreach ($struct as $propName => $propVal) {
@@ -97,7 +106,11 @@ class MapperTest extends TestCase
     {
         $struct = $this->getContentTypeUpdateStructFixture();
 
-        $mapper = new Mapper($this->getConverterRegistryMock(), $this->getMaskGeneratorMock());
+        $mapper = new Mapper(
+            $this->getConverterRegistryMock(),
+            $this->getMaskGeneratorMock(),
+            $this->getStorageDispatcherMock()
+        );
         $type = $mapper->createTypeFromUpdateStruct($struct);
 
         $this->assertStructsEqual(
@@ -182,7 +195,11 @@ class MapperTest extends TestCase
     {
         $type = $this->getContentTypeFixture();
 
-        $mapper = new Mapper($this->getConverterRegistryMock(), $this->getMaskGeneratorMock());
+        $mapper = new Mapper(
+            $this->getConverterRegistryMock(),
+            $this->getMaskGeneratorMock(),
+            $this->getStorageDispatcherMock()
+        );
         $struct = $mapper->createCreateStructFromType($type);
 
         // Iterate through struct, since it has fewer props
@@ -245,7 +262,11 @@ class MapperTest extends TestCase
     {
         $rows = $this->getLoadGroupFixture();
 
-        $mapper = new Mapper($this->getConverterRegistryMock(), $this->getMaskGeneratorMock());
+        $mapper = new Mapper(
+            $this->getConverterRegistryMock(),
+            $this->getMaskGeneratorMock(),
+            $this->getStorageDispatcherMock()
+        );
         $groups = $mapper->extractGroupsFromRows($rows);
 
         $groupFixtureMedia = new Group();
@@ -369,7 +390,11 @@ class MapperTest extends TestCase
 
         $converterRegistry = new ConverterRegistry(['some_type' => $converterMock]);
 
-        $mapper = new Mapper($converterRegistry, $this->getMaskGeneratorMock());
+        $mapper = new Mapper(
+            $converterRegistry,
+            $this->getMaskGeneratorMock(),
+            $this->getStorageDispatcherMock()
+        );
 
         $fieldDef = new FieldDefinition();
         $fieldDef->fieldType = 'some_type';
@@ -384,26 +409,28 @@ class MapperTest extends TestCase
 
     public function testToFieldDefinition()
     {
-        $converterMock = $this->createMock(Converter::class);
-        $converterMock->expects($this->once())
-            ->method('toFieldDefinition')
-            ->with(
-                $this->isInstanceOf(
-                    StorageFieldDefinition::class
-                ),
-                $this->isInstanceOf(
-                    FieldDefinition::class
-                )
-            );
-
-        $converterRegistry = new ConverterRegistry(['some_type' => $converterMock]);
-
-        $mapper = new Mapper($converterRegistry, $this->getMaskGeneratorMock());
-
         $storageFieldDef = new StorageFieldDefinition();
 
         $fieldDef = new FieldDefinition();
         $fieldDef->fieldType = 'some_type';
+
+        $converterMock = $this->createMock(Converter::class);
+        $converterMock->expects($this->once())
+            ->method('toFieldDefinition')
+            ->with($storageFieldDef, $fieldDef);
+
+        $converterRegistry = new ConverterRegistry(['some_type' => $converterMock]);
+        $storageDispatcher = $this->getStorageDispatcherMock();
+        $storageDispatcher
+            ->expects($this->once())
+            ->method('loadFieldConstraintsData')
+            ->with($fieldDef);
+
+        $mapper = new Mapper(
+            $converterRegistry,
+            $this->getMaskGeneratorMock(),
+            $storageDispatcher
+        );
 
         $mapper->toFieldDefinition($storageFieldDef, $fieldDef);
     }
@@ -417,7 +444,11 @@ class MapperTest extends TestCase
     {
         $mapper = $this->getMockBuilder(Mapper::class)
             ->setMethods(['toFieldDefinition'])
-            ->setConstructorArgs([$this->getConverterRegistryMock(), $this->getMaskGeneratorMock()])
+            ->setConstructorArgs([
+                $this->getConverterRegistryMock(),
+                $this->getMaskGeneratorMock(),
+                $this->getStorageDispatcherMock(),
+            ])
             ->getMock();
 
         // Dedicatedly tested test
@@ -471,6 +502,14 @@ class MapperTest extends TestCase
     protected function getMaskGeneratorMock()
     {
         return $this->createMock(MaskGenerator::class);
+    }
+
+    /**
+     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getStorageDispatcherMock(): StorageDispatcherInterface
+    {
+        return $this->createMock(StorageDispatcherInterface::class);
     }
 }
 
