@@ -43,6 +43,7 @@ final class ExampleFieldType extends FieldType
 
     protected function checkValueStructure(Value $value): void
     {
+        // Nothing to do here.
     }
 
     public function toHash(Value $value)
@@ -52,6 +53,7 @@ final class ExampleFieldType extends FieldType
 
     protected static function checkValueType($value): void
     {
+        // Nothing to do here.
     }
 
     public function validateFieldSettings($fieldSettings): array
