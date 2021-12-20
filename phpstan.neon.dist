@@ -4,10 +4,9 @@ includes:
 parameters:
     level: 0
     paths:
-        - eZ
         - src
         - tests
     excludePaths:
         analyse:
             - tests/integration/Core/Repository/var
-            - eZ/Publish/Core/Search/Legacy/Tests/_fixtures/full_dump.php
+            - tests/lib/Search/Legacy/_fixtures/full_dump.php
