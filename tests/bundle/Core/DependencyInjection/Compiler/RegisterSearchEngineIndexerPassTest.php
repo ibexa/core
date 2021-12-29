@@ -73,7 +73,6 @@ final class RegisterSearchEngineIndexerPassTest extends AbstractCompilerPassTest
     {
         return [
             [RegisterSearchEngineIndexerPass::SEARCH_ENGINE_INDEXER_SERVICE_TAG],
-            [RegisterSearchEngineIndexerPass::DEPRECATED_SEARCH_ENGINE_INDEXER_SERVICE_TAG],
         ];
     }
 }

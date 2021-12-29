@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
-use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,7 +17,6 @@ use Symfony\Component\DependencyInjection\Reference;
 class RegisterSearchEnginePass implements CompilerPassInterface
 {
     public const SEARCH_ENGINE_SERVICE_TAG = 'ezplatform.search_engine';
-    public const DEPRECATED_SEATCH_ENGINE_SERVICE_TAG = 'ezpublish.searchEngine';
 
     /**
      * Container service id of the SearchEngineFactory.
@@ -44,21 +42,15 @@ class RegisterSearchEnginePass implements CompilerPassInterface
 
         $searchEngineFactoryDefinition = $container->getDefinition($this->factoryId);
 
-        $iterator = new BackwardCompatibleIterator(
-            $container,
-            self::SEARCH_ENGINE_SERVICE_TAG,
-            self::DEPRECATED_SEATCH_ENGINE_SERVICE_TAG
-        );
-
-        foreach ($iterator as $serviceId => $attributes) {
+        $serviceTags = $container->findTaggedServiceIds(self::SEARCH_ENGINE_SERVICE_TAG);
+        foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
                         sprintf(
-                            'Service "%s" tagged with "%s" or "%s" needs an "alias" attribute to identify the search engine',
+                            'Service "%s" tagged with "%s" needs an "alias" attribute to identify the search engine',
                             $serviceId,
-                            self::SEARCH_ENGINE_SERVICE_TAG,
-                            self::DEPRECATED_SEATCH_ENGINE_SERVICE_TAG
+                            self::SEARCH_ENGINE_SERVICE_TAG
                         )
                     );
                 }

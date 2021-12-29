@@ -1,16 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\ViewManagerPass\\)\\:\\:VIEW_PROVIDER_IDENTIFIER\\.$#"
-			count: 2
-			path: src/bundle/Core/DependencyInjection/Compiler/ViewManagerPass.php
-
-		-
-			message: "#^Access to undefined constant static\\(Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\ViewManagerPass\\)\\:\\:VIEW_TYPE\\.$#"
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/ViewManagerPass.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\ConfigResolver\\:\\:logTooEarlyLoadedListIfNeeded\\(\\) should return string but return statement is missing\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
