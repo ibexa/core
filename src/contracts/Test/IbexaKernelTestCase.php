@@ -22,7 +22,9 @@ use Ibexa\Contracts\Core\Repository\SectionService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
+use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
+use LogicException;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -31,9 +33,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 abstract class IbexaKernelTestCase extends KernelTestCase
 {
+    private const FIXTURE_USER_ADMIN_ID = 14;
+    private const FIXTURE_USER_ANONYMOUS_ID = 10;
+
     protected static function getKernelClass(): string
     {
-        return IbexaTestKernel::class;
+        try {
+            return parent::getKernelClass();
+        } catch (LogicException $e) {
+            return IbexaTestKernel::class;
+        }
     }
 
     final protected static function loadSchema(): void
@@ -167,5 +176,15 @@ abstract class IbexaKernelTestCase extends KernelTestCase
     protected static function getSectionService(): SectionService
     {
         return self::getServiceByClassName(SectionService::class);
+    }
+
+    protected static function setAnonymousUser(): void
+    {
+        self::getPermissionResolver()->setCurrentUserReference(new UserReference(self::FIXTURE_USER_ANONYMOUS_ID));
+    }
+
+    protected static function setAdministratorUser(): void
+    {
+        self::getPermissionResolver()->setCurrentUserReference(new UserReference(self::FIXTURE_USER_ADMIN_ID));
     }
 }
