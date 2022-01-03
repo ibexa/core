@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler;
 
-use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,11 +13,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
 {
     public const FIELD_TYPE_SERVICE_TAG = 'ezplatform.field_type';
-    public const DEPRECATED_FIELD_TYPE_SERVICE_TAG = 'ezpublish.fieldType';
 
     public const FIELD_TYPE_SERVICE_TAGS = [
         self::FIELD_TYPE_SERVICE_TAG,
-        self::DEPRECATED_FIELD_TYPE_SERVICE_TAG,
     ];
 
     /**
@@ -30,19 +27,14 @@ abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
      */
     public function getFieldTypeServiceIds(ContainerBuilder $container): iterable
     {
-        $fieldTypesIterator = new BackwardCompatibleIterator(
-            $container,
-            self::FIELD_TYPE_SERVICE_TAG,
-            self::DEPRECATED_FIELD_TYPE_SERVICE_TAG
-        );
-
-        foreach ($fieldTypesIterator as $id => $attributes) {
+        $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_SERVICE_TAG);
+        foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
                         sprintf(
-                            'The %s or %s service tag needs an "alias" attribute to identify the Field Type.',
-                            self::DEPRECATED_FIELD_TYPE_SERVICE_TAG,
+                            'Service "%s" tagged with "%s" needs an "alias" attribute to identify the search engine',
+                            $serviceId,
                             self::FIELD_TYPE_SERVICE_TAG
                         )
                     );
@@ -50,7 +42,7 @@ abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
             }
         }
 
-        return $fieldTypesIterator;
+        return $serviceTags;
     }
 
     abstract public function process(ContainerBuilder $container);

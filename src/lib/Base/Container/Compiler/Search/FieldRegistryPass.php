@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Search;
 
-use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,7 +17,6 @@ use Symfony\Component\DependencyInjection\Reference;
 class FieldRegistryPass implements CompilerPassInterface
 {
     public const FIELD_TYPE_INDEXABLE_SERVICE_TAG = 'ezplatform.field_type.indexable';
-    public const DEPRECATED_FIELD_TYPE_INDEXABLE_SERVICE_TAG = 'ezpublish.fieldType.indexable';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -33,19 +31,14 @@ class FieldRegistryPass implements CompilerPassInterface
 
         $fieldRegistryDefinition = $container->getDefinition('ezpublish.search.common.field_registry');
 
-        $fieldTypesIterator = new BackwardCompatibleIterator(
-            $container,
-            self::FIELD_TYPE_INDEXABLE_SERVICE_TAG,
-            self::DEPRECATED_FIELD_TYPE_INDEXABLE_SERVICE_TAG
-        );
-
-        foreach ($fieldTypesIterator as $id => $attributes) {
+        $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_INDEXABLE_SERVICE_TAG);
+        foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
                         sprintf(
-                            'The %s or %s service tag needs an "alias" attribute to identify the indexable Field Type.',
-                            self::DEPRECATED_FIELD_TYPE_INDEXABLE_SERVICE_TAG,
+                            'Service "%s" tagged with "%s" needs an "alias" attribute to identify the search engine',
+                            $serviceId,
                             self::FIELD_TYPE_INDEXABLE_SERVICE_TAG
                         )
                     );
@@ -55,7 +48,7 @@ class FieldRegistryPass implements CompilerPassInterface
                     'registerType',
                     [
                         $attribute['alias'],
-                        new Reference($id),
+                        new Reference($serviceId),
                     ]
                 );
             }

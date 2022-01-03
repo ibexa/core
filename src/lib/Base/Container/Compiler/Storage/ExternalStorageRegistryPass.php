@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Storage;
 
-use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
 use Ibexa\Core\FieldType\GatewayBasedStorage;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -20,9 +19,6 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
 {
     public const EXTERNAL_STORAGE_HANDLER_SERVICE_TAG = 'ezplatform.field_type.external_storage_handler';
     public const EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG = 'ezplatform.field_type.external_storage_handler.gateway';
-
-    public const DEPRECATED_EXTERNAL_STORAGE_HANDLER_SERVICE_TAG = 'ezpublish.fieldType.externalStorageHandler';
-    public const DEPRECATED_EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG = 'ezpublish.fieldType.externalStorageHandler.gateway';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -43,20 +39,17 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
         // Alias attribute is the corresponding field type string.
         $externalStorageGateways = [];
 
-        $externalStorageHandlerGatewayIterator = new BackwardCompatibleIterator(
-            $container,
-            self::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG,
-            self::DEPRECATED_EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG,
+        $serviceTags = $container->findTaggedServiceIds(
+            self::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG
         );
-
         // Referencing the services by alias (field type string)
-        foreach ($externalStorageHandlerGatewayIterator as $id => $attributes) {
+        foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
                         sprintf(
-                            'The %s or %s service tag needs an "alias" attribute to identify the Field Type.',
-                            self::DEPRECATED_EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG,
+                            'Service "%s" tagged with "%s" needs an "alias" attribute to identify the search engine',
+                            $serviceId,
                             self::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG
                         )
                     );
@@ -65,35 +58,30 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
                 if (!isset($attribute['identifier'])) {
                     throw new LogicException(
                         sprintf(
-                            'The %s or %s service tag needs an "identifier" attribute to identify the gateway.',
-                            self::DEPRECATED_EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG,
+                            'Service "%s" tagged with "%s" needs an "alias" attribute to identify the search engine',
+                            $serviceId,
                             self::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG
                         )
                     );
                 }
 
                 $externalStorageGateways[$attribute['alias']] = [
-                    'id' => $id,
+                    'id' => $serviceId,
                     'identifier' => $attribute['identifier'],
                 ];
             }
         }
 
-        $externalStorageHandlerIterator = new BackwardCompatibleIterator(
-            $container,
-            self::EXTERNAL_STORAGE_HANDLER_SERVICE_TAG,
-            self::DEPRECATED_EXTERNAL_STORAGE_HANDLER_SERVICE_TAG
-        );
-
+        $serviceTags = $container->findTaggedServiceIds(self::EXTERNAL_STORAGE_HANDLER_SERVICE_TAG);
         // External storage handlers for field types that need them.
         // Alias attribute is the field type string.
-        foreach ($externalStorageHandlerIterator as $id => $attributes) {
+        foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
                         sprintf(
-                            'The %s or %s service tag needs an "alias" attribute to identify the Field Type.',
-                            self::DEPRECATED_EXTERNAL_STORAGE_HANDLER_SERVICE_TAG,
+                            'Service "%s" tagged with "%s" needs an "alias" attribute to identify the search engine',
+                            $serviceId,
                             self::EXTERNAL_STORAGE_HANDLER_SERVICE_TAG
                         )
                     );
@@ -101,7 +89,7 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
 
                 // If the storage handler is gateway based, then we need to add a corresponding gateway to it.
                 // Will throw a LogicException if no gateway is defined for this field type.
-                $storageHandlerDef = $container->findDefinition($id);
+                $storageHandlerDef = $container->findDefinition($serviceId);
                 $storageHandlerClass = $storageHandlerDef->getClass();
                 if (preg_match('/^%([^%\s]+)%$/', (string)$storageHandlerClass, $match)) {
                     $storageHandlerClass = $container->getParameter($match[1]);
@@ -115,7 +103,7 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
                 ) {
                     if (!isset($externalStorageGateways[$attribute['alias']])) {
                         throw new LogicException(
-                            "External storage handler '$id' for Field Type {$attribute['alias']} needs a storage gateway.
+                            "External storage handler '$serviceId' for Field Type {$attribute['alias']} needs a storage gateway.
                             Consider defining a storage gateway as a service for this Field Type and add the 'ezplatform.field_type.external_storage_handler.gateway tag'"
                         );
                     }
@@ -133,7 +121,7 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
                     'register',
                     [
                         $attribute['alias'],
-                        new Reference($id),
+                        new Reference($serviceId),
                     ]
                 );
             }

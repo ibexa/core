@@ -196,7 +196,6 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     public function externalStorageHandlerTagsProvider(): array
     {
         return [
-            [ExternalStorageRegistryPass::DEPRECATED_EXTERNAL_STORAGE_HANDLER_SERVICE_TAG],
             [ExternalStorageRegistryPass::EXTERNAL_STORAGE_HANDLER_SERVICE_TAG],
         ];
     }
@@ -204,7 +203,6 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     public function externalStorageHandlerGatewayTagsProvider(): array
     {
         return [
-            [ExternalStorageRegistryPass::DEPRECATED_EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG],
             [ExternalStorageRegistryPass::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG],
         ];
     }
