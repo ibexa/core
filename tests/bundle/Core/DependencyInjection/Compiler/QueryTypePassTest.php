@@ -110,7 +110,6 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
     {
         return [
             [QueryTypePass::QUERY_TYPE_SERVICE_TAG],
-            [QueryTypePass::DEPRECATED_QUERY_TYPE_SERVICE_TAG],
         ];
     }
 }

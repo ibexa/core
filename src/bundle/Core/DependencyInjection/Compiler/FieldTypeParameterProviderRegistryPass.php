@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
-use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -17,7 +16,6 @@ use Symfony\Component\DependencyInjection\Reference;
 class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
 {
     public const FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG = 'ezplatform.field_type.parameter_provider';
-    public const DEPRECATED_FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG = 'ezpublish.fieldType.parameterProvider';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -32,19 +30,16 @@ class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
 
         $parameterProviderRegistryDef = $container->getDefinition('ezpublish.fieldType.parameterProviderRegistry');
 
-        $iterator = new BackwardCompatibleIterator(
-            $container,
-            self::FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG,
-            self::DEPRECATED_FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG
+        $serviceTags = $container->findTaggedServiceIds(
+            self::FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG
         );
-
-        foreach ($iterator as $id => $attributes) {
+        foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new \LogicException(
                         sprintf(
-                            '%s or %s service tag needs an "alias" attribute to identify the Field Type.',
-                            self::DEPRECATED_FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG,
+                            'Service "%s" tagged with "%s" service tag needs an "alias" attribute to identify the Field Type.',
+                            $serviceId,
                             self::FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG
                         )
                     );
@@ -54,7 +49,7 @@ class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
                     'setParameterProvider',
                     [
                         // Only pass the service Id since field types will be lazy loaded via the service container
-                        new Reference($id),
+                        new Reference($serviceId),
                         $attribute['alias'],
                     ]
                 );

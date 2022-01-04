@@ -78,7 +78,6 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
     public function tagsProvider(): array
     {
         return [
-            [FieldTypeParameterProviderRegistryPass::DEPRECATED_FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG],
             [FieldTypeParameterProviderRegistryPass::FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG],
         ];
     }

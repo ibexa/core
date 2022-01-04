@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Storage\Legacy;
 
-use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -20,10 +19,8 @@ class FieldValueConverterRegistryPass implements CompilerPassInterface
     public const CONVERTER_REGISTRY_SERVICE_ID = 'ezpublish.persistence.legacy.field_value_converter.registry';
 
     public const CONVERTER_SERVICE_TAG = 'ezplatform.field_type.legacy_storage.converter';
-    public const DEPRECATED_CONVERTER_SERVICE_TAG = 'ezpublish.storageEngine.legacy.converter';
 
     public const CONVERTER_SERVICE_TAGS = [
-        self::DEPRECATED_CONVERTER_SERVICE_TAG,
         self::CONVERTER_SERVICE_TAG,
     ];
 
@@ -38,19 +35,15 @@ class FieldValueConverterRegistryPass implements CompilerPassInterface
 
         $registry = $container->getDefinition(self::CONVERTER_REGISTRY_SERVICE_ID);
 
-        $iterator = new BackwardCompatibleIterator(
-            $container,
-            self::CONVERTER_SERVICE_TAG,
-            self::DEPRECATED_CONVERTER_SERVICE_TAG
-        );
+        $serviceTags = $container->findTaggedServiceIds(self::CONVERTER_SERVICE_TAG);
 
-        foreach ($iterator as $id => $attributes) {
+        foreach ($serviceTags as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
                         sprintf(
-                            'The %s or %s service tag needs an "alias" attribute to identify the Field Type.',
-                            self::DEPRECATED_CONVERTER_SERVICE_TAG,
+                            'Service "%s" tagged with "%s" needs an "alias" attribute to identify the search engine',
+                            $serviceId,
                             self::CONVERTER_SERVICE_TAG
                         )
                     );
@@ -60,7 +53,7 @@ class FieldValueConverterRegistryPass implements CompilerPassInterface
                     'register',
                     [
                         $attribute['alias'],
-                        new Reference($id),
+                        new Reference($serviceId),
                     ]
                 );
             }

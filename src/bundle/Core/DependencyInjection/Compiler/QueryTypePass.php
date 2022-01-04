@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
-use Ibexa\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -19,7 +18,6 @@ use Symfony\Component\DependencyInjection\Reference;
 final class QueryTypePass implements CompilerPassInterface
 {
     public const QUERY_TYPE_SERVICE_TAG = 'ezplatform.query_type';
-    public const DEPRECATED_QUERY_TYPE_SERVICE_TAG = 'ezpublish.query_type';
 
     public function process(ContainerBuilder $container): void
     {
@@ -29,18 +27,13 @@ final class QueryTypePass implements CompilerPassInterface
 
         $queryTypes = [];
 
-        $iterator = new BackwardCompatibleIterator(
-            $container,
-            self::QUERY_TYPE_SERVICE_TAG,
-            self::DEPRECATED_QUERY_TYPE_SERVICE_TAG
-        );
-
-        foreach ($iterator as $taggedServiceId => $tags) {
+        $serviceTags = $container->findTaggedServiceIds(self::QUERY_TYPE_SERVICE_TAG);
+        foreach ($serviceTags as $taggedServiceId => $tags) {
             $queryTypeDefinition = $container->getDefinition($taggedServiceId);
             $queryTypeClass = $container->getParameterBag()->resolveValue($queryTypeDefinition->getClass());
 
-            for ($i = 0, $count = count($tags); $i < $count; ++$i) {
-                $name = isset($tags[$i]['alias']) ? $tags[$i]['alias'] : $queryTypeClass::getName();
+            foreach ($tags as $attributes) {
+                $name = $attributes['alias'] ?? $queryTypeClass::getName();
                 $queryTypes[$name] = new Reference($taggedServiceId);
             }
         }

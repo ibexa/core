@@ -73,7 +73,6 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
     {
         return [
             [RegisterSearchEnginePass::SEARCH_ENGINE_SERVICE_TAG],
-            [RegisterSearchEnginePass::DEPRECATED_SEATCH_ENGINE_SERVICE_TAG],
         ];
     }
 }

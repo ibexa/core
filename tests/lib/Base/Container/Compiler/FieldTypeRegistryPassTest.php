@@ -79,7 +79,6 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
     public function tagsProvider(): array
     {
         return [
-            [FieldTypeRegistryPass::DEPRECATED_FIELD_TYPE_SERVICE_TAG],
             [FieldTypeRegistryPass::FIELD_TYPE_SERVICE_TAG],
         ];
     }
