@@ -28,7 +28,7 @@ class IOVariationPurger implements VariationPurger
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
     private $cacheIdentifierGenerator;
 
-    /** @var \eZ\Bundle\EzPublishCoreBundle\Imagine\Cache\AliasGeneratorDecorator */
+    /** @var \Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator */
     private $aliasGeneratorDecorator;
 
     /** @var \Psr\Log\LoggerInterface */
