@@ -129,6 +129,11 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
             $this->cacheIdentifierGenerator->generateTag(self::CONTENT_VERSION_IDENTIFIER, [$contentId, $versionInfo->versionNo]),
         ];
     }
+
+    public function getVariationNameTag(): string
+    {
+        return self::IMAGE_VARIATION_NAME_IDENTIFIER;
+    }
 }
 
 class_alias(AliasGeneratorDecorator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Cache\AliasGeneratorDecorator');
