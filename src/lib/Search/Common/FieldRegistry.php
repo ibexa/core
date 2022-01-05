@@ -7,6 +7,7 @@
 namespace Ibexa\Core\Search\Common;
 
 use Ibexa\Contracts\Core\FieldType\Indexable;
+use Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass;
 use OutOfBoundsException;
 
 /**
@@ -14,8 +15,6 @@ use OutOfBoundsException;
  */
 class FieldRegistry
 {
-    private const INDEXABLE_FIELD_TYPE_TAG = 'ezpublish.fieldType.indexable';
-
     /** @var \Ibexa\Contracts\Core\FieldType\Indexable[] */
     protected $types = [];
 
@@ -42,7 +41,7 @@ class FieldRegistry
                     'Field Type "%s" is not indexable. Provide %s implementation and register it with the "%s" tag.',
                     $name,
                     Indexable::class,
-                    self::INDEXABLE_FIELD_TYPE_TAG
+                    FieldRegistryPass::FIELD_TYPE_INDEXABLE_SERVICE_TAG
                 )
             );
         }

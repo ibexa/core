@@ -1,6 +1,6 @@
 services:
-    # Note: converter services tagged with 'ezpublish.storageEngine.legacy.converter' or
-    # 'ezplatform.field_type.legacy_storage.converter' are registered to this one using compilation pass and factory
+    # Note: converter services tagged with 'ezplatform.field_type.legacy_storage.converter' are
+    # registered to this one using compilation pass and factory
     ezpublish.persistence.legacy.field_value_converter.registry:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
         lazy: true
