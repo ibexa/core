@@ -30,7 +30,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         $serviceId = 'service_id';
         $scheme = 'http';
         $definition = new Definition();
-        $definition->addTag('ezpublish.url_handler', ['scheme' => $scheme]);
+        $definition->addTag('ibexa.url_checker.handler', ['scheme' => $scheme]);
         $this->setDefinition($serviceId, $definition);
 
         $this->compile();
@@ -49,7 +49,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         $serviceId = 'service_id';
         $scheme = 'http';
         $definition = new Definition();
-        $definition->addTag('ezpublish.url_handler');
+        $definition->addTag('ibexa.url_checker.handler');
         $this->setDefinition($serviceId, $definition);
 
         $this->compile();

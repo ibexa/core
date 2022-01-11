@@ -12,23 +12,31 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Registers services tagged as ezpublish.view_provider into the view_provider registry.
+ * Registers services tagged as "ibexa.view.provider" into the view_provider registry.
  */
 class ViewProvidersPass implements CompilerPassInterface
 {
+    private const VIEW_PROVIDER_TAG = 'ibexa.view.provider';
+
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
     {
         $rawViewProviders = [];
-        foreach ($container->findTaggedServiceIds('ezpublish.view_provider') as $serviceId => $tags) {
+        foreach ($container->findTaggedServiceIds(self::VIEW_PROVIDER_TAG) as $serviceId => $tags) {
             foreach ($tags as $attributes) {
                 // Priority range is between -255 (the lowest) and 255 (the highest)
                 $priority = isset($attributes['priority']) ? max(min((int)$attributes['priority'], 255), -255) : 0;
 
                 if (!isset($attributes['type'])) {
-                    throw new LogicException("Missing mandatory attribute 'type' for ezpublish.view_provider tag");
+                    throw new LogicException(
+                        sprintf(
+                            'Service "%s" tagged with "%s" service tag needs a "type" attribute',
+                            $serviceId,
+                            self::VIEW_PROVIDER_TAG
+                        )
+                    );
                 }
                 $type = $attributes['type'];
 

@@ -128,12 +128,12 @@ services:
         arguments:
             - '@liip_imagine'
         tags:
-            - { name: 'ezpublish.placeholder_provider', type: 'generic' }
+            - { name: 'ibexa.media.images.placeholder.provider', type: 'generic' }
 
     ezpublish.image_alias.imagine.placeholder_provider.remote:
         class: 'Ibexa\Bundle\Core\Imagine\PlaceholderProvider\RemoteProvider'
         tags:
-            - { name: 'ezpublish.placeholder_provider', type: 'remote' }
+            - { name: 'ibexa.media.images.placeholder.provider', type: 'remote' }
 
     ezpublish.image_alias.imagine.filter.loader.scaledown.base:
         abstract: true

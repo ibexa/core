@@ -17,8 +17,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ExternalStorageRegistryPass implements CompilerPassInterface
 {
-    public const EXTERNAL_STORAGE_HANDLER_SERVICE_TAG = 'ezplatform.field_type.external_storage_handler';
-    public const EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG = 'ezplatform.field_type.external_storage_handler.gateway';
+    public const EXTERNAL_STORAGE_HANDLER_SERVICE_TAG = 'ibexa.field_type.storage.external.handler';
+    public const EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG = 'ibexa.field_type.storage.external.handler.gateway';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -103,8 +103,13 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
                 ) {
                     if (!isset($externalStorageGateways[$attribute['alias']])) {
                         throw new LogicException(
-                            "External storage handler '$serviceId' for Field Type {$attribute['alias']} needs a storage gateway.
-                            Consider defining a storage gateway as a service for this Field Type and add the 'ezplatform.field_type.external_storage_handler.gateway tag'"
+                            sprintf(
+                                'External storage handler "%s" for Field Type "%s" needs a storage gateway. ' .
+                                'Consider defining a storage gateway as a service for this Field Type and add the "%s" tag',
+                                $serviceId,
+                                $attribute['alias'],
+                                self::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG
+                            )
                         );
                     }
 

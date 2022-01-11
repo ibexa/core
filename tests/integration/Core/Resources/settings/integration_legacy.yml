@@ -23,7 +23,7 @@ services:
     # repeat part of DIC setup to avoid loading DoctrineSchemaBundle
     _instanceof:
         Ibexa\DoctrineSchema\Database\DbPlatform\DbPlatformInterface:
-            tags: ['doctrine.dbplatform']
+            tags: [ ibexa.doctrine.db.platform ]
 
     Symfony\Component\EventDispatcher\EventDispatcher:
         calls:
@@ -42,7 +42,7 @@ services:
     Ibexa\Tests\Core\Persistence\DatabaseConnectionFactory:
         autowire: true
         arguments:
-            $databasePlatforms: !tagged 'doctrine.dbplatform'
+            $databasePlatforms: !tagged ibexa.doctrine.db.platform
 
     # build ezpublish.api.storage_engine.legacy.connection for test purposes
     ezpublish.api.storage_engine.legacy.connection:

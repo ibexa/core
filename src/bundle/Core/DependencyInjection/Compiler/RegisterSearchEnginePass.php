@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterSearchEnginePass implements CompilerPassInterface
 {
-    public const SEARCH_ENGINE_SERVICE_TAG = 'ezplatform.search_engine';
+    public const SEARCH_ENGINE_SERVICE_TAG = 'ibexa.search.engine';
 
     /**
      * Container service id of the SearchEngineFactory.

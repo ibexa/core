@@ -10,7 +10,7 @@ services:
             $variationHandler: '@ezpublish.image_alias.imagine.cache.alias_generator_decorator'
             $variationName: 'medium'
         tags:
-            - { name: ezplatform.spi.field.thumbnail_strategy, priority: 0 }
+            - { name: ibexa.repository.thumbnail.strategy.field, priority: 0 }
 
     Ibexa\Core\FieldType\Image\ImageThumbnailProxyStrategy:
         decorates: Ibexa\Core\FieldType\Image\ImageThumbnailStrategy
@@ -25,19 +25,19 @@ services:
             $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
             $contentService: '@ezpublish.api.service.content'
         tags:
-            - { name: ezplatform.spi.field.thumbnail_strategy, priority: 0 }
+            - { name: ibexa.repository.thumbnail.strategy.field, priority: 0 }
 
     Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy:
         arguments:
-            $strategies: !tagged_iterator ezplatform.spi.field.thumbnail_strategy
+            $strategies: !tagged_iterator ibexa.repository.thumbnail.strategy.field
 
     Ibexa\Core\Repository\Strategy\ContentThumbnail\FirstMatchingFieldStrategy:
         arguments:
             $fieldTypeService: '@ezpublish.api.service.field_type'
             $contentFieldStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy'
         tags:
-            - { name: ezplatform.spi.content.thumbnail_strategy, priority: 0 }
+            - { name: ibexa.repository.thumbnail.strategy.content, priority: 0 }
 
     Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy:
         arguments:
-            $strategies: !tagged_iterator ezplatform.spi.content.thumbnail_strategy
+            $strategies: !tagged_iterator ibexa.repository.thumbnail.strategy.content

@@ -33,11 +33,11 @@ services:
 
     Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor:
         arguments:
-            $criterionQueryBuilders: !tagged_iterator ezplatform.filter.criterion.query_builder
+            $criterionQueryBuilders: !tagged_iterator ibexa.filter.criterion.query.builder
 
     Ibexa\Core\Persistence\Legacy\Filter\SortClauseVisitor:
         arguments:
-            $sortClauseQueryBuilders: !tagged_iterator ezplatform.filter.sort_clause.query_builder
+            $sortClauseQueryBuilders: !tagged_iterator ibexa.filter.sort_clause.query.builder
 
     Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway:
         arguments:

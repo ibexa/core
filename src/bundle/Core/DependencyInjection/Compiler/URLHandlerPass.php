@@ -26,12 +26,12 @@ class URLHandlerPass implements CompilerPassInterface
         }
 
         $definition = $container->findDefinition('ezpublish.url_checker.handler_registry');
-        foreach ($container->findTaggedServiceIds('ezpublish.url_handler') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds('ibexa.url_checker.handler') as $id => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['scheme'])) {
                     throw new LogicException(sprintf(
                         '%s service tag needs a "scheme" attribute to identify which scheme is supported by the handler.',
-                        'ezpublish.url_handler'
+                        'ibexa.url_checker.handler'
                     ));
                 }
 

@@ -195,7 +195,7 @@ services:
         lazy: true
         arguments:
             $sharedPool: '@Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter.inner'
-            $inMemoryPools: !tagged ez.spi.persistence.cache.inmemory
+            $inMemoryPools: !tagged ibexa.cache.persistence.inmemory
 
     ezpublish.cache_pool:
         public: true
@@ -223,7 +223,7 @@ services:
             - "%ezpublish.spi.persistence.cache.inmemory.ttl%"
             - "%ezpublish.spi.persistence.cache.inmemory.limit%"
             - "%ezpublish.spi.persistence.cache.inmemory.enable%"
-        tags: ['ez.spi.persistence.cache.inmemory']
+        tags: [ ibexa.cache.persistence.inmemory ]
 
     ezpublish.spi.persistence.cache.inmemory.content:
         public: false
@@ -232,7 +232,7 @@ services:
             - "%ezpublish.spi.persistence.cache.inmemory.content.ttl%"
             - "%ezpublish.spi.persistence.cache.inmemory.content.limit%"
             - "%ezpublish.spi.persistence.cache.inmemory.content.enable%"
-        tags: ['ez.spi.persistence.cache.inmemory']
+        tags: [ ibexa.cache.persistence.inmemory ]
 
     Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface:
         alias: Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGenerator

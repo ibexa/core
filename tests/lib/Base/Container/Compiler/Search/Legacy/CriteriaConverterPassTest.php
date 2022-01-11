@@ -34,7 +34,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ezpublish.search.legacy.gateway.criterion_handler.content');
+        $def->addTag('ibexa.search.legacy.gateway.criterion_handler.content');
         $this->setDefinition($serviceId, $def);
 
         $this->compile();
@@ -55,7 +55,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ezpublish.search.legacy.gateway.criterion_handler.location');
+        $def->addTag('ibexa.search.legacy.gateway.criterion_handler.location');
         $this->setDefinition($serviceId, $def);
 
         $this->compile();
@@ -76,7 +76,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ezplatform.trash.search.legacy.gateway.criterion_handler');
+        $def->addTag('ibexa.search.legacy.trash.gateway.criterion.handler');
         $this->setDefinition($serviceId, $def);
 
         $this->compile();
@@ -105,9 +105,9 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
 
         $commonServiceId = 'common_service_id';
         $def = new Definition();
-        $def->addTag('ezpublish.search.legacy.gateway.criterion_handler.content');
-        $def->addTag('ezpublish.search.legacy.gateway.criterion_handler.location');
-        $def->addTag('ezplatform.trash.search.legacy.gateway.criterion_handler');
+        $def->addTag('ibexa.search.legacy.gateway.criterion_handler.content');
+        $def->addTag('ibexa.search.legacy.gateway.criterion_handler.location');
+        $def->addTag('ibexa.search.legacy.trash.gateway.criterion.handler');
         $this->setDefinition($commonServiceId, $def);
 
         $this->compile();

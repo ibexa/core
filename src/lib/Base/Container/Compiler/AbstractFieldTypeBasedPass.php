@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
 {
-    public const FIELD_TYPE_SERVICE_TAG = 'ezplatform.field_type';
+    public const FIELD_TYPE_SERVICE_TAG = 'ibexa.field_type';
 
     public const FIELD_TYPE_SERVICE_TAGS = [
         self::FIELD_TYPE_SERVICE_TAG,

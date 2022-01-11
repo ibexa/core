@@ -75,7 +75,7 @@ services:
     ezpublish.siteaccess.provider.chain:
         class: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
         arguments:
-            $providers: !tagged ezplatform.siteaccess.provider
+            $providers: !tagged ibexa.site_access.provider
 
     ezpublish.siteaccess.provider:
         alias: ezpublish.siteaccess.provider.chain

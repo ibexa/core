@@ -1,6 +1,6 @@
 services:
-    # Note: converter services tagged with 'ezplatform.field_type.legacy_storage.converter' are
-    # registered to this one using compilation pass and factory
+    # Note: converter services tagged with 'ibexa.field_type.storage.legacy.converter'
+    # are registered to this one using compilation pass and factory
     ezpublish.persistence.legacy.field_value_converter.registry:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
         lazy: true
@@ -12,69 +12,69 @@ services:
     ezpublish.fieldType.ezauthor.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\AuthorConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezauthor}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezauthor}
 
     ezpublish.fieldType.ezbinaryfile.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\BinaryFileConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezbinaryfile}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezbinaryfile}
 
     ezpublish.fieldType.ezboolean.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezboolean}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezboolean}
 
     ezpublish.fieldType.ezcountry.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CountryConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezcountry}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezcountry}
 
     ezpublish.fieldType.ezdatetime.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezdatetime}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezdatetime}
 
     ezpublish.fieldType.ezfloat.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\FloatConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezfloat}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezfloat}
 
     ezpublish.fieldType.ezinteger.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\IntegerConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezinteger}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezinteger}
 
     ezpublish.fieldType.ezkeyword.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezkeyword}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezkeyword}
 
     ezpublish.fieldType.ezmedia.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezmedia}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezmedia}
 
     ezpublish.fieldType.ezselection.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter
         arguments:
             - '@ezpublish.api.service.language'
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezselection}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezselection}
 
     ezpublish.fieldType.ezstring.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezstring}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezstring}
 
     ezpublish.fieldType.eztext.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: eztext}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: eztext}
 
     ezpublish.fieldType.ezurl.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezurl}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezurl}
 
     ezpublish.fieldType.ezimage.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter
@@ -82,141 +82,141 @@ services:
             - "@ezpublish.fieldType.ezimage.io_service"
             - "@ezpublish.core.io.image_fieldtype.legacy_url_redecorator"
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezimage}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezimage}
 
     ezpublish.fieldType.ezisbn.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ISBNConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezisbn}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezisbn}
 
     ezpublish.fieldType.ezgmaplocation.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\MapLocationConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezgmaplocation}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezgmaplocation}
 
     ezpublish.fieldType.ezemail.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\EmailAddressConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezemail}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezemail}
 
     ezpublish.fieldType.ezobjectrelation.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezobjectrelation}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezobjectrelation}
 
     ezpublish.fieldType.ezobjectrelationlist.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter
         arguments:
             $connection: '@ezpublish.persistence.connection'
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezobjectrelationlist}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezobjectrelationlist}
 
     ezpublish.fieldType.ezuser.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UserConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezuser}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezuser}
 
     # Not implemented converters
     # Configured to use the Null converter which does not nothing
     ezpublish.fieldType.ezdate.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezdate}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezdate}
 
     ezpublish.fieldType.ezenum.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezenum}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezenum}
 
     ezpublish.fieldType.ezidentifier.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezidentifier}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezidentifier}
 
     ezpublish.fieldType.ezinisetting.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezinisetting}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezinisetting}
 
     ezpublish.fieldType.ezmatrix.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezmatrix}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezmatrix}
 
     ezpublish.fieldType.ezmultioption.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezmultioption}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezmultioption}
 
     ezpublish.fieldType.ezmultioption2.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezmultioption2}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezmultioption2}
 
     ezpublish.fieldType.ezmultiprice.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezmultiprice}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezmultiprice}
 
     ezpublish.fieldType.ezoption.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezoption}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezoption}
 
     ezpublish.fieldType.ezpackage.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezpackage}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezpackage}
 
     ezpublish.fieldType.ezproductcategory.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezproductcategory}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezproductcategory}
 
     ezpublish.fieldType.ezrangeoption.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezrangeoption}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezrangeoption}
 
     ezpublish.fieldType.ezsubtreesubscription.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezsubtreesubscription}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezsubtreesubscription}
 
     ezpublish.fieldType.eztime.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\TimeConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: eztime}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: eztime}
 
     # not implemented converters from extensions
     ezpublish.fieldType.ezcomcomments.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezcomcomments}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezcomcomments}
 
     ezpublish.fieldType.ezpaex.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezpaex}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezpaex}
 
     ezpublish.fieldType.ezsurvey.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezsurvey}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezsurvey}
 
     ezpublish.fieldType.eztags.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: eztags}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: eztags}
 
     ezpublish.fieldType.ezrecommendation.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezrecommendation}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezrecommendation}
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageAssetConverter:
         tags:
-            - {name: ezplatform.field_type.legacy_storage.converter, alias: ezimageasset}
+            - {name: ibexa.field_type.storage.legacy.converter, alias: ezimageasset}
 
     ezpublish.fieldType.ezimageasset.converter:
         alias: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageAssetConverter

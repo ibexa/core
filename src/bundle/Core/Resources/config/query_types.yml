@@ -6,27 +6,27 @@ services:
 
     Ibexa\Core\QueryType\BuiltIn\AncestorsQueryType:
         tags:
-            - { name: ezplatform.query_type, alias: 'Ancestors' }
+            - { name: ibexa.query_type, alias: 'Ancestors' }
 
     Ibexa\Core\QueryType\BuiltIn\ChildrenQueryType:
         tags:
-            - { name: ezplatform.query_type, alias: 'Children' }
+            - { name: ibexa.query_type, alias: 'Children' }
 
     Ibexa\Core\QueryType\BuiltIn\SiblingsQueryType:
         tags:
-            - { name: ezplatform.query_type, alias: 'Siblings' }
+            - { name: ibexa.query_type, alias: 'Siblings' }
 
     Ibexa\Core\QueryType\BuiltIn\RelatedToContentQueryType:
         tags:
-            - { name: ezplatform.query_type, alias: 'RelatedTo' }
+            - { name: ibexa.query_type, alias: 'RelatedTo' }
 
     Ibexa\Core\QueryType\BuiltIn\GeoLocationQueryType:
         tags:
-            - { name: ezplatform.query_type, alias: 'GeoLocation' }
+            - { name: ibexa.query_type, alias: 'GeoLocation' }
 
     Ibexa\Core\QueryType\BuiltIn\SubtreeQueryType:
         tags:
-            - { name: ezplatform.query_type, alias: 'Subtree' }
+            - { name: ibexa.query_type, alias: 'Subtree' }
 
     Ibexa\Core\QueryType\BuiltIn\SortClausesFactory:
         arguments:

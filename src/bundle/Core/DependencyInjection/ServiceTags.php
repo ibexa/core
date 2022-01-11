@@ -17,13 +17,13 @@ class ServiceTags
      * Auto-configured tag name for
      * {@see \Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder}.
      */
-    public const FILTERING_CRITERION_QUERY_BUILDER = 'ezplatform.filter.criterion.query_builder';
+    public const FILTERING_CRITERION_QUERY_BUILDER = 'ibexa.filter.criterion.query.builder';
 
     /**
      * Auto-configured tag name for
      * {@see \Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder}.
      */
-    public const FILTERING_SORT_CLAUSE_QUERY_BUILDER = 'ezplatform.filter.sort_clause.query_builder';
+    public const FILTERING_SORT_CLAUSE_QUERY_BUILDER = 'ibexa.filter.sort_clause.query.builder';
 }
 
 class_alias(ServiceTags::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\ServiceTags');

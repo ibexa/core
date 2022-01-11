@@ -18,12 +18,19 @@ class StorageConnectionPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        foreach ($container->findTaggedServiceIds('ezpublish.storageEngine') as $id => $attributes) {
+        $taggedServiceIds = $container->findTaggedServiceIds(
+            RegisterStorageEnginePass::STORAGE_ENGINE_TAG
+        );
+        foreach ($taggedServiceIds as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
-                        'ezpublish.storageEngine service tag needs an "alias" attribute to ' .
-                        'identify the storage engine.'
+                        sprintf(
+                            'Service "%s" tagged with "%s" service tag needs an "alias" ' .
+                            'attribute to identify the storage engine.',
+                            $serviceId,
+                            RegisterStorageEnginePass::STORAGE_ENGINE_TAG
+                        )
                     );
                 }
 

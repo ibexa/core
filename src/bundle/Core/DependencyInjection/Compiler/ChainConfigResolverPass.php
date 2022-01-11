@@ -12,7 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * The ChainConfigResolverPass will register all services tagged as "ezpublish.config.resolver" to the chain config resolver.
+ * The ChainConfigResolverPass will register all services tagged as "ibexa.site.config.resolver"
+ * to the chain config resolver.
  */
 class ChainConfigResolverPass implements CompilerPassInterface
 {
@@ -27,7 +28,7 @@ class ChainConfigResolverPass implements CompilerPassInterface
 
         $chainResolver = $container->getDefinition(ChainConfigResolver::class);
 
-        foreach ($container->findTaggedServiceIds('ezpublish.config.resolver') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds('ibexa.site.config.resolver') as $id => $attributes) {
             $priority = isset($attributes[0]['priority']) ? (int)$attributes[0]['priority'] : 0;
             // Priority range is between -255 (the lowest) and 255 (the highest)
             if ($priority > 255) {

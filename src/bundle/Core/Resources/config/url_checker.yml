@@ -25,7 +25,7 @@ services:
             $configResolver: '@ezpublish.config.resolver'
             $parameterName: url_handler.http.options
         tags:
-            - { name: ezpublish.url_handler, scheme: http }
+            - { name: ibexa.url_checker.handler, scheme: http }
 
     ezpublish.url_checker.handler.https:
         class: 'Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler'
@@ -34,7 +34,7 @@ services:
             $configResolver: '@ezpublish.config.resolver'
             $parameterName: url_handler.https.options
         tags:
-            - { name: ezpublish.url_handler, scheme: https }
+            - { name: ibexa.url_checker.handler, scheme: https }
 
     ezpublish.url_checker.handler.mailto:
         class: 'Ibexa\Bundle\Core\URLChecker\Handler\MailToHandler'
@@ -42,4 +42,4 @@ services:
         arguments:
             $configResolver: '@ezpublish.config.resolver'
         tags:
-            - { name: ezpublish.url_handler, scheme: mailto }
+            - { name: ibexa.url_checker.handler, scheme: mailto }

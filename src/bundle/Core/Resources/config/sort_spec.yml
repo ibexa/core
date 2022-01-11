@@ -6,23 +6,23 @@ services:
 
     Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserDispatcher:
         arguments:
-            $parsers: !tagged_iterator ezplatform.query_type.sort_clause_parser
+            $parsers: !tagged_iterator ibexa.query_type.sort_clause.parser
 
     Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\CustomFieldSortClauseParser:
         tags:
-            - { name: ezplatform.query_type.sort_clause_parser }
+            - { name: ibexa.query_type.sort_clause.parser }
 
     Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\FieldSortClauseParser:
         tags:
-            - { name: ezplatform.query_type.sort_clause_parser }
+            - { name: ibexa.query_type.sort_clause.parser }
 
     Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\MapDistanceSortClauseParser:
         tags:
-            - { name: ezplatform.query_type.sort_clause_parser }
+            - { name: ibexa.query_type.sort_clause.parser }
 
     Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\RandomSortClauseParser:
         tags:
-            - { name: ezplatform.query_type.sort_clause_parser }
+            - { name: ibexa.query_type.sort_clause.parser }
 
     Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\DefaultSortClauseParser:
         arguments:
@@ -42,4 +42,4 @@ services:
                 location_priority: \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Priority
                 location_visibility: \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Visibility
         tags:
-            - { name: ezplatform.query_type.sort_clause_parser }
+            - { name: ibexa.query_type.sort_clause.parser }

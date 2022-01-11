@@ -9,23 +9,23 @@ services:
         calls:
             - [setRequestStack, ["@request_stack"]]
         tags:
-            - {name: ezplatform.field_type.parameter_provider, alias: ezdatetime}
-            - {name: ezplatform.field_type.parameter_provider, alias: ezdate}
-            - {name: ezplatform.field_type.parameter_provider, alias: eztime}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezdatetime}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezdate}
+            - {name: ibexa.field_type.view.parameter.provider, alias: eztime}
 
     ezpublish.fieldType.ezobjectrelation.parameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider
         arguments:
             - "@ezpublish.api.service.content"
         tags:
-            - {name: ezplatform.field_type.parameter_provider, alias: ezobjectrelation}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelation}
 
     ezpublish.fieldType.ezobjectrelationlist.parameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider
         arguments:
             - "@ezpublish.api.service.content"
         tags:
-            - {name: ezplatform.field_type.parameter_provider, alias: ezobjectrelationlist}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelationlist}
 
     ezpublish.fieldType.ezimageasset.parameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider
@@ -33,14 +33,14 @@ services:
         arguments:
             - "@ezpublish.siteaccessaware.repository"
         tags:
-            - {name: ezplatform.field_type.parameter_provider, alias: ezimageasset}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezimageasset}
 
     Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider:
         lazy: true
         arguments:
             - "@ezpublish.api.service.user"
         tags:
-            - {name: ezplatform.field_type.parameter_provider, alias: ezuser}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezuser}
 
     # Image
     ezpublish.fieldType.ezimage.io_service:
