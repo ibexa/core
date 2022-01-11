@@ -11,7 +11,7 @@ parameters:
 
 services:
     # Siteaccess is injected in the container at runtime
-    ezpublish.siteaccess:
+    Ibexa\Core\MVC\Symfony\SiteAccess:
         class: Ibexa\Core\MVC\Symfony\SiteAccess
         arguments: ["%ezpublish.siteaccess.default.name%", 'uninitialized']
 

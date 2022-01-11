@@ -2,7 +2,6 @@ services:
     Ibexa\Contracts\Core\Repository\Repository: '@ezpublish.api.repository'
 
     Ibexa\Core\MVC\ConfigResolverInterface: '@ezpublish.config.resolver'
-    Ibexa\Core\MVC\Symfony\SiteAccess: '@ezpublish.siteaccess'
 
     Ibexa\Contracts\Core\Repository\BookmarkService: '@ezpublish.api.service.bookmark'
     Ibexa\Contracts\Core\Repository\ContentService: '@ezpublish.api.service.content'

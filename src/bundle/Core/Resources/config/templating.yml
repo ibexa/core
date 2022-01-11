@@ -96,14 +96,11 @@ services:
             $configResolver: '@ezpublish.config.resolver'
             $parameterName: location_view
 
-    ezpublish.templating.global_helper.core:
+    Ibexa\Core\MVC\Symfony\Templating\GlobalHelper:
         class: Ibexa\Core\MVC\Symfony\Templating\GlobalHelper
         arguments: ["@ezpublish.config.resolver", "@ezpublish.siteaccessaware.service.location", "@router", "@ezpublish.translation_helper"]
         calls:
             - [setRequestStack, ["@request_stack"]]
-
-    Ibexa\Core\MVC\Symfony\Templating\GlobalHelper:
-        alias: ezpublish.templating.global_helper.core
 
     ezpublish.templating.global_helper:
         alias: ezpublish.templating.global_helper.core
