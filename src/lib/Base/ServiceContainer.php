@@ -90,7 +90,7 @@ class ServiceContainer implements Container
      */
     public function getRepository()
     {
-        return $this->innerContainer->get('ezpublish.api.repository');
+        return $this->innerContainer->get('ibexa.api.repository');
     }
 
     /**

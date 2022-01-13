@@ -1,11 +1,11 @@
 services:
     # Parameter providers
-    ezpublish.fieldType.parameterProviderRegistry:
+    Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry:
         class: Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry
 
-    ezpublish.fieldType.ezdatetime.parameterProvider:
+    Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider
-        arguments: ["@ezpublish.locale.converter"]
+        arguments: ['@Ibexa\Core\MVC\Symfony\Locale\LocaleConverter']
         calls:
             - [setRequestStack, ["@request_stack"]]
         tags:
@@ -13,107 +13,107 @@ services:
             - {name: ibexa.field_type.view.parameter.provider, alias: ezdate}
             - {name: ibexa.field_type.view.parameter.provider, alias: eztime}
 
-    ezpublish.fieldType.ezobjectrelation.parameterProvider:
+    Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider
         arguments:
-            - "@ezpublish.api.service.content"
+            - '@ibexa.api.service.content'
         tags:
             - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelation}
 
-    ezpublish.fieldType.ezobjectrelationlist.parameterProvider:
+    Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider
         arguments:
-            - "@ezpublish.api.service.content"
+            - '@ibexa.api.service.content'
         tags:
             - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelationlist}
 
-    ezpublish.fieldType.ezimageasset.parameterProvider:
+    ibexa.field_type.ezimageasset.parameterProvider:
         class: Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider
         lazy: true
         arguments:
-            - "@ezpublish.siteaccessaware.repository"
+            - '@ibexa.siteaccessaware.repository'
         tags:
             - {name: ibexa.field_type.view.parameter.provider, alias: ezimageasset}
 
     Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider:
         lazy: true
         arguments:
-            - "@ezpublish.api.service.user"
+            - '@ibexa.api.service.user'
         tags:
             - {name: ibexa.field_type.view.parameter.provider, alias: ezuser}
 
     # Image
-    ezpublish.fieldType.ezimage.io_service:
+    Ibexa\Core\FieldType\Image\IO\Legacy:
         class: Ibexa\Core\FieldType\Image\IO\Legacy
         arguments:
-            - "@ezpublish.fieldType.ezimage.io_service.published"
-            - "@ezpublish.fieldType.ezimage.io_service.draft"
-            - "@ezpublish.fieldType.ezimage.io_service.options_provider"
+            - '@ibexa.field_type.ezimage.io_service.published'
+            - '@ibexa.field_type.ezimage.io_service.draft'
+            - '@Ibexa\Core\FieldType\Image\IO\OptionsProvider'
         # Required by ezpublish.core.io.stream_file_listener. Request listeners are initialized very early.
         lazy: true
 
-    ezpublish.fieldType.ezimage.io_service.options_provider:
+    Ibexa\Core\FieldType\Image\IO\OptionsProvider:
         class: Ibexa\Core\FieldType\Image\IO\OptionsProvider
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
+            $configResolver: '@ibexa.config.resolver'
 
     # Image alias generator
-    ezpublish.fieldType.ezimage.variation_service:
-        alias: ezpublish.image_alias.imagine.alias_generator.image_asset
+    ibexa.field_type.ezimage.variation_service:
+        alias: Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator
 
-    ezpublish.fieldType.ezimage.io_service.published:
-        parent: ezpublish.core.io.service
+    ibexa.field_type.ezimage.io_service.published:
+        parent: ibexa.core.io.service
 
-    ezpublish.fieldType.ezimage.io_service.draft:
-        parent: ezpublish.core.io.service
+    ibexa.field_type.ezimage.io_service.draft:
+        parent: ibexa.core.io.service
 
-    ezpublish.fieldType.ezimage.io_service.published.config_scope_change_aware:
+    ibexa.field_type.ezimage.io_service.published.config_scope_change_aware:
         class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
-        decorates: ezpublish.fieldType.ezimage.io_service.published
+        decorates: ibexa.field_type.ezimage.io_service.published
         lazy: true
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
-            $innerIOService: '@ezpublish.fieldType.ezimage.io_service.published.config_scope_change_aware.inner'
+            $configResolver: '@ibexa.config.resolver'
+            $innerIOService: '@ibexa.field_type.ezimage.io_service.published.config_scope_change_aware.inner'
             $prefixParameterName: 'image.published_images_dir'
 
-    ezpublish.fieldType.ezimage.io_service.draft.config_scope_change_aware:
+    ibexa.field_type.ezimage.io_service.draft.config_scope_change_aware:
         class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
-        decorates: ezpublish.fieldType.ezimage.io_service.draft
+        decorates: ibexa.field_type.ezimage.io_service.draft
         lazy: true
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
-            $innerIOService: '@ezpublish.fieldType.ezimage.io_service.draft.config_scope_change_aware.inner'
+            $configResolver: '@ibexa.config.resolver'
+            $innerIOService: '@ibexa.field_type.ezimage.io_service.draft.config_scope_change_aware.inner'
             $prefixParameterName: 'image.versioned_images_dir'
 
-    ezpublish.fieldType.ezimage.pathGenerator:
+    Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator:
         class: Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator
 
-    ezpublish.fieldType.validator.black_list:
+    Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator:
         class: Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator
         arguments:
-            - '@ezpublish.config.resolver'
+            - '@ibexa.config.resolver'
 
-    ezpublish.fieldType.validator.image:
+    Ibexa\Core\FieldType\Validator\ImageValidator:
         class: Ibexa\Core\FieldType\Validator\ImageValidator
 
     # BinaryFile
-    ezpublish.fieldType.ezbinaryfile.io_service:
-        parent: ezpublish.core.io.service
+    ibexa.field_type.ezbinaryfile.io_service:
+        parent: ibexa.core.io.service
 
-    ezpublish.fieldType.ezbinaryfile.io_service.config_scope_change_aware:
+    ibexa.field_type.ezbinaryfile.io_service.config_scope_change_aware:
         class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
-        decorates: ezpublish.fieldType.ezbinaryfile.io_service
+        decorates: ibexa.field_type.ezbinaryfile.io_service
         lazy: true
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
-            $innerIOService: '@ezpublish.fieldType.ezbinaryfile.io_service.config_scope_change_aware.inner'
+            $configResolver: '@ibexa.config.resolver'
+            $innerIOService: '@ibexa.field_type.ezbinaryfile.io_service.config_scope_change_aware.inner'
             $prefixParameterName: 'binary_dir'
 
-    ezpublish.fieldType.ezbinaryfile.pathGenerator:
+    Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator:
         class: Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator
 
     # Will be added to binaryfile & mediafile external storage handlers by a compiler pass
-    ezpublish.fieldType.ezbinarybase.download_url_generator:
+    Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator:
         public: true # @todo should be private
         class: Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator
         arguments: ["@router"]
@@ -122,7 +122,7 @@ services:
     Ibexa\Core\FieldType\ImageAsset\AssetMapper:
         lazy: true
         arguments:
-            $contentService: '@ezpublish.api.service.content'
-            $locationService: '@ezpublish.api.service.location'
-            $contentTypeService: '@ezpublish.api.service.content_type'
-            $configResolver: '@ezpublish.config.resolver'
+            $contentService: '@ibexa.api.service.content'
+            $locationService: '@ibexa.api.service.location'
+            $contentTypeService: '@ibexa.api.service.content_type'
+            $configResolver: '@ibexa.config.resolver'

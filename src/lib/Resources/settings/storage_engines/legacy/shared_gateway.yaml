@@ -4,7 +4,7 @@ services:
         autoconfigure: true
         public: false
         bind:
-            $connection: '@ezpublish.persistence.connection'
+            $connection: '@ibexa.persistence.connection'
 
     Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway: ~
 

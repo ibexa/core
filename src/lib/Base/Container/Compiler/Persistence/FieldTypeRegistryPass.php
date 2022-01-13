@@ -19,11 +19,11 @@ class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.persistence.field_type_registry')) {
+        if (!$container->hasDefinition(\Ibexa\Core\Persistence\FieldTypeRegistry::class)) {
             return;
         }
 
-        $fieldTypeRegistryDefinition = $container->getDefinition('ezpublish.persistence.field_type_registry');
+        $fieldTypeRegistryDefinition = $container->getDefinition(\Ibexa\Core\Persistence\FieldTypeRegistry::class);
 
         foreach ($this->getFieldTypeServiceIds($container) as $id => $attributes) {
             foreach ($attributes as $attribute) {

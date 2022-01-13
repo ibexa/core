@@ -80,7 +80,7 @@ class Legacy extends SetupFactory
      */
     private static $postInsertStatements;
 
-    protected $repositoryReference = 'ezpublish.api.repository';
+    protected $repositoryReference = 'ibexa.api.repository';
 
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
@@ -224,7 +224,7 @@ class Legacy extends SetupFactory
     protected function clearInternalCaches()
     {
         /** @var $handler \Ibexa\Core\Persistence\Legacy\Handler */
-        $handler = $this->getServiceContainer()->get('ezpublish.spi.persistence.legacy');
+        $handler = $this->getServiceContainer()->get(\Ibexa\Core\Persistence\Legacy\Handler::class);
 
         $contentLanguageHandler = $handler->contentLanguageHandler();
         if ($contentLanguageHandler instanceof CachingLanguageHandler) {
@@ -237,7 +237,7 @@ class Legacy extends SetupFactory
         }
 
         /** @var $cachePool \Psr\Cache\CacheItemPoolInterface */
-        $cachePool = $this->getServiceContainer()->get('ezpublish.cache_pool');
+        $cachePool = $this->getServiceContainer()->get('ibexa.cache_pool');
 
         $cachePool->clear();
     }
@@ -279,7 +279,7 @@ class Legacy extends SetupFactory
     private function getDatabaseConnection(): Connection
     {
         if (null === $this->connection) {
-            $this->connection = $this->getServiceContainer()->get('ezpublish.persistence.connection');
+            $this->connection = $this->getServiceContainer()->get('ibexa.persistence.connection');
         }
 
         return $this->connection;

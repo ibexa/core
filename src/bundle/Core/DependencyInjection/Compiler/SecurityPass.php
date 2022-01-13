@@ -31,7 +31,7 @@ class SecurityPass implements CompilerPassInterface
             return;
         }
 
-        $configResolverRef = new Reference('ezpublish.config.resolver');
+        $configResolverRef = new Reference('ibexa.config.resolver');
         $permissionResolverRef = new Reference(PermissionResolver::class);
         $userServiceRef = new Reference(UserService::class);
 
@@ -75,7 +75,7 @@ class SecurityPass implements CompilerPassInterface
         $httpUtilsDef->setClass(HttpUtils::class);
         $httpUtilsDef->addMethodCall(
             'setSiteAccess',
-            [new Reference('ezpublish.siteaccess')]
+            [new Reference(\Ibexa\Core\MVC\Symfony\SiteAccess::class)]
         );
 
         if (!$container->hasDefinition('security.authentication.success_handler')) {

@@ -1,33 +1,33 @@
 services:
-    ezpublish.persistence.legacy.url_alias.gateway.inner:
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase
         arguments:
-            - "@ezpublish.api.storage_engine.legacy.connection"
-            - "@ezpublish.persistence.legacy.language.mask_generator"
+            - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
 
-    ezpublish.persistence.legacy.url_alias.gateway.exception_conversion:
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion
         arguments:
-            - "@ezpublish.persistence.legacy.url_alias.gateway.inner"
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase.inner'
 
     # To disable exception conversion layer override this alias so that it points to inner gateway
-    ezpublish.persistence.legacy.url_alias.gateway:
-        alias: ezpublish.persistence.legacy.url_alias.gateway.exception_conversion
+    ibexa.persistence.legacy.url_alias.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion
 
-    ezpublish.persistence.legacy.url_alias.mapper:
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
         arguments:
-            - "@ezpublish.persistence.legacy.language.mask_generator"
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
 
-    ezpublish.spi.persistence.legacy.url_alias.handler:
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
         arguments:
-            - "@ezpublish.persistence.legacy.url_alias.gateway"
-            - "@ezpublish.persistence.legacy.url_alias.mapper"
-            - "@ezpublish.persistence.legacy.location.gateway"
-            - "@ezpublish.spi.persistence.legacy.language.handler"
-            - "@ezpublish.persistence.slug_converter"
-            - "@ezpublish.persistence.legacy.content.gateway"
-            - "@ezpublish.persistence.legacy.language.mask_generator"
-            - "@ezpublish.spi.persistence.legacy.transactionhandler"
+            - '@ibexa.persistence.legacy.url_alias.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper'
+            - '@ibexa.persistence.legacy.location.gateway'
+            - '@ibexa.spi.persistence.legacy.language.handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter'
+            - '@ibexa.persistence.legacy.content.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@Ibexa\Core\Persistence\Legacy\TransactionHandler'
         lazy: true

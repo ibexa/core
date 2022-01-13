@@ -17,7 +17,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.api.storage_engine.factory', new Definition());
+        $this->setDefinition(\Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class, new Definition());
         $this->container->setParameter('ezpublish.api.storage_engine.default', 'default_storage_engine');
     }
 
@@ -43,7 +43,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.api.storage_engine.factory',
+            \Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class,
             'registerStorageEngine',
             [$serviceId, $storageEngineIdentifier]
         );
@@ -62,7 +62,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.api.storage_engine.factory',
+            \Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class,
             'registerStorageEngine',
             [new Reference($serviceId), $storageEngineIdentifier]
         );
@@ -81,7 +81,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.api.storage_engine.factory',
+            \Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class,
             'registerStorageEngine',
             [$serviceId, $storageEngineIdentifier]
         );

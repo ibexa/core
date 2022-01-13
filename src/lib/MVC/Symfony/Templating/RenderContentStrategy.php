@@ -38,7 +38,7 @@ final class RenderContentStrategy extends BaseRenderStrategy implements RenderSt
         $content = $valueObject;
 
         $currentRequest = $this->requestStack->getCurrentRequest();
-        $controllerReference = new ControllerReference('ez_content::viewAction', [
+        $controllerReference = new ControllerReference('ibexa_content::viewAction', [
             'contentId' => $content->id,
             'viewType' => $options->get('viewType', self::DEFAULT_VIEW_TYPE),
         ]);

@@ -22,31 +22,31 @@ class SortClauseConverterPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if (
-            !$container->hasDefinition('ezpublish.search.legacy.gateway.sort_clause_converter.content') &&
-            !$container->hasDefinition('ezpublish.search.legacy.gateway.sort_clause_converter.location') &&
-            !$container->hasDefinition('ezplatform.trash.search.legacy.gateway.sort_clause_converter')
+            !$container->hasDefinition('ibexa.search.legacy.gateway.sort_clause_converter.content') &&
+            !$container->hasDefinition('ibexa.search.legacy.gateway.sort_clause_converter.location') &&
+            !$container->hasDefinition('ibexa.core.trash.search.legacy.gateway.sort_clause_converter')
         ) {
             return;
         }
 
-        if ($container->hasDefinition('ezpublish.search.legacy.gateway.sort_clause_converter.content')) {
-            $sortClauseConverterContent = $container->getDefinition('ezpublish.search.legacy.gateway.sort_clause_converter.content');
+        if ($container->hasDefinition('ibexa.search.legacy.gateway.sort_clause_converter.content')) {
+            $sortClauseConverterContent = $container->getDefinition('ibexa.search.legacy.gateway.sort_clause_converter.content');
 
             $contentHandlers = $container->findTaggedServiceIds('ibexa.search.legacy.gateway.sort_clause_handler.content');
 
             $this->addHandlers($sortClauseConverterContent, $contentHandlers);
         }
 
-        if ($container->hasDefinition('ezpublish.search.legacy.gateway.sort_clause_converter.location')) {
-            $sortClauseConverterLocation = $container->getDefinition('ezpublish.search.legacy.gateway.sort_clause_converter.location');
+        if ($container->hasDefinition('ibexa.search.legacy.gateway.sort_clause_converter.location')) {
+            $sortClauseConverterLocation = $container->getDefinition('ibexa.search.legacy.gateway.sort_clause_converter.location');
 
             $locationHandlers = $container->findTaggedServiceIds('ibexa.search.legacy.gateway.sort_clause_handler.location');
 
             $this->addHandlers($sortClauseConverterLocation, $locationHandlers);
         }
 
-        if ($container->hasDefinition('ezplatform.trash.search.legacy.gateway.sort_clause_converter')) {
-            $sortClauseConverterTrash = $container->getDefinition('ezplatform.trash.search.legacy.gateway.sort_clause_converter');
+        if ($container->hasDefinition('ibexa.core.trash.search.legacy.gateway.sort_clause_converter')) {
+            $sortClauseConverterTrash = $container->getDefinition('ibexa.core.trash.search.legacy.gateway.sort_clause_converter');
 
             $trashHandlers = $container->findTaggedServiceIds('ibexa.search.legacy.trash.gateway.sort_clause.handler');
 

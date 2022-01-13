@@ -17,7 +17,7 @@ class FieldValueConverterRegistryPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.persistence.legacy.field_value_converter.registry', new Definition());
+        $this->setDefinition(\Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry::class, new Definition());
     }
 
     /**
@@ -48,7 +48,7 @@ class FieldValueConverterRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.legacy.field_value_converter.registry',
+            \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );

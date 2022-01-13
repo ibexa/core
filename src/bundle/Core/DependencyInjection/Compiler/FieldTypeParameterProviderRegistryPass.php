@@ -24,11 +24,11 @@ class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.fieldType.parameterProviderRegistry')) {
+        if (!$container->hasDefinition(\Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class)) {
             return;
         }
 
-        $parameterProviderRegistryDef = $container->getDefinition('ezpublish.fieldType.parameterProviderRegistry');
+        $parameterProviderRegistryDef = $container->getDefinition(\Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class);
 
         $serviceTags = $container->findTaggedServiceIds(
             self::FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG

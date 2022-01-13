@@ -27,10 +27,10 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->container->setParameter('ez_io.metadata_handlers', []);
         $this->container->setParameter('ez_io.binarydata_handlers', []);
 
-        $this->container->setDefinition('ezpublish.core.io.binarydata_handler.registry', new Definition());
-        $this->container->setDefinition('ezpublish.core.io.metadata_handler.registry', new Definition());
-        $this->container->setDefinition('ezpublish.core.io.binarydata_handler.flysystem.default', new Definition());
-        $this->container->setDefinition('ezpublish.core.io.metadata_handler.flysystem.default', new Definition());
+        $this->container->setDefinition('ibexa.core.io.binarydata_handler.registry', new Definition());
+        $this->container->setDefinition('ibexa.core.io.metadata_handler.registry', new Definition());
+        $this->container->setDefinition('ibexa.core.io.binarydata_handler.flysystem.default', new Definition());
+        $this->container->setDefinition('ibexa.core.io.metadata_handler.flysystem.default', new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -58,15 +58,15 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.core.io.binarydata_handler.registry',
+            'ibexa.core.io.binarydata_handler.registry',
             'setHandlersMap',
-            [['default' => 'ezpublish.core.io.binarydata_handler.flysystem.default']]
+            [['default' => 'ibexa.core.io.binarydata_handler.flysystem.default']]
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.core.io.metadata_handler.registry',
+            'ibexa.core.io.metadata_handler.registry',
             'setHandlersMap',
-            [['default' => 'ezpublish.core.io.metadata_handler.flysystem.default']]
+            [['default' => 'ibexa.core.io.metadata_handler.flysystem.default']]
         );
     }
 

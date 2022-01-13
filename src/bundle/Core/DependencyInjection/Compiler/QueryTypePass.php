@@ -21,7 +21,7 @@ final class QueryTypePass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition('ezpublish.query_type.registry')) {
+        if (!$container->hasDefinition(\Ibexa\Core\QueryType\ArrayQueryTypeRegistry::class)) {
             return;
         }
 
@@ -38,7 +38,7 @@ final class QueryTypePass implements CompilerPassInterface
             }
         }
 
-        $aggregatorDefinition = $container->getDefinition('ezpublish.query_type.registry');
+        $aggregatorDefinition = $container->getDefinition(\Ibexa\Core\QueryType\ArrayQueryTypeRegistry::class);
         $aggregatorDefinition->addMethodCall('addQueryTypes', [$queryTypes]);
     }
 }

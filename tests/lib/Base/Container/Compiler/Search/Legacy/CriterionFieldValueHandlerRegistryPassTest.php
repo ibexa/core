@@ -18,7 +18,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
     {
         parent::setUp();
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.criterion_field_value_handler.registry',
+            \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class,
             new Definition()
         );
     }
@@ -48,7 +48,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.criterion_field_value_handler.registry',
+            \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );
@@ -67,7 +67,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.criterion_field_value_handler.registry',
+            \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );

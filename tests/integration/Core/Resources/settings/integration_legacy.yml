@@ -15,10 +15,10 @@ parameters:
 services:
     Ibexa\Core\FieldType\ImageAsset\AssetMapper:
         arguments:
-            $contentService: '@ezpublish.api.service.content'
-            $locationService: '@ezpublish.api.service.location'
-            $contentTypeService: '@ezpublish.api.service.content_type'
-            $configResolver: '@ezpublish.config.resolver'
+            $contentService: '@ibexa.api.service.content'
+            $locationService: '@ibexa.api.service.location'
+            $contentTypeService: '@ibexa.api.service.content_type'
+            $configResolver: '@ibexa.config.resolver'
 
     # repeat part of DIC setup to avoid loading DoctrineSchemaBundle
     _instanceof:
@@ -45,7 +45,7 @@ services:
             $databasePlatforms: !tagged ibexa.doctrine.db.platform
 
     # build ezpublish.api.storage_engine.legacy.connection for test purposes
-    ezpublish.api.storage_engine.legacy.connection:
+    ibexa.api.storage_engine.legacy.connection:
         class: Doctrine\DBAL\Connection
         factory: ['@Ibexa\Tests\Core\Persistence\DatabaseConnectionFactory', 'createConnection']
         arguments:
@@ -55,4 +55,4 @@ services:
         public: true
         alias: Ibexa\Core\Event\SettingService
 
-    ezpublish.image_alias.imagine.cache.alias_generator_decorator: '@Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler'
+    Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator: '@Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler'

@@ -17,7 +17,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.url_checker.handler_registry', new Definition());
+        $this->setDefinition(\Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -36,7 +36,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.url_checker.handler_registry',
+            \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class,
             'addHandler',
             [$scheme, new Reference($serviceId)]
         );
@@ -55,7 +55,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.url_checker.handler_registry',
+            \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class,
             'addHandler',
             [$scheme, new Reference($serviceId)]
         );

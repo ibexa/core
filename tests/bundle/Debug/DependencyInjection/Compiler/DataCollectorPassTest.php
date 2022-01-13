@@ -17,7 +17,7 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish_debug.data_collector', new Definition());
+        $this->setDefinition(\Ibexa\Bundle\Debug\Collector\IbexaCoreCollector::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -40,7 +40,7 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish_debug.data_collector',
+            \Ibexa\Bundle\Debug\Collector\IbexaCoreCollector::class,
             'addCollector',
             [new Reference($serviceId), $panelTemplate, $toolbarTemplate]
         );

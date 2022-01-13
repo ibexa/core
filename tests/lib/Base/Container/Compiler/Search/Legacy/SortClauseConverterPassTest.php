@@ -28,7 +28,7 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
     public function testAddContentHandlers()
     {
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.content',
+            'ibexa.search.legacy.gateway.sort_clause_converter.content',
             new Definition()
         );
 
@@ -40,7 +40,7 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.content',
+            'ibexa.search.legacy.gateway.sort_clause_converter.content',
             'addHandler',
             [new Reference($serviceId)]
         );
@@ -49,7 +49,7 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
     public function testAddLocationHandlers()
     {
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.location',
+            'ibexa.search.legacy.gateway.sort_clause_converter.location',
             new Definition()
         );
 
@@ -61,7 +61,7 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.location',
+            'ibexa.search.legacy.gateway.sort_clause_converter.location',
             'addHandler',
             [new Reference($serviceId)]
         );
@@ -70,11 +70,11 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
     public function testAddLocationAndContentHandlers()
     {
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.content',
+            'ibexa.search.legacy.gateway.sort_clause_converter.content',
             new Definition()
         );
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.location',
+            'ibexa.search.legacy.gateway.sort_clause_converter.location',
             new Definition()
         );
 
@@ -87,13 +87,13 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.content',
+            'ibexa.search.legacy.gateway.sort_clause_converter.content',
             'addHandler',
             [new Reference($commonServiceId)]
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.sort_clause_converter.location',
+            'ibexa.search.legacy.gateway.sort_clause_converter.location',
             'addHandler',
             [new Reference($commonServiceId)]
         );

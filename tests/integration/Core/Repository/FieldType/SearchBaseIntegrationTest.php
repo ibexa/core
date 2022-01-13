@@ -1146,7 +1146,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $container = $setupFactory->getServiceContainer()->getInnerContainer();
 
         /** @var \Ibexa\Core\Search\Common\FieldNameResolver $fieldNameResolver */
-        $fieldNameResolver = $container->get('ezpublish.search.common.field_name_resolver');
+        $fieldNameResolver = $container->get(\Ibexa\Core\Search\Common\FieldNameResolver::class);
         $resolvedFieldNames = $fieldNameResolver->getFieldNames(
             $criterion,
             'data',
@@ -1175,7 +1175,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $container = $setupFactory->getServiceContainer()->getInnerContainer();
 
         /** @var \Ibexa\Core\Search\Common\FieldNameResolver $fieldNameResolver */
-        $fieldNameResolver = $container->get('ezpublish.search.common.field_name_resolver');
+        $fieldNameResolver = $container->get(\Ibexa\Core\Search\Common\FieldNameResolver::class);
         $resolvedFieldName = $fieldNameResolver->getSortFieldName(
             $sortClause,
             'test-' . $this->getTypeName(),

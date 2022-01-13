@@ -30,11 +30,11 @@ class RegisterStorageEnginePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.api.storage_engine.factory')) {
+        if (!$container->hasDefinition(\Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class)) {
             return;
         }
 
-        $storageEngineFactoryDef = $container->getDefinition('ezpublish.api.storage_engine.factory');
+        $storageEngineFactoryDef = $container->getDefinition(\Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class);
         foreach ($container->findTaggedServiceIds(self::STORAGE_ENGINE_TAG) as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {

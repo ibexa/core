@@ -22,7 +22,7 @@ class EnvTest extends BaseTest
      */
     public function testVerifyCacheDriver()
     {
-        $pool = $this->getSetupFactory()->getServiceContainer()->get('ezpublish.cache_pool');
+        $pool = $this->getSetupFactory()->getServiceContainer()->get('ibexa.cache_pool');
 
         $this->assertInstanceOf(TransactionalInMemoryCacheAdapter::class, $pool);
 

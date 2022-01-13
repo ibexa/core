@@ -327,7 +327,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     private function handleRouting(array $config, ContainerBuilder $container, FileLoader $loader)
     {
         $loader->load('routing.yml');
-        $container->setAlias('router', 'ezpublish.chain_router');
+        $container->setAlias('router', \Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class);
         $container->getAlias('router')->setPublic(true);
 
         if (isset($config['router']['default_router']['non_siteaccess_aware_routes'])) {
@@ -912,7 +912,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     continue;
                 }
 
-                $container->setParameter('ezplatform.session.handler_id', 'ezplatform.core.session.handler.native_redis');
+                $container->setParameter('ezplatform.session.handler_id', \Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler::class);
                 $container->setParameter('ezplatform.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         } elseif (isset($relationships['rediscache'])) {
@@ -921,7 +921,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     continue;
                 }
 
-                $container->setParameter('ezplatform.session.handler_id', 'ezplatform.core.session.handler.native_redis');
+                $container->setParameter('ezplatform.session.handler_id', \Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler::class);
                 $container->setParameter('ezplatform.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         }

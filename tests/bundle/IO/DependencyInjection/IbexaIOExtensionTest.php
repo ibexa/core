@@ -84,7 +84,7 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         );
         $this->buildMinimalContainerForUrlPrefixTest();
 
-        $decorator = $this->container->get('ezpublish.core.io.prefix_url_decorator');
+        $decorator = $this->container->get(\Ibexa\Core\IO\UrlDecorator\AbsolutePrefix::class);
 
         self::assertEquals(
             'http://static.example.com/my/image.png',

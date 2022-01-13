@@ -79,7 +79,7 @@ class QueryRenderingExtension extends AbstractExtension
 
     private function createControllerReference(array $options): ControllerReference
     {
-        return new ControllerReference('ez_query_render::renderQuery', [
+        return new ControllerReference('ibexa_query_render::renderQuery', [
             'options' => $options,
         ]);
     }

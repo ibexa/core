@@ -25,7 +25,7 @@ class RegisterSearchEngineIndexerPass implements CompilerPassInterface
      *
      * @var string
      */
-    protected $factoryId = 'ezpublish.api.search_engine.indexer.factory';
+    protected $factoryId = \Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory::class;
 
     /**
      * Register all found search engine indexers to the SearchEngineIndexerFactory.

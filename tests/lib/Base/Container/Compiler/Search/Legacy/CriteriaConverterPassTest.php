@@ -28,7 +28,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     public function testAddContentHandlers()
     {
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.criteria_converter.content',
+            'ibexa.search.legacy.gateway.criteria_converter.content',
             new Definition()
         );
 
@@ -40,7 +40,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.criteria_converter.content',
+            'ibexa.search.legacy.gateway.criteria_converter.content',
             'addHandler',
             [new Reference($serviceId)]
         );
@@ -49,7 +49,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     public function testAddLocationHandlers()
     {
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.criteria_converter.location',
+            'ibexa.search.legacy.gateway.criteria_converter.location',
             new Definition()
         );
 
@@ -61,7 +61,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.criteria_converter.location',
+            'ibexa.search.legacy.gateway.criteria_converter.location',
             'addHandler',
             [new Reference($serviceId)]
         );
@@ -70,7 +70,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     public function testAddTrashHandlers(): void
     {
         $this->setDefinition(
-            'ezplatform.trash.search.legacy.gateway.criteria_converter',
+            'ibexa.core.trash.search.legacy.gateway.criteria_converter',
             new Definition()
         );
 
@@ -82,7 +82,7 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezplatform.trash.search.legacy.gateway.criteria_converter',
+            'ibexa.core.trash.search.legacy.gateway.criteria_converter',
             'addHandler',
             [new Reference($serviceId)]
         );
@@ -91,15 +91,15 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     public function testAddMultipleHandlers(): void
     {
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.criteria_converter.content',
+            'ibexa.search.legacy.gateway.criteria_converter.content',
             new Definition()
         );
         $this->setDefinition(
-            'ezpublish.search.legacy.gateway.criteria_converter.location',
+            'ibexa.search.legacy.gateway.criteria_converter.location',
             new Definition()
         );
         $this->setDefinition(
-            'ezplatform.trash.search.legacy.gateway.criteria_converter',
+            'ibexa.core.trash.search.legacy.gateway.criteria_converter',
             new Definition()
         );
 
@@ -113,19 +113,19 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.criteria_converter.content',
+            'ibexa.search.legacy.gateway.criteria_converter.content',
             'addHandler',
             [new Reference($commonServiceId)]
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.legacy.gateway.criteria_converter.location',
+            'ibexa.search.legacy.gateway.criteria_converter.location',
             'addHandler',
             [new Reference($commonServiceId)]
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezplatform.trash.search.legacy.gateway.criteria_converter',
+            'ibexa.core.trash.search.legacy.gateway.criteria_converter',
             'addHandler',
             [new Reference($commonServiceId)]
         );

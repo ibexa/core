@@ -1,38 +1,38 @@
 services:
-    ezpublish.persistence.legacy.language.gateway.inner:
+    Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
         arguments:
-            - "@ezpublish.api.storage_engine.legacy.connection"
+            - '@ibexa.api.storage_engine.legacy.connection'
 
-    ezpublish.persistence.legacy.language.gateway.exception_conversion:
+    Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\ExceptionConversion
         arguments:
-            - "@ezpublish.persistence.legacy.language.gateway.inner"
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase.inner'
 
     # To disable exception conversion layer override this alias so that it points to inner gateway
-    ezpublish.persistence.legacy.language.gateway:
-        alias: ezpublish.persistence.legacy.language.gateway.exception_conversion
+    ibexa.persistence.legacy.language.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\ExceptionConversion
 
-    ezpublish.persistence.legacy.language.mapper:
+    Ibexa\Core\Persistence\Legacy\Content\Language\Mapper:
         class: Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
 
-    ezpublish.spi.persistence.legacy.language.handler.inner:
+    Ibexa\Core\Persistence\Legacy\Content\Language\Handler.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Language\Handler
         arguments:
-            - "@ezpublish.persistence.legacy.language.gateway"
-            - "@ezpublish.persistence.legacy.language.mapper"
+            - '@ibexa.persistence.legacy.language.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\Mapper'
 
-    ezpublish.spi.persistence.legacy.language.handler.caching:
+    Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler:
         class: Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
         lazy: true
         arguments:
-            - "@ezpublish.spi.persistence.legacy.language.handler.inner"
-            - "@ezpublish.spi.persistence.cache.inmemory"
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\Handler.inner'
+            - '@ibexa.spi.persistence.cache.inmemory'
             - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
 
-    ezpublish.spi.persistence.legacy.language.handler:
-        alias: ezpublish.spi.persistence.legacy.language.handler.caching
+    ibexa.spi.persistence.legacy.language.handler:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
 
-    ezpublish.persistence.legacy.language.mask_generator:
+    Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator:
         class: Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-        arguments: ["@ezpublish.spi.persistence.legacy.language.handler"]
+        arguments: ['@ibexa.spi.persistence.legacy.language.handler']

@@ -17,7 +17,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.fieldType.parameterProviderRegistry', new Definition());
+        $this->setDefinition(\Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class, new Definition());
     }
 
     /**
@@ -45,7 +45,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.fieldType.parameterProviderRegistry',
+            \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class,
             'setParameterProvider',
             [new Reference($serviceId), $fieldTypeIdentifier]
         );
@@ -69,7 +69,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.fieldType.parameterProviderRegistry',
+            \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class,
             'setParameterProvider',
             [new Reference($serviceId), $fieldTypeIdentifier]
         );

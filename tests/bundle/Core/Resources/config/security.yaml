@@ -1,7 +1,7 @@
 security:
     providers:
         default:
-            id: ezpublish.security.user_provider
+            id: ibexa.security.user_provider
 
     firewalls:
         main:

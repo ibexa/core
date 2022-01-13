@@ -14,11 +14,11 @@ class DataCollectorPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish_debug.data_collector')) {
+        if (!$container->hasDefinition(\Ibexa\Bundle\Debug\Collector\IbexaCoreCollector::class)) {
             return;
         }
 
-        $dataCollectorDef = $container->getDefinition('ezpublish_debug.data_collector');
+        $dataCollectorDef = $container->getDefinition(\Ibexa\Bundle\Debug\Collector\IbexaCoreCollector::class);
         foreach ($container->findTaggedServiceIds('ibexa.debug.data_collector') as $id => $attributes) {
             foreach ($attributes as $attribute) {
                 $dataCollectorDef->addMethodCall(

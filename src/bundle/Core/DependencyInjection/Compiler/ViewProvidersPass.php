@@ -55,8 +55,8 @@ class ViewProvidersPass implements CompilerPassInterface
             }
         }
 
-        if ($container->hasDefinition('ezpublish.view_provider.registry')) {
-            $container->getDefinition('ezpublish.view_provider.registry')->addMethodCall(
+        if ($container->hasDefinition(\Ibexa\Core\MVC\Symfony\View\Provider\Registry::class)) {
+            $container->getDefinition(\Ibexa\Core\MVC\Symfony\View\Provider\Registry::class)->addMethodCall(
                 'setViewProviders',
                 [$viewProviders]
             );
@@ -69,16 +69,16 @@ class ViewProvidersPass implements CompilerPassInterface
             }
         }
 
-        if ($container->hasDefinition('ezpublish.config_scope_listener')) {
-            $container->getDefinition('ezpublish.config_scope_listener')->addMethodCall(
+        if ($container->hasDefinition(\Ibexa\Bundle\Core\EventListener\ConfigScopeListener::class)) {
+            $container->getDefinition(\Ibexa\Bundle\Core\EventListener\ConfigScopeListener::class)->addMethodCall(
                 'setViewProviders',
                 [$flattenedViewProviders]
             );
         }
 
         // 5.4.5 BC service after location view deprecation
-        if ($container->hasDefinition('ezpublish.view.custom_location_controller_checker')) {
-            $container->getDefinition('ezpublish.view.custom_location_controller_checker')->addMethodCall(
+        if ($container->hasDefinition(\Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker::class)) {
+            $container->getDefinition(\Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker::class)->addMethodCall(
                 'addViewProviders',
                 [$viewProviders['Ibexa\Core\MVC\Symfony\View\ContentView']]
             );

@@ -10,10 +10,10 @@ parameters:
 
 services:
     # API
-    ezpublish.api.repository.factory:
+    Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
         class: Ibexa\Bundle\Core\ApiLoader\RepositoryFactory
         arguments:
-            - "@ezpublish.config.resolver"
+            - '@ibexa.config.resolver'
             - "%ezpublish.api.inner_repository.class%"
             - "%ezpublish.api.role.policy_map%"
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
@@ -21,53 +21,53 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
 
-    ezpublish.api.storage_engine.factory:
+    Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory:
         class: Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory
         arguments:
-            - "@ezpublish.api.repository_configuration_provider"
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
 
-    ezpublish.api.persistence_handler:
-        #To disable cache, switch alias to ezpublish.api.storage_engine
-        alias: ezpublish.spi.persistence.cache
+    ibexa.api.persistence_handler:
+        #To disable cache, switch alias to Ibexa\Contracts\Core\Persistence\Handler
+        alias: Ibexa\Core\Persistence\Cache\Handler
 
-    ezpublish.api.storage_engine:
+    Ibexa\Contracts\Core\Persistence\Handler:
         class: Ibexa\Contracts\Core\Persistence\Handler
-        factory: ["@ezpublish.api.storage_engine.factory", buildStorageEngine]
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory', buildStorageEngine]
         public: false
 
-    ezpublish.api.search_engine.factory:
+    Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory:
         class: Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory
         arguments:
-            - "@ezpublish.api.repository_configuration_provider"
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
 
-    ezpublish.api.search_engine.indexer.factory:
+    Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory:
             class: Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory
             arguments:
-                - "@ezpublish.api.repository_configuration_provider"
+                - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
 
-    ezpublish.spi.search:
-        alias: ezpublish.spi.search_engine
+    ibexa.spi.search:
+        alias: Ibexa\Contracts\Core\Search\VersatileHandler
 
-    ezpublish.spi.search.indexer:
-        alias: ezpublish.spi.search_engine.indexer
+    ibexa.spi.search.indexer:
+        alias: Ibexa\Core\Search\Common\Indexer
 
-    ezpublish.spi.search_engine:
+    Ibexa\Contracts\Core\Search\VersatileHandler:
         class: Ibexa\Contracts\Core\Search\VersatileHandler
-        factory: ["@ezpublish.api.search_engine.factory", buildSearchEngine]
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory', buildSearchEngine]
         public: false
         lazy: true
 
-    ezpublish.spi.search_engine.indexer:
+    Ibexa\Core\Search\Common\Indexer:
         class: Ibexa\Core\Search\Common\Indexer
-        factory: ["@ezpublish.api.search_engine.indexer.factory", buildSearchEngineIndexer]
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory', buildSearchEngineIndexer]
         public: false
 
     # Redefine background indexer to the one provided here which works on kernel/console.terminate.
-    ezpublish.search.background_indexer:
+    Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener:
         class: Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener
         arguments:
-            - '@ezpublish.api.persistence_handler'
-            - '@ezpublish.spi.search'
+            - '@ibexa.api.persistence_handler'
+            - '@ibexa.spi.search'
         tags:
             - { name: kernel.event_subscriber }
 

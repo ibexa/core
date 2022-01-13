@@ -27,12 +27,12 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.persistence.external_storage_registry')) {
+        if (!$container->hasDefinition(\Ibexa\Core\Persistence\Legacy\Content\StorageRegistry::class)) {
             return;
         }
 
         $externalStorageRegistryDefinition = $container->getDefinition(
-            'ezpublish.persistence.external_storage_registry'
+            \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry::class
         );
 
         // Gateways for external storage handlers.

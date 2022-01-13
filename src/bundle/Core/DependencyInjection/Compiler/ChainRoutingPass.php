@@ -20,25 +20,25 @@ class ChainRoutingPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.chain_router')) {
+        if (!$container->hasDefinition(\Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class)) {
             return;
         }
 
-        $chainRouter = $container->getDefinition('ezpublish.chain_router');
+        $chainRouter = $container->getDefinition(\Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class);
 
         // Enforce default router to be part of the routing chain
         // The default router will be given the highest priority so that it will be used by default
         if ($container->hasDefinition('router.default')) {
             $defaultRouter = $container->getDefinition('router.default');
-            $defaultRouter->addMethodCall('setSiteAccess', [new Reference('ezpublish.siteaccess')]);
-            $defaultRouter->addMethodCall('setConfigResolver', [new Reference('ezpublish.config.resolver')]);
+            $defaultRouter->addMethodCall('setSiteAccess', [new Reference(\Ibexa\Core\MVC\Symfony\SiteAccess::class)]);
+            $defaultRouter->addMethodCall('setConfigResolver', [new Reference('ibexa.config.resolver')]);
             $defaultRouter->addMethodCall(
                 'setNonSiteAccessAwareRoutes',
                 ['%ezpublish.default_router.non_siteaccess_aware_routes%']
             );
             $defaultRouter->addMethodCall(
                 'setSiteAccessRouter',
-                [new Reference('ezpublish.siteaccess_router')]
+                [new Reference(\Ibexa\Core\MVC\Symfony\SiteAccess\Router::class)]
             );
             if (!$defaultRouter->hasTag('router')) {
                 $defaultRouter->addTag(

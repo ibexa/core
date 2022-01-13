@@ -1574,7 +1574,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Mutate 'ezpublish.persistence.slug_converter' Service configuration.
+     * Mutate \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class Service configuration.
      *
      * @param string $key
      * @param string $value
@@ -1588,7 +1588,7 @@ class URLAliasServiceTest extends BaseTest
             ->getSetupFactory()
             ->getServiceContainer()
             ->getInnerContainer()
-            ->get('ezpublish.persistence.slug_converter');
+            ->get(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class);
 
         if (!$testSlugConverter instanceof TestSlugConverter) {
             throw new RuntimeException(

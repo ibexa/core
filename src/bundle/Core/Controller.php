@@ -18,17 +18,17 @@ class Controller extends AbstractController
 {
     public function getRepository(): Repository
     {
-        return $this->container->get('ezpublish.api.repository');
+        return $this->container->get('ibexa.api.repository');
     }
 
     protected function getConfigResolver(): ConfigResolverInterface
     {
-        return $this->container->get('ezpublish.config.resolver');
+        return $this->container->get('ibexa.config.resolver');
     }
 
     public function getGlobalHelper(): GlobalHelper
     {
-        return $this->container->get('ezpublish.templating.global_helper');
+        return $this->container->get('ibexa.templating.global_helper');
     }
 
     /**
@@ -46,9 +46,9 @@ class Controller extends AbstractController
         return array_merge(
             parent::getSubscribedServices(),
             [
-                'ezpublish.api.repository' => Repository::class,
-                'ezpublish.config.resolver' => ConfigResolverInterface::class,
-                'ezpublish.templating.global_helper' => GlobalHelper::class,
+                'ibexa.api.repository' => Repository::class,
+                'ibexa.config.resolver' => ConfigResolverInterface::class,
+                'ibexa.templating.global_helper' => GlobalHelper::class,
             ]
         );
     }

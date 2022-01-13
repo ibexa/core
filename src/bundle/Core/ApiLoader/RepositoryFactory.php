@@ -92,7 +92,7 @@ class RepositoryFactory implements ContainerAwareInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator
     ): Repository {
-        $config = $this->container->get('ezpublish.api.repository_configuration_provider')->getRepositoryConfig();
+        $config = $this->container->get(\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider::class)->getRepositoryConfig();
 
         return new $this->repositoryClass(
             $persistenceHandler,

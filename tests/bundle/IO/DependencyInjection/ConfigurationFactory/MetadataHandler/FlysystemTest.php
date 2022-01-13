@@ -25,7 +25,7 @@ class FlysystemTest
      */
     public function provideExpectedParentServiceId()
     {
-        return 'ezpublish.core.io.metadata_handler.flysystem';
+        return 'ibexa.core.io.metadata_handler.flysystem';
     }
 }
 

@@ -2,58 +2,58 @@ services:
     # Note: services tagged with:
     #  - ezpublish.search.legacy.gateway.criterion_handler.location
     # are registered to this one using compilation pass
-    ezpublish.search.legacy.gateway.criteria_converter.location:
+    ibexa.search.legacy.gateway.criteria_converter.location:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.ancestor:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Ancestor:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Ancestor
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.depth:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\Depth:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\Depth
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.location_id:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\LocationId:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\LocationId
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.is_main_location:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\IsMainLocation:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\IsMainLocation
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.parent_location_id:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\ParentLocationId:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\ParentLocationId
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.priority:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\Priority:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\Priority
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.location_remote_id:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\LocationRemoteId:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\LocationRemoteId
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.subtree:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Subtree:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Subtree
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
-    ezpublish.search.legacy.gateway.criterion_handler.location.visibility:
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Visibility:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Visibility
         tags:

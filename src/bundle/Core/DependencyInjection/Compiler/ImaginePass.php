@@ -22,7 +22,7 @@ class ImaginePass implements CompilerPassInterface
 
         $filterConfigDef = $container->findDefinition('liip_imagine.filter.configuration');
         $filterConfigDef->setClass(FilterConfiguration::class);
-        $filterConfigDef->addMethodCall('setConfigResolver', [new Reference('ezpublish.config.resolver')]);
+        $filterConfigDef->addMethodCall('setConfigResolver', [new Reference('ibexa.config.resolver')]);
 
         if ($container->hasAlias('liip_imagine')) {
             $imagineAlias = (string)$container->getAlias('liip_imagine');
@@ -40,7 +40,7 @@ class ImaginePass implements CompilerPassInterface
         }
 
         $container->setAlias(
-            'ezpublish.image_alias.imagine.filter.reduce_noise',
+            'ibexa.image_alias.imagine.filter.reduce_noise',
             new Alias("ezpublish.image_alias.imagine.filter.reduce_noise.$driver")
         );
     }
@@ -52,7 +52,7 @@ class ImaginePass implements CompilerPassInterface
         }
 
         $container->setAlias(
-            'ezpublish.image_alias.imagine.filter.swirl',
+            'ibexa.image_alias.imagine.filter.swirl',
             new Alias("ezpublish.image_alias.imagine.filter.swirl.$driver")
         );
     }

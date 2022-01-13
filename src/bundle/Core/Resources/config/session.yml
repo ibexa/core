@@ -2,13 +2,13 @@ parameters:
     ezpublish.session.attribute_bag.storage_key: "_ezpublish"
 
 services:
-    ezpublish.session_set_dynamic_name_listener:
+    Ibexa\Bundle\Core\EventListener\SessionSetDynamicNameListener:
         class: Ibexa\Bundle\Core\EventListener\SessionSetDynamicNameListener
-        arguments: ["@ezpublish.config.resolver", "@session.storage.factory"]
+        arguments: ['@ibexa.config.resolver', "@session.storage.factory"]
         tags:
             - { name: kernel.event_subscriber }
 
-    ezpublish.session_init_by_post_listener:
+    Ibexa\Bundle\Core\EventListener\SessionInitByPostListener:
         class: Ibexa\Bundle\Core\EventListener\SessionInitByPostListener
         tags:
             - { name: kernel.event_subscriber }

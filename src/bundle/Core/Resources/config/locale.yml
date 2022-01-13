@@ -99,21 +99,21 @@ parameters:
         ua: ['ukr-UA']
 
 services:
-    ezpublish.locale.converter:
+    Ibexa\Core\MVC\Symfony\Locale\LocaleConverter:
         class: Ibexa\Core\MVC\Symfony\Locale\LocaleConverter
         arguments: ["%ezpublish.locale.conversion_map%", "@logger"]
         public: true
 
     Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface:
-        alias: ezpublish.locale.converter
+        alias: Ibexa\Core\MVC\Symfony\Locale\LocaleConverter
 
     # Overriding the original locale listener to trigger the internal locale conversion correctly.
     Ibexa\Bundle\Core\EventListener\LocaleListener:
         decorates: locale_listener
         arguments:
             - '@Ibexa\Bundle\Core\EventListener\LocaleListener.inner'
-            - '@ezpublish.config.resolver'
-            - '@ezpublish.locale.converter'
+            - '@ibexa.config.resolver'
+            - '@Ibexa\Core\MVC\Symfony\Locale\LocaleConverter'
         tags:
             - { name: kernel.event_subscriber }
 

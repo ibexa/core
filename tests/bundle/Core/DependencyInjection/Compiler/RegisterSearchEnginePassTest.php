@@ -24,7 +24,7 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
     {
         parent::setUp();
 
-        $this->setDefinition('ezpublish.api.search_engine.factory', new Definition());
+        $this->setDefinition(\Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -46,7 +46,7 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.api.search_engine.factory',
+            \Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory::class,
             'registerSearchEngine',
             [
                 new Reference(self::EXAMPLE_SERVICE_ID),

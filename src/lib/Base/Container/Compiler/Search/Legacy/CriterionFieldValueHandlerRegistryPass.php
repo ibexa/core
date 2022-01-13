@@ -23,11 +23,11 @@ class CriterionFieldValueHandlerRegistryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.search.legacy.gateway.criterion_field_value_handler.registry')) {
+        if (!$container->hasDefinition(\Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class)) {
             return;
         }
 
-        $registry = $container->getDefinition('ezpublish.search.legacy.gateway.criterion_field_value_handler.registry');
+        $registry = $container->getDefinition(\Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class);
 
         $taggedServiceIds = $container->findTaggedServiceIds(
             self::SEARCH_LEGACY_GATEWAY_CRITERION_HANDLER_FIELD_VALUE_TAG

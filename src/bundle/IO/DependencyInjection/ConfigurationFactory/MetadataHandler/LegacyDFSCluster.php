@@ -15,7 +15,7 @@ class LegacyDFSCluster implements ConfigurationFactory
 {
     public function getParentServiceId()
     {
-        return 'ezpublish.core.io.metadata_handler.legacy_dfs_cluster';
+        return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }
 
     public function configureHandler(ServiceDefinition $definition, array $config)

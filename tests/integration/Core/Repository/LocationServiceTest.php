@@ -3214,7 +3214,7 @@ class LocationServiceTest extends BaseTest
         // path location string is not present on API level, so we need to query database
         $serviceContainer = $this->getSetupFactory()->getServiceContainer();
         /** @var \Doctrine\DBAL\Connection $connection */
-        $connection = $serviceContainer->get('ezpublish.persistence.connection');
+        $connection = $serviceContainer->get('ibexa.persistence.connection');
         $query = $connection->createQueryBuilder();
         $query
             ->select('path_identification_string')

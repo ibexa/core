@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FieldValueConverterRegistryPass implements CompilerPassInterface
 {
-    public const CONVERTER_REGISTRY_SERVICE_ID = 'ezpublish.persistence.legacy.field_value_converter.registry';
+    public const CONVERTER_REGISTRY_SERVICE_ID = \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry::class;
 
     public const CONVERTER_SERVICE_TAG = 'ibexa.field_type.storage.legacy.converter';
 

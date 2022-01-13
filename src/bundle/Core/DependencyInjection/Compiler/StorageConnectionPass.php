@@ -38,7 +38,7 @@ class StorageConnectionPass implements CompilerPassInterface
 
                 $container->setAlias(
                     "ezpublish.api.storage_engine.{$alias}.connection",
-                    'ezpublish.persistence.connection'
+                    'ibexa.persistence.connection'
                 );
             }
         }

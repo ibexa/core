@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 /**
  * Class CacheFactory.
  *
- * Service "ezpublish.cache_pool", selects a Symfony cache service based on siteaccess[-group] setting "cache_service_name"
+ * Service "ibexa.cache_pool", selects a Symfony cache service based on siteaccess[-group] setting "cache_service_name"
  */
 class CacheFactory implements ContainerAwareInterface
 {

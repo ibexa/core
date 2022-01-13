@@ -157,7 +157,7 @@ EOF;
 
         if ($this->controllerChecker->usesCustomController($content, $location)) {
             $forwardRequestParameters = [
-                '_controller' => 'ez_content:viewAction',
+                '_controller' => 'ibexa_content:viewAction',
                 '_route' => self::CONTENT_VIEW_ROUTE,
             ] + $forwardRequestParameters;
         }

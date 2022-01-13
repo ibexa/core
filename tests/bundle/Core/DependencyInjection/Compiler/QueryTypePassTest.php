@@ -22,7 +22,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
     {
         parent::setUp();
 
-        $this->setDefinition('ezpublish.query_type.registry', new Definition());
+        $this->setDefinition(\Ibexa\Core\QueryType\ArrayQueryTypeRegistry::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -43,7 +43,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.query_type.registry',
+            \Ibexa\Core\QueryType\ArrayQueryTypeRegistry::class,
             'addQueryTypes',
             [['Test:Test' => new Reference($serviceId)]]
         );
@@ -63,7 +63,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.query_type.registry',
+            \Ibexa\Core\QueryType\ArrayQueryTypeRegistry::class,
             'addQueryTypes',
             [['Test:Test' => new Reference($serviceId)]]
         );
@@ -95,7 +95,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
 
         $this->assertContainerBuilderHasService('test.query_type_override');
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.query_type.registry',
+            \Ibexa\Core\QueryType\ArrayQueryTypeRegistry::class,
             'addQueryTypes',
             [
                 [

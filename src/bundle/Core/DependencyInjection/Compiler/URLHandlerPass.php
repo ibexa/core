@@ -21,11 +21,11 @@ class URLHandlerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.url_checker.handler_registry')) {
+        if (!$container->hasDefinition(\Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class)) {
             return;
         }
 
-        $definition = $container->findDefinition('ezpublish.url_checker.handler_registry');
+        $definition = $container->findDefinition(\Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class);
         foreach ($container->findTaggedServiceIds('ibexa.url_checker.handler') as $id => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['scheme'])) {

@@ -1,27 +1,27 @@
 services:
-    ezpublish.persistence.legacy.object_state.gateway.inner:
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
         arguments:
-            - "@ezpublish.api.storage_engine.legacy.connection"
-            - "@ezpublish.persistence.legacy.language.mask_generator"
+            - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
 
-    ezpublish.persistence.legacy.object_state.gateway.exception_conversion:
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion
         arguments:
-            - "@ezpublish.persistence.legacy.object_state.gateway.inner"
+            - '@Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase.inner'
 
     # To disable exception conversion layer override this alias so that it points to inner gateway
-    ezpublish.persistence.legacy.object_state.gateway:
-        alias: ezpublish.persistence.legacy.object_state.gateway.exception_conversion
+    ibexa.persistence.legacy.object_state.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion
 
-    ezpublish.persistence.legacy.object_state.mapper:
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper:
         class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
         arguments:
-            - "@ezpublish.spi.persistence.legacy.language.handler"
+            - '@ibexa.spi.persistence.legacy.language.handler'
 
-    ezpublish.spi.persistence.legacy.object_state.handler:
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler:
         class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
         arguments:
-            - "@ezpublish.persistence.legacy.object_state.gateway"
-            - "@ezpublish.persistence.legacy.object_state.mapper"
+            - '@ibexa.persistence.legacy.object_state.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper'
         lazy: true

@@ -20,12 +20,12 @@ class AggregateFieldValueMapperPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.search.common.field_value_mapper.aggregate')) {
+        if (!$container->hasDefinition(\Ibexa\Core\Search\Common\FieldValueMapper\Aggregate::class)) {
             return;
         }
 
         $aggregateFieldValueMapperDefinition = $container->getDefinition(
-            'ezpublish.search.common.field_value_mapper.aggregate'
+            \Ibexa\Core\Search\Common\FieldValueMapper\Aggregate::class
         );
 
         $taggedServiceIds = $container->findTaggedServiceIds(

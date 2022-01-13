@@ -19,7 +19,7 @@ final class MigrationFileListerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('ezpublish.core.io.migration.file_lister_registry')) {
+        if (!$container->has(\Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry::class)) {
             return;
         }
 
@@ -32,7 +32,7 @@ final class MigrationFileListerPass implements CompilerPassInterface
             }
         }
 
-        $fileListerRegistryDef = $container->findDefinition('ezpublish.core.io.migration.file_lister_registry');
+        $fileListerRegistryDef = $container->findDefinition(\Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry::class);
         $fileListerRegistryDef->setArguments([$fileListers]);
     }
 }

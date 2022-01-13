@@ -211,7 +211,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     public function testRoutingConfiguration()
     {
         $this->load();
-        $this->assertContainerBuilderHasAlias('router', 'ezpublish.chain_router');
+        $this->assertContainerBuilderHasAlias('router', \Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class);
 
         $this->assertTrue($this->container->hasParameter('ezpublish.default_router.non_siteaccess_aware_routes'));
         $nonSiteaccessAwareRoutes = $this->container->getParameter('ezpublish.default_router.non_siteaccess_aware_routes');

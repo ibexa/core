@@ -22,11 +22,11 @@ class RoleLimitationConverterPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.persistence.legacy.role.limitation.converter')) {
+        if (!$container->hasDefinition(\Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter::class)) {
             return;
         }
 
-        $roleLimitationConverter = $container->getDefinition('ezpublish.persistence.legacy.role.limitation.converter');
+        $roleLimitationConverter = $container->getDefinition(\Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter::class);
 
         foreach ($container->findTaggedServiceIds('ibexa.storage.legacy.role.limitation.handler') as $id => $attributes) {
             foreach ($attributes as $attribute) {

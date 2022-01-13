@@ -25,11 +25,11 @@ class FieldRegistryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.search.common.field_registry')) {
+        if (!$container->hasDefinition(\Ibexa\Core\Search\Common\FieldRegistry::class)) {
             return;
         }
 
-        $fieldRegistryDefinition = $container->getDefinition('ezpublish.search.common.field_registry');
+        $fieldRegistryDefinition = $container->getDefinition(\Ibexa\Core\Search\Common\FieldRegistry::class);
 
         $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_INDEXABLE_SERVICE_TAG);
         foreach ($serviceTags as $serviceId => $attributes) {

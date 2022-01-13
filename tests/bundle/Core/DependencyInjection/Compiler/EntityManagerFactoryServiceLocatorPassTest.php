@@ -24,7 +24,7 @@ class EntityManagerFactoryServiceLocatorPassTest extends AbstractCompilerPassTes
         $this->setDefinition(
             'ibexa.doctrine.orm.entity_manager_factory',
             new Definition(null, [
-                '$repositoryConfigurationProvider' => new Reference('ezpublish.api.repository_configuration_provider'),
+                '$repositoryConfigurationProvider' => new Reference(\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider::class),
                 '$defaultConnection' => '%doctrine.default_connection%',
                 '$entityManagers' => '%doctrine.entity_managers%',
             ])

@@ -18,7 +18,7 @@ class RoleLimitationConverterPassTest extends AbstractCompilerPassTestCase
     {
         parent::setUp();
         $this->setDefinition(
-            'ezpublish.persistence.legacy.role.limitation.converter',
+            \Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter::class,
             new Definition()
         );
     }
@@ -44,7 +44,7 @@ class RoleLimitationConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.legacy.role.limitation.converter',
+            \Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter::class,
             'addHandler',
             [new Reference($serviceId)]
         );

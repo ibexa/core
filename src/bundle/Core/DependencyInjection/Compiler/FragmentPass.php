@@ -23,7 +23,7 @@ class FragmentPass implements CompilerPassInterface
         if (
             !(
                 $container->hasDefinition('fragment.listener')
-                && $container->hasDefinition('ezpublish.decorated_fragment_renderer')
+                && $container->hasDefinition(\Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer::class)
             )
         ) {
             return null;
@@ -31,7 +31,7 @@ class FragmentPass implements CompilerPassInterface
 
         $fragmentListenerDef = $container->findDefinition('fragment.listener');
         $fragmentListenerDef
-            ->setFactory([new Reference('ezpublish.fragment_listener.factory'), 'buildFragmentListener'])
+            ->setFactory([new Reference(\Ibexa\Bundle\Core\Fragment\FragmentListenerFactory::class), 'buildFragmentListener'])
             ->addArgument(FragmentListener::class);
 
         // Looping over all fragment renderers to decorate them
@@ -44,7 +44,7 @@ class FragmentPass implements CompilerPassInterface
             $definition->setPublic(false);
             $container->setDefinition($renamedId, $definition);
 
-            $decoratedDef = new ChildDefinition('ezpublish.decorated_fragment_renderer');
+            $decoratedDef = new ChildDefinition(\Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer::class);
             $decoratedDef->setArguments([new Reference($renamedId)]);
             $decoratedDef->setPublic($public);
             $decoratedDef->setTags($tags);

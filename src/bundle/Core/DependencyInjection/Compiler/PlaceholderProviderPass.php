@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class PlaceholderProviderPass implements CompilerPassInterface
 {
     public const TAG_NAME = 'ibexa.media.images.placeholder.provider';
-    public const REGISTRY_DEFINITION_ID = 'ezpublish.image_alias.imagine.placeholder_provider.registry';
+    public const REGISTRY_DEFINITION_ID = \Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry::class;
 
     public function process(ContainerBuilder $container)
     {

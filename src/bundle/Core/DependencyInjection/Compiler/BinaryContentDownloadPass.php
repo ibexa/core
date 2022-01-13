@@ -17,14 +17,14 @@ class BinaryContentDownloadPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('ezpublish.fieldType.ezbinarybase.download_url_generator')) {
+        if (!$container->has(\Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator::class)) {
             return;
         }
 
-        $downloadUrlReference = new Reference('ezpublish.fieldType.ezbinarybase.download_url_generator');
+        $downloadUrlReference = new Reference(\Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator::class);
 
-        $this->addCall($container, $downloadUrlReference, 'ezpublish.fieldType.ezmedia.externalStorage');
-        $this->addCall($container, $downloadUrlReference, 'ezpublish.fieldType.ezbinaryfile.externalStorage');
+        $this->addCall($container, $downloadUrlReference, \Ibexa\Core\FieldType\Media\MediaStorage::class);
+        $this->addCall($container, $downloadUrlReference, \Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage::class);
     }
 
     private function addCall(ContainerBuilder $container, Reference $reference, $targetServiceName)

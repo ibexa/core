@@ -20,7 +20,7 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.chain_router', new Definition());
+        $this->setDefinition(\Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class, new Definition());
     }
 
     /**
@@ -54,7 +54,7 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.chain_router',
+            \Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class,
             'add',
             [new Reference($serviceId), $expectedPriority]
         );
@@ -70,9 +70,9 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
     {
         $defaultRouter = new Definition();
         $this->setDefinition('router.default', $defaultRouter);
-        $this->setDefinition('ezpublish.siteaccess', new Definition());
-        $this->setDefinition('ezpublish.config.resolver', new Definition());
-        $this->setDefinition('ezpublish.siteaccess_router', new Definition());
+        $this->setDefinition(\Ibexa\Core\MVC\Symfony\SiteAccess::class, new Definition());
+        $this->setDefinition('ibexa.config.resolver', new Definition());
+        $this->setDefinition(\Ibexa\Core\MVC\Symfony\SiteAccess\Router::class, new Definition());
 
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
@@ -89,12 +89,12 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'router.default',
             'setSiteAccess',
-            [new Reference('ezpublish.siteaccess')]
+            [new Reference(\Ibexa\Core\MVC\Symfony\SiteAccess::class)]
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'router.default',
             'setConfigResolver',
-            [new Reference('ezpublish.config.resolver')]
+            [new Reference('ibexa.config.resolver')]
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'router.default',
@@ -104,17 +104,17 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'router.default',
             'setSiteAccessRouter',
-            [new Reference('ezpublish.siteaccess_router')]
+            [new Reference(\Ibexa\Core\MVC\Symfony\SiteAccess\Router::class)]
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.chain_router',
+            \Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class,
             'add',
             [new Reference('router.default'), 255]
         );
 
         // Assertion for all routers
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.chain_router',
+            \Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class,
             'add',
             [new Reference($serviceId), $expectedPriority]
         );

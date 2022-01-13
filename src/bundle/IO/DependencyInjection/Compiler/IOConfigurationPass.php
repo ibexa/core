@@ -48,10 +48,10 @@ class IOConfigurationPass implements CompilerPassInterface
             [];
         $this->processHandlers(
             $container,
-            $container->getDefinition('ezpublish.core.io.metadata_handler.registry'),
+            $container->getDefinition('ibexa.core.io.metadata_handler.registry'),
             $ioMetadataHandlers,
             $this->metadataHandlerFactories,
-            'ezpublish.core.io.metadata_handler.flysystem.default'
+            'ibexa.core.io.metadata_handler.flysystem.default'
         );
 
         $ioBinarydataHandlers = $container->hasParameter('ez_io.binarydata_handlers') ?
@@ -59,10 +59,10 @@ class IOConfigurationPass implements CompilerPassInterface
             [];
         $this->processHandlers(
             $container,
-            $container->getDefinition('ezpublish.core.io.binarydata_handler.registry'),
+            $container->getDefinition('ibexa.core.io.binarydata_handler.registry'),
             $ioBinarydataHandlers,
             $this->binarydataHandlerFactories,
-            'ezpublish.core.io.binarydata_handler.flysystem.default'
+            'ibexa.core.io.binarydata_handler.flysystem.default'
         );
 
         // Unset parameters that are no longer required ?

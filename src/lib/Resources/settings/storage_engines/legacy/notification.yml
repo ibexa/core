@@ -1,7 +1,7 @@
 services:
     Ibexa\Core\Persistence\Legacy\Notification\Gateway\DoctrineDatabase:
         arguments:
-            $connection: '@ezpublish.persistence.connection'
+            $connection: '@ibexa.persistence.connection'
 
     Ibexa\Core\Persistence\Legacy\Notification\Gateway\ExceptionConversion:
         arguments:
@@ -15,5 +15,5 @@ services:
             $mapper: '@Ibexa\Core\Persistence\Legacy\Notification\Mapper'
         lazy: true
 
-    ezpublish.spi.persistence.legacy.notification.handler:
+    ibexa.spi.persistence.legacy.notification.handler:
         alias: 'Ibexa\Core\Persistence\Legacy\Notification\Handler'

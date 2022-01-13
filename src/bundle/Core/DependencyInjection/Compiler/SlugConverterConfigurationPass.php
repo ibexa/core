@@ -21,10 +21,10 @@ class SlugConverterConfigurationPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('ezpublish.persistence.slug_converter')) {
+        if (!$container->has(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class)) {
             return;
         }
-        $slugConverterDefinition = $container->getDefinition('ezpublish.persistence.slug_converter');
+        $slugConverterDefinition = $container->getDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class);
 
         $parameterConfiguration = $slugConverterDefinition->getArgument(1);
         $semanticConfiguration = $container->getParameter('ezpublish.url_alias.slug_converter');

@@ -12,15 +12,15 @@ parameters:
     ezsettings.default.anonymous_user_id: 10
 
 services:
-    ezpublish.api.persistence_handler:
-        #To disable cache, switch alias to ezpublish.api.storage_engine
-        alias: ezpublish.spi.persistence.cache
+    ibexa.api.persistence_handler:
+        #To disable cache, switch alias to Ibexa\Contracts\Core\Persistence\Handler
+        alias: Ibexa\Core\Persistence\Cache\Handler
 
-    ezpublish.api.storage_engine:
-        alias: ezpublish.spi.persistence.legacy
+    Ibexa\Contracts\Core\Persistence\Handler:
+        alias: Ibexa\Core\Persistence\Legacy\Handler
 
-    ezpublish.spi.search:
-        alias: ezpublish.spi.search_engine
+    ibexa.spi.search:
+        alias: Ibexa\Contracts\Core\Search\VersatileHandler
 
-    ezpublish.spi.search_engine:
-        alias: ezpublish.spi.search.legacy
+    Ibexa\Contracts\Core\Search\VersatileHandler:
+        alias: Ibexa\Core\Search\Legacy\Content\Handler

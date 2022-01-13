@@ -17,7 +17,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.search.common.field_registry', new Definition());
+        $this->setDefinition(\Ibexa\Core\Search\Common\FieldRegistry::class, new Definition());
     }
 
     /**
@@ -42,7 +42,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.common.field_registry',
+            \Ibexa\Core\Search\Common\FieldRegistry::class,
             'registerType',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );
@@ -61,7 +61,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.search.common.field_registry',
+            \Ibexa\Core\Search\Common\FieldRegistry::class,
             'registerType',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );
