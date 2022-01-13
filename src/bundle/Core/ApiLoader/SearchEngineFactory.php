@@ -55,30 +55,33 @@ class SearchEngineFactory
 
     /**
      * Builds search engine identified by its identifier (the "alias" attribute in the service tag),
-     * resolved for current siteaccess.
-     *
-     * @return \Ibexa\Contracts\Core\Search\Handler
+     * resolved for current SiteAccess.
      *
      * @throws \Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine
      */
-    public function buildSearchEngine()
+    public function buildSearchEngine(): SearchHandler
     {
         $repositoryConfig = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
-        if (
-            !(
-                isset($repositoryConfig['search']['engine'])
-                && isset($this->searchEngines[$repositoryConfig['search']['engine']])
-            )
-        ) {
+        $searchEngineAlias = $repositoryConfig['search']['engine'] ?? null;
+        if (null === $searchEngineAlias) {
             throw new InvalidSearchEngine(
-                "Invalid search engine '{$repositoryConfig['search']['engine']}'. " .
-                "Could not find any service tagged with 'ezplatform.search_engine' " .
-                "with alias '{$repositoryConfig['search']['engine']}'."
+                sprintf(
+                    'Ibexa "%s" Repository has no Search Engine configured',
+                    $this->repositoryConfigurationProvider->getCurrentRepositoryAlias()
+                )
             );
         }
 
-        return $this->searchEngines[$repositoryConfig['search']['engine']];
+        if (!isset($this->searchEngines[$searchEngineAlias])) {
+            throw new InvalidSearchEngine(
+                "Invalid search engine '{$searchEngineAlias}'. " .
+                "Could not find any service tagged with 'ibexa.search.engine' " .
+                "with alias '{$searchEngineAlias}'."
+            );
+        }
+
+        return $this->searchEngines[$searchEngineAlias];
     }
 }
 

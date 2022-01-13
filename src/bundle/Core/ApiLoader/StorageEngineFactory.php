@@ -55,23 +55,26 @@ class StorageEngineFactory
      * Builds storage engine identified by $storageEngineIdentifier (the "alias" attribute in the service tag).
      *
      * @throws \Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Handler
      */
-    public function buildStorageEngine()
+    public function buildStorageEngine(): PersistenceHandler
     {
         $repositoryConfig = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
-        if (
-            !(
-                isset($repositoryConfig['storage']['engine'])
-                && isset($this->storageEngines[$repositoryConfig['storage']['engine']])
-            )
-        ) {
+        $storageEngineAlias = $repositoryConfig['storage']['engine'] ?? null;
+        if (null === $storageEngineAlias) {
             throw new InvalidStorageEngine(
-                "Invalid storage engine '{$repositoryConfig['storage']['engine']}'. " .
-                'Could not find any service tagged with ezpublish.storageEngine ' .
-                "with alias {$repositoryConfig['storage']['engine']}."
+                sprintf(
+                    'Ibexa "%s" Repository has no Storage Engine configured',
+                    $this->repositoryConfigurationProvider->getCurrentRepositoryAlias()
+                )
+            );
+        }
+
+        if (!isset($this->storageEngines[$storageEngineAlias])) {
+            throw new InvalidStorageEngine(
+                "Invalid storage engine '{$storageEngineAlias}'. " .
+                'Could not find any service tagged with ibexa.storage ' .
+                "with alias {$storageEngineAlias}."
             );
         }
 
