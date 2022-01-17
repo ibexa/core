@@ -16,6 +16,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CriterionFieldValueHandlerRegistryPass implements CompilerPassInterface
 {
+    private const SEARCH_LEGACY_GATEWAY_CRITERION_HANDLER_FIELD_VALUE_TAG = 'ibexa.search.legacy.gateway.criterion_handler.field_value';
+
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
@@ -27,11 +29,18 @@ class CriterionFieldValueHandlerRegistryPass implements CompilerPassInterface
 
         $registry = $container->getDefinition('ezpublish.search.legacy.gateway.criterion_field_value_handler.registry');
 
-        foreach ($container->findTaggedServiceIds('ezpublish.search.legacy.gateway.criterion_field_value_handler') as $id => $attributes) {
+        $taggedServiceIds = $container->findTaggedServiceIds(
+            self::SEARCH_LEGACY_GATEWAY_CRITERION_HANDLER_FIELD_VALUE_TAG
+        );
+        foreach ($taggedServiceIds as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
-                        'ezpublish.search.legacy.gateway.criterion_field_value_handler service tag needs an "alias" attribute to identify the Field Type.'
+                        sprintf(
+                            'Service "%s" tagged with "%s" service tag needs an "alias" attribute to identify the Field Type.',
+                            $serviceId,
+                            self::SEARCH_LEGACY_GATEWAY_CRITERION_HANDLER_FIELD_VALUE_TAG
+                        )
                     );
                 }
 
@@ -39,7 +48,7 @@ class CriterionFieldValueHandlerRegistryPass implements CompilerPassInterface
                     'register',
                     [
                         $attribute['alias'],
-                        new Reference($id),
+                        new Reference($serviceId),
                     ]
                 );
             }

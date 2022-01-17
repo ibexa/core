@@ -38,7 +38,7 @@ class RoleLimitationConverterPassTest extends AbstractCompilerPassTestCase
     {
         $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ezpublish.persistence.legacy.role.limitation.handler');
+        $def->addTag('ibexa.storage.legacy.role.limitation.handler');
         $this->setDefinition($serviceId, $def);
 
         $this->compile();

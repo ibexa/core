@@ -22,7 +22,7 @@ services:
             - [setContainer, ['@service_container']]
         lazy: true
         tags:
-            - { name: ezpublish.config.resolver, priority: 0 }
+            - { name: ibexa.site.config.resolver, priority: 0 }
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\SiteAccessGroupConfigResolver:
         arguments:
@@ -34,7 +34,7 @@ services:
             - [setContainer, ['@service_container']]
         lazy: true
         tags:
-            - { name: ezpublish.config.resolver, priority: 50 }
+            - { name: ibexa.site.config.resolver, priority: 50 }
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\StaticSiteAccessConfigResolver:
         arguments:
@@ -45,7 +45,7 @@ services:
             - [setContainer, ['@service_container']]
         lazy: true
         tags:
-            - { name: ezpublish.config.resolver, priority: 100 }
+            - { name: ibexa.site.config.resolver, priority: 100 }
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolver:
         arguments:
@@ -54,7 +54,7 @@ services:
             - [setContainer, ['@service_container']]
         lazy: true
         tags:
-            - { name: ezpublish.config.resolver, priority: 255 }
+            - { name: ibexa.site.config.resolver, priority: 255 }
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver:
         public: true # @todo should be private

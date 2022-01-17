@@ -68,7 +68,7 @@ services:
             $languageHandler: '@ezpublish.spi.persistence.language_handler'
             $mapper: '@ezpublish.search.legacy.fulltext_mapper'
         tags:
-            - {name: ezplatform.search_engine, alias: legacy}
+            - {name: ibexa.search.engine, alias: legacy}
         lazy: true
 
     ezpublish.spi.search.legacy.indexer:
@@ -79,7 +79,7 @@ services:
             $connection: '@ezpublish.persistence.connection'
             $searchHandler: "@ezpublish.spi.search.legacy"
         tags:
-            - {name: ezplatform.search_engine.indexer, alias: legacy}
+            - {name: ibexa.search.engine.indexer, alias: legacy}
         lazy: true
 
     Ibexa\Core\Search\Legacy\Content\IndexerGateway:

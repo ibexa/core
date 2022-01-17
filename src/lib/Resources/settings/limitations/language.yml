@@ -6,7 +6,7 @@ services:
     _instanceof:
         Ibexa\Core\Limitation\LanguageLimitation\VersionTargetEvaluator:
             tags:
-                - { name: ezplatform.limitation.language.version_target_evaluator }
+                - { name: ibexa.permissions.limitation_type.language_target_evaluator.version }
 
     Ibexa\Core\Limitation\LanguageLimitation\:
         resource: '../../../Limitation/LanguageLimitation/*'

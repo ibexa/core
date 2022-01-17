@@ -26,7 +26,7 @@ services:
     ezpublish.config_scope_listener:
         class: Ibexa\Bundle\Core\EventListener\ConfigScopeListener
         arguments:
-            $configResolvers: !tagged ezpublish.config.resolver
+            $configResolvers: !tagged ibexa.site.config.resolver
             $viewManager: '@ezpublish.view_manager'
         tags:
             - { name: kernel.event_subscriber }

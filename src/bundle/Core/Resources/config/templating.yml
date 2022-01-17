@@ -37,7 +37,7 @@ services:
         class: Ibexa\Bundle\Core\View\Provider\Configured
         arguments: ["@ezpublish.content_view.matcher_factory"]
         tags:
-            - {name: ezpublish.view_provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
+            - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
 
     ezpublish.content_view.matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
@@ -58,7 +58,7 @@ services:
         class: Ibexa\Bundle\Core\View\Provider\Configured
         arguments: ["@ezpublish.content_view.default_matcher_factory"]
         tags:
-            - {name: ezpublish.view_provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: -1}
+            - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: -1}
 
     ezpublish.content_view.default_matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
@@ -79,7 +79,7 @@ services:
         class: Ibexa\Bundle\Core\View\Provider\Configured
         arguments: ["@ezpublish.location_view.matcher_factory"]
         tags:
-            - {name: ezpublish.view_provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
+            - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
 
     ezpublish.location_view.matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
@@ -178,7 +178,7 @@ services:
 
     Ibexa\Core\MVC\Symfony\Templating\RenderStrategy:
         arguments:
-            $strategies: !tagged_iterator ibexa.platform.render.strategy
+            $strategies: !tagged_iterator ibexa.view.render.strategy
 
     Ibexa\Contracts\Core\MVC\Templating\RenderStrategy: '@Ibexa\Core\MVC\Symfony\Templating\RenderStrategy'
 
@@ -189,7 +189,7 @@ services:
             $siteAccess: '@ezpublish.siteaccess'
             $requestStack: '@request_stack'
         tags:
-            - { name: ibexa.platform.render.strategy }
+            - { name: ibexa.view.render.strategy }
 
     Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy:
         arguments:
@@ -198,7 +198,7 @@ services:
             $siteAccess: '@ezpublish.siteaccess'
             $requestStack: '@request_stack'
         tags:
-            - { name: ibexa.platform.render.strategy }
+            - { name: ibexa.view.render.strategy }
 
     ezpublish.twig.extension.image:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension
@@ -221,7 +221,7 @@ services:
     ezpublish.view_builder.registry:
         class: Ibexa\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch
         arguments:
-            $viewBuilders: !tagged_iterator { tag: ibexa.view_builder }
+            $viewBuilders: !tagged_iterator { tag: ibexa.view.builder }
 
     ezpublish.view_builder.content:
         class: Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder
@@ -232,7 +232,7 @@ services:
             - "@request_stack"
             - "@ezpublish.content_info_location_loader.main"
         tags:
-            - { name: ibexa.view_builder }
+            - { name: ibexa.view.builder }
 
     ezpublish.view.builder_parameter_collector.request_attributes:
         class: Ibexa\Core\MVC\Symfony\View\Builder\ParametersFilter\RequestAttributes

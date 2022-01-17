@@ -13,11 +13,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Processes services tagged as ezplatform.query_type, and registers them with ezpublish.query_type.registry.
+ * Processes services tagged as ibexa.query_type, and registers them with ezpublish.query_type.registry.
  */
 final class QueryTypePass implements CompilerPassInterface
 {
-    public const QUERY_TYPE_SERVICE_TAG = 'ezplatform.query_type';
+    public const QUERY_TYPE_SERVICE_TAG = 'ibexa.query_type';
 
     public function process(ContainerBuilder $container): void
     {

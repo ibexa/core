@@ -23,7 +23,7 @@ final class MigrationFileListerPass implements CompilerPassInterface
             return;
         }
 
-        $fileListersTagged = $container->findTaggedServiceIds('ezpublish.core.io.migration.file_lister');
+        $fileListersTagged = $container->findTaggedServiceIds('ibexa.io.migration.file_lister');
 
         $fileListers = [];
         foreach ($fileListersTagged as $id => $tags) {

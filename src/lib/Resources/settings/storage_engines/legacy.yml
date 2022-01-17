@@ -41,7 +41,7 @@ services:
             - "@ezpublish.spi.persistence.legacy.user_preference.handler"
             - "@ezpublish.spi.persistence.legacy.setting.handler"
         tags:
-            - {name: ezpublish.storageEngine, alias: legacy}
+            - {name: ibexa.storage, alias: legacy}
         lazy: true
         public: true # @todo should be private
 

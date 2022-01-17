@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FieldRegistryPass implements CompilerPassInterface
 {
-    public const FIELD_TYPE_INDEXABLE_SERVICE_TAG = 'ezplatform.field_type.indexable';
+    public const FIELD_TYPE_INDEXABLE_SERVICE_TAG = 'ibexa.field_type.indexable';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container

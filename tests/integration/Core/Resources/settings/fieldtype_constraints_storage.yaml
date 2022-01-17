@@ -1,7 +1,7 @@
 services:
     Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\Stub\ExampleFieldType:
         tags:
-            - { name: ezplatform.field_type, alias: example }
+            - { name: ibexa.field_type, alias: example }
 
     Ibexa\Tests\Integration\Core\FieldType\FieldConstraintsStorage\Stub\ExampleFieldConstraintsStorage:
         public: true
@@ -11,4 +11,4 @@ services:
     ibexa.test.field_type.example.converter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter
         tags:
-            - { name: ezplatform.field_type.legacy_storage.converter, alias: example }
+            - { name: ibexa.field_type.storage.legacy.converter, alias: example }

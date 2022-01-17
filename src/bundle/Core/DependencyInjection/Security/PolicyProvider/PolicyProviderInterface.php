@@ -16,7 +16,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigBuilderInterface;
  * E.g. "content/read": "content" is the module, "read" is the function.
  *
  * Each function can provide a collection of limitations.
- * These need to be implemented as "limitation types" and declared as services with "ezpublish.limitationType" service tag.
+ * These need to be implemented as "limitation types" and declared as services with "ibexa.permissions.limitation_type" service tag.
  * Limitation types also provide value objects based on {@see \Ibexa\Contracts\Core\Repository\Values\User\Limitation} abstract class.
  *
  * @since 6.0

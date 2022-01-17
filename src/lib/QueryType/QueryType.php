@@ -9,7 +9,7 @@ namespace Ibexa\Core\QueryType;
 /**
  * A QueryType is a pre-defined content or location query.
  *
- * QueryTypes must be registered with the service container using the `ezplatform.query_type` service tag.
+ * QueryTypes must be registered with the service container using the `ibexa.query_type` service tag.
  */
 interface QueryType
 {

@@ -42,7 +42,7 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
         if ($declaredPriority !== null) {
             $attributes['priority'] = $declaredPriority;
         }
-        $def->addTag('ezpublish.view_provider', $attributes);
+        $def->addTag('ibexa.view.provider', $attributes);
         $serviceId = 'service_id';
         $this->setDefinition($serviceId, $def);
 

@@ -18,7 +18,7 @@ class FieldValueConverterRegistryPass implements CompilerPassInterface
 {
     public const CONVERTER_REGISTRY_SERVICE_ID = 'ezpublish.persistence.legacy.field_value_converter.registry';
 
-    public const CONVERTER_SERVICE_TAG = 'ezplatform.field_type.legacy_storage.converter';
+    public const CONVERTER_SERVICE_TAG = 'ibexa.field_type.storage.legacy.converter';
 
     public const CONVERTER_SERVICE_TAGS = [
         self::CONVERTER_SERVICE_TAG,

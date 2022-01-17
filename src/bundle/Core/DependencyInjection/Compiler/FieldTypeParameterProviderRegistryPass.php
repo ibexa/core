@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
 {
-    public const FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG = 'ezplatform.field_type.parameter_provider';
+    public const FIELD_TYPE_PARAMETER_PROVIDER_SERVICE_TAG = 'ibexa.field_type.view.parameter.provider';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container

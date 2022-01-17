@@ -13,11 +13,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Compiles services tagged as ezplatform.installer to %ezplatform.installers%.
+ * Injects services tagged as "ibexa.installer" into
+ * {@see \Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand::$installers}.
  */
 class InstallerTagPass implements CompilerPassInterface
 {
-    public const INSTALLER_TAG = 'ezplatform.installer';
+    public const INSTALLER_TAG = 'ibexa.installer';
 
     public function process(ContainerBuilder $container)
     {

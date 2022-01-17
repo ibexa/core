@@ -29,7 +29,7 @@ class AggregateFieldValueMapperPass implements CompilerPassInterface
         );
 
         $taggedServiceIds = $container->findTaggedServiceIds(
-            'ezpublish.search.common.field_value_mapper'
+            'ibexa.search.common.field_value.mapper'
         );
         foreach ($taggedServiceIds as $id => $attributes) {
             $aggregateFieldValueMapperDefinition->addMethodCall(

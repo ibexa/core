@@ -36,7 +36,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
     {
         $storageEngineDef = new Definition();
         $storageEngineIdentifier = 'i_am_a_storage_engine';
-        $storageEngineDef->addTag('ezpublish.storageEngine', ['alias' => $storageEngineIdentifier]);
+        $storageEngineDef->addTag('ibexa.storage', ['alias' => $storageEngineIdentifier]);
         $serviceId = 'storage_engine_service';
         $this->setDefinition($serviceId, $storageEngineDef);
 
@@ -55,7 +55,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         $storageEngineIdentifier = 'i_am_a_storage_engine';
 
         $this->container->setParameter('ezpublish.api.storage_engine.default', $storageEngineIdentifier);
-        $storageEngineDef->addTag('ezpublish.storageEngine', ['alias' => $storageEngineIdentifier]);
+        $storageEngineDef->addTag('ibexa.storage', ['alias' => $storageEngineIdentifier]);
         $serviceId = 'storage_engine_service';
         $this->setDefinition($serviceId, $storageEngineDef);
 
@@ -74,7 +74,7 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
 
         $storageEngineDef = new Definition();
         $storageEngineIdentifier = 'i_am_a_storage_engine';
-        $storageEngineDef->addTag('ezpublish.storageEngine');
+        $storageEngineDef->addTag('ibexa.storage');
         $serviceId = 'storage_engine_service';
         $this->setDefinition($serviceId, $storageEngineDef);
 

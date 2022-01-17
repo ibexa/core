@@ -19,7 +19,7 @@ class DataCollectorPass implements CompilerPassInterface
         }
 
         $dataCollectorDef = $container->getDefinition('ezpublish_debug.data_collector');
-        foreach ($container->findTaggedServiceIds('ezpublish_data_collector') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds('ibexa.debug.data_collector') as $id => $attributes) {
             foreach ($attributes as $attribute) {
                 $dataCollectorDef->addMethodCall(
                     'addCollector',

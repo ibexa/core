@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class NotificationRendererPass implements CompilerPassInterface
 {
-    public const TAG_NAME = 'ezpublish.notification.renderer';
+    public const TAG_NAME = 'ibexa.notification.renderer';
     public const REGISTRY_DEFINITION_ID = 'notification.renderer.registry';
 
     public function process(ContainerBuilder $container)

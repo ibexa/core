@@ -45,11 +45,12 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
     {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
-        if ($declaredPriority !== null) {
-            $resolverDef->addTag('ezpublish.config.resolver', ['priority' => $declaredPriority]);
-        } else {
-            $resolverDef->addTag('ezpublish.config.resolver');
-        }
+        $resolverDef->addTag(
+            'ibexa.site.config.resolver',
+            null !== $declaredPriority
+                ? ['priority' => $declaredPriority]
+                : []
+        );
 
         $this->setDefinition($serviceId, $resolverDef);
         $this->compile();

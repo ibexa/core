@@ -36,7 +36,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         $fieldTypeIdentifier = 'field_type_identifier';
         $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ezplatform.field_type.indexable', ['alias' => $fieldTypeIdentifier]);
+        $def->addTag('ibexa.field_type.indexable', ['alias' => $fieldTypeIdentifier]);
         $this->setDefinition($serviceId, $def);
 
         $this->compile();
@@ -55,7 +55,7 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         $fieldTypeIdentifier = 'field_type_identifier';
         $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ezplatform.field_type.indexable');
+        $def->addTag('ibexa.field_type.indexable');
         $this->setDefinition($serviceId, $def);
 
         $this->compile();

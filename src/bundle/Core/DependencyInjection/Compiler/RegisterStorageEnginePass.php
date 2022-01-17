@@ -16,6 +16,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RegisterStorageEnginePass implements CompilerPassInterface
 {
+    public const STORAGE_ENGINE_TAG = 'ibexa.storage';
+
     /**
      * Performs compiler passes for persistence factories.
      *
@@ -33,17 +35,24 @@ class RegisterStorageEnginePass implements CompilerPassInterface
         }
 
         $storageEngineFactoryDef = $container->getDefinition('ezpublish.api.storage_engine.factory');
-        foreach ($container->findTaggedServiceIds('ezpublish.storageEngine') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds(self::STORAGE_ENGINE_TAG) as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
-                    throw new LogicException('ezpublish.storageEngine service tag needs an "alias" attribute to identify the storage engine.');
+                    throw new LogicException(
+                        sprintf(
+                            'Service "%s" tagged with "%s" service tag needs an "alias" ' .
+                            'attribute to identify the storage engine.',
+                            $serviceId,
+                            self::STORAGE_ENGINE_TAG
+                        )
+                    );
                 }
 
                 // Register the storage engine on the main storage engine factory
                 $storageEngineFactoryDef->addMethodCall(
                     'registerStorageEngine',
                     [
-                        new Reference($id),
+                        new Reference($serviceId),
                         $attribute['alias'],
                     ]
                 );

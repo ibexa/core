@@ -31,7 +31,7 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
         $toolbarTemplate = 'toolbar.html.twig';
         $definition = new Definition();
         $definition->addTag(
-            'ezpublish_data_collector',
+            'ibexa.debug.data_collector',
             ['panelTemplate' => $panelTemplate, 'toolbarTemplate' => $toolbarTemplate]
         );
 

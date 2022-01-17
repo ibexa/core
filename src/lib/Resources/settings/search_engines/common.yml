@@ -24,7 +24,7 @@ parameters:
         ez_fulltext: 'fulltext'
 
 services:
-    # Note: services tagged with 'ezplatform.field_type.indexable'
+    # Note: services tagged with 'ibexa.field_type.indexable'
     # are registered to this one using compilation pass
     ezpublish.search.common.field_registry:
         class: Ibexa\Core\Search\Common\FieldRegistry
@@ -42,7 +42,7 @@ services:
             - "@ezpublish.spi.persistence.content_type_handler"
             - "@ezpublish.search.common.field_name_generator"
 
-    # Note: services tagged with 'ezpublish.search.common.field_value_mapper'
+    # Note: services tagged with 'ibexa.search.common.field_value.mapper'
     # are registered to this one using compilation pass
     ezpublish.search.common.field_value_mapper.aggregate:
         class: Ibexa\Core\Search\Common\FieldValueMapper\Aggregate

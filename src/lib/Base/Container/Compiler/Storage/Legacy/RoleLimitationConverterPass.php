@@ -28,7 +28,7 @@ class RoleLimitationConverterPass implements CompilerPassInterface
 
         $roleLimitationConverter = $container->getDefinition('ezpublish.persistence.legacy.role.limitation.converter');
 
-        foreach ($container->findTaggedServiceIds('ezpublish.persistence.legacy.role.limitation.handler') as $id => $attributes) {
+        foreach ($container->findTaggedServiceIds('ibexa.storage.legacy.role.limitation.handler') as $id => $attributes) {
             foreach ($attributes as $attribute) {
                 $roleLimitationConverter->addMethodCall(
                     'addHandler',

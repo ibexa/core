@@ -32,8 +32,8 @@ services:
             $fieldTypeService: '@ezpublish.api.service.field_type'
             $contentFieldStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy'
         tags:
-            - { name: ezplatform.spi.content.thumbnail_strategy, priority: 0 }
+            - { name: ibexa.repository.thumbnail.strategy.content, priority: 0 }
 
     Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy:
         arguments:
-            $strategies: !tagged_iterator ezplatform.spi.content.thumbnail_strategy
+            $strategies: !tagged_iterator ibexa.repository.thumbnail.strategy.content

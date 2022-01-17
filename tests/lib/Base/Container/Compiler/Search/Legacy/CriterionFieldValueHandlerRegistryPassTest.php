@@ -40,7 +40,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         $serviceId = 'service_id';
         $def = new Definition();
         $def->addTag(
-            'ezpublish.search.legacy.gateway.criterion_field_value_handler',
+            'ibexa.search.legacy.gateway.criterion_handler.field_value',
             ['alias' => $fieldTypeIdentifier]
         );
         $this->setDefinition($serviceId, $def);
@@ -61,7 +61,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         $fieldTypeIdentifier = 'field_type_identifier';
         $serviceId = 'service_id';
         $def = new Definition();
-        $def->addTag('ezpublish.search.legacy.gateway.criterion_field_value_handler');
+        $def->addTag('ibexa.search.legacy.gateway.criterion_handler.field_value');
         $this->setDefinition($serviceId, $def);
 
         $this->compile();
