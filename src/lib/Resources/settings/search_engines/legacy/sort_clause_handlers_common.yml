@@ -1,0 +1,111 @@
+services:
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler:
+        abstract: true
+        arguments:
+            $connection: '@ezpublish.persistence.connection'
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.content_id:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\ContentId
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.content_name:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\ContentName
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.date_modified:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\DateModified
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.date_published:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\DatePublished
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Field:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        arguments:
+            $languageHandler: '@ezpublish.spi.persistence.language_handler'
+            $contentTypeHandler: '@ezpublish.spi.persistence.content_type_handler'
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.map_location_distance:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\MapLocationDistance
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Field
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.section_identifier:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\SectionIdentifier
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.section_name:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\SectionName
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Factory\RandomSortClauseHandlerFactory:
+        arguments:
+            - '@ezpublish.persistence.connection'
+            - !tagged ibexa.search.legacy.gateway.sort_clause_handler.gateway.random
+
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.random:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom
+        factory: ['@Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Factory\RandomSortClauseHandlerFactory', 'getGateway']
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.content}
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\MySqlRandom:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.gateway.random}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\SqlLiteRandom:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.gateway.random}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\PgSqlRandom:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.gateway.random}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Trash\ContentTypeName:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        tags:
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Trash\UserLogin:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        tags:
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Trash\DateTrashed:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler
+        tags:
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    # BC
+    ezpublish.search.legacy.gateway.sort_clause_handler.base: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler'
+    ezpublish.search.legacy.gateway.sort_clause_handler.common.field: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Field'
