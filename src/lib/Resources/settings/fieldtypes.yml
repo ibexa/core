@@ -266,7 +266,7 @@ services:
         class: Ibexa\Core\FieldType\BinaryFile\Type
         arguments:
             - ['@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator']
-            - "@?ezpublish.fieldType.ezbinarybase.download_url_generator"
+            - '@?Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator'
         parent: Ibexa\Core\FieldType\FieldType
         tags:
             - {name: ibexa.field_type, alias: ezbinaryfile}
@@ -346,7 +346,7 @@ services:
         class: Ibexa\Core\FieldType\Media\Type
         arguments:
             - ['@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator']
-            - "@?ezpublish.fieldType.ezbinarybase.download_url_generator"
+            - '@?Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator'
         parent: Ibexa\Core\FieldType\FieldType
         tags:
             - {name: ibexa.field_type, alias: ezmedia}
