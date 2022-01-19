@@ -85,5 +85,3 @@ final class FlysystemTest extends TestCase
         ];
     }
 }
-
-class_alias(FlysystemTest::class, 'eZ\Publish\Core\IO\Tests\FilePathNormalizer\FlysystemTest');
