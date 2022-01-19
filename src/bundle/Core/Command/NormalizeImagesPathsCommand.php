@@ -11,6 +11,9 @@ namespace Ibexa\Bundle\Core\Command;
 use Doctrine\DBAL\Driver\Connection;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway as ImageStorageGateway;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\Values\BinaryFile;
+use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,16 +43,21 @@ EOT;
     /** @var \Doctrine\DBAL\Driver\Connection */
     private $connection;
 
+    /** @var \Ibexa\Core\IO\IOServiceInterface */
+    private $ioService;
+
     public function __construct(
         ImageStorageGateway $imageGateway,
         FilePathNormalizerInterface $filePathNormalizer,
-        Connection $connection
+        Connection $connection,
+        IOServiceInterface $ioService
     ) {
         parent::__construct();
 
         $this->imageGateway = $imageGateway;
         $this->filePathNormalizer = $filePathNormalizer;
         $this->connection = $connection;
+        $this->ioService = $ioService;
     }
 
     protected function configure()
@@ -162,6 +170,30 @@ EOT
                 $this->imageGateway->updateImageData($fieldId, (int) $xmlData['version'], $dom->saveXML());
                 $this->imageGateway->updateImagePath($fieldId, $oldPath, $newPath);
             }
+        }
+
+        $this->moveFile($oldFileName, $newFilename, $oldPath);
+    }
+
+    private function moveFile(string $oldFileName, string $newFileName, string $oldPath): void
+    {
+        $oldBinaryFile = $this->ioService->loadBinaryFileByUri(\DIRECTORY_SEPARATOR . $oldPath);
+        $newId = str_replace($oldFileName, $newFileName, $oldBinaryFile->id);
+        $inputStream = $this->ioService->getFileInputStream($oldBinaryFile);
+
+        $binaryCreateStruct = new BinaryFileCreateStruct(
+            [
+                'id' => $newId,
+                'size' => $oldBinaryFile->size,
+                'inputStream' => $inputStream,
+                'mimeType' => $this->ioService->getMimeType($oldBinaryFile->id),
+            ]
+        );
+
+        $newBinaryFile = $this->ioService->createBinaryFile($binaryCreateStruct);
+
+        if ($newBinaryFile instanceof BinaryFile) {
+            $this->ioService->deleteBinaryFile($oldBinaryFile);
         }
     }
 }

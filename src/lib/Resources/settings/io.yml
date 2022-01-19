@@ -75,5 +75,8 @@ services:
             - ~
             - "@ezpublish.core.io.image_fieldtype.legacy_url_decorator"
 
-    Ibexa\Core\IO\FilePathNormalizer\Flysystem: ~
+    Ibexa\Core\IO\FilePathNormalizer\Flysystem:
+        arguments:
+            $slugConverter: '@ezpublish.persistence.slug_converter'
+
     Ibexa\Core\IO\FilePathNormalizerInterface: '@Ibexa\Core\IO\FilePathNormalizer\Flysystem'
