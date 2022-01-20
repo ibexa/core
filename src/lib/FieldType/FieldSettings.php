@@ -46,15 +46,6 @@ class FieldSettings extends ArrayObject
      *
      * @return mixed
      */
-    /**
-     * Returns value from internal array, identified by $index.
-     *
-     * @param string $index
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException If $index is not found
-     *
-     * @return mixed
-     */
     #[ReturnTypeWillChange]
     public function offsetGet($index)
     {

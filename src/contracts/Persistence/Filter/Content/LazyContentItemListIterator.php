@@ -25,11 +25,6 @@ class LazyContentItemListIterator extends LazyListIterator
      *
      * @throws \Exception
      */
-    /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentItem[]
-     *
-     * @throws \Exception
-     */
     #[ReturnTypeWillChange]
     public function getIterator(): iterable
     {

@@ -25,11 +25,6 @@ class LazyLocationListIterator extends LazyListIterator
      *
      * @throws \Exception
      */
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationList[]
-     *
-     * @throws \Exception
-     */
     #[ReturnTypeWillChange]
     public function getIterator(): iterable
     {
