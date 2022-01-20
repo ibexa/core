@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PreviewControllerTest extends TestCase
 {
@@ -74,7 +75,7 @@ class PreviewControllerTest extends TestCase
 
     public function testPreviewUnauthorized()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\AccessDeniedException::class);
+        $this->expectException(AccessDeniedException::class);
 
         $controller = $this->getPreviewController();
         $contentId = 123;
@@ -90,7 +91,7 @@ class PreviewControllerTest extends TestCase
 
     public function testPreviewCanUserFail()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\AccessDeniedException::class);
+        $this->expectException(AccessDeniedException::class);
 
         $controller = $this->getPreviewController();
         $contentId = 123;

@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,11 +31,11 @@ class RegisterStorageEnginePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(\Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class)) {
+        if (!$container->hasDefinition(StorageEngineFactory::class)) {
             return;
         }
 
-        $storageEngineFactoryDef = $container->getDefinition(\Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory::class);
+        $storageEngineFactoryDef = $container->getDefinition(StorageEngineFactory::class);
         foreach ($container->findTaggedServiceIds(self::STORAGE_ENGINE_TAG) as $serviceId => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {

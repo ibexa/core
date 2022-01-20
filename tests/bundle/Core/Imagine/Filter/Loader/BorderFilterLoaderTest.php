@@ -8,6 +8,7 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\BorderFilterLoader;
 use Imagine\Draw\DrawerInterface;
+use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Palette\Color\ColorInterface;
@@ -21,7 +22,7 @@ class BorderFilterLoaderTest extends TestCase
      */
     public function testLoadInvalidOptions(array $options)
     {
-        $this->expectException(\Imagine\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $loader = new BorderFilterLoader();
         $loader->load($this->createMock(ImageInterface::class), $options);

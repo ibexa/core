@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,7 +26,7 @@ class RegisterSearchEngineIndexerPass implements CompilerPassInterface
      *
      * @var string
      */
-    protected $factoryId = \Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory::class;
+    protected $factoryId = SearchEngineIndexerFactory::class;
 
     /**
      * Register all found search engine indexers to the SearchEngineIndexerFactory.

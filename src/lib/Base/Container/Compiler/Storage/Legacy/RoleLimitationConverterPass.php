@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Storage\Legacy;
 
+use Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -22,11 +23,11 @@ class RoleLimitationConverterPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(\Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter::class)) {
+        if (!$container->hasDefinition(LimitationConverter::class)) {
             return;
         }
 
-        $roleLimitationConverter = $container->getDefinition(\Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter::class);
+        $roleLimitationConverter = $container->getDefinition(LimitationConverter::class);
 
         foreach ($container->findTaggedServiceIds('ibexa.storage.legacy.role.limitation.handler') as $id => $attributes) {
             foreach ($attributes as $attribute) {

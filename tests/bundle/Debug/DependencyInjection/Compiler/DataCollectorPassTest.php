@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Bundle\Debug\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Debug\Collector\IbexaCoreCollector;
 use Ibexa\Bundle\Debug\DependencyInjection\Compiler\DataCollectorPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -17,7 +18,7 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition(\Ibexa\Bundle\Debug\Collector\IbexaCoreCollector::class, new Definition());
+        $this->setDefinition(IbexaCoreCollector::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -40,7 +41,7 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Bundle\Debug\Collector\IbexaCoreCollector::class,
+            IbexaCoreCollector::class,
             'addCollector',
             [new Reference($serviceId), $panelTemplate, $toolbarTemplate]
         );

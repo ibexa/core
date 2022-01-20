@@ -18,6 +18,7 @@ use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\MVC\Symfony\Routing\UrlAliasRouterTest as BaseUrlAliasRouterTest;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 
 class UrlAliasRouterTest extends BaseUrlAliasRouterTest
@@ -63,7 +64,7 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 
     public function testMatchRequestDeactivatedUrlAlias()
     {
-        $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
+        $this->expectException(ResourceNotFoundException::class);
 
         $this->resetConfigResolver();
         $this->configResolver

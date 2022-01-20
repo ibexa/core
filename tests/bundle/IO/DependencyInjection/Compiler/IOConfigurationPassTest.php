@@ -10,6 +10,7 @@ use ArrayObject;
 use Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -112,7 +113,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testUnknownMetadataHandler()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unknown handler');
 
         $this->container->setParameter(
@@ -125,7 +126,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testUnknownBinarydataHandler()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unknown handler');
 
         $this->container->setParameter(

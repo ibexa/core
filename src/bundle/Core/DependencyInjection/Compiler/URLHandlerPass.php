@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -21,11 +22,11 @@ class URLHandlerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(\Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class)) {
+        if (!$container->hasDefinition(URLHandlerRegistry::class)) {
             return;
         }
 
-        $definition = $container->findDefinition(\Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class);
+        $definition = $container->findDefinition(URLHandlerRegistry::class);
         foreach ($container->findTaggedServiceIds('ibexa.url_checker.handler') as $id => $attributes) {
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['scheme'])) {

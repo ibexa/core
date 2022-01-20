@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\FieldTypeParameterProviderRegistryPass;
+use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -17,7 +18,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition(\Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class, new Definition());
+        $this->setDefinition(ParameterProviderRegistry::class, new Definition());
     }
 
     /**
@@ -45,7 +46,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class,
+            ParameterProviderRegistry::class,
             'setParameterProvider',
             [new Reference($serviceId), $fieldTypeIdentifier]
         );
@@ -69,7 +70,7 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry::class,
+            ParameterProviderRegistry::class,
             'setParameterProvider',
             [new Reference($serviceId), $fieldTypeIdentifier]
         );

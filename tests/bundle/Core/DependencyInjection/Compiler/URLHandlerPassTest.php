@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\URLHandlerPass;
+use Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -17,7 +18,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition(\Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class, new Definition());
+        $this->setDefinition(URLHandlerRegistry::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -36,7 +37,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class,
+            URLHandlerRegistry::class,
             'addHandler',
             [$scheme, new Reference($serviceId)]
         );
@@ -55,7 +56,7 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry::class,
+            URLHandlerRegistry::class,
             'addHandler',
             [$scheme, new Reference($serviceId)]
         );

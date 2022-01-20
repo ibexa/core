@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Field as FieldSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\Search\Common\FieldNameResolver;
 
 /**
  * Integration test for searching and sorting with Field criterion and Field sort clause.
@@ -1146,7 +1147,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $container = $setupFactory->getServiceContainer()->getInnerContainer();
 
         /** @var \Ibexa\Core\Search\Common\FieldNameResolver $fieldNameResolver */
-        $fieldNameResolver = $container->get(\Ibexa\Core\Search\Common\FieldNameResolver::class);
+        $fieldNameResolver = $container->get(FieldNameResolver::class);
         $resolvedFieldNames = $fieldNameResolver->getFieldNames(
             $criterion,
             'data',
@@ -1175,7 +1176,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $container = $setupFactory->getServiceContainer()->getInnerContainer();
 
         /** @var \Ibexa\Core\Search\Common\FieldNameResolver $fieldNameResolver */
-        $fieldNameResolver = $container->get(\Ibexa\Core\Search\Common\FieldNameResolver::class);
+        $fieldNameResolver = $container->get(FieldNameResolver::class);
         $resolvedFieldName = $fieldNameResolver->getSortFieldName(
             $sortClause,
             'test-' . $this->getTypeName(),
@@ -1241,7 +1242,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      */
     public function testSort($ascending, $content, $modifyField, array $context)
     {
-        list($repository, $contentOneId, $contentTwoId) = $context;
+        [$repository, $contentOneId, $contentTwoId] = $context;
         $sortClause = new FieldSortClause(
             'test-' . $this->getTypeName(),
             'data',
@@ -1480,7 +1481,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $content,
         $modifyField
     ) {
-        list($repository, $contentOneId, $contentTwoId) = $context;
+        [$repository, $contentOneId, $contentTwoId] = $context;
 
         if ($modifyField !== null) {
             $this->checkCustomFieldsSupport();

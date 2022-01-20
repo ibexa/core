@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\RegisterSearchEnginePass;
 use LogicException;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
@@ -24,7 +25,7 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
     {
         parent::setUp();
 
-        $this->setDefinition(\Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory::class, new Definition());
+        $this->setDefinition(SearchEngineFactory::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -46,7 +47,7 @@ final class RegisterSearchEnginePassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory::class,
+            SearchEngineFactory::class,
             'registerSearchEngine',
             [
                 new Reference(self::EXAMPLE_SERVICE_ID),

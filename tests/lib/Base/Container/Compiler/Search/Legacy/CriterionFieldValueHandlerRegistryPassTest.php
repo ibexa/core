@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Search\Legacy;
 
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriterionFieldValueHandlerRegistryPass;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -18,7 +19,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
     {
         parent::setUp();
         $this->setDefinition(
-            \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class,
+            HandlerRegistry::class,
             new Definition()
         );
     }
@@ -48,7 +49,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class,
+            HandlerRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );
@@ -67,7 +68,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry::class,
+            HandlerRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );

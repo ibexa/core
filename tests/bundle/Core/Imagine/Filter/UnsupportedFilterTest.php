@@ -7,13 +7,14 @@
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\UnsupportedFilter;
+use Imagine\Exception\NotSupportedException;
 use Imagine\Image\ImageInterface;
 
 class UnsupportedFilterTest extends AbstractFilterTest
 {
     public function testLoad()
     {
-        $this->expectException(\Imagine\Exception\NotSupportedException::class);
+        $this->expectException(NotSupportedException::class);
 
         $filter = new UnsupportedFilter();
         $filter->apply($this->createMock(ImageInterface::class));

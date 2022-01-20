@@ -17,11 +17,13 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\Sug
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Formatter\YamlSuggestionFormatter;
 use Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PoliciesConfigBuilder;
 use Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PolicyProviderInterface;
+use Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler;
 use Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter;
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder as FilteringSortClauseQueryBuilder;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Ibexa\Core\QueryType\QueryType;
 use InvalidArgumentException;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -327,7 +329,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     private function handleRouting(array $config, ContainerBuilder $container, FileLoader $loader)
     {
         $loader->load('routing.yml');
-        $container->setAlias('router', \Ibexa\Core\MVC\Symfony\Routing\ChainRouter::class);
+        $container->setAlias('router', ChainRouter::class);
         $container->getAlias('router')->setPublic(true);
 
         if (isset($config['router']['default_router']['non_siteaccess_aware_routes'])) {
@@ -912,7 +914,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     continue;
                 }
 
-                $container->setParameter('ezplatform.session.handler_id', \Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler::class);
+                $container->setParameter('ezplatform.session.handler_id', NativeSessionHandler::class);
                 $container->setParameter('ezplatform.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         } elseif (isset($relationships['rediscache'])) {
@@ -921,7 +923,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     continue;
                 }
 
-                $container->setParameter('ezplatform.session.handler_id', \Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler::class);
+                $container->setParameter('ezplatform.session.handler_id', NativeSessionHandler::class);
                 $container->setParameter('ezplatform.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         }

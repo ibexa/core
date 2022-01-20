@@ -12,6 +12,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Ibexa\Bundle\IO\DependencyInjection\IbexaIOExtension;
+use Ibexa\Core\IO\UrlDecorator\AbsolutePrefix;
 use Ibexa\Tests\Integration\Core\Repository\Container\Compiler\SetAllServicesPublicPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -84,7 +85,7 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         );
         $this->buildMinimalContainerForUrlPrefixTest();
 
-        $decorator = $this->container->get(\Ibexa\Core\IO\UrlDecorator\AbsolutePrefix::class);
+        $decorator = $this->container->get(AbsolutePrefix::class);
 
         self::assertEquals(
             'http://static.example.com/my/image.png',

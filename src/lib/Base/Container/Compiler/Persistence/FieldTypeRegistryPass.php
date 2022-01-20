@@ -7,6 +7,7 @@
 namespace Ibexa\Core\Base\Container\Compiler\Persistence;
 
 use Ibexa\Core\Base\Container\Compiler\AbstractFieldTypeBasedPass;
+use Ibexa\Core\Persistence\FieldTypeRegistry;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -19,11 +20,11 @@ class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(\Ibexa\Core\Persistence\FieldTypeRegistry::class)) {
+        if (!$container->hasDefinition(FieldTypeRegistry::class)) {
             return;
         }
 
-        $fieldTypeRegistryDefinition = $container->getDefinition(\Ibexa\Core\Persistence\FieldTypeRegistry::class);
+        $fieldTypeRegistryDefinition = $container->getDefinition(FieldTypeRegistry::class);
 
         foreach ($this->getFieldTypeServiceIds($container) as $id => $attributes) {
             foreach ($attributes as $attribute) {

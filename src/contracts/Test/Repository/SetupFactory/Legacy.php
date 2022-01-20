@@ -18,6 +18,7 @@ use Ibexa\Core\Base\Container\Compiler;
 use Ibexa\Core\Base\ServiceContainer;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
+use Ibexa\Core\Persistence\Legacy\Handler;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\IdManager;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
@@ -224,7 +225,7 @@ class Legacy extends SetupFactory
     protected function clearInternalCaches()
     {
         /** @var $handler \Ibexa\Core\Persistence\Legacy\Handler */
-        $handler = $this->getServiceContainer()->get(\Ibexa\Core\Persistence\Legacy\Handler::class);
+        $handler = $this->getServiceContainer()->get(Handler::class);
 
         $contentLanguageHandler = $handler->contentLanguageHandler();
         if ($contentLanguageHandler instanceof CachingLanguageHandler) {

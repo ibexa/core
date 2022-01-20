@@ -13,6 +13,7 @@ use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessH
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RememberMeRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -75,7 +76,7 @@ class SecurityPass implements CompilerPassInterface
         $httpUtilsDef->setClass(HttpUtils::class);
         $httpUtilsDef->addMethodCall(
             'setSiteAccess',
-            [new Reference(\Ibexa\Core\MVC\Symfony\SiteAccess::class)]
+            [new Reference(SiteAccess::class)]
         );
 
         if (!$container->hasDefinition('security.authentication.success_handler')) {

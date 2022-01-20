@@ -6,6 +6,9 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage;
+use Ibexa\Core\FieldType\Media\MediaStorage;
+use Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -17,14 +20,14 @@ class BinaryContentDownloadPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has(\Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator::class)) {
+        if (!$container->has(ContentDownloadUrlGenerator::class)) {
             return;
         }
 
-        $downloadUrlReference = new Reference(\Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator::class);
+        $downloadUrlReference = new Reference(ContentDownloadUrlGenerator::class);
 
-        $this->addCall($container, $downloadUrlReference, \Ibexa\Core\FieldType\Media\MediaStorage::class);
-        $this->addCall($container, $downloadUrlReference, \Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage::class);
+        $this->addCall($container, $downloadUrlReference, MediaStorage::class);
+        $this->addCall($container, $downloadUrlReference, BinaryFileStorage::class);
     }
 
     private function addCall(ContainerBuilder $container, Reference $reference, $targetServiceName)

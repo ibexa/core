@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader;
+use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +33,7 @@ class ScaleDownOnlyFilterLoaderTest extends TestCase
      */
     public function testLoadInvalidOptions(array $options)
     {
-        $this->expectException(\Imagine\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), $options);
     }

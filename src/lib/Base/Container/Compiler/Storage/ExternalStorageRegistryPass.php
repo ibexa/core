@@ -7,6 +7,7 @@
 namespace Ibexa\Core\Base\Container\Compiler\Storage;
 
 use Ibexa\Core\FieldType\GatewayBasedStorage;
+use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,12 +28,12 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(\Ibexa\Core\Persistence\Legacy\Content\StorageRegistry::class)) {
+        if (!$container->hasDefinition(StorageRegistry::class)) {
             return;
         }
 
         $externalStorageRegistryDefinition = $container->getDefinition(
-            \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry::class
+            StorageRegistry::class
         );
 
         // Gateways for external storage handlers.

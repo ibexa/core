@@ -13,6 +13,7 @@ use Ibexa\Core\MVC\Symfony\Security\User;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -39,7 +40,7 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
 
     public function testAuthenticateUnsupportedToken()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\AuthenticationException::class);
+        $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage('The token is not supported by this authentication provider.');
 
         $anonymousToken = $this
@@ -51,7 +52,7 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
 
     public function testAuthenticateWrongProviderKey()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\AuthenticationException::class);
+        $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage('The token is not supported by this authentication provider.');
 
         $user = $this->createMock(UserInterface::class);
@@ -74,7 +75,7 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
 
     public function testAuthenticateWrongSecret()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\AuthenticationException::class);
+        $this->expectException(AuthenticationException::class);
 
         $user = $this->createMock(UserInterface::class);
         $user

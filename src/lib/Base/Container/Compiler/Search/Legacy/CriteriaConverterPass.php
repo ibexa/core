@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Search\Legacy;
 
+use Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -25,7 +26,7 @@ class CriteriaConverterPass implements CompilerPassInterface
             !$container->hasDefinition('ibexa.search.legacy.gateway.criteria_converter.content') &&
             !$container->hasDefinition('ibexa.search.legacy.gateway.criteria_converter.location') &&
             !$container->hasDefinition('ibexa.core.trash.search.legacy.gateway.criteria_converter') &&
-            !$container->hasDefinition(\Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter::class)
+            !$container->hasDefinition(CriteriaConverter::class)
         ) {
             return;
         }
@@ -53,8 +54,8 @@ class CriteriaConverterPass implements CompilerPassInterface
             $this->addHandlers($trashCriteriaConverter, $trashCriteriaHandlers);
         }
 
-        if ($container->hasDefinition(\Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter::class)) {
-            $urlCriteriaConverter = $container->getDefinition(\Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter::class);
+        if ($container->hasDefinition(CriteriaConverter::class)) {
+            $urlCriteriaConverter = $container->getDefinition(CriteriaConverter::class);
             $urlCriteriaHandlers = $container->findTaggedServiceIds('ibexa.storage.legacy.url.criterion.handler');
 
             $this->addHandlers($urlCriteriaConverter, $urlCriteriaHandlers);

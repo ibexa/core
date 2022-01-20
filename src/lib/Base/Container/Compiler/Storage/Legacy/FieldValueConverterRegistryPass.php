@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Storage\Legacy;
 
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -16,7 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class FieldValueConverterRegistryPass implements CompilerPassInterface
 {
-    public const CONVERTER_REGISTRY_SERVICE_ID = \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry::class;
+    public const CONVERTER_REGISTRY_SERVICE_ID = ConverterRegistry::class;
 
     public const CONVERTER_SERVICE_TAG = 'ibexa.field_type.storage.legacy.converter';
 
