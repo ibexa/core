@@ -28,7 +28,7 @@ ibexa.content.preview.default:
     defaults: { _controller: ibexa.controller.content.preview:previewContentAction }
     methods:  [GET]
 
-_ez_user_hash:
+ibexa.user_hash:
     path: /_fos_user_context_hash
 
 ibexa.content.download:
