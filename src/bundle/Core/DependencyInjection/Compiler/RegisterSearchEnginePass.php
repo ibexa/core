@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,7 +26,7 @@ class RegisterSearchEnginePass implements CompilerPassInterface
      *
      * @var string
      */
-    protected $factoryId = 'ezpublish.api.search_engine.factory';
+    protected $factoryId = SearchEngineFactory::class;
 
     /**
      * Registers all found search engines to the SearchEngineFactory.

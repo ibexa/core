@@ -14,7 +14,7 @@ final class MVCEvents
      *
      * The event listener method receives a {@see \Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent}
      */
-    public const SITEACCESS = 'ezpublish.siteaccess';
+    public const SITEACCESS = \Ibexa\Core\MVC\Symfony\SiteAccess::class;
 
     /**
      * The PRE_CONTENT_VIEW event occurs right before a view is rendered for a content, via the content view controller.

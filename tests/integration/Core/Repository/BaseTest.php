@@ -632,7 +632,7 @@ abstract class BaseTest extends TestCase
     {
         $connection = $this
             ->getSetupFactory()
-            ->getServiceContainer()->get('ezpublish.persistence.connection');
+            ->getServiceContainer()->get('ibexa.persistence.connection');
 
         if (!$connection instanceof Connection) {
             throw new \RuntimeException(
@@ -672,7 +672,7 @@ abstract class BaseTest extends TestCase
         /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface $cachePool */
         $cachePool = $this
             ->getSetupFactory()
-            ->getServiceContainer()->get('ezpublish.cache_pool');
+            ->getServiceContainer()->get('ibexa.cache_pool');
 
         $cachePool->clear();
     }

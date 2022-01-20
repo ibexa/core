@@ -13,6 +13,7 @@ use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessH
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RememberMeRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -31,7 +32,7 @@ class SecurityPass implements CompilerPassInterface
             return;
         }
 
-        $configResolverRef = new Reference('ezpublish.config.resolver');
+        $configResolverRef = new Reference('ibexa.config.resolver');
         $permissionResolverRef = new Reference(PermissionResolver::class);
         $userServiceRef = new Reference(UserService::class);
 
@@ -75,7 +76,7 @@ class SecurityPass implements CompilerPassInterface
         $httpUtilsDef->setClass(HttpUtils::class);
         $httpUtilsDef->addMethodCall(
             'setSiteAccess',
-            [new Reference('ezpublish.siteaccess')]
+            [new Reference(SiteAccess::class)]
         );
 
         if (!$container->hasDefinition('security.authentication.success_handler')) {

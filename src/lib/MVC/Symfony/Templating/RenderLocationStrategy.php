@@ -38,7 +38,7 @@ final class RenderLocationStrategy extends BaseRenderStrategy implements RenderS
         $content = $location->getContent();
 
         $currentRequest = $this->requestStack->getCurrentRequest();
-        $controllerReference = new ControllerReference('ez_content::viewAction', [
+        $controllerReference = new ControllerReference('ibexa_content::viewAction', [
             'contentId' => $content->id,
             'locationId' => $location->id,
             'viewType' => $options->get('viewType', self::DEFAULT_VIEW_TYPE),

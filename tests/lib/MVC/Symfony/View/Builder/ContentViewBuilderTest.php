@@ -87,7 +87,7 @@ class ContentViewBuilderTest extends TestCase
 
     public function testMatches(): void
     {
-        $this->assertTrue($this->contentViewBuilder->matches('ez_content:55'));
+        $this->assertTrue($this->contentViewBuilder->matches('ibexa_content:55'));
         $this->assertFalse($this->contentViewBuilder->matches('dummy_value'));
     }
 
@@ -95,7 +95,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ez_content:viewContent',
+            '_controller' => 'ibexa_content:viewContent',
         ];
 
         $this->expectException(InvalidArgumentException::class);
@@ -107,7 +107,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ez_content:viewContent',
+            '_controller' => 'ibexa_content:viewContent',
             'locationId' => 865,
         ];
 
@@ -125,7 +125,7 @@ class ContentViewBuilderTest extends TestCase
     {
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ez_content:viewContent',
+            '_controller' => 'ibexa_content:viewContent',
             'locationId' => 2,
         ];
 
@@ -156,7 +156,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ez_content:viewContent',
+            '_controller' => 'ibexa_content:viewContent',
             'locationId' => 2,
         ];
 
@@ -196,7 +196,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'embed',
-            '_controller' => 'ez_content:viewContent',
+            '_controller' => 'ibexa_content:viewContent',
             'locationId' => 2,
         ];
 
@@ -241,7 +241,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ez_content:viewContent',
+            '_controller' => 'ibexa_content:viewContent',
             'locationId' => 2,
         ];
 
@@ -272,7 +272,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ez_content:viewContent',
+            '_controller' => 'ibexa_content:viewContent',
             'contentId' => 120,
             'languageCode' => 'eng-GB',
         ];
@@ -326,7 +326,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ez_content:viewAction',
+            '_controller' => 'ibexa_content:viewAction',
             'locationId' => 2,
         ];
 

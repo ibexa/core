@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ViewProvidersPass;
+use Ibexa\Core\MVC\Symfony\View\Provider\Registry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -17,7 +18,7 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.view_provider.registry', new Definition());
+        $this->setDefinition(Registry::class, new Definition());
     }
 
     /**
@@ -48,7 +49,7 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.view_provider.registry',
+            Registry::class,
             'setViewProviders',
             [
                 ['Test\View' => [new Reference($serviceId)]],

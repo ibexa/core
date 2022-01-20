@@ -69,7 +69,7 @@ class RepositoryFactory implements ContainerAwareInterface
     /**
      * Builds the main repository, heart of eZ Publish API.
      *
-     * This always returns the true inner Repository, please depend on ezpublish.api.repository and not this method
+     * This always returns the true inner Repository, please depend on ibexa.api.repository and not this method
      * directly to make sure you get an instance wrapped inside Event / Cache / * functionality.
      */
     public function buildRepository(
@@ -92,7 +92,7 @@ class RepositoryFactory implements ContainerAwareInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator
     ): Repository {
-        $config = $this->container->get('ezpublish.api.repository_configuration_provider')->getRepositoryConfig();
+        $config = $this->container->get(\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider::class)->getRepositoryConfig();
 
         return new $this->repositoryClass(
             $persistenceHandler,

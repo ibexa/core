@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter as TestSlugConverter;
 use PDO;
 use RuntimeException;
@@ -151,7 +152,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testCreateUrlAliasPropertyValues(array $testData)
     {
-        list($createdUrlAlias, $locationId) = $testData;
+        [$createdUrlAlias, $locationId] = $testData;
 
         $this->assertNotNull($createdUrlAlias->id);
 
@@ -208,7 +209,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testCreateUrlAliasPropertyValuesWithForwarding(array $testData)
     {
-        list($createdUrlAlias, $locationId) = $testData;
+        [$createdUrlAlias, $locationId] = $testData;
 
         $this->assertNotNull($createdUrlAlias->id);
 
@@ -264,7 +265,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testCreateUrlAliasPropertyValuesWithAlwaysAvailable(array $testData)
     {
-        list($createdUrlAlias, $locationId) = $testData;
+        [$createdUrlAlias, $locationId] = $testData;
 
         $this->assertNotNull($createdUrlAlias->id);
 
@@ -543,7 +544,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testCreateGlobalUrlAliasForLocationPropertyValues($testData)
     {
-        list($createdUrlAlias, $locationId) = $testData;
+        [$createdUrlAlias, $locationId] = $testData;
 
         $this->assertNotNull($createdUrlAlias->id);
 
@@ -636,7 +637,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testListLocationAliasesLoadsCorrectly(array $testData)
     {
-        list($loadedAliases, $location) = $testData;
+        [$loadedAliases, $location] = $testData;
 
         foreach ($loadedAliases as $loadedAlias) {
             $this->assertInstanceOf(
@@ -1134,7 +1135,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testRefreshSystemUrlAliasesForLocationWithChangedSlugConverterConfiguration()
     {
-        list($topFolderLocation, $nestedFolderLocation) = $this->testLookupOnMultilingualNestedLocations();
+        [$topFolderLocation, $nestedFolderLocation] = $this->testLookupOnMultilingualNestedLocations();
 
         $urlAliasService = $this->getRepository(false)->getURLAliasService();
 
@@ -1196,7 +1197,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testRefreshSystemUrlAliasesForContentsWithUpdatedContentTypes()
     {
-        list($topFolderLocation, $nestedFolderLocation) = $this->testLookupOnMultilingualNestedLocations();
+        [$topFolderLocation, $nestedFolderLocation] = $this->testLookupOnMultilingualNestedLocations();
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $topFolderLocation */
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $nestedFolderLocation */
         // Default URL Alias schema is <short_name|name> which messes up this test, so:
@@ -1574,7 +1575,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Mutate 'ezpublish.persistence.slug_converter' Service configuration.
+     * Mutate \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class Service configuration.
      *
      * @param string $key
      * @param string $value
@@ -1588,7 +1589,7 @@ class URLAliasServiceTest extends BaseTest
             ->getSetupFactory()
             ->getServiceContainer()
             ->getInnerContainer()
-            ->get('ezpublish.persistence.slug_converter');
+            ->get(SlugConverter::class);
 
         if (!$testSlugConverter instanceof TestSlugConverter) {
             throw new RuntimeException(

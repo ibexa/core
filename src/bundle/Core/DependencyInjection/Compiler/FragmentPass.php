@@ -6,6 +6,8 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
+use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -23,7 +25,7 @@ class FragmentPass implements CompilerPassInterface
         if (
             !(
                 $container->hasDefinition('fragment.listener')
-                && $container->hasDefinition('ezpublish.decorated_fragment_renderer')
+                && $container->hasDefinition(DecoratedFragmentRenderer::class)
             )
         ) {
             return null;
@@ -31,7 +33,7 @@ class FragmentPass implements CompilerPassInterface
 
         $fragmentListenerDef = $container->findDefinition('fragment.listener');
         $fragmentListenerDef
-            ->setFactory([new Reference('ezpublish.fragment_listener.factory'), 'buildFragmentListener'])
+            ->setFactory([new Reference(FragmentListenerFactory::class), 'buildFragmentListener'])
             ->addArgument(FragmentListener::class);
 
         // Looping over all fragment renderers to decorate them
@@ -44,7 +46,7 @@ class FragmentPass implements CompilerPassInterface
             $definition->setPublic(false);
             $container->setDefinition($renamedId, $definition);
 
-            $decoratedDef = new ChildDefinition('ezpublish.decorated_fragment_renderer');
+            $decoratedDef = new ChildDefinition(DecoratedFragmentRenderer::class);
             $decoratedDef->setArguments([new Reference($renamedId)]);
             $decoratedDef->setPublic($public);
             $decoratedDef->setTags($tags);

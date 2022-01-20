@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Storage\Legacy;
 
 use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\RoleLimitationConverterPass;
+use Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -18,7 +19,7 @@ class RoleLimitationConverterPassTest extends AbstractCompilerPassTestCase
     {
         parent::setUp();
         $this->setDefinition(
-            'ezpublish.persistence.legacy.role.limitation.converter',
+            LimitationConverter::class,
             new Definition()
         );
     }
@@ -44,7 +45,7 @@ class RoleLimitationConverterPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.legacy.role.limitation.converter',
+            LimitationConverter::class,
             'addHandler',
             [new Reference($serviceId)]
         );

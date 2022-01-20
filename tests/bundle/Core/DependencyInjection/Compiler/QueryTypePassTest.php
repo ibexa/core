@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\QueryTypePass;
+use Ibexa\Core\QueryType\ArrayQueryTypeRegistry;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryTypeBundle;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
@@ -22,7 +23,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
     {
         parent::setUp();
 
-        $this->setDefinition('ezpublish.query_type.registry', new Definition());
+        $this->setDefinition(ArrayQueryTypeRegistry::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -43,7 +44,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.query_type.registry',
+            ArrayQueryTypeRegistry::class,
             'addQueryTypes',
             [['Test:Test' => new Reference($serviceId)]]
         );
@@ -63,7 +64,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.query_type.registry',
+            ArrayQueryTypeRegistry::class,
             'addQueryTypes',
             [['Test:Test' => new Reference($serviceId)]]
         );
@@ -95,7 +96,7 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
 
         $this->assertContainerBuilderHasService('test.query_type_override');
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.query_type.registry',
+            ArrayQueryTypeRegistry::class,
             'addQueryTypes',
             [
                 [

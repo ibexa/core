@@ -12,7 +12,7 @@ class Flysystem extends BaseFactory
 {
     public function getParentServiceId()
     {
-        return 'ezpublish.core.io.binarydata_handler.flysystem';
+        return 'ibexa.core.io.binarydata_handler.flysystem';
     }
 }
 

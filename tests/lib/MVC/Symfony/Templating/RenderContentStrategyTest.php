@@ -108,7 +108,7 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
 
         $controllerReferenceCallback = $this->callback(function (ControllerReference $controllerReference) {
             $this->assertInstanceOf(ControllerReference::class, $controllerReference);
-            $this->assertEquals('ez_content::viewAction', $controllerReference->controller);
+            $this->assertEquals('ibexa_content::viewAction', $controllerReference->controller);
             $this->assertSame([
                 'contentId' => 123,
                 'viewType' => 'awesome',

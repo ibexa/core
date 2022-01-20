@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Search;
 
+use Ibexa\Core\Search\Common\FieldRegistry;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,11 +26,11 @@ class FieldRegistryPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.search.common.field_registry')) {
+        if (!$container->hasDefinition(FieldRegistry::class)) {
             return;
         }
 
-        $fieldRegistryDefinition = $container->getDefinition('ezpublish.search.common.field_registry');
+        $fieldRegistryDefinition = $container->getDefinition(FieldRegistry::class);
 
         $serviceTags = $container->findTaggedServiceIds(self::FIELD_TYPE_INDEXABLE_SERVICE_TAG);
         foreach ($serviceTags as $serviceId => $attributes) {

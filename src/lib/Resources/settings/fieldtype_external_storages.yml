@@ -1,62 +1,62 @@
 services:
-    ezpublish.fieldType.ezbinaryfile.externalStorage:
+    Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage:
         class: Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage
         arguments:
-            - "@ezpublish.fieldType.ezbinaryfile.storage_gateway"
-            - "@ezpublish.fieldType.ezbinaryfile.io_service"
-            - "@ezpublish.fieldType.ezbinaryfile.pathGenerator"
-            - "@ezpublish.core.io.mimeTypeDetector"
+            - '@Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage'
+            - '@ibexa.field_type.ezbinaryfile.io_service'
+            - '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
+            - '@ibexa.core.io.mimeTypeDetector'
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezbinaryfile}
 
-    ezpublish.fieldType.ezimage.externalStorage:
+    Ibexa\Core\FieldType\Image\ImageStorage:
         class: Ibexa\Core\FieldType\Image\ImageStorage
         arguments:
-            $gateway: '@ezpublish.fieldType.ezimage.storage_gateway'
-            $ioService: '@ezpublish.fieldType.ezimage.io_service'
-            $pathGenerator: '@ezpublish.fieldType.ezimage.pathGenerator'
-            $imageSizeMetadataHandler: '@ezpublish.fieldType.metadataHandler.imagesize'
-            $deprecationWarner: '@ezpublish.utils.deprecation_warner'
+            $gateway: '@Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage'
+            $ioService: '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            $pathGenerator: '@Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator'
+            $imageSizeMetadataHandler: '@Ibexa\Core\IO\MetadataHandler\ImageSize'
+            $deprecationWarner: '@Ibexa\Core\Base\Utils\DeprecationWarner'
             $aliasCleaner: '@Ibexa\Core\FieldType\Image\AliasCleanerInterface'
             $filePathNormalizer: '@Ibexa\Core\IO\FilePathNormalizerInterface'
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezimage}
 
-    ezpublish.fieldType.ezkeyword.externalStorage:
+    Ibexa\Core\FieldType\Keyword\KeywordStorage:
         class: Ibexa\Core\FieldType\Keyword\KeywordStorage
-        arguments: ["@ezpublish.fieldType.ezkeyword.storage_gateway"]
+        arguments: ['@Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage']
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezkeyword}
 
-    ezpublish.fieldType.ezmedia.externalStorage:
+    Ibexa\Core\FieldType\Media\MediaStorage:
         class: Ibexa\Core\FieldType\Media\MediaStorage
         arguments:
-            - "@ezpublish.fieldType.ezmedia.storage_gateway"
-            - "@ezpublish.fieldType.ezbinaryfile.io_service"
-            - "@ezpublish.fieldType.ezbinaryfile.pathGenerator"
-            - "@ezpublish.core.io.mimeTypeDetector"
+            - '@Ibexa\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage'
+            - '@ibexa.field_type.ezbinaryfile.io_service'
+            - '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
+            - '@ibexa.core.io.mimeTypeDetector'
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezmedia}
 
-    ezpublish.fieldType.ezurl.externalStorage:
+    Ibexa\Core\FieldType\Url\UrlStorage:
         class: Ibexa\Core\FieldType\Url\UrlStorage
         arguments:
-            - "@ezpublish.fieldType.ezurl.storage_gateway"
+            - '@Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage'
             - "@?logger"
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezurl}
 
-    ezpublish.fieldType.ezgmaplocation.externalStorage:
+    Ibexa\Core\FieldType\MapLocation\MapLocationStorage:
         class: Ibexa\Core\FieldType\MapLocation\MapLocationStorage
-        arguments: ["@ezpublish.fieldType.externalStorageHandler.ezgmaplocation.gateway"]
+        arguments: ['@Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage']
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezgmaplocation}
 
-    ezpublish.fieldType.ezuser.externalStorage:
+    Ibexa\Core\FieldType\User\UserStorage:
         class: Ibexa\Core\FieldType\User\UserStorage
-        arguments: ["@ezpublish.fieldType.ezuser.storage_gateway"]
+        arguments: ['@Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage']
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezuser}
 
-    ezpublish.fieldType.metadataHandler.imagesize:
+    Ibexa\Core\IO\MetadataHandler\ImageSize:
         class: Ibexa\Core\IO\MetadataHandler\ImageSize

@@ -19,7 +19,7 @@ services:
         lazy: true
         arguments:
             $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
-            $contentService: '@ezpublish.api.service.content'
+            $contentService: '@ibexa.api.service.content'
 
     Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy:
         arguments:
@@ -29,7 +29,7 @@ services:
 
     Ibexa\Core\Repository\Strategy\ContentThumbnail\FirstMatchingFieldStrategy:
         arguments:
-            $fieldTypeService: '@ezpublish.api.service.field_type'
+            $fieldTypeService: '@ibexa.api.service.field_type'
             $contentFieldStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy'
         tags:
             - { name: ibexa.repository.thumbnail.strategy.content, priority: 0 }

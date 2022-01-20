@@ -5,48 +5,48 @@ parameters:
 
 services:
     # Helpers
-    ezpublish.translation_helper:
+    Ibexa\Core\Helper\TranslationHelper:
         class: Ibexa\Core\Helper\TranslationHelper
         arguments:
-            - "@ezpublish.config.resolver"
-            - "@ezpublish.api.service.content"
+            - '@ibexa.config.resolver'
+            - '@ibexa.api.service.content'
             - "%ezpublish.siteaccesses_by_language%"
             - "@?logger"
 
-    ezpublish.field_helper:
+    Ibexa\Core\Helper\FieldHelper:
         class: Ibexa\Core\Helper\FieldHelper
-        arguments: ["@ezpublish.translation_helper", "@ezpublish.api.service.content_type", "@ezpublish.api.service.field_type"]
+        arguments: ['@Ibexa\Core\Helper\TranslationHelper', '@ibexa.api.service.content_type', '@ibexa.api.service.field_type']
 
-    ezpublish.content_preview_helper:
+    Ibexa\Core\Helper\ContentPreviewHelper:
         class: Ibexa\Core\Helper\ContentPreviewHelper
-        arguments: ["@event_dispatcher", "@ezpublish.siteaccess_router"]
+        arguments: ["@event_dispatcher", '@Ibexa\Core\MVC\Symfony\SiteAccess\Router']
         calls:
-            - [setSiteAccess, ["@ezpublish.siteaccess"]]
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
 
-    ezpublish.config_scope_listener:
+    Ibexa\Bundle\Core\EventListener\ConfigScopeListener:
         class: Ibexa\Bundle\Core\EventListener\ConfigScopeListener
         arguments:
             $configResolvers: !tagged ibexa.site.config.resolver
-            $viewManager: '@ezpublish.view_manager'
+            $viewManager: '@Ibexa\Bundle\Core\View\Manager'
         tags:
             - { name: kernel.event_subscriber }
 
-    ezpublish.content_preview.location_provider:
+    Ibexa\Core\Helper\PreviewLocationProvider:
         class: Ibexa\Core\Helper\PreviewLocationProvider
         arguments:
-            - "@ezpublish.api.service.location"
-            - "@ezpublish.api.service.content"
-            - "@ezpublish.spi.persistence.cache.locationHandler"
+            - '@ibexa.api.service.location'
+            - '@ibexa.api.service.content'
+            - '@Ibexa\Core\Persistence\Cache\LocationHandler'
 
-    ezpublish.content_info_location_loader.main:
+    Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader:
         class: 'Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader'
         arguments:
-            - "@ezpublish.api.repository"
+            - '@ibexa.api.repository'
 
     Ibexa\Bundle\Core\SiteAccess\LanguageResolver:
         parent: Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
+            $configResolver: '@ibexa.config.resolver'
 
     Ibexa\Contracts\Core\Repository\LanguageResolver:
         alias: Ibexa\Bundle\Core\SiteAccess\LanguageResolver
@@ -56,8 +56,8 @@ services:
 
     Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor:
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
-            $siteAccessService: '@ezpublish.siteaccess_service'
+            $configResolver: '@ibexa.config.resolver'
+            $siteAccessService: '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
 
     Ibexa\Contracts\Core\SiteAccess\ConfigProcessor:
         alias: Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor

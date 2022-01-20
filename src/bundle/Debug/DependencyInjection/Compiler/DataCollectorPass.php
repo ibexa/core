@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Debug\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Debug\Collector\IbexaCoreCollector;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -14,11 +15,11 @@ class DataCollectorPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish_debug.data_collector')) {
+        if (!$container->hasDefinition(IbexaCoreCollector::class)) {
             return;
         }
 
-        $dataCollectorDef = $container->getDefinition('ezpublish_debug.data_collector');
+        $dataCollectorDef = $container->getDefinition(IbexaCoreCollector::class);
         foreach ($container->findTaggedServiceIds('ibexa.debug.data_collector') as $id => $attributes) {
             foreach ($attributes as $attribute) {
                 $dataCollectorDef->addMethodCall(

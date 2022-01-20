@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Core\QueryType\ArrayQueryTypeRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -21,7 +22,7 @@ final class QueryTypePass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition('ezpublish.query_type.registry')) {
+        if (!$container->hasDefinition(ArrayQueryTypeRegistry::class)) {
             return;
         }
 
@@ -38,7 +39,7 @@ final class QueryTypePass implements CompilerPassInterface
             }
         }
 
-        $aggregatorDefinition = $container->getDefinition('ezpublish.query_type.registry');
+        $aggregatorDefinition = $container->getDefinition(ArrayQueryTypeRegistry::class);
         $aggregatorDefinition->addMethodCall('addQueryTypes', [$queryTypes]);
     }
 }

@@ -68,7 +68,7 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
         }
 
         $filesystemId = sprintf('ezpublish.core.io.flysystem.%s_filesystem', $name);
-        $filesystemServiceDefinition = new ChildDefinition('ezpublish.core.io.flysystem.base_filesystem');
+        $filesystemServiceDefinition = new ChildDefinition('ibexa.core.io.flysystem.base_filesystem');
         $definition = $container->setDefinition(
             $filesystemId,
             $filesystemServiceDefinition

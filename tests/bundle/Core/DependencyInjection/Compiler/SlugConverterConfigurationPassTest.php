@@ -43,7 +43,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         $definition->setArgument(1, $existingOldParameters);
         $definition->setPublic(true);
 
-        $this->setDefinition('ezpublish.persistence.slug_converter', $definition);
+        $this->setDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class, $definition);
 
         $this->setParameter('ezpublish.url_alias.slug_converter', [
             'transformation' => 'urlalias',
@@ -61,7 +61,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         $slugConverterRef = new ReflectionClass(SlugConverter::class);
         $configurationPropertyRef = $slugConverterRef->getProperty('configuration');
         $configurationPropertyRef->setAccessible(true);
-        $configuration = $configurationPropertyRef->getValue($this->container->get('ezpublish.persistence.slug_converter'));
+        $configuration = $configurationPropertyRef->getValue($this->container->get(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class));
 
         $this->assertEquals('urlalias', $configuration['transformation']);
         $this->assertEquals('underscore', $configuration['wordSeparatorName']);

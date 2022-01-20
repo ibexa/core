@@ -16,6 +16,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository\Storag
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
 use Ibexa\Contracts\Core\Repository\Values\Filter;
+use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomSortClauseQueryBuilder;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType;
@@ -211,7 +212,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     public function testRoutingConfiguration()
     {
         $this->load();
-        $this->assertContainerBuilderHasAlias('router', 'ezpublish.chain_router');
+        $this->assertContainerBuilderHasAlias('router', ChainRouter::class);
 
         $this->assertTrue($this->container->hasParameter('ezpublish.default_router.non_siteaccess_aware_routes'));
         $nonSiteaccessAwareRoutes = $this->container->getParameter('ezpublish.default_router.non_siteaccess_aware_routes');

@@ -10,6 +10,7 @@ use ArrayObject;
 use Ibexa\Bundle\IO\DependencyInjection\Compiler\IOConfigurationPass;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -27,10 +28,10 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->container->setParameter('ez_io.metadata_handlers', []);
         $this->container->setParameter('ez_io.binarydata_handlers', []);
 
-        $this->container->setDefinition('ezpublish.core.io.binarydata_handler.registry', new Definition());
-        $this->container->setDefinition('ezpublish.core.io.metadata_handler.registry', new Definition());
-        $this->container->setDefinition('ezpublish.core.io.binarydata_handler.flysystem.default', new Definition());
-        $this->container->setDefinition('ezpublish.core.io.metadata_handler.flysystem.default', new Definition());
+        $this->container->setDefinition('ibexa.core.io.binarydata_handler.registry', new Definition());
+        $this->container->setDefinition('ibexa.core.io.metadata_handler.registry', new Definition());
+        $this->container->setDefinition('ibexa.core.io.binarydata_handler.flysystem.default', new Definition());
+        $this->container->setDefinition('ibexa.core.io.metadata_handler.flysystem.default', new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -58,15 +59,15 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.core.io.binarydata_handler.registry',
+            'ibexa.core.io.binarydata_handler.registry',
             'setHandlersMap',
-            [['default' => 'ezpublish.core.io.binarydata_handler.flysystem.default']]
+            [['default' => 'ibexa.core.io.binarydata_handler.flysystem.default']]
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.core.io.metadata_handler.registry',
+            'ibexa.core.io.metadata_handler.registry',
             'setHandlersMap',
-            [['default' => 'ezpublish.core.io.metadata_handler.flysystem.default']]
+            [['default' => 'ibexa.core.io.metadata_handler.flysystem.default']]
         );
     }
 
@@ -112,7 +113,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testUnknownMetadataHandler()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unknown handler');
 
         $this->container->setParameter(
@@ -125,7 +126,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testUnknownBinarydataHandler()
     {
-        $this->expectException(\Symfony\Component\Config\Definition\Exception\InvalidConfigurationException::class);
+        $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('Unknown handler');
 
         $this->container->setParameter(

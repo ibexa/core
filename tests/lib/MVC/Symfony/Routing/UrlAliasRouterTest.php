@@ -23,6 +23,8 @@ use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\TestCase;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -459,7 +461,7 @@ class UrlAliasRouterTest extends TestCase
 
     public function testMatchRequestFail()
     {
-        $this->expectException(\Symfony\Component\Routing\Exception\ResourceNotFoundException::class);
+        $this->expectException(ResourceNotFoundException::class);
 
         $pathInfo = '/foo/bar';
         $request = $this->getRequestByPathInfo($pathInfo);
@@ -645,7 +647,7 @@ class UrlAliasRouterTest extends TestCase
 
     public function testGenerateFail()
     {
-        $this->expectException(\Symfony\Component\Routing\Exception\RouteNotFoundException::class);
+        $this->expectException(RouteNotFoundException::class);
 
         $this->router->generate('invalidRoute');
     }

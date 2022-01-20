@@ -21,7 +21,7 @@ class FlysystemTest extends BaseFlysystemTest
      */
     public function provideExpectedParentServiceId()
     {
-        return 'ezpublish.core.io.binarydata_handler.flysystem';
+        return 'ibexa.core.io.binarydata_handler.flysystem';
     }
 }
 

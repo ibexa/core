@@ -191,32 +191,32 @@ parameters:
 services:
     # Setup cache pool, with InMemoryCacheAdapter as decorator
     Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter:
-        decorates: ezpublish.cache_pool
+        decorates: ibexa.cache_pool
         lazy: true
         arguments:
             $sharedPool: '@Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter.inner'
             $inMemoryPools: !tagged ibexa.cache.persistence.inmemory
 
-    ezpublish.cache_pool:
+    ibexa.cache_pool:
         public: true
         class: Symfony\Component\Cache\Adapter\TagAwareAdapter
-        arguments: ["@ezpublish.cache_pool.driver"]
+        arguments: ['@ibexa.cache_pool.driver']
 
     # Note for tests: Default changed to in-memory Array cache in tests/common.yml by default, and opt in for redis
     # testing is defined in \Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder
-    ezpublish.cache_pool.driver:
+    ibexa.cache_pool.driver:
         public: false
         class: Symfony\Component\Cache\Adapter\FilesystemAdapter
         arguments: ["", 120]
 
     # Logger which logs info when in dev for Symfony web toolbar
-    ezpublish.spi.persistence.cache.persistenceLogger:
+    Ibexa\Core\Persistence\Cache\PersistenceLogger:
         class: Ibexa\Core\Persistence\Cache\PersistenceLogger
         arguments:
             - "%ezpublish.spi.persistence.cache.persistenceLogger.enableCallLogging%"
 
     # In-Memory cache pools
-    ezpublish.spi.persistence.cache.inmemory:
+    ibexa.spi.persistence.cache.inmemory:
         public: false
         class: Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
         arguments:
@@ -225,7 +225,7 @@ services:
             - "%ezpublish.spi.persistence.cache.inmemory.enable%"
         tags: [ ibexa.cache.persistence.inmemory ]
 
-    ezpublish.spi.persistence.cache.inmemory.content:
+    ibexa.spi.persistence.cache.inmemory.content:
         public: false
         class: Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
         arguments:
@@ -247,122 +247,122 @@ services:
             $keyPatterns: '%ibexa.core.persistence.cache.key_patterns%'
 
     # SPI Persistence Cache Handlers, incl abstracts
-    ezpublish.spi.persistence.cache.abstractHandler:
+    Ibexa\Core\Persistence\Cache\AbstractHandler:
         class: Ibexa\Core\Persistence\Cache\AbstractHandler
         abstract:  true
         arguments:
-            - "@ezpublish.cache_pool"
-            - "@ezpublish.api.storage_engine"
-            - "@ezpublish.spi.persistence.cache.persistenceLogger"
+            - '@ibexa.cache_pool'
+            - '@Ibexa\Contracts\Core\Persistence\Handler'
+            - '@Ibexa\Core\Persistence\Cache\PersistenceLogger'
             - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
             - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer'
             - '@Ibexa\Core\Persistence\Cache\LocationPathConverter'
 
-    ezpublish.spi.persistence.cache.abstractInMemoryHandler:
+    Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler:
         class: Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler
         abstract:  true
         arguments:
-            - "@ezpublish.cache_pool"
-            - "@ezpublish.spi.persistence.cache.persistenceLogger"
-            - "@ezpublish.spi.persistence.cache.inmemory"
+            - '@ibexa.cache_pool'
+            - '@Ibexa\Core\Persistence\Cache\PersistenceLogger'
+            - '@ibexa.spi.persistence.cache.inmemory'
 
-    ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler:
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryHandler
+    Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler:
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler
         class: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
         abstract: true
         arguments:
-            - "@ezpublish.api.storage_engine"
+            - '@Ibexa\Contracts\Core\Persistence\Handler'
             - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
             - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer'
             - '@Ibexa\Core\Persistence\Cache\LocationPathConverter'
 
-    ezpublish.spi.persistence.cache.sectionHandler:
+    Ibexa\Core\Persistence\Cache\SectionHandler:
         class: Ibexa\Core\Persistence\Cache\SectionHandler
-        parent: ezpublish.spi.persistence.cache.abstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
-    ezpublish.spi.persistence.cache.locationHandler:
+    Ibexa\Core\Persistence\Cache\LocationHandler:
         class: Ibexa\Core\Persistence\Cache\LocationHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
         arguments: # Overload argument to use content in-memory service
-            index_2: '@ezpublish.spi.persistence.cache.inmemory.content'
+            index_2: '@ibexa.spi.persistence.cache.inmemory.content'
 
-    ezpublish.spi.persistence.cache.contentHandler:
+    Ibexa\Core\Persistence\Cache\ContentHandler:
         class: Ibexa\Core\Persistence\Cache\ContentHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
         arguments: # Overload argument to use content in-memory service
-            index_2: '@ezpublish.spi.persistence.cache.inmemory.content'
+            index_2: '@ibexa.spi.persistence.cache.inmemory.content'
 
-    ezpublish.spi.persistence.cache.objectStateHandler:
+    Ibexa\Core\Persistence\Cache\ObjectStateHandler:
         class: Ibexa\Core\Persistence\Cache\ObjectStateHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
 
-    ezpublish.spi.persistence.cache.contentLanguageHandler:
+    Ibexa\Core\Persistence\Cache\ContentLanguageHandler:
         class: Ibexa\Core\Persistence\Cache\ContentLanguageHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
 
-    ezpublish.spi.persistence.cache.contentTypeHandler:
+    Ibexa\Core\Persistence\Cache\ContentTypeHandler:
         class: Ibexa\Core\Persistence\Cache\ContentTypeHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
 
-    ezpublish.spi.persistence.cache.userHandler:
+    Ibexa\Core\Persistence\Cache\UserHandler:
         class: Ibexa\Core\Persistence\Cache\UserHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
 
-    ezpublish.spi.persistence.cache.transactionhandler:
+    Ibexa\Core\Persistence\Cache\TransactionHandler:
         class: Ibexa\Core\Persistence\Cache\TransactionHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
 
-    ezpublish.spi.persistence.cache.trashHandler:
+    Ibexa\Core\Persistence\Cache\TrashHandler:
         class: Ibexa\Core\Persistence\Cache\TrashHandler
-        parent: ezpublish.spi.persistence.cache.abstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
-    ezpublish.spi.persistence.cache.urlAliasHandler:
+    Ibexa\Core\Persistence\Cache\UrlAliasHandler:
         class: Ibexa\Core\Persistence\Cache\UrlAliasHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
         arguments: # Overload argument to use content in-memory service
-          index_2: '@ezpublish.spi.persistence.cache.inmemory.content'
+          index_2: '@ibexa.spi.persistence.cache.inmemory.content'
 
-    ezpublish.spi.persistence.cache.urlHandler:
+    Ibexa\Core\Persistence\Cache\URLHandler:
         class: Ibexa\Core\Persistence\Cache\URLHandler
-        parent: ezpublish.spi.persistence.cache.abstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
-    ezpublish.spi.persistence.cache.bookmarkHandler:
+    Ibexa\Core\Persistence\Cache\BookmarkHandler:
         class: Ibexa\Core\Persistence\Cache\BookmarkHandler
-        parent: ezpublish.spi.persistence.cache.abstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
-    ezpublish.spi.persistence.cache.notificationHandler:
+    Ibexa\Core\Persistence\Cache\NotificationHandler:
         class: Ibexa\Core\Persistence\Cache\NotificationHandler
-        parent: ezpublish.spi.persistence.cache.abstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
-    ezpublish.spi.persistence.cache.userPreferenceHandler:
+    Ibexa\Core\Persistence\Cache\UserPreferenceHandler:
         class: Ibexa\Core\Persistence\Cache\UserPreferenceHandler
-        parent: ezpublish.spi.persistence.cache.abstractInMemoryPersistenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
 
-    ezpublish.spi.persistence.cache.urlWildcardHandler:
+    Ibexa\Core\Persistence\Cache\UrlWildcardHandler:
         class: Ibexa\Core\Persistence\Cache\UrlWildcardHandler
-        parent: ezpublish.spi.persistence.cache.abstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
     Ibexa\Core\Persistence\Cache\SettingHandler:
-        parent: ezpublish.spi.persistence.cache.abstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
-    ezpublish.spi.persistence.cache:
+    Ibexa\Core\Persistence\Cache\Handler:
         class: Ibexa\Core\Persistence\Cache\Handler
         arguments:
-            - "@ezpublish.api.storage_engine"
-            - "@ezpublish.spi.persistence.cache.sectionHandler"
-            - "@ezpublish.spi.persistence.cache.locationHandler"
-            - "@ezpublish.spi.persistence.cache.contentHandler"
-            - "@ezpublish.spi.persistence.cache.contentLanguageHandler"
-            - "@ezpublish.spi.persistence.cache.contentTypeHandler"
-            - "@ezpublish.spi.persistence.cache.userHandler"
-            - "@ezpublish.spi.persistence.cache.transactionhandler"
-            - "@ezpublish.spi.persistence.cache.trashHandler"
-            - "@ezpublish.spi.persistence.cache.urlAliasHandler"
-            - "@ezpublish.spi.persistence.cache.objectStateHandler"
-            - "@ezpublish.spi.persistence.cache.urlHandler"
-            - "@ezpublish.spi.persistence.cache.bookmarkHandler"
-            - '@ezpublish.spi.persistence.cache.notificationHandler'
-            - '@ezpublish.spi.persistence.cache.userPreferenceHandler'
-            - "@ezpublish.spi.persistence.cache.urlWildcardHandler"
+            - '@Ibexa\Contracts\Core\Persistence\Handler'
+            - '@Ibexa\Core\Persistence\Cache\SectionHandler'
+            - '@Ibexa\Core\Persistence\Cache\LocationHandler'
+            - '@Ibexa\Core\Persistence\Cache\ContentHandler'
+            - '@Ibexa\Core\Persistence\Cache\ContentLanguageHandler'
+            - '@Ibexa\Core\Persistence\Cache\ContentTypeHandler'
+            - '@Ibexa\Core\Persistence\Cache\UserHandler'
+            - '@Ibexa\Core\Persistence\Cache\TransactionHandler'
+            - '@Ibexa\Core\Persistence\Cache\TrashHandler'
+            - '@Ibexa\Core\Persistence\Cache\UrlAliasHandler'
+            - '@Ibexa\Core\Persistence\Cache\ObjectStateHandler'
+            - '@Ibexa\Core\Persistence\Cache\URLHandler'
+            - '@Ibexa\Core\Persistence\Cache\BookmarkHandler'
+            - '@Ibexa\Core\Persistence\Cache\NotificationHandler'
+            - '@Ibexa\Core\Persistence\Cache\UserPreferenceHandler'
+            - '@Ibexa\Core\Persistence\Cache\UrlWildcardHandler'
             - '@Ibexa\Core\Persistence\Cache\SettingHandler'
-            - "@ezpublish.spi.persistence.cache.persistenceLogger"
+            - '@Ibexa\Core\Persistence\Cache\PersistenceLogger'

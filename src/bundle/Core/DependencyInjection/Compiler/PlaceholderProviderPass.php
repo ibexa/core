@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,7 +15,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class PlaceholderProviderPass implements CompilerPassInterface
 {
     public const TAG_NAME = 'ibexa.media.images.placeholder.provider';
-    public const REGISTRY_DEFINITION_ID = 'ezpublish.image_alias.imagine.placeholder_provider.registry';
+    public const REGISTRY_DEFINITION_ID = PlaceholderProviderRegistry::class;
 
     public function process(ContainerBuilder $container)
     {

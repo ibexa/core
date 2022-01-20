@@ -7,6 +7,8 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\FragmentPass;
+use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
+use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -36,8 +38,8 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition('fragment.renderer.inline', $inlineRendererDef);
         $this->setDefinition('fragment.renderer.esi', $esiRendererDef);
         $this->setDefinition('fragment.renderer.hinclude', $hincludeRendererDef);
-        $this->setDefinition('ezpublish.decorated_fragment_renderer', $decoratedFragmentRendererDef);
-        $this->setDefinition('ezpublish.fragment_listener.factory', new Definition());
+        $this->setDefinition(DecoratedFragmentRenderer::class, $decoratedFragmentRendererDef);
+        $this->setDefinition(FragmentListenerFactory::class, new Definition());
 
         $this->compile();
 
@@ -47,7 +49,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $factoryArray = $fragmentListenerDef->getFactory();
         $this->assertInstanceOf(Reference::class, $factoryArray[0]);
         $this->assertEquals('buildFragmentListener', $factoryArray[1]);
-        $this->assertEquals('ezpublish.fragment_listener.factory', $factoryArray[0]);
+        $this->assertEquals(FragmentListenerFactory::class, $factoryArray[0]);
 
         $this->assertTrue($this->container->hasDefinition('fragment.renderer.inline.inner'));
         $this->assertSame($inlineRendererDef, $this->container->getDefinition('fragment.renderer.inline.inner'));
@@ -59,7 +61,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $this->assertSame($hincludeRendererDef, $this->container->getDefinition('fragment.renderer.hinclude.inner'));
         $this->assertFalse($hincludeRendererDef->isPublic());
 
-        $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.inline', 'ezpublish.decorated_fragment_renderer');
+        $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.inline', DecoratedFragmentRenderer::class);
         $decoratedInlineDef = $this->container->getDefinition('fragment.renderer.inline');
         $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedInlineDef->getTags());
         $this->assertEquals(
@@ -68,7 +70,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         );
         $this->assertSame(InlineFragmentRenderer::class, $decoratedInlineDef->getClass());
 
-        $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.esi', 'ezpublish.decorated_fragment_renderer');
+        $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.esi', DecoratedFragmentRenderer::class);
         $decoratedEsiDef = $this->container->getDefinition('fragment.renderer.esi');
         $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedEsiDef->getTags());
         $this->assertEquals(
@@ -76,7 +78,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
             $decoratedEsiDef->getArguments()
         );
 
-        $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.hinclude', 'ezpublish.decorated_fragment_renderer');
+        $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.hinclude', DecoratedFragmentRenderer::class);
         $decoratedHincludeDef = $this->container->getDefinition('fragment.renderer.hinclude');
         $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedHincludeDef->getTags());
         $this->assertEquals(

@@ -1,5 +1,5 @@
 services:
-    ezpublish_debug.data_collector:
+    Ibexa\Bundle\Debug\Collector\IbexaCoreCollector:
         class: Ibexa\Bundle\Debug\Collector\IbexaCoreCollector
         tags:
             -
@@ -7,7 +7,7 @@ services:
                 template: '@IbexaDebug/Profiler/layout.html.twig'
                 id: "ezpublish.debug.toolbar"
 
-    ezpublish_debug.siteaccess_collector:
+    Ibexa\Bundle\Debug\Collector\SiteAccessCollector:
         class: Ibexa\Bundle\Debug\Collector\SiteAccessCollector
         tags:
             -
@@ -16,9 +16,9 @@ services:
                 panelTemplate: '@IbexaDebug/Profiler/siteaccess/panel.html.twig'
                 toolbarTemplate: '@IbexaDebug/Profiler/siteaccess/toolbar.html.twig'
 
-    ezpublish_debug.persistence_collector:
+    Ibexa\Bundle\Debug\Collector\PersistenceCacheCollector:
         class: Ibexa\Bundle\Debug\Collector\PersistenceCacheCollector
-        arguments: ["@ezpublish.spi.persistence.cache.persistenceLogger"]
+        arguments: ['@Ibexa\Core\Persistence\Cache\PersistenceLogger']
         tags:
             -
                 name: ibexa.debug.data_collector

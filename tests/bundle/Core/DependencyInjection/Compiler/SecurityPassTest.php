@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -24,8 +25,8 @@ class SecurityPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition('security.authentication.provider.anonymous', new Definition());
         $this->setDefinition('security.http_utils', new Definition());
         $this->setDefinition('security.authentication.success_handler', new Definition());
-        $this->setDefinition('ezpublish.config.resolver', new Definition());
-        $this->setDefinition('ezpublish.siteaccess', new Definition());
+        $this->setDefinition('ibexa.config.resolver', new Definition());
+        $this->setDefinition(SiteAccess::class, new Definition());
         $this->setDefinition(PermissionResolver::class, new Definition());
         $this->setDefinition(UserService::class, new Definition());
     }
@@ -61,17 +62,17 @@ class SecurityPassTest extends AbstractCompilerPassTestCase
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.authentication.provider.anonymous',
             'setConfigResolver',
-            [new Reference('ezpublish.config.resolver')]
+            [new Reference('ibexa.config.resolver')]
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.http_utils',
             'setSiteAccess',
-            [new Reference('ezpublish.siteaccess')]
+            [new Reference(SiteAccess::class)]
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.authentication.success_handler',
             'setConfigResolver',
-            [new Reference('ezpublish.config.resolver')]
+            [new Reference('ibexa.config.resolver')]
         );
     }
 }

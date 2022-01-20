@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Storage;
 
 use Ibexa\Core\Base\Container\Compiler\Storage\ExternalStorageRegistryPass;
+use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Tests\Core\Base\Container\Compiler\Stubs\GatewayBasedStorageHandler;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,7 +19,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.persistence.external_storage_registry', new Definition());
+        $this->setDefinition(StorageRegistry::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -40,7 +41,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.external_storage_registry',
+            StorageRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );
@@ -62,7 +63,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.external_storage_registry',
+            StorageRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );
@@ -94,7 +95,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.external_storage_registry',
+            StorageRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($storageHandlerServiceId)]
         );
@@ -125,7 +126,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.external_storage_registry',
+            StorageRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($storageHandlerServiceId)]
         );
@@ -156,7 +157,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.external_storage_registry',
+            StorageRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($storageHandlerServiceId)]
         );
@@ -187,7 +188,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.external_storage_registry',
+            StorageRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($storageHandlerServiceId)]
         );

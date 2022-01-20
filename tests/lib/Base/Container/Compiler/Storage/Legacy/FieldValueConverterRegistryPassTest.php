@@ -7,6 +7,7 @@
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Storage\Legacy;
 
 use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\FieldValueConverterRegistryPass;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -17,7 +18,7 @@ class FieldValueConverterRegistryPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition('ezpublish.persistence.legacy.field_value_converter.registry', new Definition());
+        $this->setDefinition(ConverterRegistry::class, new Definition());
     }
 
     /**
@@ -48,7 +49,7 @@ class FieldValueConverterRegistryPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'ezpublish.persistence.legacy.field_value_converter.registry',
+            ConverterRegistry::class,
             'register',
             [$fieldTypeIdentifier, new Reference($serviceId)]
         );

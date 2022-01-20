@@ -4,7 +4,7 @@ parameters:
     # intentionally defined class parameter to be used by the Repository Factory
     ezpublish.api.inner_repository.class: Ibexa\Core\Repository\Repository
 services:
-    ezpublish.api.repository.factory:
+    Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
         class: Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory
         arguments:
             - "%ezpublish.api.inner_repository.class%"
@@ -13,14 +13,14 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
 
-    ezpublish.api.inner_repository:
+    Ibexa\Core\Repository\Repository:
         class: Ibexa\Core\Repository\Repository
-        factory: ["@ezpublish.api.repository.factory", buildRepository]
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\RepositoryFactory', buildRepository]
         arguments:
-            - "@ezpublish.api.persistence_handler"
-            - "@ezpublish.spi.search"
-            - '@ezpublish.search.background_indexer'
-            - '@ezpublish.repository.relation_processor'
+            - '@ibexa.api.persistence_handler'
+            - '@ibexa.spi.search'
+            - '@Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener'
+            - '@Ibexa\Core\Repository\Helper\RelationProcessor'
             - '@Ibexa\Core\FieldType\FieldTypeRegistry'
             - '@Ibexa\Core\Repository\User\PasswordHashService'
             - '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
@@ -37,91 +37,91 @@ services:
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             - '%languages%'
 
-    ezpublish.api.service.inner_content:
+    Ibexa\Core\Repository\ContentService:
         class: Ibexa\Core\Repository\ContentService
-        factory: ["@ezpublish.api.inner_repository", getContentService]
+        factory: ['@Ibexa\Core\Repository\Repository', getContentService]
         lazy: true
 
-    ezpublish.api.service.inner_content_type:
+    Ibexa\Core\Repository\ContentTypeService:
         class: Ibexa\Core\Repository\ContentTypeService
-        factory: ["@ezpublish.api.inner_repository", getContentTypeService]
+        factory: ['@Ibexa\Core\Repository\Repository', getContentTypeService]
         lazy: true
 
-    ezpublish.api.service.inner_field_type:
+    Ibexa\Core\Repository\FieldTypeService:
         class: Ibexa\Core\Repository\FieldTypeService
-        factory: ["@ezpublish.api.inner_repository", getFieldTypeService]
+        factory: ['@Ibexa\Core\Repository\Repository', getFieldTypeService]
         lazy: true
 
-    ezpublish.api.service.inner_role:
+    Ibexa\Core\Repository\RoleService:
         class: Ibexa\Core\Repository\RoleService
-        factory: ["@ezpublish.api.inner_repository", getRoleService]
+        factory: ['@Ibexa\Core\Repository\Repository', getRoleService]
         lazy: true
 
-    ezpublish.api.service.inner_object_state:
+    Ibexa\Core\Repository\ObjectStateService:
         class: Ibexa\Core\Repository\ObjectStateService
-        factory: ["@ezpublish.api.inner_repository", getObjectStateService]
+        factory: ['@Ibexa\Core\Repository\Repository', getObjectStateService]
         lazy: true
 
-    ezpublish.api.service.inner_url_wildcard:
+    Ibexa\Core\Repository\URLWildcardService:
         class: Ibexa\Core\Repository\URLWildcardService
-        factory: ["@ezpublish.api.inner_repository", getURLWildcardService]
+        factory: ['@Ibexa\Core\Repository\Repository', getURLWildcardService]
         lazy: true
 
-    ezpublish.api.service.inner_url_alias:
+    Ibexa\Core\Repository\URLAliasService:
         class: Ibexa\Core\Repository\URLAliasService
-        factory: ["@ezpublish.api.inner_repository", getURLAliasService]
+        factory: ['@Ibexa\Core\Repository\Repository', getURLAliasService]
         lazy: true
 
-    ezpublish.api.service.inner_user:
+    Ibexa\Core\Repository\UserService:
         class: Ibexa\Core\Repository\UserService
-        factory: ["@ezpublish.api.inner_repository", getUserService]
+        factory: ['@Ibexa\Core\Repository\Repository', getUserService]
         calls:
             - [setLogger, ["@?logger"]]
         lazy: true
 
-    ezpublish.api.service.inner_search:
+    Ibexa\Core\Repository\SearchService:
         class: Ibexa\Core\Repository\SearchService
-        factory: ["@ezpublish.api.inner_repository", getSearchService]
+        factory: ['@Ibexa\Core\Repository\Repository', getSearchService]
         lazy: true
 
-    ezpublish.api.service.inner_section:
+    Ibexa\Core\Repository\SectionService:
         class: Ibexa\Core\Repository\SectionService
-        factory: ["@ezpublish.api.inner_repository", getSectionService]
+        factory: ['@Ibexa\Core\Repository\Repository', getSectionService]
         lazy: true
 
-    ezpublish.api.service.inner_trash:
+    Ibexa\Core\Repository\TrashService:
         class: Ibexa\Core\Repository\TrashService
-        factory: ["@ezpublish.api.inner_repository", getTrashService]
+        factory: ['@Ibexa\Core\Repository\Repository', getTrashService]
         lazy: true
 
-    ezpublish.api.service.inner_location:
+    ibexa.api.service.inner_location:
         class: Ibexa\Core\Repository\LocationService
-        factory: ["@ezpublish.api.inner_repository", getLocationService]
+        factory: ['@Ibexa\Core\Repository\Repository', getLocationService]
         lazy: true
 
-    ezpublish.api.service.inner_language:
+    Ibexa\Core\Repository\LanguageService:
         class: Ibexa\Core\Repository\LanguageService
-        factory: ["@ezpublish.api.inner_repository", getContentLanguageService]
+        factory: ['@Ibexa\Core\Repository\Repository', getContentLanguageService]
         lazy: true
 
-    ezpublish.api.service.inner_url:
+    Ibexa\Core\Repository\URLService:
         class: Ibexa\Core\Repository\URLService
-        factory: ["@ezpublish.api.inner_repository", getUrlService]
+        factory: ['@Ibexa\Core\Repository\Repository', getUrlService]
         lazy: true
 
-    ezpublish.api.service.inner_bookmark:
+    Ibexa\Core\Repository\BookmarkService:
         class: Ibexa\Core\Repository\BookmarkService
-        factory: ["@ezpublish.api.inner_repository", getBookmarkService]
+        factory: ['@Ibexa\Core\Repository\Repository', getBookmarkService]
         lazy: true
 
-    ezpublish.api.service.inner_notification:
+    Ibexa\Core\Repository\NotificationService:
         class: Ibexa\Core\Repository\NotificationService
-        factory: ["@ezpublish.api.inner_repository", getNotificationService]
+        factory: ['@Ibexa\Core\Repository\Repository', getNotificationService]
         lazy: true
 
-    ezpublish.api.service.inner_user_preference:
+    Ibexa\Core\Repository\UserPreferenceService:
         class: Ibexa\Core\Repository\UserPreferenceService
-        factory: ["@ezpublish.api.inner_repository", getUserPreferenceService]
+        factory: ['@Ibexa\Core\Repository\Repository', getUserPreferenceService]
         lazy: true
 
     Ibexa\Core\Repository\SettingService:
@@ -130,13 +130,13 @@ services:
             $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
 
     # Factories
-    ezpublish.search.background_indexer:
+    Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener:
         class: Ibexa\Core\Search\Common\BackgroundIndexer\NullIndexer
 
-    ezpublish.repository.relation_processor:
+    Ibexa\Core\Repository\Helper\RelationProcessor:
         class: Ibexa\Core\Repository\Helper\RelationProcessor
         arguments:
-            - '@ezpublish.api.persistence_handler'
+            - '@ibexa.api.persistence_handler'
         calls:
             - ['setLogger', ['@?logger']]
 
@@ -155,7 +155,7 @@ services:
     Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapper:
         factory: ['@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory', 'create']
         arguments:
-            $repository: '@ezpublish.api.inner_repository'
+            $repository: '@Ibexa\Core\Repository\Repository'
 
     Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface:
         alias: 'Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapper'
@@ -170,24 +170,24 @@ services:
 
     Ibexa\Core\Repository\Mapper\ContentMapper:
         arguments:
-            $contentLanguageHandler: '@ezpublish.spi.persistence.language_handler'
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
 
     Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper:
         parent: Ibexa\Core\Repository\Mapper\ProxyAwareDomainMapper
         arguments:
-            $contentTypeHandler: '@ezpublish.spi.persistence.content_type_handler'
-            $contentLanguageHandler: '@ezpublish.spi.persistence.language_handler'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
 
     Ibexa\Core\Repository\Mapper\ContentDomainMapper:
         parent: Ibexa\Core\Repository\Mapper\ProxyAwareDomainMapper
         arguments:
-            $contentHandler: '@ezpublish.spi.persistence.content_handler'
-            $locationHandler: '@ezpublish.spi.persistence.location_handler'
-            $contentTypeHandler: '@ezpublish.spi.persistence.content_type_handler'
+            $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            $locationHandler: '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
             $contentTypeDomainMapper: '@Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper'
-            $contentLanguageHandler: '@ezpublish.spi.persistence.language_handler'
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
             $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
 
@@ -204,8 +204,8 @@ services:
         arguments:
             $roleDomainMapper: '@Ibexa\Core\Repository\Mapper\RoleDomainMapper'
             $limitationService: '@Ibexa\Core\Repository\Permission\LimitationService'
-            $userHandler: '@ezpublish.spi.persistence.user_handler'
-            $configResolver: '@ezpublish.config.resolver'
+            $userHandler: '@Ibexa\Contracts\Core\Persistence\User\Handler'
+            $configResolver: '@ibexa.config.resolver'
             $policyMap: '%ezpublish.api.role.policy_map%'
 
     Ibexa\Core\Repository\Permission\PermissionCriterionResolver:
@@ -233,7 +233,7 @@ services:
         arguments:
             $contentMapper: '@Ibexa\Core\Repository\Mapper\ContentMapper'
             $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
-            $contentLanguageHandler: '@ezpublish.spi.persistence.language_handler'
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
         tags:
             - ibexa.repository.content.validator
 
@@ -248,7 +248,7 @@ services:
     # LocationResolver
     Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver:
         arguments:
-            - '@ezpublish.api.service.location'
+            - '@ibexa.api.service.location'
 
     Ibexa\Core\Repository\LocationResolver\LocationResolver:
         alias: Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver

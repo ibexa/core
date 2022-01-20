@@ -69,7 +69,7 @@ class ContentViewBuilder implements ViewBuilder
 
     public function matches($argument)
     {
-        return strpos($argument, 'ez_content:') !== false;
+        return strpos($argument, 'ibexa_content:') !== false;
     }
 
     /**
@@ -277,7 +277,7 @@ class ContentViewBuilder implements ViewBuilder
      */
     private function isEmbed($parameters)
     {
-        if ($parameters['_controller'] === 'ez_content:embedAction') {
+        if ($parameters['_controller'] === 'ibexa_content:embedAction') {
             return true;
         }
         if (\in_array($parameters['viewType'], ['embed', 'embed-inline'])) {

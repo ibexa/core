@@ -37,7 +37,7 @@ class ControllerMatch implements ViewBuilderRegistry
     /**
      * Returns the ViewBuilder that matches the given controller string.
      *
-     * @param string $controllerString A controller string to match against. Example: ez_content:viewAction.
+     * @param string $controllerString A controller string to match against. Example: ibexa_content:viewAction.
      *
      * @return \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder|null
      */

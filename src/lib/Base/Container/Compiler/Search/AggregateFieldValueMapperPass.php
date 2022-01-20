@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\Base\Container\Compiler\Search;
 
+use Ibexa\Core\Search\Common\FieldValueMapper\Aggregate;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -20,12 +21,12 @@ class AggregateFieldValueMapperPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('ezpublish.search.common.field_value_mapper.aggregate')) {
+        if (!$container->hasDefinition(Aggregate::class)) {
             return;
         }
 
         $aggregateFieldValueMapperDefinition = $container->getDefinition(
-            'ezpublish.search.common.field_value_mapper.aggregate'
+            Aggregate::class
         );
 
         $taggedServiceIds = $container->findTaggedServiceIds(

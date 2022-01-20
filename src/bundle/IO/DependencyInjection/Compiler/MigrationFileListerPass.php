@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\IO\DependencyInjection\Compiler;
 
+use Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -19,7 +20,7 @@ final class MigrationFileListerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('ezpublish.core.io.migration.file_lister_registry')) {
+        if (!$container->has(ConfigurableRegistry::class)) {
             return;
         }
 
@@ -32,7 +33,7 @@ final class MigrationFileListerPass implements CompilerPassInterface
             }
         }
 
-        $fileListerRegistryDef = $container->findDefinition('ezpublish.core.io.migration.file_lister_registry');
+        $fileListerRegistryDef = $container->findDefinition(ConfigurableRegistry::class);
         $fileListerRegistryDef->setArguments([$fileListers]);
     }
 }

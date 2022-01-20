@@ -10,142 +10,139 @@ parameters:
     ezpublish.twig.extension.filesize.suffixes: ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
 
 services:
-    ezpublish.twig.extension.content:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension
         arguments:
-            - "@ezpublish.api.repository"
-            - "@ezpublish.translation_helper"
-            - "@ezpublish.field_helper"
+            - '@ibexa.api.repository'
+            - '@Ibexa\Core\Helper\TranslationHelper'
+            - '@Ibexa\Core\Helper\FieldHelper'
             - "@?logger"
         tags:
             - {name: twig.extension}
 
-    ezpublish.view_manager:
+    Ibexa\Bundle\Core\View\Manager:
         class: Ibexa\Bundle\Core\View\Manager
         arguments:
           - "@twig"
           - "@event_dispatcher"
-          - "@ezpublish.siteaccessaware.repository"
-          - "@ezpublish.config.resolver"
+          - '@ibexa.siteaccessaware.repository'
+          - '@ibexa.config.resolver'
           - "%ezpublish.content_view.viewbase_layout%"
-          - "@ezpublish.view.configurator"
+          - '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
           - "@?logger"
 
     Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry: ~
 
-    ezpublish.content_view_provider.configured:
+    ibexa.content_view_provider.configured:
         class: Ibexa\Bundle\Core\View\Provider\Configured
-        arguments: ["@ezpublish.content_view.matcher_factory"]
+        arguments: ['@ibexa.content_view.matcher_factory']
         tags:
             - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
 
-    ezpublish.content_view.matcher_factory:
+    ibexa.content_view.matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
         arguments:
             - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
-            - '@ezpublish.api.repository'
+            - '@ibexa.api.repository'
             - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
-    ezpublish.content_view.matcher_factory.dynamically_configured:
+    ibexa.content_view.matcher_factory.dynamically_configured:
         class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
-        decorates: ezpublish.content_view.matcher_factory
+        decorates: ibexa.content_view.matcher_factory
         arguments:
-            $innerConfigurableMatcherFactory: '@ezpublish.content_view.matcher_factory.dynamically_configured.inner'
-            $configResolver: '@ezpublish.config.resolver'
+            $innerConfigurableMatcherFactory: '@ibexa.content_view.matcher_factory.dynamically_configured.inner'
+            $configResolver: '@ibexa.config.resolver'
             $parameterName: content_view
 
-    ezpublish.content_view_provider.default_configured:
+    ibexa.content_view_provider.default_configured:
         class: Ibexa\Bundle\Core\View\Provider\Configured
-        arguments: ["@ezpublish.content_view.default_matcher_factory"]
+        arguments: ['@ibexa.content_view.default_matcher_factory']
         tags:
             - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: -1}
 
-    ezpublish.content_view.default_matcher_factory:
+    ibexa.content_view.default_matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
         arguments:
             - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
-            - '@ezpublish.api.repository'
+            - '@ibexa.api.repository'
             - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
-    ezpublish.content_view.default_matcher_factory.dynamically_configured:
+    ibexa.content_view.default_matcher_factory.dynamically_configured:
         class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
-        decorates: ezpublish.content_view.default_matcher_factory
+        decorates: ibexa.content_view.default_matcher_factory
         arguments:
-            $innerConfigurableMatcherFactory: '@ezpublish.content_view.default_matcher_factory.dynamically_configured.inner'
-            $configResolver: '@ezpublish.config.resolver'
+            $innerConfigurableMatcherFactory: '@ibexa.content_view.default_matcher_factory.dynamically_configured.inner'
+            $configResolver: '@ibexa.config.resolver'
             $parameterName: content_view_defaults
 
-    ezpublish.location_view_provider.configured:
+    ibexa.location_view_provider.configured:
         class: Ibexa\Bundle\Core\View\Provider\Configured
-        arguments: ["@ezpublish.location_view.matcher_factory"]
+        arguments: ['@ibexa.location_view.matcher_factory']
         tags:
             - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
 
-    ezpublish.location_view.matcher_factory:
+    ibexa.location_view.matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
         arguments:
             - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
-            - '@ezpublish.api.repository'
+            - '@ibexa.api.repository'
             - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
-    ezpublish.location_view.matcher_factory.dynamically_configured:
+    ibexa.location_view.matcher_factory.dynamically_configured:
         class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
-        decorates: ezpublish.location_view.matcher_factory
+        decorates: ibexa.location_view.matcher_factory
         arguments:
-            $innerConfigurableMatcherFactory: '@ezpublish.location_view.matcher_factory.dynamically_configured.inner'
-            $configResolver: '@ezpublish.config.resolver'
+            $innerConfigurableMatcherFactory: '@ibexa.location_view.matcher_factory.dynamically_configured.inner'
+            $configResolver: '@ibexa.config.resolver'
             $parameterName: location_view
 
-    ezpublish.templating.global_helper.core:
+    Ibexa\Core\MVC\Symfony\Templating\GlobalHelper:
         class: Ibexa\Core\MVC\Symfony\Templating\GlobalHelper
-        arguments: ["@ezpublish.config.resolver", "@ezpublish.siteaccessaware.service.location", "@router", "@ezpublish.translation_helper"]
+        arguments: ['@ibexa.config.resolver', '@ibexa.siteaccessaware.service.location', "@router", '@Ibexa\Core\Helper\TranslationHelper']
         calls:
             - [setRequestStack, ["@request_stack"]]
 
-    Ibexa\Core\MVC\Symfony\Templating\GlobalHelper:
-        alias: ezpublish.templating.global_helper.core
+    ibexa.templating.global_helper:
+        alias: Ibexa\Core\MVC\Symfony\Templating\GlobalHelper
 
-    ezpublish.templating.global_helper:
-        alias: ezpublish.templating.global_helper.core
-
-    ezpublish.twig.extension.core:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\CoreExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\CoreExtension
-        arguments: ["@ezpublish.templating.global_helper"]
+        arguments: ['@ibexa.templating.global_helper']
         tags:
             - {name: twig.extension}
 
-    ezpublish.twig.extension.filesize:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension
-        arguments: ["@translator", "%ezpublish.twig.extension.filesize.suffixes%", "@ezpublish.config.resolver", "@ezpublish.locale.converter" ]
+        arguments: ["@translator", "%ezpublish.twig.extension.filesize.suffixes%", '@ibexa.config.resolver', '@Ibexa\Core\MVC\Symfony\Locale\LocaleConverter' ]
         tags:
             - {name: twig.extension}
 
-    ezpublish.templating.extension.routing:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RoutingExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RoutingExtension
-        arguments: ["@ezpublish.route_reference.generator", "@router"]
+        arguments: ['@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator', "@router"]
         tags:
             - {name: twig.extension}
 
     Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider:
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
+            $configResolver: '@ibexa.config.resolver'
 
-    ezpublish.templating.field_block_renderer.twig:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer
         arguments:
             $twig: '@twig'
             $resourceProvider: '@Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider'
             $baseTemplate: '%ezpublish.content_view.viewbase_layout%'
 
-    ezpublish.templating.field_block_renderer:
-        alias: ezpublish.templating.field_block_renderer.twig
+    ibexa.templating.field_block_renderer:
+        alias: Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer
 
-    ezpublish.twig.extension.field_rendering:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension
         arguments:
-            - "@ezpublish.templating.field_block_renderer"
-            - "@ezpublish.fieldType.parameterProviderRegistry"
-            - "@ezpublish.translation_helper"
+            - '@ibexa.templating.field_block_renderer'
+            - '@Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry'
+            - '@Ibexa\Core\Helper\TranslationHelper'
         tags:
             - { name: twig.extension }
 
@@ -186,7 +183,7 @@ services:
         arguments:
             $fragmentRenderers: !tagged_iterator kernel.fragment_renderer
             $defaultRenderer: !php/const Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer::NAME
-            $siteAccess: '@ezpublish.siteaccess'
+            $siteAccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
             $requestStack: '@request_stack'
         tags:
             - { name: ibexa.view.render.strategy }
@@ -195,96 +192,96 @@ services:
         arguments:
             $fragmentRenderers: !tagged_iterator kernel.fragment_renderer
             $defaultRenderer: !php/const Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer::NAME
-            $siteAccess: '@ezpublish.siteaccess'
+            $siteAccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
             $requestStack: '@request_stack'
         tags:
             - { name: ibexa.view.render.strategy }
 
-    ezpublish.twig.extension.image:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension
         arguments:
-            - '@ezpublish.fieldType.ezimage.variation_service'
+            - '@ibexa.field_type.ezimage.variation_service'
             - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
         tags:
             - { name: twig.extension }
 
-    ezpublish.view.custom_location_controller_checker:
+    Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker:
         class: Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker
 
-    ezpublish.view_provider.registry:
+    Ibexa\Core\MVC\Symfony\View\Provider\Registry:
         class: Ibexa\Core\MVC\Symfony\View\Provider\Registry
 
-    ezpublish.view.configurator:
+    Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider:
         class: Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider
-        arguments: ["@ezpublish.view_provider.registry"]
+        arguments: ['@Ibexa\Core\MVC\Symfony\View\Provider\Registry']
 
-    ezpublish.view_builder.registry:
+    Ibexa\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch:
         class: Ibexa\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch
         arguments:
             $viewBuilders: !tagged_iterator { tag: ibexa.view.builder }
 
-    ezpublish.view_builder.content:
+    Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder:
         class: Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder
         arguments:
-            - "@ezpublish.siteaccessaware.repository"
-            - "@ezpublish.view.configurator"
-            - "@ezpublish.view.view_parameters.injector.dispatcher"
+            - '@ibexa.siteaccessaware.repository'
+            - '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
+            - '@Ibexa\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector'
             - "@request_stack"
-            - "@ezpublish.content_info_location_loader.main"
+            - '@Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader'
         tags:
             - { name: ibexa.view.builder }
 
-    ezpublish.view.builder_parameter_collector.request_attributes:
+    Ibexa\Core\MVC\Symfony\View\Builder\ParametersFilter\RequestAttributes:
         class: Ibexa\Core\MVC\Symfony\View\Builder\ParametersFilter\RequestAttributes
         tags:
             - {name: kernel.event_subscriber}
 
-    ezpublish.view.template_renderer:
+    Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer:
         class: Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer
         arguments: ["@twig", "@event_dispatcher"]
 
-    ezpublish.view.renderer_listener:
+    Ibexa\Bundle\Core\EventListener\ViewRendererListener:
         class: Ibexa\Bundle\Core\EventListener\ViewRendererListener
-        arguments: ["@ezpublish.view.template_renderer"]
+        arguments: ['@Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer']
         tags:
             - { name: kernel.event_subscriber }
 
-    ezpublish.view.view_parameters.injector.dispatcher:
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector:
         class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector
         arguments: ["@event_dispatcher"]
 
-    ezpublish.view.view_parameters.injector.custom_parameters:
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\CustomParameters:
         class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\CustomParameters
         tags:
             - { name: kernel.event_subscriber }
 
-    ezpublish.view.view_parameters.injector.embed_object_parameters:
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\EmbedObjectParameters:
         class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\EmbedObjectParameters
         tags:
             - { name: kernel.event_subscriber }
 
-    ezpublish.view.view_parameters.injector.no_layout:
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\NoLayout:
         class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\NoLayout
         tags:
             - { name: kernel.event_subscriber }
 
-    ezpublish.view.view_parameters.injector.value_objects_ids:
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\ValueObjectsIds:
         class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\ValueObjectsIds
         tags:
             - { name: kernel.event_subscriber }
 
-    ezpublish.view.view_parameters.injector.viewbase_layout:
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\ViewbaseLayout:
         class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\ViewbaseLayout
         arguments:
             - "%ezpublish.content_view.viewbase_layout%"
-            - "@ezpublish.config.resolver"
+            - '@ibexa.config.resolver'
         tags:
             - { name: kernel.event_subscriber }
 
     ezpublish.view.cache_response_listener:
         class: Ibexa\Bundle\Core\EventListener\CacheViewResponseListener
         arguments:
-            $configResolver: '@ezpublish.config.resolver'
+            $configResolver: '@ibexa.config.resolver'
         tags:
             - { name: kernel.event_subscriber }
 
@@ -294,7 +291,7 @@ services:
 
     Ibexa\Bundle\Core\Templating\Twig\ContextAwareTwigVariablesExtension:
         arguments:
-            $configResolver: "@ezpublish.config.resolver"
+            $configResolver: '@ibexa.config.resolver'
         tags:
             - { name: twig.extension }
 

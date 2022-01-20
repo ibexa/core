@@ -26,25 +26,25 @@ parameters:
 services:
     # Note: services tagged with 'ibexa.field_type.indexable'
     # are registered to this one using compilation pass
-    ezpublish.search.common.field_registry:
+    Ibexa\Core\Search\Common\FieldRegistry:
         class: Ibexa\Core\Search\Common\FieldRegistry
 
     # Mapping for our internal search field types
-    ezpublish.search.common.field_name_generator:
+    Ibexa\Core\Search\Common\FieldNameGenerator:
         class: Ibexa\Core\Search\Common\FieldNameGenerator
         arguments:
             - "%ezpublish.search.common.field_name_generator.map%"
 
-    ezpublish.search.common.field_name_resolver:
+    Ibexa\Core\Search\Common\FieldNameResolver:
         class: Ibexa\Core\Search\Common\FieldNameResolver
         arguments:
-            - "@ezpublish.search.common.field_registry"
-            - "@ezpublish.spi.persistence.content_type_handler"
-            - "@ezpublish.search.common.field_name_generator"
+            - '@Ibexa\Core\Search\Common\FieldRegistry'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            - '@Ibexa\Core\Search\Common\FieldNameGenerator'
 
     # Note: services tagged with 'ibexa.search.common.field_value.mapper'
     # are registered to this one using compilation pass
-    ezpublish.search.common.field_value_mapper.aggregate:
+    Ibexa\Core\Search\Common\FieldValueMapper\Aggregate:
         class: Ibexa\Core\Search\Common\FieldValueMapper\Aggregate
 
     Ibexa\Core\Search\Common\EventSubscriber\:
@@ -54,5 +54,5 @@ services:
         autowire: true
         public: false
         arguments:
-            $searchHandler: '@ezpublish.spi.search'
-            $persistenceHandler: '@ezpublish.api.persistence_handler'
+            $searchHandler: '@ibexa.spi.search'
+            $persistenceHandler: '@ibexa.api.persistence_handler'

@@ -24,7 +24,7 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
 
     public function provideExpectedParentServiceId()
     {
-        return 'ezpublish.core.io.metadata_handler.legacy_dfs_cluster';
+        return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }
 
     public function provideParentServiceDefinition()

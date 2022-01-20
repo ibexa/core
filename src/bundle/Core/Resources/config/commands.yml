@@ -1,34 +1,34 @@
 services:
-    ezpublish.console.command.regenerate_url_aliases:
+    Ibexa\Bundle\Core\Command\RegenerateUrlAliasesCommand:
         class: Ibexa\Bundle\Core\Command\RegenerateUrlAliasesCommand
         arguments:
             # intentionally passing inner repository to avoid sending Events due to performance issues
-            - '@ezpublish.api.inner_repository'
+            - '@Ibexa\Core\Repository\Repository'
             - '@?logger'
         tags:
             - { name: console.command }
 
-    ezplatform.core.command.debug_config_resolver:
+    Ibexa\Bundle\Core\Command\DebugConfigResolverCommand:
         class: Ibexa\Bundle\Core\Command\DebugConfigResolverCommand
         arguments:
-            - "@ezpublish.config.resolver"
-            - "@ezpublish.siteaccess"
+            - '@ibexa.config.resolver'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess'
         tags:
             - { name: console.command }
 
-    ezplatform.core.command.check_urls:
+    Ibexa\Bundle\Core\Command\CheckURLsCommand:
         class: Ibexa\Bundle\Core\Command\CheckURLsCommand
         arguments:
             - '@Ibexa\Contracts\Core\Repository\UserService'
             - '@Ibexa\Contracts\Core\Repository\PermissionResolver'
             - '@Ibexa\Contracts\Core\Repository\URLService'
-            - '@ezpublish.url_checker'
+            - '@Ibexa\Bundle\Core\URLChecker\URLChecker'
         tags:
             - { name: console.command }
 
     Ibexa\Bundle\Core\Command\UpdateTimestampsToUTCCommand:
         arguments:
-            - '@ezpublish.api.search_engine.legacy.connection'
+            - '@ibexa.api.search_engine.legacy.connection'
         tags:
             - { name: console.command }
 
@@ -36,9 +36,9 @@ services:
         autowire: true
         autoconfigure: true
         arguments:
-            $searchIndexer: '@ezpublish.spi.search.indexer'
-            $locationHandler: '@ezpublish.spi.persistence.location_handler'
-            $siteaccess: '@ezpublish.siteaccess'
+            $searchIndexer: '@ibexa.spi.search.indexer'
+            $locationHandler: '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            $siteaccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
             $env: '%kernel.environment%'
             $projectDir: '%kernel.project_dir%'
             $isDebug: '%kernel.debug%'
@@ -49,9 +49,9 @@ services:
         autowire: true
         autoconfigure: true
         arguments:
-            $connection: '@ezpublish.persistence.connection'
-            $imageGateway: '@ezpublish.fieldType.ezimage.storage_gateway'
-            $ioService: '@ezpublish.fieldType.ezimage.io_service'
+            $connection: '@ibexa.persistence.connection'
+            $imageGateway: '@Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage'
+            $ioService: '@Ibexa\Core\FieldType\Image\IO\Legacy'
         tags:
             - { name: console.command }
 

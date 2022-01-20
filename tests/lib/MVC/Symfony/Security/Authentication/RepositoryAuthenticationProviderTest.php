@@ -16,6 +16,7 @@ use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -81,7 +82,7 @@ class RepositoryAuthenticationProviderTest extends TestCase
 
     public function testCheckAuthenticationCredentialsChanged()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\BadCredentialsException::class);
+        $this->expectException(BadCredentialsException::class);
 
         $apiUser = $this->getMockBuilder(APIUser::class)
             ->setConstructorArgs([['passwordHash' => 'some_encoded_password']])
@@ -138,7 +139,7 @@ class RepositoryAuthenticationProviderTest extends TestCase
 
     public function testCheckAuthenticationFailed()
     {
-        $this->expectException(\Symfony\Component\Security\Core\Exception\BadCredentialsException::class);
+        $this->expectException(BadCredentialsException::class);
 
         $apiUser = $this->createMock(APIUser::class);
         $user = $this->createMock(User::class);

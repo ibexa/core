@@ -3,8 +3,8 @@ services:
         class: Ibexa\Core\MVC\Symfony\Routing\UrlWildcardRouter
         public: true
         arguments:
-          - '@ezpublish.api.service.url_wildcard'
-          - '@ezpublish.urlalias_generator'
+          - '@ibexa.api.service.url_wildcard'
+          - '@Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator'
           - '@router.request_context'
         calls:
           - [setLogger, ['@?logger']]

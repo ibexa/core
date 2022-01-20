@@ -100,7 +100,7 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
             ->addMethodCall('connect', [(getenv('CACHE_HOST') ?: '127.0.0.1'), 6379, 2.5]);
 
         $this
-            ->register('ezpublish.cache_pool.driver', RedisAdapter::class)
+            ->register('ibexa.cache_pool.driver', RedisAdapter::class)
             ->setArguments([new Reference('ezpublish.cache_pool.driver.redis'), '', 120]);
     }
 

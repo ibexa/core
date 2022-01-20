@@ -16,6 +16,7 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Ibexa\Core\MVC\ConfigResolverInterface;
+use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Model\Binary;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -153,7 +154,7 @@ class IORepositoryResolverTest extends TestCase
 
     public function testResolveMissing()
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException::class);
+        $this->expectException(NotResolvableException::class);
 
         $path = 'foo/something.jpg';
         $this->ioService
@@ -167,7 +168,7 @@ class IORepositoryResolverTest extends TestCase
 
     public function testResolveNotFound()
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException::class);
+        $this->expectException(NotResolvableException::class);
 
         $path = 'foo/something.jpg';
         $this->ioService

@@ -36,7 +36,7 @@ abstract class BaseCoreFieldTypeIntegrationTest extends APIBaseTest
     {
         try {
             return $this->getSetupFactory()->getServiceContainer()->get(
-                'ezpublish.persistence.connection'
+                'ibexa.persistence.connection'
             );
         } catch (ErrorException $e) {
             self::fail(

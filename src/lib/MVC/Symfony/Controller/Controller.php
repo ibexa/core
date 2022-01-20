@@ -50,7 +50,7 @@ abstract class Controller implements ContainerAwareInterface
      */
     public function getConfigResolver()
     {
-        return $this->container->get('ezpublish.config.resolver');
+        return $this->container->get('ibexa.config.resolver');
     }
 
     /**
@@ -94,7 +94,7 @@ abstract class Controller implements ContainerAwareInterface
      */
     public function getRepository()
     {
-        return $this->container->get('ezpublish.api.repository');
+        return $this->container->get('ibexa.api.repository');
     }
 
     /**
