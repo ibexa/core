@@ -19,7 +19,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class UrlAliasGenerator extends Generator
 {
-    public const INTERNAL_CONTENT_VIEW_ROUTE = '_ez_content_view';
+    public const INTERNAL_CONTENT_VIEW_ROUTE = 'ibexa.content.view';
 
     /** @var \Ibexa\Core\Repository\Repository */
     private $repository;

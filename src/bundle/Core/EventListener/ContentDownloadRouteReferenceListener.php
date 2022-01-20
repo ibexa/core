@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
 {
-    public const ROUTE_NAME = 'ez_content_download';
+    public const ROUTE_NAME = 'ibexa.content.download';
     public const OPT_FIELD_IDENTIFIER = 'fieldIdentifier';
     public const OPT_CONTENT = 'content';
     public const OPT_CONTENT_ID = 'contentId';

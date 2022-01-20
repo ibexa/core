@@ -1,4 +1,4 @@
-_ez_content_translation_view:
+ibexa.content.translation.view:
     path: /view/content/{contentId}/{viewType}/{layout}/translation/{languageCode}/{locationId}
     defaults:
         _controller: ibexa_content:viewAction
@@ -8,7 +8,7 @@ _ez_content_translation_view:
     options:
         expose: true
 
-_ez_content_view:
+ibexa.content.view:
     path: /view/content/{contentId}/{viewType}/{layout}/{locationId}
     defaults:
         _controller: ibexa_content:viewAction
@@ -18,12 +18,12 @@ _ez_content_view:
     options:
         expose: true
 
-_ezpublishPreviewContent:
+ibexa.version.preview:
     path: /content/versionview/{contentId}/{versionNo}/{language}/site_access/{siteAccessName}
     defaults: { _controller: ibexa.controller.content.preview:previewContentAction }
     methods:  [GET]
 
-_ezpublishPreviewContentDefaultSa:
+ibexa.content.preview.default:
     path: /content/versionview/{contentId}/{versionNo}/{language}
     defaults: { _controller: ibexa.controller.content.preview:previewContentAction }
     methods:  [GET]
@@ -31,10 +31,10 @@ _ezpublishPreviewContentDefaultSa:
 _ez_user_hash:
     path: /_fos_user_context_hash
 
-ez_content_download:
+ibexa.content.download:
     path: /content/download/{contentId}/{fieldIdentifier}/{filename}
     defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:downloadBinaryFileAction }
 
-ez_content_download_field_id:
+ibexa.content.download.field_id:
     path: /content/download/{contentId}/{fieldId}
     defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController:redirectToContentDownloadAction }

@@ -114,7 +114,7 @@ class GlobalHelper
             if ($request->attributes->get('_route') === UrlAliasRouter::URL_ALIAS_ROUTE_NAME) {
                 return $this->router
                     ->generate(
-                        '_ez_content_view',
+                        'ibexa.content.view',
                         [
                             'contentId' => $request->attributes->get('contentId'),
                             'locationId' => $request->attributes->get('locationId'),

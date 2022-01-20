@@ -28,7 +28,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class PreviewController
 {
     public const PREVIEW_PARAMETER_NAME = 'isPreview';
-    public const CONTENT_VIEW_ROUTE = '_ez_content_view';
+    public const CONTENT_VIEW_ROUTE = 'ibexa.content.view';
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
