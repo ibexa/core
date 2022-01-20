@@ -77,6 +77,6 @@ services:
 
     Ibexa\Core\IO\FilePathNormalizer\Flysystem:
         arguments:
-            $slugConverter: '@ezpublish.persistence.slug_converter'
+            $slugConverter: '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter'
 
     Ibexa\Core\IO\FilePathNormalizerInterface: '@Ibexa\Core\IO\FilePathNormalizer\Flysystem'
