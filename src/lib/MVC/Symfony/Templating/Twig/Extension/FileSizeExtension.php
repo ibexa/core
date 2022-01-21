@@ -99,7 +99,7 @@ class FileSizeExtension extends AbstractExtension
      */
     public function sizeFilter($number, $precision)
     {
-        $mod = 1000;
+        $mod = 1024;
         $index = count($this->suffixes);
         if ($number < ($mod ** $index)) {
             for ($i = 0; $number >= $mod; ++$i) {
