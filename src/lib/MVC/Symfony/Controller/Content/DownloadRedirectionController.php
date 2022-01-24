@@ -61,7 +61,7 @@ class DownloadRedirectionController extends Controller
         }
 
         $downloadRouteRef = $this->routeReferenceGenerator->generate(
-            'ez_content_download',
+            'ibexa.content.download',
             $params
         );
 

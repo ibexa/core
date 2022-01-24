@@ -18,7 +18,7 @@ class ContentDownloadUrlGenerator extends PathGenerator implements RouteAwarePat
     private $router;
 
     /** @var string */
-    private $route = 'ez_content_download_field_id';
+    private $route = 'ibexa.content.download.field_id';
 
     public function __construct(RouterInterface $router)
     {

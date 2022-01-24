@@ -132,7 +132,7 @@ class GlobalHelperTest extends TestCase
         $this->router
             ->expects($this->once())
             ->method('generate')
-            ->with('_ez_content_view', [
+            ->with('ibexa.content.view', [
                 'contentId' => $contentId,
                 'locationId' => $locationId,
                 'viewType' => $viewType,

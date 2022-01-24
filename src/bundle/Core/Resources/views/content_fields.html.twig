@@ -202,7 +202,7 @@
 {% block ezbinaryfile_field %}
 {% apply spaceless %}
     {% if not ibexa_field_is_empty( content, field ) %}
-        {% set route_reference = ibexa_route( 'ez_content_download', {
+        {% set route_reference = ibexa_route( 'ibexa.content.download', {
             'content': content,
             'fieldIdentifier': field.fieldDefIdentifier,
             'inLanguage': content.prioritizedFieldLanguageCode,
@@ -219,7 +219,7 @@
 {% apply spaceless %}
     {% set type = fieldSettings.mediaType %}
     {% set value = field.value %}
-    {% set route_reference = ibexa_route( 'ez_content_download', {
+    {% set route_reference = ibexa_route( 'ibexa.content.download', {
         'content': content,
         'fieldIdentifier': field.fieldDefIdentifier,
         'version': versionInfo.versionNo
