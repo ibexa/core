@@ -188,6 +188,11 @@ class User extends APIUser
     {
         return $this->content->getThumbnail();
     }
+
+    public function getDefaultLanguageCode(): string
+    {
+        return $this->content->getDefaultLanguageCode();
+    }
 }
 
 class_alias(User::class, 'eZ\Publish\Core\Repository\Values\User\User');

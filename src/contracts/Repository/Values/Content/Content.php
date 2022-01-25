@@ -109,6 +109,8 @@ abstract class Content extends ValueObject
     abstract public function getContentType(): ContentType;
 
     abstract public function getThumbnail(): ?Thumbnail;
+
+    abstract public function getDefaultLanguageCode(): string;
 }
 
 class_alias(Content::class, 'eZ\Publish\API\Repository\Values\Content\Content');
