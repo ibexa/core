@@ -47,15 +47,15 @@ return [
     'unsupported_object' => $this->getExampleUnsupportedObject(),
 ];
 --EXPECT--
-{"$name":"ez_urlalias","$parameters":{"locationId":54},"$referenceType":0}
-{"$name":"ez_urlalias","$parameters":{"locationId":54},"$referenceType":3}
-{"$name":"ez_urlalias","$parameters":{"foo":"foo","locationId":54},"$referenceType":0}
-{"$name":"ez_urlalias","$parameters":{"contentId":2},"$referenceType":0}
-{"$name":"ez_urlalias","$parameters":{"contentId":2},"$referenceType":3}
-{"$name":"ez_urlalias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
-{"$name":"ez_urlalias","$parameters":{"contentId":2},"$referenceType":0}
-{"$name":"ez_urlalias","$parameters":{"contentId":2},"$referenceType":3}
-{"$name":"ez_urlalias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"locationId":54},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"locationId":54},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","locationId":54},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
 {"$name":"example_route","$parameters":{"foo":"foo","bar":"bar"},"$referenceType":0}
 {"$name":"example_route","$parameters":{"foo":"foo","bar":"bar"},"$referenceType":3}
 {"$name":"example_route","$parameters":{"baz":"baz","foo":"foo","bar":"bar"},"$referenceType":0}

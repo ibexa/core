@@ -21,7 +21,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
-    public const URL_ALIAS_ROUTE_NAME = 'ez_urlalias';
+    public const URL_ALIAS_ROUTE_NAME = 'ibexa.url.alias';
 
     /** @var \Ibexa\Contracts\Core\Repository\URLWildcardService */
     private $wildcardService;
