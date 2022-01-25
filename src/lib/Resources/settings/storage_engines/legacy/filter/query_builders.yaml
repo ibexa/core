@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
+
+    Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\:
+        resource: '../../../../../Persistence/Legacy/Filter/CriterionQueryBuilder/*'
+
+    Ibexa\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\:
+        resource: '../../../../../Persistence/Legacy/Filter/SortClauseQueryBuilder/*'
+
