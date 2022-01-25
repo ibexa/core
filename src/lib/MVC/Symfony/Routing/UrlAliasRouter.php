@@ -30,7 +30,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
-    public const URL_ALIAS_ROUTE_NAME = 'ez_urlalias';
+    public const URL_ALIAS_ROUTE_NAME = 'ibexa.url.alias';
 
     public const VIEW_ACTION = 'ibexa_content:viewAction';
 
