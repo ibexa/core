@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Values\Content;
 
-use eZ\Publish\API\Repository\Tests\BaseTest;
+use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 final class DefaultLanguageCodeForContentTest extends BaseTest
 {
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\ForbiddenException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function testDefaultLanguageCodeForCreatedContentWithoutPrioritizedLanguage(): void
     {
@@ -35,9 +35,9 @@ final class DefaultLanguageCodeForContentTest extends BaseTest
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\ForbiddenException
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function testDefaultLanguageCodeForCreatedContentWithPrioritizedLanguage(): void
     {
