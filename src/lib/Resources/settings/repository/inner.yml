@@ -2,19 +2,17 @@ parameters:
     ezplatform.kernel.proxy_cache_dir: 'var/cache/repository/proxy'
 
     # intentionally defined class parameter to be used by the Repository Factory
-    ezpublish.api.inner_repository.class: Ibexa\Core\Repository\Repository
 services:
     Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
         class: Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory
         arguments:
-            - "%ezpublish.api.inner_repository.class%"
+            - Ibexa\Core\Repository\Repository
             - "%ezpublish.api.role.policy_map%"
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
         calls:
             - [setContainer, ["@service_container"]]
 
     Ibexa\Core\Repository\Repository:
-        class: Ibexa\Core\Repository\Repository
         factory: ['@Ibexa\Bundle\Core\ApiLoader\RepositoryFactory', buildRepository]
         arguments:
             - '@ibexa.api.persistence_handler'
