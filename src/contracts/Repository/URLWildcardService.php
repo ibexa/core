@@ -95,6 +95,11 @@ interface URLWildcardService
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult
      */
     public function translate(string $url): URLWildcardTranslationResult;
+
+    /**
+     * Counts URL Wildcards.
+     */
+    public function countAll(): int;
 }
 
 class_alias(URLWildcardService::class, 'eZ\Publish\API\Repository\URLWildcardService');
