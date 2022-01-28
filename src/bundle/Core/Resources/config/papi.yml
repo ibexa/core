@@ -14,7 +14,7 @@ services:
         class: Ibexa\Bundle\Core\ApiLoader\RepositoryFactory
         arguments:
             - '@ibexa.config.resolver'
-            - "%ezpublish.api.inner_repository.class%"
+            - Ibexa\Core\Repository\Repository
             - "%ezpublish.api.role.policy_map%"
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
             - "@?logger"

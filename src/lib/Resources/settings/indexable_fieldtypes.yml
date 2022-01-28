@@ -1,6 +1,4 @@
 parameters:
-    # @todo drop once core dependencies stop relying on this parameter
-    ezpublish.fieldType.indexable.unindexed.class: Ibexa\Core\FieldType\Unindexed
 
 services:
     Ibexa\Core\FieldType\Keyword\SearchField:
