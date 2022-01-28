@@ -230,6 +230,14 @@ class URLWildcardService implements URLWildcardServiceInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function countAll(): int
+    {
+        return $this->urlWildcardHandler->countAll();
+    }
+
+    /**
      * Builds API UrlWildcard object from given SPI UrlWildcard object.
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard $wildcard
