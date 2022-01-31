@@ -36,7 +36,7 @@ final class StorageDispatcher implements StorageDispatcherInterface
         }
     }
 
-    public function deleteFieldConstraintsData(string $fieldTypeIdentifier, int $status, int $fieldDefinitionId): void
+    public function deleteFieldConstraintsData(string $fieldTypeIdentifier, int $fieldDefinitionId, int $status): void
     {
         if ($this->registry->hasStorage($fieldTypeIdentifier)) {
             $storage = $this->registry->getStorage($fieldTypeIdentifier);
