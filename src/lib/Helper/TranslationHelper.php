@@ -14,8 +14,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 
 /**

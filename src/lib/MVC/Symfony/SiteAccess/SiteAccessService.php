@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess;
 
-use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use function iterator_to_array;
 

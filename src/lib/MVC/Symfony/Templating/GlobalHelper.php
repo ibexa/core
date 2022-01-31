@@ -7,8 +7,8 @@
 namespace Ibexa\Core\MVC\Symfony\Templating;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
-use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\RequestStackAware;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Symfony\Component\Routing\RouterInterface;

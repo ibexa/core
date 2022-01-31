@@ -10,8 +10,8 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPurger;
 
 use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList;
-use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\IO\IOConfigProvider;
 use PHPUnit\Framework\TestCase;
 
 class LegacyStorageImageFileListTest extends TestCase

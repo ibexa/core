@@ -8,8 +8,8 @@ namespace Ibexa\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
-use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\IO\IOMetadataHandler;
 
 /**
  * @internal

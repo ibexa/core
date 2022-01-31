@@ -6,8 +6,8 @@
  */
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
-use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\IO\IOConfigProvider;
 
 /**
  * Iterator for entries in legacy's ezimagefile table.

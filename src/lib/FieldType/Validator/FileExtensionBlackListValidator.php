@@ -6,10 +6,10 @@
  */
 namespace Ibexa\Core\FieldType\Validator;
 
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 class FileExtensionBlackListValidator extends Validator
 {
