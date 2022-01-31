@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Locale;
 use NumberFormatter;
@@ -30,7 +30,7 @@ class FileSizeExtension extends AbstractExtension
     protected $suffixes;
 
     /**
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface $configResolver
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      */
     protected $configResolver;
 
@@ -41,7 +41,7 @@ class FileSizeExtension extends AbstractExtension
 
     /**
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface $configResolver
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      * @param \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface $localeConverter
      * @param array $suffixes
      */

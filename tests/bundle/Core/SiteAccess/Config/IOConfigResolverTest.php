@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\SiteAccess\Config;
 
 use Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor;
 use Ibexa\Bundle\Core\SiteAccess\Config\IOConfigResolver;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ class IOConfigResolverTest extends TestCase
 {
     private const DEFAULT_NAMESPACE = 'ezsettings';
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService|\PHPUnit\Framework\MockObject\MockObject */

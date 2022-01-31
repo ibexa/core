@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler;
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
 use PHPUnit\Framework\TestCase;

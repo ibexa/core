@@ -14,8 +14,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\MVC\ConfigResolverInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
  */
 class TranslationHelper
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     protected $configResolver;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */

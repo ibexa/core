@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\SiteAccess;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver;
 
 /**
@@ -14,7 +14,7 @@ use Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver;
  */
 final class LanguageResolver extends AbstractLanguageResolver
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(

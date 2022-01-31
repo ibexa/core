@@ -10,7 +10,7 @@ use Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator;
 use Ibexa\Bundle\Core\Imagine\PlaceholderAliasGeneratorConfigurator;
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
 use Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 
 class PlaceholderAliasGeneratorConfiguratorTest extends TestCase

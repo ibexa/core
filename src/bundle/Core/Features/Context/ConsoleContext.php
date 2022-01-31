@@ -7,14 +7,14 @@
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\Assert as Assertion;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
 class ConsoleContext implements Context
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var string[] */
@@ -33,7 +33,7 @@ class ConsoleContext implements Context
     private $it = [];
 
     /**
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface $configResolver
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      * @param string[] $siteaccessList
      * @param string $defaultSiteaccess
      */
@@ -196,7 +196,7 @@ class ConsoleContext implements Context
     }
 
     /**
-     * @return \Ibexa\Core\MVC\ConfigResolverInterface
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private function getConfigResolver()
     {

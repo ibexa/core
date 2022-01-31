@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConfigScopeListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface[] */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
     private $configResolvers;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\ViewManagerInterface|\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware */

@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\View;
 use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\View\Configurator;
 use Ibexa\Core\MVC\Symfony\View\Manager;
 use Ibexa\Core\MVC\Symfony\View\View;
@@ -39,7 +39,7 @@ class ViewManagerTest extends TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Repository */
     private $repositoryMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolverMock;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
@@ -83,7 +83,7 @@ class ViewManagerTest extends TestCase
 
     public function testContentViewProvidersPriority()
     {
-        list($high, $medium, $low) = $this->createContentViewProviderMocks();
+        [$high, $medium, $low] = $this->createContentViewProviderMocks();
         $this->viewManager->addContentViewProvider($medium, 33);
         $this->viewManager->addContentViewProvider($high, 100);
         $this->viewManager->addContentViewProvider($low, -100);
@@ -95,7 +95,7 @@ class ViewManagerTest extends TestCase
 
     public function testLocationViewProvidersPriority()
     {
-        list($high, $medium, $low) = $this->createLocationViewProviderMocks();
+        [$high, $medium, $low] = $this->createLocationViewProviderMocks();
         $this->viewManager->addLocationViewProvider($medium, 33);
         $this->viewManager->addLocationViewProvider($high, 100);
         $this->viewManager->addLocationViewProvider($low, -100);

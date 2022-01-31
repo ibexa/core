@@ -6,22 +6,22 @@
  */
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 
 class ChainConfigResolver implements ConfigResolverInterface
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface[] */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
     protected $resolvers = [];
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface[] */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
     protected $sortedResolvers;
 
     /**
      * Registers $mapper as a valid mapper to be used in the configuration mapping chain.
      * When this mapper will be called in the chain depends on $priority. The highest $priority is, the earliest the router will be called.
      *
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface $resolver
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $resolver
      * @param int $priority
      */
     public function addResolver(ConfigResolverInterface $resolver, $priority = 0)
@@ -36,7 +36,7 @@ class ChainConfigResolver implements ConfigResolverInterface
     }
 
     /**
-     * @return \Ibexa\Core\MVC\ConfigResolverInterface[]
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[]
      */
     public function getAllResolvers()
     {
@@ -51,7 +51,7 @@ class ChainConfigResolver implements ConfigResolverInterface
      * Sort the registered mappers by priority.
      * The highest priority number is the highest priority (reverse sorting).
      *
-     * @return \Ibexa\Core\MVC\ConfigResolverInterface[]
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[]
      */
     protected function sortResolvers()
     {

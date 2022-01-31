@@ -17,7 +17,7 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
     private $innerMatcherFactory;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     public function setUp(): void

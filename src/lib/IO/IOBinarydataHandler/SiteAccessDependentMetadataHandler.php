@@ -8,15 +8,15 @@ namespace Ibexa\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOMetadataHandler;
-use Ibexa\Core\MVC\ConfigResolverInterface;
 
 /**
  * @internal
  */
 final class SiteAccessDependentMetadataHandler implements IOMetadataHandler
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */

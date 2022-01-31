@@ -7,7 +7,7 @@
 namespace Ibexa\Bundle\Core\URLChecker\Handler;
 
 use Ibexa\Contracts\Core\Repository\URLService;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MailToHandler extends AbstractConfigResolverBasedURLHandler

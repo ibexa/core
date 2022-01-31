@@ -46,7 +46,7 @@ abstract class Controller implements ContainerAwareInterface
     }
 
     /**
-     * @return \Ibexa\Core\MVC\ConfigResolverInterface
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     public function getConfigResolver()
     {

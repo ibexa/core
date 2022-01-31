@@ -30,7 +30,7 @@ class ImagineAwareAliasGenerator implements VariationHandler
     /** @var \Ibexa\Core\IO\IOServiceInterface */
     private $ioService;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Imagine\Image\ImagineInterface */

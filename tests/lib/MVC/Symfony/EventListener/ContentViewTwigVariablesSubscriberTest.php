@@ -10,7 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\EventListener;
 
 use ArrayIterator;
 use Ibexa\Contracts\Core\MVC\View\VariableProvider;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\EventListener\ContentViewTwigVariablesSubscriber;
 use Ibexa\Core\MVC\Symfony\View\ContentView;

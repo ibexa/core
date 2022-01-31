@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\Routing;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
@@ -27,7 +27,7 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
 
     protected $nonSiteAccessAwareRoutes = [];
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     protected $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */

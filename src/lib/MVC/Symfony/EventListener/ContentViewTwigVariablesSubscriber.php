@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\EventListener;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\ExpressionLanguage\ExpressionLanguage;
 use Ibexa\Core\MVC\Symfony\ExpressionLanguage\TwigVariableProviderExtension;
@@ -26,7 +26,7 @@ final class ContentViewTwigVariablesSubscriber implements EventSubscriberInterfa
     /** @var \Ibexa\Core\MVC\Symfony\View\VariableProviderRegistry */
     private $parameterProviderRegistry;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage */

@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\IO\Adapter;
 
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOConfigProvider;
-use Ibexa\Core\MVC\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use League\Flysystem\Adapter\Local;
 use LogicException;
@@ -23,7 +23,7 @@ final class LocalAdapter extends Local implements ConfigScopeChangeSubscriber
     /** @var \Ibexa\Core\IO\IOConfigProvider */
     private $ioConfigProvider;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(IOConfigProvider $ioConfigProvider, ConfigResolverInterface $configResolver)

@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
 use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

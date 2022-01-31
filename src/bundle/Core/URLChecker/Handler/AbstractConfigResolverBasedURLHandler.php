@@ -7,14 +7,14 @@
 namespace Ibexa\Bundle\Core\URLChecker\Handler;
 
 use Ibexa\Contracts\Core\Repository\URLService;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 /**
  * URLHandler based on ConfigResolver configured using $parameterName, $namespace and $scope properties.
  */
 abstract class AbstractConfigResolverBasedURLHandler extends AbstractURLHandler
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     protected $configResolver;
 
     /** @var string */
