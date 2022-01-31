@@ -134,7 +134,7 @@ class Mapper
 
                 $multilingualData = $this->extractMultilingualData($fieldDataRows);
 
-                $types[$typeId]->fieldDefinitions[] = $fields[$fieldId] = $this->extractFieldFromRow($row, $multilingualData);
+                $types[$typeId]->fieldDefinitions[] = $fields[$fieldId] = $this->extractFieldFromRow($row, $multilingualData, $types[$typeId]->status);
             }
 
             $groupId = (int)$row['ezcontentclass_classgroup_group_id'];
@@ -219,7 +219,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
      */
-    public function extractFieldFromRow(array $row, array $multilingualData = [])
+    public function extractFieldFromRow(array $row, array $multilingualData = [], int $status = Type::STATUS_DEFINED)
     {
         $storageFieldDef = $this->extractStorageFieldFromRow($row, $multilingualData);
 
@@ -249,7 +249,7 @@ class Mapper
         $mainLanguageCode = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['ezcontentclass_initial_language_id']);
         $field->mainLanguageCode = array_shift($mainLanguageCode);
 
-        $this->toFieldDefinition($storageFieldDef, $field);
+        $this->toFieldDefinition($storageFieldDef, $field, $status);
 
         return $field;
     }
@@ -456,7 +456,8 @@ class Mapper
      */
     public function toFieldDefinition(
         StorageFieldDefinition $storageFieldDef,
-        FieldDefinition $fieldDef
+        FieldDefinition $fieldDef,
+        int $status
     ) {
         $converter = $this->converterRegistry->getConverter(
             $fieldDef->fieldType
@@ -466,7 +467,7 @@ class Mapper
             $fieldDef
         );
 
-        $this->storageDispatcher->loadFieldConstraintsData($fieldDef);
+        $this->storageDispatcher->loadFieldConstraintsData($fieldDef, $status);
     }
 
     /**
