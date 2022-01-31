@@ -457,7 +457,7 @@ class Mapper
     public function toFieldDefinition(
         StorageFieldDefinition $storageFieldDef,
         FieldDefinition $fieldDef,
-        int $status
+        int $status = Type::STATUS_DEFINED
     ) {
         $converter = $this->converterRegistry->getConverter(
             $fieldDef->fieldType
