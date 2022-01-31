@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider;
 use PHPUnit\Framework\TestCase;
 
 class ResourceProviderTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     protected $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider */
@@ -93,7 +93,7 @@ class ResourceProviderTest extends TestCase
      *
      * Make sure returned resource lists are not sorted as ResourceProvider is sorting them
      *
-     * @return \Ibexa\Core\MVC\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getConfigResolverMock(): ConfigResolverInterface
     {

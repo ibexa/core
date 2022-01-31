@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security\EventListener;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\EventListener\SecurityListener;
 use Ibexa\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException;

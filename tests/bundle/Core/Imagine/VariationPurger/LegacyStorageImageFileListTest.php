@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPurger;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList;
 use Ibexa\Core\IO\IOConfigProvider;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 
 class LegacyStorageImageFileListTest extends TestCase
@@ -25,7 +25,7 @@ class LegacyStorageImageFileListTest extends TestCase
     /** @var \Ibexa\Core\IO\IOConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $ioConfigResolverMock;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $configResolverMock;
 
     protected function setUp(): void

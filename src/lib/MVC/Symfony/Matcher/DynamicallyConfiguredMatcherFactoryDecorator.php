@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Core\MVC\Symfony\Matcher;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\View\View;
 
 /**
@@ -17,7 +17,7 @@ class DynamicallyConfiguredMatcherFactoryDecorator implements MatcherFactoryInte
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface|\Ibexa\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface */
     private $innerConfigurableMatcherFactory;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var string */

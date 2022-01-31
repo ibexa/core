@@ -1,7 +1,7 @@
 services:
     Ibexa\Contracts\Core\Repository\Repository: '@ibexa.api.repository'
 
-    Ibexa\Core\MVC\ConfigResolverInterface: '@ibexa.config.resolver'
+    Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface: '@ibexa.config.resolver'
 
     Ibexa\Contracts\Core\Repository\BookmarkService: '@ibexa.api.service.bookmark'
     Ibexa\Contracts\Core\Repository\ContentService: '@ibexa.api.service.content'

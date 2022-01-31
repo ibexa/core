@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\EventListener;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class RoutingListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Symfony\Component\Routing\RouterInterface */

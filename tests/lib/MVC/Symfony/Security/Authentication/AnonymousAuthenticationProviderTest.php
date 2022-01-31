@@ -7,7 +7,7 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\AnonymousAuthenticationProvider;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use PHPUnit\Framework\TestCase;

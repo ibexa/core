@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 /**
  * @internal
  */
 final class ResourceProvider implements ResourceProviderInterface
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)

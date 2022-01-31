@@ -10,7 +10,7 @@ namespace Ibexa\Bundle\Core\SiteAccess\Config;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser;
 use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use function str_replace;
@@ -19,7 +19,7 @@ final class ComplexConfigProcessor implements ConfigProcessor
 {
     private const DEFAULT_NAMESPACE = 'ezsettings';
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService */

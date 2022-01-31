@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Templating\Twig;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
 final class ContextAwareTwigVariablesExtension extends AbstractExtension implements GlobalsInterface
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(

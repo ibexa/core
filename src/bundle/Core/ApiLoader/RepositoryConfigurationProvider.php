@@ -7,7 +7,7 @@
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 /**
  * The repository configuration provider.
@@ -18,7 +18,7 @@ class RepositoryConfigurationProvider
     private const REPOSITORY_CONNECTION = 'connection';
     private const DEFAULT_CONNECTION_NAME = 'default';
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var array */

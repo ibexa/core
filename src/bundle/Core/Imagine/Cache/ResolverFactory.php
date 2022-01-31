@@ -6,12 +6,12 @@
  */
 namespace Ibexa\Bundle\Core\Imagine\Cache;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class ResolverFactory
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
@@ -27,7 +27,7 @@ class ResolverFactory
     private $relativeResolverClass;
 
     /**
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface $configResolver
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      * @param \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface $resolver
      * @param string $proxyResolverClass
      * @param string $relativeResolverClass

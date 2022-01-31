@@ -9,7 +9,7 @@ namespace Ibexa\Core\MVC\Symfony\Security\EventListener;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\InteractiveLoginEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
@@ -46,7 +46,7 @@ class SecurityListener implements EventSubscriberInterface
     /** @var \Ibexa\Contracts\Core\Repository\UserService */
     protected $userService;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     protected $configResolver;
 
     /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */

@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocatio
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location\Priority;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\QueryType\BuiltIn\ChildrenQueryType;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;

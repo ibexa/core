@@ -7,7 +7,7 @@
 namespace Ibexa\Tests\Bundle\Core;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use PHPUnit\Framework\TestCase;
 

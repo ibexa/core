@@ -6,11 +6,11 @@
  */
 namespace Ibexa\Bundle\Core\Imagine;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 class PlaceholderAliasGeneratorConfigurator
 {
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry */

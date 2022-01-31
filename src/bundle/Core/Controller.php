@@ -10,7 +10,7 @@ namespace Ibexa\Bundle\Core;
 
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Templating\GlobalHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

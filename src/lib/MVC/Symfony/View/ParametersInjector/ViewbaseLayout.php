@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Core\MVC\Symfony\View\ParametersInjector;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\View\Event\FilterViewParametersEvent;
 use Ibexa\Core\MVC\Symfony\View\ViewEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -19,7 +19,7 @@ class ViewbaseLayout implements EventSubscriberInterface
     /** @var string */
     private $viewbaseLayout;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     public function __construct($viewbaseLayout, ConfigResolverInterface $configResolver)

@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\ApiLoader;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -22,7 +22,7 @@ class CacheFactory implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     /**
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface $configResolver
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      *
      * @return \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
      */

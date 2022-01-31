@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -33,7 +33,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
     protected $translatorMock;
 
     /**
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $configResolverInterfaceMock;
 
@@ -79,7 +79,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected function getConfigResolverInterfaceMock()
     {

@@ -7,7 +7,7 @@
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
 use Ibexa\Core\IO\IOConfigProvider;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 /**
  * Iterator for entries in legacy's ezimagefile table.
@@ -40,7 +40,7 @@ class LegacyStorageImageFileList implements ImageFileList
     /** @var \Ibexa\Core\IO\IOConfigProvider */
     private $ioConfigResolver;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     public function __construct(

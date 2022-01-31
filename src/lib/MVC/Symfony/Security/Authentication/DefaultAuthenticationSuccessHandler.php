@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Core\MVC\Symfony\Security\Authentication;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler as BaseSuccessHandler;
 
 class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
@@ -14,7 +14,7 @@ class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
     /**
      * Injects the ConfigResolver to potentially override default_target_path for redirections after authentication success.
      *
-     * @param \Ibexa\Core\MVC\ConfigResolverInterface $configResolver
+     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      */
     public function setConfigResolver(ConfigResolverInterface $configResolver)
     {

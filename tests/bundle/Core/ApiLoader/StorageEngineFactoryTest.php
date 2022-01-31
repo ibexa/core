@@ -10,7 +10,7 @@ use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine;
 use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory;
 use Ibexa\Contracts\Core\Persistence\Handler;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\TestCase;
 
 class StorageEngineFactoryTest extends TestCase
@@ -112,7 +112,7 @@ class StorageEngineFactoryTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\MVC\ConfigResolverInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     protected function getConfigResolverMock()
     {

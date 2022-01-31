@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\EventListener;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
@@ -29,7 +29,7 @@ class SessionSetDynamicNameListener implements EventSubscriberInterface
      */
     public const SESSION_NAME_PREFIX = 'eZSESSID';
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface */

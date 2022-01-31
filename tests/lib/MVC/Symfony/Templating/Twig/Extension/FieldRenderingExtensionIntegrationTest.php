@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Helper\TranslationHelper;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistryInterface;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer;

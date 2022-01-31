@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\EventListener;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
@@ -22,7 +22,7 @@ class LocaleListener implements EventSubscriberInterface
     /** @var \Symfony\Component\HttpKernel\EventListener\LocaleListener */
     private $innerListener;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface */

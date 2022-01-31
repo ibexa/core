@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Core\MVC\Symfony\Controller;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\View\LoginFormView;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
@@ -16,7 +16,7 @@ class SecurityController
     /** @var \Twig\Environment */
     protected $templateEngine;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     protected $configResolver;
 
     /** @var \Symfony\Component\Security\Http\Authentication\AuthenticationUtils */

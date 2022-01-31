@@ -8,7 +8,7 @@ namespace Ibexa\Core\MVC\Symfony\Templating;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Core\Helper\TranslationHelper;
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\RequestStackAware;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Symfony\Component\Routing\RouterInterface;
@@ -21,7 +21,7 @@ class GlobalHelper
 {
     use RequestStackAware;
 
-    /** @var \Ibexa\Core\MVC\ConfigResolverInterface */
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     protected $configResolver;
 
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
@@ -164,7 +164,7 @@ class GlobalHelper
     /**
      * Returns the config resolver.
      *
-     * @return \Ibexa\Core\MVC\ConfigResolverInterface
+     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     public function getConfigResolver()
     {

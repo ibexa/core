@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Core\MVC\Symfony\Configuration;
 
-use Ibexa\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 /**
  * Allows a ConfigResolver to dynamically change their default scope.
