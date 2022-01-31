@@ -29,6 +29,7 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
 
     public function storeFieldConstraintsData(
         int $fieldDefinitionId,
+        int $status,
         FieldTypeConstraints $fieldTypeConstraints
     ): void {
         $this->fieldConstraints[$fieldDefinitionId] = $fieldTypeConstraints;
@@ -41,7 +42,8 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
     }
 
     public function getFieldConstraintsData(
-        int $fieldDefinitionId
+        int $fieldDefinitionId,
+        int $status
     ): FieldTypeConstraints {
         return $this->fieldConstraints[$fieldDefinitionId];
     }
@@ -52,7 +54,7 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
         return $this->fieldConstraints[$fieldDefinitionId] ?? null;
     }
 
-    public function deleteFieldConstraintsData(int $fieldDefinitionId): void
+    public function deleteFieldConstraintsData(int $fieldDefinitionId, int $status): void
     {
         unset($this->fieldConstraints[$fieldDefinitionId]);
     }
