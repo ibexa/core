@@ -116,8 +116,8 @@ final class StorageDispatcherTest extends TestCase
         $dispatcher = new StorageDispatcher($registry);
         $dispatcher->deleteFieldConstraintsData(
             self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
-            ContentType::STATUS_DEFINED,
             self::EXAMPLE_FIELD_DEFINITION_ID,
+            ContentType::STATUS_DEFINED,
         );
     }
 
@@ -128,8 +128,8 @@ final class StorageDispatcherTest extends TestCase
         $dispatcher = new StorageDispatcher($registry);
         $dispatcher->deleteFieldConstraintsData(
             self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
-            ContentType::STATUS_DEFINED,
             self::EXAMPLE_FIELD_DEFINITION_ID,
+            ContentType::STATUS_DEFINED,
         );
     }
 
