@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\FieldType\FieldConstraintsStorage;
 use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
+use Ibexa\Contracts\Core\Persistence\Content\Type as ContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcher;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistryInterface;
@@ -20,15 +21,34 @@ final class StorageDispatcherTest extends TestCase
     private const EXAMPLE_FIELD_DEFINITION_ID = 1;
     private const EXAMPLE_FIELD_TYPE_IDENTIFIER = 'example_ft';
 
+    public function testPublishFieldConstraintsData(): void
+    {
+        $storage = $this->createMock(FieldConstraintsStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('publishFieldConstraintsData')
+            ->with(self::EXAMPLE_FIELD_DEFINITION_ID);
+
+        $fieldDefinition = new FieldDefinition();
+        $fieldDefinition->id = self::EXAMPLE_FIELD_DEFINITION_ID;
+        $fieldDefinition->fieldType = self::EXAMPLE_FIELD_TYPE_IDENTIFIER;
+
+        $registry = $this->createStorageRegistryMockWithExternalStorage($storage);
+
+        $dispatcher = new StorageDispatcher($registry);
+        $dispatcher->publishFieldConstraintsData($fieldDefinition);
+    }
+
     public function testStoreFieldConstraintsData(): void
     {
+        $status = ContentType::STATUS_DEFINED;
         $constraints = $this->createMock(FieldTypeConstraints::class);
 
         $storage = $this->createMock(FieldConstraintsStorage::class);
         $storage
             ->expects($this->once())
             ->method('storeFieldConstraintsData')
-            ->with(self::EXAMPLE_FIELD_DEFINITION_ID, $constraints);
+            ->with(self::EXAMPLE_FIELD_DEFINITION_ID, $status, $constraints);
 
         $fieldDefinition = new FieldDefinition();
         $fieldDefinition->fieldTypeConstraints = $constraints;
@@ -38,11 +58,13 @@ final class StorageDispatcherTest extends TestCase
         $registry = $this->createStorageRegistryMockWithExternalStorage($storage);
 
         $dispatcher = new StorageDispatcher($registry);
-        $dispatcher->storeFieldConstraintsData($fieldDefinition);
+        $dispatcher->storeFieldConstraintsData($fieldDefinition, $status);
     }
 
     public function testStoreFieldConstraintsDataForNonSupportedFieldType(): void
     {
+        $status = ContentType::STATUS_DEFINED;
+
         $fieldDefinition = new FieldDefinition();
         $fieldDefinition->id = self::EXAMPLE_FIELD_DEFINITION_ID;
         $fieldDefinition->fieldType = self::EXAMPLE_FIELD_TYPE_IDENTIFIER;
@@ -50,7 +72,7 @@ final class StorageDispatcherTest extends TestCase
         $registry = $this->createStorageRegistryMockWithoutExternalStorage();
 
         $dispatcher = new StorageDispatcher($registry);
-        $dispatcher->storeFieldConstraintsData($fieldDefinition);
+        $dispatcher->storeFieldConstraintsData($fieldDefinition, $status);
     }
 
     public function testLoadFieldConstraintsData(): void
@@ -71,7 +93,7 @@ final class StorageDispatcherTest extends TestCase
         $registry = $this->createStorageRegistryMockWithExternalStorage($storage);
 
         $dispatcher = new StorageDispatcher($registry);
-        $dispatcher->loadFieldConstraintsData($fieldDefinition);
+        $dispatcher->loadFieldConstraintsData($fieldDefinition, ContentType::STATUS_DEFINED);
 
         self::assertSame(
             $constraints,
@@ -91,7 +113,7 @@ final class StorageDispatcherTest extends TestCase
         $registry = $this->createStorageRegistryMockWithoutExternalStorage();
 
         $dispatcher = new StorageDispatcher($registry);
-        $dispatcher->loadFieldConstraintsData($fieldDefinition);
+        $dispatcher->loadFieldConstraintsData($fieldDefinition, ContentType::STATUS_DEFINED);
 
         self::assertSame(
             $constraints,
@@ -112,7 +134,8 @@ final class StorageDispatcherTest extends TestCase
         $dispatcher = new StorageDispatcher($registry);
         $dispatcher->deleteFieldConstraintsData(
             self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
-            self::EXAMPLE_FIELD_DEFINITION_ID
+            self::EXAMPLE_FIELD_DEFINITION_ID,
+            ContentType::STATUS_DEFINED,
         );
     }
 
@@ -123,7 +146,8 @@ final class StorageDispatcherTest extends TestCase
         $dispatcher = new StorageDispatcher($registry);
         $dispatcher->deleteFieldConstraintsData(
             self::EXAMPLE_FIELD_TYPE_IDENTIFIER,
-            self::EXAMPLE_FIELD_DEFINITION_ID
+            self::EXAMPLE_FIELD_DEFINITION_ID,
+            ContentType::STATUS_DEFINED,
         );
     }
 

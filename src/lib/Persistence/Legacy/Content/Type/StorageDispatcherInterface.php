@@ -12,9 +12,11 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 
 interface StorageDispatcherInterface
 {
-    public function storeFieldConstraintsData(FieldDefinition $fieldDefinition): void;
+    public function publishFieldConstraintsData(FieldDefinition $fieldDefinition): void;
 
-    public function loadFieldConstraintsData(FieldDefinition $fieldDefinition): void;
+    public function storeFieldConstraintsData(FieldDefinition $fieldDefinition, int $status): void;
 
-    public function deleteFieldConstraintsData(string $fieldTypeIdentifier, int $fieldDefinitionId): void;
+    public function loadFieldConstraintsData(FieldDefinition $fieldDefinition, int $status): void;
+
+    public function deleteFieldConstraintsData(string $fieldTypeIdentifier, int $fieldDefinitionId, int $status): void;
 }

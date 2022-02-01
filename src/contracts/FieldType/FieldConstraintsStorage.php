@@ -14,14 +14,19 @@ interface FieldConstraintsStorage
 {
     public function storeFieldConstraintsData(
         int $fieldDefinitionId,
+        int $status,
         FieldTypeConstraints $fieldTypeConstraints
     ): void;
 
     public function getFieldConstraintsData(
-        int $fieldDefinitionId
+        int $fieldDefinitionId,
+        int $status
     ): FieldTypeConstraints;
 
     public function deleteFieldConstraintsData(
-        int $fieldDefinitionId
+        int $fieldDefinitionId,
+        int $status
     ): void;
+
+    public function publishFieldConstraintsData(int $fieldDefinitionId): void;
 }

@@ -331,7 +331,7 @@ class Handler implements BaseContentTypeHandler
                 $storageFieldDef
             );
 
-            $this->storageDispatcher->storeFieldConstraintsData($fieldDef);
+            $this->storageDispatcher->storeFieldConstraintsData($fieldDef, $contentType->status);
         }
 
         return $contentType;
@@ -378,7 +378,7 @@ class Handler implements BaseContentTypeHandler
         }
 
         foreach ($fieldDefinitions as $fieldDefinition) {
-            $this->storageDispatcher->deleteFieldConstraintsData($fieldDefinition->fieldType, $fieldDefinition->id);
+            $this->storageDispatcher->deleteFieldConstraintsData($fieldDefinition->fieldType, $fieldDefinition->id, $status);
         }
 
         $this->contentTypeGateway->delete($contentTypeId, $status);
@@ -515,7 +515,7 @@ class Handler implements BaseContentTypeHandler
 
         $multilingualData = $this->mapper->extractMultilingualData($rows);
 
-        return $this->mapper->extractFieldFromRow(reset($rows), $multilingualData);
+        return $this->mapper->extractFieldFromRow(reset($rows), $multilingualData, $status);
     }
 
     /**
@@ -552,7 +552,7 @@ class Handler implements BaseContentTypeHandler
             $storageFieldDef
         );
 
-        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition);
+        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition, $status);
     }
 
     /**
@@ -574,7 +574,8 @@ class Handler implements BaseContentTypeHandler
     ): void {
         $this->storageDispatcher->deleteFieldConstraintsData(
             $fieldDefinition->fieldType,
-            $fieldDefinition->id
+            $fieldDefinition->id,
+            $status
         );
 
         $this->contentTypeGateway->deleteFieldDefinition(
@@ -600,7 +601,7 @@ class Handler implements BaseContentTypeHandler
         $storageFieldDef = new StorageFieldDefinition();
         $this->mapper->toStorageFieldDefinition($fieldDefinition, $storageFieldDef);
         $this->contentTypeGateway->updateFieldDefinition($contentTypeId, $status, $fieldDefinition, $storageFieldDef);
-        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition);
+        $this->storageDispatcher->storeFieldConstraintsData($fieldDefinition, $status);
     }
 
     /**
@@ -628,6 +629,10 @@ class Handler implements BaseContentTypeHandler
         }
 
         $this->updateHandler->publishNewType($toType, Type::STATUS_DEFINED);
+
+        foreach ($toType->fieldDefinitions as $fieldDefinition) {
+            $this->storageDispatcher->publishFieldConstraintsData($fieldDefinition);
+        }
     }
 
     public function getSearchableFieldMap()

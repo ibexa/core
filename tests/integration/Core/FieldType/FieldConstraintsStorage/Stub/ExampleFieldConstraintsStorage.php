@@ -19,16 +19,26 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
     /** @var \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints[] */
     private array $fieldConstraints;
 
+    /** @var int[] */
+    private array $published = [];
+
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints[]
      */
     public function __construct(array $fieldConstraints = [])
     {
         $this->fieldConstraints = $fieldConstraints;
+        $this->published = [];
+    }
+
+    public function publishFieldConstraintsData(int $fieldDefinitionId): void
+    {
+        $this->published[] = $fieldDefinitionId;
     }
 
     public function storeFieldConstraintsData(
         int $fieldDefinitionId,
+        int $status,
         FieldTypeConstraints $fieldTypeConstraints
     ): void {
         $this->fieldConstraints[$fieldDefinitionId] = $fieldTypeConstraints;
@@ -40,8 +50,14 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
         return isset($this->fieldConstraints[$fieldDefinitionId]);
     }
 
+    public function isPublished(int $fieldDefinitionId): bool
+    {
+        return in_array($fieldDefinitionId, $this->published, true);
+    }
+
     public function getFieldConstraintsData(
-        int $fieldDefinitionId
+        int $fieldDefinitionId,
+        int $status
     ): FieldTypeConstraints {
         return $this->fieldConstraints[$fieldDefinitionId];
     }
@@ -52,7 +68,7 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
         return $this->fieldConstraints[$fieldDefinitionId] ?? null;
     }
 
-    public function deleteFieldConstraintsData(int $fieldDefinitionId): void
+    public function deleteFieldConstraintsData(int $fieldDefinitionId, int $status): void
     {
         unset($this->fieldConstraints[$fieldDefinitionId]);
     }

@@ -19,28 +19,36 @@ final class StorageDispatcher implements StorageDispatcherInterface
         $this->registry = $registry;
     }
 
-    public function storeFieldConstraintsData(FieldDefinition $fieldDefinition): void
+    public function publishFieldConstraintsData(FieldDefinition $fieldDefinition): void
     {
         if ($this->registry->hasStorage($fieldDefinition->fieldType)) {
             $storage = $this->registry->getStorage($fieldDefinition->fieldType);
-            $storage->storeFieldConstraintsData($fieldDefinition->id, $fieldDefinition->fieldTypeConstraints);
+            $storage->publishFieldConstraintsData($fieldDefinition->id);
         }
     }
 
-    public function loadFieldConstraintsData(FieldDefinition $fieldDefinition): void
+    public function storeFieldConstraintsData(FieldDefinition $fieldDefinition, int $status): void
+    {
+        if ($this->registry->hasStorage($fieldDefinition->fieldType)) {
+            $storage = $this->registry->getStorage($fieldDefinition->fieldType);
+            $storage->storeFieldConstraintsData($fieldDefinition->id, $status, $fieldDefinition->fieldTypeConstraints);
+        }
+    }
+
+    public function loadFieldConstraintsData(FieldDefinition $fieldDefinition, int $status): void
     {
         if ($this->registry->hasStorage($fieldDefinition->fieldType)) {
             $storage = $this->registry->getStorage($fieldDefinition->fieldType);
 
-            $fieldDefinition->fieldTypeConstraints = $storage->getFieldConstraintsData($fieldDefinition->id);
+            $fieldDefinition->fieldTypeConstraints = $storage->getFieldConstraintsData($fieldDefinition->id, $status);
         }
     }
 
-    public function deleteFieldConstraintsData(string $fieldTypeIdentifier, int $fieldDefinitionId): void
+    public function deleteFieldConstraintsData(string $fieldTypeIdentifier, int $fieldDefinitionId, int $status): void
     {
         if ($this->registry->hasStorage($fieldTypeIdentifier)) {
             $storage = $this->registry->getStorage($fieldTypeIdentifier);
-            $storage->deleteFieldConstraintsData($fieldDefinitionId);
+            $storage->deleteFieldConstraintsData($fieldDefinitionId, $status);
         }
     }
 }
