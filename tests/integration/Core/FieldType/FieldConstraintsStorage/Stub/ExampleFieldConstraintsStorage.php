@@ -27,6 +27,11 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
         $this->fieldConstraints = $fieldConstraints;
     }
 
+    public function publishFieldConstraintsData(int $fieldDefinitionId): void
+    {
+        // TODO: Implementation
+    }
+
     public function storeFieldConstraintsData(
         int $fieldDefinitionId,
         int $status,
