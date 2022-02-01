@@ -19,6 +19,14 @@ final class StorageDispatcher implements StorageDispatcherInterface
         $this->registry = $registry;
     }
 
+    public function publishFieldConstraintsData(FieldDefinition $fieldDefinition): void
+    {
+        if ($this->registry->hasStorage($fieldDefinition->fieldType)) {
+            $storage = $this->registry->getStorage($fieldDefinition->fieldType);
+            $storage->publishFieldConstraintsData($fieldDefinition->id);
+        }
+    }
+
     public function storeFieldConstraintsData(FieldDefinition $fieldDefinition, int $status): void
     {
         if ($this->registry->hasStorage($fieldDefinition->fieldType)) {

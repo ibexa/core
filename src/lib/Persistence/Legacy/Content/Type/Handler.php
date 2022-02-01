@@ -629,6 +629,10 @@ class Handler implements BaseContentTypeHandler
         }
 
         $this->updateHandler->publishNewType($toType, Type::STATUS_DEFINED);
+
+        foreach ($toType->fieldDefinitions as $fieldDefinition) {
+            $this->storageDispatcher->publishFieldConstraintsData($fieldDefinition);
+        }
     }
 
     public function getSearchableFieldMap()

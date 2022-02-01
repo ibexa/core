@@ -27,4 +27,6 @@ interface FieldConstraintsStorage
         int $fieldDefinitionId,
         int $status
     ): void;
+
+    public function publishFieldConstraintsData(int $fieldDefinitionId): void;
 }
