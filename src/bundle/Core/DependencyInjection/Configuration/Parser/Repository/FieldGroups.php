@@ -24,7 +24,7 @@ final class FieldGroups implements RepositoryConfigParserInterface
                         ->end()
                     ->end()
                     ->scalarNode('default')
-                        ->defaultValue('%ezsettings.default.content.field_groups.default%')
+                        ->defaultValue('%ibexa.site_access.config.default.content.field_groups.default%')
                     ->end()
                 ->end()
             ->end();

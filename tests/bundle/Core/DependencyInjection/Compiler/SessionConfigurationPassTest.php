@@ -85,8 +85,8 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
 
     private function doCompile(): void
     {
-        $this->container->setParameter('ezplatform.session.handler_id', 'my_handler');
-        $this->container->setParameter('ezplatform.session.save_path', 'my_save_path');
+        $this->container->setParameter('ibexa.session.handler_id', 'my_handler');
+        $this->container->setParameter('ibexa.session.save_path', 'my_save_path');
 
         $this->compile();
 
@@ -103,7 +103,7 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
         $definition->setArguments([$dsn]);
 
         $this->container->setDefinition('session.abstract_handler', $definition);
-        $this->container->setParameter('ezplatform.session.handler_id', $dsn);
+        $this->container->setParameter('ibexa.session.handler_id', $dsn);
         $this->container->setDefinition(
             'session.storage.native',
             (new Definition())->setArguments([null, null, null])
@@ -120,8 +120,8 @@ class SessionConfigurationPassTest extends AbstractCompilerPassTestCase
 
     public function testCompileWithNullValues(): void
     {
-        $this->container->setParameter('ezplatform.session.handler_id', null);
-        $this->container->setParameter('ezplatform.session.save_path', null);
+        $this->container->setParameter('ibexa.session.handler_id', null);
+        $this->container->setParameter('ibexa.session.save_path', null);
 
         $this->compile();
 

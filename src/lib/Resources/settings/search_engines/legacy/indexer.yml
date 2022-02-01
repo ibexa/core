@@ -6,7 +6,7 @@ services:
             $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
             $searchIndex: '@Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex'
             $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
-            $fullTextSearchConfiguration: '%ezpublish.search.legacy.criterion_handler.full_text.configuration%'
+            $fullTextSearchConfiguration: '%ibexa.search.legacy.criterion_handler.full_text.configuration%'
 
     Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex:
         arguments:

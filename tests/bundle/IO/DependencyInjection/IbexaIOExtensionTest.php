@@ -34,8 +34,8 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
     {
         $this->load();
 
-        $this->assertContainerBuilderHasParameter('ez_io.metadata_handlers', []);
-        $this->assertContainerBuilderHasParameter('ez_io.binarydata_handlers', []);
+        $this->assertContainerBuilderHasParameter('ibexa.io.metadata_handlers', []);
+        $this->assertContainerBuilderHasParameter('ibexa.io.binarydata_handlers', []);
     }
 
     public function testParametersWithMetadataHandler()
@@ -47,9 +47,9 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         ];
         $this->load($config);
 
-        $this->assertContainerBuilderHasParameter('ez_io.binarydata_handlers', []);
+        $this->assertContainerBuilderHasParameter('ibexa.io.binarydata_handlers', []);
         $this->assertContainerBuilderHasParameter(
-            'ez_io.metadata_handlers',
+            'ibexa.io.metadata_handlers',
             ['my_metadata_handler' => ['name' => 'my_metadata_handler', 'type' => 'flysystem', 'adapter' => 'my_adapter']]
         );
     }
@@ -63,9 +63,9 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         ];
         $this->load($config);
 
-        $this->assertContainerBuilderHasParameter('ez_io.metadata_handlers', []);
+        $this->assertContainerBuilderHasParameter('ibexa.io.metadata_handlers', []);
         $this->assertContainerBuilderHasParameter(
-            'ez_io.binarydata_handlers',
+            'ibexa.io.binarydata_handlers',
             ['my_binarydata_handler' => ['name' => 'my_binarydata_handler', 'type' => 'flysystem', 'adapter' => 'my_adapter']]
         );
     }

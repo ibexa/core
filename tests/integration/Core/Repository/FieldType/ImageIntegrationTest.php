@@ -29,7 +29,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @var string
      */
-    protected static $storagePrefixConfigKey = 'image_storage_prefix';
+    protected static $storagePrefixConfigKey = 'ibexa.io.images.storage.prefix';
 
     protected function getStoragePrefix()
     {

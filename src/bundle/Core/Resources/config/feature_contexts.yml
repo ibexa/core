@@ -8,8 +8,8 @@ services:
         public: true
         arguments:
             $configResolver: '@ibexa.config.resolver'
-            $siteaccessList: '%ezpublish.siteaccess.list%'
-            $defaultSiteaccess: '%ezpublish.siteaccess.default%'
+            $siteaccessList: '%ibexa.site_access.list%'
+            $defaultSiteaccess: '%ibexa.site_access.default%'
 
     Ibexa\Bundle\Core\Features\Context\YamlConfigurationContext:
         public: true

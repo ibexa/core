@@ -100,7 +100,7 @@ services:
         arguments:
             - '@ibexa.config.resolver'
             - '@Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry'
-            - '%image_alias.placeholder_providers%'
+            - '%ibexa.io.images.alias.placeholder_provider%'
 
     Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator:
         class: 'Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator'

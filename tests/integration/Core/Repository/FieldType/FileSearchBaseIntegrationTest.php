@@ -43,7 +43,7 @@ abstract class FileSearchBaseIntegrationTest extends SearchBaseIntegrationTest
     /**
      * Storage dir settings key.
      */
-    protected static $storageDirConfigKey = 'storage_dir';
+    protected static $storageDirConfigKey = 'ibexa.io.dir.storage';
 
     /**
      * If storage data should not be cleaned up.
@@ -89,9 +89,9 @@ abstract class FileSearchBaseIntegrationTest extends SearchBaseIntegrationTest
         parent::setUp();
 
         if (!isset(self::$installDir)) {
-            self::$installDir = $this->getConfigValue('ezpublish.kernel.root_dir');
+            self::$installDir = $this->getConfigValue('ibexa.kernel.root_dir');
             self::$storageDir = $this->getConfigValue(static::$storageDirConfigKey);
-            self::$ioRootDir = $this->getConfigValue('io_root_dir');
+            self::$ioRootDir = $this->getConfigValue('ibexa.io.dir.root');
 
             self::setUpIgnoredPath($this->getConfigValue('ignored_storage_files'));
         }

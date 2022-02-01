@@ -18,9 +18,9 @@ class IOTest extends AbstractParserTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->container->setParameter('ezsettings.default.var_dir', 'var'); // PS: Does not seem to take effect
-        $this->container->setParameter('ezsettings.default.storage_dir', 'storage');
-        $this->container->setParameter('ezsettings.ezdemo_site.var_dir', 'var/ezdemo_site');
+        $this->container->setParameter('ibexa.site_access.config.default.var_dir', 'var'); // PS: Does not seem to take effect
+        $this->container->setParameter('ibexa.site_access.config.default.storage_dir', 'storage');
+        $this->container->setParameter('ibexa.site_access.config.ezdemo_site.var_dir', 'var/ezdemo_site');
     }
 
     protected function getContainerExtensions(): array

@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 class IOConfigResolverTest extends TestCase
 {
-    private const DEFAULT_NAMESPACE = 'ezsettings';
+    private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $configResolver;
@@ -39,18 +39,18 @@ class IOConfigResolverTest extends TestCase
     {
         $this->siteAccessService
             ->method('getCurrent')
-            ->willReturn(new SiteAccess('ezdemo_site'));
+            ->willReturn(new SiteAccess('demo_site'));
 
         $this->configResolver
             ->method('hasParameter')
-            ->with('io.url_prefix', null, 'ezdemo_site')
+            ->with('io.url_prefix', null, 'demo_site')
             ->willReturn(true);
         $this->configResolver
             ->method('getParameter')
             ->willReturnMap([
-                ['io.url_prefix', null, 'ezdemo_site', '$var_dir$/ezdemo_site/$storage_dir$'],
-                ['var_dir', self::DEFAULT_NAMESPACE, 'ezdemo_site', 'var'],
-                ['storage_dir', self::DEFAULT_NAMESPACE, 'ezdemo_site', 'storage'],
+                ['io.url_prefix', null, 'demo_site', '$var_dir$/demo_site/$storage_dir$'],
+                ['var_dir', self::DEFAULT_NAMESPACE, 'demo_site', 'var'],
+                ['storage_dir', self::DEFAULT_NAMESPACE, 'demo_site', 'storage'],
             ]);
 
         $complexConfigProcessor = new ComplexConfigProcessor(
@@ -62,25 +62,25 @@ class IOConfigResolverTest extends TestCase
             $complexConfigProcessor
         );
 
-        $this->assertEquals('var/ezdemo_site/storage', $ioConfigResolver->getUrlPrefix());
+        $this->assertEquals('var/demo_site/storage', $ioConfigResolver->getUrlPrefix());
     }
 
     public function testGetLegacyUrlPrefix(): void
     {
         $this->siteAccessService
             ->method('getCurrent')
-            ->willReturn(new SiteAccess('ezdemo_site'));
+            ->willReturn(new SiteAccess('demo_site'));
 
         $this->configResolver
             ->method('hasParameter')
-            ->with('io.legacy_url_prefix', null, 'ezdemo_site')
+            ->with('io.legacy_url_prefix', null, 'demo_site')
             ->willReturn(true);
         $this->configResolver
             ->method('getParameter')
             ->willReturnMap([
-                ['io.legacy_url_prefix', null, 'ezdemo_site', '$var_dir$/ezdemo_site/$storage_dir$'],
-                ['var_dir', self::DEFAULT_NAMESPACE, 'ezdemo_site', 'var'],
-                ['storage_dir', self::DEFAULT_NAMESPACE, 'ezdemo_site', 'legacy_storage'],
+                ['io.legacy_url_prefix', null, 'demo_site', '$var_dir$/demo_site/$storage_dir$'],
+                ['var_dir', self::DEFAULT_NAMESPACE, 'demo_site', 'var'],
+                ['storage_dir', self::DEFAULT_NAMESPACE, 'demo_site', 'legacy_storage'],
             ]);
 
         $complexConfigProcessor = new ComplexConfigProcessor(
@@ -92,25 +92,25 @@ class IOConfigResolverTest extends TestCase
             $complexConfigProcessor
         );
 
-        $this->assertEquals('var/ezdemo_site/legacy_storage', $ioConfigResolver->getLegacyUrlPrefix());
+        $this->assertEquals('var/demo_site/legacy_storage', $ioConfigResolver->getLegacyUrlPrefix());
     }
 
     public function testGetRootDir(): void
     {
         $this->siteAccessService
             ->method('getCurrent')
-            ->willReturn(new SiteAccess('ezdemo_site'));
+            ->willReturn(new SiteAccess('demo_site'));
 
         $this->configResolver
             ->method('hasParameter')
-            ->with('io.root_dir', null, 'ezdemo_site')
+            ->with('io.root_dir', null, 'demo_site')
             ->willReturn(true);
         $this->configResolver
             ->method('getParameter')
             ->willReturnMap([
-                ['io.root_dir', null, 'ezdemo_site', '/path/to/ezpublish/web/$var_dir$/ezdemo_site/$storage_dir$'],
-                ['var_dir', self::DEFAULT_NAMESPACE, 'ezdemo_site', 'var'],
-                ['storage_dir', self::DEFAULT_NAMESPACE, 'ezdemo_site', 'legacy_storage'],
+                ['io.root_dir', null, 'demo_site', '/path/to/ibexa/web/$var_dir$/demo_site/$storage_dir$'],
+                ['var_dir', self::DEFAULT_NAMESPACE, 'demo_site', 'var'],
+                ['storage_dir', self::DEFAULT_NAMESPACE, 'demo_site', 'legacy_storage'],
             ]);
 
         $complexConfigProcessor = new ComplexConfigProcessor(
@@ -122,7 +122,7 @@ class IOConfigResolverTest extends TestCase
             $complexConfigProcessor
         );
 
-        $this->assertEquals('/path/to/ezpublish/web/var/ezdemo_site/legacy_storage', $ioConfigResolver->getRootDir());
+        $this->assertEquals('/path/to/ibexa/web/var/demo_site/legacy_storage', $ioConfigResolver->getRootDir());
     }
 }
 

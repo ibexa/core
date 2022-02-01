@@ -34,7 +34,7 @@ class ConfigResolverTest extends TestCase
      *
      * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver
      */
-    private function getResolver($defaultNS = 'ezsettings', $undefinedStrategy = ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, array $groupsBySiteAccess = [])
+    private function getResolver($defaultNS = 'ibexa.site_access.config', $undefinedStrategy = ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, array $groupsBySiteAccess = [])
     {
         $configResolver = new ConfigResolver(
             null,
@@ -51,7 +51,7 @@ class ConfigResolverTest extends TestCase
     public function testGetSetUndefinedStrategy()
     {
         $strategy = ConfigResolver::UNDEFINED_STRATEGY_NULL;
-        $defaultNS = 'ezsettings';
+        $defaultNS = 'ibexa.site_access.config';
         $resolver = $this->getResolver($defaultNS, $strategy);
 
         $this->assertSame($strategy, $resolver->getUndefinedStrategy());
@@ -67,13 +67,13 @@ class ConfigResolverTest extends TestCase
     {
         $this->expectException(ParameterNotFoundException::class);
 
-        $resolver = $this->getResolver('ezsettings', ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION);
+        $resolver = $this->getResolver('ibexa.site_access.config', ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION);
         $resolver->getParameter('foo');
     }
 
     public function testGetParameterFailedNull()
     {
-        $resolver = $this->getResolver('ezsettings', ConfigResolver::UNDEFINED_STRATEGY_NULL);
+        $resolver = $this->getResolver('ibexa.site_access.config', ConfigResolver::UNDEFINED_STRATEGY_NULL);
         $this->assertNull($resolver->getParameter('foo'));
     }
 
@@ -109,7 +109,7 @@ class ConfigResolverTest extends TestCase
      */
     public function testGetParameterGlobalScope($paramName, $expectedValue)
     {
-        $globalScopeParameter = "ezsettings.global.$paramName";
+        $globalScopeParameter = "ibexa.site_access.config.global.$paramName";
         $this->containerMock
             ->expects($this->once())
             ->method('hasParameter')
@@ -129,13 +129,13 @@ class ConfigResolverTest extends TestCase
      */
     public function testGetParameterRelativeScope($paramName, $expectedValue)
     {
-        $relativeScopeParameter = "ezsettings.{$this->siteAccess->name}.$paramName";
+        $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
         $this->containerMock
             ->expects($this->exactly(2))
             ->method('hasParameter')
             ->with(
                 $this->logicalOr(
-                    "ezsettings.global.$paramName",
+                    "ibexa.site_access.config.global.$paramName",
                     $relativeScopeParameter
                 )
             )
@@ -156,13 +156,13 @@ class ConfigResolverTest extends TestCase
     public function testGetParameterSpecificScope($paramName, $expectedValue)
     {
         $scope = 'some_siteaccess';
-        $relativeScopeParameter = "ezsettings.$scope.$paramName";
+        $relativeScopeParameter = "ibexa.site_access.config.$scope.$paramName";
         $this->containerMock
             ->expects($this->exactly(2))
             ->method('hasParameter')
             ->with(
                 $this->logicalOr(
-                    "ezsettings.global.$paramName",
+                    "ibexa.site_access.config.global.$paramName",
                     $relativeScopeParameter
                 )
             )
@@ -176,7 +176,7 @@ class ConfigResolverTest extends TestCase
 
         $this->assertSame(
             $expectedValue,
-            $this->getResolver()->getParameter($paramName, 'ezsettings', $scope)
+            $this->getResolver()->getParameter($paramName, 'ibexa.site_access.config', $scope)
         );
     }
 
@@ -185,14 +185,14 @@ class ConfigResolverTest extends TestCase
      */
     public function testGetParameterDefaultScope($paramName, $expectedValue)
     {
-        $defaultScopeParameter = "ezsettings.default.$paramName";
-        $relativeScopeParameter = "ezsettings.{$this->siteAccess->name}.$paramName";
+        $defaultScopeParameter = "ibexa.site_access.config.default.$paramName";
+        $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
         $this->containerMock
             ->expects($this->exactly(3))
             ->method('hasParameter')
             ->with(
                 $this->logicalOr(
-                    "ezsettings.global.$paramName",
+                    "ibexa.site_access.config.global.$paramName",
                     $relativeScopeParameter,
                     $defaultScopeParameter
                 )
@@ -230,7 +230,7 @@ class ConfigResolverTest extends TestCase
         $paramName = 'foo.bar';
         $groupName = 'my_group';
         $configResolver = $this->getResolver(
-            'ezsettings',
+            'ibexa.site_access.config',
             ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION,
             [$this->siteAccess->name => [$groupName]]
         );
@@ -240,10 +240,10 @@ class ConfigResolverTest extends TestCase
             ->will(
                 $this->returnValueMap(
                     [
-                        ["ezsettings.default.$paramName", $defaultMatch],
-                        ["ezsettings.$groupName.$paramName", $groupMatch],
-                        ["ezsettings.{$this->siteAccess->name}.$paramName", $scopeMatch],
-                        ["ezsettings.global.$paramName", $globalMatch],
+                        ["ibexa.site_access.config.default.$paramName", $defaultMatch],
+                        ["ibexa.site_access.config.$groupName.$paramName", $groupMatch],
+                        ["ibexa.site_access.config.{$this->siteAccess->name}.$paramName", $scopeMatch],
+                        ["ibexa.site_access.config.global.$paramName", $globalMatch],
                     ]
                 )
             );
@@ -261,7 +261,7 @@ class ConfigResolverTest extends TestCase
         $scope = 'another_siteaccess';
         $groupName = 'my_group';
         $configResolver = $this->getResolver(
-            'ezsettings',
+            'ibexa.site_access.config',
             ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION,
             [
                 $this->siteAccess->name => ['some_group'],

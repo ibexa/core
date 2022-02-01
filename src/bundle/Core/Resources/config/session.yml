@@ -1,5 +1,5 @@
 parameters:
-    ezpublish.session.attribute_bag.storage_key: "_ezpublish"
+    ibexa.session.attribute_bag.storage_key: "_ezpublish"
 
 services:
     Ibexa\Bundle\Core\EventListener\SessionSetDynamicNameListener:
@@ -17,4 +17,4 @@ services:
     # @deprecated To be removed in 7.0 kernel, see 594b083d94f1cff7008fb0d7d54f40d0ce0a2ace
     session.attribute_bag:
         class: Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag
-        arguments: ["%ezpublish.session.attribute_bag.storage_key%"]
+        arguments: ['%ibexa.session.attribute_bag.storage_key%']

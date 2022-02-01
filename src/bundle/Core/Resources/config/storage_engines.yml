@@ -4,7 +4,7 @@ services:
         class: Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider
         arguments:
             - '@ibexa.config.resolver'
-            - "%ezpublish.repositories%"
+            - '%ibexa.repositories%'
 
     Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory:
         class: Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory

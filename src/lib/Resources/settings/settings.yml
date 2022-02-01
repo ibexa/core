@@ -1,15 +1,15 @@
 parameters:
-    legacy_dsn: sqlite://:memory:
+    ibexa.persistence.legacy.dsn: sqlite://:memory:
     anonymous_user_id: 10
     kernel.debug: false
     languages: []
-    image_storage_prefix: images
-    image_draft_storage_prefix: images-versioned
-    binaryfile_storage_prefix: original
-    storage_dir: var/ezdemo_site/storage
-    io_root_dir: "%storage_dir%"
-    ezpublish.siteaccess.list: [test]
-    ezsettings.default.anonymous_user_id: 10
+    ibexa.io.images.storage.prefix: images
+    ibexa.io.images.storage.prefix.draft: images-versioned
+    ibexa.io.binary_file.storage.prefix: original
+    ibexa.io.dir.storage: var/ezdemo_site/storage
+    ibexa.io.dir.root: '%ibexa.io.dir.storage%'
+    ibexa.site_access.list: [test]
+    ibexa.site_access.config.default.anonymous_user_id: 10
 
 services:
     ibexa.api.persistence_handler:

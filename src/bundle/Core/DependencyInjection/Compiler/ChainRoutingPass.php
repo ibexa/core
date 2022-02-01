@@ -37,7 +37,7 @@ class ChainRoutingPass implements CompilerPassInterface
             $defaultRouter->addMethodCall('setConfigResolver', [new Reference('ibexa.config.resolver')]);
             $defaultRouter->addMethodCall(
                 'setNonSiteAccessAwareRoutes',
-                ['%ezpublish.default_router.non_siteaccess_aware_routes%']
+                ['%ibexa.default_router.non_site_access_aware_routes%']
             );
             $defaultRouter->addMethodCall(
                 'setSiteAccessRouter',

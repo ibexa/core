@@ -17,9 +17,9 @@ class YamlSuggestionFormatterTest extends TestCase
         $message = <<<EOT
 Database configuration has changed for eZ Content repository.
 Please define:
- - An entry in ezpublish.repositories
+ - An entry in ibexa.repositories
  - A Doctrine connection (You may check configuration reference for Doctrine "config:dump-reference doctrine" console command.)
- - A reference to configured repository in ezpublish.system.foo.repository
+ - A reference to configured repository in ibexa.system.foo.repository
 EOT;
         $suggestion = new ConfigSuggestion($message);
         $suggestion->setMandatory(true);
@@ -54,9 +54,9 @@ EOT;
         $expectedMessage = <<<EOT
 Database configuration has changed for eZ Content repository.
 Please define:
- - An entry in ezpublish.repositories
+ - An entry in ibexa.repositories
  - A Doctrine connection (You may check configuration reference for Doctrine "config:dump-reference doctrine" console command.)
- - A reference to configured repository in ezpublish.system.foo.repository
+ - A reference to configured repository in ibexa.system.foo.repository
 
 
 Example:

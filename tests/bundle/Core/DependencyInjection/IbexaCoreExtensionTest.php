@@ -89,22 +89,22 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($this->siteaccessConfig);
         $this->assertContainerBuilderHasParameter(
-            'ezpublish.siteaccess.list',
+            'ibexa.site_access.list',
             $this->siteaccessConfig['siteaccess']['list']
         );
         $this->assertContainerBuilderHasParameter(
-            'ezpublish.siteaccess.default',
+            'ibexa.site_access.default',
             $this->siteaccessConfig['siteaccess']['default_siteaccess']
         );
-        $this->assertContainerBuilderHasParameter('ezpublish.siteaccess.groups', $this->siteaccessConfig['siteaccess']['groups']);
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.groups', $this->siteaccessConfig['siteaccess']['groups']);
 
         $expectedMatchingConfig = [];
         foreach ($this->siteaccessConfig['siteaccess']['match'] as $key => $val) {
             // Value is expected to always be an array (transformed by semantic configuration parser).
             $expectedMatchingConfig[$key] = is_array($val) ? $val : ['value' => $val];
         }
-        $this->assertContainerBuilderHasParameter('ezpublish.siteaccess.match_config', $expectedMatchingConfig);
-        $this->assertContainerBuilderHasParameter('ezsettings.empty_group.var_dir', 'foo');
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.match_config', $expectedMatchingConfig);
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.config.empty_group.var_dir', 'foo');
 
         $groupsBySiteaccess = [];
         foreach ($this->siteaccessConfig['siteaccess']['groups'] as $groupName => $groupMembers) {
@@ -121,11 +121,11 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     public function testSiteAccessNoConfiguration()
     {
         $this->load();
-        $this->assertContainerBuilderHasParameter('ezpublish.siteaccess.list', ['setup']);
-        $this->assertContainerBuilderHasParameter('ezpublish.siteaccess.default', 'setup');
-        $this->assertContainerBuilderHasParameter('ezpublish.siteaccess.groups', []);
-        $this->assertContainerBuilderHasParameter('ezpublish.siteaccess.groups_by_siteaccess', []);
-        $this->assertContainerBuilderHasParameter('ezpublish.siteaccess.match_config', null);
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.list', ['setup']);
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.default', 'setup');
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.groups', []);
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.groups_by_site_access', []);
+        $this->assertContainerBuilderHasParameter('ibexa.site_access.match_config', null);
     }
 
     public function testImageMagickConfigurationBasic()
@@ -142,9 +142,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
             ]
         );
-        $this->assertContainerBuilderHasParameter('ezpublish.image.imagemagick.enabled', true);
-        $this->assertContainerBuilderHasParameter('ezpublish.image.imagemagick.executable_path', dirname($_ENV['imagemagickConvertPath']));
-        $this->assertContainerBuilderHasParameter('ezpublish.image.imagemagick.executable', basename($_ENV['imagemagickConvertPath']));
+        $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.enabled', true);
+        $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.executable_path', dirname($_ENV['imagemagickConvertPath']));
+        $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.executable', basename($_ENV['imagemagickConvertPath']));
     }
 
     public function testImageMagickConfigurationFilters()
@@ -166,8 +166,8 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
             ]
         );
-        $this->assertTrue($this->container->hasParameter('ezpublish.image.imagemagick.filters'));
-        $filters = $this->container->getParameter('ezpublish.image.imagemagick.filters');
+        $this->assertTrue($this->container->hasParameter('ibexa.image.imagemagick.filters'));
+        $filters = $this->container->getParameter('ibexa.image.imagemagick.filters');
         $this->assertArrayHasKey('foobar', $filters);
         $this->assertSame($customFilters['foobar'], $filters['foobar']);
         $this->assertArrayHasKey('wow', $filters);
@@ -206,7 +206,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 'options' => [],
                 'verify_binary_data_availability' => false,
             ],
-        ], $this->container->getParameter('image_alias.placeholder_providers'));
+        ], $this->container->getParameter('ibexa.io.images.alias.placeholder_provider'));
     }
 
     public function testRoutingConfiguration()
@@ -214,8 +214,8 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->load();
         $this->assertContainerBuilderHasAlias('router', ChainRouter::class);
 
-        $this->assertTrue($this->container->hasParameter('ezpublish.default_router.non_siteaccess_aware_routes'));
-        $nonSiteaccessAwareRoutes = $this->container->getParameter('ezpublish.default_router.non_siteaccess_aware_routes');
+        $this->assertTrue($this->container->hasParameter('ibexa.default_router.non_site_access_aware_routes'));
+        $nonSiteaccessAwareRoutes = $this->container->getParameter('ibexa.default_router.non_site_access_aware_routes');
         // See ezpublish_minimal_no_siteaccess.yml fixture
         $this->assertContains('foo_route', $nonSiteaccessAwareRoutes);
         $this->assertContains('my_prefix_', $nonSiteaccessAwareRoutes);
@@ -231,7 +231,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     {
         $this->load($customCacheConfig);
 
-        $this->assertContainerBuilderHasParameter('ezpublish.http_cache.purge_type', $expectedPurgeType);
+        $this->assertContainerBuilderHasParameter('ibexa.http_cache.purge_type', $expectedPurgeType);
     }
 
     public function cacheConfigurationProvider()
@@ -281,13 +281,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ]
         );
 
-        $this->assertContainerBuilderHasParameter('ezpublish.http_cache.purge_type', 'foobar');
+        $this->assertContainerBuilderHasParameter('ibexa.http_cache.purge_type', 'foobar');
     }
 
     public function testLocaleConfiguration()
     {
         $this->load(['locale_conversion' => ['foo' => 'bar']]);
-        $conversionMap = $this->container->getParameter('ezpublish.locale.conversion_map');
+        $conversionMap = $this->container->getParameter('ibexa.locale.conversion_map');
         $this->assertArrayHasKey('foo', $conversionMap);
         $this->assertSame('bar', $conversionMap['foo']);
     }
@@ -306,7 +306,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -324,7 +324,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -333,13 +333,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ezpublish.repositories'));
+        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         foreach ($repositories as &$repositoryConfig) {
             $repositoryConfig['storage']['config'] = [];
             $repositoryConfig['search']['config'] = [];
         }
-        $this->assertSame($repositories, $this->container->getParameter('ezpublish.repositories'));
+        $this->assertSame($repositories, $this->container->getParameter('ibexa.repositories'));
     }
 
     /**
@@ -348,9 +348,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     public function testRepositoriesConfigurationFieldGroups($repositories, $expectedRepositories)
     {
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ezpublish.repositories'));
+        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
-        $repositoriesPar = $this->container->getParameter('ezpublish.repositories');
+        $repositoriesPar = $this->container->getParameter('ibexa.repositories');
         $this->assertEquals(count($repositories), count($repositoriesPar));
 
         foreach ($repositoriesPar as $key => $repo) {
@@ -369,7 +369,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ['main' => [
                         'fields_groups' => [
                             'list' => ['content', 'metadata'],
-                            'default' => '%ezsettings.default.content.field_groups.default%',
+                            'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                         ],
                     ],
                 ],
@@ -412,7 +412,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'anotherone' => [
                         'fields_groups' => [
                             'list' => ['content', 'metadata'],
-                            'default' => '%ezsettings.default.content.field_groups.default%',
+                            'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                         ],
                     ],
                 ],
@@ -435,7 +435,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'foo' => [
                         'fields_groups' => [
                             'list' => ['bar', 'baz', 'john'],
-                            'default' => '%ezsettings.default.content.field_groups.default%',
+                            'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                         ],
                     ],
                     'bar' => [
@@ -488,18 +488,18 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $expectedRepositories = [
             'main' => [
                 'storage' => [
-                    'engine' => '%ezpublish.api.storage_engine.default%',
+                    'engine' => '%ibexa.api.storage_engine.default%',
                     'connection' => null,
                     'config' => [],
                 ],
                 'search' => [
-                    'engine' => '%ezpublish.api.search_engine.default%',
+                    'engine' => '%ibexa.api.search_engine.default%',
                     'connection' => null,
                     'config' => [],
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -508,11 +508,11 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ezpublish.repositories'));
+        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         $this->assertSame(
             $expectedRepositories,
-            $this->container->getParameter('ezpublish.repositories')
+            $this->container->getParameter('ibexa.repositories')
         );
     }
 
@@ -534,13 +534,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'config' => [],
                 ],
                 'storage' => [
-                    'engine' => '%ezpublish.api.storage_engine.default%',
+                    'engine' => '%ibexa.api.storage_engine.default%',
                     'connection' => null,
                     'config' => [],
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -549,11 +549,11 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ezpublish.repositories'));
+        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         $this->assertSame(
             $expectedRepositories,
-            $this->container->getParameter('ezpublish.repositories')
+            $this->container->getParameter('ibexa.repositories')
         );
     }
 
@@ -575,13 +575,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'config' => [],
                 ],
                 'search' => [
-                    'engine' => '%ezpublish.api.search_engine.default%',
+                    'engine' => '%ibexa.api.search_engine.default%',
                     'connection' => null,
                     'config' => [],
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -590,11 +590,11 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ezpublish.repositories'));
+        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         $this->assertSame(
             $expectedRepositories,
-            $this->container->getParameter('ezpublish.repositories')
+            $this->container->getParameter('ibexa.repositories')
         );
     }
 
@@ -632,7 +632,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -652,7 +652,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -661,11 +661,11 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ezpublish.repositories'));
+        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         $this->assertSame(
             $expectedRepositories,
-            $this->container->getParameter('ezpublish.repositories')
+            $this->container->getParameter('ibexa.repositories')
         );
     }
 
@@ -685,13 +685,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'config' => [],
                 ],
                 'search' => [
-                    'engine' => '%ezpublish.api.search_engine.default%',
+                    'engine' => '%ibexa.api.search_engine.default%',
                     'connection' => null,
                     'config' => [],
                 ],
                 'fields_groups' => [
                     'list' => ['content', 'metadata'],
-                    'default' => '%ezsettings.default.content.field_groups.default%',
+                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
                 'options' => [
                     'default_version_archive_limit' => 5,
@@ -700,19 +700,19 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ezpublish.repositories'));
+        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         $this->assertSame(
             $expectedRepositories,
-            $this->container->getParameter('ezpublish.repositories')
+            $this->container->getParameter('ibexa.repositories')
         );
     }
 
     public function testRegisteredPolicies()
     {
         $this->load();
-        $this->assertContainerBuilderHasParameter('ezpublish.api.role.policy_map');
-        $previousPolicyMap = $this->container->getParameter('ezpublish.api.role.policy_map');
+        $this->assertContainerBuilderHasParameter('ibexa.api.role.policy_map');
+        $previousPolicyMap = $this->container->getParameter('ibexa.api.role.policy_map');
 
         $policies1 = [
             'custom_module' => [
@@ -755,9 +755,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         ];
 
         $this->load();
-        $this->assertContainerBuilderHasParameter('ezpublish.api.role.policy_map');
+        $this->assertContainerBuilderHasParameter('ibexa.api.role.policy_map');
         $expectedPolicies = array_merge_recursive($expectedPolicies, $previousPolicyMap);
-        self::assertEquals($expectedPolicies, $this->container->getParameter('ezpublish.api.role.policy_map'));
+        self::assertEquals($expectedPolicies, $this->container->getParameter('ibexa.api.role.policy_map'));
     }
 
     public function testUrlAliasConfiguration()
@@ -787,7 +787,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 'slug_converter' => $configuration,
             ],
         ]);
-        $parsedConfig = $this->container->getParameter('ezpublish.url_alias.slug_converter');
+        $parsedConfig = $this->container->getParameter('ibexa.url_alias.slug_converter');
         $this->assertSame(
             $configuration,
             $parsedConfig

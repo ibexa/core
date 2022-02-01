@@ -3,110 +3,110 @@ parameters:
     webroot_dir: "%kernel.project_dir%/public"
 
     ###
-    # ezsettings namespace, default scope
+    # ibexa.site_access.config namespace, default scope
     ###
 
     # Content/Location view
-    ezsettings.default.location_view: {}
-    ezsettings.default.content_view: {}
-    ezsettings.default.block_view: {}
+    ibexa.site_access.config.default.location_view: {}
+    ibexa.site_access.config.default.content_view: {}
+    ibexa.site_access.config.default.block_view: {}
 
     # Default Twig variables
-    ezsettings.default.twig_variables: {}
+    ibexa.site_access.config.default.twig_variables: {}
 
     # Default view templates
-    ezplatform.default_view_templates.content.full: '@@IbexaCore/default/content/full.html.twig'
-    ezplatform.default_view_templates.content.line: '@@IbexaCore/default/content/line.html.twig'
-    ezplatform.default_view_templates.content.text_linked: '@@IbexaCore/default/content/text_linked.html.twig'
-    ezplatform.default_view_templates.content.embed: '@@IbexaCore/default/content/embed.html.twig'
-    ezplatform.default_view_templates.content.embed_inline: '@@IbexaCore/default/content/embed_inline.html.twig'
-    ezplatform.default_view_templates.content.embed_image: '@@IbexaCore/default/content/embed_image.html.twig'
-    ezplatform.default_view_templates.content.asset_image: '@@IbexaCore/default/content/asset_image.html.twig'
-    ezplatform.default_view_templates.block: '@@IbexaCore/default/block/block.html.twig'
+    ibexa.default_view_templates.content.full: '@@IbexaCore/default/content/full.html.twig'
+    ibexa.default_view_templates.content.line: '@@IbexaCore/default/content/line.html.twig'
+    ibexa.default_view_templates.content.text_linked: '@@IbexaCore/default/content/text_linked.html.twig'
+    ibexa.default_view_templates.content.embed: '@@IbexaCore/default/content/embed.html.twig'
+    ibexa.default_view_templates.content.embed_inline: '@@IbexaCore/default/content/embed_inline.html.twig'
+    ibexa.default_view_templates.content.embed_image: '@@IbexaCore/default/content/embed_image.html.twig'
+    ibexa.default_view_templates.content.asset_image: '@@IbexaCore/default/content/asset_image.html.twig'
+    ibexa.default_view_templates.block: '@@IbexaCore/default/block/block.html.twig'
 
     # Default templates
-    ezplatform.default_templates.pagelayout: '@@IbexaCore/pagelayout.html.twig'
-    ezplatform.default_templates.field_templates: '@@IbexaCore/content_fields.html.twig'
-    ezplatform.default_templates.fielddefinition_settings_templates: '@@IbexaCore/fielddefinition_settings.html.twig'
+    ibexa.default_templates.pagelayout: '@@IbexaCore/pagelayout.html.twig'
+    ibexa.default_templates.field_templates: '@@IbexaCore/content_fields.html.twig'
+    ibexa.default_templates.fielddefinition_settings_templates: '@@IbexaCore/fielddefinition_settings.html.twig'
 
     # Image Asset mappings
-    ezsettings.default.fieldtypes.ezimageasset.mappings:
+    ibexa.site_access.config.default.fieldtypes.ezimageasset.mappings:
         content_type_identifier: image
         content_field_identifier: image
         name_field_identifier: name
         parent_location_id: 51
 
-    ezsettings.default.pagelayout: '%ezplatform.default_templates.pagelayout%'
-    ezsettings.default.page_layout: '%ezplatform.default_templates.pagelayout%'
+    ibexa.site_access.config.default.pagelayout: '%ibexa.default_templates.pagelayout%'
+    ibexa.site_access.config.default.page_layout: '%ibexa.default_templates.pagelayout%'
 
     # List of content type identifiers to display as image when embedded
-    ezplatform.content_view.image_embed_content_types_identifiers: ['image']
+    ibexa.content_view.image_embed_content_types_identifiers: ['image']
 
-    ezsettings.default.content_view_defaults:
+    ibexa.site_access.config.default.content_view_defaults:
         full:
             default:
-                template: "%ezplatform.default_view_templates.content.full%"
+                template: '%ibexa.default_view_templates.content.full%'
                 match: []
         line:
             default:
-                template: "%ezplatform.default_view_templates.content.line%"
+                template: '%ibexa.default_view_templates.content.line%'
                 match: []
         text_linked:
             default:
-                template: "%ezplatform.default_view_templates.content.text_linked%"
+                template: '%ibexa.default_view_templates.content.text_linked%'
                 match: []
         embed:
             image:
-                template: '%ezplatform.default_view_templates.content.embed_image%'
+                template: '%ibexa.default_view_templates.content.embed_image%'
                 match:
-                    Identifier\ContentType: '%ezplatform.content_view.image_embed_content_types_identifiers%'
+                    Identifier\ContentType: '%ibexa.content_view.image_embed_content_types_identifiers%'
             default:
-                template: "%ezplatform.default_view_templates.content.embed%"
+                template: '%ibexa.default_view_templates.content.embed%'
                 match: []
         embed-inline:
             default:
-                template: "%ezplatform.default_view_templates.content.embed_inline%"
+                template: '%ibexa.default_view_templates.content.embed_inline%'
                 match: []
         asset_image:
             default:
-                template: '%ezplatform.default_view_templates.content.asset_image%'
+                template: '%ibexa.default_view_templates.content.asset_image%'
                 match: []
 
-    ezsettings.default.block_view_defaults:
+    ibexa.site_access.config.default.block_view_defaults:
         block:
             default:
-                template: "%ezplatform.default_view_templates.block%"
+                template: '%ibexa.default_view_templates.block%'
                 match: []
 
     # Common settings
-    ezpublish.repositories: {}
-    ezsettings.default.repository: ~
-    ezpublish.session_name.default: "eZSESSID{siteaccess_hash}"
-    ezsettings.default.session_name: "%ezpublish.session_name.default%"    # Using "{siteaccess_hash}" in session name makes it unique per siteaccess
-    ezsettings.default.session: { name: "%ezpublish.session_name.default%" } # Session options that will override options from framework
-    ezsettings.default.url_alias_router: true                       # Use UrlAliasRouter by default
-    ezsettings.default.index_page: ~                    # The page to show when accessing IndexPage (/)
-    ezsettings.default.default_page: ~                  # The default page to show, e.g. after user login this will be used for default redirection
-    ezsettings.default.languages: []
-    ezsettings.default.translation_siteaccesses: []
-    ezsettings.default.related_siteaccesses: []
-    ezsettings.default.cache_service_name: "cache.app"       # The cache pool serive name to use for a siteaccess / siteaccess-group
-    ezsettings.default.var_dir: "var"                   # The root directory where all log files, cache files and other stored files are created
-    ezsettings.default.storage_dir: "storage"           # Where to place new files for storage, it's relative to var directory
-    ezsettings.default.binary_dir: "original"
-    ezsettings.default.anonymous_user_id: 10            # The ID of the user to be used for everyone who is not logged in
-    ezsettings.default.api_keys: { google_maps: ~ }     # Google Maps APIs v3 key (https://developers.google.com/maps/documentation/javascript/get-api-key)
+    ibexa.repositories: {}
+    ibexa.site_access.config.default.repository: ~
+    ibexa.session_name.default: "eZSESSID{siteaccess_hash}"
+    ibexa.site_access.config.default.session_name: '%ibexa.session_name.default%'    # Using "{siteaccess_hash}" in session name makes it unique per siteaccess
+    ibexa.site_access.config.default.session: { name: '%ibexa.session_name.default%' } # Session options that will override options from framework
+    ibexa.site_access.config.default.url_alias_router: true                       # Use UrlAliasRouter by default
+    ibexa.site_access.config.default.index_page: ~                    # The page to show when accessing IndexPage (/)
+    ibexa.site_access.config.default.default_page: ~                  # The default page to show, e.g. after user login this will be used for default redirection
+    ibexa.site_access.config.default.languages: []
+    ibexa.site_access.config.default.translation_siteaccesses: []
+    ibexa.site_access.config.default.related_siteaccesses: []
+    ibexa.site_access.config.default.cache_service_name: "cache.app"       # The cache pool serive name to use for a siteaccess / siteaccess-group
+    ibexa.site_access.config.default.var_dir: "var"                   # The root directory where all log files, cache files and other stored files are created
+    ibexa.site_access.config.default.storage_dir: "storage"           # Where to place new files for storage, it's relative to var directory
+    ibexa.site_access.config.default.binary_dir: "original"
+    ibexa.site_access.config.default.anonymous_user_id: 10            # The ID of the user to be used for everyone who is not logged in
+    ibexa.site_access.config.default.api_keys: { google_maps: ~ }     # Google Maps APIs v3 key (https://developers.google.com/maps/documentation/javascript/get-api-key)
 
     # IO
-    ezsettings.default.io.metadata_handler: "default"
-    ezsettings.default.io.binarydata_handler: "default"
-    ezsettings.default.io.url_prefix: "$var_dir$/$storage_dir$"
-    ezsettings.default.io.legacy_url_prefix: "$var_dir$/$storage_dir$"
-    ezsettings.default.io.root_dir: "%webroot_dir%/$var_dir$/$storage_dir$"
-    ezsettings.default.io.permissions.files: 0644
-    ezsettings.default.io.permissions.directories: 0755
+    ibexa.site_access.config.default.io.metadata_handler: "default"
+    ibexa.site_access.config.default.io.binarydata_handler: "default"
+    ibexa.site_access.config.default.io.url_prefix: "$var_dir$/$storage_dir$"
+    ibexa.site_access.config.default.io.legacy_url_prefix: "$var_dir$/$storage_dir$"
+    ibexa.site_access.config.default.io.root_dir: "%webroot_dir%/$var_dir$/$storage_dir$"
+    ibexa.site_access.config.default.io.permissions.files: 0644
+    ibexa.site_access.config.default.io.permissions.directories: 0755
     # Blacklist against storing certain file types, validation will be refused for these
-    ezsettings.default.io.file_storage.file_type_blacklist:
+    ibexa.site_access.config.default.io.file_storage.file_type_blacklist:
         - php
         - php3
         - phar
@@ -126,50 +126,50 @@ parameters:
         - swf
 
     # Content settings
-    ezsettings.default.content.view_cache: true         # Whether to use content view cache or not (Etag/Last-Modified based)
-    ezsettings.default.content.ttl_cache: true          # Whether to use TTL Cache for content (i.e. Max-Age response header)
-    ezsettings.default.content.default_ttl: 60          # Default TTL cache value for content
-    ezsettings.default.content.tree_root.location_id: 2 # Root locationId for routing and link generation. Useful for multisite apps with one repository.
-    ezsettings.default.content.tree_root.excluded_uri_prefixes: [] # URI prefixes that are allowed to be outside the content tree
-    ezsettings.default.content.field_groups.list: ['content', 'metadata']
-    ezsettings.default.content.field_groups.default: 'content'
+    ibexa.site_access.config.default.content.view_cache: true         # Whether to use content view cache or not (Etag/Last-Modified based)
+    ibexa.site_access.config.default.content.ttl_cache: true          # Whether to use TTL Cache for content (i.e. Max-Age response header)
+    ibexa.site_access.config.default.content.default_ttl: 60          # Default TTL cache value for content
+    ibexa.site_access.config.default.content.tree_root.location_id: 2 # Root locationId for routing and link generation. Useful for multisite apps with one repository.
+    ibexa.site_access.config.default.content.tree_root.excluded_uri_prefixes: [] # URI prefixes that are allowed to be outside the content tree
+    ibexa.site_access.config.default.content.field_groups.list: ['content', 'metadata']
+    ibexa.site_access.config.default.content.field_groups.default: 'content'
 
     # URL Wilcards
-    ezsettings.default.url_wildcards.enabled: '%ezpublish.url_wildcards.enabled%'
+    ibexa.site_access.config.default.url_wildcards.enabled: '%ibexa.url_wildcards.enabled%'
 
     # FieldType settings
 
     # Cache settings
     # Server(s) URL(s) that will be used for purging HTTP cache with BAN requests.
-    ezsettings.default.http_cache.purge_servers: []
+    ibexa.site_access.config.default.http_cache.purge_servers: []
 
     # Treemenu settings (admin interface)
-    ezsettings.default.treemenu.http_cache: true        # Whether to use HttpCache or not for admin tree menu
-    ezsettings.default.treemenu.ttl_cache: 86400        # If HttpCache is used, cache time to live in seconds
+    ibexa.site_access.config.default.treemenu.http_cache: true        # Whether to use HttpCache or not for admin tree menu
+    ibexa.site_access.config.default.treemenu.ttl_cache: 86400        # If HttpCache is used, cache time to live in seconds
 
     # Templates to use while rendering fields
-    ezsettings.default.field_templates:
-        - {template: '%ezplatform.default_templates.field_templates%', priority: 0}
+    ibexa.site_access.config.default.field_templates:
+        - {template: '%ibexa.default_templates.field_templates%', priority: 0}
 
     # Templates for Field edition. Follows the same structure than for field_templates
-    ezsettings.default.field_edit_templates: []
+    ibexa.site_access.config.default.field_edit_templates: []
 
     # Templates to use while rendering field definition settings
-    ezsettings.default.fielddefinition_settings_templates:
-        - {template: '%ezplatform.default_templates.fielddefinition_settings_templates%', priority: 0}
+    ibexa.site_access.config.default.fielddefinition_settings_templates:
+        - {template: '%ibexa.default_templates.fielddefinition_settings_templates%', priority: 0}
 
     # Templates for FieldDefinition edition. Follows the same structure than for field_templates
-    ezsettings.default.fielddefinition_edit_templates: []
+    ibexa.site_access.config.default.fielddefinition_edit_templates: []
 
     # Security settings
-    ezsettings.default.security.login_template: "@@IbexaCore/Security/login.html.twig"
-    ezsettings.default.security.base_layout: "%ezsettings.default.page_layout%"
+    ibexa.site_access.config.default.security.login_template: "@@IbexaCore/Security/login.html.twig"
+    ibexa.site_access.config.default.security.base_layout: "%ibexa.site_access.config.default.page_layout%"
 
     # Image settings
-    ezsettings.default.image.temporary_dir: imagetmp
-    ezsettings.default.image.published_images_dir: images
-    ezsettings.default.image.versioned_images_dir: images-versioned
-    ezsettings.default.image_variations:
+    ibexa.site_access.config.default.image.temporary_dir: imagetmp
+    ibexa.site_access.config.default.image.published_images_dir: images
+    ibexa.site_access.config.default.image.versioned_images_dir: images-versioned
+    ibexa.site_access.config.default.image_variations:
         reference:
             reference: ~
             filters:
@@ -193,12 +193,12 @@ parameters:
 
     # ImageMagick
     # TODO: Deprecated. Move this to ezpublish_legacy.
-    ezpublish.image.imagemagick.enabled: false
-    ezpublish.image.imagemagick.executable_path:
-    ezpublish.image.imagemagick.executable: convert
-    ezsettings.default.imagemagick.pre_parameters:
-    ezsettings.default.imagemagick.post_parameters:
-    ezpublish.image.imagemagick.filters:
+    ibexa.image.imagemagick.enabled: false
+    ibexa.image.imagemagick.executable_path:
+    ibexa.image.imagemagick.executable: convert
+    ibexa.site_access.config.default.imagemagick.pre_parameters:
+    ibexa.site_access.config.default.imagemagick.post_parameters:
+    ibexa.image.imagemagick.filters:
         geometry/scale: "-geometry {1}x{2}"
         geometry/scalewidth: "-geometry {1}"
         geometry/scaleheight: "-geometry x{1}"
@@ -220,40 +220,40 @@ parameters:
         resize: "-resize {1}"
         optimize: "-strip"
 
-    ezsettings.default.image_host: ''
+    ibexa.site_access.config.default.image_host: ''
 
-    ezsettings.default.url_handler.http.options:
+    ibexa.site_access.config.default.url_handler.http.options:
         timeout: 10
         connection_timeout: 5
         batch_size: 25
         ignore_certificate: false
-    ezsettings.default.url_handler.https.options:
+    ibexa.site_access.config.default.url_handler.https.options:
         timeout: 10
         connection_timeout: 5
         batch_size: 25
         ignore_certificate: false
-    ezsettings.default.url_handler.mailto.options: {}
+    ibexa.site_access.config.default.url_handler.mailto.options: {}
 
     ###
     # Internal settings
     ###
-    ezpublish.siteaccess.list: []
-    ezpublish.siteaccess.groups: {}
-    ezpublish.siteaccess.groups_by_siteaccess: {}
-    ezpublish.siteaccess.default: ~
+    ibexa.site_access.list: []
+    ibexa.site_access.groups: {}
+    ibexa.site_access.groups_by_site_access: {}
+    ibexa.site_access.default: ~
     # SiteAccesses relation map. 2 dimensions array.
     # First dimension is indexed by repository identifier.
     # Second dimension is indexed by root location Id.
-    ezpublish.siteaccess.relation_map: {}
+    ibexa.site_access.relation_map: {}
     # SiteAccesses, indexed by language.
-    ezpublish.siteaccesses_by_language: {}
+    ibexa.site_access.by_language: {}
 
     ##
     # Siteaccess aware Entity Manager
     ##
     ibexa.orm.entity_mappings: []
 
-    ibexa.platform.io.nfs.adapter.config:
+    ibexa.io.nfs.adapter.config:
         root: './'
         path: '$var_dir$/$storage_dir$/'
         writeFlags: ~

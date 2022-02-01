@@ -25,8 +25,8 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->container->setParameter('ez_io.metadata_handlers', []);
-        $this->container->setParameter('ez_io.binarydata_handlers', []);
+        $this->container->setParameter('ibexa.io.metadata_handlers', []);
+        $this->container->setParameter('ibexa.io.binarydata_handlers', []);
 
         $this->container->setDefinition('ibexa.core.io.binarydata_handler.registry', new Definition());
         $this->container->setDefinition('ibexa.core.io.metadata_handler.registry', new Definition());
@@ -74,7 +74,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
     public function testBinarydataHandler()
     {
         $this->container->setParameter(
-            'ez_io.binarydata_handlers',
+            'ibexa.io.binarydata_handlers',
             ['my_handler' => ['name' => 'my_handler', 'type' => 'test_handler']]
         );
 
@@ -94,7 +94,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
     public function testMetadataHandler()
     {
         $this->container->setParameter(
-            'ez_io.metadata_handlers',
+            'ibexa.io.metadata_handlers',
             ['my_handler' => ['name' => 'my_handler', 'type' => 'test_handler']]
         );
 
@@ -117,7 +117,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->expectExceptionMessage('Unknown handler');
 
         $this->container->setParameter(
-            'ez_io.metadata_handlers',
+            'ibexa.io.metadata_handlers',
             ['test' => ['type' => 'unknown']]
         );
 
@@ -130,7 +130,7 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->expectExceptionMessage('Unknown handler');
 
         $this->container->setParameter(
-            'ez_io.binarydata_handlers',
+            'ibexa.io.binarydata_handlers',
             ['test' => ['type' => 'unknown']]
         );
 

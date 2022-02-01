@@ -115,7 +115,7 @@ class IbexaIOExtension extends Extension
                 $handlers[$name] = $handlerConfig;
             }
         }
-        $container->setParameter("ez_io.{$key}", $handlers);
+        $container->setParameter("ibexa.io.{$key}", $handlers);
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container)

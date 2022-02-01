@@ -177,7 +177,7 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
 
         // session_name setting is deprecated in favor of session.name
         $container = $contextualizer->getContainer();
-        $sessionOptions = $container->hasParameter("ezsettings.$currentScope.session") ? $container->getParameter("ezsettings.$currentScope.session") : [];
+        $sessionOptions = $container->hasParameter("ibexa.site_access.config.$currentScope.session") ? $container->getParameter("ibexa.site_access.config.$currentScope.session") : [];
         if (isset($sessionOptions['name'])) {
             $contextualizer->setContextualParameter('session_name', $currentScope, $sessionOptions['name']);
         }

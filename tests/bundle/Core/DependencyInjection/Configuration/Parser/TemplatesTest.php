@@ -41,7 +41,7 @@ class TemplatesTest extends AbstractParserTestCase
             'field_templates',
             array_merge(
                 // Adding default kernel value.
-                [['template' => '%ezplatform.default_templates.field_templates%', 'priority' => 0]],
+                [['template' => '%ibexa.default_templates.field_templates%', 'priority' => 0]],
                 $groupFieldTemplates,
                 $demoSiteFieldTemplates
             ),
@@ -52,7 +52,7 @@ class TemplatesTest extends AbstractParserTestCase
             'field_templates',
             array_merge(
                 // Adding default kernel value.
-                [['template' => '%ezplatform.default_templates.field_templates%', 'priority' => 0]],
+                [['template' => '%ibexa.default_templates.field_templates%', 'priority' => 0]],
                 $groupFieldTemplates
             ),
             'fre',
@@ -60,7 +60,7 @@ class TemplatesTest extends AbstractParserTestCase
         );
         $this->assertConfigResolverParameterValue(
             'field_templates',
-            [['template' => '%ezplatform.default_templates.field_templates%', 'priority' => 0]],
+            [['template' => '%ibexa.default_templates.field_templates%', 'priority' => 0]],
             'ezdemo_site_admin',
             false
         );
@@ -116,7 +116,7 @@ class TemplatesTest extends AbstractParserTestCase
             'fielddefinition_settings_templates',
             array_merge(
                 // Adding default kernel value.
-                [['template' => '%ezplatform.default_templates.fielddefinition_settings_templates%', 'priority' => 0]],
+                [['template' => '%ibexa.default_templates.fielddefinition_settings_templates%', 'priority' => 0]],
                 $groupFieldTemplates,
                 $demoSiteFieldTemplates
             ),
@@ -127,7 +127,7 @@ class TemplatesTest extends AbstractParserTestCase
             'fielddefinition_settings_templates',
             array_merge(
                 // Adding default kernel value.
-                [['template' => '%ezplatform.default_templates.fielddefinition_settings_templates%', 'priority' => 0]],
+                [['template' => '%ibexa.default_templates.fielddefinition_settings_templates%', 'priority' => 0]],
                 $groupFieldTemplates
             ),
             'fre',
@@ -135,7 +135,7 @@ class TemplatesTest extends AbstractParserTestCase
         );
         $this->assertConfigResolverParameterValue(
             'fielddefinition_settings_templates',
-            [['template' => '%ezplatform.default_templates.fielddefinition_settings_templates%', 'priority' => 0]],
+            [['template' => '%ibexa.default_templates.fielddefinition_settings_templates%', 'priority' => 0]],
             'ezdemo_site_admin',
             false
         );

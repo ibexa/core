@@ -46,7 +46,7 @@ services:
     Ibexa\Core\IO\Adapter\LocalAdapter:
         class: League\Flysystem\Adapter\Local
         arguments:
-            - "%io_root_dir%"
+            - '%ibexa.io.dir.root%'
 
     ibexa.core.io.default_url_decorator:
         alias: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix

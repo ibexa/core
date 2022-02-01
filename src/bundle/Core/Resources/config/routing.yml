@@ -1,7 +1,7 @@
 parameters:
-    ezpublish.default_router.non_siteaccess_aware_routes: ['_assetic_', '_wdt', '_profiler', '_configurator_', 'ibexa.user_hash']
+    ibexa.default_router.non_site_access_aware_routes: ['_assetic_', '_wdt', '_profiler', '_configurator_', 'ibexa.user_hash']
     # characters that may require encoding in the urlalias generator
-    ezpublish.urlalias_generator.charmap:
+    ibexa.urlalias_generator.charmap:
         "\"" : "%22"
         "'" : "%27"
         "<" : "%3C"
@@ -56,7 +56,7 @@ services:
             - '@ibexa.api.repository'
             - "@router.default"
             - '@ibexa.config.resolver'
-            - "%ezpublish.urlalias_generator.charmap%"
+            - '%ibexa.urlalias_generator.charmap%'
         parent: Ibexa\Core\MVC\Symfony\Routing\Generator
 
     Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistry: ~
@@ -71,8 +71,8 @@ services:
     Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider:
         class: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider
         arguments:
-            - "%ezpublish.siteaccess.list%"
-            - "%ezpublish.siteaccess.groups_by_siteaccess%"
+            - '%ibexa.site_access.list%'
+            - '%ibexa.site_access.groups_by_site_access%'
         tags:
             - { name: ibexa.site_access.provider, priority: 10 }
 
@@ -100,8 +100,8 @@ services:
         arguments:
             - '@Ibexa\Bundle\Core\SiteAccess\MatcherBuilder'
             - "@logger"
-            - "%ezpublish.siteaccess.default%"
-            - "%ezpublish.siteaccess.match_config%"
+            - '%ibexa.site_access.default%'
+            - '%ibexa.site_access.match_config%'
             - '@ibexa.siteaccess.provider'
             - 'Ibexa\Core\MVC\Symfony\SiteAccess'
             - "%kernel.debug%"
@@ -124,7 +124,7 @@ services:
         arguments:
             - '@ibexa.config.resolver'
             - "@router"
-            - "%ezpublish.siteaccess.default%"
+            - '%ibexa.site_access.default%'
             - "@?logger"
         tags:
             - { name: kernel.event_subscriber }

@@ -1,5 +1,5 @@
 parameters:
-    ezpublish.fieldType.ezcountry.data:
+    ibexa.field_type.country.data:
         AF: {Name: "Afghanistan", Alpha2: "AF", Alpha3: "AFG", IDC: "93"}
         AX: {Name: "Åland", Alpha2: "AX", Alpha3: "ALA", IDC: "358"}
         AL: {Name: "Albania", Alpha2: "AL", Alpha3: "ALB", IDC: "355"}
@@ -279,7 +279,7 @@ services:
 
     Ibexa\Core\FieldType\Country\Type:
         class: Ibexa\Core\FieldType\Country\Type
-        arguments: ["%ezpublish.fieldType.ezcountry.data%"]
+        arguments: ['%ibexa.field_type.country.data%']
         parent: Ibexa\Core\FieldType\FieldType
         tags:
             - {name: ibexa.field_type, alias: ezcountry}

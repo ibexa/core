@@ -51,7 +51,7 @@ class LanguagesTest extends AbstractParserTestCase
                 'fre-FR' => ['fre', 'fre2'],
                 'pol-PL' => [self::EMPTY_SA_GROUP],
             ],
-            $this->container->getParameter('ezpublish.siteaccesses_by_language')
+            $this->container->getParameter('ibexa.site_access.by_language')
         );
         // languages for ezdemo_site_admin will take default value (empty array)
         $this->assertConfigResolverParameterValue('languages', [], 'ezdemo_site_admin');
@@ -76,7 +76,7 @@ class LanguagesTest extends AbstractParserTestCase
             [
                 'eng-US' => ['ezdemo_frontend_group', 'ezdemo_site', 'fre'],
             ],
-            $this->container->getParameter('ezpublish.siteaccesses_by_language')
+            $this->container->getParameter('ibexa.site_access.by_language')
         );
         // languages for ezdemo_site_admin will take default value (empty array)
         $this->assertConfigResolverParameterValue('languages', [], 'ezdemo_site_admin');

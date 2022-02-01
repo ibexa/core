@@ -19,13 +19,13 @@ services:
     ibexa.field_type.ezimage.io_service.published:
         parent: ibexa.core.io.service
         calls:
-            - [ setPrefix, [ "%image_storage_prefix%" ] ]
+            - [ setPrefix, [ '%ibexa.io.images.storage.prefix%' ] ]
 
     # Used to manipulate images with a legacy 'images-versioned' path
     ibexa.field_type.ezimage.io_service.draft:
         parent: ibexa.core.io.service
         calls:
-            - [ setPrefix, [ "%image_draft_storage_prefix%" ] ]
+            - [ setPrefix, [ '%ibexa.io.images.storage.prefix.draft%' ] ]
 
     Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator:
         class: Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator
@@ -37,7 +37,7 @@ services:
     ibexa.field_type.ezbinaryfile.io_service:
         parent: ibexa.core.io.service
         calls:
-            - [ setPrefix, [ "%binaryfile_storage_prefix%" ] ]
+            - [ setPrefix, [ '%ibexa.io.binary_file.storage.prefix%' ] ]
 
     Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator:
         class: Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator

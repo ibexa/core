@@ -43,8 +43,8 @@ class IOConfigurationPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $ioMetadataHandlers = $container->hasParameter('ez_io.metadata_handlers') ?
-            $container->getParameter('ez_io.metadata_handlers') :
+        $ioMetadataHandlers = $container->hasParameter('ibexa.io.metadata_handlers') ?
+            $container->getParameter('ibexa.io.metadata_handlers') :
             [];
         $this->processHandlers(
             $container,
@@ -54,8 +54,8 @@ class IOConfigurationPass implements CompilerPassInterface
             'ibexa.core.io.metadata_handler.flysystem.default'
         );
 
-        $ioBinarydataHandlers = $container->hasParameter('ez_io.binarydata_handlers') ?
-            $container->getParameter('ez_io.binarydata_handlers') :
+        $ioBinarydataHandlers = $container->hasParameter('ibexa.io.binarydata_handlers') ?
+            $container->getParameter('ibexa.io.binarydata_handlers') :
             [];
         $this->processHandlers(
             $container,

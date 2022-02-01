@@ -1,5 +1,5 @@
 parameters:
-    io_root_dir: ''
+    ibexa.io.dir.root: ''
     kernel.secret: 'foobar'
 
 framework:

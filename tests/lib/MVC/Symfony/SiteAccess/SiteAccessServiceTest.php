@@ -150,14 +150,14 @@ class SiteAccessServiceTest extends TestCase
     private function getConfigResolverParameters(): array
     {
         return [
-            ['repository', 'ezsettings', 'current', 'repository_1'],
-            ['content.tree_root.location_id', 'ezsettings', 'current', 1],
-            ['repository', 'ezsettings', 'first_sa', 'repository_1'],
-            ['content.tree_root.location_id', 'ezsettings', 'first_sa', 1],
-            ['repository', 'ezsettings', 'second_sa', 'repository_1'],
-            ['content.tree_root.location_id', 'ezsettings', 'second_sa', 2],
-            ['repository', 'ezsettings', 'default', ''],
-            ['content.tree_root.location_id', 'ezsettings', 'default', 3],
+            ['repository', 'ibexa.site_access.config', 'current', 'repository_1'],
+            ['content.tree_root.location_id', 'ibexa.site_access.config', 'current', 1],
+            ['repository', 'ibexa.site_access.config', 'first_sa', 'repository_1'],
+            ['content.tree_root.location_id', 'ibexa.site_access.config', 'first_sa', 1],
+            ['repository', 'ibexa.site_access.config', 'second_sa', 'repository_1'],
+            ['content.tree_root.location_id', 'ibexa.site_access.config', 'second_sa', 2],
+            ['repository', 'ibexa.site_access.config', 'default', ''],
+            ['content.tree_root.location_id', 'ibexa.site_access.config', 'default', 3],
         ];
     }
 }

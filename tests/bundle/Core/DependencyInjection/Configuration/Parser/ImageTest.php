@@ -60,7 +60,7 @@ class ImageTest extends AbstractParserTestCase
             }
         }
 
-        $expected = $expectedParsedVariations['ezdemo_group'] + $this->container->getParameter('ezsettings.default.image_variations');
+        $expected = $expectedParsedVariations['ezdemo_group'] + $this->container->getParameter('ibexa.site_access.config.default.image_variations');
         $this->assertConfigResolverParameterValue('image_variations', $expected, 'ezdemo_site', false);
         $this->assertConfigResolverParameterValue('image_variations', $expected, 'ezdemo_site_admin', false);
         $this->assertConfigResolverParameterValue(

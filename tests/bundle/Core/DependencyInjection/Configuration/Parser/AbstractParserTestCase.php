@@ -48,7 +48,7 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
     {
         $chainConfigResolver = $this->getConfigResolver();
         $assertMethod = $assertSame ? 'assertSame' : 'assertEquals';
-        $this->$assertMethod($expectedValue, $chainConfigResolver->getParameter($parameterName, 'ezsettings', $scope));
+        $this->$assertMethod($expectedValue, $chainConfigResolver->getParameter($parameterName, 'ibexa.site_access.config', $scope));
     }
 
     protected function getConfigResolver(): ConfigResolverInterface

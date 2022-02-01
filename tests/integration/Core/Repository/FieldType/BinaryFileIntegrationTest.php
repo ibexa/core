@@ -29,7 +29,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @var string
      */
-    protected static $storagePrefixConfigKey = 'binaryfile_storage_prefix';
+    protected static $storagePrefixConfigKey = 'ibexa.io.binary_file.storage.prefix';
 
     protected function getStoragePrefix()
     {

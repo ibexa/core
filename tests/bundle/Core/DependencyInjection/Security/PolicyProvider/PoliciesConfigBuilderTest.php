@@ -27,7 +27,7 @@ class PoliciesConfigBuilderTest extends TestCase
         $configBuilder->addConfig($config1);
         $configBuilder->addConfig($config2);
 
-        self::assertSame($expected, $containerBuilder->getParameter('ezpublish.api.role.policy_map'));
+        self::assertSame($expected, $containerBuilder->getParameter('ibexa.api.role.policy_map'));
     }
 
     public function testAddResource()
