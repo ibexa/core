@@ -1,5 +1,5 @@
 parameters:
-    ezpublish.locale.conversion_map:
+    ibexa.locale.conversion_map:
         alb-AL: sq_AL
         ara-SA: ar_SA
         bos-BA: bs_BA
@@ -56,7 +56,7 @@ parameters:
         ukr-UA: uk_UA
         vie-VN: vi_VN
 
-    ezpublish.locale.browser_map:
+    ibexa.locale.browser_map:
         au: ['eng-AU']
         be: ['fre-BE', 'dut-BE', 'ger-BE']
         br: ['por-BR']
@@ -101,7 +101,7 @@ parameters:
 services:
     Ibexa\Core\MVC\Symfony\Locale\LocaleConverter:
         class: Ibexa\Core\MVC\Symfony\Locale\LocaleConverter
-        arguments: ["%ezpublish.locale.conversion_map%", "@logger"]
+        arguments: ['%ibexa.locale.conversion_map%', "@logger"]
         public: true
 
     Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface:
@@ -120,7 +120,7 @@ services:
     Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProvider:
         autowire: true
         arguments:
-            $languageCodesMap: '%ezpublish.locale.browser_map%'
+            $languageCodesMap: '%ibexa.locale.browser_map%'
             $localeFallback: '%locale_fallback%'
 
     Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProviderInterface: '@Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProvider'

@@ -1,5 +1,5 @@
 parameters:
-    ezplatform.kernel.proxy_cache_dir: 'var/cache/repository/proxy'
+    ibexa.kernel.proxy_cache_dir: 'var/cache/repository/proxy'
 
     # intentionally defined class parameter to be used by the Repository Factory
 services:
@@ -7,7 +7,7 @@ services:
         class: Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory
         arguments:
             - Ibexa\Core\Repository\Repository
-            - "%ezpublish.api.role.policy_map%"
+            - '%ibexa.api.role.policy_map%'
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
         calls:
             - [setContainer, ["@service_container"]]
@@ -141,7 +141,7 @@ services:
     # Domain mappers and proxies
     Ibexa\Core\Repository\ProxyFactory\ProxyGenerator:
         arguments:
-            $proxyCacheDir: '%ezplatform.kernel.proxy_cache_dir%'
+            $proxyCacheDir: '%ibexa.kernel.proxy_cache_dir%'
 
     Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface:
         alias: 'Ibexa\Core\Repository\ProxyFactory\ProxyGenerator'
@@ -204,7 +204,7 @@ services:
             $limitationService: '@Ibexa\Core\Repository\Permission\LimitationService'
             $userHandler: '@Ibexa\Contracts\Core\Persistence\User\Handler'
             $configResolver: '@ibexa.config.resolver'
-            $policyMap: '%ezpublish.api.role.policy_map%'
+            $policyMap: '%ibexa.api.role.policy_map%'
 
     Ibexa\Core\Repository\Permission\PermissionCriterionResolver:
         arguments:

@@ -19,7 +19,7 @@ final class Search implements RepositoryConfigParserInterface
             ->arrayNode('search')
                 ->children()
                     ->scalarNode('engine')
-                        ->defaultValue('%ezpublish.api.search_engine.default%')
+                        ->defaultValue('%ibexa.api.search_engine.default%')
                         ->info('The search engine to use')
                     ->end()
                     ->scalarNode('connection')

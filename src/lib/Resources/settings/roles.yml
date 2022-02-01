@@ -2,7 +2,7 @@ imports:
     - { resource: limitations/language.yml }
 
 parameters:
-    ezpublish.api.role.policy_map: {}
+    ibexa.api.role.policy_map: {}
 
 services:
     ## Implemented Limitations

@@ -1,10 +1,10 @@
 parameters:
     # @todo drop once core dependencies stop relying on those parameters
 
-    ezpublish.content_view.viewbase_layout: "@@IbexaCore/viewbase_layout.html.twig"
-    ezpublish.content_view.content_block_name: "content"
+    ibexa.content_view.viewbase_layout: "@@IbexaCore/viewbase_layout.html.twig"
+    ibexa.content_view.content_block_name: "content"
 
-    ezpublish.twig.extension.filesize.suffixes: ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
+    ibexa.twig.extension.filesize.suffixes: ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
 
 services:
     Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension:
@@ -24,7 +24,7 @@ services:
           - "@event_dispatcher"
           - '@ibexa.siteaccessaware.repository'
           - '@ibexa.config.resolver'
-          - "%ezpublish.content_view.viewbase_layout%"
+          - '%ibexa.content_view.viewbase_layout%'
           - '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
           - "@?logger"
 
@@ -110,7 +110,7 @@ services:
 
     Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension:
         class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension
-        arguments: ["@translator", "%ezpublish.twig.extension.filesize.suffixes%", '@ibexa.config.resolver', '@Ibexa\Core\MVC\Symfony\Locale\LocaleConverter' ]
+        arguments: ["@translator", '%ibexa.twig.extension.filesize.suffixes%', '@ibexa.config.resolver', '@Ibexa\Core\MVC\Symfony\Locale\LocaleConverter' ]
         tags:
             - {name: twig.extension}
 
@@ -129,7 +129,7 @@ services:
         arguments:
             $twig: '@twig'
             $resourceProvider: '@Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider'
-            $baseTemplate: '%ezpublish.content_view.viewbase_layout%'
+            $baseTemplate: '%ibexa.content_view.viewbase_layout%'
 
     ibexa.templating.field_block_renderer:
         alias: Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer
@@ -270,7 +270,7 @@ services:
     Ibexa\Core\MVC\Symfony\View\ParametersInjector\ViewbaseLayout:
         class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\ViewbaseLayout
         arguments:
-            - "%ezpublish.content_view.viewbase_layout%"
+            - '%ibexa.content_view.viewbase_layout%'
             - '@ibexa.config.resolver'
         tags:
             - { name: kernel.event_subscriber }

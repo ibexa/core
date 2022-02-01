@@ -8,4 +8,4 @@ parameters:
         - eng-GB
         - ger-DE
 
-    ezpublish.spi.persistence.cache.inmemory.ttl: 0
+    ibexa.spi.persistence.cache.inmemory.ttl: 0

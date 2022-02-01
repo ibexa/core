@@ -13,8 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Configures session handler based on `ezplatform.session.handler_id`
- * and `ezplatform.session.save_path`.
+ * Configures session handler based on `ibexa.session.handler_id`
+ * and `ibexa.session.save_path`.
  *
  * This ensures parameters have the highest priority and the configuration
  * will be respected with default framework.yaml file.
@@ -25,12 +25,12 @@ final class SessionConfigurationPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $handlerId = $container->hasParameter('ezplatform.session.handler_id')
-            ? $container->getParameter('ezplatform.session.handler_id')
+        $handlerId = $container->hasParameter('ibexa.session.handler_id')
+            ? $container->getParameter('ibexa.session.handler_id')
             : null;
 
-        $savePath = $container->hasParameter('ezplatform.session.save_path')
-            ? $container->getParameter('ezplatform.session.save_path')
+        $savePath = $container->hasParameter('ibexa.session.save_path')
+            ? $container->getParameter('ibexa.session.save_path')
             : null;
 
         if (null !== $handlerId) {

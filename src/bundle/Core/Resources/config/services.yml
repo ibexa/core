@@ -2,22 +2,22 @@ imports:
     - { resource: commands.yml }
 
 parameters:
-    ezpublish.siteaccess.default.name: default
-    ezpublish.config.default_scope: ezsettings
+    ibexa.site_access.default.name: default
+    ibexa.config.default_scope: ibexa.site_access.config
 
     # Param converters
-    ezpublish.param_converter.content.priority: -2
-    ezpublish.param_converter.location.priority: -2
+    ibexa.param_converter.content.priority: -2
+    ibexa.param_converter.location.priority: -2
 
 services:
     # Siteaccess is injected in the container at runtime
     Ibexa\Core\MVC\Symfony\SiteAccess:
         class: Ibexa\Core\MVC\Symfony\SiteAccess
-        arguments: ["%ezpublish.siteaccess.default.name%", 'uninitialized']
+        arguments: ['%ibexa.site_access.default.name%', 'uninitialized']
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolver:
         arguments:
-            - '%ezpublish.config.default_scope%'
+            - '%ibexa.config.default_scope%'
         calls:
             - [setContainer, ['@service_container']]
         lazy: true
@@ -27,8 +27,8 @@ services:
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\SiteAccessGroupConfigResolver:
         arguments:
             - '@ibexa.siteaccess.provider'
-            - '%ezpublish.config.default_scope%'
-            - '%ezpublish.siteaccess.groups%'
+            - '%ibexa.config.default_scope%'
+            - '%ibexa.site_access.groups%'
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
             - [setContainer, ['@service_container']]
@@ -39,7 +39,7 @@ services:
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\StaticSiteAccessConfigResolver:
         arguments:
             - '@ibexa.siteaccess.provider'
-            - '%ezpublish.config.default_scope%'
+            - '%ibexa.config.default_scope%'
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
             - [setContainer, ['@service_container']]
@@ -49,7 +49,7 @@ services:
 
     Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolver:
         arguments:
-            - '%ezpublish.config.default_scope%'
+            - '%ibexa.config.default_scope%'
         calls:
             - [setContainer, ['@service_container']]
         lazy: true
@@ -72,7 +72,7 @@ services:
     Ibexa\Bundle\Core\EventListener\ConsoleCommandListener:
         class: Ibexa\Bundle\Core\EventListener\ConsoleCommandListener
         arguments:
-            - "%ezpublish.siteaccess.default%"
+            - '%ibexa.site_access.default%'
             - '@ibexa.siteaccess.provider'
             - "@event_dispatcher"
             - "%kernel.debug%"
@@ -185,14 +185,14 @@ services:
         arguments:
             - '@ibexa.siteaccessaware.service.content'
         tags:
-            - { name: request.param_converter, priority: "%ezpublish.param_converter.content.priority%", converter: ez_content_converter }
+            - { name: request.param_converter, priority: '%ibexa.param_converter.content.priority%', converter: ez_content_converter }
 
     Ibexa\Bundle\Core\Converter\LocationParamConverter:
         class: Ibexa\Bundle\Core\Converter\LocationParamConverter
         arguments:
             - '@ibexa.siteaccessaware.service.location'
         tags:
-            - { name: request.param_converter, priority: "%ezpublish.param_converter.location.priority%", converter: ez_location_converter }
+            - { name: request.param_converter, priority: '%ibexa.param_converter.location.priority%', converter: ez_location_converter }
 
     Ibexa\Bundle\Core\EventListener\ExceptionListener:
         class: Ibexa\Bundle\Core\EventListener\ExceptionListener

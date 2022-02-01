@@ -2,25 +2,25 @@ parameters:
     # Using definition files:
 
     # Transformation rules resources
-    ezpublish.api.storage_engine.transformation_rules.resources:
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/ascii.tr"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/basic.tr"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/cyrillic.tr"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/greek.tr"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/hebrew.tr"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/latin.tr"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/search.tr"
+    ibexa.api.storage_engine.transformation_rules.resources:
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/ascii.tr"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/basic.tr"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/cyrillic.tr"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/greek.tr"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/hebrew.tr"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/latin.tr"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/search.tr"
 
     # Using preprocessed files:
 
-    ezpublish.api.storage_engine.preprocessed_transformation_rules.resources:
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/ascii.tr.result"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/basic.tr.result"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/cyrillic.tr.result"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/greek.tr.result"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/hebrew.tr.result"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/latin.tr.result"
-        - "%ezpublish.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/search.tr.result"
+    ibexa.api.storage_engine.preprocessed_transformation_rules.resources:
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/ascii.tr.result"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/basic.tr.result"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/cyrillic.tr.result"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/greek.tr.result"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/hebrew.tr.result"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/latin.tr.result"
+        - "%ibexa.kernel.root_dir%/tests/lib/Persistence/TransformationProcessor/_fixtures/transformations/search.tr.result"
 
 services:
     Ibexa\Core\Persistence\FieldTypeRegistry:
@@ -52,11 +52,11 @@ services:
             #
             # - '@Ibexa\Core\Persistence\TransformationProcessor\DefinitionBased\Parser'
             # - '@Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler'
-            # - "%ezpublish.api.storage_engine.transformation_rules.resources%"
+            # - '%ibexa.api.storage_engine.transformation_rules.resources%'
 
             # Using preprocessed files:
             - '@Ibexa\Core\Persistence\TransformationProcessor\PcreCompiler'
-            - "%ezpublish.api.storage_engine.preprocessed_transformation_rules.resources%"
+            - '%ibexa.api.storage_engine.preprocessed_transformation_rules.resources%'
 
     ibexa.persistence.connection:
         public: true # @todo should be private

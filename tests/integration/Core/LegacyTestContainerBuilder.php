@@ -49,7 +49,7 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
             $this->configureRedis();
         }
 
-        $this->setParameter('ezpublish.kernel.root_dir', $installDir);
+        $this->setParameter('ibexa.kernel.root_dir', $installDir);
 
         $this->registerCompilerPasses();
     }

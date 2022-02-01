@@ -307,13 +307,13 @@ class Legacy extends SetupFactory
             $this->externalBuildContainer($containerBuilder);
 
             $containerBuilder->setParameter(
-                'legacy_dsn',
+                'ibexa.persistence.legacy.dsn',
                 self::$dsn
             );
 
             $containerBuilder->setParameter(
-                'io_root_dir',
-                self::$ioRootDir . '/' . $containerBuilder->getParameter('storage_dir')
+                'ibexa.io.dir.root',
+                self::$ioRootDir . '/' . $containerBuilder->getParameter('ibexa.io.dir.storage')
             );
 
             $containerBuilder->addCompilerPass(new Compiler\Search\FieldRegistryPass());

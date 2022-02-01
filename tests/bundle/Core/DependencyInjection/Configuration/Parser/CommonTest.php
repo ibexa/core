@@ -117,7 +117,7 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('var_dir', 'var', 'ezdemo_site');
         $this->assertConfigResolverParameterValue('storage_dir', 'storage', 'ezdemo_site');
         $this->assertConfigResolverParameterValue('binary_dir', 'original', 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('session_name', '%ezpublish.session_name.default%', 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('session_name', '%ibexa.session_name.default%', 'ezdemo_site');
         $this->assertConfigResolverParameterValue('http_cache.purge_servers', [], 'ezdemo_site');
         $this->assertConfigResolverParameterValue('anonymous_user_id', 10, 'ezdemo_site');
         $this->assertConfigResolverParameterValue('index_page', null, 'ezdemo_site');
@@ -211,7 +211,7 @@ class CommonTest extends AbstractParserTestCase
         $this->load();
         $this->assertConfigResolverParameterValue(
             'security.base_layout',
-            '%ezsettings.default.page_layout%',
+            '%ibexa.site_access.config.default.page_layout%',
             'ezdemo_site'
         );
         $this->assertConfigResolverParameterValue(

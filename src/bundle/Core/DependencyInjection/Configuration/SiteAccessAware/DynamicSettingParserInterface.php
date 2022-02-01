@@ -14,7 +14,7 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
  * Supported syntax for dynamic settings: $<paramName>[;<namespace>[;<scope>]]$
  *
  * The following will work :
- * $my_param$ (using default namespace, e.g. ezsettings, with current scope).
+ * $my_param$ (using default namespace, e.g. ibexa.site_access.config, with current scope).
  * $my_param;foo$ (using "foo" as namespace, in current scope).
  * $my_param;foo;some_siteaccess$ (using "foo" as namespace, forcing "some_siteaccess scope").
  *

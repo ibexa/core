@@ -259,7 +259,7 @@ class HandlerTest extends TestCase
                 ['eng-US', 'eng-GB']
             );
             $containerBuilder->setParameter(
-                'legacy_dsn',
+                'ibexa.persistence.legacy.dsn',
                 $this->getDsn()
             );
 

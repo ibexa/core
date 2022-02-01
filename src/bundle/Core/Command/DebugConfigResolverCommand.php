@@ -63,7 +63,7 @@ class DebugConfigResolverCommand extends Command implements BackwardCompatibleCo
             'namespace',
             null,
             InputOption::VALUE_REQUIRED,
-            'Set a different namespace than the default "ezsettings" used by SiteAccess settings.'
+            'Set a different namespace than the default "ibexa.site_access.config" used by SiteAccess settings.'
         );
         $this->setHelp(
             <<<EOM
@@ -72,7 +72,7 @@ Outputs a given config resolver parameter, more commonly known as a SiteAccess s
 By default it will give value depending on the global <comment>--siteaccess[=SITEACCESS]</comment> (default SiteAccess is used if not set).
 
 However, you can also manually set <comment>--scope[=NAME]</comment> yourself if you don't want to affect the SiteAccess
-set by the system. You can also override the namespace to get something other than the default "ezsettings" namespace by using
+set by the system. You can also override the namespace to get something other than the default "ibexa.site_access.config" namespace by using
 the <comment>--namespace[=NS]</comment> option.
 
 NOTE: To see *all* compiled SiteAccess settings, use: <comment>debug:config ibexa [system.default]</comment>

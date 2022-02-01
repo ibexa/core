@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * It will check the different scopes available for a given namespace to find the appropriate parameter.
  * To work, the dynamic setting must comply internally to the following name format : "<namespace>.<scope>.parameter.name".
  *
- * - <namespace> is the namespace for your dynamic setting. Defaults to "ezsettings", but can be anything.
+ * - <namespace> is the namespace for your dynamic setting. Defaults to "ibexa.site_access.config", but can be anything.
  * - <scope> is basically the siteaccess name you want your parameter value to apply to.
  *   Can also be "global" for a global override.
  *   Another scope is used internally: "default". This is the generic fallback.
@@ -273,8 +273,8 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
         $serviceName = '??';
         $firstService = '??';
         $commandName = null;
-        $resettableServiceIds = $container->getParameter('ezpublish.config_resolver.resettable_services');
-        $updatableServices = $container->getParameter('ezpublish.config_resolver.updateable_services');
+        $resettableServiceIds = $container->getParameter('ibexa.config_resolver.resettable_services');
+        $updatableServices = $container->getParameter('ibexa.config_resolver.updateable_services');
 
         // Lookup trace to find last service being loaded as possible blame for eager loading
         // Abort if one of the earlier services is detected to be "safe", aka updatable

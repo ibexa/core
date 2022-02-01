@@ -145,7 +145,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $this->handleUrlWildcards($config, $container, $loader);
 
         // Map settings
-        $processor = new ConfigurationProcessor($container, 'ezsettings');
+        $processor = new ConfigurationProcessor($container, 'ibexa.site_access.config');
         $processor->mapConfig($config, $this->getMainConfigParser());
 
         if ($this->suggestionCollector->hasSuggestions()) {
@@ -255,11 +255,11 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
         foreach ($config['repositories'] as $name => &$repository) {
             if (empty($repository['fields_groups']['list'])) {
-                $repository['fields_groups']['list'] = $container->getParameter('ezsettings.default.content.field_groups.list');
+                $repository['fields_groups']['list'] = $container->getParameter('ibexa.site_access.config.default.content.field_groups.list');
             }
         }
 
-        $container->setParameter('ezpublish.repositories', $config['repositories']);
+        $container->setParameter('ibexa.repositories', $config['repositories']);
     }
 
     private function registerSiteAccessConfiguration(array $config, ContainerBuilder $container)
@@ -272,13 +272,13 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             $config['siteaccess']['match'] = null;
         }
 
-        $container->setParameter('ezpublish.siteaccess.list', $config['siteaccess']['list']);
+        $container->setParameter('ibexa.site_access.list', $config['siteaccess']['list']);
         ConfigurationProcessor::setAvailableSiteAccesses($config['siteaccess']['list']);
-        $container->setParameter('ezpublish.siteaccess.default', $config['siteaccess']['default_siteaccess']);
-        $container->setParameter('ezpublish.siteaccess.match_config', $config['siteaccess']['match']);
+        $container->setParameter('ibexa.site_access.default', $config['siteaccess']['default_siteaccess']);
+        $container->setParameter('ibexa.site_access.match_config', $config['siteaccess']['match']);
 
         // Register siteaccess groups + reverse
-        $container->setParameter('ezpublish.siteaccess.groups', $config['siteaccess']['groups']);
+        $container->setParameter('ibexa.site_access.groups', $config['siteaccess']['groups']);
         ConfigurationProcessor::setAvailableSiteAccessGroups($config['siteaccess']['groups']);
         $groupsBySiteaccess = [];
         foreach ($config['siteaccess']['groups'] as $groupName => $groupMembers) {
@@ -290,23 +290,23 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                 $groupsBySiteaccess[$member][] = $groupName;
             }
         }
-        $container->setParameter('ezpublish.siteaccess.groups_by_siteaccess', $groupsBySiteaccess);
+        $container->setParameter('ibexa.site_access.groups_by_site_access', $groupsBySiteaccess);
         ConfigurationProcessor::setGroupsBySiteAccess($groupsBySiteaccess);
     }
 
     private function registerImageMagickConfiguration(array $config, ContainerBuilder $container)
     {
         if (isset($config['imagemagick'])) {
-            $container->setParameter('ezpublish.image.imagemagick.enabled', $config['imagemagick']['enabled']);
+            $container->setParameter('ibexa.image.imagemagick.enabled', $config['imagemagick']['enabled']);
             if ($config['imagemagick']['enabled']) {
-                $container->setParameter('ezpublish.image.imagemagick.executable_path', dirname($config['imagemagick']['path']));
-                $container->setParameter('ezpublish.image.imagemagick.executable', basename($config['imagemagick']['path']));
+                $container->setParameter('ibexa.image.imagemagick.executable_path', dirname($config['imagemagick']['path']));
+                $container->setParameter('ibexa.image.imagemagick.executable', basename($config['imagemagick']['path']));
             }
         }
 
         $filters = isset($config['imagemagick']['filters']) ? $config['imagemagick']['filters'] : [];
-        $filters = $filters + $container->getParameter('ezpublish.image.imagemagick.filters');
-        $container->setParameter('ezpublish.image.imagemagick.filters', $filters);
+        $filters = $filters + $container->getParameter('ibexa.image.imagemagick.filters');
+        $container->setParameter('ibexa.image.imagemagick.filters', $filters);
     }
 
     private function registerOrmConfiguration(array $config, ContainerBuilder $container): void
@@ -334,9 +334,9 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
         if (isset($config['router']['default_router']['non_siteaccess_aware_routes'])) {
             $container->setParameter(
-                'ezpublish.default_router.non_siteaccess_aware_routes',
+                'ibexa.default_router.non_site_access_aware_routes',
                 array_merge(
-                    $container->getParameter('ezpublish.default_router.non_siteaccess_aware_routes'),
+                    $container->getParameter('ibexa.default_router.non_site_access_aware_routes'),
                     $config['router']['default_router']['non_siteaccess_aware_routes']
                 )
             );
@@ -435,7 +435,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             // resolves ENV variable at compile time, needed by ezplatform-http-cache to setup purge driver
             $purgeType = $container->resolveEnvPlaceholders($config['http_cache']['purge_type'], true);
 
-            $container->setParameter('ezpublish.http_cache.purge_type', $purgeType);
+            $container->setParameter('ibexa.http_cache.purge_type', $purgeType);
         }
     }
 
@@ -450,8 +450,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     {
         $loader->load('locale.yml');
         $container->setParameter(
-            'ezpublish.locale.conversion_map',
-            $config['locale_conversion'] + $container->getParameter('ezpublish.locale.conversion_map')
+            'ibexa.locale.conversion_map',
+            $config['locale_conversion'] + $container->getParameter('ibexa.locale.conversion_map')
         );
     }
 
@@ -487,7 +487,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             }
         }
 
-        $container->setParameter('image_alias.placeholder_providers', $providers);
+        $container->setParameter('ibexa.io.images.alias.placeholder_provider', $providers);
     }
 
     private function handleUrlChecker($config, ContainerBuilder $container, FileLoader $loader)
@@ -590,7 +590,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             $config['url_alias'] = ['slug_converter' => []];
         }
 
-        $container->setParameter('ezpublish.url_alias.slug_converter', $config['url_alias']['slug_converter']);
+        $container->setParameter('ibexa.url_alias.slug_converter', $config['url_alias']['slug_converter']);
     }
 
     /**
@@ -669,7 +669,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      */
     private function registerUrlWildcardsConfiguration(array $config, ContainerBuilder $container): void
     {
-        $container->setParameter('ezpublish.url_wildcards.enabled', $config['url_wildcards']['enabled'] ?? false);
+        $container->setParameter('ibexa.url_wildcards.enabled', $config['url_wildcards']['enabled'] ?? false);
     }
 
     /**
@@ -681,7 +681,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      */
     private function handleUrlWildcards(array $config, ContainerBuilder $container, Loader\YamlFileLoader $loader)
     {
-        if ($container->getParameter('ezpublish.url_wildcards.enabled')) {
+        if ($container->getParameter('ibexa.url_wildcards.enabled')) {
             $loader->load('url_wildcard.yml');
         }
     }
@@ -719,7 +719,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('search_engine', '%env(SEARCH_ENGINE)%');
 
         // Session save path as used by symfony session handlers (eg. used for dsn with redis)
-        $container->setParameter('ezplatform.session.save_path', '%kernel.project_dir%/var/sessions/%kernel.environment%');
+        $container->setParameter('ibexa.session.save_path', '%kernel.project_dir%/var/sessions/%kernel.environment%');
 
         // Predefined pools are located in config/packages/cache_pool/
         // You can add your own cache pool to the folder mentioned above.
@@ -736,7 +736,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
         // Identifier used to generate the CSRF token. Commenting this line will result in authentication
         // issues both in AdminUI and REST calls
-        $container->setParameter('ezpublish_rest.csrf_token_intention', 'authenticate');
+        $container->setParameter('ibexa.rest.csrf_token_intention', 'authenticate');
 
         // Varnish invalidation/purge token (for use on platform.sh, eZ Platform Cloud and other places you can't use IP for ACL)
         $container->setParameter('varnish_invalidate_token', '%env(resolve:default::HTTPCACHE_VARNISH_INVALIDATE_TOKEN)%');
@@ -745,8 +745,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         // These are defined at compile time, and hence can't be set at runtime using env()
         // config/env/generic.php takes care about letting you set them by env variables
 
-        // Session handler, by default set to file based (instead of ~) in order to be able to use %ezplatform.session.save_path%
-        $container->setParameter('ezplatform.session.handler_id', 'session.handler.native_file');
+        // Session handler, by default set to file based (instead of ~) in order to be able to use %ibexa.session.save_path%
+        $container->setParameter('ibexa.session.handler_id', 'session.handler.native_file');
 
         // Purge type used by HttpCache system ("local", "varnish"/"http", and on ee also "fastly")
         $container->setParameter('purge_type', '%env(HTTPCACHE_PURGE_TYPE)%');
@@ -754,10 +754,10 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('solr_dsn', '%env(SOLR_DSN)%');
         $container->setParameter('solr_core', '%env(SOLR_CORE)%');
 
-        $container->setParameter('siso_search.solr.host', '%env(SISO_SEARCH_SOLR_HOST)%');
-        $container->setParameter('siso_search.solr.port', '%env(SISO_SEARCH_SOLR_PORT)%');
-        $container->setParameter('siso_search.solr.core', '%env(SISO_SEARCH_SOLR_CORE)%');
-        $container->setParameter('siso_search.solr.path', '%env(SISO_SEARCH_SOLR_PATH)%');
+        $container->setParameter('ibexa.commerce.search.solr.host', '%env(SISO_SEARCH_SOLR_HOST)%');
+        $container->setParameter('ibexa.commerce.search.solr.port', '%env(SISO_SEARCH_SOLR_PORT)%');
+        $container->setParameter('ibexa.commerce.search.solr.core', '%env(SISO_SEARCH_SOLR_CORE)%');
+        $container->setParameter('ibexa.commerce.search.solr.path', '%env(SISO_SEARCH_SOLR_PATH)%');
 
         $projectDir = $container->getParameter('kernel.project_dir');
 
@@ -790,7 +790,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
         if ($purgeType = $_SERVER['HTTPCACHE_PURGE_TYPE'] ?? false) {
             $container->setParameter('purge_type', $purgeType);
-            $container->setParameter('ezpublish.http_cache.purge_type', $purgeType);
+            $container->setParameter('ibexa.http_cache.purge_type', $purgeType);
         }
 
         if ($value = $_SERVER['MAILER_TRANSPORT'] ?? false) {
@@ -802,11 +802,11 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         }
 
         if ($value = $_SERVER['SESSION_HANDLER_ID'] ?? false) {
-            $container->setParameter('ezplatform.session.handler_id', $value);
+            $container->setParameter('ibexa.session.handler_id', $value);
         }
 
         if ($value = $_SERVER['SESSION_SAVE_PATH'] ?? false) {
-            $container->setParameter('ezplatform.session.save_path', $value);
+            $container->setParameter('ibexa.session.save_path', $value);
         }
     }
 
@@ -914,8 +914,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     continue;
                 }
 
-                $container->setParameter('ezplatform.session.handler_id', NativeSessionHandler::class);
-                $container->setParameter('ezplatform.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
+                $container->setParameter('ibexa.session.handler_id', NativeSessionHandler::class);
+                $container->setParameter('ibexa.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         } elseif (isset($relationships['rediscache'])) {
             foreach ($relationships['rediscache'] as $endpoint) {
@@ -923,8 +923,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     continue;
                 }
 
-                $container->setParameter('ezplatform.session.handler_id', NativeSessionHandler::class);
-                $container->setParameter('ezplatform.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
+                $container->setParameter('ibexa.session.handler_id', NativeSessionHandler::class);
+                $container->setParameter('ibexa.session.save_path', sprintf('%s:%d', $endpoint['host'], $endpoint['port']));
             }
         }
 
@@ -949,9 +949,9 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     // To set solr_core parameter we assume path is in form like: "solr/collection1"
                     $container->setParameter('solr_core', substr($endpoint['path'], 5));
 
-                    $container->setParameter('siso_search.solr.host', $endpoint['host']);
-                    $container->setParameter('siso_search.solr.port', $endpoint['port']);
-                    $container->setParameter('siso_search.solr.core', $endpoint['rel']);
+                    $container->setParameter('ibexa.commerce.search.solr.host', $endpoint['host']);
+                    $container->setParameter('ibexa.commerce.search.solr.port', $endpoint['port']);
+                    $container->setParameter('ibexa.commerce.search.solr.core', $endpoint['rel']);
                 }
             }
         }
@@ -998,7 +998,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                 $purgeServer = str_replace($domain, $credentials . '@' . $domain, $purgeServer);
             }
 
-            $container->setParameter('ezpublish.http_cache.purge_type', 'varnish');
+            $container->setParameter('ibexa.http_cache.purge_type', 'varnish');
             $container->setParameter('purge_type', 'varnish');
             $container->setParameter('purge_server', $purgeServer);
         }

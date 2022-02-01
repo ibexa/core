@@ -45,7 +45,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
 
         $this->setDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class, $definition);
 
-        $this->setParameter('ezpublish.url_alias.slug_converter', [
+        $this->setParameter('ibexa.url_alias.slug_converter', [
             'transformation' => 'urlalias',
             'separator' => 'underscore',
             'transformation_groups' => [

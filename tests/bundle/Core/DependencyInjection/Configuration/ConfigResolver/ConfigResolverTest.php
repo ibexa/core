@@ -20,7 +20,7 @@ abstract class ConfigResolverTest extends TestCase
     protected const UNDEFINED_SA_NAME = 'undefined_sa';
     protected const SA_GROUP = 'sa_group';
 
-    protected const DEFAULT_NAMESPACE = 'ezsettings';
+    protected const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     protected $siteAccess;
@@ -35,7 +35,7 @@ abstract class ConfigResolverTest extends TestCase
         $this->containerMock = $this->createMock(ContainerInterface::class);
     }
 
-    abstract protected function getResolver(string $defaultNamespace = 'ezsettings'): ConfigResolverInterface;
+    abstract protected function getResolver(string $defaultNamespace = 'ibexa.site_access.config'): ConfigResolverInterface;
 
     abstract protected function getScope(): string;
 

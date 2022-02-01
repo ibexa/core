@@ -27,7 +27,7 @@ class ChainConfigResolverTest extends TestCase
     private const SECOND_SA_NAME = 'second_sa';
     private const SA_GROUP = 'sa_group';
 
-    private const DEFAULT_NAMESPACE = 'ezsettings';
+    private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
     private const SCOPE_DEFAULT = 'default';
     private const SCOPE_GLOBAL = 'global';
@@ -115,7 +115,7 @@ class ChainConfigResolverTest extends TestCase
              ->method('hasParameter')
              ->with(
                  $this->logicalOr(
-                     "ezsettings.global.$paramName",
+                     "ibexa.site_access.config.global.$paramName",
                      $specificScopeParameter
                  )
              )
@@ -172,10 +172,10 @@ class ChainConfigResolverTest extends TestCase
              ->method('hasParameter')
              ->willReturnMap(
                  [
-                     ["ezsettings.default.$paramName", $defaultMatch],
-                     ["ezsettings.$groupName.$paramName", $groupMatch],
-                     ["ezsettings.{$this->siteAccess->name}.$paramName", $scopeMatch],
-                     ["ezsettings.global.$paramName", $globalMatch],
+                     ["ibexa.site_access.config.default.$paramName", $defaultMatch],
+                     ["ibexa.site_access.config.$groupName.$paramName", $groupMatch],
+                     ["ibexa.site_access.config.{$this->siteAccess->name}.$paramName", $scopeMatch],
+                     ["ibexa.site_access.config.global.$paramName", $globalMatch],
                  ]
              );
 

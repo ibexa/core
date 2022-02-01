@@ -19,7 +19,7 @@ final class Storage implements RepositoryConfigParserInterface
             ->arrayNode('storage')
                 ->children()
                     ->scalarNode('engine')
-                        ->defaultValue('%ezpublish.api.storage_engine.default%')
+                        ->defaultValue('%ibexa.api.storage_engine.default%')
                         ->info('The storage engine to use')
                     ->end()
                     ->scalarNode('connection')

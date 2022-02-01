@@ -1,12 +1,12 @@
 parameters:
-    ezpublish.kernel.root_dir: "%kernel.project_dir%/vendor/ibexa/core"
+    ibexa.kernel.root_dir: "%kernel.project_dir%/vendor/ibexa/core"
 
     # API
-    ezplatform.kernel.proxy_cache_dir: '%kernel.cache_dir%/repository/proxy'
+    ibexa.kernel.proxy_cache_dir: '%kernel.cache_dir%/repository/proxy'
 
     # Using legacy storage engine for data compatibility with 4.x
-    ezpublish.api.storage_engine.default: legacy
-    ezpublish.api.search_engine.default: legacy
+    ibexa.api.storage_engine.default: legacy
+    ibexa.api.search_engine.default: legacy
 
 services:
     # API
@@ -15,7 +15,7 @@ services:
         arguments:
             - '@ibexa.config.resolver'
             - Ibexa\Core\Repository\Repository
-            - "%ezpublish.api.role.policy_map%"
+            - '%ibexa.api.role.policy_map%'
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
             - "@?logger"
         calls:

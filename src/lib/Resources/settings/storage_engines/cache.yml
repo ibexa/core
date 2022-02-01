@@ -1,15 +1,15 @@
 parameters:
     # Make sure logging is only enabled for debug by default
-    ezpublish.spi.persistence.cache.persistenceLogger.enableCallLogging: "%kernel.debug%"
+    ibexa.spi.persistence.cache.persistenceLogger.enableCallLogging: "%kernel.debug%"
     # Global in-memory settings, for meta data
-    ezpublish.spi.persistence.cache.inmemory.ttl: 3000
-    ezpublish.spi.persistence.cache.inmemory.limit: 100
-    ezpublish.spi.persistence.cache.inmemory.enable: true
+    ibexa.spi.persistence.cache.inmemory.ttl: 3000
+    ibexa.spi.persistence.cache.inmemory.limit: 100
+    ibexa.spi.persistence.cache.inmemory.enable: true
     # Global in-memory settings, for content in-memory cache
     ## WARNING: TTL on purpose low to avoid getting outdated data in prod! For dev config you can safely increase by x3
-    ezpublish.spi.persistence.cache.inmemory.content.ttl: 300
-    ezpublish.spi.persistence.cache.inmemory.content.limit: 100
-    ezpublish.spi.persistence.cache.inmemory.content.enable: true
+    ibexa.spi.persistence.cache.inmemory.content.ttl: 300
+    ibexa.spi.persistence.cache.inmemory.content.limit: 100
+    ibexa.spi.persistence.cache.inmemory.content.enable: true
     ibexa.core.persistence.cache.tag_prefix: 'ibx-'
     ibexa.core.persistence.cache.tag_patterns:
         by_group: 'bg-%s'
@@ -213,25 +213,25 @@ services:
     Ibexa\Core\Persistence\Cache\PersistenceLogger:
         class: Ibexa\Core\Persistence\Cache\PersistenceLogger
         arguments:
-            - "%ezpublish.spi.persistence.cache.persistenceLogger.enableCallLogging%"
+            - '%ibexa.spi.persistence.cache.persistenceLogger.enableCallLogging%'
 
     # In-Memory cache pools
     ibexa.spi.persistence.cache.inmemory:
         public: false
         class: Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
         arguments:
-            - "%ezpublish.spi.persistence.cache.inmemory.ttl%"
-            - "%ezpublish.spi.persistence.cache.inmemory.limit%"
-            - "%ezpublish.spi.persistence.cache.inmemory.enable%"
+            - '%ibexa.spi.persistence.cache.inmemory.ttl%'
+            - '%ibexa.spi.persistence.cache.inmemory.limit%'
+            - '%ibexa.spi.persistence.cache.inmemory.enable%'
         tags: [ ibexa.cache.persistence.inmemory ]
 
     ibexa.spi.persistence.cache.inmemory.content:
         public: false
         class: Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
         arguments:
-            - "%ezpublish.spi.persistence.cache.inmemory.content.ttl%"
-            - "%ezpublish.spi.persistence.cache.inmemory.content.limit%"
-            - "%ezpublish.spi.persistence.cache.inmemory.content.enable%"
+            - '%ibexa.spi.persistence.cache.inmemory.content.ttl%'
+            - '%ibexa.spi.persistence.cache.inmemory.content.limit%'
+            - '%ibexa.spi.persistence.cache.inmemory.content.enable%'
         tags: [ ibexa.cache.persistence.inmemory ]
 
     Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface:

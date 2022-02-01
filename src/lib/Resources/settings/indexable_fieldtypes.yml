@@ -24,7 +24,7 @@ services:
     Ibexa\Core\FieldType\Country\SearchField:
         class: Ibexa\Core\FieldType\Country\SearchField
         arguments:
-            - "%ezpublish.fieldType.ezcountry.data%"
+            - '%ibexa.field_type.country.data%'
         tags:
             - {name: ibexa.field_type.indexable, alias: ezcountry}
 

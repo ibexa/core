@@ -186,7 +186,7 @@ interface ContextualizerInterface
     /**
      * Injects namespace for internal settings.
      * Registered internal settings always have the format <namespace>.<scope>.<parameter_name>
-     * e.g. ezsettings.default.session.
+     * e.g. ibexa.site_access.config.default.session.
      *
      * @param string $namespace
      */

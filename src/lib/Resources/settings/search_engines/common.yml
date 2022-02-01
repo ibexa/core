@@ -2,7 +2,7 @@ imports:
     - {resource: search_engines/field_value_mappers.yml}
 
 parameters:
-    ezpublish.search.common.field_name_generator.map:
+    ibexa.search.common.field_name_generator.map:
         ez_integer: 'i'
         ez_minteger: 'mi'
         ez_id: 'id'
@@ -33,7 +33,7 @@ services:
     Ibexa\Core\Search\Common\FieldNameGenerator:
         class: Ibexa\Core\Search\Common\FieldNameGenerator
         arguments:
-            - "%ezpublish.search.common.field_name_generator.map%"
+            - '%ibexa.search.common.field_name_generator.map%'
 
     Ibexa\Core\Search\Common\FieldNameResolver:
         class: Ibexa\Core\Search\Common\FieldNameResolver

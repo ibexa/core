@@ -1,5 +1,5 @@
 parameters:
-    ezsettings.default.io.file_storage.file_type_blacklist:
+    ibexa.site_access.config.default.io.file_storage.file_type_blacklist:
         - php
         - php3
         - phar
@@ -51,7 +51,7 @@ services:
         arguments:
             - '@logger'
             - []
-            - 'ezsettings'
+            - 'ibexa.site_access.config'
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
             - [setContainer, ['@service_container']]

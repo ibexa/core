@@ -1,5 +1,5 @@
 parameters:
-    ezpublish.api.role.policy_map:
+    ibexa.api.role.policy_map:
         content:
             read: { Class: true, Section: true, Owner: true, Group: true, Node: true, Subtree: true, State: true }
             diff: { Class: true, Section: true, Owner: true, Node: true, Subtree: true }

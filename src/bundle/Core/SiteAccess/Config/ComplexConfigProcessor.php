@@ -17,7 +17,7 @@ use function str_replace;
 
 final class ComplexConfigProcessor implements ConfigProcessor
 {
-    private const DEFAULT_NAMESPACE = 'ezsettings';
+    private const DEFAULT_NAMESPACE = 'ibexa.site_access.config';
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;

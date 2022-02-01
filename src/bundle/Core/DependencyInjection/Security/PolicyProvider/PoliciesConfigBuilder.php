@@ -15,8 +15,8 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
     {
         $previousPolicyMap = [];
 
-        if ($this->containerBuilder->hasParameter('ezpublish.api.role.policy_map')) {
-            $previousPolicyMap = $this->containerBuilder->getParameter('ezpublish.api.role.policy_map');
+        if ($this->containerBuilder->hasParameter('ibexa.api.role.policy_map')) {
+            $previousPolicyMap = $this->containerBuilder->getParameter('ibexa.api.role.policy_map');
         }
 
         // We receive limitations as values, but we want them as keys to be used by isset().
@@ -33,7 +33,7 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
         }
 
         $this->containerBuilder->setParameter(
-            'ezpublish.api.role.policy_map',
+            'ibexa.api.role.policy_map',
             $previousPolicyMap
         );
     }

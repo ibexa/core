@@ -27,7 +27,7 @@ class SlugConverterConfigurationPass implements CompilerPassInterface
         $slugConverterDefinition = $container->getDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class);
 
         $parameterConfiguration = $slugConverterDefinition->getArgument(1);
-        $semanticConfiguration = $container->getParameter('ezpublish.url_alias.slug_converter');
+        $semanticConfiguration = $container->getParameter('ibexa.url_alias.slug_converter');
 
         $mergedConfiguration = $parameterConfiguration;
 

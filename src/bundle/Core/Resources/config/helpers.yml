@@ -1,7 +1,7 @@
 parameters:
     # Helpers
-    ezpublish.config_resolver.resettable_services: []
-    ezpublish.config_resolver.updateable_services: []
+    ibexa.config_resolver.resettable_services: []
+    ibexa.config_resolver.updateable_services: []
 
 services:
     # Helpers
@@ -10,7 +10,7 @@ services:
         arguments:
             - '@ibexa.config.resolver'
             - '@ibexa.api.service.content'
-            - "%ezpublish.siteaccesses_by_language%"
+            - '%ibexa.site_access.by_language%'
             - "@?logger"
 
     Ibexa\Core\Helper\FieldHelper:

@@ -3262,7 +3262,7 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the copyContent() method with ezsettings.default.content.retain_owner_on_copy set to false
+     * Test for the copyContent() method with ibexa.site_access.config.default.content.retain_owner_on_copy set to false
      * See settings/test/integration_legacy.yml for service override.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent()

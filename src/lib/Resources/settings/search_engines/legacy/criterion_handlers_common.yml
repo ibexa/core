@@ -1,6 +1,6 @@
 parameters:
     # Full text search configuration options.
-    ezpublish.search.legacy.criterion_handler.full_text.configuration:
+    ibexa.search.legacy.criterion_handler.full_text.configuration:
         stopWordThresholdFactor: 0.66
         enableWildcards: true
         commands:
@@ -133,7 +133,7 @@ services:
         arguments:
             $processor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
             $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
-            $configuration: '%ezpublish.search.legacy.criterion_handler.full_text.configuration%'
+            $configuration: '%ibexa.search.legacy.criterion_handler.full_text.configuration%'
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}

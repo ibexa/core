@@ -102,10 +102,10 @@ class IO extends AbstractParser
     private function addComplexParametersDependencies($parameter, $scope, ContainerBuilder $container)
     {
         // The complex setting exists in this scope, we don't need to do anything
-        if ($container->hasParameter("ezsettings.$scope.$parameter")) {
+        if ($container->hasParameter("ibexa.site_access.config.$scope.$parameter")) {
             return;
         }
-        $parameterValue = $container->getParameter("ezsettings.default.$parameter");
+        $parameterValue = $container->getParameter("ibexa.site_access.config.default.$parameter");
 
         // not complex in this scope
         if (!$this->complexSettingParser->containsDynamicSettings($parameterValue)) {
@@ -121,12 +121,12 @@ class IO extends AbstractParser
             }
             $dynamicParameterId = sprintf(
                 '%s.%s.%s',
-                $dynamicParameterParts['namespace'] ?: 'ezsettings',
+                $dynamicParameterParts['namespace'] ?: 'ibexa.site_access.config',
                 $scope,
                 $dynamicParameterParts['param']
             );
             if ($container->hasParameter($dynamicParameterId)) {
-                $container->setParameter("ezsettings.$scope.$parameter", $parameterValue);
+                $container->setParameter("ibexa.site_access.config.$scope.$parameter", $parameterValue);
                 break;
             }
         }

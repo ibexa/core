@@ -72,12 +72,12 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
         foreach ($saList as $sa) {
             $siteAccessName = $sa->name;
 
-            $repository = $this->configResolver->getParameter('repository', 'ezsettings', $siteAccessName);
+            $repository = $this->configResolver->getParameter('repository', 'ibexa.site_access.config', $siteAccessName);
             if (!isset($saRelationMap[$repository])) {
                 $saRelationMap[$repository] = [];
             }
 
-            $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id', 'ezsettings', $siteAccessName);
+            $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id', 'ibexa.site_access.config', $siteAccessName);
             if (!isset($saRelationMap[$repository][$rootLocationId])) {
                 $saRelationMap[$repository][$rootLocationId] = [];
             }
@@ -86,8 +86,8 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
         }
 
         $siteAccessName = $siteAccess->name;
-        $repository = $this->configResolver->getParameter('repository', 'ezsettings', $siteAccessName);
-        $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id', 'ezsettings', $siteAccessName);
+        $repository = $this->configResolver->getParameter('repository', 'ibexa.site_access.config', $siteAccessName);
+        $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id', 'ibexa.site_access.config', $siteAccessName);
 
         return $saRelationMap[$repository][$rootLocationId];
     }
