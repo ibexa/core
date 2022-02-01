@@ -19,17 +19,21 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
     /** @var \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints[] */
     private array $fieldConstraints;
 
+    /** @var int[] */
+    private array $published = [];
+
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints[]
      */
     public function __construct(array $fieldConstraints = [])
     {
         $this->fieldConstraints = $fieldConstraints;
+        $this->published = [];
     }
 
     public function publishFieldConstraintsData(int $fieldDefinitionId): void
     {
-        // TODO: Implementation
+        $this->published[] = $fieldDefinitionId;
     }
 
     public function storeFieldConstraintsData(
@@ -44,6 +48,11 @@ final class ExampleFieldConstraintsStorage implements FieldConstraintsStorage
         int $fieldDefinitionId
     ): bool {
         return isset($this->fieldConstraints[$fieldDefinitionId]);
+    }
+
+    public function isPublished(int $fieldDefinitionId): bool
+    {
+        return in_array($fieldDefinitionId, $this->published, true);
     }
 
     public function getFieldConstraintsData(

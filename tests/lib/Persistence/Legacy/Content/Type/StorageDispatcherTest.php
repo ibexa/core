@@ -21,6 +21,24 @@ final class StorageDispatcherTest extends TestCase
     private const EXAMPLE_FIELD_DEFINITION_ID = 1;
     private const EXAMPLE_FIELD_TYPE_IDENTIFIER = 'example_ft';
 
+    public function testPublishFieldConstraintsData(): void
+    {
+        $storage = $this->createMock(FieldConstraintsStorage::class);
+        $storage
+            ->expects($this->once())
+            ->method('publishFieldConstraintsData')
+            ->with(self::EXAMPLE_FIELD_DEFINITION_ID);
+
+        $fieldDefinition = new FieldDefinition();
+        $fieldDefinition->id = self::EXAMPLE_FIELD_DEFINITION_ID;
+        $fieldDefinition->fieldType = self::EXAMPLE_FIELD_TYPE_IDENTIFIER;
+
+        $registry = $this->createStorageRegistryMockWithExternalStorage($storage);
+
+        $dispatcher = new StorageDispatcher($registry);
+        $dispatcher->publishFieldConstraintsData($fieldDefinition);
+    }
+
     public function testStoreFieldConstraintsData(): void
     {
         $status = ContentType::STATUS_DEFINED;

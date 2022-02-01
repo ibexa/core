@@ -71,11 +71,9 @@ final class FieldConstraintsStorageTest extends BaseTest
 
         $contentTypeService->publishContentTypeDraft($contentType);
 
-        $actualFieldTypeConstraints = $this
-            ->getExampleFieldConstraintsStorage()
-            ->getFieldConstraintsDataIfAvailable(
-                $contentType->getFieldDefinition(self::EXAMPLE_FIELD_IDENTIFIER)->id
-            );
+        $storage = $this->getExampleFieldConstraintsStorage();
+
+        self::assertTrue($storage->isPublished($contentType->fieldDefinitions->get(self::EXAMPLE_FIELD_IDENTIFIER)->id));
 
         self::assertEquals(
             new FieldTypeConstraints(
@@ -84,7 +82,9 @@ final class FieldConstraintsStorageTest extends BaseTest
                     'validators' => self::EXAMPLE_VALIDATOR_CONFIGURATION,
                 ]
             ),
-            $actualFieldTypeConstraints
+            $storage->getFieldConstraintsDataIfAvailable(
+                $contentType->getFieldDefinition(self::EXAMPLE_FIELD_IDENTIFIER)->id
+            )
         );
 
         return $contentTypeService->loadContentTypeByIdentifier($contentType->identifier);
