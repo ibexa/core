@@ -7,7 +7,7 @@ Scenario: A content view can be configured to run and render a query
     Given a content item that matches the view configuration block below
       And the following content view configuration block:
       """
-      controller: ez_query:locationQueryAction
+      controller: ibexa_query:locationQueryAction
       params:
           query:
               query_type: 'LocationChildren'
@@ -54,7 +54,7 @@ Scenario: A content view can be configured to run and render a query and return 
     Given a content item that matches the view configuration block below
     And the following content view configuration block with paging action:
       """
-      controller: ez_query:pagingQueryAction
+      controller: ibexa_query:pagingQueryAction
       params:
           query:
               query_type: 'LocationChildren'
@@ -103,7 +103,7 @@ Scenario: A content view can be configured to run and render a query return a Pa
       """
     And the following content view configuration block with paging action and the template set above:
       """
-      controller: ez_query:pagingQueryAction
+      controller: ibexa_query:pagingQueryAction
       template: tests.html.twig
       params:
           query:
@@ -155,7 +155,7 @@ Scenario: A content view can be configured to run and render a query and set a s
       """
     And the following content view configuration block with paging action and the template set above:
       """
-      controller: ez_query:pagingQueryAction
+      controller: ibexa_query:pagingQueryAction
       template: tests.html.twig
       params:
           query:
