@@ -709,8 +709,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * Moved from {@see \EzSystems\EzPlatformCoreBundle\DependencyInjection\EzPlatformCoreExtension::configureGenericSetup}.
-     *
      * @throws \Exception
      */
     private function configureGenericSetup(ContainerBuilder $container): void
@@ -811,8 +809,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * Moved from {@see \EzSystems\EzPlatformCoreBundle\DependencyInjection\EzPlatformCoreExtension::configurePlatformShSetup}.
-     *
      * @throws \Exception
      */
     private function configurePlatformShSetup(ContainerBuilder $container): void
