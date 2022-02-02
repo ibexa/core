@@ -18,7 +18,7 @@ use RuntimeException;
 /**
  * Legacy database Schema Importer for database integration tests.
  *
- * @uses \EzSystems\DoctrineSchema\Importer\SchemaImporter
+ * @uses \Ibexa\DoctrineSchema\Importer\SchemaImporter
  *
  * @internal For internal use by the Repository test cases.
  */
