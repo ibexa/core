@@ -12,7 +12,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Installer;
  * Simple SQL based installer interface for eZ Platform 1.0, will be replaced by a new interface in the future that
  * uses API/SPI (via future import/export functionality) to support cluster and several different storage engines.
  * Such change will also move responsibility of repository init (base schema and minimal data) to storage engine
- * so this is not in installers. Further info: https://jira.ez.no/browse/EZP-25368
+ * so this is not in installers. Further info: https://jira.ibexa.co/browse/EZP-25368
  */
 interface Installer
 {
@@ -27,7 +27,7 @@ interface Installer
     public function importData();
 
     /**
-     * @deprecated Inactive since 6.1, further info: https://jira.ez.no/browse/EZP-25369
+     * @deprecated Inactive since 6.1, further info: https://jira.ibexa.co/browse/EZP-25369
      */
     public function createConfiguration();
 

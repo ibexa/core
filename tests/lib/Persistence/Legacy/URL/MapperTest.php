@@ -25,7 +25,7 @@ class MapperTest extends TestCase
     public function testCreateURLFromUpdateStruct()
     {
         $urlUpdateStruct = new URLUpdateStruct();
-        $urlUpdateStruct->url = 'https://ez.no';
+        $urlUpdateStruct->url = 'https://ibexa.co';
         $urlUpdateStruct->isValid = true;
         $urlUpdateStruct->lastChecked = 0;
         $urlUpdateStruct->modified = time();
@@ -46,7 +46,7 @@ class MapperTest extends TestCase
         $rows = [
             [
                 'id' => 12,
-                'url' => 'https://ez.no',
+                'url' => 'https://ibexa.co',
                 'original_url_md5' => 'd74110041197e107722d8821f5f4d89c',
                 'is_valid' => 0,
                 'last_checked' => 0,

@@ -498,7 +498,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
      */
     private function buildRootLocation(SPILocation $spiLocation): APILocation
     {
-        //  first known commit of eZ Publish 3.x
+        //  first known commit of Ibexa 3.x
         $legacyDateTime = $this->getDateTime(1030968000);
 
         $contentInfo = new ContentInfo([

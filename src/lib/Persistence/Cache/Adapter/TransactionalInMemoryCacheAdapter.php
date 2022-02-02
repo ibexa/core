@@ -231,7 +231,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     /**
      * {@inheritdoc}
      *
-     * Symfony cache feature for deferring saves, not used by eZ & not related to transaction handling here.
+     * Symfony cache feature for deferring saves, not used by Ibexa & not related to transaction handling here.
      */
     public function saveDeferred(CacheItemInterface $item)
     {
@@ -241,7 +241,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     /**
      * {@inheritdoc}
      *
-     * Symfony cache feature for committing deferred saves, not used by eZ & not related to transaction handling here.
+     * Symfony cache feature for committing deferred saves, not used by Ibexa & not related to transaction handling here.
      */
     public function commit()
     {

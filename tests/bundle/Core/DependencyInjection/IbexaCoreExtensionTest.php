@@ -51,23 +51,23 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
 
         $this->siteaccessConfig = [
             'siteaccess' => [
-                'default_siteaccess' => 'ezdemo_site',
-                'list' => ['ezdemo_site', 'eng', 'fre', 'ezdemo_site_admin'],
+                'default_siteaccess' => 'ibexa_demo_site',
+                'list' => ['ibexa_demo_site', 'eng', 'fre', 'ibexa_demo_site_admin'],
                 'groups' => [
-                    'ezdemo_group' => ['ezdemo_site', 'eng', 'fre', 'ezdemo_site_admin'],
-                    'ezdemo_frontend_group' => ['ezdemo_site', 'eng', 'fre'],
+                    'ibexa_demo_group' => ['ibexa_demo_site', 'eng', 'fre', 'ibexa_demo_site_admin'],
+                    'ibexa_demo_frontend_group' => ['ibexa_demo_site', 'eng', 'fre'],
                     'empty_group' => [],
                 ],
                 'match' => [
                     'URILElement' => 1,
-                    'Map\URI' => ['the_front' => 'ezdemo_site', 'the_back' => 'ezdemo_site_admin'],
+                    'Map\URI' => ['the_front' => 'ibexa_demo_site', 'the_back' => 'ibexa_demo_site_admin'],
                 ],
             ],
             'system' => [
-                'ezdemo_site' => [],
+                'ibexa_demo_site' => [],
                 'eng' => [],
                 'fre' => [],
-                'ezdemo_site_admin' => [],
+                'ibexa_demo_site_admin' => [],
                 'empty_group' => ['var_dir' => 'foo'],
             ],
         ];

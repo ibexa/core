@@ -8,7 +8,7 @@ namespace Ibexa\Core\MVC\Symfony\Locale;
 
 /**
  * Interface for locale converters.
- * eZ Platform uses <ISO639-2/B>-<ISO3166-Alpha2> locale format (mostly, some supported locales being out of this format, e.g. cro-HR).
+ * Ibexa uses <ISO639-2/B>-<ISO3166-Alpha2> locale format (mostly, some supported locales being out of this format, e.g. cro-HR).
  * Symfony uses the standard POSIX locale format (<ISO639-1>_<ISO3166-Alpha2>), which is supported by Intl PHP extension.
  *
  * Locale converters are meant to convert in those 2 formats back and forth.
@@ -16,7 +16,7 @@ namespace Ibexa\Core\MVC\Symfony\Locale;
 interface LocaleConverterInterface
 {
     /**
-     * Converts a locale in eZ Publish internal format to POSIX format.
+     * Converts a locale in Ibexa internal format to POSIX format.
      * Returns null if conversion cannot be made.
      *
      * @param string $ezpLocale
@@ -26,7 +26,7 @@ interface LocaleConverterInterface
     public function convertToPOSIX($ezpLocale);
 
     /**
-     * Converts a locale in POSIX format to eZ Publish internal format.
+     * Converts a locale in POSIX format to Ibexa internal format.
      * Returns null if conversion cannot be made.
      *
      * @param string $posixLocale

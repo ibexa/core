@@ -522,7 +522,7 @@ return [
                 'id' => 37,
                 'type' => 0,
                 'destination' => 56,
-                'path' => '/Design/eZ-publish',
+                'path' => '/Design/Ibexa',
                 'languageCodes' => [
                     0 => 'eng-US',
                 ],

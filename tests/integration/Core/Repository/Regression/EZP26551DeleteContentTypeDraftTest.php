@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
- * @issue https://jira.ez.no/browse/EZP-26551
+ * @issue https://jira.ibexa.co/browse/EZP-26551
  * @group regression
  * @group ezp26551
  */

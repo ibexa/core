@@ -93,7 +93,7 @@ class GlobalHelperTest extends TestCase
 
     public function testGetRequestedUriString()
     {
-        $request = Request::create('/ezdemo_site/foo/bar');
+        $request = Request::create('/ibexa_demo_site/foo/bar');
         $semanticPathinfo = '/foo/bar';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $requestStack = new RequestStack();
@@ -105,7 +105,7 @@ class GlobalHelperTest extends TestCase
 
     public function testGetSystemUriStringNoUrlAlias()
     {
-        $request = Request::create('/ezdemo_site/foo/bar');
+        $request = Request::create('/ibexa_demo_site/foo/bar');
         $semanticPathinfo = '/foo/bar';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('_route', 'someRouteName');
@@ -121,7 +121,7 @@ class GlobalHelperTest extends TestCase
         $contentId = 456;
         $viewType = 'full';
         $expectedSystemUriString = '/view/content/456/full/1/123';
-        $request = Request::create('/ezdemo_site/foo/bar');
+        $request = Request::create('/ibexa_demo_site/foo/bar');
         $request->attributes->set('_route', UrlAliasRouter::URL_ALIAS_ROUTE_NAME);
         $request->attributes->set('contentId', $contentId);
         $request->attributes->set('locationId', $locationId);

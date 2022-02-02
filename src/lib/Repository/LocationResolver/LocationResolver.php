@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 /**
- * @internal For internal use by eZ Platform core packages
+ * @internal For internal use by Ibexa core packages
  */
 interface LocationResolver
 {

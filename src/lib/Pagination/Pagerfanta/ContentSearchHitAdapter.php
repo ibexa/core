@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
- * Pagerfanta adapter for eZ Publish content search.
+ * Pagerfanta adapter for Ibexa content search.
  * Will return results as SearchHit objects.
  */
 class ContentSearchHitAdapter extends AbstractSearchResultAdapter

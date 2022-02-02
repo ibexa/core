@@ -34,7 +34,7 @@ class LegacyStorageImageFileListTest extends TestCase
         $this->ioConfigResolverMock = $this->createMock(IOConfigProvider::class);
         $this->ioConfigResolverMock
             ->method('getLegacyUrlPrefix')
-            ->willReturn('var/ezdemo_site/storage');
+            ->willReturn('var/ibexa_demo_site/storage');
         $this->configResolverMock = $this->createMock(ConfigResolverInterface::class);
         $this->configResolverMock
             ->method('getParameter')
@@ -66,7 +66,7 @@ class LegacyStorageImageFileListTest extends TestCase
      */
     public function testImageIdTransformation()
     {
-        $this->configureRowReaderMock(['var/ezdemo_site/storage/images/path/to/1st/image.jpg']);
+        $this->configureRowReaderMock(['var/ibexa_demo_site/storage/images/path/to/1st/image.jpg']);
         foreach ($this->fileList as $file) {
             self::assertEquals('path/to/1st/image.jpg', $file);
         }

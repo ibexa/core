@@ -26,7 +26,7 @@ abstract class BaseContentServiceTest extends BaseTest
         $parentLocationId = $this->generateId('location', 56);
         $sectionId = $this->generateId('section', 1);
         /* BEGIN: Inline */
-        // $parentLocationId is the id of the /Design/eZ-publish node
+        // $parentLocationId is the id of the /Design/Ibexa node
 
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
@@ -78,7 +78,7 @@ abstract class BaseContentServiceTest extends BaseTest
         $parentLocationId = $this->generateId('location', $locationId);
         $sectionId = $this->generateId('section', 1);
         /* BEGIN: Inline */
-        // $parentLocationId is the id of the /Design/eZ-publish node
+        // $parentLocationId is the id of the /Design/Ibexa node
 
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();
@@ -207,7 +207,7 @@ abstract class BaseContentServiceTest extends BaseTest
         $mainLanguageCode = 'eng-US';
 
         // Create a new user that belongs to the Administrator users group
-        $newUserCreateStruct = $userService->newUserCreateStruct('admin2', 'admin2@ez.no', 'admin2', $mainLanguageCode);
+        $newUserCreateStruct = $userService->newUserCreateStruct('admin2', 'admin2@ibexa.co', 'admin2', $mainLanguageCode);
         $newUserCreateStruct->setField('first_name', 'Admin2', $mainLanguageCode);
         $newUserCreateStruct->setField('last_name', 'Admin2', $mainLanguageCode);
 

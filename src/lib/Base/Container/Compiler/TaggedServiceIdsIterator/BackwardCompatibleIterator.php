@@ -39,7 +39,7 @@ final class BackwardCompatibleIterator implements IteratorAggregate
         foreach ($serviceIdsWithDeprecatedTags as $serviceId => $tags) {
             @trigger_error(
                 sprintf(
-                    'Service tag `%s` is deprecated and will be removed in eZ Platform 4.0. Tag %s with `%s` instead.',
+                    'Service tag `%s` is deprecated and will be removed in Ibexa 4.0. Tag %s with `%s` instead.',
                     $this->deprecatedServiceTag,
                     $serviceId,
                     $this->serviceTag

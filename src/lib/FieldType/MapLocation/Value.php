@@ -49,7 +49,7 @@ class Value extends BaseValue
     /**
      * Returns a string representation of the keyword value.
      *
-     * @return string A comma separated list of tags, eg: "php, eZ Publish, html5"
+     * @return string A comma separated list of tags, eg: "php, Ibexa, html5"
      */
     public function __toString()
     {

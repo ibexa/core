@@ -193,7 +193,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
         // $anonymousUserId is the ID of the "Anonymous" user
-        // $homeLocationId is the ID of the "Home" location in an eZ Publish
+        // $homeLocationId is the ID of the "Home" location in an Ibexa
         // demo installation
 
         $trashItem = $this->createTrashItem();

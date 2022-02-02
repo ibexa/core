@@ -160,7 +160,7 @@ class Configuration extends SiteAccessConfiguration
                     ->children()
                         ->arrayNode('list')
                             ->info('Available SiteAccess list')
-                            ->example(['ezdemo_site', 'ezdemo_site_admin'])
+                            ->example(['ibexa_demo_site', 'ibexa_demo_site_admin'])
                             ->isRequired()
                             ->requiresAtLeastOneElement()
                             ->prototype('scalar')->end()
@@ -168,7 +168,7 @@ class Configuration extends SiteAccessConfiguration
                         ->arrayNode('groups')
                             ->useAttributeAsKey('key')
                             ->info('SiteAccess groups. Useful to share settings between Siteaccess')
-                            ->example(['ezdemo_group' => ['ezdemo_site', 'ezdemo_site_admin']])
+                            ->example(['ibexa_demo_group' => ['ibexa_demo_site', 'ibexa_demo_site_admin']])
                             ->prototype('array')
                                 ->prototype('scalar')->end()
                             ->end()
@@ -179,13 +179,13 @@ class Configuration extends SiteAccessConfiguration
                             ->example(
                                 [
                                     'Map\\URI' => [
-                                        'foo' => 'ezdemo_site',
-                                        'ezdemo_site' => 'ezdemo_site',
-                                        'ezdemo_site_admin' => 'ezdemo_site_admin',
+                                        'foo' => 'ibexa_demo_site',
+                                        'ibexa_demo_site' => 'ibexa_demo_site',
+                                        'ibexa_demo_site_admin' => 'ibexa_demo_site_admin',
                                     ],
                                     'Map\\Host' => [
-                                        'ezpublish.dev' => 'ezdemo_site',
-                                        'admin.ezpublish.dev' => 'ezdemo_site_admin',
+                                        'ezpublish.dev' => 'ibexa_demo_site',
+                                        'admin.ezpublish.dev' => 'ibexa_demo_site_admin',
                                     ],
                                     '\\My\\Custom\\Matcher' => [
                                         'some' => 'configuration',
@@ -210,7 +210,7 @@ class Configuration extends SiteAccessConfiguration
                                             }
 
                                             // If passed value is a numerically indexed array, we must convert it into a hash.
-                                            // See https://jira.ez.no/browse/EZP-21876
+                                            // See https://jira.ibexa.co/browse/EZP-21876
                                             if (array_keys($v) === range(0, count($v) - 1)) {
                                                 $final = [];
                                                 foreach ($v as $i => $val) {

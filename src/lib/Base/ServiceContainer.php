@@ -25,7 +25,7 @@ class ServiceContainer implements Container
      *
      * @var string
      */
-    protected $containerClassName = 'EzPublishPublicAPIServiceContainer';
+    protected $containerClassName = 'IbexaPublicAPIServiceContainer';
 
     /**
      * Holds inner Symfony container instance.

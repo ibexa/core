@@ -17,7 +17,7 @@ use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 use Symfony\Component\Routing\RequestContext;
 
 /**
- * LiipImagineBundle cache resolver using eZ IO repository.
+ * LiipImagineBundle cache resolver using Ibexa IO repository.
  */
 class IORepositoryResolver implements ResolverInterface
 {

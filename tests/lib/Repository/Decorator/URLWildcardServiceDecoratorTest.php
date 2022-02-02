@@ -87,7 +87,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = ['ez.no'];
+        $parameters = ['ibexa.co'];
 
         $serviceMock->expects($this->once())->method('translate')->with(...$parameters);
 

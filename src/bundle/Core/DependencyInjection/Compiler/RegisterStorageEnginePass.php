@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass will register eZ Publish storage engines.
+ * This compiler pass will register Ibexa storage engines.
  */
 class RegisterStorageEnginePass implements CompilerPassInterface
 {

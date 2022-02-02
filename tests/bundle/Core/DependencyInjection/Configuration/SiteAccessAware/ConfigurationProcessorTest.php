@@ -18,7 +18,7 @@ class ConfigurationProcessorTest extends TestCase
 {
     public function testConstruct()
     {
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $siteAccessNodeName = 'foo';
         $container = $this->getContainerMock();
         $siteAccessList = ['test', 'bar'];
@@ -44,7 +44,7 @@ class ConfigurationProcessorTest extends TestCase
 
     public function testGetSetContextualizer()
     {
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $siteAccessNodeName = 'foo';
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $siteAccessNodeName);
@@ -63,7 +63,7 @@ class ConfigurationProcessorTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $siteAccessNodeName = 'foo';
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $siteAccessNodeName);
@@ -73,7 +73,7 @@ class ConfigurationProcessorTest extends TestCase
 
     public function testMapConfigClosure()
     {
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $saNodeName = 'foo';
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $saNodeName);
@@ -113,7 +113,7 @@ class ConfigurationProcessorTest extends TestCase
 
     public function testMapConfigMapperObject()
     {
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $saNodeName = 'foo';
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $saNodeName);
@@ -159,7 +159,7 @@ class ConfigurationProcessorTest extends TestCase
 
     public function testMapConfigHookableMapperObject()
     {
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $saNodeName = 'foo';
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $saNodeName);
@@ -213,7 +213,7 @@ class ConfigurationProcessorTest extends TestCase
 
     public function testMapSetting()
     {
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $saNodeName = 'foo';
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $saNodeName);
@@ -249,7 +249,7 @@ class ConfigurationProcessorTest extends TestCase
 
     public function testMapConfigArray()
     {
-        $namespace = 'ez_test';
+        $namespace = 'ibexa_test';
         $saNodeName = 'foo';
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $saNodeName);

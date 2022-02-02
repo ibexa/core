@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass will register eZ Publish indexable field types.
+ * This compiler pass will register Ibexa indexable field types.
  */
 class FieldRegistryPass implements CompilerPassInterface
 {

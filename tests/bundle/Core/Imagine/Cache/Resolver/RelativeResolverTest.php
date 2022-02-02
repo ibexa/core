@@ -28,7 +28,7 @@ class RelativeResolverTest extends TestCase
         $path = '7/4/2/0/247-1-eng-GB/test.png';
         $filter = 'big';
 
-        $absolute = 'http://ez.no/var/site/storage/images/_aliases/big/7/4/2/0/247-1-eng-GB/test.png';
+        $absolute = 'http://ibexa.co/var/site/storage/images/_aliases/big/7/4/2/0/247-1-eng-GB/test.png';
         $expected = '/var/site/storage/images/_aliases/big/7/4/2/0/247-1-eng-GB/test.png';
 
         $this->liipResolver

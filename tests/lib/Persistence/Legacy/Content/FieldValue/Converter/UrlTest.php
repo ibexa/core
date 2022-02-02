@@ -34,9 +34,9 @@ class UrlTest extends TestCase
     public function testToStorageValue()
     {
         $value = new FieldValue();
-        $text = 'eZ Systems';
+        $text = 'Ibexa';
         $value->data = ['text' => $text];
-        $value->externalData = 'http://ez.no/';
+        $value->externalData = 'http://ibexa.co/';
         $value->sortKey = false;
         $storageFieldValue = new StorageFieldValue();
 

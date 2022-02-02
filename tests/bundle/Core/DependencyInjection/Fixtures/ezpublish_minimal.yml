@@ -1,23 +1,23 @@
 siteaccess:
-    default_siteaccess: ezdemo_site
+    default_siteaccess: ibexa_demo_site
     list:
-        - ezdemo_site
+        - ibexa_demo_site
         - fre
-        - ezdemo_site_admin
+        - ibexa_demo_site_admin
     groups:
-        ezdemo_group:
-            - ezdemo_site
+        ibexa_demo_group:
+            - ibexa_demo_site
             - fre
-            - ezdemo_site_admin
-        ezdemo_frontend_group:
-            - ezdemo_site
+            - ibexa_demo_site_admin
+        ibexa_demo_frontend_group:
+            - ibexa_demo_site
             - fre
         empty_group: []
     match:
         URIElement: 1
         Map\URI:
-            the_front: ezdemo_site
-            the_back: ezdemo_site_admin
+            the_front: ibexa_demo_site
+            the_back: ibexa_demo_site_admin
 
 imagemagick:
     enabled: false

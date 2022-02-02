@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- * Interface adding eZ Publish API specific methods to Symfony UserProviderInterface.
+ * Interface adding Ibexa API specific methods to Symfony UserProviderInterface.
  */
 interface APIUserProviderInterface extends UserProviderInterface
 {

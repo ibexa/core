@@ -97,7 +97,7 @@ class RouterHostElementTest extends RouterBaseTest
     {
         return [
             ['foo', 1, SimplifiedRequest::fromUrl('http://bar.example.com/'), 'foo.example.com'],
-            ['ezdemo_site', 1, SimplifiedRequest::fromUrl('http://ezflow_site.ez.no/'), 'ezdemo_site.ez.no'],
+            ['ibexa_demo_site', 1, SimplifiedRequest::fromUrl('http://ezflow_site.ibexa.co/'), 'ibexa_demo_site.ibexa.co'],
             ['metalfrance', 2, SimplifiedRequest::fromUrl('http://www.lolart.net/'), 'www.metalfrance.net'],
             ['fm', 3, SimplifiedRequest::fromUrl('http://www.phoenix-rises.fr/'), 'www.phoenix-rises.fm'],
         ];
@@ -106,18 +106,18 @@ class RouterHostElementTest extends RouterBaseTest
     public function testReverseMatchFail()
     {
         $matcher = new HostElement([3]);
-        $matcher->setRequest(new SimplifiedRequest(['host' => 'ez.no']));
+        $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co']));
         $this->assertNull($matcher->reverseMatch('foo'));
     }
 
     public function testSerialize()
     {
         $matcher = new HostElement([1]);
-        $matcher->setRequest(new SimplifiedRequest(['host' => 'ez.no', 'pathinfo' => '/foo/bar']));
+        $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co', 'pathinfo' => '/foo/bar']));
         $sa = new SiteAccess('test', 'test', $matcher);
         $serializedSA1 = serialize($sa);
 
-        $matcher->setRequest(new SimplifiedRequest(['host' => 'ez.no', 'pathinfo' => '/foo/bar/baz']));
+        $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co', 'pathinfo' => '/foo/bar/baz']));
         $serializedSA2 = serialize($sa);
 
         $this->assertSame($serializedSA1, $serializedSA2);

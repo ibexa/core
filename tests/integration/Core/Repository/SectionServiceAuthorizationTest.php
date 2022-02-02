@@ -29,7 +29,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $sectionService = $repository->getSectionService();
@@ -59,7 +59,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $sectionService = $repository->getSectionService();
@@ -92,9 +92,9 @@ class SectionServiceAuthorizationTest extends BaseTest
         $standardSectionId = $this->generateId('section', 1);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
-        // $standardSectionId is the ID of the "Standard" section in a eZ
+        // $standardSectionId is the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $userService = $repository->getUserService();
@@ -127,7 +127,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $sectionService = $repository->getSectionService();
@@ -209,7 +209,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $sectionService = $repository->getSectionService();
@@ -244,12 +244,12 @@ class SectionServiceAuthorizationTest extends BaseTest
         $standardSectionId = $this->generateId('section', 1);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
-        // $standardSectionId is the ID of the "Standard" section in a eZ
+        // $standardSectionId is the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
-        // RemoteId of the "Media" page of an eZ Publish demo installation
+        // RemoteId of the "Media" page of an Ibexa demo installation
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
 
         $userService = $repository->getUserService();
@@ -285,7 +285,7 @@ class SectionServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $sectionService = $repository->getSectionService();

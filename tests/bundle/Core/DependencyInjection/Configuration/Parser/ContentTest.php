@@ -28,9 +28,9 @@ class ContentTest extends AbstractParserTestCase
     {
         $this->load();
 
-        $this->assertConfigResolverParameterValue('content.view_cache', true, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('content.ttl_cache', true, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('content.default_ttl', 60, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('content.view_cache', true, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('content.ttl_cache', true, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('content.default_ttl', 60, 'ibexa_demo_site');
     }
 
     /**
@@ -41,13 +41,13 @@ class ContentTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_site' => $config,
+                    'ibexa_demo_site' => $config,
                 ],
             ]
         );
 
         foreach ($expected as $key => $val) {
-            $this->assertConfigResolverParameterValue($key, $val, 'ezdemo_site');
+            $this->assertConfigResolverParameterValue($key, $val, 'ibexa_demo_site');
         }
     }
 

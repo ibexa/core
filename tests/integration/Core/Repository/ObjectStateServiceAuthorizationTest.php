@@ -32,7 +32,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();
@@ -77,7 +77,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();
@@ -126,7 +126,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();
@@ -162,7 +162,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         $objectStateGroupId = $this->generateId('objectstategroup', 2);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();
@@ -213,7 +213,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         $objectStateId = $this->generateId('objectstate', 2);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();
@@ -263,7 +263,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         $objectStateId = $this->generateId('objectstate', 2);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();
@@ -302,7 +302,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         $lockedObjectStateId = $this->generateId('objectstate', 2);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();
@@ -336,7 +336,7 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         $ezLockObjectStateGroupId = $this->generateId('objectstategroup', 2);
         $lockedObjectStateId = $this->generateId('objectstate', 2);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Set anonymous user
         $userService = $repository->getUserService();

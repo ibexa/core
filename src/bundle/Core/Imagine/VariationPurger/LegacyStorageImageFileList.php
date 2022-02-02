@@ -12,7 +12,7 @@ use Ibexa\Core\IO\IOConfigProvider;
 /**
  * Iterator for entries in legacy's ezimagefile table.
  *
- * The returned items are id of Image BinaryFile (ez-mountains/mount-aconcagua/605-1-eng-GB/Mount-Aconcagua.jpg).
+ * The returned items are id of Image BinaryFile (ibexa-mountains/mount-aconcagua/605-1-eng-GB/Mount-Aconcagua.jpg).
  */
 class LegacyStorageImageFileList implements ImageFileList
 {
@@ -91,7 +91,7 @@ class LegacyStorageImageFileList implements ImageFileList
      */
     private function fetchRow(): void
     {
-        // Folder, relative to the root, where files are stored. Example: var/ezdemo_site/storage
+        // Folder, relative to the root, where files are stored. Example: var/ibexa_demo_site/storage
         $storageDir = $this->ioConfigResolver->getLegacyUrlPrefix();
         $prefix = $storageDir . '/' . $this->configResolver->getParameter('image.published_images_dir');
         ++$this->cursor;

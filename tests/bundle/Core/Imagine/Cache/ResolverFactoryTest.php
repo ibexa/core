@@ -45,7 +45,7 @@ class ResolverFactoryTest extends TestCase
             ->with('image_host')
             ->willReturn(true);
 
-        $host = 'http://ez.no';
+        $host = 'http://ibexa.co';
 
         $this->configResolver
             ->expects($this->at(1))

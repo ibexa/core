@@ -38,7 +38,7 @@ interface Gateway
      * Note that sequence names are ignored by database drivers not supporting sequences, so the
      * sequence name can be passed as a constant, regardless of the underlying database connection.
      *
-     * It returns integer as all the IDs in the eZ Platform Legacy Storage are (big)integers
+     * It returns integer as all the IDs in the Ibexa Legacy Storage are (big)integers
      */
     public function getLastInsertedId(string $sequenceName): int;
 }

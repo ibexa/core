@@ -22,7 +22,7 @@ class BinaryFile extends ValueObject
 {
     /**
      * Unique ID
-     * Ex: media/images/ez-logo/209-1-eng-GB/eZ-Logo.gif, or application/2b042138835bb5f48beb9c9df6e86de4.pdf.
+     * Ex: media/images/ibexa-logo/209-1-eng-GB/Ibexa-Logo.gif, or application/2b042138835bb5f48beb9c9df6e86de4.pdf.
      *
      * @var mixed
      */

@@ -25,7 +25,7 @@ interface UserLanguagePreferenceProviderInterface
     public function getPreferredLocales(Request $request = null): array;
 
     /**
-     * List of eZ Language codes.
+     * List of Ibexa Language codes.
      *
      * @return string[]
      */

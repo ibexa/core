@@ -157,7 +157,7 @@ interface UserService
      * Loads a user for the given login.
      *
      * Since 6.1 login is case-insensitive across all storage engines and database backends, like was the case
-     * with mysql before in eZ Publish 3.x/4.x/5.x.
+     * with mysql before in Ibexa 3.x/4.x/5.x.
      *
      * @param string $login
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
@@ -195,7 +195,7 @@ interface UserService
      *
      * Note: This method loads user by $email where $email might be case-insensitive on certain storage engines!
      *
-     * Returns an array of Users since eZ Publish has under certain circumstances allowed
+     * Returns an array of Users since Ibexa has under certain circumstances allowed
      * several users having same email in the past (by means of a configuration option).
      *
      * @param string $email

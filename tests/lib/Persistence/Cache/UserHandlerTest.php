@@ -33,7 +33,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
 
     public function providerForUnCachedMethods(): array
     {
-        $user = new User(['id' => 14, 'login' => 'otto', 'email' => 'otto@ez.no']);
+        $user = new User(['id' => 14, 'login' => 'otto', 'email' => 'otto@ibexa.co']);
         $policy = new Policy(['id' => 13, 'roleId' => 9]);
         $userToken = new User\UserTokenUpdateStruct(['userId' => 14, 'hashKey' => '4irj8t43r']);
         $escapedLogin = str_replace('@', '_A', $user->login);

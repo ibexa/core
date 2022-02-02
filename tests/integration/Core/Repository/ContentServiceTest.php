@@ -2339,7 +2339,7 @@ class ContentServiceTest extends BaseContentServiceTest
         // "Media" content object
         $mediaContentInfo = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
 
-        // "eZ Publish Demo Design ..." content object
+        // "Ibexa Demo Design ..." content object
         $demoDesignContentInfo = $this->contentService->loadContentInfoByRemoteId(self::DEMO_DESIGN_REMOTE_ID);
 
         // Create some drafts
@@ -5134,7 +5134,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $this->locationService->loadLocation(
                 $content->getVersionInfo()->getContentInfo()->mainLocationId
             ),
-            '/my/fancy/story-about-ez-publish',
+            '/my/fancy/story-about-ibexa-dxp',
             self::ENG_US
         );
 
@@ -5161,10 +5161,10 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $this->assertAliasesCorrect(
             [
-                '/my/fancy/story-about-ez-publish' => [
+                '/my/fancy/story-about-ibexa-dxp' => [
                     'type' => URLAlias::LOCATION,
                     'destination' => $location->id,
-                    'path' => '/my/fancy/story-about-ez-publish',
+                    'path' => '/my/fancy/story-about-ibexa-dxp',
                     'languageCodes' => [self::ENG_US],
                     'isHistory' => false,
                     'isCustom' => true,
@@ -5771,7 +5771,7 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test loading content versions after removing exactly two drafts.
      *
-     * @see https://jira.ez.no/browse/EZP-30271
+     * @see https://jira.ibexa.co/browse/EZP-30271
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion
      */

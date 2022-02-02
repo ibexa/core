@@ -28,7 +28,7 @@ class Indexer extends IncrementalIndexer
 
     public function getName()
     {
-        return 'eZ Platform Legacy (SQL) Search Engine';
+        return 'Ibexa Legacy (SQL) Search Engine';
     }
 
     public function updateSearchIndex(array $contentIds, $commit)

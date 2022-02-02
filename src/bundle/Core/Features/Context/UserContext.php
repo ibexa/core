@@ -24,7 +24,7 @@ class UserContext implements Context
     public const DEFAULT_LANGUAGE = 'eng-GB';
 
     /**
-     * These values are set by the default eZ Publish installation.
+     * These values are set by the default Ibexa installation.
      */
     public const USER_IDENTIFIER = 'user';
 
@@ -498,7 +498,7 @@ class UserContext implements Context
      *
      * Checks that user ':username' exists with the values provided in the field/value table. example:
      *       | Name          | value           |
-     *       | email         | testuser@ez.no  |
+     *       | email         | testuser@ibexa.co  |
      *       | password      | testuser        |
      *       | first_name    | Test            |
      *       | last_name     | User            |
@@ -544,13 +544,13 @@ class UserContext implements Context
      */
     private function findNonExistingUserEmail($username = 'User')
     {
-        $email = "${username}@ez.no";
+        $email = "${username}@ibexa.co";
         if ($this->checkUserExistenceByEmail($email)) {
             return $email;
         }
 
         for ($i = 0; $i < 20; ++$i) {
-            $email = uniqid('User#', true) . '@ez.no';
+            $email = uniqid('User#', true) . '@ibexa.co';
             if (!$this->checkUserExistenceByEmail($email)) {
                 return $email;
             }

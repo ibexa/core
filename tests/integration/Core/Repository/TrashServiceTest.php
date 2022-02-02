@@ -288,7 +288,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $trashService = $repository->getTrashService();
 
         // This call will fail with a "NotFoundException", because no trash item
-        // with the ID 1342 should exist in an eZ Publish demo installation
+        // with the ID 1342 should exist in an Ibexa demo installation
         $trashService->loadTrashItem($nonExistingTrashId);
         /* END: Use Case */
     }
@@ -487,7 +487,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $homeLocationId = $this->generateId('location', 2);
         /* BEGIN: Use Case */
-        // $homeLocationId is the ID of the "Home" location in an eZ Publish
+        // $homeLocationId is the ID of the "Home" location in an Ibexa
         // demo installation
 
         $trashItem = $this->createTrashItem();
@@ -580,7 +580,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $childCount = $locationService->getLocationChildCount($location);
 
         /* BEGIN: Use Case */
-        // $homeLocationId is the ID of the "Home" location in an eZ Publish
+        // $homeLocationId is the ID of the "Home" location in an Ibexa
         // demo installation
 
         $trashItem = $this->createTrashItem();
@@ -961,7 +961,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
-        // $demoDesignLocationId is the ID of the "Demo Design" location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" location in an Ibexa
         // Publish demo installation
 
         $trashItem = $this->createTrashItem();
@@ -1208,7 +1208,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $repository = $this->getRepository();
 
         /* BEGIN: Inline */
-        // remoteId of the "Community" location in an eZ Publish demo installation
+        // remoteId of the "Community" location in an Ibexa demo installation
         $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
 
         // Load the location service

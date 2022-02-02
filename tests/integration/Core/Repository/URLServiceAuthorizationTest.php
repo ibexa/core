@@ -25,7 +25,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
 
         $userService = $repository->getUserService();
@@ -55,7 +55,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         $anonymousUserId = $this->generateId('user', 10);
         $urlId = $this->generateId('url', 23);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
 
         $userService = $repository->getUserService();
@@ -86,7 +86,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         $anonymousUserId = $this->generateId('user', 10);
         $urlId = $this->generateId('url', 23);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
 
         $userService = $repository->getUserService();
@@ -114,7 +114,7 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         $url = '/content/view/sitemap/2';
 
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
 
         $userService = $repository->getUserService();

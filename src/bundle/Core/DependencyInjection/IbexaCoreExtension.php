@@ -726,7 +726,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('cache_pool', '%env(CACHE_POOL)%');
 
         // By default cache ttl is set to 24h, when using Varnish you can set a much higher value. High values depends on
-        // using EzSystemsPlatformHttpCacheBundle (default as of v1.12) which by design expires affected cache on changes
+        // using IbexaHttpCacheBundle (default as of v1.12) which by design expires affected cache on changes
         $container->setParameter('httpcache_default_ttl', '%env(HTTPCACHE_DEFAULT_TTL)%');
 
         // Settings for HttpCache
@@ -736,7 +736,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         // issues both in AdminUI and REST calls
         $container->setParameter('ibexa.rest.csrf_token_intention', 'authenticate');
 
-        // Varnish invalidation/purge token (for use on platform.sh, eZ Platform Cloud and other places you can't use IP for ACL)
+        // Varnish invalidation/purge token (for use on platform.sh, Ibexa Cloud and other places you can't use IP for ACL)
         $container->setParameter('varnish_invalidate_token', '%env(resolve:default::HTTPCACHE_VARNISH_INVALIDATE_TOKEN)%');
 
         // Compile time handlers

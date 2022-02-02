@@ -15,7 +15,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Persistence\TransformationProcessor;
 
 /**
- * Base class for field types, the most basic storage unit of data inside eZ Publish.
+ * Base class for field types, the most basic storage unit of data inside Ibexa.
  *
  * All other field types extend FieldType providing the specific functionality
  * desired in each case.
@@ -171,7 +171,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * Applies the default values to the given $validatorConfiguration of a FieldDefinitionCreateStruct.
      *
      * This is a base implementation, expecting best practice validator configuration format used by
-     * field types in standard eZ publish installation. Overwrite in derived types if needed.
+     * field types in standard Ibexa installation. Overwrite in derived types if needed.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
@@ -230,7 +230,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
      * Applies the default values to the fieldSettings of a FieldDefinitionCreateStruct.
      *
      * This is a base implementation, expecting best practice field settings format used by
-     * field types in standard eZ publish installation. Overwrite in derived types if needed.
+     * field types in standard Ibexa installation. Overwrite in derived types if needed.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *

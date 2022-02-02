@@ -63,7 +63,7 @@ interface Handler
     /**
      * Loads user(s) with user email.
      *
-     * As earlier eZ Publish versions supported several users having same email (ini config),
+     * As earlier Ibexa versions supported several users having same email (ini config),
      * this function may return several users.
      *
      * Note: This method loads user by $email case in-sensitive on certain storage engines!

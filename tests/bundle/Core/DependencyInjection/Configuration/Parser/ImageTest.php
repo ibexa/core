@@ -60,9 +60,9 @@ class ImageTest extends AbstractParserTestCase
             }
         }
 
-        $expected = $expectedParsedVariations['ezdemo_group'] + $this->container->getParameter('ibexa.site_access.config.default.image_variations');
-        $this->assertConfigResolverParameterValue('image_variations', $expected, 'ezdemo_site', false);
-        $this->assertConfigResolverParameterValue('image_variations', $expected, 'ezdemo_site_admin', false);
+        $expected = $expectedParsedVariations['ibexa_demo_group'] + $this->container->getParameter('ibexa.site_access.config.default.image_variations');
+        $this->assertConfigResolverParameterValue('image_variations', $expected, 'ibexa_demo_site', false);
+        $this->assertConfigResolverParameterValue('image_variations', $expected, 'ibexa_demo_site_admin', false);
         $this->assertConfigResolverParameterValue(
             'image_variations',
             $expected + $expectedParsedVariations['fre'],
@@ -78,7 +78,7 @@ class ImageTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_site' => [
+                    'ibexa_demo_site' => [
                         'imagemagick' => [
                             'pre_parameters' => '-foo -bar',
                             'post_parameters' => '-baz',

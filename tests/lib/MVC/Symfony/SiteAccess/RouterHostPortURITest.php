@@ -102,16 +102,16 @@ class RouterHostPortURITest extends RouterBaseTest
     public function testReverseMatchHost()
     {
         $config = [
-            'ez.no' => 'some_siteaccess',
+            'ibexa.co' => 'some_siteaccess',
             'something_else' => 'another_siteaccess',
-            'phoenix-rises.fm' => 'ezdemo_site',
+            'phoenix-rises.fm' => 'ibexa_demo_site',
         ];
-        $request = new SimplifiedRequest(['host' => 'ez.no']);
+        $request = new SimplifiedRequest(['host' => 'ibexa.co']);
         $matcher = new Host($config);
         $matcher->setRequest($request);
-        $this->assertSame('ez.no', $matcher->getMapKey());
+        $this->assertSame('ibexa.co', $matcher->getMapKey());
 
-        $result = $matcher->reverseMatch('ezdemo_site');
+        $result = $matcher->reverseMatch('ibexa_demo_site');
         $this->assertInstanceOf(Host::class, $result);
         $this->assertSame($request, $matcher->getRequest());
         $this->assertSame('phoenix-rises.fm', $result->getMapKey());
@@ -140,14 +140,14 @@ class RouterHostPortURITest extends RouterBaseTest
         $config = [
             '80' => 'some_siteaccess',
             '443' => 'another_siteaccess',
-            8000 => 'ezdemo_site',
+            8000 => 'ibexa_demo_site',
         ];
-        $request = new SimplifiedRequest(['scheme' => 'http', 'host' => 'ez.no']);
+        $request = new SimplifiedRequest(['scheme' => 'http', 'host' => 'ibexa.co']);
         $matcher = new Port($config);
         $matcher->setRequest($request);
         $this->assertSame(80, $matcher->getMapKey());
 
-        $result = $matcher->reverseMatch('ezdemo_site');
+        $result = $matcher->reverseMatch('ibexa_demo_site');
         $this->assertInstanceOf(Port::class, $result);
         $this->assertSame($request, $matcher->getRequest());
         $this->assertSame(8000, $result->getMapKey());

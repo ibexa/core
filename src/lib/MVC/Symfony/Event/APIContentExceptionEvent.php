@@ -11,7 +11,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * This event is dispatched when an Exception from eZ Publish API is thrown and could not be caught before.
+ * This event is dispatched when an Exception from Ibexa API is thrown and could not be caught before.
  * It allows you to handle this exception and affect a specific Response for it.
  */
 class APIContentExceptionEvent extends Event

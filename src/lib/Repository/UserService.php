@@ -117,7 +117,7 @@ class UserService implements UserServiceInterface
             'userClassID' => 4, // @todo Rename this settings to swap out "Class" for "Type"
             'userGroupClassID' => 3,
             'hashType' => $passwordHashGenerator->getDefaultHashType(),
-            'siteName' => 'ez.no',
+            'siteName' => 'ibexa.co',
         ];
         $this->passwordHashService = $passwordHashGenerator;
         $this->passwordValidator = $passwordValidator;

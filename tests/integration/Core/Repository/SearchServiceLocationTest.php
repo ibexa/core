@@ -1379,14 +1379,14 @@ class SearchServiceLocationTest extends BaseTest
         }
 
         if (!is_file($fixture)) {
-            if (isset($_ENV['ez_tests_record'])) {
+            if (isset($_ENV['ibexa_tests_record'])) {
                 file_put_contents(
                     $record = $fixture . '.recording',
                     "<?php\n\nreturn " . var_export($result, true) . ";\n\n"
                 );
                 $this->markTestIncomplete("No fixture available. Result recorded at $record. Result: \n" . $this->printResult($result));
             } else {
-                $this->markTestIncomplete("No fixture available. Set \$_ENV['ez_tests_record'] to generate:\n " . $fixture);
+                $this->markTestIncomplete("No fixture available. Set \$_ENV['ibexa_tests_record'] to generate:\n " . $fixture);
             }
         }
 

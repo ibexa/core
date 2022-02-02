@@ -15,7 +15,7 @@ class BinaryFile
 {
     /**
      * Unique persistence layer identifier for this file
-     * Ex: images/media/images/ez-logo/209-1-eng-GB/eZ-Logo.gif,
+     * Ex: images/media/images/ibexa-logo/209-1-eng-GB/Ibexa-Logo.gif,
      *     or original/application/2b042138835bb5f48beb9c9df6e86de4.pdf.
      *
      * @var string

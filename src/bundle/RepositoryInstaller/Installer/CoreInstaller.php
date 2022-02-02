@@ -34,7 +34,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * Import Schema using event-driven Schema Builder API from eZ Systems DoctrineSchema Bundle.
+     * Import Schema using event-driven Schema Builder API from Ibexa DoctrineSchema Bundle.
      *
      * If you wish to extend schema, implement your own EventSubscriber
      *

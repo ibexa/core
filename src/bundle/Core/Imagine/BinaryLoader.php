@@ -16,7 +16,7 @@ use Liip\ImagineBundle\Model\Binary;
 use Symfony\Component\Mime\MimeTypesInterface;
 
 /**
- * Binary loader using eZ IOService.
+ * Binary loader using Ibexa IOService.
  * To be used by LiipImagineBundle.
  */
 class BinaryLoader implements LoaderInterface

@@ -25,9 +25,9 @@ class StatusLimitationTest extends BaseLimitationTest
         $administratorUserId = $this->generateId('user', 14);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $administratorUserId is the ID of the "Administrator" user in a eZ
+        // $administratorUserId is the ID of the "Administrator" user in a Ibexa
         // Publish demo installation.
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
 
         // Load the user service
@@ -88,9 +88,9 @@ class StatusLimitationTest extends BaseLimitationTest
         $administratorUserId = $this->generateId('user', 14);
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
-        // $administratorUserId is  the ID of the "Administrator" user in a eZ
+        // $administratorUserId is  the ID of the "Administrator" user in a Ibexa
         // Publish demo installation.
 
         // Load the user service

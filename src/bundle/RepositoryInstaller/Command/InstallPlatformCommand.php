@@ -89,7 +89,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         $installer = $this->getInstaller($type);
         if ($installer === false) {
             $output->writeln(
-                "Unknown install type '$type', available options in currently installed eZ Platform package: " .
+                "Unknown install type '$type', available options in currently installed Ibexa package: " .
                 implode(', ', array_keys($this->installers))
             );
             exit(self::EXIT_UNKNOWN_INSTALL_TYPE);
@@ -214,7 +214,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
      * Based on {@see \Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::executeCommand}.
      *
      * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param string $cmd eZ Platform command to execute, like 'ezplatform:solr_create_index'
+     * @param string $cmd Ibexa command to execute, like 'ezplatform:solr_create_index'
      *               Escape any user provided arguments, like: 'assets:install '.escapeshellarg($webDir)
      * @param int $timeout
      */

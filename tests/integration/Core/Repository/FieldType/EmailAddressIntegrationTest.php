@@ -106,7 +106,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
      */
     public function getValidCreationFieldData()
     {
-        return new EmailAddressValue('spam@ez.no');
+        return new EmailAddressValue('spam@ibexa.co');
     }
 
     /**
@@ -116,7 +116,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
      */
     public function getFieldName()
     {
-        return 'spam@ez.no';
+        return 'spam@ibexa.co';
     }
 
     /**
@@ -135,7 +135,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
         );
 
         $expectedData = [
-            'email' => 'spam@ez.no',
+            'email' => 'spam@ibexa.co',
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -163,11 +163,11 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
                 ContentFieldValidationException::class,
             ],
             [
-                new EmailAddressValue('@ez.no'),
+                new EmailAddressValue('@ibexa.co'),
                 ContentFieldValidationException::class,
             ],
             [
-                new EmailAddressValue('spam@ez-no'),
+                new EmailAddressValue('spam@ibexa.co'),
                 ContentFieldValidationException::class,
             ],
         ];
@@ -180,7 +180,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
      */
     public function getValidUpdateFieldData()
     {
-        return new EmailAddressValue('spam_name@ez-some-thing.no');
+        return new EmailAddressValue('spam_name@ibexa-some-thing.co');
     }
 
     /**
@@ -198,7 +198,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
         );
 
         $expectedData = [
-            'email' => 'spam_name@ez-some-thing.no',
+            'email' => 'spam_name@ibexa-some-thing.co',
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -227,7 +227,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
         );
 
         $expectedData = [
-            'email' => 'spam@ez.no',
+            'email' => 'spam@ibexa.co',
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -302,7 +302,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
 
     protected function getValidSearchValueOne()
     {
-        return 'holmes4@ez.no';
+        return 'holmes4@ibexa.co';
     }
 
     protected function getSearchTargetValueOne()
@@ -325,7 +325,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
     protected function getFullTextIndexedFieldData()
     {
         return [
-            ['holmes4@ez.no', 'wyoming.knott@o2.ru'],
+            ['holmes4@ibexa.co', 'wyoming.knott@o2.ru'],
         ];
     }
 }

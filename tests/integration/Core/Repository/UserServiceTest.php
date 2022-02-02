@@ -569,7 +569,7 @@ class UserServiceTest extends BaseTest
 
         $membersGroupId = $this->generateId('group', 13);
         /* BEGIN: Use Case */
-        // $membersGroupId is the ID of the "Members" user group in an eZ
+        // $membersGroupId is the ID of the "Members" user group in an Ibexa
         // Publish demo installation
 
         $userGroup = $this->createUserGroupVersion1();
@@ -926,10 +926,10 @@ class UserServiceTest extends BaseTest
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $createdUser = $this->createUserVersion1(
-            'ez-user-Domain\username-by-login',
-            'username-by-login@ez-user-Domain.com'
+            'ibexa-user-Domain\username-by-login',
+            'username-by-login@ibexa-user-Domain.com'
         );
-        $loadedUser = $userService->loadUserByLogin('ez-user-Domain\username-by-login', Language::ALL);
+        $loadedUser = $userService->loadUserByLogin('ibexa-user-Domain\username-by-login', Language::ALL);
 
         $this->assertEquals($createdUser, $loadedUser);
     }
@@ -995,7 +995,7 @@ class UserServiceTest extends BaseTest
 
         $editorsGroupId = $this->generateId('group', 13);
         /* BEGIN: Use Case */
-        // $editorsGroupId is the ID of the "Editors" user group in an eZ
+        // $editorsGroupId is the ID of the "Editors" user group in an Ibexa
         // Publish demo installation
 
         $userService = $repository->getUserService();
@@ -1035,7 +1035,7 @@ class UserServiceTest extends BaseTest
 
         $editorsGroupId = $this->generateId('group', 13);
         /* BEGIN: Use Case */
-        // $editorsGroupId is the ID of the "Editors" user group in an eZ
+        // $editorsGroupId is the ID of the "Editors" user group in an Ibexa
         // Publish demo installation
 
         $userService = $repository->getUserService();
@@ -1073,7 +1073,7 @@ class UserServiceTest extends BaseTest
 
         $editorsGroupId = $this->generateId('group', 13);
         /* BEGIN: Use Case */
-        // $editorsGroupId is the ID of the "Editors" user group in an eZ
+        // $editorsGroupId is the ID of the "Editors" user group in an Ibexa
         // Publish demo installation
 
         $userService = $repository->getUserService();
@@ -1131,7 +1131,7 @@ class UserServiceTest extends BaseTest
 
         $editorsGroupId = $this->generateId('group', 13);
         /* BEGIN: Use Case */
-        // $editorsGroupId is the ID of the "Editors" user group in an eZ
+        // $editorsGroupId is the ID of the "Editors" user group in an Ibexa
         // Publish demo installation
 
         $userService = $repository->getUserService();
@@ -1182,7 +1182,7 @@ class UserServiceTest extends BaseTest
 
         $editorsGroupId = $this->generateId('group', 13);
         /* BEGIN: Use Case */
-        // $editorsGroupId is the ID of the "Editors" user group in an eZ
+        // $editorsGroupId is the ID of the "Editors" user group in an Ibexa
         // Publish demo installation
 
         $userService = $repository->getUserService();
@@ -1265,7 +1265,7 @@ class UserServiceTest extends BaseTest
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
-        $userCreateStruct = $userService->newUserCreateStruct('new_user', 'new_user@ez.no', 'password', 'eng-GB');
+        $userCreateStruct = $userService->newUserCreateStruct('new_user', 'new_user@ibexa.co', 'password', 'eng-GB');
         $userCreateStruct->setField('first_name', 'New');
         $userCreateStruct->setField('last_name', 'User');
 
@@ -2203,7 +2203,7 @@ class UserServiceTest extends BaseTest
         $administratorGroupId = $this->generateId('group', 12);
         /* BEGIN: Use Case */
         // $administratorGroupId is the ID of the "Administrator" group in an
-        // eZ Publish demo installation
+        // Ibexa demo installation
 
         $user = $this->createUserVersion1();
 
@@ -2249,7 +2249,7 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $user = $this->createUserVersion1();
         // $editorsGroupId is the ID of the "Editors" group in an
-        // eZ Publish demo installation
+        // Ibexa demo installation
 
         // This call will fail with an "InvalidArgumentException", because the
         // user is already assigned to the "Editors" group
@@ -2308,7 +2308,7 @@ class UserServiceTest extends BaseTest
         $anonymousGroupId = $this->generateId('group', 42);
 
         /* BEGIN: Use Case */
-        // $anonymousGroupId is the ID of the "Anonymous Users" group in an eZ
+        // $anonymousGroupId is the ID of the "Anonymous Users" group in an Ibexa
         // Publish demo installation
 
         $user = $this->createUserVersion1();
@@ -2352,7 +2352,7 @@ class UserServiceTest extends BaseTest
         /* BEGIN: Use Case */
         $user = $this->createUserVersion1();
         // $administratorGroupId is the ID of the "Administrator" group in an
-        // eZ Publish demo installation
+        // Ibexa demo installation
 
         // This call will fail with an "InvalidArgumentException", because the
         // user is not assigned to the "Administrator" group
@@ -2937,7 +2937,7 @@ class UserServiceTest extends BaseTest
         $userValue->passwordHashType = 42424242;
 
         // Create a new user instance.
-        // 13 is ID of the "Editors" user group in an eZ Publish demo installation.
+        // 13 is ID of the "Editors" user group in an Ibexa demo installation.
         $createdUser = $eventUserService->createUser($createStruct, [$eventUserService->loadUserGroup(13)]);
 
         self::assertEquals(User::DEFAULT_PASSWORD_HASH, $createdUser->hashAlgorithm);
@@ -3210,7 +3210,7 @@ class UserServiceTest extends BaseTest
     private function createTestUserWithPassword(string $password, ContentType $contentType): User
     {
         $userService = $this->getRepository()->getUserService();
-        // ID of the "Editors" user group in an eZ Publish demo installation
+        // ID of the "Editors" user group in an Ibexa demo installation
         $editorsGroupId = 13;
 
         // Instantiate a create struct with mandatory properties

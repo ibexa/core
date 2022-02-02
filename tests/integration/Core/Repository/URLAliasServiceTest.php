@@ -324,7 +324,7 @@ class URLAliasServiceTest extends BaseTest
         $urlAliasService = $repository->getURLAliasService();
 
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
-            'module:content/search?SearchText=eZ',
+            'module:content/search?SearchText=Ibexa',
             '/Home/My-New-Site',
             'eng-US'
         );
@@ -350,7 +350,7 @@ class URLAliasServiceTest extends BaseTest
         $this->assertPropertiesCorrect(
             [
                 'type' => URLAlias::RESOURCE,
-                'destination' => 'content/search?SearchText=eZ',
+                'destination' => 'content/search?SearchText=Ibexa',
                 'path' => '/Home/My-New-Site',
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => false,
@@ -375,7 +375,7 @@ class URLAliasServiceTest extends BaseTest
         $urlAliasService = $repository->getURLAliasService();
 
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
-            'module:content/search?SearchText=eZ',
+            'module:content/search?SearchText=Ibexa',
             '/Home/My-New-Site',
             'eng-US',
             true
@@ -402,7 +402,7 @@ class URLAliasServiceTest extends BaseTest
         $this->assertPropertiesCorrect(
             [
                 'type' => URLAlias::RESOURCE,
-                'destination' => 'content/search?SearchText=eZ',
+                'destination' => 'content/search?SearchText=Ibexa',
                 'path' => '/Home/My-New-Site',
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => false,
@@ -427,7 +427,7 @@ class URLAliasServiceTest extends BaseTest
         $urlAliasService = $repository->getURLAliasService();
 
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
-            'module:content/search?SearchText=eZ',
+            'module:content/search?SearchText=Ibexa',
             '/Home/My-New-Site',
             'eng-US',
             false,
@@ -455,7 +455,7 @@ class URLAliasServiceTest extends BaseTest
         $this->assertPropertiesCorrect(
             [
                 'type' => URLAlias::RESOURCE,
-                'destination' => 'content/search?SearchText=eZ',
+                'destination' => 'content/search?SearchText=Ibexa',
                 'path' => '/Home/My-New-Site',
                 'languageCodes' => ['eng-US'],
                 'alwaysAvailable' => true,
@@ -590,7 +590,7 @@ class URLAliasServiceTest extends BaseTest
         // Throws InvalidArgumentException, since this path already exists for the
         // language
         $createdUrlAlias = $urlAliasService->createGlobalUrlAlias(
-            'module:content/search?SearchText=eZ',
+            'module:content/search?SearchText=Ibexa',
             '/Design/Plain-site',
             'eng-US'
         );
@@ -741,12 +741,12 @@ class URLAliasServiceTest extends BaseTest
 
         /* BEGIN: Inline */
         $urlAliasService->createGlobalUrlAlias(
-            'module:content/search?SearchText=eZ',
+            'module:content/search?SearchText=Ibexa',
             '/My/Special-Support',
             'eng-US'
         );
         $urlAliasService->createGlobalUrlAlias(
-            'module:content/search?SearchText=eZ',
+            'module:content/search?SearchText=Ibexa',
             '/My/London-Office',
             'eng-GB'
         );
@@ -943,7 +943,7 @@ class URLAliasServiceTest extends BaseTest
             $loadedAlias
         );
         $this->assertEquals(
-            'content/search?SearchText=eZ',
+            'content/search?SearchText=Ibexa',
             $loadedAlias->destination
         );
     }
@@ -1008,7 +1008,7 @@ class URLAliasServiceTest extends BaseTest
     /**
      * Test for the lookUp() method after renaming parent which is a part of the lookup path.
      *
-     * @see https://jira.ez.no/browse/EZP-28046
+     * @see https://jira.ibexa.co/browse/EZP-28046
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases
      */
@@ -1391,7 +1391,7 @@ class URLAliasServiceTest extends BaseTest
     /**
      * Test edge case when updated and archived entry gets moved to another subtree.
      *
-     * @see https://jira.ez.no/browse/EZP-30004
+     * @see https://jira.ibexa.co/browse/EZP-30004
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException

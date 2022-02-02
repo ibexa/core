@@ -58,7 +58,7 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
             ->end()
             ->scalarNode('var_dir')
                 ->cannotBeEmpty()
-                ->example('var/ezdemo_site')
+                ->example('var/ibexa_demo_site')
                 ->info('The directory relative to web/ where files are stored. Default value is "var"')
             ->end()
             ->arrayNode('api_keys')

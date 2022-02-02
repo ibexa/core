@@ -33,7 +33,7 @@ class LanguagesTest extends AbstractParserTestCase
                 'groups' => [self::EMPTY_SA_GROUP => []],
             ],
             'system' => [
-                'ezdemo_site' => ['languages' => $langDemoSite],
+                'ibexa_demo_site' => ['languages' => $langDemoSite],
                 'fre' => ['languages' => $langFre],
                 'fre2' => ['languages' => $langFre],
                 self::EMPTY_SA_GROUP => ['languages' => $langEmptyGroup],
@@ -41,20 +41,20 @@ class LanguagesTest extends AbstractParserTestCase
         ];
         $this->load($config);
 
-        $this->assertConfigResolverParameterValue('languages', $langDemoSite, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('languages', $langDemoSite, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('languages', $langFre, 'fre');
         $this->assertConfigResolverParameterValue('languages', $langFre, 'fre2');
         $this->assertConfigResolverParameterValue('languages', $langEmptyGroup, self::EMPTY_SA_GROUP);
         $this->assertSame(
             [
-                'eng-GB' => ['ezdemo_site'],
+                'eng-GB' => ['ibexa_demo_site'],
                 'fre-FR' => ['fre', 'fre2'],
                 'pol-PL' => [self::EMPTY_SA_GROUP],
             ],
             $this->container->getParameter('ibexa.site_access.by_language')
         );
-        // languages for ezdemo_site_admin will take default value (empty array)
-        $this->assertConfigResolverParameterValue('languages', [], 'ezdemo_site_admin');
+        // languages for ibexa_demo_site_admin will take default value (empty array)
+        $this->assertConfigResolverParameterValue('languages', [], 'ibexa_demo_site_admin');
     }
 
     public function testLanguagesSiteaccessGroup()
@@ -62,24 +62,24 @@ class LanguagesTest extends AbstractParserTestCase
         $langDemoSite = ['eng-US', 'eng-GB'];
         $config = [
             'system' => [
-                'ezdemo_frontend_group' => ['languages' => $langDemoSite],
-                'ezdemo_site' => [],
+                'ibexa_demo_frontend_group' => ['languages' => $langDemoSite],
+                'ibexa_demo_site' => [],
                 'fre' => [],
             ],
         ];
         $this->load($config);
 
-        $this->assertConfigResolverParameterValue('languages', $langDemoSite, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('languages', $langDemoSite, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('languages', $langDemoSite, 'fre');
         $this->assertConfigResolverParameterValue('languages', [], self::EMPTY_SA_GROUP);
         $this->assertSame(
             [
-                'eng-US' => ['ezdemo_frontend_group', 'ezdemo_site', 'fre'],
+                'eng-US' => ['ibexa_demo_frontend_group', 'ibexa_demo_site', 'fre'],
             ],
             $this->container->getParameter('ibexa.site_access.by_language')
         );
-        // languages for ezdemo_site_admin will take default value (empty array)
-        $this->assertConfigResolverParameterValue('languages', [], 'ezdemo_site_admin');
+        // languages for ibexa_demo_site_admin will take default value (empty array)
+        $this->assertConfigResolverParameterValue('languages', [], 'ibexa_demo_site_admin');
     }
 
     public function testTranslationSiteAccesses()
@@ -88,33 +88,33 @@ class LanguagesTest extends AbstractParserTestCase
         $translationSAsFre = ['foo2', 'bar2'];
         $config = [
             'system' => [
-                'ezdemo_site' => ['translation_siteaccesses' => $translationSAsDemoSite],
+                'ibexa_demo_site' => ['translation_siteaccesses' => $translationSAsDemoSite],
                 'fre' => ['translation_siteaccesses' => $translationSAsFre],
             ],
         ];
         $this->load($config);
 
-        $this->assertConfigResolverParameterValue('translation_siteaccesses', $translationSAsDemoSite, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('translation_siteaccesses', $translationSAsDemoSite, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('translation_siteaccesses', $translationSAsFre, 'fre');
-        $this->assertConfigResolverParameterValue('translation_siteaccesses', [], 'ezdemo_site_admin');
+        $this->assertConfigResolverParameterValue('translation_siteaccesses', [], 'ibexa_demo_site_admin');
         $this->assertConfigResolverParameterValue('translation_siteaccesses', [], self::EMPTY_SA_GROUP);
     }
 
     public function testTranslationSiteAccessesWithGroup()
     {
-        $translationSAsDemoSite = ['ezdemo_site', 'fre'];
+        $translationSAsDemoSite = ['ibexa_demo_site', 'fre'];
         $config = [
             'system' => [
-                'ezdemo_frontend_group' => ['translation_siteaccesses' => $translationSAsDemoSite],
-                'ezdemo_site' => [],
+                'ibexa_demo_frontend_group' => ['translation_siteaccesses' => $translationSAsDemoSite],
+                'ibexa_demo_site' => [],
                 'fre' => [],
             ],
         ];
         $this->load($config);
 
-        $this->assertConfigResolverParameterValue('translation_siteaccesses', $translationSAsDemoSite, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('translation_siteaccesses', $translationSAsDemoSite, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('translation_siteaccesses', $translationSAsDemoSite, 'fre');
-        $this->assertConfigResolverParameterValue('translation_siteaccesses', [], 'ezdemo_site_admin');
+        $this->assertConfigResolverParameterValue('translation_siteaccesses', [], 'ibexa_demo_site_admin');
         $this->assertConfigResolverParameterValue('translation_siteaccesses', [], self::EMPTY_SA_GROUP);
     }
 }

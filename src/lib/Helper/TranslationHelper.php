@@ -88,7 +88,7 @@ class TranslationHelper
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *
-     * @todo Remove ContentService usage when translated names are available in ContentInfo (see https://jira.ez.no/browse/EZP-21755)
+     * @todo Remove ContentService usage when translated names are available in ContentInfo (see https://jira.ibexa.co/browse/EZP-21755)
      *
      * @return string
      */

@@ -51,7 +51,7 @@ class DoctrineDatabaseTest extends TestCase
 
     public function testLoadUrlDataByUrl(): void
     {
-        $rows = $this->gateway->loadUrlDataByUrl('https://doc.ez.no/display/USER/');
+        $rows = $this->gateway->loadUrlDataByUrl('https://doc.ibexa.co/display/USER/');
 
         self::assertEquals(
             $this->fixtureData[0],

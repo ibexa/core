@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass will register eZ Platform Field Types.
+ * This compiler pass will register Ibexa Field Types.
  */
 class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
 {

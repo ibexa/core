@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
- * Issue https://jira.ez.no/browse/EZP-26367.
+ * Issue https://jira.ibexa.co/browse/EZP-26367.
  *
  * @group regression
  * @group ezp26367

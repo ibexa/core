@@ -63,7 +63,7 @@ final class SetSystemContentTypeGroupCommand extends Command
                 'user',
                 'u',
                 InputOption::VALUE_OPTIONAL,
-                'eZ Platform username (with Role containing at least content policies: remove, read, versionread)',
+                'Ibexa username (with Role containing at least content policies: remove, read, versionread)',
                 self::DEFAULT_REPOSITORY_USER
             )
             ->setDescription('Sets information if ContentTypeGroup is a system group')

@@ -9,7 +9,7 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Security;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\HttpBasicFactory as BaseHttpBasicFactory;
 
 /**
- * Basic auth based authentication provider, working with eZ Publish repository.
+ * Basic auth based authentication provider, working with Ibexa repository.
  *
  * @deprecated Use http_basic in security.yml instead of ezpublish_http_basic
  */

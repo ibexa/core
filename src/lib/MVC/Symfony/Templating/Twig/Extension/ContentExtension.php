@@ -19,7 +19,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Twig content extension for eZ Publish specific usage.
+ * Twig content extension for Ibexa specific usage.
  * Exposes helpers to play with public API objects.
  */
 class ContentExtension extends AbstractExtension

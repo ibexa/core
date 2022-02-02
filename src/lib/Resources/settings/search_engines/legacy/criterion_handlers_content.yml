@@ -31,7 +31,7 @@ services:
 
     # Needs to be before subtree, as permission_subtree extends it.
     # Only needed for Content Search on SQL engines where applying Permissions Subtree criterion on all possible
-    # locations leads to peformance issues: https://jira.ez.no/browse/EZP-23037
+    # locations leads to peformance issues: https://jira.ibexa.co/browse/EZP-23037
     Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\PermissionSubtree:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\PermissionSubtree

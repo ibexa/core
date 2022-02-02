@@ -40,7 +40,7 @@ class SubtreeLimitationTest extends BaseLimitationTest
         $contentService = $repository->getContentService();
 
         $contentUpdate = $contentService->newContentUpdateStruct();
-        $contentUpdate->setField('name', 'eZ Editors');
+        $contentUpdate->setField('name', 'Ibexa Editors');
 
         $userGroup = $userService->loadUserGroup($userGroupId);
 
@@ -51,7 +51,7 @@ class SubtreeLimitationTest extends BaseLimitationTest
         /* END: Use Case */
 
         $this->assertEquals(
-            'eZ Editors',
+            'Ibexa Editors',
             $userService->loadUserGroup($userGroupId)
                 ->getFieldValue('name')
                 ->text

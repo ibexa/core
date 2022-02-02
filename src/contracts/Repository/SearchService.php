@@ -76,7 +76,7 @@ interface SearchService
      * typically returning a chunk of text of a predefined size with matching text highlighted.
      *
      * WARNING: This feature is considered experimental given it is not completely designed yet in terms of how it should
-     * interact with hits within rich content of either eZ or custom field types. it is also unclear how it should
+     * interact with hits within rich content of either Ibexa or custom field types. it is also unclear how it should
      * hint what part of the highlight is matched.
      *
      * @internal Maybe it should rather give just matched text and hint of which field (several: one with best score)

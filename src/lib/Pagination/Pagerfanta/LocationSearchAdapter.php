@@ -7,7 +7,7 @@
 namespace Ibexa\Core\Pagination\Pagerfanta;
 
 /**
- * Pagerfanta adapter for eZ Publish content search.
+ * Pagerfanta adapter for Ibexa content search.
  * Will return results as Location objects.
  */
 class LocationSearchAdapter extends LocationSearchHitAdapter

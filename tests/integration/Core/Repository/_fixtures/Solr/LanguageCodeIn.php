@@ -48,7 +48,7 @@ return SearchResult::__set_state(
                 [
                     'valueObject' => [
                         'id' => 54,
-                        'title' => 'eZ Publish Demo Design (without demo content)',
+                        'title' => 'Ibexa Demo Design (without demo content)',
                     ],
                     'score' => 0.18718657,
                     'index' => null,

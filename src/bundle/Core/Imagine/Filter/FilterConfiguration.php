@@ -49,8 +49,8 @@ class FilterConfiguration extends BaseFilterConfiguration
     /**
      * Returns filters to be used for $variationName.
      *
-     * Both variations configured in eZ (SiteAccess context) and LiipImagineBundle are used.
-     * eZ variations always have precedence.
+     * Both variations configured in Ibexa (SiteAccess context) and LiipImagineBundle are used.
+     * Ibexa variations always have precedence.
      *
      * @param string $variationName
      * @param array $configuredVariations Variations set in eZ.
@@ -65,7 +65,7 @@ class FilterConfiguration extends BaseFilterConfiguration
             throw new InvalidVariationException($variationName, 'image');
         }
 
-        // Check variations configured in eZ config first.
+        // Check variations configured in Ibexa config first.
         if (isset($configuredVariations[$variationName]['filters'])) {
             $filters = $configuredVariations[$variationName]['filters'];
         } else {
@@ -79,8 +79,8 @@ class FilterConfiguration extends BaseFilterConfiguration
     /**
      * Returns post processors to be used for $variationName.
      *
-     * Both variations configured in eZ and LiipImagineBundle are used.
-     * eZ variations always have precedence.
+     * Both variations configured in Ibexa and LiipImagineBundle are used.
+     * Ibexa variations always have precedence.
      *
      * @param string $variationName
      * @param array $configuredVariations Variations set in eZ.
