@@ -167,7 +167,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
                 ContentFieldValidationException::class,
             ],
             [
-                new EmailAddressValue('spam@ibexa.co'),
+                new EmailAddressValue('spam@ibexa'),
                 ContentFieldValidationException::class,
             ],
         ];
