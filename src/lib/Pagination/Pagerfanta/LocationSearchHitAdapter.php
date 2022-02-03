@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
- * Pagerfanta adapter for eZ Publish location search.
+ * Pagerfanta adapter for Ibexa location search.
  * Will return results as SearchHit objects.
  */
 class LocationSearchHitAdapter extends AbstractSearchResultAdapter

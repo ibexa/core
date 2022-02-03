@@ -44,7 +44,7 @@ class Legacy implements IOServiceInterface
 
     /**
      * Prefix for published images.
-     * Example: var/ezdemo_site/storage/images.
+     * Example: var/ibexa_demo_site/storage/images.
      *
      * @var string
      */
@@ -52,7 +52,7 @@ class Legacy implements IOServiceInterface
 
     /**
      * Prefix for draft images.
-     * Example: var/ezdemo_site/storage/images-versioned.
+     * Example: var/ibexa_demo_site/storage/images-versioned.
      *
      * @var string
      */

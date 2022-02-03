@@ -84,7 +84,7 @@ class EmailAddressValidatorTest extends TestCase
     {
         $validator = new EmailAddressValidator();
         $validator->Extent = 'regex';
-        $emailAddresses = ['john.doe@example.com', 'Info@eZ.No'];
+        $emailAddresses = ['john.doe@example.com', 'Info@Ibexa.Co'];
         foreach ($emailAddresses as $value) {
             $this->assertTrue($validator->validate(new EmailAddressValue($value)));
             $this->assertSame([], $validator->getMessage());
@@ -100,7 +100,7 @@ class EmailAddressValidatorTest extends TestCase
     {
         $validator = new EmailAddressValidator();
         $validator->Extent = 'regex';
-        $emailAddresses = ['.john.doe@example.com', 'Info-at-eZ.No'];
+        $emailAddresses = ['.john.doe@example.com', 'Info-at-Ibexa.Co'];
         foreach ($emailAddresses as $value) {
             $this->assertFalse($validator->validate(new EmailAddressValue($value)));
         }

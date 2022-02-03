@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\UserService;
-use Ibexa\Core\MVC\Symfony\Security\UserInterface as EzUserInterface;
+use Ibexa\Core\MVC\Symfony\Security\UserInterface as IbexaUserInterface;
 use Symfony\Component\Security\Core\Exception\CredentialsExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
@@ -27,7 +27,7 @@ final class UserChecker implements UserCheckerInterface
 
     public function checkPreAuth(UserInterface $user): void
     {
-        if (!$user instanceof EzUserInterface) {
+        if (!$user instanceof IbexaUserInterface) {
             return;
         }
 
@@ -41,7 +41,7 @@ final class UserChecker implements UserCheckerInterface
 
     public function checkPostAuth(UserInterface $user): void
     {
-        if (!$user instanceof EzUserInterface) {
+        if (!$user instanceof IbexaUserInterface) {
             return;
         }
 

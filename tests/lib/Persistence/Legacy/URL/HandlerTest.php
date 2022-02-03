@@ -39,7 +39,7 @@ class HandlerTest extends TestCase
     public function testUpdateUrl()
     {
         $urlUpdateStruct = new URLUpdateStruct();
-        $url = $this->getUrl(1, 'http://ez.no');
+        $url = $this->getUrl(1, 'http://ibexa.co');
 
         $this->mapper
             ->expects($this->once())
@@ -70,7 +70,7 @@ class HandlerTest extends TestCase
             'rows' => [
                 [
                     'id' => 1,
-                    'url' => 'http://ez.no',
+                    'url' => 'http://ibexa.co',
                 ],
             ],
         ];
@@ -78,7 +78,7 @@ class HandlerTest extends TestCase
         $expected = [
             'count' => 1,
             'items' => [
-                $this->getUrl(1, 'http://ez.no'),
+                $this->getUrl(1, 'http://ibexa.co'),
             ],
         ];
 
@@ -120,7 +120,7 @@ class HandlerTest extends TestCase
 
     public function testLoadByIdWithUrlData()
     {
-        $url = $this->getUrl(1, 'http://ez.no');
+        $url = $this->getUrl(1, 'http://ibexa.co');
 
         $this->gateway
             ->expects($this->once())
@@ -141,7 +141,7 @@ class HandlerTest extends TestCase
     {
         $this->expectException(NotFoundException::class);
 
-        $url = 'http://ez.no';
+        $url = 'http://ibexa.co';
 
         $this->gateway
             ->expects($this->once())
@@ -160,7 +160,7 @@ class HandlerTest extends TestCase
 
     public function testLoadByUrlWithUrlData()
     {
-        $url = $this->getUrl(1, 'http://ez.no');
+        $url = $this->getUrl(1, 'http://ibexa.co');
 
         $this->gateway
             ->expects($this->once())
@@ -191,7 +191,7 @@ class HandlerTest extends TestCase
         $this->assertEquals($ids, $this->handler->findUsages($url->id));
     }
 
-    private function getUrl($id = 1, $urlAddr = 'http://ez.no')
+    private function getUrl($id = 1, $urlAddr = 'http://ibexa.co')
     {
         $url = new URL();
         $url->id = $id;

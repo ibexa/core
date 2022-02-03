@@ -43,7 +43,7 @@ class PermissionResolverTest extends BaseTest
         );
 
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // Only a UserReference has previously been set to the $repository
 
@@ -112,7 +112,7 @@ class PermissionResolverTest extends BaseTest
         $anonymousUserId = $this->generateId('user', 10);
 
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
 
         $userService = $repository->getUserService();
@@ -143,7 +143,7 @@ class PermissionResolverTest extends BaseTest
         $anonymousUserId = $this->generateId('user', 10);
 
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
 
         $userService = $repository->getUserService();
@@ -272,7 +272,7 @@ class PermissionResolverTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // $homeId contains the ID of the "Home" frontpage
 
@@ -893,7 +893,7 @@ class PermissionResolverTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // $homeId contains the ID of the "Home" frontpage
 
@@ -1142,7 +1142,7 @@ class PermissionResolverTest extends BaseTest
      * In this case, role limitation will pass and SectionLimitation should be returned as role limitation
      * and limitations in LookupPolicyLimitations should be an empty array.
      *
-     * @see https://jira.ez.no/browse/EZP-30728
+     * @see https://issues.ibexa.co/browse/EZP-30728
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException

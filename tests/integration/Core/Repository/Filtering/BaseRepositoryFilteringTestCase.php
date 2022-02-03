@@ -22,7 +22,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 use IteratorAggregate;
 
 /**
- * @internal for internal use by eZ Platform Kernel test cases
+ * @internal for internal use by Ibexa Kernel test cases
  */
 abstract class BaseRepositoryFilteringTestCase extends BaseTest
 {

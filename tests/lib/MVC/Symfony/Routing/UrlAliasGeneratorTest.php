@@ -139,13 +139,13 @@ class UrlAliasGeneratorTest extends TestCase
         return [
             ['/foo/bar', false],
             ['/products/bar', true],
-            ['/ProDUctS/eZ-Publish', true],
-            ['/ProductsFoo/eZ-Publish', true],
+            ['/ProDUctS/Ibexa', true],
+            ['/ProductsFoo/Ibexa', true],
             ['/shared/foo', false],
             ['/SHARED/contenT/bar', true],
             ['/SomeThing/bidule/chose', false],
             ['/SomeThing/in-the-way/truc/', true],
-            ['/CMS/eZ-Publish', false],
+            ['/CMS/Ibexa', false],
             ['/Lyon/Best/city', false],
         ];
     }
@@ -424,9 +424,9 @@ class UrlAliasGeneratorTest extends TestCase
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ez-publish']),
+                new UrlAlias(['path' => '/products/ibexa-dxp']),
                 false,
-                '/products/ez-publish',
+                '/products/ibexa-dxp',
                 '/my/root-folder',
             ],
             [
@@ -436,9 +436,9 @@ class UrlAliasGeneratorTest extends TestCase
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ez-publish']),
+                new UrlAlias(['path' => '/products/ibexa-dxp']),
                 false,
-                '/products/ez-publish',
+                '/products/ibexa-dxp',
                 '/prod',
             ],
         ];

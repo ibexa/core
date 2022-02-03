@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass will register eZ Publish external storage handlers and gateways.
+ * This compiler pass will register Ibexa external storage handlers and gateways.
  */
 class ExternalStorageRegistryPass implements CompilerPassInterface
 {

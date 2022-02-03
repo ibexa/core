@@ -33,7 +33,7 @@ class ConfigSuggestionTest extends TestCase
         $suggestion->setMessage($newMessage);
         $this->assertSame($newMessage, $suggestion->getMessage());
 
-        $newConfigArray = ['ez' => 'publish'];
+        $newConfigArray = ['ibexa' => 'publish'];
         $suggestion->setSuggestion($newConfigArray);
         $this->assertSame($newConfigArray, $suggestion->getSuggestion());
 

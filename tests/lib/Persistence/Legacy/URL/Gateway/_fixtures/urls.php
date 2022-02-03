@@ -15,7 +15,7 @@ return [
             'last_checked' => 0,
             'modified' => 1448832197,
             'original_url_md5' => 'f76e41d421b2a72232264943026a6ee5',
-            'url' => 'https://doc.ez.no/display/USER/',
+            'url' => 'https://doc.ibexa.co/display/USER/',
         ],
         [
             'id' => 24,

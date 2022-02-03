@@ -25,7 +25,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         $anonymousUserId = $this->generateId('user', 10);
         $parentLocationId = $this->generateId('location', 2);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         // $locationId is the ID of an existing location
         $userService = $repository->getUserService();
@@ -57,7 +57,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $urlAliasService = $repository->getURLAliasService();
@@ -66,7 +66,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         $repository->getPermissionResolver()->setCurrentUserReference($anonymousUser);
 
         // This call will fail with an UnauthorizedException
-        $urlAliasService->createGlobalUrlAlias('module:content/search?SearchText=eZ', '/Home/My-New-Site', 'eng-US');
+        $urlAliasService->createGlobalUrlAlias('module:content/search?SearchText=Ibexa', '/Home/My-New-Site', 'eng-US');
         /* END: Use Case */
     }
 
@@ -91,7 +91,7 @@ class URLAliasServiceAuthorizationTest extends BaseTest
         /* BEGIN: Use Case */
         // $someLocation contains a location with automatically generated
         // aliases assigned
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         $urlAliasService = $repository->getURLAliasService();
         $userService = $repository->getUserService();
 

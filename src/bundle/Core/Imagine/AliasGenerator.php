@@ -139,10 +139,10 @@ class AliasGenerator implements VariationHandler
     /**
      * Applies $variationName filters on $image.
      *
-     * Both variations configured in eZ (SiteAccess context) and LiipImagineBundle are used.
-     * An eZ variation may have a "reference".
+     * Both variations configured in Ibexa (SiteAccess context) and LiipImagineBundle are used.
+     * An Ibexa variation may have a "reference".
      * In that case, reference's filters are applied first, recursively (a reference may also have another reference).
-     * Reference must be a valid variation name, configured in eZ or in LiipImagineBundle.
+     * Reference must be a valid variation name, configured in Ibexa or in LiipImagineBundle.
      *
      * @param \Liip\ImagineBundle\Binary\BinaryInterface $image
      * @param string $variationName

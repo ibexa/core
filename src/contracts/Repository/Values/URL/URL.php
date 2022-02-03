@@ -20,7 +20,7 @@ class URL extends ValueObject
     protected $id;
 
     /**
-     * URL itself e.g. "http://ez.no".
+     * URL itself e.g. "http://ibexa.co".
      *
      * @var string
      */

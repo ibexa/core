@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 /**
- * @see https://jira.ez.no/browse/EZP-28799
+ * @see https://issues.ibexa.co/browse/EZP-28799
  */
 class EZP28799SubtreeSearchTest extends BaseTest
 {

@@ -479,7 +479,7 @@ class URLServiceTest extends BaseURLServiceTest
     }
 
     /**
-     * @see https://jira.ez.no/browse/EZP-31059
+     * @see https://issues.ibexa.co/browse/EZP-31059
      */
     public function testFindUrlsUsingVisibleOnlyCriterionReturnsUniqueItems(): void
     {

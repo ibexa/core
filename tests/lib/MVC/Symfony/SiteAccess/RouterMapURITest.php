@@ -81,7 +81,7 @@ class RouterMapURITest extends TestCase
             ['/foo/foo/bar', '/foo/bar'],
             ['/foo/foo/bar?something=foo&bar=toto', '/foo/bar?something=foo&bar=toto'],
             ['/vive/le/sucre', '/le/sucre'],
-            ['/ezdemo_site/some/thing?foo=ezdemo_site&bar=toto', '/some/thing?foo=ezdemo_site&bar=toto'],
+            ['/ibexa_demo_site/some/thing?foo=ibexa_demo_site&bar=toto', '/some/thing?foo=ibexa_demo_site&bar=toto'],
         ];
     }
 
@@ -97,13 +97,13 @@ class RouterMapURITest extends TestCase
         $config = [
             'some_uri' => 'some_siteaccess',
             'something_else' => 'another_siteaccess',
-            'toutouyoutou' => 'ezdemo_site',
+            'toutouyoutou' => 'ibexa_demo_site',
         ];
         $request = new SimplifiedRequest(['pathinfo' => '/foo']);
         $matcher = new URIMapMatcher($config);
         $matcher->setRequest($request);
 
-        $result = $matcher->reverseMatch('ezdemo_site');
+        $result = $matcher->reverseMatch('ibexa_demo_site');
         $this->assertInstanceOf(URIMapMatcher::class, $result);
         $this->assertSame($request, $matcher->getRequest());
         $this->assertSame('toutouyoutou', $result->getMapKey());

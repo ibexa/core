@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\EventListener\LocaleListener as BaseLocaleListener;
 
 /**
- * Enhanced LocaleListener, injecting the converted locale extracted from eZ Publish configuration.
+ * Enhanced LocaleListener, injecting the converted locale extracted from Ibexa configuration.
  */
 class LocaleListener implements EventSubscriberInterface
 {

@@ -30,7 +30,7 @@ class SiteAccessLimitationTypeTest extends Base
         $this->siteAccessServiceMock
             ->method('getAll')
             ->willReturn([
-                new SiteAccess('ezdemo_site'),
+                new SiteAccess('ibexa_demo_site'),
                 new SiteAccess('eng'),
                 new SiteAccess('fre'),
             ]);
@@ -58,7 +58,7 @@ class SiteAccessLimitationTypeTest extends Base
                 new SiteAccessLimitation(
                     [
                         'limitationValues' => [
-                            sprintf('%u', crc32('ezdemo_site')),
+                            sprintf('%u', crc32('ibexa_demo_site')),
                             sprintf('%u', crc32('eng')),
                             sprintf('%u', crc32('fre')),
                         ],
@@ -69,7 +69,7 @@ class SiteAccessLimitationTypeTest extends Base
                 new SiteAccessLimitation(
                     [
                         'limitationValues' => [
-                            crc32('ezdemo_site'),
+                            crc32('ibexa_demo_site'),
                             crc32('eng'),
                             crc32('fre'),
                         ],
@@ -148,7 +148,7 @@ class SiteAccessLimitationTypeTest extends Base
                 new SiteAccessLimitation(
                     [
                         'limitationValues' => [
-                            sprintf('%u', crc32('ezdemo_site')),
+                            sprintf('%u', crc32('ibexa_demo_site')),
                             sprintf('%u', crc32('eng')),
                             sprintf('%u', crc32('fre')),
                         ],

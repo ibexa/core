@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 class LocaleConverter implements LocaleConverterInterface
 {
     /**
-     * Conversion map, indexed by eZ Publish locale.
+     * Conversion map, indexed by Ibexa locale.
      * See locale.yml.
      *
      * @var array
@@ -36,7 +36,7 @@ class LocaleConverter implements LocaleConverterInterface
     }
 
     /**
-     * Converts a locale in eZ Publish internal format to POSIX format.
+     * Converts a locale in Ibexa internal format to POSIX format.
      * Returns null if conversion cannot be made.
      *
      * @param string $ezpLocale
@@ -55,7 +55,7 @@ class LocaleConverter implements LocaleConverterInterface
     }
 
     /**
-     * Converts a locale in POSIX format to eZ Publish internal format.
+     * Converts a locale in POSIX format to Ibexa internal format.
      * Returns null if conversion cannot be made.
      *
      * @param string $posixLocale
@@ -65,7 +65,7 @@ class LocaleConverter implements LocaleConverterInterface
     public function convertToEz($posixLocale)
     {
         if (!isset($this->reverseConversionMap[$posixLocale])) {
-            $this->logger->warning("Could not convert locale '$posixLocale' to eZ Publish format. Please check your locale configuration in ezplatform.yml");
+            $this->logger->warning("Could not convert locale '$posixLocale' to Ibexa format. Please check your locale configuration in ezplatform.yml");
 
             return;
         }

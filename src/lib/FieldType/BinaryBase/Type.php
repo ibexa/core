@@ -205,7 +205,7 @@ abstract class Type extends FieldType
     {
         return [
             'id' => $value->id,
-            // Kept for BC with eZ Publish 5.0 (EZP-20948, EZP-22808)
+            // Kept for BC with Ibexa 5.0 (EZP-20948, EZP-22808)
             'path' => $value->inputUri,
             'inputUri' => $value->inputUri,
             'fileName' => $value->fileName,

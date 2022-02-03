@@ -20,7 +20,7 @@ class IOTest extends AbstractParserTestCase
         parent::setUp();
         $this->container->setParameter('ibexa.site_access.config.default.var_dir', 'var'); // PS: Does not seem to take effect
         $this->container->setParameter('ibexa.site_access.config.default.storage_dir', 'storage');
-        $this->container->setParameter('ibexa.site_access.config.ezdemo_site.var_dir', 'var/ezdemo_site');
+        $this->container->setParameter('ibexa.site_access.config.ibexa_demo_site.var_dir', 'var/ibexa_demo_site');
     }
 
     protected function getContainerExtensions(): array
@@ -39,7 +39,7 @@ class IOTest extends AbstractParserTestCase
     {
         $config = [
             'system' => [
-                'ezdemo_site' => [
+                'ibexa_demo_site' => [
                     'io' => [
                         'binarydata_handler' => 'cluster',
                         'metadata_handler' => 'cluster',
@@ -56,8 +56,8 @@ class IOTest extends AbstractParserTestCase
 
         $this->load($config);
 
-        $this->assertConfigResolverParameterValue('io.metadata_handler', 'cluster', 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('io.binarydata_handler', 'cluster', 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('io.metadata_handler', 'cluster', 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('io.binarydata_handler', 'cluster', 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('io.metadata_handler', 'group_cluster', self::EMPTY_SA_GROUP);
         $this->assertConfigResolverParameterValue('io.binarydata_handler', 'group_cluster', self::EMPTY_SA_GROUP);
     }

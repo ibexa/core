@@ -62,7 +62,7 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
                 'user',
                 'u',
                 InputOption::VALUE_OPTIONAL,
-                'eZ Platform username (with Role containing at least content Policies: read, versionread, edit, remove, versionremove)',
+                'Ibexa username (with Role containing at least content Policies: read, versionread, edit, remove, versionremove)',
                 'admin'
             )
             ->setDescription('Deletes a translation from all versions of a Content item');
@@ -97,7 +97,7 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
         }
 
         $this->output->writeln(
-            '<comment>**NOTE**: Make sure to run this command using the same SYMFONY_ENV setting as your eZ Platform installation</comment>'
+            '<comment>**NOTE**: Make sure to run this command using the same SYMFONY_ENV setting as your Ibexa installation</comment>'
         );
 
         $versionInfo = $this->contentService->loadVersionInfoById($contentId);

@@ -19,15 +19,15 @@ class UrlStorageTest extends TestCase
     public function testStoreFieldDataWithExistingUrl()
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
-        $fieldValue = new FieldValue(['externalData' => 'http://ez.no']);
+        $fieldValue = new FieldValue(['externalData' => 'http://ibexa.co']);
         $field = new Field(['id' => 42, 'value' => $fieldValue]);
         $gateway = $this->getGatewayMock();
 
         $gateway
             ->expects($this->once())
             ->method('getUrlIdMap')
-            ->with(['http://ez.no'])
-            ->will($this->returnValue(['http://ez.no' => 12]));
+            ->with(['http://ibexa.co'])
+            ->will($this->returnValue(['http://ibexa.co' => 12]));
 
         $gateway
             ->expects($this->once())
@@ -53,20 +53,20 @@ class UrlStorageTest extends TestCase
     public function testStoreFieldDataWithNewUrl()
     {
         $versionInfo = new VersionInfo(['versionNo' => 24]);
-        $fieldValue = new FieldValue(['externalData' => 'http://ez.no']);
+        $fieldValue = new FieldValue(['externalData' => 'http://ibexa.co']);
         $field = new Field(['id' => 42, 'value' => $fieldValue]);
         $gateway = $this->getGatewayMock();
 
         $gateway
             ->expects($this->once())
             ->method('getUrlIdMap')
-            ->with(['http://ez.no'])
+            ->with(['http://ibexa.co'])
             ->will($this->returnValue([]));
 
         $gateway
             ->expects($this->once())
             ->method('insertUrl')
-            ->with('http://ez.no')
+            ->with('http://ibexa.co')
             ->will($this->returnValue(12));
 
         $gateway
@@ -131,12 +131,12 @@ class UrlStorageTest extends TestCase
             ->expects($this->once())
             ->method('getIdUrlMap')
             ->with([12])
-            ->will($this->returnValue([12 => 'http://ez.no']));
+            ->will($this->returnValue([12 => 'http://ibexa.co']));
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $storage->getFieldData($versionInfo, $field, $this->getContext());
 
-        $this->assertEquals('http://ez.no', $field->value->externalData);
+        $this->assertEquals('http://ibexa.co', $field->value->externalData);
     }
 
     public function testGetFieldDataNotFound()

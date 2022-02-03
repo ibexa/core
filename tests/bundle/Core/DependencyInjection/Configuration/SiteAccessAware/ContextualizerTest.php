@@ -19,7 +19,7 @@ class ContextualizerTest extends TestCase
     private $container;
 
     /** @var string */
-    private $namespace = 'ez_test';
+    private $namespace = 'ibexa_test';
 
     /** @var string */
     private $saNodeName = 'heyho';

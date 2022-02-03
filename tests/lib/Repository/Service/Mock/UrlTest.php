@@ -28,8 +28,8 @@ use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 class UrlTest extends BaseServiceMockTest
 {
     private const URL_ID = 12;
-    private const URL_EZ_NO = 'http://ez.no';
-    private const URL_EZ_COM = 'http://ez.com';
+    private const URL_IBEXA_CO = 'http://ibexa.co';
+    private const URL_IBEXA_COM = 'http://ibexa.com';
 
     /** @var \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject */
     private $urlHandler;
@@ -116,12 +116,12 @@ class UrlTest extends BaseServiceMockTest
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $url = $this->getApiUrl(self::URL_ID, self::URL_EZ_NO);
+        $url = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
 
         $this->configureUrlUpdatePermission($url, true);
 
         $struct = new URLUpdateStruct([
-            'url' => self::URL_EZ_COM,
+            'url' => self::URL_IBEXA_COM,
         ]);
 
         $urlService = $this->createUrlService(['isUnique']);
@@ -136,9 +136,9 @@ class UrlTest extends BaseServiceMockTest
 
     public function testUpdateUrl()
     {
-        $apiUrl = $this->getApiUrl(self::URL_ID, self::URL_EZ_NO);
+        $apiUrl = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
         $apiStruct = new URLUpdateStruct([
-            'url' => self::URL_EZ_COM,
+            'url' => self::URL_IBEXA_COM,
             'isValid' => false,
             'lastChecked' => new DateTime(),
         ]);
@@ -146,7 +146,7 @@ class UrlTest extends BaseServiceMockTest
         $this->configurePermissions([
             ['url', 'update', $apiUrl, []],
             ['url', 'view', $apiUrl, []],
-            ['url', 'view', new URL(['id' => self::URL_ID, 'url' => self::URL_EZ_COM, 'isValid' => true]), []],
+            ['url', 'view', new URL(['id' => self::URL_ID, 'url' => self::URL_IBEXA_COM, 'isValid' => true]), []],
         ]);
 
         $urlService = $this->createUrlService(['isUnique']);
@@ -195,7 +195,7 @@ class UrlTest extends BaseServiceMockTest
 
     public function testUpdateUrlStatus()
     {
-        $apiUrl = $this->getApiUrl(self::URL_ID, self::URL_EZ_NO);
+        $apiUrl = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
         $apiStruct = new URLUpdateStruct([
             'isValid' => true,
             'lastChecked' => new DateTime('@' . time()),
@@ -203,7 +203,7 @@ class UrlTest extends BaseServiceMockTest
 
         $urlAfterUpdate = new URL([
             'id' => self::URL_ID,
-            'url' => self::URL_EZ_NO,
+            'url' => self::URL_IBEXA_CO,
             'isValid' => true,
             'lastChecked' => new DateTime('@' . time()),
         ]);
@@ -298,7 +298,7 @@ class UrlTest extends BaseServiceMockTest
     {
         $this->expectException(UnauthorizedException::class);
 
-        $url = self::URL_EZ_NO;
+        $url = self::URL_IBEXA_CO;
 
         $this->configureUrlViewPermission(
             new URL([
@@ -315,12 +315,12 @@ class UrlTest extends BaseServiceMockTest
                 'id' => self::URL_ID,
             ]));
 
-        $this->createUrlService()->loadByUrl(self::URL_EZ_NO);
+        $this->createUrlService()->loadByUrl(self::URL_IBEXA_CO);
     }
 
     public function testLoadByUrl()
     {
-        $url = self::URL_EZ_NO;
+        $url = self::URL_IBEXA_CO;
 
         $apiUrl = new URL([
             'url' => $url,
@@ -344,7 +344,7 @@ class UrlTest extends BaseServiceMockTest
      */
     public function testFindUsages($offset, $limit, ContentQuery $expectedQuery, array $usages)
     {
-        $url = $this->getApiUrl(self::URL_ID, self::URL_EZ_NO);
+        $url = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
 
         if (!empty($usages)) {
             $searchService = $this->createMock(SearchService::class);

@@ -452,7 +452,7 @@ final class DoctrineDatabase extends Gateway
         $policy->roleId = $roleId;
 
         // Handle the only valid non-array value "*" by not inserting
-        // anything. Still has not been documented by eZ Systems. So we
+        // anything. Still has not been documented by Ibexa. So we
         // assume this is the right way to handle it.
         if (is_array($policy->limitations)) {
             $this->addPolicyLimitations($policy->id, $policy->limitations);

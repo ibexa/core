@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 class URLUpdateStruct extends ValueObject
 {
     /**
-     * URL itself e.g. "http://ez.no".
+     * URL itself e.g. "http://ibexa.co".
      *
      * @var string|null
      */

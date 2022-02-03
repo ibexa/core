@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Base\Exceptions\NotFoundException as CoreNotFoundException;
 
 /**
- * @internal For internal use by eZ Platform core packages
+ * @internal For internal use by Ibexa core packages
  */
 final class PermissionAwareLocationResolver implements LocationResolver
 {

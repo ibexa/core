@@ -70,7 +70,7 @@ class URLHandlerTest extends AbstractCacheHandlerTest
     {
         $urlId = 1;
         $updateStruct = new URLUpdateStruct();
-        $updateStruct->url = 'http://ez.no';
+        $updateStruct->url = 'http://ibexa.co';
 
         $this->loggerMock->expects($this->once())->method('logCall');
 

@@ -45,7 +45,7 @@ class ViewManagerTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
     private $viewConfigurator;
 
-    private $viewBaseLayout = 'EzPublishCoreBundle::viewbase.html.twig';
+    private $viewBaseLayout = 'IbexaCoreBundle::viewbase.html.twig';
 
     protected function setUp(): void
     {

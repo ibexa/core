@@ -50,7 +50,7 @@ class ViewControllerListener implements EventSubscriberInterface
     }
 
     /**
-     * Configures the View for eZ View controllers.
+     * Configures the View for Ibexa View controllers.
      *
      * @param \Symfony\Component\HttpKernel\Event\ControllerEvent $event
      *

@@ -3982,9 +3982,9 @@ class SearchServiceTest extends BaseTest
         $permissionResolver = $repository->getPermissionResolver();
 
         $administratorUser = $userService->loadUser($permissionResolver->getCurrentUserReference()->getUserId());
-        // ID of the "Administrators" user group in an eZ Publish demo installation
+        // ID of the "Administrators" user group in an Ibexa demo installation
         $administratorsUserGroupId = 12;
-        // ID of the "Editors" user group in an eZ Publish demo installation
+        // ID of the "Editors" user group in an Ibexa demo installation
         $editorsUserGroupId = 13;
 
         $administratorsUserGroup = $userService->loadUserGroup($administratorsUserGroupId);
@@ -4695,14 +4695,14 @@ class SearchServiceTest extends BaseTest
         }
 
         if (!is_file($fixtureFilePath)) {
-            if (isset($_ENV['ez_tests_record'])) {
+            if (isset($_ENV['ibexa_tests_record'])) {
                 file_put_contents(
                     $record = $fixtureFilePath . '.recording',
                     "<?php\n\nreturn " . var_export($result, true) . ";\n\n"
                 );
                 self::markTestIncomplete("No fixture available. Result recorded at $record. Result: \n" . $this->printResult($result));
             } else {
-                self::markTestIncomplete("No fixture available. Set \$_ENV['ez_tests_record'] to generate:\n " . $fixtureFilePath);
+                self::markTestIncomplete("No fixture available. Set \$_ENV['ibexa_tests_record'] to generate:\n " . $fixtureFilePath);
             }
         }
 
@@ -5062,7 +5062,7 @@ class SearchServiceTest extends BaseTest
         bool $useAlwaysAvailable
     ): SearchResult {
         if (false === in_array($findMethod, self::AVAILABLE_FIND_METHODS, true)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Allowed find methods are: '
                 . implode(',', self::AVAILABLE_FIND_METHODS)
             );
@@ -5143,7 +5143,7 @@ class SearchServiceTest extends BaseTest
         if ($searchResult->totalCount < $translationsToMatchCount
             || $searchResult->totalCount > $translationsToMatchCount
         ) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Argument `translationsToMatch` must be equal to the search result total count!'
             );
         }

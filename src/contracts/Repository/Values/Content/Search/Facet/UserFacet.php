@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet;
 /**
  * This class holds counts for content owned, created or modified by users.
  *
- * @deprecated since eZ Platform 3.2.0, to be removed in eZ Platform 4.0.0.
+ * @deprecated since eZ Platform 3.2.0, to be removed in Ibexa 4.0.0.
  */
 class UserFacet extends Facet
 {

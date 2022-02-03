@@ -33,7 +33,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $languageService = $repository->getContentLanguageService();
@@ -66,7 +66,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $languageService = $repository->getContentLanguageService();
@@ -103,7 +103,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $languageService = $repository->getContentLanguageService();
@@ -138,7 +138,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $languageService = $repository->getContentLanguageService();
@@ -173,7 +173,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
 
         $anonymousUserId = $this->generateId('user', 10);
         /* BEGIN: Use Case */
-        // $anonymousUserId is the ID of the "Anonymous" user in a eZ
+        // $anonymousUserId is the ID of the "Anonymous" user in a Ibexa
         // Publish demo installation.
         $userService = $repository->getUserService();
         $languageService = $repository->getContentLanguageService();

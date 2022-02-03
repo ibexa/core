@@ -127,7 +127,7 @@ abstract class BaseContentTypeServiceTest extends BaseTest
         $parentLocationId = $this->generateId('location', 56);
         $sectionId = $this->generateId('section', 1);
         /* BEGIN: Inline */
-        // $parentLocationId is the id of the "/Design/eZ-publish" Location
+        // $parentLocationId is the id of the "/Design/Ibexa" Location
 
         $contentService = $repository->getContentService();
         $contentTypeService = $repository->getContentTypeService();

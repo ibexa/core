@@ -34,7 +34,7 @@ class ProxyResolverTest extends TestCase
         $hosts = ['http://ezplatform.com/'];
         $proxyResolver = new ProxyResolver($this->resolver, $hosts);
 
-        $resolvedPath = 'http://ez.no/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
+        $resolvedPath = 'http://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->resolver
             ->expects($this->once())
@@ -49,10 +49,10 @@ class ProxyResolverTest extends TestCase
 
     public function testResolveAndRemovePortUsingProxyHost()
     {
-        $hosts = ['http://ez.no'];
+        $hosts = ['http://ibexa.co'];
         $proxyResolver = new ProxyResolver($this->resolver, $hosts);
 
-        $resolvedPath = 'http://ez.no:8060/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
+        $resolvedPath = 'http://ibexa.co:8060/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->resolver
             ->expects($this->once())
@@ -60,14 +60,14 @@ class ProxyResolverTest extends TestCase
             ->with($this->path, $this->filter)
             ->willReturn($resolvedPath);
 
-        $expected = 'http://ez.no/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
+        $expected = 'http://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
     }
 
     public function testResolveAndRemovePortUsingProxyHostWithTrailingSlash()
     {
-        $hosts = ['http://ez.no'];
+        $hosts = ['http://ibexa.co'];
         $proxyResolver = new ProxyResolver($this->resolver, $hosts);
 
         $resolvedPath = 'http://ezplatform.com:8080/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
@@ -78,7 +78,7 @@ class ProxyResolverTest extends TestCase
             ->with($this->path, $this->filter)
             ->willReturn($resolvedPath);
 
-        $expected = 'http://ez.no/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
+        $expected = 'http://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
     }

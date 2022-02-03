@@ -35,8 +35,8 @@ class TemplatesTest extends AbstractParserTestCase
     {
         $this->load();
         $fixedUpConfig = $this->getExpectedConfigFieldTemplates($this->config);
-        $groupFieldTemplates = $fixedUpConfig['system']['ezdemo_frontend_group']['field_templates'];
-        $demoSiteFieldTemplates = $fixedUpConfig['system']['ezdemo_site']['field_templates'];
+        $groupFieldTemplates = $fixedUpConfig['system']['ibexa_demo_frontend_group']['field_templates'];
+        $demoSiteFieldTemplates = $fixedUpConfig['system']['ibexa_demo_site']['field_templates'];
         $this->assertConfigResolverParameterValue(
             'field_templates',
             array_merge(
@@ -45,7 +45,7 @@ class TemplatesTest extends AbstractParserTestCase
                 $groupFieldTemplates,
                 $demoSiteFieldTemplates
             ),
-            'ezdemo_site',
+            'ibexa_demo_site',
             false
         );
         $this->assertConfigResolverParameterValue(
@@ -61,7 +61,7 @@ class TemplatesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue(
             'field_templates',
             [['template' => '%ibexa.default_templates.field_templates%', 'priority' => 0]],
-            'ezdemo_site_admin',
+            'ibexa_demo_site_admin',
             false
         );
     }
@@ -72,16 +72,16 @@ class TemplatesTest extends AbstractParserTestCase
         $siteAccessProvider
             ->method('isDefined')
             ->willReturnMap([
-                ['ezdemo_site', true],
+                ['ibexa_demo_site', true],
                 ['fre', true],
-                ['ezdemo_site_admin', true],
+                ['ibexa_demo_site_admin', true],
             ]);
         $siteAccessProvider
             ->method('getSiteAccess')
             ->willReturnMap([
-                ['ezdemo_site', $this->getSiteAccess('ezdemo_site', StaticSiteAccessProvider::class, ['ezdemo_group', 'ezdemo_frontend_group'])],
-                ['fre', $this->getSiteAccess('fre', StaticSiteAccessProvider::class, ['ezdemo_group', 'ezdemo_frontend_group'])],
-                ['ezdemo_site_admin', $this->getSiteAccess('ezdemo_site_admin', StaticSiteAccessProvider::class, ['ezdemo_group'])],
+                ['ibexa_demo_site', $this->getSiteAccess('ibexa_demo_site', StaticSiteAccessProvider::class, ['ibexa_demo_group', 'ibexa_demo_frontend_group'])],
+                ['fre', $this->getSiteAccess('fre', StaticSiteAccessProvider::class, ['ibexa_demo_group', 'ibexa_demo_frontend_group'])],
+                ['ibexa_demo_site_admin', $this->getSiteAccess('ibexa_demo_site_admin', StaticSiteAccessProvider::class, ['ibexa_demo_group'])],
             ]);
 
         return $siteAccessProvider;
@@ -96,7 +96,7 @@ class TemplatesTest extends AbstractParserTestCase
      */
     private function getExpectedConfigFieldTemplates(array $config)
     {
-        foreach ($config['system']['ezdemo_frontend_group']['field_templates'] as &$block) {
+        foreach ($config['system']['ibexa_demo_frontend_group']['field_templates'] as &$block) {
             if (!isset($block['priority'])) {
                 $block['priority'] = 0;
             }
@@ -109,8 +109,8 @@ class TemplatesTest extends AbstractParserTestCase
     {
         $this->load();
         $fixedUpConfig = $this->getExpectedConfigFieldDefinitionSettingsTemplates($this->config);
-        $groupFieldTemplates = $fixedUpConfig['system']['ezdemo_frontend_group']['fielddefinition_settings_templates'];
-        $demoSiteFieldTemplates = $fixedUpConfig['system']['ezdemo_site']['fielddefinition_settings_templates'];
+        $groupFieldTemplates = $fixedUpConfig['system']['ibexa_demo_frontend_group']['fielddefinition_settings_templates'];
+        $demoSiteFieldTemplates = $fixedUpConfig['system']['ibexa_demo_site']['fielddefinition_settings_templates'];
 
         $this->assertConfigResolverParameterValue(
             'fielddefinition_settings_templates',
@@ -120,7 +120,7 @@ class TemplatesTest extends AbstractParserTestCase
                 $groupFieldTemplates,
                 $demoSiteFieldTemplates
             ),
-            'ezdemo_site',
+            'ibexa_demo_site',
             false
         );
         $this->assertConfigResolverParameterValue(
@@ -136,7 +136,7 @@ class TemplatesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue(
             'fielddefinition_settings_templates',
             [['template' => '%ibexa.default_templates.fielddefinition_settings_templates%', 'priority' => 0]],
-            'ezdemo_site_admin',
+            'ibexa_demo_site_admin',
             false
         );
     }
@@ -150,7 +150,7 @@ class TemplatesTest extends AbstractParserTestCase
      */
     private function getExpectedConfigFieldDefinitionSettingsTemplates(array $config)
     {
-        foreach ($config['system']['ezdemo_frontend_group']['fielddefinition_settings_templates'] as &$block) {
+        foreach ($config['system']['ibexa_demo_frontend_group']['fielddefinition_settings_templates'] as &$block) {
             if (!isset($block['priority'])) {
                 $block['priority'] = 0;
             }

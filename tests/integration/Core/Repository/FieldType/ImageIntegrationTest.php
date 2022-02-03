@@ -492,7 +492,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * @see https://jira.ez.no/browse/EZP-23152
+     * @see https://issues.ibexa.co/browse/EZP-23152
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException

@@ -14,7 +14,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 class Pattern extends Matcher
 {
     /**
-     * String which needs to part of URL e.g. ez.no.
+     * String which needs to part of URL e.g. ibexa.co.
      *
      * @var string
      */

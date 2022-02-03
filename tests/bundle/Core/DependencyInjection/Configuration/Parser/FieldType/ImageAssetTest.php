@@ -36,7 +36,7 @@ class ImageAssetTest extends AbstractParserTestCase
                 'name_field_identifier' => 'name',
                 'parent_location_id' => 51,
             ],
-            'ezdemo_site'
+            'ibexa_demo_site'
         );
     }
 
@@ -48,13 +48,13 @@ class ImageAssetTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_site' => $config,
+                    'ibexa_demo_site' => $config,
                 ],
             ]
         );
 
         foreach ($expected as $key => $val) {
-            $this->assertConfigResolverParameterValue($key, $val, 'ezdemo_site');
+            $this->assertConfigResolverParameterValue($key, $val, 'ibexa_demo_site');
         }
     }
 

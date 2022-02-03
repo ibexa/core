@@ -103,7 +103,7 @@ class LocationServiceTest extends BaseTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        // ContentInfo for "How to use eZ Publish"
+        // ContentInfo for "How to use Ibexa"
         $contentInfo = $contentService->loadContentInfo($contentId);
 
         $locationCreate = $locationService->newLocationCreateStruct($parentLocationId);
@@ -151,7 +151,7 @@ class LocationServiceTest extends BaseTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        // ContentInfo for "How to use eZ Publish"
+        // ContentInfo for "How to use Ibexa"
         $contentInfo = $contentService->loadContentInfo($contentId);
         $contentService->hideContent($contentInfo);
 
@@ -190,7 +190,7 @@ class LocationServiceTest extends BaseTest
         $contentTypeService = $repository->getContentTypeService();
         $locationService = $repository->getLocationService();
 
-        // ContentInfo for "How to use eZ Publish"
+        // ContentInfo for "How to use Ibexa"
         $contentInfo = $contentService->loadContentInfo($contentId);
 
         // ContentType loading
@@ -262,7 +262,7 @@ class LocationServiceTest extends BaseTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        // ContentInfo for "How to use eZ Publish"
+        // ContentInfo for "How to use Ibexa"
         $contentInfo = $contentService->loadContentInfo($contentId);
 
         $locationCreate = $locationService->newLocationCreateStruct($parentLocationId);
@@ -296,7 +296,7 @@ class LocationServiceTest extends BaseTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        // ContentInfo for "How to use eZ Publish"
+        // ContentInfo for "How to use Ibexa"
         $contentInfo = $contentService->loadContentInfo($contentId);
 
         $locationCreate = $locationService->newLocationCreateStruct($parentLocationId);
@@ -328,7 +328,7 @@ class LocationServiceTest extends BaseTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        // ContentInfo for "How to use eZ Publish"
+        // ContentInfo for "How to use Ibexa"
         $contentInfo = $contentService->loadContentInfo($contentId);
 
         $locationCreate = $locationService->newLocationCreateStruct($parentLocationId);
@@ -364,7 +364,7 @@ class LocationServiceTest extends BaseTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        // ContentInfo for "How to use eZ Publish"
+        // ContentInfo for "How to use Ibexa"
         $contentInfo = $contentService->loadContentInfo($contentId);
 
         $locationCreate = $locationService->newLocationCreateStruct($parentLocationId);
@@ -408,7 +408,7 @@ class LocationServiceTest extends BaseTest
         $repository->beginTransaction();
 
         try {
-            // ContentInfo for "How to use eZ Publish"
+            // ContentInfo for "How to use Ibexa"
             $contentInfo = $contentService->loadContentInfo($contentId);
 
             $locationCreate = $locationService->newLocationCreateStruct($parentLocationId);
@@ -1509,9 +1509,9 @@ class LocationServiceTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -1545,7 +1545,7 @@ class LocationServiceTest extends BaseTest
         );
         $this->assertEquals(
             $demoDesignLocation->id,
-            $repository->getURLAliasService()->lookup('/eZ-Publish-Demo-Design-without-demo-content')->destination
+            $repository->getURLAliasService()->lookup('/Ibexa-Demo-Design-without-demo-content')->destination
         );
     }
 
@@ -1597,7 +1597,7 @@ class LocationServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation
      *
-     * @see https://jira.ez.no/browse/EZP-28663
+     * @see https://issues.ibexa.co/browse/EZP-28663
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -2066,7 +2066,7 @@ class LocationServiceTest extends BaseTest
         $mediaLocationId = $this->generateId('location', 43);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the location of the
-        // "Media" location in an eZ Publish demo installation
+        // "Media" location in an Ibexa demo installation
         $locationService = $repository->getLocationService();
 
         $location = $locationService->loadLocation($mediaLocationId);
@@ -2115,7 +2115,7 @@ class LocationServiceTest extends BaseTest
         $mediaLocationId = $this->generateId('location', 43);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the location of the
-        // "Media" location in an eZ Publish demo installation
+        // "Media" location in an Ibexa demo installation
 
         $locationService = $repository->getLocationService();
 
@@ -2308,9 +2308,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2358,9 +2358,9 @@ class LocationServiceTest extends BaseTest
         $urlAliasService = $repository->getURLAliasService();
 
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
         $mediaLocationId = $this->generateId('location', 43);
         $demoDesignLocationId = $this->generateId('location', 56);
@@ -2487,9 +2487,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2550,9 +2550,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2636,7 +2636,7 @@ class LocationServiceTest extends BaseTest
         $communityLocationId = $this->generateId('location', 5);
         /* BEGIN: Use Case */
         // $communityLocationId is the ID of the "Community" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
         // Load the location service
         $locationService = $repository->getLocationService();
@@ -2671,9 +2671,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2756,9 +2756,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2788,7 +2788,7 @@ class LocationServiceTest extends BaseTest
         $mediaLocationId = $this->generateId('location', 43);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
         // Load the location service
         $locationService = $repository->getLocationService();
@@ -2818,9 +2818,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2886,9 +2886,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -2951,9 +2951,9 @@ class LocationServiceTest extends BaseTest
         $mediaLocationId = $this->generateId('location', 43);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $homeLocationId is the ID of the "Home" page location in an eZ
+        // $homeLocationId is the ID of the "Home" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -3004,9 +3004,9 @@ class LocationServiceTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -3062,9 +3062,9 @@ class LocationServiceTest extends BaseTest
         $mediaLocationId = $this->generateId('location', 43);
         /* BEGIN: Use Case */
         // $homeLocationId is the ID of the "Home" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $mediaLocationId is the ID of the "Media" page location in an eZ
+        // $mediaLocationId is the ID of the "Media" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -3155,9 +3155,9 @@ class LocationServiceTest extends BaseTest
 
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $multimediaLocationId is the ID of the "Multimedia" page location in an eZ
+        // $multimediaLocationId is the ID of the "Multimedia" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service

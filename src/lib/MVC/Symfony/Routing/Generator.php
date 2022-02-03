@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 
 /**
- * Base class for eZ Publish Url generation.
+ * Base class for Ibexa Url generation.
  */
 abstract class Generator implements SiteAccessAware
 {

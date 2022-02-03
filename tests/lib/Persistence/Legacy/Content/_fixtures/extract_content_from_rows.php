@@ -136,7 +136,7 @@ return [
     'ezcontentobject_attribute_data_float' => '0.0',
     'ezcontentobject_attribute_data_int' => null,
     'ezcontentobject_attribute_data_text' => '<?xml version="1.0" encoding="utf-8"?>
-<ezauthor><authors><author id="0" name="Administrator User" email="kn@ez.no"/></authors></ezauthor>
+<ezauthor><authors><author id="0" name="Administrator User" email="kn@ibexa.co"/></authors></ezauthor>
 ',
     'ezcontentobject_attribute_sort_key_int' => '0',
     'ezcontentobject_attribute_sort_key_string' => '',

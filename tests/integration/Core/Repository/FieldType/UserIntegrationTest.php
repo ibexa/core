@@ -237,7 +237,7 @@ class UserIntegrationTest extends BaseIntegrationTest
             [
                 'hasStoredLogin' => true,
                 'login' => 'changeLogin',
-                'email' => 'changeEmail@ez.no',
+                'email' => 'changeEmail@ibexa.co',
                 'passwordHash' => '*2',
                 'passwordHashType' => User::DEFAULT_PASSWORD_HASH,
                 'enabled' => false,
@@ -262,7 +262,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         $expectedData = [
             'hasStoredLogin' => true,
             'login' => 'changeLogin',
-            'email' => 'changeEmail@ez.no',
+            'email' => 'changeEmail@ibexa.co',
             'passwordHashType' => User::DEFAULT_PASSWORD_HASH,
             'enabled' => false,
         ];
@@ -416,7 +416,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         // Set some fields required by the user ContentType
         $userCreate->setField('name', 'Example User');
 
-        // ID of the "Editors" user group in an eZ Publish demo installation
+        // ID of the "Editors" user group in an Ibexa demo installation
         $group = $userService->loadUserGroup(13);
 
         // Create a new user instance.
@@ -509,7 +509,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     }
 
     /**
-     * @see https://jira.ez.no/browse/EZP-30966
+     * @see https://issues.ibexa.co/browse/EZP-30966
      */
     public function testUpdateFieldDefinitionWithIncompleteSettingsSchema()
     {

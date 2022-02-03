@@ -83,7 +83,7 @@ class CopySubtreeCommand extends Command implements BackwardCompatibleCommand
                 'user',
                 'u',
                 InputOption::VALUE_OPTIONAL,
-                'eZ Platform username (with Role containing at least content policies: create, read)',
+                'Ibexa username (with Role containing at least content policies: create, read)',
                 'admin'
             )
             ->setDescription('Copies a subtree from one Location to another');

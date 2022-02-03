@@ -67,7 +67,7 @@ class RepositoryFactory implements ContainerAwareInterface
     }
 
     /**
-     * Builds the main repository, heart of eZ Publish API.
+     * Builds the main repository, heart of Ibexa API.
      *
      * This always returns the true inner Repository, please depend on ibexa.api.repository and not this method
      * directly to make sure you get an instance wrapped inside Event / Cache / * functionality.

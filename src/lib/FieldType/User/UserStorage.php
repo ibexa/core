@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  * Proper Gateway and its Connection is injected via Dependency Injection.
  *
  * The User storage handles the following attributes, following the user field
- * type in eZ Publish 4:
+ * type in Ibexa 4:
  *  - account_key
  *  - has_stored_login
  *  - is_enabled

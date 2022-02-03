@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass will register eZ Publish search engines.
+ * This compiler pass will register Ibexa search engines.
  */
 class RegisterSearchEnginePass implements CompilerPassInterface
 {

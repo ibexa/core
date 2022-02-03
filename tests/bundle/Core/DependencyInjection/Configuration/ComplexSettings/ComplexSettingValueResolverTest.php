@@ -15,11 +15,11 @@ class ComplexSettingValueResolverTest extends TestCase
     {
         $resolver = new ComplexSettingValueResolver();
         self::assertEquals(
-            '/mnt/nfs/var/ezdemo_site/storage',
+            '/mnt/nfs/var/ibexa_demo_site/storage',
             $resolver->resolveSetting(
                 '/mnt/nfs/$var_dir$/$storage_dir$',
                 'var_dir',
-                'var/ezdemo_site',
+                'var/ibexa_demo_site',
                 'storage_dir',
                 'storage'
             )

@@ -133,7 +133,7 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
                 'user',
                 'u',
                 InputOption::VALUE_OPTIONAL,
-                'eZ Platform username (with Role containing at least content Policies: read, versionread, edit, publish)',
+                'Ibexa username (with Role containing at least content Policies: read, versionread, edit, publish)',
                 self::DEFAULT_REPOSITORY_USER
             );
     }

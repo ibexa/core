@@ -77,19 +77,19 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
         $siteAccessProvider
             ->method('isDefined')
             ->willReturnMap([
-                ['ezdemo_site', true],
+                ['ibexa_demo_site', true],
                 ['fre', true],
                 ['fre2', true],
-                ['ezdemo_site_admin', true],
+                ['ibexa_demo_site_admin', true],
                 ['empty_group', false],
             ]);
         $siteAccessProvider
             ->method('getSiteAccess')
             ->willReturnMap([
-                ['ezdemo_site', $this->getSiteAccess('ezdemo_site', StaticSiteAccessProvider::class, ['ezdemo_group', 'ezdemo_frontend_group'])],
-                ['fre', $this->getSiteAccess('fre', StaticSiteAccessProvider::class, ['ezdemo_group', 'ezdemo_frontend_group'])],
-                ['fre2', $this->getSiteAccess('fre', StaticSiteAccessProvider::class, ['ezdemo_group', 'ezdemo_frontend_group'])],
-                ['ezdemo_site_admin', $this->getSiteAccess('ezdemo_site_admin', StaticSiteAccessProvider::class, ['ezdemo_group'])],
+                ['ibexa_demo_site', $this->getSiteAccess('ibexa_demo_site', StaticSiteAccessProvider::class, ['ibexa_demo_group', 'ibexa_demo_frontend_group'])],
+                ['fre', $this->getSiteAccess('fre', StaticSiteAccessProvider::class, ['ibexa_demo_group', 'ibexa_demo_frontend_group'])],
+                ['fre2', $this->getSiteAccess('fre', StaticSiteAccessProvider::class, ['ibexa_demo_group', 'ibexa_demo_frontend_group'])],
+                ['ibexa_demo_site_admin', $this->getSiteAccess('ibexa_demo_site_admin', StaticSiteAccessProvider::class, ['ibexa_demo_group'])],
             ]);
 
         return $siteAccessProvider;

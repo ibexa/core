@@ -15,7 +15,7 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException;
 use Ibexa\Core\MVC\Symfony\Security\InteractiveLoginToken;
-use Ibexa\Core\MVC\Symfony\Security\UserInterface as eZUser;
+use Ibexa\Core\MVC\Symfony\Security\UserInterface as IbexaUser;
 use Ibexa\Core\MVC\Symfony\Security\UserWrapped;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -32,7 +32,7 @@ use Symfony\Component\Security\Http\SecurityEvents;
 
 /**
  * This security listener listens to security.interactive_login event to:
- *  - Give a chance to retrieve an eZ user when using multiple user providers
+ *  - Give a chance to retrieve an Ibexa user when using multiple user providers
  *  - Check if user can actually login to the current SiteAccess.
  *
  * Also listens to kernel.request to:
@@ -96,8 +96,8 @@ class SecurityListener implements EventSubscriberInterface
     }
 
     /**
-     * Tries to retrieve a valid eZ user if authenticated user doesn't come from the repository (foreign user provider).
-     * Will dispatch an event allowing listeners to return a valid eZ user for current authenticated user.
+     * Tries to retrieve a valid Ibexa user if authenticated user doesn't come from the repository (foreign user provider).
+     * Will dispatch an event allowing listeners to return a valid Ibexa user for current authenticated user.
      * Will by default let the repository load the anonymous user.
      *
      * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
@@ -106,15 +106,15 @@ class SecurityListener implements EventSubscriberInterface
     {
         $token = $event->getAuthenticationToken();
         $originalUser = $token->getUser();
-        if ($originalUser instanceof eZUser || !$originalUser instanceof UserInterface) {
+        if ($originalUser instanceof IbexaUser || !$originalUser instanceof UserInterface) {
             return;
         }
 
         /*
          * 1. Send the event.
-         * 2. If no eZ user is returned, load Anonymous user.
-         * 3. Inject eZ user in repository.
-         * 4. Create the UserWrapped user object (implementing eZ UserInterface) with loaded eZ user.
+         * 2. If no Ibexa user is returned, load Anonymous user.
+         * 3. Inject Ibexa user in repository.
+         * 4. Create the UserWrapped user object (implementing Ibexa UserInterface) with loaded Ibexa user.
          * 5. Create new token with UserWrapped user
          * 6. Inject the new token in security context
          */
@@ -170,7 +170,7 @@ class SecurityListener implements EventSubscriberInterface
         $originalUser = $token->getUser();
         $request = $event->getRequest();
         $siteAccess = $request->attributes->get('siteaccess');
-        if (!($originalUser instanceof eZUser && $siteAccess instanceof SiteAccess)) {
+        if (!($originalUser instanceof IbexaUser && $siteAccess instanceof SiteAccess)) {
             return;
         }
 

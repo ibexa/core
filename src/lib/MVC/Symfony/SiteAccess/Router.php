@@ -35,13 +35,13 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      * array(
      *     // Using built-in URI matcher. Key is the prefix that matches the siteaccess, in the value
      *     "Map\\URI" => array(
-     *         "ezdemo_site" => "ezdemo_site",
-     *         "ezdemo_site_admin" => "ezdemo_site_admin",
+     *         "ibexa_demo_site" => "ibexa_demo_site",
+     *         "ibexa_demo_site_admin" => "ibexa_demo_site_admin",
      *     ),
      *     // Using built-in HOST matcher. Key is the hostname, value is the siteaccess name
      *     "Map\\Host" => array(
-     *         "ezpublish.dev" => "ezdemo_site",
-     *         "ezpublish.admin.dev" => "ezdemo_site_admin",
+     *         "ezpublish.dev" => "ibexa_demo_site",
+     *         "ezpublish.admin.dev" => "ibexa_demo_site_admin",
      *     ),
      *     // Using a custom matcher (class must begin with a '\', as a full qualified class name).
      *     // The custom matcher must implement {@see \Ibexa\Core\MVC\Symfony\SiteAccess} interface.

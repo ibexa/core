@@ -9,7 +9,7 @@ namespace Ibexa\Core\MVC\Symfony\Security\Authentication;
 use Ibexa\Contracts\Core\Repository\Exceptions\PasswordInUnsupportedFormatException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
-use Ibexa\Core\MVC\Symfony\Security\UserInterface as EzUserInterface;
+use Ibexa\Core\MVC\Symfony\Security\UserInterface as IbexaUserInterface;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -37,7 +37,7 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider
 
     protected function checkAuthentication(UserInterface $user, UsernamePasswordToken $token)
     {
-        if (!$user instanceof EzUserInterface) {
+        if (!$user instanceof IbexaUserInterface) {
             parent::checkAuthentication($user, $token);
 
             return;

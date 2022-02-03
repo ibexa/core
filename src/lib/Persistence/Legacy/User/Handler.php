@@ -126,7 +126,7 @@ class Handler implements BaseUserHandler
     /**
      * Loads user(s) with user email.
      *
-     * As earlier eZ Publish versions supported several users having same email (ini config),
+     * As earlier Ibexa versions supported several users having same email (ini config),
      * this function may return several users.
      *
      * @param string $email
@@ -149,7 +149,7 @@ class Handler implements BaseUserHandler
     /**
      * Loads user(s) with user email.
      *
-     * As earlier eZ Publish versions supported several users having same email (ini config),
+     * As earlier Ibexa versions supported several users having same email (ini config),
      * this function may return several users.
      *
      * @param string $email

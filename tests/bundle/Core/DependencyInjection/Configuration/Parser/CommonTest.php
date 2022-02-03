@@ -36,14 +36,14 @@ class CommonTest extends AbstractParserTestCase
         $indexPage2 = '/Contact-Us';
         $config = [
             'system' => [
-                'ezdemo_site' => ['index_page' => $indexPage1],
-                'ezdemo_site_admin' => ['index_page' => $indexPage2],
+                'ibexa_demo_site' => ['index_page' => $indexPage1],
+                'ibexa_demo_site_admin' => ['index_page' => $indexPage2],
             ],
         ];
         $this->load($config);
 
-        $this->assertConfigResolverParameterValue('index_page', $indexPage1, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('index_page', $indexPage2, 'ezdemo_site_admin');
+        $this->assertConfigResolverParameterValue('index_page', $indexPage1, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('index_page', $indexPage2, 'ibexa_demo_site_admin');
         $this->assertConfigResolverParameterValue('index_page', null, self::EMPTY_SA_GROUP);
     }
 
@@ -53,14 +53,14 @@ class CommonTest extends AbstractParserTestCase
         $defaultPage2 = '/Foo/bar';
         $config = [
             'system' => [
-                'ezdemo_site' => ['default_page' => $defaultPage1],
-                'ezdemo_site_admin' => ['default_page' => $defaultPage2],
+                'ibexa_demo_site' => ['default_page' => $defaultPage1],
+                'ibexa_demo_site_admin' => ['default_page' => $defaultPage2],
             ],
         ];
         $this->load($config);
 
-        $this->assertConfigResolverParameterValue('default_page', $defaultPage1, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('default_page', $defaultPage2, 'ezdemo_site_admin');
+        $this->assertConfigResolverParameterValue('default_page', $defaultPage1, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('default_page', $defaultPage2, 'ibexa_demo_site_admin');
         $this->assertConfigResolverParameterValue('index_page', null, self::EMPTY_SA_GROUP);
     }
 
@@ -71,7 +71,7 @@ class CommonTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_site' => [
+                    'ibexa_demo_site' => [
                         'database' => [
                             'type' => 'sqlite',
                             'server' => 'localhost',
@@ -92,7 +92,7 @@ class CommonTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_group' => [
+                    'ibexa_demo_group' => [
                         'database' => [
                             'type' => 'sqlite',
                             'server' => 'localhost',
@@ -112,15 +112,15 @@ class CommonTest extends AbstractParserTestCase
     public function testNonExistentSettings()
     {
         $this->load();
-        $this->assertConfigResolverParameterValue('url_alias_router', true, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('cache_service_name', 'cache.app', 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('var_dir', 'var', 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('storage_dir', 'storage', 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('binary_dir', 'original', 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('session_name', '%ibexa.session_name.default%', 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('http_cache.purge_servers', [], 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('anonymous_user_id', 10, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('index_page', null, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('url_alias_router', true, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('cache_service_name', 'cache.app', 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('var_dir', 'var', 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('storage_dir', 'storage', 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('binary_dir', 'original', 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('session_name', '%ibexa.session_name.default%', 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('http_cache.purge_servers', [], 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('anonymous_user_id', 10, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('index_page', null, 'ibexa_demo_site');
     }
 
     public function testMiscSettings()
@@ -140,7 +140,7 @@ class CommonTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_site' => [
+                    'ibexa_demo_site' => [
                         'cache_service_name' => $cachePoolName,
                         'var_dir' => $varDir,
                         'storage_dir' => $storageDir,
@@ -156,14 +156,14 @@ class CommonTest extends AbstractParserTestCase
             ]
         );
 
-        $this->assertConfigResolverParameterValue('cache_service_name', $cachePoolName, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('var_dir', $varDir, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('storage_dir', $storageDir, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('binary_dir', $binaryDir, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('session_name', $sessionName, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('index_page', $indexPage, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('http_cache.purge_servers', $cachePurgeServers, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('anonymous_user_id', $anonymousUserId, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('cache_service_name', $cachePoolName, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('var_dir', $varDir, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('storage_dir', $storageDir, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('binary_dir', $binaryDir, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('session_name', $sessionName, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('index_page', $indexPage, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('http_cache.purge_servers', $cachePurgeServers, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('anonymous_user_id', $anonymousUserId, 'ibexa_demo_site');
     }
 
     public function testApiKeysSettings()
@@ -172,7 +172,7 @@ class CommonTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_group' => [
+                    'ibexa_demo_group' => [
                         'api_keys' => [
                             'google_maps' => $key,
                         ],
@@ -181,8 +181,8 @@ class CommonTest extends AbstractParserTestCase
             ]
         );
 
-        $this->assertConfigResolverParameterValue('api_keys', ['google_maps' => $key], 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('api_keys.google_maps', $key, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('api_keys', ['google_maps' => $key], 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('api_keys.google_maps', $key, 'ibexa_demo_site');
     }
 
     public function testUserSettings()
@@ -192,7 +192,7 @@ class CommonTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_site' => [
+                    'ibexa_demo_site' => [
                         'user' => [
                             'layout' => $layout,
                             'login_template' => $loginTemplate,
@@ -202,8 +202,8 @@ class CommonTest extends AbstractParserTestCase
             ]
         );
 
-        $this->assertConfigResolverParameterValue('security.base_layout', $layout, 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('security.login_template', $loginTemplate, 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('security.base_layout', $layout, 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('security.login_template', $loginTemplate, 'ibexa_demo_site');
     }
 
     public function testNoUserSettings()
@@ -212,12 +212,12 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue(
             'security.base_layout',
             '%ibexa.site_access.config.default.page_layout%',
-            'ezdemo_site'
+            'ibexa_demo_site'
         );
         $this->assertConfigResolverParameterValue(
             'security.login_template',
             '@IbexaCore/Security/login.html.twig',
-            'ezdemo_site'
+            'ibexa_demo_site'
         );
     }
 
@@ -229,13 +229,13 @@ class CommonTest extends AbstractParserTestCase
         $this->load(
             [
                 'system' => [
-                    'ezdemo_site' => $inputParams,
+                    'ibexa_demo_site' => $inputParams,
                 ],
             ]
         );
 
-        $this->assertConfigResolverParameterValue('session', $expected['session'], 'ezdemo_site');
-        $this->assertConfigResolverParameterValue('session_name', $expected['session_name'], 'ezdemo_site');
+        $this->assertConfigResolverParameterValue('session', $expected['session'], 'ibexa_demo_site');
+        $this->assertConfigResolverParameterValue('session_name', $expected['session_name'], 'ibexa_demo_site');
     }
 
     public function sessionSettingsProvider()

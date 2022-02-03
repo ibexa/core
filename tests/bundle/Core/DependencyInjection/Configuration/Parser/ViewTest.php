@@ -30,7 +30,7 @@ class ViewTest extends AbstractParserTestCase
     public function testLocationView()
     {
         $this->load();
-        $expectedLocationView = $this->config['system']['ezdemo_frontend_group']['location_view'];
+        $expectedLocationView = $this->config['system']['ibexa_demo_frontend_group']['location_view'];
 
         // Items that don't use a custom controller got converted to content view (location view depreciation)
         unset($expectedLocationView['full']['frontpage']);
@@ -44,15 +44,15 @@ class ViewTest extends AbstractParserTestCase
             }
         }
 
-        $this->assertConfigResolverParameterValue('location_view', $expectedLocationView, 'ezdemo_site', false);
+        $this->assertConfigResolverParameterValue('location_view', $expectedLocationView, 'ibexa_demo_site', false);
         $this->assertConfigResolverParameterValue('location_view', $expectedLocationView, 'fre', false);
-        $this->assertConfigResolverParameterValue('location_view', [], 'ezdemo_site_admin', false);
+        $this->assertConfigResolverParameterValue('location_view', [], 'ibexa_demo_site_admin', false);
     }
 
     public function testContentView()
     {
         $this->load();
-        $expectedContentView = $this->config['system']['ezdemo_frontend_group']['content_view'];
+        $expectedContentView = $this->config['system']['ibexa_demo_frontend_group']['content_view'];
         foreach ($expectedContentView as &$rulesets) {
             foreach ($rulesets as &$config) {
                 if (!isset($config['params'])) {
@@ -61,9 +61,9 @@ class ViewTest extends AbstractParserTestCase
             }
         }
 
-        $this->assertConfigResolverParameterValue('content_view', $expectedContentView, 'ezdemo_site', false);
+        $this->assertConfigResolverParameterValue('content_view', $expectedContentView, 'ibexa_demo_site', false);
         $this->assertConfigResolverParameterValue('content_view', $expectedContentView, 'fre', false);
-        $this->assertConfigResolverParameterValue('content_view', [], 'ezdemo_site_admin', false);
+        $this->assertConfigResolverParameterValue('content_view', [], 'ibexa_demo_site_admin', false);
     }
 }
 

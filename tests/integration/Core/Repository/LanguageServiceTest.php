@@ -536,7 +536,7 @@ class LanguageServiceTest extends BaseTest
 
         $editorsGroupId = $this->generateId('group', 13);
         /* BEGIN: Use Case */
-        // $editorsGroupId is the ID of the "Editors" user group in an eZ
+        // $editorsGroupId is the ID of the "Editors" user group in an Ibexa
         // Publish demo installation
 
         $languageService = $repository->getContentLanguageService();

@@ -69,7 +69,7 @@ class CheckURLsCommand extends Command implements BackwardCompatibleCommand
             'user',
             'u',
             InputOption::VALUE_OPTIONAL,
-            'eZ Platform username (with Role containing at least content Policies: read, versionread, edit, remove, versionremove)',
+            'Ibexa username (with Role containing at least content Policies: read, versionread, edit, remove, versionremove)',
             self::DEFAULT_REPOSITORY_USER
         );
     }

@@ -39,7 +39,7 @@ class SectionServiceTest extends BaseTest
         parent::setUp();
 
         try {
-            // RemoteId of the "Media" page of an eZ Publish demo installation
+            // RemoteId of the "Media" page of an Ibexa demo installation
             $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
 
             // Load the ContentService
@@ -254,7 +254,7 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $sectionService = $repository->getSectionService();
@@ -290,7 +290,7 @@ class SectionServiceTest extends BaseTest
         $repository = $this->getRepository();
         $administratorUserId = $this->generateId('user', 14);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $sectionService = $repository->getSectionService();
@@ -346,7 +346,7 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $sectionService = $repository->getSectionService();
@@ -373,7 +373,7 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $sectionService = $repository->getSectionService();
@@ -403,7 +403,7 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $sectionService = $repository->getSectionService();
@@ -433,7 +433,7 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $sectionService = $repository->getSectionService();
@@ -596,7 +596,7 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $standardSection = $sectionService->loadSection($standardSectionId);
@@ -625,7 +625,7 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
         $standardSection = $sectionService->loadSection($standardSectionId);
@@ -663,10 +663,10 @@ class SectionServiceTest extends BaseTest
         );
 
         /* BEGIN: Use Case */
-        // $mediaSectionId contains the ID of the "Media" section in a eZ
+        // $mediaSectionId contains the ID of the "Media" section in a Ibexa
         // Publish demo installation.
 
-        // RemoteId of the "Media" page of an eZ Publish demo installation
+        // RemoteId of the "Media" page of an Ibexa demo installation
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
 
         $contentService = $repository->getContentService();
@@ -720,7 +720,7 @@ class SectionServiceTest extends BaseTest
             $sectionService->loadSection($mediaSectionId)
         );
 
-        // RemoteId of the "Media" page of an eZ Publish demo installation
+        // RemoteId of the "Media" page of an Ibexa demo installation
         $mediaRemoteId = '75c715a51699d2d309a924eca6a95145';
 
         /* BEGIN: Use Case */
@@ -871,10 +871,10 @@ class SectionServiceTest extends BaseTest
 
         $standardSectionId = $this->generateId('section', 1);
         /* BEGIN: Use Case */
-        // $standardSectionId contains the ID of the "Standard" section in a eZ
+        // $standardSectionId contains the ID of the "Standard" section in a Ibexa
         // Publish demo installation.
 
-        // RemoteId of the "Media" page of an eZ Publish demo installation
+        // RemoteId of the "Media" page of an Ibexa demo installation
         $mediaRemoteId = 'a6e35cbcb7cd6ae4b691f3eee30cd262';
 
         $contentService = $repository->getContentService();

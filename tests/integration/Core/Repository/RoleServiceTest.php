@@ -30,7 +30,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
 /**
  * Test case for operations in the RoleService using in memory storage.
  *
- * The following IDs from the default eZ community edition database are used in
+ * The following IDs from the default Ibexa community edition database are used in
  * this test:
  *
  * <ul>

@@ -173,7 +173,7 @@ class UserServiceAuthorizationTest extends BaseTest
 
         $memberGroupId = $this->generateId('group', 11);
         /* BEGIN: Use Case */
-        // $memberGroupId is the ID of the "Members" group in an eZ Publish
+        // $memberGroupId is the ID of the "Members" group in an Ibexa
         // demo installation
         //
         $user = $this->createUserVersion1();
@@ -366,7 +366,7 @@ class UserServiceAuthorizationTest extends BaseTest
         $administratorGroupId = $this->generateId('group', 12);
         /* BEGIN: Use Case */
         // $administratorGroupId is the ID of the "Administrator" group in an
-        // eZ Publish demo installation
+        // Ibexa demo installation
 
         $user = $this->createUserVersion1();
 
@@ -399,7 +399,7 @@ class UserServiceAuthorizationTest extends BaseTest
         $memberGroupId = $this->generateId('group', 11);
 
         /* BEGIN: Use Case */
-        // $memberGroupId is the ID of the "Members" group in an eZ Publish
+        // $memberGroupId is the ID of the "Members" group in an Ibexa
         // demo installation
 
         $user = $this->createUserVersion1();
@@ -485,7 +485,7 @@ class UserServiceAuthorizationTest extends BaseTest
 
         $mainGroupId = $this->generateId('group', 4);
         /* BEGIN: Inline */
-        // $mainGroupId is the ID of the main "Users" group in an eZ Publish
+        // $mainGroupId is the ID of the main "Users" group in an Ibexa
         // demo installation
 
         $userService = $repository->getUserService();

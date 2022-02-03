@@ -119,7 +119,7 @@ class RouterURIElement2Test extends RouterBaseTest
         return [
             [2, '/my/siteaccess/foo/bar', '/foo/bar'],
             [2, '/vive/le/sucre/en-poudre', '/sucre/en-poudre'],
-            // Issue https://jira.ez.no/browse/EZP-20125
+            // Issue https://issues.ibexa.co/browse/EZP-20125
             [1, '/fre/content/edit/104/1/fre-FR', '/content/edit/104/1/fre-FR'],
             [1, '/fre/utf8-with-accent/é/fre/à/à/fre/é', '/utf8-with-accent/é/fre/à/à/fre/é'],
             [2, '/é/fre/utf8-with-accent/é/fre/à/à/fre/é', '/utf8-with-accent/é/fre/à/à/fre/é'],

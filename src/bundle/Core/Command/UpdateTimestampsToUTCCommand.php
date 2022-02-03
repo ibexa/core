@@ -121,9 +121,7 @@ class UpdateTimestampsToUTCCommand extends Command implements BackwardCompatible
 The command <info>%command.name%</info> updates field
 data_int in configured Legacy Storage database for a given Field Type.
 
-This is to be used either when migrating from eZ Publish to eZ Platform 
-(when using platform backend instead of legacy), or when upgrading legacy 
-to v2019.03 which has been adapted to use UTC.
+This is to be used when upgrading from a legacy version which was not adapted to use UTC.
 
 <warning>The database should not be modified while the script is being executed.
 

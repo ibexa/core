@@ -94,7 +94,7 @@ EOT;
                 'user',
                 'u',
                 InputOption::VALUE_OPTIONAL,
-                'eZ Platform username (with Role containing at least content policies: remove, read, versionread)',
+                'Ibexa username (with Role containing at least content policies: remove, read, versionread)',
                 self::DEFAULT_REPOSITORY_USER
             )
             ->addOption(

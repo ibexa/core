@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * This compiler pass will register eZ Publish field type parameter providers.
+ * This compiler pass will register Ibexa field type parameter providers.
  */
 class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
 {

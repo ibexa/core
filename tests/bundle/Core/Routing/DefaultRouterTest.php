@@ -125,7 +125,7 @@ class DefaultRouterTest extends TestCase
         return [
             ['/foo/bar'],
             ['/foo/bar/baz?truc=muche&tata=toto'],
-            ['http://ez.no/Products/eZ-Publish-CMS'],
+            ['http://ibexa.co/Products/Ibexa-CMS'],
             ['http://www.metalfrance.net/decouvertes/edge-caress-inverse-ep'],
         ];
     }

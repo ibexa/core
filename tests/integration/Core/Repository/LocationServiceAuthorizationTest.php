@@ -187,7 +187,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         $permissionResolver = $repository->getPermissionResolver();
 
         /* BEGIN: Use Case */
-        // remoteId of the "Editors" location in an eZ Publish demo installation
+        // remoteId of the "Editors" location in an Ibexa demo installation
         $editorsRemoteId = 'f7dda2854fc68f7c8455d9cb14bd04a9';
 
         $locationService = $repository->getLocationService();
@@ -287,9 +287,9 @@ class LocationServiceAuthorizationTest extends BaseTest
         $demoDesignLocationId = $this->generateId('location', 56);
         /* BEGIN: Use Case */
         // $mediaLocationId is the ID of the "Media" Location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" Location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" Location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -554,9 +554,9 @@ class LocationServiceAuthorizationTest extends BaseTest
         $user = $this->createMediaUserVersion1();
 
         // $mediaLocationId is the ID of the "Media" Location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" Location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" Location in an Ibexa
         // Publish demo installation
 
         // Load the location service
@@ -598,9 +598,9 @@ class LocationServiceAuthorizationTest extends BaseTest
         $user = $this->createMediaUserVersion1();
 
         // $mediaLocationId is the ID of the "Media" page location in
-        // an eZ Publish demo installation
+        // an Ibexa demo installation
 
-        // $demoDesignLocationId is the ID of the "Demo Design" page location in an eZ
+        // $demoDesignLocationId is the ID of the "Demo Design" page location in an Ibexa
         // Publish demo installation
 
         // Load the location service
