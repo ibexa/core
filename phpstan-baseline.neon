@@ -401,11 +401,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
-			message: "#^Instantiated class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Exceptions\\\\InvalidArgumentException is abstract\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
 			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
 			count: 3
 			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
