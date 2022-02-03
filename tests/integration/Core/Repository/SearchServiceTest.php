@@ -4888,7 +4888,7 @@ class SearchServiceTest extends BaseTest
         $createStruct->creatorId = 14;
         $createStruct->creationDate = new \DateTime();
 
-        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct($fieldName, 'ibexa' . $fieldType);
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct($fieldName, 'ez' . $fieldType);
         $fieldCreate->names = ['eng-GB' => $fieldName];
         $fieldCreate->fieldGroup = 'main';
         $fieldCreate->position = 1;
