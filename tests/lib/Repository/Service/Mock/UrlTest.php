@@ -29,6 +29,7 @@ class UrlTest extends BaseServiceMockTest
 {
     private const URL_ID = 12;
     private const URL_IBEXA_CO = 'http://ibexa.co';
+    private const URL_IBEXA_COM = 'http://ibexa.com';
 
     /** @var \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject */
     private $urlHandler;
@@ -120,7 +121,7 @@ class UrlTest extends BaseServiceMockTest
         $this->configureUrlUpdatePermission($url, true);
 
         $struct = new URLUpdateStruct([
-            'url' => self::URL_IBEXA_CO,
+            'url' => self::URL_IBEXA_COM,
         ]);
 
         $urlService = $this->createUrlService(['isUnique']);
@@ -137,7 +138,7 @@ class UrlTest extends BaseServiceMockTest
     {
         $apiUrl = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
         $apiStruct = new URLUpdateStruct([
-            'url' => self::URL_IBEXA_CO,
+            'url' => self::URL_IBEXA_COM,
             'isValid' => false,
             'lastChecked' => new DateTime(),
         ]);
@@ -145,7 +146,7 @@ class UrlTest extends BaseServiceMockTest
         $this->configurePermissions([
             ['url', 'update', $apiUrl, []],
             ['url', 'view', $apiUrl, []],
-            ['url', 'view', new URL(['id' => self::URL_ID, 'url' => self::URL_IBEXA_CO, 'isValid' => true]), []],
+            ['url', 'view', new URL(['id' => self::URL_ID, 'url' => self::URL_IBEXA_COM, 'isValid' => true]), []],
         ]);
 
         $urlService = $this->createUrlService(['isUnique']);
