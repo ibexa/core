@@ -1008,7 +1008,7 @@ class URLAliasServiceTest extends BaseTest
     /**
      * Test for the lookUp() method after renaming parent which is a part of the lookup path.
      *
-     * @see https://jira.ibexa.co/browse/EZP-28046
+     * @see https://issues.ibexa.co/browse/EZP-28046
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases
      */
@@ -1391,7 +1391,7 @@ class URLAliasServiceTest extends BaseTest
     /**
      * Test edge case when updated and archived entry gets moved to another subtree.
      *
-     * @see https://jira.ibexa.co/browse/EZP-30004
+     * @see https://issues.ibexa.co/browse/EZP-30004
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException

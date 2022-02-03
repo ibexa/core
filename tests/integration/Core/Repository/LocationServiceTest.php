@@ -1597,7 +1597,7 @@ class LocationServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation
      *
-     * @see https://jira.ibexa.co/browse/EZP-28663
+     * @see https://issues.ibexa.co/browse/EZP-28663
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException

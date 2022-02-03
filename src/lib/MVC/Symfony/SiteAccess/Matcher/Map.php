@@ -48,7 +48,7 @@ abstract class Map implements VersatileMatcher
     /**
      * Do not serialize the Siteaccess configuration in order to reduce ESI request URL size.
      *
-     * @see https://jira.ibexa.co/browse/EZP-23168
+     * @see https://issues.ibexa.co/browse/EZP-23168
      *
      * @return array
      */

@@ -509,7 +509,7 @@ class UserIntegrationTest extends BaseIntegrationTest
     }
 
     /**
-     * @see https://jira.ibexa.co/browse/EZP-30966
+     * @see https://issues.ibexa.co/browse/EZP-30966
      */
     public function testUpdateFieldDefinitionWithIncompleteSettingsSchema()
     {

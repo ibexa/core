@@ -861,7 +861,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test FullText search on user first name and last name.
      *
-     * @see https://jira.ibexa.co/browse/EZP-27250
+     * @see https://issues.ibexa.co/browse/EZP-27250
      */
     public function testUserFullTextSearch()
     {

@@ -5771,7 +5771,7 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test loading content versions after removing exactly two drafts.
      *
-     * @see https://jira.ibexa.co/browse/EZP-30271
+     * @see https://issues.ibexa.co/browse/EZP-30271
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteVersion
      */

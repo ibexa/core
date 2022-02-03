@@ -210,7 +210,7 @@ class Configuration extends SiteAccessConfiguration
                                             }
 
                                             // If passed value is a numerically indexed array, we must convert it into a hash.
-                                            // See https://jira.ibexa.co/browse/EZP-21876
+                                            // See https://issues.ibexa.co/browse/EZP-21876
                                             if (array_keys($v) === range(0, count($v) - 1)) {
                                                 $final = [];
                                                 foreach ($v as $i => $val) {

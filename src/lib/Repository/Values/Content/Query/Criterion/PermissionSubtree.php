@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree as AP
  * This is a internal subtree criterion intended for use by permission system (SubtreeLimitationType) only!
  * And will be applied by SQL based search engines on Content Search to avoid performance problems.
  *
- * @see https://jira.ibexa.co/browse/EZP-23037
+ * @see https://issues.ibexa.co/browse/EZP-23037
  *
  * @internal Meant for internal use by Repository.
  */

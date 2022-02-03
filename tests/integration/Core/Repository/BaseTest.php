@@ -226,7 +226,7 @@ abstract class BaseTest extends TestCase
      *
      * If the property type is array, it will be sorted before comparison.
      *
-     * @TODO: introduced because of randomly failing tests, ref: https://jira.ibexa.co/browse/EZP-21734
+     * @TODO: introduced because of randomly failing tests, ref: https://issues.ibexa.co/browse/EZP-21734
      *
      * @param mixed[] $expectedValues
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualObject

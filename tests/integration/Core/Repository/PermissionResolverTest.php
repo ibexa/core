@@ -1142,7 +1142,7 @@ class PermissionResolverTest extends BaseTest
      * In this case, role limitation will pass and SectionLimitation should be returned as role limitation
      * and limitations in LookupPolicyLimitations should be an empty array.
      *
-     * @see https://jira.ibexa.co/browse/EZP-30728
+     * @see https://issues.ibexa.co/browse/EZP-30728
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException

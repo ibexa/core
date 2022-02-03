@@ -63,7 +63,7 @@ class Value extends BaseValue
     public $uri;
 
     /**
-     * External image ID (required by REST for now, see https://jira.ibexa.co/browse/EZP-20831).
+     * External image ID (required by REST for now, see https://issues.ibexa.co/browse/EZP-20831).
      *
      * @var mixed|null
      */
