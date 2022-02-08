@@ -21,7 +21,6 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\SectionService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
-use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use LogicException;
@@ -54,11 +53,11 @@ abstract class IbexaKernelTestCase extends KernelTestCase
     }
 
     /**
-     * @return array<string>
+     * @return iterable<string>
      */
     protected static function getSchemaFiles(): iterable
     {
-        yield self::$kernel->locateResource('@IbexaCoreBundle/Resources/config/storage/legacy/schema.yaml');
+        yield from self::$kernel->getSchemaFiles();
     }
 
     final protected static function loadFixtures(): void
@@ -80,7 +79,7 @@ abstract class IbexaKernelTestCase extends KernelTestCase
      */
     protected static function getFixtures(): iterable
     {
-        yield new YamlFixture(dirname(__DIR__, 3) . '/tests/integration/Core/Repository/_fixtures/Legacy/data/test_data.yaml');
+        yield from self::$kernel->getFixtures();
     }
 
     /**

@@ -15,6 +15,7 @@ use Ibexa\Bundle\Core\IbexaCoreBundle;
 use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use JMS\TranslationBundle\JMSTranslationBundle;
 use Liip\ImagineBundle\LiipImagineBundle;
 use Psr\Log\NullLogger;
@@ -95,6 +96,22 @@ class IbexaTestKernel extends Kernel
     public static function getAliasServiceId(string $id): string
     {
         return 'test.' . $id;
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    public function getSchemaFiles(): iterable
+    {
+        yield $this->locateResource('@IbexaCoreBundle/Resources/config/storage/legacy/schema.yaml');
+    }
+
+    /**
+     * @return iterable<\eZ\Publish\SPI\Tests\Persistence\Fixture>
+     */
+    public function getFixtures(): iterable
+    {
+        yield new YamlFixture(dirname(__DIR__, 3) . '/tests/integration/Core/Repository/_fixtures/Legacy/data/test_data.yaml');
     }
 
     public function getCacheDir(): string
