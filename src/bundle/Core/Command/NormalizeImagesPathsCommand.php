@@ -190,7 +190,7 @@ EOT
     /**
      * @param resource $inputStream
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     private function moveFile(
         string $oldFileName,
