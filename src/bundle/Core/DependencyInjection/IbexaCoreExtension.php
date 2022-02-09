@@ -41,6 +41,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         'connection' => null,
         'mappings' => [],
     ];
+    private const TRANSLATIONS_DIRECTORY = '/vendor/ibexa/i18n/translations';
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollector */
     private $suggestionCollector;
@@ -603,7 +604,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         }
 
         $fileSystem = new Filesystem();
-        $translationsPath = $container->getParameterBag()->get('kernel.project_dir') . '/vendor/ezplatform-i18n';
+        $translationsPath = $container->getParameterBag()->get('kernel.project_dir') . self::TRANSLATIONS_DIRECTORY;
 
         if ($fileSystem->exists($translationsPath)) {
             $container->prependExtensionConfig('framework', ['translator' => ['paths' => [$translationsPath]]]);

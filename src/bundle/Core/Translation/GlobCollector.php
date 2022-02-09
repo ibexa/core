@@ -6,8 +6,10 @@
  */
 namespace Ibexa\Bundle\Core\Translation;
 
+use const DIRECTORY_SEPARATOR;
+
 /**
- * Retrieves all installed ezplatform translation files ie those installed as ezsystems/ezplatform-i18n-* package.
+ * Retrieves all installed ibexa translation files ie those installed as ibexa/i18n package.
  */
 class GlobCollector implements Collector
 {
@@ -19,7 +21,7 @@ class GlobCollector implements Collector
      */
     public function __construct($kernelRootDir)
     {
-        $this->tranlationPattern = $kernelRootDir . sprintf('%1$svendor%1$sezplatform-i18n%1$sezplatform-i18n-*%1$s*%1$s*.xlf', \DIRECTORY_SEPARATOR);
+        $this->tranlationPattern = $kernelRootDir . sprintf('%1$svendor%1$sibexa%1$si18n%1$stranslations%1$s*%1$s*%1$s*.xlf', DIRECTORY_SEPARATOR);
     }
 
     /**
@@ -29,7 +31,7 @@ class GlobCollector implements Collector
     {
         $meta = [];
         foreach (glob($this->tranlationPattern) as $file) {
-            list($domain, $locale, $format) = explode('.', basename($file), 3);
+            [$domain, $locale, $format] = explode('.', basename($file), 3);
             $meta[] = [
                 'file' => $file,
                 'domain' => $domain,
