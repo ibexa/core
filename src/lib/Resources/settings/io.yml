@@ -1,0 +1,82 @@
+services:
+    ibexa.core.io.service:
+        class: Ibexa\Core\IO\TolerantIOService
+        lazy: true
+        arguments:
+            - '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler'
+            - '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler'
+            - '@ibexa.core.io.mimeTypeDetector'
+        calls:
+            - [ setLogger, ["@?logger" ] ]
+
+    Ibexa\Core\IO\MimeTypeDetector\FileInfo:
+        class: Ibexa\Core\IO\MimeTypeDetector\FileInfo
+
+    ibexa.core.io.mimeTypeDetector:
+        alias: Ibexa\Core\IO\MimeTypeDetector\FileInfo
+
+    # metadata handlers
+    Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler:
+        alias: ibexa.core.io.metadata_handler.flysystem
+
+    ibexa.core.io.metadata_handler.flysystem:
+        class: Ibexa\Core\IO\IOMetadataHandler\Flysystem
+        arguments:
+            - '@ibexa.core.io.flysystem.default_filesystem'
+
+    # binarydata handlers
+    Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler:
+        alias: ibexa.core.io.binarydata_handler.flysystem
+
+    ibexa.core.io.binarydata_handler.flysystem:
+        class: Ibexa\Core\IO\IOBinarydataHandler\Flysystem
+        arguments:
+            - '@ibexa.core.io.flysystem.default_filesystem'
+            - '@ibexa.core.io.default_url_decorator'
+
+    ibexa.core.io.flysystem.base_filesystem:
+        class: League\Flysystem\Filesystem
+        abstract: true
+
+    ibexa.core.io.flysystem.default_filesystem:
+        parent: ibexa.core.io.flysystem.base_filesystem
+        arguments:
+            - '@Ibexa\Core\IO\Adapter\LocalAdapter'
+
+    Ibexa\Core\IO\Adapter\LocalAdapter:
+        class: League\Flysystem\Adapter\Local
+        arguments:
+            - '%ibexa.io.dir.root%'
+
+    ibexa.core.io.default_url_decorator:
+        alias: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix
+
+    Ibexa\Core\IO\UrlDecorator\AbsolutePrefix:
+        class: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix
+        arguments:
+            - '@Ibexa\Core\IO\IOConfigProvider'
+
+    # used by legacy in Image Converter to decorate its own url
+    Ibexa\Core\IO\UrlDecorator\Prefix:
+        class: Ibexa\Core\IO\UrlDecorator\Prefix
+        arguments:
+            - '@Ibexa\Core\IO\IOConfigProvider'
+
+    Ibexa\Core\IO\UrlRedecorator:
+        class: Ibexa\Core\IO\UrlRedecorator
+        arguments:
+            - '@ibexa.core.io.default_url_decorator'
+            - '@Ibexa\Core\IO\UrlDecorator\Prefix'
+
+    Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster:
+        abstract: true
+        class: Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster
+        arguments:
+            - ~
+            - '@Ibexa\Core\IO\UrlDecorator\Prefix'
+
+    Ibexa\Core\IO\FilePathNormalizer\Flysystem:
+        arguments:
+            $slugConverter: '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter'
+
+    Ibexa\Core\IO\FilePathNormalizerInterface: '@Ibexa\Core\IO\FilePathNormalizer\Flysystem'
