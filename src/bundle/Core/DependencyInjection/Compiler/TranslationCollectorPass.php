@@ -44,12 +44,15 @@ class TranslationCollectorPass implements CompilerPassInterface
         $collector = new GlobCollector($container->getParameterBag()->get('kernel.project_dir'));
 
         $availableTranslations = [self::ORIGINAL_TRANSLATION];
-        foreach ($collector->collect() as $file) {
-            /* TODO - to remove when translation files will have proper names. */
-            if (isset(self::LOCALES_MAP[$file['locale']])) {
-                $file['locale'] = self::LOCALES_MAP[$file['locale']];
+
+        if ($container->getParameter('ibexa.ui.translations.enabled')) {
+            foreach ($collector->collect() as $file) {
+                /* TODO - to remove when translation files will have proper names. */
+                if (isset(self::LOCALES_MAP[$file['locale']])) {
+                    $file['locale'] = self::LOCALES_MAP[$file['locale']];
+                }
+                $availableTranslations[] = $file['locale'];
             }
-            $availableTranslations[] = $file['locale'];
         }
 
         $container->setParameter('available_translations', array_values(array_unique($availableTranslations)));

@@ -64,6 +64,7 @@ class Configuration extends SiteAccessConfiguration
         $this->addImagePlaceholderSection($rootNode);
         $this->addUrlWildcardsSection($rootNode);
         $this->addOrmSection($rootNode);
+        $this->addUITranslationsSection($rootNode);
 
         // Delegate SiteAccess config to configuration parsers
         $this->mainSiteAccessConfigParser->addSemanticConfig($this->generateScopeBaseNode($rootNode));
@@ -522,6 +523,41 @@ EOT;
                                     ->scalarNode('prefix')
                                         ->isRequired()
                                     ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+    }
+
+    /**
+     * Defines configuration for UI Translations.
+     *
+     * The configuration is available at:
+     * <code>
+     * ibexa:
+     *     ui:
+     *         translations:
+     *              enabled: true
+     *
+     * </code>
+     *
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     *
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     */
+    private function addUITranslationsSection($rootNode): ArrayNodeDefinition
+    {
+        return $rootNode
+            ->children()
+                ->arrayNode('ui')
+                    ->children()
+                        ->arrayNode('translations')
+                            ->children()
+                                ->booleanNode('enabled')
+                                    ->defaultFalse()
+                                    ->info('When enabled UI will be translated based on translations from i18n package')
                                 ->end()
                             ->end()
                         ->end()

@@ -18,14 +18,20 @@ class TranslationCollectorPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new TranslationCollectorPass());
     }
 
-    public function testTranslationCollector(): void
-    {
+    /**
+     * @dataProvider translationCollectorProvider
+     */
+    public function testTranslationCollector(
+        bool $translationsEnabled,
+        array $availableTranslations
+    ): void {
         $this->setDefinition('translator.default', new Definition());
         $this->setParameter('kernel.project_dir', __DIR__ . $this->normalizePath('/../Fixtures'));
+        $this->setParameter('ibexa.ui.translations.enabled', $translationsEnabled);
 
         $this->compile();
 
-        $this->assertContainerBuilderHasParameter('available_translations', ['en', 'hi', 'nb']);
+        $this->assertContainerBuilderHasParameter('available_translations', $availableTranslations);
     }
 
     /**
@@ -36,6 +42,22 @@ class TranslationCollectorPassTest extends AbstractCompilerPassTestCase
     private function normalizePath($path)
     {
         return str_replace('/', \DIRECTORY_SEPARATOR, $path);
+    }
+
+    /**
+     * @return iterable<string,array{bool,array{string}}>
+     */
+    public function translationCollectorProvider(): iterable
+    {
+        yield 'translations enabled' => [
+            true,
+            ['en', 'hi', 'nb'],
+        ];
+
+        yield 'translations disabled' => [
+            false,
+            ['en'],
+        ];
     }
 }
 

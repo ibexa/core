@@ -131,6 +131,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $this->registerUrlAliasConfiguration($config, $container);
         $this->registerUrlWildcardsConfiguration($config, $container);
         $this->registerOrmConfiguration($config, $container);
+        $this->registerUITranslationsConfiguration($config, $container);
 
         // Routing
         $this->handleRouting($config, $container, $loader);
@@ -318,6 +319,11 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
         $entityMappings = $config['orm']['entity_mappings'];
         $container->setParameter('ibexa.orm.entity_mappings', $entityMappings);
+    }
+
+    private function registerUITranslationsConfiguration(array $config, ContainerBuilder $container): void
+    {
+        $container->setParameter('ibexa.ui.translations.enabled', $config['ui']['translations']['enabled'] ?? false);
     }
 
     /**
