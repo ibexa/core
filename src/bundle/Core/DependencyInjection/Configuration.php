@@ -544,8 +544,6 @@ EOT;
      * </code>
      *
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
-     *
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
     private function addUITranslationsSection($rootNode): ArrayNodeDefinition
     {
