@@ -309,7 +309,10 @@ class QueryControllerContext extends RawMinkContext implements Context
             )
         );
 
-        $this->visitPath($urlAlias->path . "?$pageParam=$pageNumber");
+        $path = $urlAlias->path . "?$pageParam=$pageNumber";
+        var_dump($path);
+
+        $this->visitPath($path);
 
         if ($this->getSession()->getStatusCode() !== 200) {
             $page = $this->getSession()->getPage();
@@ -347,6 +350,8 @@ class QueryControllerContext extends RawMinkContext implements Context
         $maxPerPage = $page->findAll('css', 'div#maxPerPage');
         $currentPage = $page->findAll('css', 'div#currentPage');
 
+        var_dump($this->getSession()->getPage()->getHtml());
+
         /** @var \Behat\Mink\Element\NodeElement $variableNode */
         foreach ($maxPerPage as $variableNode) {
             if ($variableNode->getText() === $pageLimit) {
@@ -379,6 +384,8 @@ class QueryControllerContext extends RawMinkContext implements Context
      */
     private function getVariableTypesFromTemplate(): array
     {
+        var_dump($this->getSession()->getPage()->getHtml());
+
         $variableRows = $this->getSession()->getPage()->findAll('css', '.dump .item');
 
         $items = [];
