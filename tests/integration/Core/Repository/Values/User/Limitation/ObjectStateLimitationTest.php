@@ -8,179 +8,83 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\ObjectStateService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
-use Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
+ * @covers \Ibexa\Core\Limitation\ObjectStateLimitationType
+ *
  * @group integration
  * @group limitation
  */
 class ObjectStateLimitationTest extends BaseLimitationTest
 {
+    public const OBJECT_STATE_LOCK_GROUP_ID = 2;
+    public const OBJECT_STATE_NOT_LOCKED_STATE_ID = 1;
+    public const OBJECT_STATE_LOCKED_STATE_ID = 2;
+    public const EDITOR_ROLE_IDENTIFIER = 'Editor';
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    public function testObjectStateLimitationAllow(): void
+    {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $this->loginAsUser(
+            $this->createUserWithObjectStateLimitation([self::OBJECT_STATE_NOT_LOCKED_STATE_ID])
+        );
+
+        $draft = $this->createWikiPageDraft();
+
+        $contentService->deleteContent($draft->contentInfo);
+
+        $this->expectException(NotFoundException::class);
+        $contentService->loadContent($draft->id);
+    }
+
     /**
      * @throws \ErrorException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testObjectStateLimitationAllow()
-    {
-        $repository = $this->getRepository();
-        $permissionResolver = $repository->getPermissionResolver();
-
-        $notLockedState = $this->generateId('objectstate', 2);
-
-        $contentService = $repository->getContentService();
-        /* BEGIN: Use Case */
-        $user = $this->createUserVersion1();
-
-        $roleService = $repository->getRoleService();
-
-        $role = $roleService->loadRoleByIdentifier('Editor');
-        $roleDraft = $roleService->createRoleDraft($role);
-        // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
-        $removePolicy = null;
-        foreach ($roleDraft->getPolicies() as $policy) {
-            if ('content' != $policy->module || 'remove' != $policy->function) {
-                continue;
-            }
-            $removePolicy = $policy;
-            break;
-        }
-
-        if (null === $removePolicy) {
-            throw new \ErrorException('No content:remove policy found.');
-        }
-
-        // Only allow deletion of content with default state
-        $policyUpdate = $roleService->newPolicyUpdateStruct();
-        $policyUpdate->addLimitation(
-            new ObjectStateLimitation(
-                [
-                    'limitationValues' => [
-                        $notLockedState,
-                    ],
-                ]
-            )
-        );
-        $roleService->updatePolicyByRoleDraft(
-            $roleDraft,
-            $removePolicy,
-            $policyUpdate
-        );
-
-        // Allow user to create everything
-        $policyCreate = $roleService->newPolicyCreateStruct('content', 'create');
-
-        $roleService->addPolicyByRoleDraft(
-            $roleDraft,
-            $policyCreate
-        );
-        $roleService->publishRoleDraft($roleDraft);
-
-        $roleService->assignRoleToUser($role, $user);
-
-        $permissionResolver->setCurrentUserReference($user);
-
-        $draft = $this->createWikiPageDraft();
-
-        $contentService->deleteContent($draft->contentInfo);
-        /* END: Use Case */
-
-        $this->expectException(NotFoundException::class);
-
-        $contentService->loadContent($draft->id);
-    }
-
-    /**
-     * Tests a ObjectStateLimitation.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
-     *
-     * @throws \ErrorException
-     */
-    public function testObjectStateLimitationForbid()
+    public function testObjectStateLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 
         $repository = $this->getRepository();
-        $permissionResolver = $repository->getPermissionResolver();
-
-        $lockedState = $this->generateId('objectstate', 1);
-
         $contentService = $repository->getContentService();
-        /* BEGIN: Use Case */
-        $user = $this->createUserVersion1();
 
-        $roleService = $repository->getRoleService();
-
-        $role = $roleService->loadRoleByIdentifier('Editor');
-        $roleDraft = $roleService->createRoleDraft($role);
-        // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
-        $removePolicy = null;
-        foreach ($roleDraft->getPolicies() as $policy) {
-            if ('content' != $policy->module || 'remove' != $policy->function) {
-                continue;
-            }
-            $removePolicy = $policy;
-            break;
-        }
-
-        if (null === $removePolicy) {
-            throw new \ErrorException('No content:remove policy found.');
-        }
-
-        // Only allow deletion of content with default state
-        $policyUpdate = $roleService->newPolicyUpdateStruct();
-        $policyUpdate->addLimitation(
-            new ObjectStateLimitation(
-                [
-                    'limitationValues' => [
-                        $lockedState,
-                    ],
-                ]
-            )
+        $this->loginAsUser(
+            $this->createUserWithObjectStateLimitation([self::OBJECT_STATE_LOCKED_STATE_ID])
         );
-        $roleService->updatePolicyByRoleDraft(
-            $roleDraft,
-            $removePolicy,
-            $policyUpdate
-        );
-
-        // Allow user to create everything
-        $policyCreate = $roleService->newPolicyCreateStruct('content', 'create');
-
-        $roleService->addPolicyByRoleDraft(
-            $roleDraft,
-            $policyCreate
-        );
-        $roleService->publishRoleDraft($roleDraft);
-
-        $roleService->assignRoleToUser($role, $user);
-
-        $permissionResolver->setCurrentUserReference($user);
 
         $draft = $this->createWikiPageDraft();
 
+        $this->expectException(UnauthorizedException::class);
         $contentService->deleteContent($draft->contentInfo);
-        /* END: Use Case */
     }
 
     /**
-     * Tests an ObjectStateLimitation.
-     *
      * Checks if the action is correctly forbidden when using ObjectStateLimitation
      * with limitation values from two different StateGroups.
      *
-     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testObjectStateLimitationForbidVariant()
+    public function testObjectStateLimitationForbidVariant(): void
     {
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('\'remove\' \'content\'');
@@ -189,73 +93,30 @@ class ObjectStateLimitationTest extends BaseLimitationTest
         $objectStateGroup = $this->createObjectStateGroup();
         $objectState = $this->createObjectState($objectStateGroup);
 
-        $lockedState = $this->generateId('objectstate', 1);
-        $defaultStateFromAnotherGroup = $this->generateId('objectstate', $objectState->id);
-
         $contentService = $repository->getContentService();
-        /* BEGIN: Use Case */
-        $user = $this->createUserVersion1();
 
-        $roleService = $repository->getRoleService();
-
-        $role = $roleService->loadRoleByIdentifier('Editor');
-        $roleDraft = $roleService->createRoleDraft($role);
-        // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
-        $removePolicy = null;
-        foreach ($roleDraft->getPolicies() as $policy) {
-            if ('content' !== $policy->module || 'remove' !== $policy->function) {
-                continue;
-            }
-            $removePolicy = $policy;
-            break;
-        }
-
-        $this->assertNotNull($removePolicy);
-
-        // Only allow deletion of content with locked state and the default state from another State Group
-        $policyUpdate = $roleService->newPolicyUpdateStruct();
-        $policyUpdate->addLimitation(
-            new ObjectStateLimitation(
+        $this->loginAsUser(
+            $this->createUserWithObjectStateLimitation(
                 [
-                    'limitationValues' => [
-                        $lockedState,
-                        $defaultStateFromAnotherGroup,
-                    ],
+                    self::OBJECT_STATE_LOCKED_STATE_ID,
+                    $objectState->id,
                 ]
             )
         );
-        $roleService->updatePolicyByRoleDraft(
-            $roleDraft,
-            $removePolicy,
-            $policyUpdate
-        );
-
-        // Allow user to create everything
-        $policyCreate = $roleService->newPolicyCreateStruct('content', 'create');
-
-        $roleService->addPolicyByRoleDraft(
-            $roleDraft,
-            $policyCreate
-        );
-        $roleService->publishRoleDraft($roleDraft);
-
-        $roleService->assignRoleToUser($role, $user);
-
-        $repository->getPermissionResolver()->setCurrentUserReference($user);
 
         $draft = $this->createWikiPageDraft();
 
+        $this->expectException(UnauthorizedException::class);
+        $this->expectExceptionMessage("'remove' 'content'");
+
         $contentService->deleteContent($draft->contentInfo);
-        /* END: Use Case */
     }
 
     /**
-     * Create new State Group.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    private function createObjectStateGroup()
+    private function createObjectStateGroup(): ObjectStateGroup
     {
         $objectStateService = $this->getRepository()->getObjectStateService();
 
@@ -269,11 +130,10 @@ class ObjectStateLimitationTest extends BaseLimitationTest
     /**
      * Create new State and assign it to the $objectStateGroup.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    private function createObjectState(ObjectStateGroup $objectStateGroup)
+    private function createObjectState(ObjectStateGroup $objectStateGroup): ObjectState
     {
         $objectStateService = $this->getRepository()->getObjectStateService();
 
@@ -285,39 +145,32 @@ class ObjectStateLimitationTest extends BaseLimitationTest
     }
 
     /**
-     * Tests an ObjectStateLimitation.
-     *
      * Checks if the search results are correctly filtered when using ObjectStateLimitation
      * with limitation values from two different StateGroups.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testObjectStateLimitationSearch()
+    public function testObjectStateLimitationSearch(): void
     {
         $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+
         $objectStateGroup = $this->createObjectStateGroup();
         $objectState = $this->createObjectState($objectStateGroup);
 
-        $lockedState = $this->generateId('objectstate', 1);
-        $defaultStateFromAnotherGroup = $this->generateId('objectstate', $objectState->id);
-
-        $roleService = $repository->getRoleService();
-        $roleName = 'role_with_object_state_limitation';
-        $roleCreateStruct = $roleService->newRoleCreateStruct($roleName);
-        $this->addPolicyToNewRole($roleCreateStruct, 'content', 'read', [
-            new ObjectStateLimitation([
-                'limitationValues' => [$lockedState, $defaultStateFromAnotherGroup],
-            ]),
-        ]);
-        $roleService->publishRoleDraft(
-            $roleService->createRole($roleCreateStruct)
+        $user = $this->createUserWithObjectStateLimitationOnContentRead(
+            [
+                self::OBJECT_STATE_NOT_LOCKED_STATE_ID,
+                $objectState->id,
+            ]
         );
-
-        $permissionResolver = $repository->getPermissionResolver();
-        $user = $this->createCustomUserVersion1('Test group', $roleName);
         $adminUser = $permissionResolver->getCurrentUserReference();
 
         $wikiPage = $this->createWikiPage();
 
-        $permissionResolver->setCurrentUserReference($user);
+        $this->loginAsUser($user);
 
         $query = new Query();
         $query->filter = new Criterion\MatchAll();
@@ -326,7 +179,7 @@ class ObjectStateLimitationTest extends BaseLimitationTest
         $this->refreshSearch($repository);
         $searchResultsBefore = $repository->getSearchService()->findContent($query);
 
-        $permissionResolver->setCurrentUserReference($adminUser);
+        $this->loginAsUser($adminUser);
 
         //change the Object State to the one that doesn't match the Limitation
         $stateService = $repository->getObjectStateService();
@@ -336,30 +189,121 @@ class ObjectStateLimitationTest extends BaseLimitationTest
             $stateService->loadObjectState(2)
         );
 
-        $permissionResolver->setCurrentUserReference($user);
+        $this->loginAsUser($user);
 
         $this->refreshSearch($repository);
         $searchResultsAfter = $repository->getSearchService()->findContent($query);
 
-        $this->assertEquals($searchResultsBefore->totalCount - 1, $searchResultsAfter->totalCount);
+        self::assertEquals($searchResultsBefore->totalCount - 1, $searchResultsAfter->totalCount);
     }
 
     /**
-     * Add policy to a new role.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct $roleCreateStruct
-     * @param string $module
-     * @param string $function
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    private function addPolicyToNewRole(RoleCreateStruct $roleCreateStruct, $module, $function, array $limitations)
+    public function testUserWithNotLockedLimitationCanEditNotLockedContent(): void
     {
-        $roleService = $this->getRepository()->getRoleService();
-        $policyCreateStruct = $roleService->newPolicyCreateStruct($module, $function);
-        foreach ($limitations as $limitation) {
-            $policyCreateStruct->addLimitation($limitation);
-        }
-        $roleCreateStruct->addPolicy($policyCreateStruct);
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+        $objectStateService = $repository->getObjectStateService();
+        $lockGroup = $objectStateService->loadObjectStateGroup(self::OBJECT_STATE_LOCK_GROUP_ID);
+        $notLockedState = $objectStateService->loadObjectState(self::OBJECT_STATE_NOT_LOCKED_STATE_ID);
+
+        // sanity check
+        self::assertSame('not_locked', $notLockedState->identifier);
+
+        $this->loginAsUser(
+            $this->createUserWithObjectStateLimitation([self::OBJECT_STATE_NOT_LOCKED_STATE_ID])
+        );
+        $draft = $this->createWikiPageDraft();
+
+        $this->assertContentHasState(
+            $objectStateService,
+            $draft->contentInfo,
+            $lockGroup,
+            $notLockedState
+        );
+
+        $contentUpdate = $contentService->newContentUpdateStruct();
+        $contentUpdate->setField('title', 'Updated test folder');
+        $updatedDraft = $contentService->updateContent($draft->versionInfo, $contentUpdate);
+
+        $this->assertContentHasState(
+            $objectStateService,
+            $updatedDraft->contentInfo,
+            $lockGroup,
+            $notLockedState
+        );
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    protected function createUserWithObjectStateLimitation(array $objectStateIDs): User
+    {
+        return $this->createUserWithPolicies(
+            uniqid('test', true),
+            [
+                ['module' => 'content', 'function' => 'read'],
+                ['module' => 'content', 'function' => 'versionread'],
+                ['module' => 'content', 'function' => 'create'],
+                ['module' => 'content', 'function' => 'publish'],
+                [
+                    'module' => 'content',
+                    'function' => 'edit',
+                    'limitations' => [
+                        new ObjectStateLimitation(['limitationValues' => $objectStateIDs]),
+                    ],
+                ],
+                [
+                    'module' => 'content',
+                    'function' => 'remove',
+                    'limitations' => [
+                        new ObjectStateLimitation(['limitationValues' => $objectStateIDs]),
+                    ],
+                ],
+            ]
+        );
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    private function createUserWithObjectStateLimitationOnContentRead(array $values): User
+    {
+        return $this->createUserWithPolicies(
+            uniqid('test', true),
+            [
+                [
+                    'module' => 'content',
+                    'function' => 'read',
+                    'limitations' => [
+                        new ObjectStateLimitation(
+                            [
+                                'limitationValues' => $values,
+                            ]
+                        ),
+                    ],
+                ],
+            ]
+        );
+    }
+
+    private function assertContentHasState(
+        ObjectStateService $objectStateService,
+        ContentInfo $contentInfo,
+        ObjectStateGroup $lockGroup,
+        ObjectState $objectState
+    ): void {
+        self::assertSame(
+            $objectState->identifier,
+            $objectStateService->getContentState($contentInfo, $lockGroup)->identifier
+        );
     }
 }
 

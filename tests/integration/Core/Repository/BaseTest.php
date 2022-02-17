@@ -23,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
@@ -876,6 +877,11 @@ abstract class BaseTest extends TestCase
         );
 
         return $contentTypeService->loadContentTypeByIdentifier($identifier);
+    }
+
+    protected function loginAsUser(UserReference $user): void
+    {
+        $this->getRepository(false)->getPermissionResolver()->setCurrentUserReference($user);
     }
 }
 
