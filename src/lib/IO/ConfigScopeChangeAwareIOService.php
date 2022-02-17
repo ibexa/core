@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 
 class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScopeChangeSubscriber
 {
@@ -113,7 +113,7 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
         $this->innerIOService->deleteDirectory($path);
     }
 
-    public function onConfigScopeChange(SiteAccess $siteAccess): void
+    public function onConfigScopeChange(ScopeChangeEvent $event): void
     {
         $this->setPrefix($this->configResolver->getParameter($this->prefixParameterName));
     }

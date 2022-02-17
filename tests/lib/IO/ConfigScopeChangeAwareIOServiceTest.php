@@ -13,7 +13,7 @@ use Ibexa\Core\IO\ConfigScopeChangeAwareIOService;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use PHPUnit\Framework\TestCase;
 
 final class ConfigScopeChangeAwareIOServiceTest extends TestCase
@@ -309,13 +309,13 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
 
     public function testOnConfigScopeChange(): void
     {
-        $siteAccess = $this->createMock(SiteAccess::class);
+        $event = $this->createMock(ScopeChangeEvent::class);
         $this->innerIOService
             ->expects($this->once())
             ->method('setPrefix')
             ->with(self::PREFIX);
 
-        $this->ioService->onConfigScopeChange($siteAccess);
+        $this->ioService->onConfigScopeChange($event);
     }
 }
 

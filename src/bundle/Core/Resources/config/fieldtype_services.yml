@@ -70,6 +70,7 @@ services:
     ibexa.field_type.ezimage.io_service.published.config_scope_change_aware:
         class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
         decorates: ibexa.field_type.ezimage.io_service.published
+        autoconfigure: true
         lazy: true
         arguments:
             $configResolver: '@ibexa.config.resolver'

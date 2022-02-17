@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\EventListener;
 
+use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
@@ -13,7 +14,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ConfigScopeListener implements EventSubscriberInterface
+class ConfigScopeListener implements EventSubscriberInterface, ConfigScopeChangeSubscriber
 {
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface[] */
     private $configResolvers;
@@ -40,7 +41,7 @@ class ConfigScopeListener implements EventSubscriberInterface
         ];
     }
 
-    public function onConfigScopeChange(ScopeChangeEvent $event)
+    public function onConfigScopeChange(ScopeChangeEvent $event): void
     {
         $siteAccess = $event->getSiteAccess();
 

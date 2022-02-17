@@ -11,7 +11,7 @@ namespace Ibexa\Core\IO\Adapter;
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOConfigProvider;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use League\Flysystem\Adapter\Local;
 use LogicException;
 
@@ -46,7 +46,7 @@ final class LocalAdapter extends Local implements ConfigScopeChangeSubscriber
      * Reconfigure Adapter due to SiteAccess change which implies
      * root dir and permissions could be different for new SiteAccess.
      */
-    public function onConfigScopeChange(SiteAccess $siteAccess): void
+    public function onConfigScopeChange(ScopeChangeEvent $event): void
     {
         $root = $this->ioConfigProvider->getRootDir();
         $root = is_link($root) ? realpath($root) : $root;

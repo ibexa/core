@@ -98,7 +98,7 @@ services:
 
     # Inject the siteaccess config into a few io services
     Ibexa\Core\IO\Adapter\LocalAdapter:
-        class: Ibexa\Core\IO\Adapter\LocalAdapter
+        autoconfigure: true
         arguments:
             - '@Ibexa\Core\IO\IOConfigProvider'
             - '@ibexa.config.resolver'
