@@ -39,6 +39,8 @@ class YamlConfigurationContext implements Context
         $destinationFileName = 'ezplatform_behat_' . sha1($yamlString) . '.yaml';
         $destinationFilePath = "config/packages/{$env}/{$destinationFileName}";
 
+        var_dump($destinationFilePath);
+
         $configurationDir = dirname($destinationFilePath);
         if (!is_dir($configurationDir)) {
             if (false === @mkdir($configurationDir)) {
@@ -61,11 +63,14 @@ class YamlConfigurationContext implements Context
 
     public function getEnvironment(): string
     {
-        return $this->kernel->getEnvironment();
+        $env = $this->kernel->getEnvironment();
+        var_dump($env);
+        return $env;
     }
 
     public function isSymfonyCacheClearRequired(): string
     {
+        var_dump('check if cache needs to be cleared');
         return 'prod' === $this->getEnvironment();
     }
 
@@ -101,6 +106,8 @@ class YamlConfigurationContext implements Context
 
     public function clearSymfonyCache(): void
     {
+        var_dump('clearing cache');
+
         $application = new Application($this->kernel);
         $application->setAutoExit(false);
 
@@ -113,6 +120,8 @@ class YamlConfigurationContext implements Context
         );
 
         $application->run($input);
+
+        var_dump('cache cleared final');
     }
 }
 
