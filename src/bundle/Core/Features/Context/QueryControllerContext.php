@@ -169,6 +169,8 @@ class QueryControllerContext extends RawMinkContext implements Context
         if ($this->configurationContext->isSymfonyCacheClearRequired()) {
             $this->configurationContext->clearSymfonyCache();
         }
+
+        sleep(60);
     }
 
     /**
