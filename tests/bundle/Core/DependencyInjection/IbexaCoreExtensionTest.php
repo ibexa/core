@@ -147,6 +147,44 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.executable', basename($_ENV['imagemagickConvertPath']));
     }
 
+    /**
+     * @dataProvider translationsConfigurationProvider
+     */
+    public function testUITranslationsConfiguration(
+        bool $enabled,
+        bool $expectedParameterValue
+    ): void {
+        if (is_bool($enabled)) {
+            $this->load(
+                [
+                    'ui' => [
+                        'translations' => [
+                            'enabled' => $enabled,
+                        ],
+                    ],
+                ]
+            );
+        }
+
+        $this->assertContainerBuilderHasParameter('ibexa.ui.translations.enabled', $expectedParameterValue);
+    }
+
+    /**
+     * @return iterable<string,array{bool,array{string}}>
+     */
+    public function translationsConfigurationProvider(): iterable
+    {
+        yield 'translations enabled' => [
+            true,
+            true,
+        ];
+
+        yield 'translations disabled' => [
+            false,
+            false,
+        ];
+    }
+
     public function testImageMagickConfigurationFilters()
     {
         if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
