@@ -1,0 +1,7 @@
+services:
+    Ibexa\Bundle\Core\Routing\JsRouting\ExposedRoutesExtractor:
+        class: Ibexa\Bundle\Core\Routing\JsRouting\ExposedRoutesExtractor
+        decorates: 'fos_js_routing.extractor'
+        arguments:
+            - '@Ibexa\Bundle\Core\Routing\JsRouting\ExposedRoutesExtractor.inner'
+            - '@request_stack'

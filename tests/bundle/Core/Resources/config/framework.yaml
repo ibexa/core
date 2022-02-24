@@ -1,0 +1,12 @@
+parameters:
+    ibexa.io.dir.root: ''
+    kernel.secret: 'foobar'
+
+framework:
+    test: true
+    session:
+        storage_id: session.storage.mock_file
+    cache:
+        app: cache.adapter.array
+    router:
+        resource: '%ibexa.core.test.resource_dir%/config/routes.yaml'

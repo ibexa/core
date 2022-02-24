@@ -1,0 +1,30 @@
+services:
+    Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.persistence.connection'
+            - '@Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter'
+
+    Ibexa\Core\Persistence\Legacy\URL\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\URL\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.url.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\URL\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\URL\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\URL\Mapper
+
+    Ibexa\Core\Persistence\Legacy\URL\Handler:
+        class: Ibexa\Core\Persistence\Legacy\URL\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.url.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\URL\Mapper'
+        lazy: true
+
+    Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter:
+        class: Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter
+
+
