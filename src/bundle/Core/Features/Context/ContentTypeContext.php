@@ -30,9 +30,6 @@ class ContentTypeContext implements Context
     /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
     protected $contentTypeService;
 
-    /** @var \EzSystems\BehatBundle\Context\Object\ContentTypeGroup */
-    protected $contentTypeGroupContext;
-
     public function __construct(ContentTypeService $contentTypeService)
     {
         $this->contentTypeService = $contentTypeService;
