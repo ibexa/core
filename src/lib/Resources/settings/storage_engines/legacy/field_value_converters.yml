@@ -56,8 +56,6 @@ services:
 
     Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter:
         class: Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter
-        arguments:
-            - '@ibexa.api.service.language'
         tags:
             - {name: ibexa.field_type.storage.legacy.converter, alias: ezselection}
 

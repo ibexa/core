@@ -9,7 +9,6 @@ namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
-use Ibexa\Contracts\Core\Repository\LanguageService;
 use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
@@ -17,18 +16,6 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 
 class SelectionConverter implements Converter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
-    private $languageService;
-
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\LanguageService $languageService
-     */
-    public function __construct(
-        LanguageService $languageService
-    ) {
-        $this->languageService = $languageService;
-    }
-
     /**
      * Factory for current class.
      *
