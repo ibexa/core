@@ -181,11 +181,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/GlobalHelper.php
 
 		-
-			message: "#^Class Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\SelectionConverter constructor invoked with 0 parameters, 1 required\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SelectionConverter.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Handler\\:\\:deleteContent\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Handler.php
