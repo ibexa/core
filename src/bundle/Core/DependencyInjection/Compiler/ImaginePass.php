@@ -7,6 +7,10 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
+use Ibexa\Bundle\Core\Imagine\Filter\Gmagick\ReduceNoiseFilter as GmagickReduceNoiseFilter;
+use Ibexa\Bundle\Core\Imagine\Filter\Gmagick\SwirlFilter as GmagickSwirlFilter;
+use Ibexa\Bundle\Core\Imagine\Filter\Imagick\ReduceNoiseFilter as ImagickReduceNoiseFilter;
+use Ibexa\Bundle\Core\Imagine\Filter\Imagick\SwirlFilter as ImagickSwirlFilter;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -35,26 +39,20 @@ class ImaginePass implements CompilerPassInterface
 
     private function processReduceNoiseFilter(ContainerBuilder $container, $driver)
     {
-        if ($driver !== 'imagick' && $driver !== 'gmagick') {
-            return;
+        if ($driver === 'imagick') {
+            $container->setAlias('ibexa.image_alias.imagine.filter.reduce_noise', new Alias(ImagickReduceNoiseFilter::class));
+        } elseif ($driver === 'gmagick') {
+            $container->setAlias('ibexa.image_alias.imagine.filter.reduce_noise', new Alias(GmagickReduceNoiseFilter::class));
         }
-
-        $container->setAlias(
-            'ibexa.image_alias.imagine.filter.reduce_noise',
-            new Alias("ezpublish.image_alias.imagine.filter.reduce_noise.$driver")
-        );
     }
 
     private function processSwirlFilter(ContainerBuilder $container, $driver)
     {
-        if ($driver !== 'imagick' && $driver !== 'gmagick') {
-            return;
+        if ($driver === 'imagick') {
+            $container->setAlias('ibexa.image_alias.imagine.filter.swirl', new Alias(ImagickSwirlFilter::class));
+        } elseif ($driver === 'gmagick') {
+            $container->setAlias('ibexa.image_alias.imagine.filter.swirl', new Alias(GmagickSwirlFilter::class));
         }
-
-        $container->setAlias(
-            'ibexa.image_alias.imagine.filter.swirl',
-            new Alias("ezpublish.image_alias.imagine.filter.swirl.$driver")
-        );
     }
 }
 
