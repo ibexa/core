@@ -28,6 +28,13 @@ class ContentUpdateStruct extends APIContentUpdateStruct
     public $fields = [];
 
     /**
+     * Metadata collection.
+     *
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[]
+     */
+    public $metadata = [];
+
+    /**
      * Adds a field to the field collection.
      * This method could also be implemented by ArrayAccess so that
      * $fields[$fieldDefIdentifier][$language] = $value or without language $fields[$fieldDefIdentifier] = $value
@@ -46,6 +53,14 @@ class ContentUpdateStruct extends APIContentUpdateStruct
                 'languageCode' => $language,
             ]
         );
+    }
+
+    public function setMetadata(string $identifier, $metadata, ?string $language = null): void
+    {
+        $this->metadata[] = $metadata;
+
+        echo 'ContentUpdateStruct sets metadata: ' . $identifier;
+        dump($metadata);
     }
 }
 

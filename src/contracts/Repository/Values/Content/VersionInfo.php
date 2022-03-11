@@ -108,6 +108,13 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     abstract public function getLanguages(): iterable;
 
     /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[]
+     */
+    abstract public function getMetadata(): iterable;
+
+    abstract public function getMetadataByIdentifier(string $identifier): Metadata;
+
+    /**
      * Returns true if version is a draft.
      *
      * @return bool

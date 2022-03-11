@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
+use Ibexa\Core\Repository\Values\Content\TestMetadata;
 use function count;
 use Exception;
 use Ibexa\Contracts\Core\FieldType\Comparable;
@@ -742,6 +743,11 @@ class ContentService implements ContentServiceInterface
                 );
             }
 
+            // emit an event for Metadata update
+            echo 'emitting event for content create! ';
+            dump( $contentCreateStruct->metadata );
+            die;
+
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
@@ -1097,6 +1103,12 @@ class ContentService implements ContentServiceInterface
                 $creator->getUserId(),
                 $languageCode
             );
+
+            // emit an event for Metadata update
+            echo 'emitting event for content draft create! ';
+            dump( $contentCreateStruct->metadata );
+            die;
+
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
@@ -1398,6 +1410,16 @@ class ContentService implements ContentServiceInterface
                 $contentType,
                 $existingRelations
             );
+
+            // emit an event for Metadata update
+            echo 'emitting event for content update! ';
+
+            $contentUpdateStruct->metadata[]  = new TestMetadata();
+
+            dump( $contentUpdateStruct->metadata );
+            die;
+
+
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();

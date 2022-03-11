@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * Base struct for content create/update structs.
  *
  * @property \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+ * @property \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[] $metadata
  */
 abstract class ContentStruct extends ValueObject
 {
@@ -30,6 +31,8 @@ abstract class ContentStruct extends ValueObject
      * @param string|null $language If not given on a translatable field the initial language is used
      */
     abstract public function setField(string $fieldDefIdentifier, $value, ?string $language = null): void;
+
+    abstract public function setMetadata(string $identifier, $metadata, ?string $language = null): void;
 }
 
 class_alias(ContentStruct::class, 'eZ\Publish\API\Repository\Values\Content\ContentStruct');

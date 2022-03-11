@@ -12,6 +12,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
  * This class is used for creating a new content object.
  *
  * @property \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+ * @property \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[] $metadata
  */
 abstract class ContentCreateStruct extends ContentStruct
 {

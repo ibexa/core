@@ -8,6 +8,7 @@ namespace Ibexa\Core\Repository\Values\Content;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
+use Ibexa\Contracts\Core\Repository\Values\Content\Metadata;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 
@@ -44,6 +45,9 @@ class VersionInfo extends APIVersionInfo
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language[] */
     protected $languages;
+
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[] */
+    protected $metadata;
 
     /**
      * The first matched name language among user provided prioritized languages.
@@ -87,6 +91,29 @@ class VersionInfo extends APIVersionInfo
     public function getLanguages(): iterable
     {
         return $this->languages;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadata(): iterable
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMetadataByIdentifier(string $identifier): Metadata
+    {
+        foreach ($this->metadata as $metadatum) {
+            if ($metadatum->identifier === $identifier) {
+                return $metadatum;
+            }
+        }
+
+        // todo: throw domain specific exception
+        throw new \Exception(sprintf('Cannot find metadata with identifier %s', $identifier));
     }
 
     /**

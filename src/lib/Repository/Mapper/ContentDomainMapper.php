@@ -35,6 +35,7 @@ use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\Relation;
+use Ibexa\Core\Repository\Values\Content\TestMetadata;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 
 /**
@@ -305,6 +306,12 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
             }
         }
 
+        // TMP - will be resolved by event, use $this->proxyFactory->createMetadataProxy for all collection
+        // or every element in collection separately
+        $metadata = [
+            new TestMetadata(),
+        ];
+
         return new VersionInfo(
             [
                 'id' => $spiVersionInfo->id,
@@ -321,6 +328,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper
                 'creator' => $this->proxyFactory->createUserProxy($spiVersionInfo->creatorId, $prioritizedLanguages),
                 'initialLanguage' => $this->proxyFactory->createLanguageProxy($spiVersionInfo->initialLanguageCode),
                 'languages' => $this->proxyFactory->createLanguageProxyList($spiVersionInfo->languageCodes),
+                'metadata' => $metadata,
             ]
         );
     }

@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
  * This class is used for creating a new content object.
  *
  * @property \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+ * @property \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[] $metadata
  *
  * @internal Meant for internal use by Repository, type hint against API instead.
  */
@@ -26,6 +27,13 @@ class ContentCreateStruct extends APIContentCreateStruct
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
      */
     public $fields = [];
+
+    /**
+     * Metadata collection.
+     *
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[]
+     */
+    public $metadata = [];
 
     /**
      * Adds a field to the field collection.
@@ -52,6 +60,15 @@ class ContentCreateStruct extends APIContentCreateStruct
                 'languageCode' => $language,
             ]
         );
+    }
+
+    public function setMetadata(string $identifier, $metadata, ?string $language = null): void
+    {
+        $this->metadata[] = $metadata;
+
+        echo 'ContentCreateStruct sets metadata: ' . $identifier;
+        dump($metadata);
+
     }
 }
 
