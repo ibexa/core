@@ -103,8 +103,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
         $configuration = $this->getConfiguration($configs, $container);
 
-        $environment = $container->getParameter('kernel.environment');
-        if (in_array($environment, ['behat', 'test'])) {
+        if ($this->shouldLoadTestBehatServices($container)) {
             $loader->load('feature_contexts.yml');
         }
 
@@ -1015,6 +1014,12 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         if (\extension_loaded('imagick')) {
             $container->setParameter('liip_imagine_driver', 'imagick');
         }
+    }
+
+    private function shouldLoadTestBehatServices(ContainerBuilder $container): bool
+    {
+        return $container->hasParameter('ibexa.behat.browser.enabled')
+            && $container->getParameter('ibexa.behat.browser.enabled');
     }
 }
 
