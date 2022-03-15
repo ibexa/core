@@ -24,6 +24,7 @@
         <!-- Search service is used all over the place, so we must run entire integration test suite -->
         <testsuite name="integration_repository">
             <directory>tests/integration/Core</directory>
+            <exclude>tests/integration/Core/Repository/Filtering</exclude>
         </testsuite>
     </testsuites>
     <filter>
