@@ -9,8 +9,8 @@ namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode;
-use Ibexa\Solr\LegacySetupFactory;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory;
 
 /**
  * Test case for language issues in EZP-20018.

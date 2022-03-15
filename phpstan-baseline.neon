@@ -381,22 +381,22 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/UserIntegrationTest.php
 
 		-
-			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP20018LanguageTest.php
 
 		-
-			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
-			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
 			count: 5
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
-			message: "#^Class Ibexa\\\\Solr\\\\LegacySetupFactory not found\\.$#"
+			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
 			count: 3
 			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
 
