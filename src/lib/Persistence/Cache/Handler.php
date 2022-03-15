@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SPISettingHandler;
+use Ibexa\Contracts\Core\Persistence\Metadata\Handler as SPIMetadataHandler;
 use Ibexa\Core\Persistence\Cache\BookmarkHandler as CacheBookmarkHandler;
 use Ibexa\Core\Persistence\Cache\ContentHandler as CacheContentHandler;
 use Ibexa\Core\Persistence\Cache\ContentLanguageHandler as CacheContentLanguageHandler;
@@ -217,6 +218,12 @@ class Handler implements PersistenceHandlerInterface
     public function settingHandler(): SPISettingHandler
     {
         return $this->settingHandler;
+    }
+
+    public function metadataHandler(): SPIMetadataHandler
+    {
+        // TMP
+        return $this->persistenceHandler->metadataHandler();
     }
 
     /**

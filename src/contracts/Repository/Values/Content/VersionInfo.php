@@ -112,7 +112,7 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
      */
     abstract public function getMetadata(): iterable;
 
-    abstract public function getMetadataByIdentifier(string $identifier): Metadata;
+    abstract public function getMetadataByIdentifier(string $identifier): ?Metadata;
 
     /**
      * Returns true if version is a draft.

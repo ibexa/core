@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Metadata;
 use Ibexa\Core\Repository\Values\Content\TestMetadata;
 use function count;
 use Exception;
@@ -743,9 +744,13 @@ class ContentService implements ContentServiceInterface
                 );
             }
 
-            // emit an event for Metadata update
-            echo 'emitting event for content create! ';
-            dump( $contentCreateStruct->metadata );
+            // TODO: this will be attached elsewhere
+            $contentCreateStruct->metadata[]  = new TestMetadata();
+
+            array_map(
+                static fn(Metadata $metadata) => $this->persistenceHandler->metadataHandler()->persist($metadata),
+                $contentCreateStruct->metadata
+            );
             die;
 
             $this->repository->commit();
@@ -1104,11 +1109,6 @@ class ContentService implements ContentServiceInterface
                 $languageCode
             );
 
-            // emit an event for Metadata update
-            echo 'emitting event for content draft create! ';
-            dump( $contentCreateStruct->metadata );
-            die;
-
             $this->repository->commit();
         } catch (Exception $e) {
             $this->repository->rollback();
@@ -1411,12 +1411,14 @@ class ContentService implements ContentServiceInterface
                 $existingRelations
             );
 
-            // emit an event for Metadata update
-            echo 'emitting event for content update! ';
 
+            // TODO: this will be attached elsewhere
             $contentUpdateStruct->metadata[]  = new TestMetadata();
 
-            dump( $contentUpdateStruct->metadata );
+            array_map(
+                static fn(Metadata $metadata) => $this->persistenceHandler->metadataHandler()->persist($metadata),
+                $contentUpdateStruct->metadata
+            );
             die;
 
 

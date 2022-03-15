@@ -19,6 +19,7 @@ imports:
     - {resource: storage_engines/legacy/notification.yml}
     - {resource: storage_engines/legacy/user_preference.yml}
     - {resource: storage_engines/legacy/setting.yml}
+    - {resource: storage_engines/legacy/metadata.yml}
 
 services:
     Ibexa\Core\Persistence\Legacy\Handler:
@@ -40,6 +41,7 @@ services:
             - '@ibexa.spi.persistence.legacy.notification.handler'
             - '@ibexa.spi.persistence.legacy.user_preference.handler'
             - '@Ibexa\Core\Persistence\Legacy\Setting\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Metadata\Handler'
         tags:
             - {name: ibexa.storage, alias: legacy}
         lazy: true

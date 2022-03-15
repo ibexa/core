@@ -101,10 +101,7 @@ class VersionInfo extends APIVersionInfo
         return $this->metadata;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMetadataByIdentifier(string $identifier): Metadata
+    public function getMetadataByIdentifier(string $identifier): ?Metadata
     {
         foreach ($this->metadata as $metadatum) {
             if ($metadatum->identifier === $identifier) {
@@ -112,8 +109,7 @@ class VersionInfo extends APIVersionInfo
             }
         }
 
-        // todo: throw domain specific exception
-        throw new \Exception(sprintf('Cannot find metadata with identifier %s', $identifier));
+        return null;
     }
 
     /**

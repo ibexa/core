@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence;
 
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
+use Ibexa\Contracts\Core\Persistence\Metadata\Handler as MetadataHandler;
 
 /**
  * The main handler for Storage Engine.
@@ -91,6 +92,8 @@ interface Handler
     public function transactionHandler();
 
     public function settingHandler(): SettingHandler;
+
+    public function metadataHandler(): MetadataHandler;
 
     /**
      * Begin transaction.

@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as UrlAliasHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as UrlWildcardHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as HandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Metadata\Handler as MetadataHandler;
 use Ibexa\Contracts\Core\Persistence\Notification\Handler as NotificationHandler;
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler as SPITransactionHandler;
@@ -79,6 +80,9 @@ class Handler implements HandlerInterface
     /** @var \Ibexa\Contracts\Core\Persistence\Setting\Handler */
     private $settingHandler;
 
+    /** @var \Ibexa\Contracts\Core\Persistence\Metadata\Handler */
+    private $metadataHandler;
+
     public function __construct(
         ContentHandler $contentHandler,
         ContentTypeHandler $contentTypeHandler,
@@ -95,7 +99,8 @@ class Handler implements HandlerInterface
         BookmarkHandler $bookmarkHandler,
         NotificationHandler $notificationHandler,
         UserPreferenceHandler $userPreferenceHandler,
-        SettingHandler $settingHandler
+        SettingHandler $settingHandler,
+        MetadataHandler $metadataHandler
     ) {
         $this->contentHandler = $contentHandler;
         $this->contentTypeHandler = $contentTypeHandler;
@@ -113,6 +118,7 @@ class Handler implements HandlerInterface
         $this->notificationHandler = $notificationHandler;
         $this->userPreferenceHandler = $userPreferenceHandler;
         $this->settingHandler = $settingHandler;
+        $this->metadataHandler = $metadataHandler;
     }
 
     public function contentHandler()
@@ -178,6 +184,11 @@ class Handler implements HandlerInterface
     public function settingHandler(): SettingHandler
     {
         return $this->settingHandler;
+    }
+
+    public function metadataHandler(): MetadataHandler
+    {
+        return $this->metadataHandler;
     }
 
     /**
