@@ -1,4 +1,6 @@
 services:
     Ibexa\Core\Persistence\Legacy\Metadata\Handler:
         class: Ibexa\Core\Persistence\Legacy\Metadata\Handler
+        arguments:
+            - '@event_dispatcher'
         lazy: true

@@ -747,11 +747,13 @@ class ContentService implements ContentServiceInterface
             // TODO: this will be attached elsewhere
             $contentCreateStruct->metadata[]  = new TestMetadata();
 
+            $metadataHandler = $this->persistenceHandler->metadataHandler();
+
             array_map(
-                static fn(Metadata $metadata) => $this->persistenceHandler->metadataHandler()->persist($metadata),
+                static fn(Metadata $metadata) => $metadataHandler->persist($metadata),
                 $contentCreateStruct->metadata
             );
-            die;
+            die('tmp metadata handled');
 
             $this->repository->commit();
         } catch (Exception $e) {
@@ -1414,12 +1416,13 @@ class ContentService implements ContentServiceInterface
 
             // TODO: this will be attached elsewhere
             $contentUpdateStruct->metadata[]  = new TestMetadata();
+            $metadataHandler = $this->persistenceHandler->metadataHandler();
 
             array_map(
-                static fn(Metadata $metadata) => $this->persistenceHandler->metadataHandler()->persist($metadata),
+                static fn(Metadata $metadata) => $metadataHandler->persist($metadata),
                 $contentUpdateStruct->metadata
             );
-            die;
+            die('tmp metadata handled');
 
 
             $this->repository->commit();

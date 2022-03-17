@@ -26,6 +26,13 @@ class UserCreateStruct extends APIUserCreateStruct
     public $fields = [];
 
     /**
+     * Metadata collection.
+     *
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Metadata[]
+     */
+    public $metadata = [];
+
+    /**
      * Adds a field to the field collection.
      *
      * This method could also be implemented by a magic setter so that
@@ -50,6 +57,11 @@ class UserCreateStruct extends APIUserCreateStruct
                 'languageCode' => $language,
             ]
         );
+    }
+
+    public function setMetadata(string $identifier, $metadata, ?string $language = null): void
+    {
+        $this->metadata[] = $metadata;
     }
 }
 

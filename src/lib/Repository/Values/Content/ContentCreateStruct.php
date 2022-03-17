@@ -66,8 +66,8 @@ class ContentCreateStruct extends APIContentCreateStruct
     {
         $this->metadata[] = $metadata;
 
-        echo 'ContentCreateStruct sets metadata: ' . $identifier;
-        dump($metadata);
+//        echo 'ContentCreateStruct sets metadata: ' . $identifier;
+//        dump($metadata);
 
     }
 }
