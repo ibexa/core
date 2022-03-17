@@ -32,7 +32,7 @@ services:
         abstract: true
         calls:
             - [setRequestContext, ["@router.request_context"]]
-            - [setSiteAccess, ["@?ezpublish.siteaccess"]]
+            - [setSiteAccess, ['@?Ibexa\Core\MVC\Symfony\SiteAccess']]
             - [setSiteAccessRouter, ['@Ibexa\Core\MVC\Symfony\SiteAccess\Router']]
             - [setLogger, ["@?logger"]]
 
