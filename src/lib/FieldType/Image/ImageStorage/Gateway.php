@@ -76,6 +76,8 @@ abstract class Gateway extends StorageGateway
     abstract public function getImagesData(int $offset, int $limit): array;
 
     abstract public function updateImagePath(int $fieldId, string $oldPath, string $newPath): void;
+
+    abstract public function countDistinctImagesData(): int;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway');
