@@ -16,8 +16,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Repository\Values\Content\Location;
-use Ibexa\Solr\LegacySetupFactory as LegacySolrSetupFactory;
 use Ibexa\Tests\Core\Repository\Common;
+use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 
 /**
  * Test case for Location operations in the SearchService.

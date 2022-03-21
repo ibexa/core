@@ -20,8 +20,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
-use Ibexa\Solr\LegacySetupFactory as LegacySolrSetupFactory;
 use Ibexa\Tests\Core\Repository\Common;
+use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 
 /**
  * Test case for operations in the SearchService.
@@ -1241,7 +1241,7 @@ class SearchServiceTest extends BaseTest
 
         $searchHit = $searchService->findContent($query);
 
-        if ($this->getSetupFactory() instanceof Legacy) {
+        if ($this->isRunningOnLegacySetup()) {
             $this->assertNull(
                 $searchHit->totalCount
             );
@@ -1257,7 +1257,7 @@ class SearchServiceTest extends BaseTest
     {
         $this->expectException(\RuntimeException::class);
 
-        if (!$this->getSetupFactory() instanceof Legacy) {
+        if (!$this->isRunningOnLegacySetup()) {
             $this->markTestSkipped('Only applicable to Legacy/DB based search');
         }
 
@@ -1287,7 +1287,7 @@ class SearchServiceTest extends BaseTest
 
         $searchHit = $searchService->findLocations($query);
 
-        if ($this->getSetupFactory() instanceof Legacy) {
+        if ($this->isRunningOnLegacySetup()) {
             $this->assertNull(
                 $searchHit->totalCount
             );
@@ -1303,7 +1303,7 @@ class SearchServiceTest extends BaseTest
     {
         $this->expectException(\RuntimeException::class);
 
-        if (!$this->getSetupFactory() instanceof Legacy) {
+        if (!$this->isRunningOnLegacySetup()) {
             $this->markTestSkipped('Only applicable to Legacy/DB based search');
         }
 
@@ -5249,6 +5249,11 @@ class SearchServiceTest extends BaseTest
             // those are still Location IDs as it's LocationQuery
             [15, 5],
         ];
+    }
+
+    private function isRunningOnLegacySetup(): bool
+    {
+        return get_class($this->getSetupFactory()) === Legacy::class;
     }
 }
 
