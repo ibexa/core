@@ -1,0 +1,73 @@
+services:
+    # API Aliases
+    ibexa.api.repository:
+        alias: Ibexa\Core\Repository\SiteAccessAware\Repository
+        public: true
+
+    ibexa.api.service.bookmark:
+        alias: Ibexa\Core\Event\BookmarkService
+        public: true
+
+    ibexa.api.service.content:
+        alias: Ibexa\Core\Repository\SiteAccessAware\ContentService
+        public: true
+
+    ibexa.api.service.content_type:
+        alias: Ibexa\Core\Repository\SiteAccessAware\ContentTypeService
+        public: true
+
+    ibexa.api.service.field_type:
+        alias: Ibexa\Core\Event\FieldTypeService
+        public: true
+
+    ibexa.api.service.role:
+        alias: Ibexa\Core\Event\RoleService
+        public: true
+
+    ibexa.api.service.object_state:
+        alias: Ibexa\Core\Repository\SiteAccessAware\ObjectStateService
+        public: true
+
+    ibexa.api.service.url_wildcard:
+        alias: Ibexa\Core\Event\URLWildcardService
+        public: true
+
+    ibexa.api.service.url_alias:
+        alias: Ibexa\Core\Repository\SiteAccessAware\URLAliasService
+        public: true
+
+    ibexa.api.service.user:
+        alias: Ibexa\Core\Repository\SiteAccessAware\UserService
+        public: true
+
+    ibexa.api.service.search:
+        alias: Ibexa\Core\Repository\SiteAccessAware\SearchService
+        public: true
+
+    ibexa.api.service.section:
+        alias: Ibexa\Core\Repository\SiteAccessAware\SectionService
+        public: true
+
+    ibexa.api.service.trash:
+        alias: Ibexa\Core\Repository\SiteAccessAware\TrashService
+        public: true
+
+    ibexa.api.service.location:
+        alias: Ibexa\Core\Repository\SiteAccessAware\LocationService
+        public: true
+
+    ibexa.api.service.language:
+        alias: Ibexa\Core\Repository\SiteAccessAware\LanguageService
+        public: true
+
+    ibexa.api.service.url:
+        alias: Ibexa\Core\Event\URLService
+        public: true
+
+    ibexa.api.service.notification:
+        alias: Ibexa\Core\Repository\SiteAccessAware\NotificationService
+        public: true
+
+    ibexa.api.service.user_preference:
+        alias: Ibexa\Core\Event\UserPreferenceService
+        public: true

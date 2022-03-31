@@ -1,0 +1,166 @@
+parameters:
+    ibexa.default_router.non_site_access_aware_routes: ['_assetic_', '_wdt', '_profiler', '_configurator_', 'ibexa.user_hash']
+    # characters that may require encoding in the urlalias generator
+    ibexa.urlalias_generator.charmap:
+        "\"" : "%22"
+        "'" : "%27"
+        "<" : "%3C"
+        ">" : "%3E"
+
+services:
+    Ibexa\Core\MVC\Symfony\Routing\ChainRouter:
+        class: Ibexa\Core\MVC\Symfony\Routing\ChainRouter
+        arguments: ["@?logger"]
+        calls:
+            - [setContext, ["@router.request_context"]]
+
+    ibexa.siteaccess_match_listener:
+        class: Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
+        arguments:
+            $siteAccessRouter: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
+            $eventDispatcher: '@event_dispatcher'
+            $siteAccessMatcherRegistry: '@Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer:
+        tags:
+            - { name: serializer.normalizer }
+
+    Ibexa\Core\MVC\Symfony\Routing\Generator:
+        class: Ibexa\Core\MVC\Symfony\Routing\Generator
+        abstract: true
+        calls:
+            - [setRequestContext, ["@router.request_context"]]
+            - [setSiteAccess, ['@?Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - [setSiteAccessRouter, ['@Ibexa\Core\MVC\Symfony\SiteAccess\Router']]
+            - [setLogger, ["@?logger"]]
+
+    Ibexa\Bundle\Core\Routing\UrlAliasRouter:
+        class: Ibexa\Bundle\Core\Routing\UrlAliasRouter
+        arguments:
+            - '@ibexa.api.service.location'
+            - '@ibexa.api.service.url_alias'
+            - '@ibexa.api.service.content'
+            - '@Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator'
+            - "@?router.request_context"
+            - "@?logger"
+        calls:
+            - [setConfigResolver, ['@ibexa.config.resolver']]
+        tags:
+            - {name: router, priority: 200}
+
+    Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator:
+        class: Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator
+        arguments:
+            - '@ibexa.api.repository'
+            - "@router.default"
+            - '@ibexa.config.resolver'
+            - '%ibexa.urlalias_generator.charmap%'
+        parent: Ibexa\Core\MVC\Symfony\Routing\Generator
+
+    Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistry: ~
+    Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface:
+        alias: 'Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistry'
+
+    Ibexa\Bundle\Core\SiteAccess\MatcherBuilder:
+        class: Ibexa\Bundle\Core\SiteAccess\MatcherBuilder
+        arguments:
+            - '@Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistry'
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider
+        arguments:
+            - '%ibexa.site_access.list%'
+            - '%ibexa.site_access.groups_by_site_access%'
+        tags:
+            - { name: ibexa.site_access.provider, priority: 10 }
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
+        arguments:
+            $providers: !tagged ibexa.site_access.provider
+
+    ibexa.siteaccess.provider:
+        alias: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService
+        arguments:
+            - '@ibexa.siteaccess.provider'
+            - '@ibexa.config.resolver'
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
+        alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\Router:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess\Router
+        arguments:
+            - '@Ibexa\Bundle\Core\SiteAccess\MatcherBuilder'
+            - "@logger"
+            - '%ibexa.site_access.default%'
+            - '%ibexa.site_access.match_config%'
+            - '@ibexa.siteaccess.provider'
+            - 'Ibexa\Core\MVC\Symfony\SiteAccess'
+            - "%kernel.debug%"
+
+    Ibexa\Bundle\Core\EventListener\SiteAccessListener:
+        class: Ibexa\Bundle\Core\EventListener\SiteAccessListener
+        arguments:
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\RoutingListener:
+        class: Ibexa\Bundle\Core\EventListener\RoutingListener
+        arguments: ['@ibexa.config.resolver', '@Ibexa\Bundle\Core\Routing\UrlAliasRouter', '@Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\RequestEventListener:
+        class: Ibexa\Bundle\Core\EventListener\RequestEventListener
+        arguments:
+            - '@ibexa.config.resolver'
+            - "@router"
+            - '%ibexa.site_access.default%'
+            - "@?logger"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\IndexRequestListener:
+        class: Ibexa\Bundle\Core\EventListener\IndexRequestListener
+        arguments:
+            - '@ibexa.config.resolver'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator:
+      class: Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator
+      arguments: ["@event_dispatcher"]
+      calls:
+        - [setRequestStack, ["@request_stack"]]
+
+    Ibexa\Core\MVC\Symfony\EventListener\LanguageSwitchListener:
+        class: Ibexa\Core\MVC\Symfony\EventListener\LanguageSwitchListener
+        arguments: ['@Ibexa\Core\Helper\TranslationHelper']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\OriginalRequestListener:
+        class: Ibexa\Bundle\Core\EventListener\OriginalRequestListener
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\PreviewRequestListener:
+        class: Ibexa\Bundle\Core\EventListener\PreviewRequestListener
+        arguments: ["@request_stack"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\ContentDownloadRouteReferenceListener:
+        class: Ibexa\Bundle\Core\EventListener\ContentDownloadRouteReferenceListener
+        tags:
+            - { name: kernel.event_subscriber }
+        arguments: ['@Ibexa\Core\Helper\TranslationHelper']
