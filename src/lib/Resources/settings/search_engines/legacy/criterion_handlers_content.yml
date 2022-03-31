@@ -1,0 +1,51 @@
+services:
+    # Note: services tagged with:
+    #  - ibexa.search.legacy.gateway.criterion_handler.content
+    # are registered to this one using compilation pass
+    ibexa.search.legacy.gateway.criteria_converter.content:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\Ancestor:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\Ancestor
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\LocationId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\LocationId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\LocationRemoteId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\LocationRemoteId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\ParentLocationId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\ParentLocationId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+
+    # Needs to be before subtree, as permission_subtree extends it.
+    # Only needed for Content Search on SQL engines where applying Permissions Subtree criterion on all possible
+    # locations leads to peformance issues: https://issues.ibexa.co/browse/EZP-23037
+    Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\PermissionSubtree:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\PermissionSubtree
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\Subtree:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\Subtree
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\Visibility:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\CriterionHandler\Visibility
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}

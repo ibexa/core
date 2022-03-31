@@ -1,0 +1,38 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.language.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\Content\Language\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
+
+    Ibexa\Core\Persistence\Legacy\Content\Language\Handler.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.language.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\Mapper'
+
+    Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler:
+        class: Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
+        lazy: true
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\Handler.inner'
+            - '@ibexa.spi.persistence.cache.inmemory'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
+
+    ibexa.spi.persistence.legacy.language.handler:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
+
+    Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator:
+        class: Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+        arguments: ['@ibexa.spi.persistence.legacy.language.handler']

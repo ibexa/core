@@ -1,0 +1,43 @@
+services:
+    _defaults:
+        public: false
+        autoconfigure: true
+        autowire: true
+
+    Ibexa\Core\FieldType\Image\ImageThumbnailStrategy:
+        arguments:
+            $fieldTypeIdentifier: 'ezimage'
+            $variationHandler: '@Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator'
+            $variationName: 'medium'
+        tags:
+            - { name: ibexa.repository.thumbnail.strategy.field, priority: 0 }
+
+    Ibexa\Core\FieldType\Image\ImageThumbnailProxyStrategy:
+        decorates: Ibexa\Core\FieldType\Image\ImageThumbnailStrategy
+        arguments:
+            $imageThumbnailStrategy: '@.inner'
+            $proxyGenerator: '@Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface'
+
+    Ibexa\Core\FieldType\ImageAsset\ImageAssetThumbnailStrategy:
+        lazy: true
+        arguments:
+            $fieldTypeIdentifier: 'ezimageasset'
+            $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
+            $contentService: '@ibexa.api.service.content'
+        tags:
+            - { name: ibexa.repository.thumbnail.strategy.field, priority: 0 }
+
+    Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy:
+        arguments:
+            $strategies: !tagged_iterator ibexa.repository.thumbnail.strategy.field
+
+    Ibexa\Core\Repository\Strategy\ContentThumbnail\FirstMatchingFieldStrategy:
+        arguments:
+            $fieldTypeService: '@ibexa.api.service.field_type'
+            $contentFieldStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy'
+        tags:
+            - { name: ibexa.repository.thumbnail.strategy.content, priority: 0 }
+
+    Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy:
+        arguments:
+            $strategies: !tagged_iterator ibexa.repository.thumbnail.strategy.content

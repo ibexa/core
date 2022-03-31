@@ -1,0 +1,38 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\StorageHandler:
+        class: Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\StorageRegistry'
+            -
+                identifier: "LegacyStorage"
+
+    Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage:
+        class: Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage
+        arguments: ['@ibexa.api.storage_engine.legacy.connection']
+
+    Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage:
+        class: Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage
+        arguments: ['@ibexa.api.storage_engine.legacy.connection']
+
+    Ibexa\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage:
+        class: Ibexa\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage
+        arguments: ['@ibexa.api.storage_engine.legacy.connection']
+
+    Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage:
+        class: Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage
+        arguments: ['@ibexa.api.storage_engine.legacy.connection']
+
+    Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage:
+        class: Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage
+        arguments:
+            - '@Ibexa\Core\IO\UrlRedecorator'
+            - '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage:
+        class: Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage
+        arguments: ['@ibexa.api.storage_engine.legacy.connection']
+
+    Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage:
+        class: Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
