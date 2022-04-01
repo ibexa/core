@@ -41,11 +41,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/ContentTypeContext.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\QueryControllerContext\\:\\:\\$repository\\.$#"
-			count: 7
-			path: src/bundle/Core/Features/Context/QueryControllerContext.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\UserContext\\:\\:ensureUserExists\\(\\) invoked with 2 parameters, 3\\-4 required\\.$#"
 			count: 1
 			path: src/bundle/Core/Features/Context/UserContext.php
