@@ -16,10 +16,7 @@ services:
         arguments:
             $kernel: '@kernel'
 
-    Ibexa\Bundle\Core\Features\Context\QueryControllerContext:
-        public: true
-        arguments:
-            $repository: '@ibexa.api.repository'
+    Ibexa\Bundle\Core\Features\Context\QueryControllerContext: ~
 
     Ibexa\Bundle\Core\Features\Context\ContentTypeContext:
         public: true

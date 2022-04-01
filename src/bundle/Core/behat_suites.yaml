@@ -17,7 +17,18 @@ core:
                 - Ibexa\Bundle\Core\Features\Context\ExceptionContext
         query_controller:
             paths:
-                - vendor/ibexa/core/src/bundle/Core/Features/QueryController
+                - vendor/ibexa/core/src/bundle/Core/Features/QueryController/query_controller.feature
             contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - Ibexa\Behat\API\Context\ContentContext
+                - Ibexa\Behat\API\Context\TestContext
+                - Ibexa\Behat\Core\Context\ConfigurationContext
                 - Ibexa\Bundle\Core\Features\Context\QueryControllerContext
-                - Ibexa\Bundle\Core\Features\Context\YamlConfigurationContext
+        setup:
+            paths:
+                - vendor/ibexa/core/src/bundle/Core/Features/QueryController/setup.feature
+            contexts:
+                - Ibexa\Behat\API\Context\ContentContext
+                - Ibexa\Behat\API\Context\TestContext
+                - Ibexa\Behat\Core\Context\ConfigurationContext
+                - Ibexa\Behat\Core\Context\FileContext
