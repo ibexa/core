@@ -1,7 +1,7 @@
 ibexa.content.translation.view:
     path: /view/content/{contentId}/{viewType}/{layout}/translation/{languageCode}/{locationId}
     defaults:
-        _controller: ibexa_content:viewAction
+        _controller: ibexa_content::viewAction
         viewType: full
         locationId: null
         layout: true
@@ -11,7 +11,7 @@ ibexa.content.translation.view:
 ibexa.content.view:
     path: /view/content/{contentId}/{viewType}/{layout}/{locationId}
     defaults:
-        _controller: ibexa_content:viewAction
+        _controller: ibexa_content::viewAction
         viewType: full
         locationId: null
         layout: true

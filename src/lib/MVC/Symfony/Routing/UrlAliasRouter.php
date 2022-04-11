@@ -32,7 +32,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
     public const URL_ALIAS_ROUTE_NAME = 'ibexa.url.alias';
 
-    public const VIEW_ACTION = 'ibexa_content:viewAction';
+    public const VIEW_ACTION = 'ibexa_content::viewAction';
 
     /** @var \Symfony\Component\Routing\RequestContext */
     protected $requestContext;

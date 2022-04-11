@@ -120,7 +120,7 @@ class ViewControllerListenerTest extends TestCase
 
         $this->request->attributes->add(
             [
-                '_controller' => 'ibexa_content:viewAction',
+                '_controller' => 'ibexa_content::viewAction',
                 'contentId' => $contentId,
                 'locationId' => $locationId,
                 'viewType' => $viewType,

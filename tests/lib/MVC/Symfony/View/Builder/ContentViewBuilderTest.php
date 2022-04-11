@@ -326,7 +326,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'full',
-            '_controller' => 'ibexa_content:viewAction',
+            '_controller' => 'ibexa_content::viewAction',
             'locationId' => 2,
         ];
 
