@@ -139,7 +139,7 @@ services:
               - { name: controller.service_arguments }
 
     # This alias allows easier management for subrequests
-    # {{ render( controller( "ibexa_content:viewAction", {"contentId": 12, "locationId": 123, "viewType": "line"} ) ) }
+    # {{ render( controller( "ibexa_content::viewAction", {"contentId": 12, "locationId": 123, "viewType": "line"} ) ) }
     ibexa_content:
         public: true
         alias: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
