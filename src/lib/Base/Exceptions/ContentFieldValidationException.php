@@ -26,7 +26,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *  $fieldErrors["43"]["eng-GB"]->getTranslatableMessage();
      * </code>
      *
-     * @var \Ibexa\Core\FieldType\ValidationError[]
+     * @var array<array-key, array<string, \Ibexa\Core\FieldType\ValidationError>>
      */
     protected $errors;
 
@@ -35,7 +35,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * Also sets the given $fieldErrors to the internal property, retrievable by getFieldErrors()
      *
-     * @param \Ibexa\Core\FieldType\ValidationError[] $errors
+     * @param array<array-key, array<string, \Ibexa\Core\FieldType\ValidationError>> $errors
      */
     public function __construct(array $errors)
     {
@@ -47,7 +47,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     /**
      * Returns an array of field validation error messages.
      *
-     * @return \Ibexa\Core\FieldType\ValidationError[]
+     * @return array<array-key, array<string, \Ibexa\Core\FieldType\ValidationError>>
      */
     public function getFieldErrors()
     {
