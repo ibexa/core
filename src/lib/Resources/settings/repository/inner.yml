@@ -250,3 +250,11 @@ services:
 
     Ibexa\Core\Repository\LocationResolver\LocationResolver:
         alias: Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver
+
+    Ibexa\Core\Repository\Validator\TargetContentValidator:
+        arguments:
+            $contentService: '@ibexa.api.service.content'
+            $contentTypeService: '@ibexa.api.service.content_type'
+
+    Ibexa\Core\Repository\Validator\TargetContentValidatorInterface:
+        alias: Ibexa\Core\Repository\Validator\TargetContentValidator

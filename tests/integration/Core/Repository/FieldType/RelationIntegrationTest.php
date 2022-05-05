@@ -123,7 +123,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
         return [
             'selectionMethod' => 0,
             'selectionRoot' => '1',
-            'selectionContentTypes' => ['blog_post'],
+            'selectionContentTypes' => [],
         ];
     }
 
