@@ -355,7 +355,8 @@ services:
         class: Ibexa\Core\FieldType\Relation\Type
         parent: Ibexa\Core\FieldType\FieldType
         arguments:
-            - '@Ibexa\Core\Persistence\Cache\ContentHandler'
+            $handler: '@Ibexa\Core\Persistence\Cache\ContentHandler'
+            $targetContentValidator: '@Ibexa\Core\Repository\Validator\TargetContentValidatorInterface'
         tags:
             - {name: ibexa.field_type, alias: ezobjectrelation}
 
@@ -393,7 +394,8 @@ services:
         class: Ibexa\Core\FieldType\RelationList\Type
         parent: Ibexa\Core\FieldType\FieldType
         arguments:
-            - '@Ibexa\Core\Persistence\Cache\ContentHandler'
+            $handler: '@Ibexa\Core\Persistence\Cache\ContentHandler'
+            $targetContentValidator: '@Ibexa\Core\Repository\Validator\TargetContentValidatorInterface'
         tags:
             - {name: ibexa.field_type, alias: ezobjectrelationlist}
 
