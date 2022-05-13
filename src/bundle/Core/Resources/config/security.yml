@@ -48,3 +48,5 @@ services:
             - { name: kernel.event_subscriber }
 
     ibexa.security.user_provider: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
+    ibexa.security.user_provider.username: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
+    ibexa.security.user_provider.email: '@Ibexa\Core\MVC\Symfony\Security\User\EmailProvider'
