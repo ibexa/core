@@ -8,6 +8,7 @@ namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as UrlAliasHandlerInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
@@ -50,7 +51,9 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
             ]
         );
 
-        $this->persistenceHandler->urlAliasHandler()->publishUrlAliasForLocation(
+        $urlAliasHandler = $this->persistenceHandler->urlAliasHandler();
+
+        $urlAliasHandler->publishUrlAliasForLocation(
             $locationId,
             $parentLocationId,
             $name,
@@ -59,11 +62,30 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
             $updatePathIdentificationString
         );
 
-        $this->cache->invalidateTags([
-            $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_LOCATION_IDENTIFIER, [$locationId]),
-            $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_LOCATION_PATH_IDENTIFIER, [$locationId]),
-            $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_NOT_FOUND_IDENTIFIER),
-        ]);
+        try {
+            $existingLocationAliases = $urlAliasHandler->listURLAliasesForLocation($locationId);
+        } catch (BadStateException $e) {
+            $existingLocationAliases = [];
+        }
+
+        $existingLocationAliasesTags = [];
+        foreach ($existingLocationAliases as $existingAlias) {
+            $existingLocationAliasesTags[] = $this->cacheIdentifierGenerator->generateTag(
+                self::URL_ALIAS_IDENTIFIER,
+                [$existingAlias->id]
+            );
+        }
+
+        $this->cache->invalidateTags(
+            array_merge(
+                [
+                    $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_LOCATION_IDENTIFIER, [$locationId]),
+                    $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_LOCATION_PATH_IDENTIFIER, [$locationId]),
+                    $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_NOT_FOUND_IDENTIFIER),
+                ],
+                $existingLocationAliasesTags
+            )
+        );
     }
 
     /**
