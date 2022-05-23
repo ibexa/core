@@ -14,6 +14,7 @@ final class MutableArrayListTest extends ArrayListTest
 {
     public function testAppend(): void
     {
+        /** @var \Ibexa\Contracts\Core\Repository\Collection\MutableArrayList $list */
         $list = $this->createEmptyCollection();
         $list->append('A');
         $list->append('B');
@@ -24,6 +25,7 @@ final class MutableArrayListTest extends ArrayListTest
 
     public function testPrepend(): void
     {
+        /** @var \Ibexa\Contracts\Core\Repository\Collection\MutableArrayList $list */
         $list = $this->createEmptyCollection();
         $list->prepend('A');
         $list->prepend('B');
@@ -34,6 +36,7 @@ final class MutableArrayListTest extends ArrayListTest
 
     public function testRemove(): void
     {
+        /** @var \Ibexa\Contracts\Core\Repository\Collection\MutableArrayList $list */
         $list = $this->createCollectionWithExampleData();
         $list->remove('B');
 
@@ -42,6 +45,7 @@ final class MutableArrayListTest extends ArrayListTest
 
     public function testClear(): void
     {
+        /** @var \Ibexa\Contracts\Core\Repository\Collection\MutableArrayList $list */
         $list = $this->createCollectionWithExampleData();
         self::assertFalse($list->isEmpty());
         $list->clear();

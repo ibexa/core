@@ -39,6 +39,7 @@ class ArrayMapTest extends AbstractCollectionTest
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage("Collection does not contain element with key 'non-exiting'");
 
+        /** @var \Ibexa\Contracts\Core\Repository\Collection\ArrayMap $map */
         $map = $this->createEmptyCollection();
         $map->get('non-exiting');
     }
