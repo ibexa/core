@@ -100,6 +100,10 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
                 'type' => 'array',
                 'default' => [],
             ],
+            'rootDefaultLocation' => [
+                'type' => 'bool',
+                'default' => false,
+            ],
         ];
     }
 
@@ -122,8 +126,9 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
     {
         return [
             'selectionMethod' => 0,
-            'selectionRoot' => '1',
+            'selectionRoot' => 1,
             'selectionContentTypes' => [],
+            'rootDefaultLocation' => false,
         ];
     }
 
