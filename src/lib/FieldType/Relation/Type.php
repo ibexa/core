@@ -42,6 +42,10 @@ class Type extends FieldType
             'type' => 'string',
             'default' => null,
         ],
+        'rootDefaultLocation' => [
+            'type' => 'bool',
+            'default' => false,
+        ],
         'selectionContentTypes' => [
             'type' => 'array',
             'default' => [],
@@ -98,6 +102,18 @@ class Type extends FieldType
                     if (!is_int($value) && !is_string($value) && $value !== null) {
                         $validationErrors[] = new ValidationError(
                             "Setting '%setting%' value must be of either null, string or integer",
+                            null,
+                            [
+                                '%setting%' => $name,
+                            ],
+                            "[$name]"
+                        );
+                    }
+                    break;
+                case 'rootDefaultLocation':
+                    if (!is_bool($value) && $value !== null) {
+                        $validationErrors[] = new ValidationError(
+                            "Setting '%setting%' value must be of either null or bool",
                             null,
                             [
                                 '%setting%' => $name,

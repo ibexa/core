@@ -126,6 +126,10 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
                 'type' => 'array',
                 'default' => [],
             ],
+            'rootDefaultLocation' => [
+                'type' => 'bool',
+                'default' => false,
+            ],
         ];
     }
 
@@ -152,8 +156,9 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     {
         return [
             'selectionMethod' => 1,
-            'selectionDefaultLocation' => '2',
+            'selectionDefaultLocation' => 2,
             'selectionContentTypes' => [],
+            'rootDefaultLocation' => false,
         ];
     }
 
