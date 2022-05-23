@@ -19,11 +19,6 @@ use IteratorAggregate;
  */
 interface CollectionInterface extends Countable, IteratorAggregate
 {
-    /**
-     * Checks whether the collection is empty (contains no elements).
-     *
-     * @return bool
-     */
     public function isEmpty(): bool;
 
     /**
