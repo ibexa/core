@@ -56,7 +56,7 @@ abstract class AbstractCollectionTest extends TestCase
 
         self::assertEquals(
             $this->createEmptyCollection(),
-            $input->filter($this->getContraction())
+            $input->filter($this->getContradiction())
         );
 
         self::assertEquals(
@@ -73,7 +73,7 @@ abstract class AbstractCollectionTest extends TestCase
         }
 
         self::assertTrue($collection->exists($this->getTautology()));
-        self::assertFalse($collection->exists($this->getContraction()));
+        self::assertFalse($collection->exists($this->getContradiction()));
     }
 
     public function testForAllEdgeCases(): void
@@ -84,7 +84,7 @@ abstract class AbstractCollectionTest extends TestCase
         }
 
         self::assertTrue($collection->forAll($this->getTautology()));
-        self::assertFalse($collection->forAll($this->getContraction()));
+        self::assertFalse($collection->forAll($this->getContradiction()));
     }
 
     abstract protected function getExampleData(): array;
@@ -121,7 +121,7 @@ abstract class AbstractCollectionTest extends TestCase
     /**
      * Returns a predicate which is always false.
      */
-    protected function getContraction(): Closure
+    protected function getContradiction(): Closure
     {
         return static fn (): bool => false;
     }
