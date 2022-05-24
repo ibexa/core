@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
@@ -66,6 +67,8 @@ class LanguageLimitationTest extends BaseTest
                 ['module' => 'content', 'function' => 'create', 'limitations' => $limitations],
                 ['module' => 'content', 'function' => 'edit', 'limitations' => $limitations],
                 ['module' => 'content', 'function' => 'publish', 'limitations' => $limitations],
+                ['module' => 'content', 'function' => 'hide', 'limitations' => $limitations],
+                ['module' => 'content', 'function' => 'manage_locations'],
             ]
         );
     }
@@ -488,6 +491,338 @@ class LanguageLimitationTest extends BaseTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage("The User does not have the 'publish' 'content' permission");
         $contentService->publishVersion($draft->versionInfo, [self::GER_DE, self::ENG_GB]);
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testCopyContentWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        $locationCreateStruct = new LocationCreateStruct(['parentLocationId' => 2]);
+
+        if ($containsAllTranslations) {
+            $clonedContent = $contentService->copyContent($content->contentInfo, $locationCreateStruct);
+
+            self::assertSame($content->getVersionInfo()->languageCodes, $clonedContent->getVersionInfo()->languageCodes);
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $contentService->copyContent($content->contentInfo, $locationCreateStruct);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testCopySubtreeWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        $contentLocation = $locationService->loadLocation($content->contentInfo->mainLocationId);
+        $targetLocation = $locationService->loadLocation(2);
+
+        if ($containsAllTranslations) {
+            $location = $locationService->copySubtree($contentLocation, $targetLocation);
+
+            self::assertSame(
+                $content->getVersionInfo()->languageCodes,
+                $location->getContent()->getVersionInfo()->languageCodes
+            );
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $locationService->copySubtree($contentLocation, $targetLocation);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testMoveSubtreeWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+        $contentService = $repository->getContentService();
+
+        $targetContent = $this->createMultilingualFolderDraft($contentService);
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        $contentLocation = $locationService->loadLocation($content->contentInfo->mainLocationId);
+        $targetLocation = $locationService->loadLocation($targetContent->contentInfo->mainLocationId);
+
+        if ($containsAllTranslations) {
+            $locationService->moveSubtree($contentLocation, $targetLocation);
+            $targetLocation = $locationService->loadLocation($targetLocation->id);
+
+            self::assertSame(
+                $content->getVersionInfo()->languageCodes,
+                $targetLocation->getContent()->getVersionInfo()->languageCodes
+            );
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $locationService->moveSubtree($contentLocation, $targetLocation);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testSwapLocationWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        $location = $locationService->loadLocation($content->contentInfo->mainLocationId);
+        $location2 = $locationService->loadLocation(2);
+
+        if ($containsAllTranslations) {
+            $locationService->swapLocation($location2, $location);
+
+            $location = $locationService->loadLocation($location2->id);
+
+            self::assertSame(
+                $content->getVersionInfo()->languageCodes,
+                $location->getContent()->getVersionInfo()->languageCodes
+            );
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $locationService->swapLocation($location, $location2);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testHideLocationWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        $location = $locationService->loadLocation($content->contentInfo->mainLocationId);
+
+        if ($containsAllTranslations) {
+            $locationService->hideLocation($location);
+            $hiddenLocation = $locationService->loadLocation($location->id);
+
+            self::assertSame(
+                $content->getVersionInfo()->languageCodes,
+                $hiddenLocation->getContent()->getVersionInfo()->languageCodes
+            );
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $locationService->hideLocation($location);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testUnhideLocationWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        $location = $locationService->loadLocation($content->contentInfo->mainLocationId);
+
+        if ($containsAllTranslations) {
+            $locationService->unhideLocation($location);
+            $revealedLocation = $locationService->loadLocation($location->id);
+
+            self::assertSame(
+                $content->getVersionInfo()->languageCodes,
+                $revealedLocation->getContent()->getVersionInfo()->languageCodes
+            );
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $locationService->unhideLocation($location);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testHideContentWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        if ($containsAllTranslations) {
+            $contentService->hideContent($content->contentInfo);
+
+            $content = $contentService->loadContent($content->id);
+
+            self::assertTrue($content->contentInfo->isHidden);
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $contentService->hideContent($content->contentInfo);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testRevealContentWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        if ($containsAllTranslations) {
+            $contentService->revealContent($content->contentInfo);
+
+            $content = $contentService->loadContent($content->id);
+
+            self::assertFalse($content->contentInfo->isHidden);
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $contentService->revealContent($content->contentInfo);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     */
+    public function testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): Content {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+        $permissionResolver = $repository->getPermissionResolver();
+
+        $draft = $this->createMultilingualFolderDraft($contentService);
+        $content = $contentService->publishVersion($draft->getVersionInfo());
+
+        $containsAllTranslations
+            ? self::assertEmpty(array_diff($content->getVersionInfo()->languageCodes, $limitationValues))
+            : self::assertNotEmpty(array_diff($content->getVersionInfo()->languageCodes, $limitationValues));
+
+        $permissionResolver->setCurrentUserReference(
+            $this->createEditorUserWithLanguageLimitation($limitationValues)
+        );
+
+        return $content;
+    }
+
+    /**
+     * @return iterable<array{array<string>, bool}>
+     */
+    public function providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(): array
+    {
+        return [
+            [[self::GER_DE], false],
+            [[self::GER_DE, self::ENG_US, self::ENG_GB], true],
+        ];
     }
 
     /**

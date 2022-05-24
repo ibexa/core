@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Limitation\Target;
+use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct as SPIContentCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field as SPIField;
@@ -1813,7 +1814,13 @@ class ContentService implements ContentServiceInterface
         $destinationLocation = $this->repository->getLocationService()->loadLocation(
             $destinationLocationCreateStruct->parentLocationId
         );
-        if (!$this->permissionResolver->canUser('content', 'create', $contentInfo, [$destinationLocation])) {
+        $locationTarget = (new DestinationLocationTarget($destinationLocation->id, $contentInfo));
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'create',
+            $contentInfo,
+            [$destinationLocation, $locationTarget],
+        )) {
             throw new UnauthorizedException(
                 'content',
                 'create',
@@ -1823,6 +1830,7 @@ class ContentService implements ContentServiceInterface
                 ]
             );
         }
+
         if (!$this->permissionResolver->canUser('content', 'manage_locations', $contentInfo, [$destinationLocation])) {
             throw new UnauthorizedException('content', 'manage_locations', ['contentId' => $contentInfo->id]);
         }
@@ -2321,13 +2329,19 @@ class ContentService implements ContentServiceInterface
      *
      * Content hidden by this API can be revealed by revealContent API.
      *
-     * @see revealContent
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function hideContent(ContentInfo $contentInfo): void
     {
-        if (!$this->permissionResolver->canUser('content', 'hide', $contentInfo)) {
+        $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'hide',
+            $contentInfo,
+            [$locationTarget]
+        )) {
             throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
         }
 
@@ -2355,13 +2369,19 @@ class ContentService implements ContentServiceInterface
      * Reveals Content hidden by hideContent API.
      * Locations which were hidden before hiding Content will remain hidden.
      *
-     * @see hideContent
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function revealContent(ContentInfo $contentInfo): void
     {
-        if (!$this->permissionResolver->canUser('content', 'hide', $contentInfo)) {
+        $locationTarget = (new DestinationLocationTarget($contentInfo->mainLocationId, $contentInfo));
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'hide',
+            $contentInfo,
+            [$locationTarget]
+        )) {
             throw new UnauthorizedException('content', 'hide', ['contentId' => $contentInfo->id]);
         }
 

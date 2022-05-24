@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Limitation\Target\Builder;
 
 use Ibexa\Contracts\Core\Limitation\Target;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
