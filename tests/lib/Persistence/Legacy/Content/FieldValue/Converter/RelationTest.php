@@ -41,7 +41,7 @@ class RelationTest extends TestCase
                             'selectionMethod' => Type::SELECTION_BROWSE,
                             'selectionRoot' => 12345,
                             'selectionContentTypes' => ['article', 'blog_post'],
-                            'rootDefaultLocation' => true
+                            'rootDefaultLocation' => true,
                         ],
                     ]
                 ),
