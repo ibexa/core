@@ -109,6 +109,10 @@ class RelationTest extends FieldTypeTest
                 'type' => 'string',
                 'default' => null,
             ],
+            'rootDefaultLocation' => [
+                'type' => 'bool',
+                'default' => false,
+            ],
             'selectionContentTypes' => [
                 'type' => 'array',
                 'default' => [],
