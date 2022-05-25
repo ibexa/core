@@ -10,6 +10,7 @@ use Exception;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation;
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct as SPIContentCreateStruct;
@@ -5758,29 +5759,30 @@ class ContentTest extends BaseServiceMockTest
 
         $repository->expects($this->once())
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock));
+            ->will(self::returnValue($locationServiceMock));
 
-        $locationServiceMock->expects($this->once())
+        $locationServiceMock->expects(self::once())
             ->method('loadLocation')
             ->with(
                 $locationCreateStruct->parentLocationId
             )
-            ->will($this->returnValue($location));
+            ->will(self::returnValue($location));
 
-        $contentInfo->expects($this->any())
+        $contentInfo->expects(self::any())
             ->method('__get')
             ->with('sectionId')
-            ->will($this->returnValue(42));
+            ->will(self::returnValue(42));
 
+        $destinationLocationTarget = (new DestinationLocation($locationCreateStruct->parentLocationId, $contentInfo));
         $permissionResolver
             ->method('canUser')
             ->with(
                 'content',
                 'create',
                 $contentInfo,
-                [$location]
+                [$location, $destinationLocationTarget]
             )
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
 
         /* @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo */
         $contentService->copyContent($contentInfo, $locationCreateStruct);
@@ -5819,19 +5821,19 @@ class ContentTest extends BaseServiceMockTest
             ->method('getPermissionResolver')
             ->willReturn($permissionResolverMock);
 
-        $repositoryMock->expects($this->exactly(3))
+        $repositoryMock->expects(self::exactly(3))
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock));
+            ->will(self::returnValue($locationServiceMock));
 
-        $locationServiceMock->expects($this->once())
+        $locationServiceMock->expects(self::once())
             ->method('loadLocation')
             ->with($locationCreateStruct->parentLocationId)
-            ->will($this->returnValue($location));
+            ->will(self::returnValue($location));
 
-        $contentInfoMock->expects($this->any())
+        $contentInfoMock->expects(self::any())
             ->method('__get')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['isHidden', true],
                         ['id', 42],
@@ -5840,39 +5842,39 @@ class ContentTest extends BaseServiceMockTest
             );
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
 
-        $versionInfoMock->expects($this->any())
+        $versionInfoMock->expects(self::any())
             ->method('__get')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['versionNo', 123],
                     ]
                 )
             );
 
-        $versionInfoMock->expects($this->once())
+        $versionInfoMock->expects(self::once())
             ->method('isDraft')
             ->willReturn(true);
 
         $versionInfoMock
             ->method('getContentInfo')
-            ->will($this->returnValue($contentInfoMock));
+            ->will(self::returnValue($contentInfoMock));
 
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
 
-        $repositoryMock->expects($this->once())->method('beginTransaction');
-        $repositoryMock->expects($this->once())->method('commit');
+        $repositoryMock->expects(self::once())->method('beginTransaction');
+        $repositoryMock->expects(self::once())->method('commit');
 
+        $destinationLocationTarget = (new DestinationLocation($locationCreateStruct->parentLocationId, $contentInfoMock));
         $permissionResolverMock
             ->method('canUser')
-            ->willReturnMap(
-                [
-                    ['content', 'create', $contentInfoMock, [$location], true],
-                    ['content', 'manage_locations', $contentInfoMock, [$location], true],
-                ]
-            );
+            ->withConsecutive(
+                ['content', 'create', $contentInfoMock, [$location, $destinationLocationTarget]],
+                ['content', 'manage_locations', $contentInfoMock, [$location]],
+            )
+            ->willReturnOnConsecutiveCalls(true, true);
 
         $spiContentInfo = new SPIContentInfo(['id' => 42]);
         $spiVersionInfo = new SPIVersionInfo(
@@ -5885,19 +5887,19 @@ class ContentTest extends BaseServiceMockTest
         $contentHandlerMock->expects($this->once())
             ->method('copy')
             ->with(42, null)
-            ->will($this->returnValue($spiContent));
+            ->will(self::returnValue($spiContent));
 
         $this->mockGetDefaultObjectStates();
         $this->mockSetDefaultObjectStates();
 
-        $domainMapperMock->expects($this->once())
+        $domainMapperMock->expects(self::once())
             ->method('buildVersionInfoDomainObject')
             ->with($spiVersionInfo)
-            ->will($this->returnValue($versionInfoMock));
+            ->will(self::returnValue($versionInfoMock));
 
         /* @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfoMock */
         $content = $this->mockPublishVersion(123456, 126666, true);
-        $locationServiceMock->expects($this->once())
+        $locationServiceMock->expects(self::once())
             ->method('createLocation')
             ->with(
                 $content->getVersionInfo()->getContentInfo(),
@@ -5909,15 +5911,15 @@ class ContentTest extends BaseServiceMockTest
             ->with(
                 $content->id
             )
-            ->will($this->returnValue($content));
+            ->will(self::returnValue($content));
 
-        $contentService->expects($this->once())
+        $contentService->expects(self::once())
             ->method('getUnixTimestamp')
-            ->will($this->returnValue(126666));
+            ->will(self::returnValue(126666));
 
         $contentService
             ->method('loadContentByVersionInfo')
-            ->will($this->returnValue($content));
+            ->will(self::returnValue($content));
 
         /* @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfoMock */
         $contentService->copyContent($contentInfoMock, $locationCreateStruct, null);
@@ -5997,14 +5999,14 @@ class ContentTest extends BaseServiceMockTest
         $repositoryMock->expects($this->once())->method('beginTransaction');
         $repositoryMock->expects($this->once())->method('commit');
 
+        $destinationLocationTarget = (new DestinationLocation($locationCreateStruct->parentLocationId, $contentInfoMock));
         $permissionResolverMock
             ->method('canUser')
-            ->willReturnMap(
-                [
-                    ['content', 'create', $contentInfoMock, [$location], true],
-                    ['content', 'manage_locations', $contentInfoMock, [$location], true],
-                ]
-            );
+            ->withConsecutive(
+                ['content', 'create', $contentInfoMock, [$location, $destinationLocationTarget]],
+                ['content', 'manage_locations', $contentInfoMock, [$location]],
+            )
+            ->willReturnOnConsecutiveCalls(true, true);
 
         $spiContentInfo = new SPIContentInfo(['id' => 42]);
         $spiVersionInfo = new SPIVersionInfo(
@@ -6083,36 +6085,36 @@ class ContentTest extends BaseServiceMockTest
             ->method('getPermissionResolver')
             ->willReturn($permissionResolverMock);
 
-        $repositoryMock->expects($this->once())
+        $repositoryMock->expects(self::once())
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock));
+            ->will(self::returnValue($locationServiceMock));
 
-        $locationServiceMock->expects($this->once())
+        $locationServiceMock->expects(self::once())
             ->method('loadLocation')
             ->with($locationCreateStruct->parentLocationId)
-            ->will($this->returnValue($location));
+            ->will(self::returnValue($location));
 
         $contentInfoMock = $this->createMock(APIContentInfo::class);
-        $contentInfoMock->expects($this->any())
+        $contentInfoMock->expects(self::any())
             ->method('__get')
             ->with('id')
-            ->will($this->returnValue(42));
+            ->will(self::returnValue(42));
 
         $this->mockGetDefaultObjectStates();
 
-        $repositoryMock->expects($this->once())->method('beginTransaction');
-        $repositoryMock->expects($this->once())->method('rollback');
+        $repositoryMock->expects(self::once())->method('beginTransaction');
+        $repositoryMock->expects(self::once())->method('rollback');
 
+        $destinationLocationTarget = (new DestinationLocation($locationCreateStruct->parentLocationId, $contentInfoMock));
         $permissionResolverMock
             ->method('canUser')
-            ->willReturnMap(
-                [
-                    ['content', 'create', $contentInfoMock, [$location], true],
-                    ['content', 'manage_locations', $contentInfoMock, [$location], true],
-                ]
-            );
+            ->withConsecutive(
+                ['content', 'create', $contentInfoMock, [$location, $destinationLocationTarget]],
+                ['content', 'manage_locations', $contentInfoMock, [$location]],
+            )
+            ->willReturnOnConsecutiveCalls(true, true);
 
-        $contentHandlerMock->expects($this->once())
+        $contentHandlerMock->expects(self::once())
             ->method('copy')
             ->with(42, null)
             ->will($this->throwException(new Exception('Handler threw an exception')));

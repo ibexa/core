@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Core\MVC\Symfony\Security\Exception\PasswordExpiredException;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface as IbexaUserInterface;
-use Symfony\Component\Security\Core\Exception\CredentialsExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -46,7 +46,7 @@ final class UserChecker implements UserCheckerInterface
         }
 
         if ($this->userService->getPasswordInfo($user->getAPIUser())->isPasswordExpired()) {
-            $exception = new CredentialsExpiredException('User account has expired.');
+            $exception = new PasswordExpiredException('User account has expired.');
             $exception->setUser($user);
 
             throw $exception;

@@ -11,6 +11,7 @@ namespace Ibexa\Core\Repository;
 use function count;
 use Exception;
 use Ibexa\Contracts\Core\Limitation\Target;
+use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
@@ -146,33 +147,7 @@ class LocationService implements LocationServiceInterface
             throw new InvalidArgumentException('targetParentLocation', 'Cannot copy subtree to its own descendant Location');
         }
 
-        // check create permission on target
-        if (!$this->permissionResolver->canUser('content', 'create', $loadedSubtree->getContentInfo(), [$loadedTargetLocation])) {
-            throw new UnauthorizedException('content', 'create', ['locationId' => $loadedTargetLocation->id]);
-        }
-
-        // Check read access to whole source subtree
-        $contentReadCriterion = $this->permissionCriterionResolver->getPermissionsCriterion('content', 'read');
-        if ($contentReadCriterion === false) {
-            throw new UnauthorizedException('content', 'read');
-        } elseif ($contentReadCriterion !== true) {
-            // Query if there are any content in subtree current user don't have access to
-            $query = new Query(
-                [
-                    'limit' => 0,
-                    'filter' => new CriterionLogicalAnd(
-                        [
-                            new CriterionSubtree($loadedSubtree->pathString),
-                            new CriterionLogicalNot($contentReadCriterion),
-                        ]
-                    ),
-                ]
-            );
-            $result = $this->repository->getSearchService()->findContent($query, [], false);
-            if ($result->totalCount > 0) {
-                throw new UnauthorizedException('content', 'read');
-            }
-        }
+        $this->checkCreatePermissionOnSubtreeTarget($targetParentLocation, $loadedSubtree, $loadedTargetLocation);
 
         $this->repository->beginTransaction();
         try {
@@ -461,7 +436,8 @@ class LocationService implements LocationServiceInterface
             throw new UnauthorizedException('content', 'manage_locations', ['contentId' => $contentInfo->id]);
         }
 
-        if (!$this->permissionResolver->canUser('content', 'create', $contentInfo, [$parentLocation])) {
+        $locationTarget = (new DestinationLocationTarget($parentLocation->id, $contentInfo));
+        if (!$this->permissionResolver->canUser('content', 'create', $contentInfo, [$parentLocation, $locationTarget])) {
             throw new UnauthorizedException('content', 'create', ['locationId' => $parentLocation->id]);
         }
 
@@ -586,20 +562,34 @@ class LocationService implements LocationServiceInterface
     /**
      * Swaps the contents held by $location1 and $location2.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to swap content
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location1
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location2
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to swap content
      */
     public function swapLocation(APILocation $location1, APILocation $location2): void
     {
         $loadedLocation1 = $this->loadLocation($location1->id);
         $loadedLocation2 = $this->loadLocation($location2->id);
 
-        if (!$this->permissionResolver->canUser('content', 'edit', $loadedLocation1->getContentInfo(), [$loadedLocation1])) {
+        $locationTarget1 = (new DestinationLocationTarget($loadedLocation1->id, $loadedLocation1->contentInfo));
+        $locationTarget2 = (new DestinationLocationTarget($loadedLocation2->id, $loadedLocation2->contentInfo));
+
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'edit',
+            $loadedLocation1->getContentInfo(),
+            [$loadedLocation1, $locationTarget1]
+        )) {
             throw new UnauthorizedException('content', 'edit', ['locationId' => $loadedLocation1->id]);
         }
-        if (!$this->permissionResolver->canUser('content', 'edit', $loadedLocation2->getContentInfo(), [$loadedLocation2])) {
+
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'edit',
+            $loadedLocation2->getContentInfo(),
+            [$loadedLocation2, $locationTarget2]
+        )) {
             throw new UnauthorizedException('content', 'edit', ['locationId' => $loadedLocation2->id]);
         }
 
@@ -623,15 +613,20 @@ class LocationService implements LocationServiceInterface
     /**
      * Hides the $location and marks invisible all descendants of $location.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to hide this location
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location $location, with updated hidden value
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to hide this location
      */
     public function hideLocation(APILocation $location): APILocation
     {
-        if (!$this->permissionResolver->canUser('content', 'hide', $location->getContentInfo(), [$location])) {
+        $locationTarget = (new DestinationLocationTarget($location->id, $location->contentInfo));
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'hide',
+            $location->getContentInfo(),
+            [$location, $locationTarget]
+        )) {
             throw new UnauthorizedException('content', 'hide', ['locationId' => $location->id]);
         }
 
@@ -653,15 +648,20 @@ class LocationService implements LocationServiceInterface
      * This method and marks visible all descendants of $locations
      * until a hidden location is found.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to unhide this location
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location $location, with updated hidden value
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user is not allowed to unhide this location
      */
     public function unhideLocation(APILocation $location): APILocation
     {
-        if (!$this->permissionResolver->canUser('content', 'hide', $location->getContentInfo(), [$location])) {
+        $locationTarget = (new DestinationLocationTarget($location->id, $location->contentInfo));
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'hide',
+            $location->getContentInfo(),
+            [$location, $locationTarget]
+        )) {
             throw new UnauthorizedException('content', 'hide', ['locationId' => $location->id]);
         }
 
@@ -705,33 +705,7 @@ class LocationService implements LocationServiceInterface
             );
         }
 
-        // check create permission on target location
-        if (!$this->permissionResolver->canUser('content', 'create', $location->getContentInfo(), [$newParentLocation])) {
-            throw new UnauthorizedException('content', 'create', ['locationId' => $newParentLocation->id]);
-        }
-
-        // Check read access to whole source subtree
-        $contentReadCriterion = $this->permissionCriterionResolver->getPermissionsCriterion('content', 'read');
-        if ($contentReadCriterion === false) {
-            throw new UnauthorizedException('content', 'read');
-        } elseif ($contentReadCriterion !== true) {
-            // Query if there are any content in subtree current user don't have access to
-            $query = new Query(
-                [
-                    'limit' => 0,
-                    'filter' => new CriterionLogicalAnd(
-                        [
-                            new CriterionSubtree($location->pathString),
-                            new CriterionLogicalNot($contentReadCriterion),
-                        ]
-                    ),
-                ]
-            );
-            $result = $this->repository->getSearchService()->findContent($query, [], false);
-            if ($result->totalCount > 0) {
-                throw new UnauthorizedException('content', 'read');
-            }
-        }
+        $this->checkCreatePermissionOnSubtreeTarget($newParentLocation, $location, $newParentLocation);
 
         $this->repository->beginTransaction();
         try {
@@ -966,6 +940,51 @@ class LocationService implements LocationServiceInterface
                 'locations' => $locations,
             ]
         );
+    }
+
+    private function checkCreatePermissionOnSubtreeTarget(APILocation $targetParentLocation, APILocation $loadedSubtree, APILocation $loadedTargetLocation): void
+    {
+        $locationTarget = (new DestinationLocationTarget($targetParentLocation->id, $loadedSubtree->contentInfo));
+        if (!$this->permissionResolver->canUser(
+            'content',
+            'create',
+            $loadedSubtree->getContentInfo(),
+            [$loadedTargetLocation, $locationTarget]
+        )) {
+            throw new UnauthorizedException(
+                'content',
+                'create',
+                ['locationId' => $loadedTargetLocation->id]
+            );
+        }
+
+        // Check read access to whole source subtree
+        $contentReadCriterion = $this->permissionCriterionResolver->getPermissionsCriterion(
+            'content',
+            'read'
+        );
+        if ($contentReadCriterion === false) {
+            throw new UnauthorizedException('content', 'read');
+        }
+
+        if ($contentReadCriterion !== true) {
+            // Query if there are any content in subtree current user don't have access to
+            $query = new Query(
+                [
+                    'limit' => 0,
+                    'filter' => new CriterionLogicalAnd(
+                        [
+                            new CriterionSubtree($loadedSubtree->pathString),
+                            new CriterionLogicalNot($contentReadCriterion),
+                        ]
+                    ),
+                ]
+            );
+            $result = $this->repository->getSearchService()->findContent($query, [], false);
+            if ($result->totalCount > 0) {
+                throw new UnauthorizedException('content', 'read');
+            }
+        }
     }
 }
 
