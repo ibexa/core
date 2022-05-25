@@ -28,7 +28,7 @@ interface MapInterface extends CollectionInterface
     public function get($key);
 
     /**
-     * Returns true if the given key is defined in map.
+     * Returns true if the given key is defined within the map.
      *
      * @param TKey $key
      */

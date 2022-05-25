@@ -37,7 +37,7 @@ interface StreamableInterface
     public function forAll(Closure $predicate): bool;
 
     /**
-     * Tests for the existence of an element that satisfies the given predicate.
+     * Tests the existence of an element that satisfies the given predicate.
      */
     public function exists(Closure $predicate): bool;
 }
