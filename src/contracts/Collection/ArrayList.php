@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Collection;
+namespace Ibexa\Contracts\Core\Collection;
 
-use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
  * @template TValue
  *
- * @template-extends \Ibexa\Contracts\Core\Repository\Collection\AbstractInMemoryCollection<TValue>
- * @template-implements \Ibexa\Contracts\Core\Repository\Collection\ListInterface<TValue>
+ * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TValue>
+ * @template-implements \Ibexa\Contracts\Core\Collection\ListInterface<TValue>
  */
 class ArrayList extends AbstractInMemoryCollection implements ListInterface
 {
@@ -55,7 +55,7 @@ class ArrayList extends AbstractInMemoryCollection implements ListInterface
     /**
      * @param TValue[] $items
      *
-     * @return \Ibexa\Contracts\Core\Repository\Collection\ArrayList<TValue>
+     * @return \Ibexa\Contracts\Core\Collection\ArrayList<TValue>
      */
     protected function createFrom(array $items): self
     {

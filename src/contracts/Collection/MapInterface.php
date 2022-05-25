@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Collection;
+namespace Ibexa\Contracts\Core\Collection;
 
 /**
  * @template TKey
  * @template TValue
  *
- * @template-extends \Ibexa\Contracts\Core\Repository\Collection\CollectionInterface<TValue>
+ * @template-extends \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
  */
 interface MapInterface extends CollectionInterface
 {

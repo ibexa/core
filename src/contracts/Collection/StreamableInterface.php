@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Collection;
+namespace Ibexa\Contracts\Core\Collection;
 
 use Closure;
 

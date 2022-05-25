@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Collection;
+namespace Ibexa\Contracts\Core\Collection;
 
 use ArrayIterator;
 use Closure;
@@ -15,8 +15,8 @@ use Iterator;
 /**
  * @template TValue
  *
- * @template-implements \Ibexa\Contracts\Core\Repository\Collection\CollectionInterface<TValue>
- * @template-implements \Ibexa\Contracts\Core\Repository\Collection\StreamableInterface<TValue>
+ * @template-implements \Ibexa\Contracts\Core\Collection\CollectionInterface<TValue>
+ * @template-implements \Ibexa\Contracts\Core\Collection\StreamableInterface<TValue>
  */
 abstract class AbstractInMemoryCollection implements CollectionInterface, StreamableInterface
 {

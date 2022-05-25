@@ -6,16 +6,16 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Collection;
+namespace Ibexa\Contracts\Core\Collection;
 
-use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
  * @template TKey
  * @template TValue
  *
- * @template-extends \Ibexa\Contracts\Core\Repository\Collection\AbstractInMemoryCollection<TValue>
- * @template-implements \Ibexa\Contracts\Core\Repository\Collection\MapInterface<TKey, TValue>
+ * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TValue>
+ * @template-implements \Ibexa\Contracts\Core\Collection\MapInterface<TKey, TValue>
  */
 class ArrayMap extends AbstractInMemoryCollection implements MapInterface
 {
@@ -36,7 +36,7 @@ class ArrayMap extends AbstractInMemoryCollection implements MapInterface
     /**
      * @param TValue[] $items
      *
-     * @return \Ibexa\Contracts\Core\Repository\Collection\ArrayMap<TKey,TValue>
+     * @return \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValue>
      */
     protected function createFrom(array $items): self
     {

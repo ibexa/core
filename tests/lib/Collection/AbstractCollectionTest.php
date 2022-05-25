@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Core\Repository\Collection;
+namespace Ibexa\Tests\Core\Collection;
 
 use Closure;
-use Ibexa\Contracts\Core\Repository\Collection\CollectionInterface;
-use Ibexa\Contracts\Core\Repository\Collection\StreamableInterface;
+use Ibexa\Contracts\Core\Collection\CollectionInterface;
+use Ibexa\Contracts\Core\Collection\StreamableInterface;
 use IteratorAggregate;
 use PHPUnit\Framework\TestCase;
 
@@ -68,7 +68,7 @@ abstract class AbstractCollectionTest extends TestCase
     public function testExistsEdgeCases(): void
     {
         $collection = $this->createCollectionWithExampleData();
-        if (!($collection instanceof StreamableInterface)) {
+        if (!($collection instanceof \Ibexa\Contracts\Core\Collection\StreamableInterface)) {
             self::markTestSkipped(sprintf('%s collection is not streamable', get_class($collection)));
         }
 

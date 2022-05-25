@@ -6,15 +6,15 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Core\Repository\Collection;
+namespace Ibexa\Tests\Core\Collection;
 
-use Ibexa\Contracts\Core\Repository\Collection\ArrayMap;
-use Ibexa\Contracts\Core\Repository\Collection\MapInterface;
-use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+use Ibexa\Contracts\Core\Collection\ArrayMap;
+use Ibexa\Contracts\Core\Collection\MapInterface;
+use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
- * @template-extends \Ibexa\Tests\Core\Repository\Collection\AbstractCollectionTest<
- *     \Ibexa\Contracts\Core\Repository\Collection\ArrayMap
+ * @template-extends \Ibexa\Tests\Core\Collection\AbstractCollectionTest<
+ *     \Ibexa\Contracts\Core\Collection\ArrayMap
  * >
  */
 class ArrayMapTest extends AbstractCollectionTest
@@ -39,7 +39,7 @@ class ArrayMapTest extends AbstractCollectionTest
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage("Collection does not contain element with key 'non-exiting'");
 
-        /** @var \Ibexa\Contracts\Core\Repository\Collection\ArrayMap $map */
+        /** @var \Ibexa\Contracts\Core\Collection\ArrayMap $map */
         $map = $this->createEmptyCollection();
         $map->get('non-exiting');
     }
@@ -100,7 +100,7 @@ class ArrayMapTest extends AbstractCollectionTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Collection\MapInterface|\Ibexa\Contracts\Core\Repository\Collection\StreamableInterface
+     * @return \Ibexa\Contracts\Core\Collection\MapInterface|\Ibexa\Contracts\Core\Collection\StreamableInterface
      */
     protected function createCollection(array $data): MapInterface
     {

@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Core\Repository\Collection;
+namespace Ibexa\Tests\Core\Collection;
 
-use Ibexa\Contracts\Core\Repository\Collection\ArrayList;
-use Ibexa\Contracts\Core\Repository\Exceptions\OutOfBoundsException;
+use Ibexa\Contracts\Core\Collection\ArrayList;
+use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 
 /**
- * @template-extends \Ibexa\Tests\Core\Repository\Collection\AbstractCollectionTest<
- *     \Ibexa\Contracts\Core\Repository\Collection\ArrayList
+ * @template-extends \Ibexa\Tests\Core\Collection\AbstractCollectionTest<
+ *     \Ibexa\Contracts\Core\Collection\ArrayList
  * >
  */
 class ArrayListTest extends AbstractCollectionTest
@@ -33,7 +33,7 @@ class ArrayListTest extends AbstractCollectionTest
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Collection is empty');
 
-        /** @var \Ibexa\Contracts\Core\Repository\Collection\ArrayList $list */
+        /** @var \Ibexa\Contracts\Core\Collection\ArrayList $list */
         $list = $this->createEmptyCollection();
         $list->first();
     }
@@ -43,7 +43,7 @@ class ArrayListTest extends AbstractCollectionTest
         $this->expectException(OutOfBoundsException::class);
         $this->expectExceptionMessage('Collection is empty');
 
-        /** @var \Ibexa\Contracts\Core\Repository\Collection\ArrayList $list */
+        /** @var \Ibexa\Contracts\Core\Collection\ArrayList $list */
         $list = $this->createEmptyCollection();
         $list->last();
     }

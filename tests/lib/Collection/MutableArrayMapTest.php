@@ -6,9 +6,9 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Core\Repository\Collection;
+namespace Ibexa\Tests\Core\Collection;
 
-use Ibexa\Contracts\Core\Repository\Collection\MutableArrayMap;
+use Ibexa\Contracts\Core\Collection\MutableArrayMap;
 
 final class MutableArrayMapTest extends ArrayMapTest
 {

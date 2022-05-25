@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Collection;
+namespace Ibexa\Contracts\Core\Collection;
 
 /**
  * @template TValue
  *
- * @template-extends \Ibexa\Contracts\Core\Repository\Collection\ListInterface<TValue>
+ * @template-extends \Ibexa\Contracts\Core\Collection\ListInterface<TValue>
  */
 interface MutableListInterface extends ListInterface
 {

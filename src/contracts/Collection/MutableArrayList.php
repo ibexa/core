@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Collection;
+namespace Ibexa\Contracts\Core\Collection;
 
 /**
  * @template TValue
  *
- * @template-extends \Ibexa\Contracts\Core\Repository\Collection\ArrayList<TValue>
- * @template-implements \Ibexa\Contracts\Core\Repository\Collection\MutableListInterface<TValue>
+ * @template-extends \Ibexa\Contracts\Core\Collection\ArrayList<TValue>
+ * @template-implements \Ibexa\Contracts\Core\Collection\MutableListInterface<TValue>
  */
 class MutableArrayList extends ArrayList implements MutableListInterface
 {
