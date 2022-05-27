@@ -262,6 +262,15 @@ interface Handler
     public function addRelation(RelationCreateStruct $createStruct);
 
     /**
+     * Load a relation by $relationId.
+     *
+     * @param int $relationId Relation ID
+     *
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
+     */
+    public function loadRelation(int $relationId): Relation;
+
+    /**
      * Removes a relation by relation Id.
      *
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
@@ -272,7 +281,7 @@ interface Handler
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
      */
-    public function removeRelation($relationId, $type);
+    public function removeRelation($relationId, $type, ?int $destinationContentId = null);
 
     /**
      * Loads relations from $sourceContentId. Optionally, loads only those with $type and $sourceContentVersionNo.

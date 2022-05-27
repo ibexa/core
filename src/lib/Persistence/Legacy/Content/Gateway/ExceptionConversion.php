@@ -446,6 +446,15 @@ final class ExceptionConversion extends Gateway
         }
     }
 
+    public function loadRelation(int $relationId): array
+    {
+        try {
+            return $this->innerGateway->loadRelation($relationId);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function getContentIdsByContentTypeId($contentTypeId): array
     {
         try {

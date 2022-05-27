@@ -192,7 +192,8 @@ class RelationProcessor
                         foreach ($relationEntry as $relation) {
                             $this->persistenceHandler->contentHandler()->removeRelation(
                                 $relation->id,
-                                $relationType
+                                $relationType,
+                                $relation->destinationContentInfo->id
                             );
                         }
                         break;
@@ -200,7 +201,8 @@ class RelationProcessor
                     case Relation::EMBED:
                         $this->persistenceHandler->contentHandler()->removeRelation(
                             $relationEntry->id,
-                            $relationType
+                            $relationType,
+                            $relationEntry->destinationContentInfo->id
                         );
                 }
             }

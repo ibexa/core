@@ -1609,6 +1609,20 @@ final class DoctrineDatabase extends Gateway
         return (int)$this->connection->lastInsertId(self::CONTENT_RELATION_SEQ);
     }
 
+    public function loadRelation(int $relationId): array
+    {
+        $query = $this->queryBuilder->createRelationFindQueryBuilder();
+        $expr = $query->expr();
+
+        $query
+            ->where(
+                $expr->eq('id', ':relationId')
+            )
+            ->setParameter('relationId', $relationId, ParameterType::INTEGER);
+
+        return $query->execute()->fetchAllAssociative();
+    }
+
     public function deleteRelation(int $relationId, int $type): void
     {
         // Legacy Storage stores COMMON, LINK and EMBED types using bitmask, therefore first load

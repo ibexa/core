@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
@@ -30,6 +31,8 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     private const CONTENT_VERSION_LIST_IDENTIFIER = 'content_version_list';
     private const CONTENT_VERSION_INFO_IDENTIFIER = 'content_version_info';
     private const CONTENT_VERSION_IDENTIFIER = 'content_version';
+    private const CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER = 'content_reverse_relations_count';
+    private const RELATION_IDENTIFIER = 'relation';
 
     public const ALL_TRANSLATIONS_KEY = '0';
 
@@ -433,16 +436,65 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     {
         $this->logger->logCall(__METHOD__, ['struct' => $relation]);
 
+        $this->cache->invalidateTags([
+            $this->cacheIdentifierGenerator->generateTag(
+                self::CONTENT_IDENTIFIER,
+                [$relation->destinationContentId]
+            ),
+        ]);
+
         return $this->persistenceHandler->contentHandler()->addRelation($relation);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function removeRelation($relationId, $type)
+    public function removeRelation($relationId, $type, ?int $destinationContentId = null)
     {
         $this->logger->logCall(__METHOD__, ['relation' => $relationId, 'type' => $type]);
+
+        $contentId = $destinationContentId ?? $this->loadRelation($relationId)->destinationContentId;
+
+        $this->cache->invalidateTags([
+            $this->cacheIdentifierGenerator->generateTag(
+                self::CONTENT_IDENTIFIER,
+                [$contentId]
+            ),
+            $this->cacheIdentifierGenerator->generateTag(
+                self::RELATION_IDENTIFIER,
+                [$contentId]
+            ),
+        ]);
+
         $this->persistenceHandler->contentHandler()->removeRelation($relationId, $type);
+    }
+
+    public function loadRelation(int $relationId): Relation
+    {
+        $cacheItem = $this->cache->getItem(
+            $this->cacheIdentifierGenerator->generateKey(
+                self::RELATION_IDENTIFIER,
+                [$relationId]
+            )
+        );
+
+        if ($cacheItem->isHit()) {
+            $this->logger->logCacheHit(['relationId' => $relationId]);
+
+            return $cacheItem->get();
+        }
+
+        $this->logger->logCacheMiss(['relationId' => $relationId]);
+        $relation = $this->persistenceHandler->contentHandler()->loadRelation($relationId);
+        $cacheItem->set($relation);
+        $tags = [
+            $this->cacheIdentifierGenerator->generateTag(self::RELATION_IDENTIFIER, [$relationId]),
+        ];
+
+        $cacheItem->tag($tags);
+        $this->cache->save($cacheItem);
+
+        return $relation;
     }
 
     /**
@@ -467,9 +519,30 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
      */
     public function countReverseRelations(int $destinationContentId, ?int $type = null): int
     {
-        $this->logger->logCall(__METHOD__, ['content' => $destinationContentId, 'type' => $type]);
+        $cacheItem = $this->cache->getItem(
+            $this->cacheIdentifierGenerator->generateKey(
+                self::CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER,
+                [$destinationContentId]
+            )
+        );
 
-        return $this->persistenceHandler->contentHandler()->countReverseRelations($destinationContentId, $type);
+        if ($cacheItem->isHit()) {
+            $this->logger->logCacheHit(['content' => $destinationContentId]);
+
+            return $cacheItem->get();
+        }
+
+        $this->logger->logCacheMiss(['content' => $destinationContentId]);
+        $reverseRelationsCount = $this->persistenceHandler->contentHandler()->countReverseRelations($destinationContentId, $type);
+        $cacheItem->set($reverseRelationsCount);
+        $tags = [
+            $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$destinationContentId]),
+        ];
+
+        $cacheItem->tag($tags);
+        $this->cache->save($cacheItem);
+
+        return $reverseRelationsCount;
     }
 
     /**

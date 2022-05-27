@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as BaseContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
@@ -776,6 +777,17 @@ class Handler implements BaseContentHandler
         return $relation;
     }
 
+    public function loadRelation(int $relationId): Relation
+    {
+        $rows = $this->contentGateway->loadRelation($relationId);
+
+        if (empty($rows)) {
+            throw new NotFound('relation', "relationId: $relationId");
+        }
+
+        return current($this->mapper->extractRelationsFromRows($rows));
+    }
+
     /**
      * Removes a relation by relation Id.
      *
@@ -787,7 +799,7 @@ class Handler implements BaseContentHandler
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
      */
-    public function removeRelation($relationId, $type)
+    public function removeRelation($relationId, $type, ?int $destinationContentId = null)
     {
         $this->contentGateway->deleteRelation($relationId, $type);
     }
