@@ -15,10 +15,13 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 use Ibexa\Core\Base\Exceptions\ContentValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 /**
@@ -227,6 +230,29 @@ class URLWildcardService implements URLWildcardServiceInterface
                 'forward' => $spiWildcard->forward,
             ]
         );
+    }
+
+    public function findUrlWildcards(URLWildcardQuery $query): SearchResult
+    {
+        if ($query->offset !== null && !is_numeric($query->offset)) {
+            throw new InvalidArgumentValue('offset', $query->offset);
+        }
+
+        if ($query->limit !== null && !is_numeric($query->limit)) {
+            throw new InvalidArgumentValue('limit', $query->limit);
+        }
+
+        $results = $this->urlWildcardHandler->find($query);
+
+        $items = [];
+        foreach ($results['items'] as $urlWildcard) {
+            $items[] = $this->buildUrlWildcardDomainObject($urlWildcard);
+        }
+
+        return new SearchResult([
+            'totalCount' => $results['count'],
+            'items' => $items,
+        ]);
     }
 
     /**

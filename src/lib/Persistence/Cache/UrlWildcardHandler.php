@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Cache;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as UrlWildcardHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerInterface
@@ -118,6 +119,16 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
         $this->logger->logCall(__METHOD__, ['offset' => $offset, 'limit' => $limit]);
 
         return $this->persistenceHandler->urlWildcardHandler()->loadAll($offset, $limit);
+    }
+
+    /**
+     * @see \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard::find
+     */
+    public function find(URLWildcardQuery $query): array
+    {
+        $this->logger->logCall(__METHOD__, ['query' => $query]);
+
+        return $this->persistenceHandler->urlWildcardHandler()->find($query);
     }
 
     public function translate(string $sourceUrl): UrlWildcard

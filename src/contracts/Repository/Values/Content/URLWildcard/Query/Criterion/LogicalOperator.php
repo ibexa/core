@@ -6,24 +6,24 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
-abstract class LogicalOperator extends Criterion
+abstract class LogicalOperator implements Criterion
 {
     /**
      * The set of criteria combined by the logical operator.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion[]
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion[]
      */
-    public $criteria = [];
+    public array $criteria = [];
 
     /**
      * Creates a Logic operation with the given criteria.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion[] $criteria
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion[] $criteria
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      */
@@ -38,5 +38,3 @@ abstract class LogicalOperator extends Criterion
         }
     }
 }
-
-class_alias(LogicalOperator::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\LogicalOperator');

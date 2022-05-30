@@ -12,13 +12,13 @@ use DateTimeImmutable;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
+use Ibexa\Core\MVC\Symfony\Security\Exception\PasswordExpiredException;
 use Ibexa\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\MVC\Symfony\Security\UserChecker;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\User as APIUser;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Security\Core\Exception\CredentialsExpiredException;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Throwable;
 
@@ -156,7 +156,7 @@ final class UserCheckerTest extends TestCase
                 )
             );
 
-        $this->expectException(CredentialsExpiredException::class);
+        $this->expectException(PasswordExpiredException::class);
         $this->expectExceptionMessage('User account has expired.');
 
         $this->userChecker->checkPostAuth(new User($apiUser));

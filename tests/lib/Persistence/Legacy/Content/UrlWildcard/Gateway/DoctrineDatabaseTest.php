@@ -10,6 +10,8 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
+use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter;
+use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
@@ -168,7 +170,8 @@ class DoctrineDatabaseTest extends TestCase
     protected function getGateway(): DoctrineDatabase
     {
         if (!isset($this->gateway)) {
-            $this->gateway = new DoctrineDatabase($this->getDatabaseConnection());
+            $criteriaConverter = new CriteriaConverter([new MatchAll()]);
+            $this->gateway = new DoctrineDatabase($this->getDatabaseConnection(), $criteriaConverter);
         }
 
         return $this->gateway;
