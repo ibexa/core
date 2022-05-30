@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
+use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter;
+use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
@@ -231,7 +233,8 @@ class UrlWildcardHandlerTest extends TestCase
     protected function getHandler(): UrlWildcard\Handler
     {
         if (!isset($this->urlWildcardHandler)) {
-            $this->gateway = new DoctrineDatabase($this->getDatabaseConnection());
+            $criteriaConverter = new CriteriaConverter([new MatchAll()]);
+            $this->gateway = new DoctrineDatabase($this->getDatabaseConnection(), $criteriaConverter);
             $this->mapper = new Mapper();
 
             $this->urlWildcardHandler = new Handler(

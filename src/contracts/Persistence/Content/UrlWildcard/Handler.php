@@ -7,6 +7,7 @@
 namespace Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 
 /**
  * The UrlWildcard Handler interface provides nice urls with wildcards management.
@@ -63,6 +64,13 @@ interface Handler
      * @return \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard[]
      */
     public function loadAll($offset = 0, $limit = -1);
+
+    /**
+     * Find URLWildcards.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    public function find(URLWildcardQuery $query): array;
 
     /**
      * Performs lookup for given (source) URL.

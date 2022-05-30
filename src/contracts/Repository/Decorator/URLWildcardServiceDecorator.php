@@ -10,6 +10,8 @@ namespace Ibexa\Contracts\Core\Repository\Decorator;
 
 use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 
@@ -53,6 +55,11 @@ abstract class URLWildcardServiceDecorator implements URLWildcardService
         int $limit = -1
     ): iterable {
         return $this->innerService->loadAll($offset, $limit);
+    }
+
+    public function findUrlWildcards(URLWildcardQuery $query): SearchResult
+    {
+        return $this->innerService->findUrlWildcards($query);
     }
 
     public function translate(string $url): URLWildcardTranslationResult

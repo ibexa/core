@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
 use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 use PDOException;
@@ -85,6 +86,20 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlWildcardsData($offset, $limit);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function find(
+        Criterion $criterion,
+        int $offset,
+        int $limit,
+        array $sortClauses = [],
+        bool $doCount = true
+    ): array {
+        try {
+            return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $doCount);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

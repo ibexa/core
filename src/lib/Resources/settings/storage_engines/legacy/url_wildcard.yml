@@ -3,6 +3,7 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase
         arguments:
             - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter'
 
     Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\ExceptionConversion
@@ -22,3 +23,7 @@ services:
             - '@ibexa.persistence.legacy.url_wildcard.gateway'
             - '@Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper'
         lazy: true
+
+    Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter:
+        arguments:
+            $handlers: !tagged_iterator ibexa.storage.legacy.url_wildcard.criterion.handler

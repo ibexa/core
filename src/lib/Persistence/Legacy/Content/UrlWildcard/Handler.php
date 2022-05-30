@@ -8,6 +8,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler as BaseUrlWildcardHandler;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 /**
@@ -137,6 +138,26 @@ class Handler implements BaseUrlWildcardHandler
         return $this->mapper->extractUrlWildcardsFromRows(
             $this->gateway->loadUrlWildcardsData($offset, $limit)
         );
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function find(URLWildcardQuery $query): array
+    {
+        $results = $this->gateway->find(
+            $query->filter,
+            $query->offset,
+            $query->limit,
+            $query->sortClauses,
+            $query->performCount
+        );
+
+        return [
+            'count' => $results['count'],
+            'items' => $this->mapper->extractUrlWildcardsFromRows($results['rows']),
+        ];
     }
 
     /**

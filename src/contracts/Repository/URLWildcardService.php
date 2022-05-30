@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\URLWildcardQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
 
@@ -83,6 +85,12 @@ interface URLWildcardService
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard[]
      */
     public function loadAll(int $offset = 0, int $limit = -1): iterable;
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function findUrlWildcards(URLWildcardQuery $query): SearchResult;
 
     /**
      * Translates an url to an existing uri resource based on the
