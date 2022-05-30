@@ -47,7 +47,7 @@ parameters:
         notification_count: 'nc-%s'
         notification_pending_count: 'npc-%s'
         policy: 'p-%s'
-        relation: 'rel-%s'
+        relation: 're-%s'
         role: 'r-%s'
         role_assignment: 'ra-%s'
         role_assignment_group_list: 'ragl-%s'
