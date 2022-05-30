@@ -453,20 +453,18 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     {
         $this->logger->logCall(__METHOD__, ['relation' => $relationId, 'type' => $type]);
 
-        $contentId = $destinationContentId ?? $this->loadRelation($relationId)->destinationContentId;
-
         $this->cache->invalidateTags([
             $this->cacheIdentifierGenerator->generateTag(
                 self::CONTENT_IDENTIFIER,
-                [$contentId]
+                [$destinationContentId ?? $this->loadRelation($relationId)->destinationContentId]
             ),
             $this->cacheIdentifierGenerator->generateTag(
                 self::RELATION_IDENTIFIER,
-                [$contentId]
+                [$relationId]
             ),
         ]);
 
-        $this->persistenceHandler->contentHandler()->removeRelation($relationId, $type);
+        $this->persistenceHandler->contentHandler()->removeRelation($relationId, $type, $destinationContentId);
     }
 
     public function loadRelation(int $relationId): Relation
@@ -474,7 +472,8 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
                 self::RELATION_IDENTIFIER,
-                [$relationId]
+                [$relationId],
+                true
             )
         );
 
@@ -522,7 +521,8 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
                 self::CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER,
-                [$destinationContentId]
+                [$destinationContentId],
+                true
             )
         );
 
