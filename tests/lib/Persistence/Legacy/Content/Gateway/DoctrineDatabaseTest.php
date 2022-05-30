@@ -1186,6 +1186,23 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    public function testLoadRelationById()
+    {
+        $this->insertRelationFixture();
+
+        $gateway = $this->getDatabaseGateway();
+
+        $relation = $gateway->loadRelation(2);
+
+        $this->assertCount(1, $relation, 'Expecting one relation to be loaded');
+
+        $this->assertValuesInRows(
+            'ezcontentobject_link_id',
+            [2],
+            $relation
+        );
+    }
+
     /**
      * @throws \Doctrine\DBAL\DBALException
      */

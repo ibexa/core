@@ -567,42 +567,45 @@ class RelationProcessorTest extends BaseServiceMockTest
 
         $contentHandlerMock->expects($this->never())->method('addRelation');
 
-        $contentTypeMock->expects($this->at(0))
+        $contentTypeMock->expects(self::at(0))
             ->method('getFieldDefinition')
             ->with($this->equalTo('identifier42'))
             ->will($this->returnValue(new FieldDefinition(['id' => 42])));
 
-        $contentTypeMock->expects($this->at(1))
+        $contentTypeMock->expects(self::at(1))
             ->method('getFieldDefinition')
             ->with($this->equalTo('identifier44'))
             ->will($this->returnValue(new FieldDefinition(['id' => 44])));
 
-        $contentHandlerMock->expects($this->at(0))
+        $contentHandlerMock->expects(self::at(0))
             ->method('removeRelation')
             ->with(
-                $this->equalTo(7),
-                $this->equalTo(Relation::EMBED)
+                self::equalTo(7),
+                self::equalTo(Relation::EMBED),
+                self::equalTo(16)
             );
 
-        $contentHandlerMock->expects($this->at(1))
+        $contentHandlerMock->expects(self::at(1))
             ->method('removeRelation')
             ->with(
-                $this->equalTo(7),
-                $this->equalTo(Relation::LINK)
+                self::equalTo(7),
+                self::equalTo(Relation::LINK),
+                self::equalTo(16)
             );
 
-        $contentHandlerMock->expects($this->at(2))
+        $contentHandlerMock->expects(self::at(2))
             ->method('removeRelation')
             ->with(
-                $this->equalTo(4),
-                $this->equalTo(Relation::FIELD)
+                self::equalTo(4),
+                self::equalTo(Relation::FIELD),
+                self::equalTo(13)
             );
 
-        $contentHandlerMock->expects($this->at(3))
+        $contentHandlerMock->expects(self::at(3))
             ->method('removeRelation')
             ->with(
-                $this->equalTo(9),
-                $this->equalTo(Relation::FIELD)
+                self::equalTo(9),
+                self::equalTo(Relation::FIELD)
             );
 
         $relationProcessor->processFieldRelations(

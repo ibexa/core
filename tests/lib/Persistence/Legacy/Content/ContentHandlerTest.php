@@ -811,6 +811,37 @@ class ContentHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     */
+    public function testLoadRelation(): void
+    {
+        $handler = $this->getContentHandler();
+
+        $gatewayMock = $this->getGatewayMock();
+        $mapperMock = $this->getMapperMock();
+        $relationFixture = $this->getRelationFixture();
+
+        $gatewayMock
+            ->expects(self::once())
+            ->method('loadRelation')
+            ->with(self::equalTo(1))
+            ->willReturn([1]);
+
+        $mapperMock
+            ->expects(self::once())
+            ->method('extractRelationsFromRows')
+            ->with(self::equalTo([1]))
+            ->willReturn([$relationFixture]);
+
+        $result = $handler->loadRelation(1);
+
+        $this->assertEquals(
+            $result,
+            $relationFixture
+        );
+    }
+
     public function testLoadRelations()
     {
         $handler = $this->getContentHandler();
@@ -928,6 +959,7 @@ class ContentHandlerTest extends TestCase
     protected function getRelationFixture()
     {
         $relation = new Relation();
+        $relation->id = 1;
         $relation->sourceContentId = 23;
         $relation->sourceContentVersionNo = 1;
         $relation->destinationContentId = 69;
