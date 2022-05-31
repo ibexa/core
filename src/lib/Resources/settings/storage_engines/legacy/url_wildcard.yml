@@ -24,6 +24,6 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper'
         lazy: true
 
-    Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter:
+    Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter:
         arguments:
             $handlers: !tagged_iterator ibexa.storage.legacy.url_wildcard.criterion.handler
