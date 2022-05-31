@@ -10,8 +10,8 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlWildcard\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
-use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter;
-use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriterionHandler\MatchAll;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
