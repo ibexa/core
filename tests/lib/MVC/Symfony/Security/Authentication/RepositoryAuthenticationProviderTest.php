@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
+use Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass;
 use Ibexa\Contracts\Core\Repository\Exceptions\PasswordInUnsupportedFormatException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
@@ -14,12 +15,15 @@ use Ibexa\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvi
 use Ibexa\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class RepositoryAuthenticationProviderTest extends TestCase
 {
@@ -42,6 +46,9 @@ class RepositoryAuthenticationProviderTest extends TestCase
     /** @var \Ibexa\Contracts\Core\Repository\UserService|\PHPUnit\Framework\MockObject\MockObject */
     private $userService;
 
+    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -57,6 +64,9 @@ class RepositoryAuthenticationProviderTest extends TestCase
         $this->userService = $this->createMock(UserService::class);
         $this->authProvider->setPermissionResolver($this->permissionResolver);
         $this->authProvider->setUserService($this->userService);
+
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->authProvider->setLogger($this->logger);
     }
 
     public function testAuthenticationNotEzUser()
@@ -208,6 +218,54 @@ class RepositoryAuthenticationProviderTest extends TestCase
             ->with($apiUser, $password)
             ->willThrowException(new UnsupportedPasswordHashType(self::UNSUPPORTED_USER_PASSWORD_HASH_TYPE));
 
+        $this->authProvider->authenticate($token);
+    }
+
+    public function testAuthenticateInConstantTime(): void
+    {
+        $this->authProvider->setConstantAuthTime(SecurityPass::CONSTANT_AUTH_TIME_DEFAULT); // a reasonable value
+
+        $token = new UsernamePasswordToken('my_username', 'my_password', 'bar');
+
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('authenticate_constant_time_test');
+
+        try {
+            $this->authProvider->authenticate($token);
+        } catch (\Exception $e) {
+            // We don't care, we just need test execution to continue
+        }
+
+        $duration = $stopwatch->stop('authenticate_constant_time_test')->getDuration();
+        self::assertGreaterThanOrEqual(SecurityPass::CONSTANT_AUTH_TIME_DEFAULT * 1000, $duration);
+    }
+
+    public function testAuthenticateWarningOnConstantTimeExceeded(): void
+    {
+        $this->authProvider->setConstantAuthTime(0.0000001); // much too short, but not zero, which would disable the check
+
+        $token = new UsernamePasswordToken('my_username', 'my_password', 'bar');
+
+        $this->logger
+            ->expects(self::atLeastOnce())
+            ->method('warning')
+            ->with('Authentication took longer than the configured constant time. Consider increasing the value of ' . SecurityPass::CONSTANT_AUTH_TIME_SETTING);
+
+        $this->expectException(AuthenticationException::class);
+        $this->authProvider->authenticate($token);
+    }
+
+    public function testAuthenticateConstantTimeDisabled(): void
+    {
+        $this->authProvider->setConstantAuthTime(0.0); // zero disables the check
+
+        $token = new UsernamePasswordToken('my_username', 'my_password', 'bar');
+
+        $this->logger
+            ->expects(self::never())
+            ->method('warning');
+
+        $this->expectException(AuthenticationException::class);
         $this->authProvider->authenticate($token);
     }
 }
