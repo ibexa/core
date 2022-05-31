@@ -13,8 +13,8 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper;
-use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter;
-use Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriterionHandler\MatchAll;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter;
+use Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriterionHandler\MatchAll;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
