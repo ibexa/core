@@ -3,7 +3,7 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase
         arguments:
             - '@ibexa.api.storage_engine.legacy.connection'
-            - '@Ibexa\Core\Persistence\Legacy\Content\URLWildcard\Query\CriteriaConverter'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter'
 
     Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\ExceptionConversion
