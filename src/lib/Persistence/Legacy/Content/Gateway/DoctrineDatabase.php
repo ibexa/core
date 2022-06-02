@@ -1609,6 +1609,10 @@ final class DoctrineDatabase extends Gateway
         return (int)$this->connection->lastInsertId(self::CONTENT_RELATION_SEQ);
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function loadRelation(int $relationId): array
     {
         $query = $this->queryBuilder->createRelationFindQueryBuilder();
