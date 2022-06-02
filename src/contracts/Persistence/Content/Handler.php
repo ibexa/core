@@ -272,6 +272,7 @@ interface Handler
 
     /**
      * Removes a relation by relation Id.
+     *
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
      *
      * @param int $relationId
