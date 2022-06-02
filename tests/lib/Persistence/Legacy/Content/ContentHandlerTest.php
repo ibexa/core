@@ -812,7 +812,7 @@ class ContentHandlerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function testLoadRelation(): void
     {
