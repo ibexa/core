@@ -38,6 +38,8 @@ use ReflectionException;
  */
 class ContentHandlerTest extends TestCase
 {
+    private const RELATION_ID = 1;
+
     /**
      * Content handler to test.
      *
@@ -825,16 +827,16 @@ class ContentHandlerTest extends TestCase
         $gatewayMock
             ->expects(self::once())
             ->method('loadRelation')
-            ->with(1)
-            ->willReturn([1]);
+            ->with(self::RELATION_ID)
+            ->willReturn([self::RELATION_ID]);
 
         $mapperMock
             ->expects(self::once())
             ->method('extractRelationsFromRows')
-            ->with([1])
+            ->with([self::RELATION_ID])
             ->willReturn([$relationFixture]);
 
-        $result = $handler->loadRelation(1);
+        $result = $handler->loadRelation(self::RELATION_ID);
 
         $this->assertEquals(
             $result,
@@ -959,7 +961,7 @@ class ContentHandlerTest extends TestCase
     protected function getRelationFixture()
     {
         $relation = new Relation();
-        $relation->id = 1;
+        $relation->id = self::RELATION_ID;
         $relation->sourceContentId = 23;
         $relation->sourceContentVersionNo = 1;
         $relation->destinationContentId = 69;
