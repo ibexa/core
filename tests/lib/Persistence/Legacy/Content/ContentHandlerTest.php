@@ -831,7 +831,7 @@ class ContentHandlerTest extends TestCase
         $mapperMock
             ->expects(self::once())
             ->method('extractRelationsFromRows')
-            ->with(self::equalTo([1]))
+            ->with([1])
             ->willReturn([$relationFixture]);
 
         $result = $handler->loadRelation(1);
