@@ -1186,7 +1186,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testLoadRelationById()
+    public function testLoadRelationById(): void
     {
         $this->insertRelationFixture();
 
