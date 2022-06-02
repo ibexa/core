@@ -777,6 +777,9 @@ class Handler implements BaseContentHandler
         return $relation;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function loadRelation(int $relationId): Relation
     {
         $rows = $this->contentGateway->loadRelation($relationId);
