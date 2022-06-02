@@ -451,6 +451,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
      */
     public function removeRelation($relationId, $type, ?int $destinationContentId = null)
     {
+        if (null === $destinationContentId) {
+            @trigger_error('Expecting to pass $destinationContentId argument since version 4.1.5', E_USER_DEPRECATED);
+        }
+
         $this->logger->logCall(__METHOD__, ['relation' => $relationId, 'type' => $type]);
 
         $this->cache->invalidateTags([
