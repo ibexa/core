@@ -1615,7 +1615,7 @@ final class DoctrineDatabase extends Gateway
         $expr = $query->expr();
 
         $query
-            ->where(
+            ->andWhere(
                 $expr->eq('id', ':relationId')
             )
             ->setParameter('relationId', $relationId, ParameterType::INTEGER);
