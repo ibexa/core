@@ -1194,7 +1194,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $relation = $gateway->loadRelation(2);
 
-        $this->assertCount(1, $relation, 'Expecting one relation to be loaded');
+        self::assertCount(1, $relation, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
             'ezcontentobject_link_id',
