@@ -825,7 +825,7 @@ class ContentHandlerTest extends TestCase
         $gatewayMock
             ->expects(self::once())
             ->method('loadRelation')
-            ->with(self::equalTo(1))
+            ->with(1)
             ->willReturn([1]);
 
         $mapperMock
