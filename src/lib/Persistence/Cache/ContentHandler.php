@@ -449,7 +449,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function removeRelation($relationId, $type, ?int $destinationContentId = null)
+    public function removeRelation($relationId, $type, ?int $destinationContentId = null): void
     {
         if (null === $destinationContentId) {
             @trigger_error('Expecting to pass $destinationContentId argument since version 4.1.5', E_USER_DEPRECATED);
