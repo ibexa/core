@@ -802,7 +802,7 @@ class Handler implements BaseContentHandler
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
      */
-    public function removeRelation($relationId, $type, ?int $destinationContentId = null)
+    public function removeRelation($relationId, $type, ?int $destinationContentId = null): void
     {
         $this->contentGateway->deleteRelation($relationId, $type);
     }
