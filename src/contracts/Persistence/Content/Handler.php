@@ -263,10 +263,6 @@ interface Handler
 
     /**
      * Load a relation by $relationId.
-     *
-     * @param int $relationId Relation ID
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
      */
     public function loadRelation(int $relationId): Relation;
 

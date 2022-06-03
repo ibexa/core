@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
@@ -1186,20 +1187,29 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
+    public function testLoadRelationThrowNotFoundExceptionWhenRelationNotFound(): void
+    {
+        $this->expectException(NotFoundException::class);
+        $this->expectExceptionMessage('Could not find \'Relation\' with identifier \'3\'');
+
+        $this->insertRelationFixture();
+        $gateway = $this->getDatabaseGateway();
+        $gateway->loadRelation(3);
+    }
+
     public function testLoadRelationById(): void
     {
+        $relationId = 2;
+
         $this->insertRelationFixture();
 
         $gateway = $this->getDatabaseGateway();
 
-        $relation = $gateway->loadRelation(2);
+        $relation = $gateway->loadRelation($relationId);
 
-        self::assertCount(1, $relation, 'Expecting one relation to be loaded');
-
-        $this->assertValuesInRows(
-            'ezcontentobject_link_id',
-            [2],
-            $relation
+        self::assertEquals(
+            $relationId,
+            $relation['ezcontentobject_link_id']
         );
     }
 

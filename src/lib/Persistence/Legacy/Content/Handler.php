@@ -782,13 +782,9 @@ class Handler implements BaseContentHandler
      */
     public function loadRelation(int $relationId): Relation
     {
-        $rows = $this->contentGateway->loadRelation($relationId);
-
-        if (empty($rows)) {
-            throw new NotFound('relation', "relationId: $relationId");
-        }
-
-        return current($this->mapper->extractRelationsFromRows($rows));
+        return $this->mapper->extractRelationFromRow(
+            $this->contentGateway->loadRelation($relationId)
+        );
     }
 
     /**
