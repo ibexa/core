@@ -2128,7 +2128,8 @@ class ContentService implements ContentServiceInterface
                 if ($spiRelation->destinationContentId == $destinationContent->id) {
                     $this->persistenceHandler->contentHandler()->removeRelation(
                         $spiRelation->id,
-                        APIRelation::COMMON
+                        APIRelation::COMMON,
+                        $spiRelation->destinationContentId
                     );
                 }
             }

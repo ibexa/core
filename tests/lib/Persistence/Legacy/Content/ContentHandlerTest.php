@@ -38,6 +38,8 @@ use ReflectionException;
  */
 class ContentHandlerTest extends TestCase
 {
+    private const RELATION_ID = 1;
+
     /**
      * Content handler to test.
      *
@@ -811,6 +813,37 @@ class ContentHandlerTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testLoadRelation(): void
+    {
+        $handler = $this->getContentHandler();
+
+        $gatewayMock = $this->getGatewayMock();
+        $mapperMock = $this->getMapperMock();
+        $relationFixture = $this->getRelationFixture();
+
+        $gatewayMock
+            ->expects(self::once())
+            ->method('loadRelation')
+            ->with(self::RELATION_ID)
+            ->willReturn([self::RELATION_ID]);
+
+        $mapperMock
+            ->expects(self::once())
+            ->method('extractRelationFromRow')
+            ->with([self::RELATION_ID])
+            ->willReturn($relationFixture);
+
+        $result = $handler->loadRelation(self::RELATION_ID);
+
+        $this->assertEquals(
+            $result,
+            $relationFixture
+        );
+    }
+
     public function testLoadRelations()
     {
         $handler = $this->getContentHandler();
@@ -928,6 +961,7 @@ class ContentHandlerTest extends TestCase
     protected function getRelationFixture()
     {
         $relation = new Relation();
+        $relation->id = self::RELATION_ID;
         $relation->sourceContentId = 23;
         $relation->sourceContentVersionNo = 1;
         $relation->destinationContentId = 69;

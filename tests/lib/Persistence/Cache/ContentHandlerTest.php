@@ -50,8 +50,8 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ['updateContent', [2, 1, new UpdateStruct()], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
             //['deleteContent', [2]], own tests for relations complexity
             ['deleteVersion', [2, 1], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
-            ['addRelation', [new RelationCreateStruct()]],
-            ['removeRelation', [66, APIRelation::COMMON]],
+            ['addRelation', [new RelationCreateStruct(['destinationContentId' => 2])], [['content', [2], false]], null, ['c-2']],
+            ['removeRelation', [66, APIRelation::COMMON, 2], [['content', [2], false], ['relation', [66], false]], null, ['c-2', 're-66']],
             ['loadRelations', [2, 1, 3]],
             ['loadReverseRelations', [2, 3]],
             ['publish', [2, 3, new MetadataUpdateStruct()], [['content', [2], false]], null, ['c-2']],
@@ -85,6 +85,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi = false, array $additionalCalls
         return [
+            ['countReverseRelations', [2], 'ibx-crrc-2', null, null, [['content_reverse_relations_count', [2], true]], ['ibx-crrc-2'], 10],
             ['load', [2, 1], 'ibx-c-2-1-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2, 1, ['eng-GB', 'eng-US']], 'ibx-c-2-1-eng-GB|eng-US', null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2], 'ibx-c-2-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
@@ -94,6 +95,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ['loadContentInfo', [2], 'ibx-ci-2', null, null, [['content_info', [], true]], ['ibx-ci'], $info],
             ['loadContentInfoList', [[2]], 'ibx-ci-2', null, null, [['content_info', [], true]], ['ibx-ci'], [2 => $info], true],
             ['loadContentInfoByRemoteId', ['3d8jrj'], 'ibx-cibri-3d8jrj', null, null, [['content_info_by_remote_id', [], true]], ['ibx-cibri'], $info],
+            ['loadRelation', [66], 'ibx-re-66', null, null, [['relation', [66], true]], ['ibx-re-66'], new SPIRelation()],
             ['loadVersionInfo', [2, 1], 'ibx-cvi-2-1', null, null, [['content_version_info', [2], true]], ['ibx-cvi-2'], $version],
             ['loadVersionInfo', [2], 'ibx-cvi-2', null, null, [['content_version_info', [2], true]], ['ibx-cvi-2'], $version],
             ['listVersions', [2], 'ibx-c-2-vl', null, null, [['content_version_list', [2], true]], ['ibx-c-2-vl'], [$version]],
@@ -114,6 +116,20 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi = false, array $additionalCalls
         return [
+            [
+                'countReverseRelations',
+                [2],
+                'ibx-crrc-2',
+                [
+                    ['content', [2], false],
+                ],
+                ['c-2'],
+                [
+                    ['content_reverse_relations_count', [2], true],
+                ],
+                ['ibx-crrc-2'],
+                10,
+            ],
             [
                 'load',
                 [2, 1],
@@ -299,6 +315,20 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
                 ],
                 ['ibx-c-2-vl'],
                 [$version],
+            ],
+            [
+                'loadRelation',
+                [66],
+                'ibx-re-66',
+                [
+                    ['relation', [66], false],
+                ],
+                ['re-66'],
+                [
+                    ['relation', [66], true],
+                ],
+                ['ibx-re-66'],
+                new SPIRelation(),
             ],
         ];
     }
