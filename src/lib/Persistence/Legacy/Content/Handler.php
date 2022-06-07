@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as BaseContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
@@ -777,6 +778,16 @@ class Handler implements BaseContentHandler
     }
 
     /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function loadRelation(int $relationId): Relation
+    {
+        return $this->mapper->extractRelationFromRow(
+            $this->contentGateway->loadRelation($relationId)
+        );
+    }
+
+    /**
      * Removes a relation by relation Id.
      *
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
@@ -787,7 +798,7 @@ class Handler implements BaseContentHandler
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
      */
-    public function removeRelation($relationId, $type)
+    public function removeRelation($relationId, $type, ?int $destinationContentId = null): void
     {
         $this->contentGateway->deleteRelation($relationId, $type);
     }

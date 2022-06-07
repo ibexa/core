@@ -542,7 +542,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Relation
      */
-    protected function extractRelationFromRow(array $row)
+    public function extractRelationFromRow(array $row)
     {
         $relation = new Relation();
         $relation->id = (int)$row['ezcontentobject_link_id'];

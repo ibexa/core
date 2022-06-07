@@ -25,12 +25,14 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Core\Base\Exceptions\BadStateException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
+use LogicException;
 
 /**
  * Doctrine database based content gateway.
@@ -1607,6 +1609,35 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
 
         return (int)$this->connection->lastInsertId(self::CONTENT_RELATION_SEQ);
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function loadRelation(int $relationId): array
+    {
+        $query = $this->queryBuilder->createRelationFindQueryBuilder();
+        $expr = $query->expr();
+
+        $query
+            ->andWhere(
+                $expr->eq('id', ':relationId')
+            )
+            ->setParameter('relationId', $relationId, ParameterType::INTEGER);
+
+        $result = $query->execute()->fetchAllAssociative();
+        $resultCount = count($result);
+        if ($resultCount === 0) {
+            throw new NotFoundException('Relation', $relationId);
+        }
+
+        if ($resultCount > 1) {
+            throw new LogicException('More then one row found for the relation id: ' . $relationId);
+        }
+
+        return current($result);
     }
 
     public function deleteRelation(int $relationId, int $type): void

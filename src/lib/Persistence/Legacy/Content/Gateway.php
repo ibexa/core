@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 
 /**
  * Base class for content gateways.
@@ -394,6 +395,13 @@ abstract class Gateway
      * Insert a new content relation.
      */
     abstract public function insertRelation(RelationCreateStruct $createStruct): int;
+
+    /**
+     * Load Relation object.
+     *
+     * @see \Ibexa\Contracts\Core\Persistence\Content\Relation
+     */
+    abstract public function loadRelation(int $relationId): array;
 
     /**
      * Return all Content IDs for the given $contentTypeId.
