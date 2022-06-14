@@ -218,7 +218,7 @@ services:
         alias: Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory
 
     Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList:
-        class: Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList
+        lazy: Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList
         factory: ['@Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory', "build"]
         arguments:
             - "@translator"
