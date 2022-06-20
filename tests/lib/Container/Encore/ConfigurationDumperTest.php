@@ -24,14 +24,16 @@ final class ConfigurationDumperTest extends TestCase
     private Filesystem $filesystem;
 
     private string $projectDir;
+    private string $fooBarBundlePath;
 
     protected function setUp(): void
     {
         $this->projectDir = dirname(__DIR__, 4) . self::PROJECT_DIR;
+        $this->fooBarBundlePath = $this->projectDir . self::FOO_BAR_BUNDLE_DIR;
         $this->filesystem = new Filesystem();
-        $this->filesystem->mkdir($this->projectDir . self::FOO_BAR_BUNDLE_DIR);
+        $this->filesystem->mkdir($this->fooBarBundlePath);
         $this->filesystem->dumpFile(
-            $this->projectDir . self::FOO_BAR_BUNDLE_DIR . '/Resources/encore/foo-bar.js',
+            $this->fooBarBundlePath . '/Resources/encore/foo-bar.js',
             'console.log("Hello, Foo Bar!");'
         );
         $this->filesystem->dumpFile(
@@ -50,7 +52,7 @@ final class ConfigurationDumperTest extends TestCase
             [
                 [
                     'kernel.bundles_metadata',
-                    ['FooBar' => ['path' => $this->projectDir . self::FOO_BAR_BUNDLE_DIR]],
+                    ['FooBar' => ['path' => $this->fooBarBundlePath]],
                 ],
                 ['kernel.project_dir', $this->projectDir],
             ],
