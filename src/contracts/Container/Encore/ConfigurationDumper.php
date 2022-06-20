@@ -21,6 +21,7 @@ use Symfony\Component\Finder\Finder;
 final class ConfigurationDumper
 {
     public const ENCORE_DIR = 'encore';
+    public const ENCORE_TARGET_PATH = 'var/encore';
 
     private ContainerInterface $containerBuilder;
 
@@ -39,11 +40,13 @@ final class ConfigurationDumper
     ): void {
         $bundlesMetadata = $this->containerBuilder->getParameter('kernel.bundles_metadata');
         $rootPath = $this->containerBuilder->getParameter('kernel.project_dir') . '/';
-        $targetPath = 'var/encore';
-
         foreach ($webpackConfigNames as $configName => $configFiles) {
             $paths = $this->locateConfigurationFiles($bundlesMetadata, $configFiles, $rootPath);
-            $this->dumpConfigurationPaths($configName, $rootPath . $targetPath, $paths);
+            $this->dumpConfigurationPaths(
+                $configName,
+                $rootPath . self::ENCORE_TARGET_PATH,
+                $paths
+            );
         }
     }
 
@@ -54,21 +57,7 @@ final class ConfigurationDumper
     ): array {
         $paths = [];
         foreach ($configFiles as $configFile => $options) {
-            $finder = new Finder();
-            $finder
-                ->in(array_column($bundlesMetadata, 'path'))
-                ->path('Resources/' . self::ENCORE_DIR)
-                ->name($configFile)
-                // include top-level project resources
-                ->append(
-                    (new Finder())
-                        ->in($rootPath)
-                        ->path(self::ENCORE_DIR)
-                        ->name($configFile)
-                        ->depth(1)
-                        ->files()
-                )
-                ->files();
+            $finder = $this->createFinder($bundlesMetadata, $configFile, $rootPath);
 
             /** @var \Symfony\Component\Finder\SplFileInfo $fileInfo */
             foreach ($finder as $fileInfo) {
@@ -82,11 +71,12 @@ final class ConfigurationDumper
                     );
                 }
 
-                $paths[] = preg_replace(
-                    '/^' . preg_quote($rootPath, '/') . '/',
-                    './',
-                    $fileInfo->getRealPath()
-                );
+                $path = $fileInfo->getRealPath();
+                if (strpos($path, $rootPath) === 0) {
+                    $path = './' . substr($path, strlen($rootPath));
+                }
+
+                $paths[] = $path;
             }
         }
 
@@ -102,10 +92,30 @@ final class ConfigurationDumper
         array $paths
     ): void {
         $filesystem = new Filesystem();
-        $filesystem->mkdir($targetPath);
         $filesystem->dumpFile(
             $targetPath . '/' . $configName,
             sprintf('module.exports = %s;', json_encode($paths, JSON_THROW_ON_ERROR))
         );
+    }
+
+    private function createFinder(array $bundlesMetadata, $configFile, string $rootPath): Finder
+    {
+        $finder = new Finder();
+        $finder
+            ->in(array_column($bundlesMetadata, 'path'))
+            ->path('Resources/' . self::ENCORE_DIR)
+            ->name($configFile)
+            // include top-level project resources
+            ->append(
+                (new Finder())
+                    ->in($rootPath)
+                    ->path(self::ENCORE_DIR)
+                    ->name($configFile)
+                    ->depth(1)
+                    ->files()
+            )
+            ->files();
+
+        return $finder;
     }
 }
