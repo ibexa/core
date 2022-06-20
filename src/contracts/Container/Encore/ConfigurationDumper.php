@@ -98,8 +98,11 @@ final class ConfigurationDumper
         );
     }
 
-    private function createFinder(array $bundlesMetadata, $configFile, string $rootPath): Finder
-    {
+    private function createFinder(
+        array $bundlesMetadata,
+        string $configFile,
+        string $rootPath
+    ): Finder {
         $finder = new Finder();
         $finder
             ->in(array_column($bundlesMetadata, 'path'))
