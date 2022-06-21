@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator as CriterionOperator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use RuntimeException;
+use function GuzzleHttp\default_ca_bundle;
 
 /**
  * Content locator gateway implementation using the DoctrineDatabase.
@@ -104,10 +105,7 @@ abstract class Handler
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
                 $filter = $subQuery->expr()->{$operatorFunction}(
                     $column,
-                    $outerQuery->createNamedParameter(
-                        $column === "sort_key_string" ? $this->lowerCase($criterion->value) : $criterion->value,
-                        $column === "sort_key_string" ? ParameterType::STRING : ParameterType::INTEGER,
-                    )
+                    $this->createNamedParameter($outerQuery, $column, $criterion->value)
                 );
                 break;
 
@@ -170,6 +168,28 @@ abstract class Handler
         }
 
         return $value;
+    }
+
+    protected function createNamedParameter(QueryBuilder $outerQuery, string $column, $value): ?string
+    {
+        switch ($column) {
+            case 'sort_key_string':
+                $parameterValue = $this->lowerCase($value);
+                $parameterType = ParameterType::STRING;
+                break;
+            case 'sort_key_integer':
+                $parameterValue = (int)$value;
+                $parameterType = ParameterType::INTEGER;
+                break;
+            default:
+                $parameterValue = $value;
+                $parameterType = null;
+        }
+
+        return $outerQuery->createNamedParameter(
+            $parameterValue,
+            $parameterType
+        );
     }
 }
 
