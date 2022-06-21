@@ -24,6 +24,7 @@ final class ConfigurationDumperTest extends TestCase
     private Filesystem $filesystem;
 
     private string $projectDir;
+
     private string $fooBarBundlePath;
 
     protected function setUp(): void
