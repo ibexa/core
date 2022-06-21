@@ -9,6 +9,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Field
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator as CriterionOperator;
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -65,6 +66,7 @@ abstract class Handler
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      *
+     * @throws \Ibexa\Contracts\Core\Exception\InvalidArgumentException If passed more than 1 argument to unary operator.
      * @throws \RuntimeException If operator is not handled.
      */
     public function handle(
@@ -73,8 +75,11 @@ abstract class Handler
         Criterion $criterion,
         string $column
     ) {
-        if (is_array($criterion->value) && !in_array($criterion->operator, [Criterion\Operator::IN, Criterion\Operator::BETWEEN])) {
-            $criterion->value = current($criterion->value);
+        if (is_array($criterion->value) && $this->isOperatorUnary($criterion->operator)) {
+            if (count($criterion->value) > 1) {
+                throw new InvalidArgumentException('$criterion->value', "Too many arguments for unary operator '$criterion->operator'");
+            }
+            $criterion->value = reset($criterion->value);
         }
 
         switch ($criterion->operator) {
@@ -189,6 +194,14 @@ abstract class Handler
             $parameterValue,
             $parameterType
         );
+    }
+
+    protected function isOperatorUnary(string $operator): bool
+    {
+        return !in_array($operator, [
+            Criterion\Operator::IN,
+            Criterion\Operator::BETWEEN,
+        ]);
     }
 }
 
