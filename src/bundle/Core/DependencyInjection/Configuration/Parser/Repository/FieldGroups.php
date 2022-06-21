@@ -10,23 +10,30 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class FieldGroups implements RepositoryConfigParserInterface
 {
     public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
-        $nodeBuilder
-            ->arrayNode('fields_groups')
-                ->info('Definitions of fields groups.')
-                ->children()
-                    ->arrayNode('list')
-                        ->prototype('scalar')
-                        ->end()
-                    ->end()
-                    ->scalarNode('default')
-                        ->defaultValue('%ibexa.site_access.config.default.content.field_groups.default%')
-                    ->end()
+        $nodeBuilder->append($this->getNode());
+    }
+
+    public function getNode(): NodeDefinition
+    {
+        $node = new ArrayNodeDefinition('field_groups');
+        $node
+            ->info('Definitions of fields groups.')
+            ->children()
+                ->arrayNode('list')
+                    ->prototype('scalar')->end()
+                ->end()
+                ->scalarNode('default')
+                    ->defaultValue('%ibexa.site_access.config.default.content.field_groups.default%')
                 ->end()
             ->end();
+
+        return $node;
     }
 }

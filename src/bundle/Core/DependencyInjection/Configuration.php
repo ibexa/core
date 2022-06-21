@@ -133,8 +133,8 @@ class Configuration extends SiteAccessConfiguration
                                         $v['search'] = [];
                                     }
 
-                                    if (!isset($v['fields_groups']['list'])) {
-                                        $v['fields_groups']['list'] = [];
+                                    if (!isset($v['field_groups']['list'])) {
+                                        $v['field_groups']['list'] = [];
                                     }
 
                                     if (!isset($v['options'])) {

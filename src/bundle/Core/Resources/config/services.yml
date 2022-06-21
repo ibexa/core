@@ -226,7 +226,7 @@ services:
     Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory:
         class: Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory
         arguments:
-            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            - '@ibexa.config.resolver'
 
     Ibexa\Core\QueryType\QueryParameterContentViewQueryTypeMapper:
         class: Ibexa\Core\QueryType\QueryParameterContentViewQueryTypeMapper
