@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Core\Helper\FieldsGroups;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

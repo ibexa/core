@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Tests\Core\Helper\FieldsGroups;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory;
 use PHPUnit\Framework\MockObject\MockObject;

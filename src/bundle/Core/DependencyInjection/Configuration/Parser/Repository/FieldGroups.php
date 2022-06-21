@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class FieldGroups implements RepositoryConfigParserInterface
 {
