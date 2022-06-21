@@ -7,11 +7,13 @@
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator as CriterionOperator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use RuntimeException;
+use function GuzzleHttp\default_ca_bundle;
 
 /**
  * Content locator gateway implementation using the DoctrineDatabase.
@@ -72,12 +74,16 @@ abstract class Handler
         Criterion $criterion,
         string $column
     ) {
+        if (is_array($criterion->value) && !in_array($criterion->operator, [Criterion\Operator::IN, Criterion\Operator::BETWEEN])) {
+            $criterion->value = current($criterion->value);
+        }
+
         switch ($criterion->operator) {
             case Criterion\Operator::IN:
                 $filter = $subQuery->expr()->in(
                     $column,
                     $outerQuery->createNamedParameter(
-                        array_map([$this, 'lowerCase'], $criterion->value),
+                        array_map([$this, 'prepareParameter'], $criterion->value),
                         Connection::PARAM_STR_ARRAY
                     )
                 );
@@ -99,7 +105,7 @@ abstract class Handler
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
                 $filter = $subQuery->expr()->{$operatorFunction}(
                     $column,
-                    $outerQuery->createNamedParameter($this->lowerCase($criterion->value))
+                    $this->createNamedParameter($outerQuery, $column, $criterion->value)
                 );
                 break;
 
@@ -146,6 +152,44 @@ abstract class Handler
     protected function lowerCase(string $string): string
     {
         return $this->transformationProcessor->transformByGroup($string, 'lowercase');
+    }
+
+    /**
+     * @param string|string[]|mixed $value
+     *
+     * @return string|string[]|mixed
+     */
+    protected function prepareParameter($value)
+    {
+        if (is_string($value)) {
+            return $this->lowerCase($value);
+        } else if (is_array($value)) {
+            return array_map([$this, 'prepareParameter'], $value);
+        }
+
+        return $value;
+    }
+
+    protected function createNamedParameter(QueryBuilder $outerQuery, string $column, $value): ?string
+    {
+        switch ($column) {
+            case 'sort_key_string':
+                $parameterValue = $this->lowerCase($value);
+                $parameterType = ParameterType::STRING;
+                break;
+            case 'sort_key_integer':
+                $parameterValue = (int)$value;
+                $parameterType = ParameterType::INTEGER;
+                break;
+            default:
+                $parameterValue = $value;
+                $parameterType = null;
+        }
+
+        return $outerQuery->createNamedParameter(
+            $parameterValue,
+            $parameterType
+        );
     }
 }
 
