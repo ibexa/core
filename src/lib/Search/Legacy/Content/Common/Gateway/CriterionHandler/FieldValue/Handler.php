@@ -178,7 +178,7 @@ abstract class Handler
     {
         switch ($column) {
             case 'sort_key_string':
-                $parameterValue = $this->lowerCase($value);
+                $parameterValue = $this->prepareParameter($value);
                 $parameterType = ParameterType::STRING;
                 break;
             case 'sort_key_integer':
