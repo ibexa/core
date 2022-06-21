@@ -13,7 +13,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator as CriterionOperator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use RuntimeException;
-use function GuzzleHttp\default_ca_bundle;
 
 /**
  * Content locator gateway implementation using the DoctrineDatabase.
@@ -163,7 +162,7 @@ abstract class Handler
     {
         if (is_string($value)) {
             return $this->lowerCase($value);
-        } else if (is_array($value)) {
+        } elseif (is_array($value)) {
             return array_map([$this, 'prepareParameter'], $value);
         }
 
