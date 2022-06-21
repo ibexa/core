@@ -7,6 +7,7 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\AbstractParser;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository\FieldGroups;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
@@ -26,6 +27,7 @@ class Content extends AbstractParser
             ->arrayNode('content')
                 ->info('Content related configuration')
                 ->children()
+                    ->append((new FieldGroups())->getNode())
                     ->booleanNode('view_cache')->end()
                     ->booleanNode('ttl_cache')->end()
                     ->scalarNode('default_ttl')->info('Default value for TTL cache, in seconds')->end()
@@ -56,6 +58,12 @@ class Content extends AbstractParser
 
             if (isset($scopeSettings['content']['ttl_cache'])) {
                 $contextualizer->setContextualParameter('content.ttl_cache', $currentScope, $scopeSettings['content']['ttl_cache']);
+            }
+
+            if (isset($scopeSettings['content']['field_groups']['list'])) {
+                $namespace = $contextualizer->getNamespace();
+                $fieldGroupsList = $contextualizer->getContainer()->getParameter("$namespace.$currentScope.content.field_groups.list", []);
+                $contextualizer->setContextualParameter('content.field_groups.list', $currentScope, array_merge($fieldGroupsList, $scopeSettings['content']['field_groups']['list']));
             }
 
             if (isset($scopeSettings['content']['default_ttl'])) {

@@ -342,7 +342,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'engine' => 'legacy',
                     'connection' => 'blabla',
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
@@ -360,7 +360,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'engine' => 'solr',
                     'connection' => 'lalala',
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
@@ -393,8 +393,8 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
 
         foreach ($repositoriesPar as $key => $repo) {
             $this->assertArrayHasKey($key, $expectedRepositories);
-            $this->assertArrayHasKey('fields_groups', $repo);
-            $this->assertEqualsCanonicalizing($expectedRepositories[$key]['fields_groups'], $repo['fields_groups'], 'Invalid fields groups element');
+            $this->assertArrayHasKey('field_groups', $repo);
+            $this->assertEqualsCanonicalizing($expectedRepositories[$key]['field_groups'], $repo['field_groups'], 'Invalid fields groups element');
         }
     }
 
@@ -405,7 +405,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             [
                 ['main' => null],
                 ['main' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['content', 'metadata'],
                             'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                         ],
@@ -415,14 +415,14 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             //single item with custom fields
             [
                 ['foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john'],
                             'default' => 'bar',
                         ],
                     ],
                 ],
                 ['foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john'],
                             'default' => 'bar',
                         ],
@@ -433,7 +433,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john', 'doe'],
                             'default' => 'bar',
                         ],
@@ -442,13 +442,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
                 [
                     'foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john', 'doe'],
                             'default' => 'bar',
                         ],
                     ],
                     'anotherone' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['content', 'metadata'],
                             'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                         ],
@@ -459,25 +459,25 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john'],
                         ],
                     ],
                     'bar' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'default' => 'metadata',
                         ],
                     ],
                 ],
                 [
                     'foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john'],
                             'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                         ],
                     ],
                     'bar' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['content', 'metadata'],
                             'default' => 'metadata',
                         ],
@@ -488,13 +488,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             [
                 [
                     'foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john', 'doe'],
                             'default' => 'bar',
                         ],
                     ],
                     'bar' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['lorem', 'ipsum'],
                             'default' => 'lorem',
                         ],
@@ -502,13 +502,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
                 [
                     'foo' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['bar', 'baz', 'john', 'doe'],
                             'default' => 'bar',
                         ],
                     ],
                     'bar' => [
-                        'fields_groups' => [
+                        'field_groups' => [
                             'list' => ['lorem', 'ipsum'],
                             'default' => 'lorem',
                         ],
@@ -535,7 +535,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'connection' => null,
                     'config' => [],
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
@@ -576,7 +576,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'connection' => null,
                     'config' => [],
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
@@ -617,7 +617,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'connection' => null,
                     'config' => [],
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
@@ -668,7 +668,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'connection' => 'default',
                     'config' => [],
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
@@ -688,7 +688,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'connection' => 'default',
                     'config' => [],
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],
@@ -727,7 +727,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                     'connection' => null,
                     'config' => [],
                 ],
-                'fields_groups' => [
+                'field_groups' => [
                     'list' => ['content', 'metadata'],
                     'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
                 ],

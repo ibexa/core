@@ -7,6 +7,7 @@
 namespace Ibexa\Core\Helper\FieldsGroups;
 
 use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -14,22 +15,20 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class RepositoryConfigFieldsGroupsListFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $configProvider;
+    private ConfigResolverInterface $configResolver;
 
-    public function __construct(RepositoryConfigurationProvider $configProvider)
-    {
-        $this->configProvider = $configProvider;
+    public function __construct(
+        ConfigResolverInterface $configResolver
+    ) {
+        $this->configResolver = $configResolver;
     }
 
     public function build(TranslatorInterface $translator)
     {
-        $repositoryConfig = $this->configProvider->getRepositoryConfig();
-
         return new ArrayTranslatorFieldsGroupsList(
             $translator,
-            $repositoryConfig['fields_groups']['default'],
-            $repositoryConfig['fields_groups']['list']
+            $this->configResolver->getParameter('content.field_groups.default'),
+            $this->configResolver->getParameter('content.field_groups.list')
         );
     }
 }

@@ -255,8 +255,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         }
 
         foreach ($config['repositories'] as $name => &$repository) {
-            if (empty($repository['fields_groups']['list'])) {
-                $repository['fields_groups']['list'] = $container->getParameter('ibexa.site_access.config.default.content.field_groups.list');
+            if (empty($repository['field_groups']['list'])) {
+                $repository['field_groups']['list'] = $container->getParameter('ibexa.site_access.config.default.content.field_groups.list');
             }
         }
 
