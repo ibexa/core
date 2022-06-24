@@ -20,7 +20,7 @@ class RemoteIdentifierMapper extends StringMapper
 {
     public function canMap(Field $field): bool
     {
-        return $field->type instanceof RemoteIdentifierField;
+        return $field->getType() instanceof RemoteIdentifierField;
     }
 }
 

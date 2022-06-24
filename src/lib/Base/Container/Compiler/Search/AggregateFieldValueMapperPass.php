@@ -16,27 +16,26 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AggregateFieldValueMapperPass implements CompilerPassInterface
 {
+    public const TAG = 'ibexa.search.common.field_value.mapper';
+
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(Aggregate::class)) {
             return;
         }
 
-        $aggregateFieldValueMapperDefinition = $container->getDefinition(
-            Aggregate::class
-        );
-
-        $taggedServiceIds = $container->findTaggedServiceIds(
-            'ibexa.search.common.field_value.mapper'
-        );
-        foreach ($taggedServiceIds as $id => $attributes) {
-            $aggregateFieldValueMapperDefinition->addMethodCall(
-                'addMapper',
-                [new Reference($id)]
-            );
+        $aggregateFieldValueMapperDefinition = $container->getDefinition(Aggregate::class);
+        $taggedServiceIds = $container->findTaggedServiceIds(self::TAG);
+        foreach ($taggedServiceIds as $id => $tags) {
+            foreach ($tags as $tagAttributes) {
+                $aggregateFieldValueMapperDefinition->addMethodCall(
+                    'addMapper',
+                    [new Reference($id), $tagAttributes['maps'] ?? null]
+                );
+            }
         }
     }
 }

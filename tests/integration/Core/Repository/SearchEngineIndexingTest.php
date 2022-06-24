@@ -1220,11 +1220,11 @@ class SearchEngineIndexingTest extends BaseTest
      * @param string $address
      * @param int[] $parentLocationIdList
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\BadStateException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\ContentValidationException
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\API\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     protected function createContentEmailWithAddress(string $address, array $parentLocationIdList = []): Content
     {

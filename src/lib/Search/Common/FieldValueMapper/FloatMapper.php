@@ -15,28 +15,14 @@ use Ibexa\Core\Search\Common\FieldValueMapper;
  */
 class FloatMapper extends FieldValueMapper
 {
-    /**
-     * Check if field can be mapped.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return bool
-     */
-    public function canMap(Field $field)
+    public function canMap(Field $field): bool
     {
-        return $field->type instanceof FloatField;
+        return $field->getType() instanceof FloatField;
     }
 
-    /**
-     * Map field value to a proper search engine representation.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return mixed
-     */
     public function map(Field $field)
     {
-        return sprintf('%F', (float)$field->value);
+        return sprintf('%F', (float)$field->getValue());
     }
 }
 

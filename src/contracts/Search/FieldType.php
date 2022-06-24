@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 /**
  * Base class for document field definitions.
  *
- * @property-read string $type The type name of the facet
+ * @property-read string $type [deprecated] The type name of the facet, deprecated - use {@see \Ibexa\Contracts\Core\Search\FieldType::getType} instead.
  */
 abstract class FieldType extends ValueObject
 {
@@ -56,6 +56,11 @@ abstract class FieldType extends ValueObject
      * @var bool
      */
     public $inResult = true;
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
 }
 
 class_alias(FieldType::class, 'eZ\Publish\SPI\Search\FieldType');

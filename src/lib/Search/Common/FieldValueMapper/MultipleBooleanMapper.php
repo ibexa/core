@@ -15,30 +15,16 @@ use Ibexa\Core\Search\Common\FieldValueMapper;
  */
 class MultipleBooleanMapper extends FieldValueMapper
 {
-    /**
-     * Check if field can be mapped.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return bool
-     */
-    public function canMap(Field $field)
+    public function canMap(Field $field): bool
     {
-        return $field->type instanceof MultipleBooleanField;
+        return $field->getType() instanceof MultipleBooleanField;
     }
 
-    /**
-     * Map field value to a proper search engine representation.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return mixed
-     */
     public function map(Field $field)
     {
         $values = [];
 
-        foreach ((array)$field->value as $value) {
+        foreach ((array)$field->getValue() as $value) {
             $values[] = (bool)$value;
         }
 
