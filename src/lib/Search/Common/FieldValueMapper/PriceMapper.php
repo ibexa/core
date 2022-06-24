@@ -15,16 +15,9 @@ use Ibexa\Core\Search\Common\FieldValueMapper;
  */
 class PriceMapper extends FieldValueMapper
 {
-    /**
-     * Check if field can be mapped.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return bool
-     */
-    public function canMap(Field $field)
+    public function canMap(Field $field): bool
     {
-        return $field->type instanceof PriceField;
+        return $field->getType() instanceof PriceField;
     }
 
     /**
@@ -36,7 +29,7 @@ class PriceMapper extends FieldValueMapper
      */
     public function map(Field $field)
     {
-        return (float)$field->value;
+        return (float)$field->getValue();
     }
 }
 

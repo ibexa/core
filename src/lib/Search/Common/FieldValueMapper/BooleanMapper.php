@@ -15,28 +15,14 @@ use Ibexa\Core\Search\Common\FieldValueMapper;
  */
 class BooleanMapper extends FieldValueMapper
 {
-    /**
-     * Check if field can be mapped.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return bool
-     */
-    public function canMap(Field $field)
+    public function canMap(Field $field): bool
     {
-        return $field->type instanceof BooleanField;
+        return $field->getType() instanceof BooleanField;
     }
 
-    /**
-     * Map field value to a proper search engine representation.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return mixed
-     */
     public function map(Field $field)
     {
-        return (bool)$field->value;
+        return (bool)$field->getValue();
     }
 }
 

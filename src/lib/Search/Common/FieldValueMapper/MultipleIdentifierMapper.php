@@ -14,16 +14,9 @@ use Ibexa\Contracts\Core\Search\FieldType\MultipleIdentifierField;
  */
 class MultipleIdentifierMapper extends IdentifierMapper
 {
-    /**
-     * Check if field can be mapped.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return bool
-     */
-    public function canMap(Field $field)
+    public function canMap(Field $field): bool
     {
-        return $field->type instanceof MultipleIdentifierField;
+        return $field->getType() instanceof MultipleIdentifierField;
     }
 
     /**
@@ -37,8 +30,9 @@ class MultipleIdentifierMapper extends IdentifierMapper
     {
         $values = [];
 
-        foreach ($field->value as $value) {
-            if (!$field->type->raw) {
+        $isRaw = $field->getType()->raw;
+        foreach ($field->getValue() as $value) {
+            if (!$isRaw) {
                 $value = $this->convert($value);
             }
 

@@ -15,16 +15,9 @@ use Ibexa\Core\Search\Common\FieldValueMapper;
  */
 class IdentifierMapper extends FieldValueMapper
 {
-    /**
-     * Check if field can be mapped.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return bool
-     */
-    public function canMap(Field $field)
+    public function canMap(Field $field): bool
     {
-        return $field->type instanceof IdentifierField;
+        return $field->getType() instanceof IdentifierField;
     }
 
     /**
@@ -36,21 +29,19 @@ class IdentifierMapper extends FieldValueMapper
      */
     public function map(Field $field)
     {
-        if ($field->type->raw) {
-            return $field->value;
+        if ($field->getType()->raw) {
+            return $field->getValue();
         }
 
-        return $this->convert($field->value);
+        return $this->convert($field->getValue());
     }
 
     /**
      * Convert to a proper search engine representation.
      *
      * @param mixed $value
-     *
-     * @return string
      */
-    protected function convert($value)
+    protected function convert($value): string
     {
         // Remove non-printable characters
         return preg_replace('([^A-Za-z0-9/]+)', '', $value);
