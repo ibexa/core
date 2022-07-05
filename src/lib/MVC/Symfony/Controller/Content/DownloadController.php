@@ -42,12 +42,19 @@ class DownloadController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Ibexa\Bundle\IO\BinaryStreamResponse
-     * @return \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function downloadBinaryFileAction($contentId, $fieldIdentifier, $filename, Request $request)
     {
         if ($request->query->has('version')) {
-            $content = $this->contentService->loadContent($contentId, null, $request->query->get('version'));
+            $version = (int) $request->query->get('version');
+            if ($version <= 0) {
+                throw new NotFoundException('File', $filename);
+            }
+            $content = $this->contentService->loadContent($contentId, null, $version);
         } else {
             $content = $this->contentService->loadContent($contentId);
         }
