@@ -4,9 +4,15 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
@@ -19,6 +25,8 @@ use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
  */
 class CheckboxIntegrationTest extends SearchBaseIntegrationTest
 {
+    private const IS_ACTIVE_FIELD_DEF_IDENTIFIER = 'is_active';
+
     /**
      * Get name of tested field type.
      *
@@ -123,7 +131,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             CheckboxValue::class,
             $field->value
         );
@@ -166,7 +174,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             CheckboxValue::class,
             $field->value
         );
@@ -195,7 +203,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             CheckboxValue::class,
             $field->value
         );
@@ -305,6 +313,107 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         }
 
         return parent::getSearchTargetValueTwo();
+    }
+
+    /**
+     * Data corresponds to Content items created by {@see createCheckboxContentItems}.
+     */
+    public function getDataForTestFindContentFieldCriterion(): iterable
+    {
+        // there are 2 Content items created, one with is_active = true, the other one with is_active = false
+        yield 'active' => [true];
+        yield 'not active' => [false];
+    }
+
+    /**
+     * @dataProvider getDataForTestFindContentFieldCriterion
+     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    public function testFindContentFieldCriterion(bool $isActive): void
+    {
+        $repository = $this->getRepository();
+        $this->createCheckboxContentItems($repository);
+
+        $criterion = new Criterion\Field(
+            self::IS_ACTIVE_FIELD_DEF_IDENTIFIER,
+            Criterion\Operator::EQ,
+            $isActive
+        );
+        $query = new Query(['query' => $criterion]);
+
+        $searchService = $repository->getSearchService();
+        $searchResult = $searchService->findContent($query);
+
+        self::assertEquals(1, $searchResult->totalCount);
+        $contentItem = $searchResult->searchHits[0]->valueObject;
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentItem */
+        $value = $contentItem->getField('is_active')->value;
+        /** @var \Ibexa\Core\FieldType\Checkbox\Value $value */
+        self::assertSame($isActive, $value->bool);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    protected function createCheckboxContentItems(Repository $repository): void
+    {
+        $contentType = $this->createContentTypeWithCheckboxField($repository);
+
+        $contentService = $repository->getContentService();
+
+        $toCreate = [
+            'content-checkbox-active' => true,
+            'content-checkbox-not-active' => false,
+        ];
+        foreach ($toCreate as $remoteId => $isActive) {
+            $createStruct = $contentService->newContentCreateStruct($contentType, 'eng-GB');
+            $createStruct->remoteId = $remoteId;
+            $createStruct->alwaysAvailable = false;
+            $createStruct->setField(self::IS_ACTIVE_FIELD_DEF_IDENTIFIER, $isActive);
+
+            $contentService->publishVersion(
+                $contentService->createContent($createStruct)->getVersionInfo()
+            );
+        }
+
+        $this->refreshSearch($repository);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    private function createContentTypeWithCheckboxField(Repository $repository): ContentType
+    {
+        $contentTypeService = $repository->getContentTypeService();
+
+        $createStruct = $contentTypeService->newContentTypeCreateStruct('content-checkbox');
+        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->names = ['eng-GB' => 'Checkboxes'];
+
+        $fieldCreate = $contentTypeService->newFieldDefinitionCreateStruct(
+            self::IS_ACTIVE_FIELD_DEF_IDENTIFIER,
+            'ezboolean'
+        );
+        $fieldCreate->names = ['eng-GB' => 'Active'];
+        $fieldCreate->position = 1;
+        $fieldCreate->isTranslatable = false;
+        $fieldCreate->isSearchable = true;
+
+        $createStruct->addFieldDefinition($fieldCreate);
+
+        $contentGroup = $contentTypeService->loadContentTypeGroupByIdentifier('Content');
+        $contentTypeDraft = $contentTypeService->createContentType($createStruct, [$contentGroup]);
+        $contentTypeService->publishContentTypeDraft($contentTypeDraft);
+
+        return $contentTypeService->loadContentType($contentTypeDraft->id);
     }
 }
 
