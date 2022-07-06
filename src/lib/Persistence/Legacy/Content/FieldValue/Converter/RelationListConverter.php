@@ -143,6 +143,10 @@ class RelationListConverter implements Converter
         }
         $root->appendChild($defaultLocation);
 
+        $rootDefaultLocation = $doc->createElement('root_default_location');
+        $rootDefaultLocation->setAttribute('value', (bool)($fieldSettings['rootDefaultLocation'] ?? false));
+        $root->appendChild($rootDefaultLocation);
+
         $selectionLimit = $doc->createElement('selection_limit');
         if (isset($validators['RelationListValueValidator']['selectionLimit'])) {
             $selectionLimit->setAttribute('value', (int)$validators['RelationListValueValidator']['selectionLimit']);
@@ -216,6 +220,13 @@ class RelationListConverter implements Converter
             $selectionType->hasAttribute('value')
         ) {
             $fieldSettings['selectionMethod'] = (int)$selectionType->getAttribute('value');
+        }
+
+        if (
+            ($rootDefaultLocation = $dom->getElementsByTagName('root_default_location')->item(0)) &&
+            $rootDefaultLocation->hasAttribute('value')
+        ) {
+            $fieldSettings['rootDefaultLocation'] = (bool)$rootDefaultLocation->getAttribute('value');
         }
 
         if (

@@ -86,6 +86,10 @@ class RelationConverter implements Converter
         $selectionType->setAttribute('value', $selectionMethod);
         $root->appendChild($selectionType);
 
+        $rootDefaultLocation = $doc->createElement('root_default_location');
+        $rootDefaultLocation->setAttribute('value', (bool)($fieldSettings['rootDefaultLocation'] ?? false));
+        $root->appendChild($rootDefaultLocation);
+
         $defaultLocation = $doc->createElement('contentobject-placement');
         if (!empty($fieldSettings['selectionRoot'])) {
             $defaultLocation->setAttribute('node-id', (int)$fieldSettings['selectionRoot']);
@@ -160,6 +164,13 @@ class RelationConverter implements Converter
             $defaultLocation->hasAttribute('node-id')
         ) {
             $fieldSettings['selectionRoot'] = (int)$defaultLocation->getAttribute('node-id');
+        }
+
+        if (
+            ($rootDefaultLocation = $dom->getElementsByTagName('root_default_location')->item(0)) &&
+            $rootDefaultLocation->hasAttribute('value')
+        ) {
+            $fieldSettings['rootDefaultLocation'] = (bool)$rootDefaultLocation->getAttribute('value');
         }
 
         if (!($constraints = $dom->getElementsByTagName('constraints'))) {
