@@ -143,7 +143,7 @@ class RelationListConverter implements Converter
         }
         $root->appendChild($defaultLocation);
 
-        $rootDefaultLocation = $doc->createElement('root-default-location');
+        $rootDefaultLocation = $doc->createElement('root_default_location');
         $rootDefaultLocation->setAttribute('value', (bool)($fieldSettings['rootDefaultLocation'] ?? false));
         $root->appendChild($rootDefaultLocation);
 
@@ -223,7 +223,7 @@ class RelationListConverter implements Converter
         }
 
         if (
-            ($rootDefaultLocation = $dom->getElementsByTagName('root-default-location')->item(0)) &&
+            ($rootDefaultLocation = $dom->getElementsByTagName('root_default_location')->item(0)) &&
             $rootDefaultLocation->hasAttribute('value')
         ) {
             $fieldSettings['rootDefaultLocation'] = (bool)$rootDefaultLocation->getAttribute('value');

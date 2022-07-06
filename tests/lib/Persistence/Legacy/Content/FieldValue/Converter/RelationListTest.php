@@ -219,7 +219,7 @@ EOT;
         $expectedStorageFieldDefinition = new StorageFieldDefinition();
         $expectedStorageFieldDefinition->dataText5 = <<<EOT
 <?xml version="1.0" encoding="utf-8"?>
-<related-objects><constraints><allowed-class contentclass-identifier="article"/><allowed-class contentclass-identifier="blog_post"/></constraints><type value="2"/><object_class value=""/><selection_type value="0"/><contentobject-placement node-id="12345"/><root-default-location value="1"/><selection_limit value="5"/></related-objects>
+<related-objects><constraints><allowed-class contentclass-identifier="article"/><allowed-class contentclass-identifier="blog_post"/></constraints><type value="2"/><object_class value=""/><selection_type value="0"/><contentobject-placement node-id="12345"/><root_default_location value="1"/><selection_limit value="5"/></related-objects>
 
 EOT;
 
@@ -250,7 +250,7 @@ EOT;
     <object_class value=""/>
     <selection_type value="1"/>
     <selection_limit value="1"/>
-    <root-default-location value="1"/>
+    <root_default_location value="1"/>
     <contentobject-placement node-id="54321"/>
 </related-objects>
 
