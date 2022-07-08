@@ -34,7 +34,7 @@ class FieldHelper
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      * @param string $fieldDefIdentifier
-     * @param null $forcedLanguage
+     * @param string|null $forcedLanguage
      *
      * @return bool
      */
