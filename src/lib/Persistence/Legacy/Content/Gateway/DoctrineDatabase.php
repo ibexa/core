@@ -1903,7 +1903,7 @@ final class DoctrineDatabase extends Gateway
             ->set('modified', ':now')
             ->where('id = :contentId')
             ->andWhere(
-            // make sure removed translation is not the last one (incl. alwaysAvailable)
+                // make sure removed translation is not the last one (incl. alwaysAvailable)
                 $query->expr()->andX(
                     'language_mask & ~ ' . $languageId . ' <> 0',
                     'language_mask & ~ ' . $languageId . ' <> 1'
@@ -1951,7 +1951,7 @@ final class DoctrineDatabase extends Gateway
             )
             ->where('contentobject_id = :contentId')
             ->andWhere(
-            // make sure removed translation is not the last one (incl. alwaysAvailable)
+                // make sure removed translation is not the last one (incl. alwaysAvailable)
                 $query->expr()->andX(
                     'language_mask & ~ ' . $languageId . ' <> 0',
                     'language_mask & ~ ' . $languageId . ' <> 1'
