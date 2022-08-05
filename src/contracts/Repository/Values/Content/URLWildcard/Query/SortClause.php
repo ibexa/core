@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query;
 
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
  * This class is the base for SortClause classes, used to set sorting of URL queries.
@@ -18,16 +18,14 @@ abstract class SortClause
     public const SORT_ASC = 'ascending';
     public const SORT_DESC = 'descending';
 
-    /** @var string */
-    public $direction = self::SORT_ASC;
+    public string $direction = self::SORT_ASC;
 
-    /** @var string */
-    public $target;
+    public string $target;
 
     /**
      * @phpstan-param SortClause::SORT_* $sortDirection
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException if the given sort order isn't one of SortClause::SORT_ASC or SortClause::SORT_DESC
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the given sort order isn't one of SortClause::SORT_ASC or SortClause::SORT_DESC
      */
     public function __construct(string $sortTarget, string $sortDirection)
     {

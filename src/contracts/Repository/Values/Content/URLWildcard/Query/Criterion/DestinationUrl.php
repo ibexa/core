@@ -15,10 +15,8 @@ final class DestinationUrl extends Matcher
 {
     /**
      * String which needs to part of URLWildcard destination Url e.g. ez.no.
-     *
-     * @var string
      */
-    public $destinationUrl;
+    public string $destinationUrl;
 
     public function __construct(string $destinationUrl)
     {
