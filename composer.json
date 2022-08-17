@@ -77,7 +77,7 @@
         "symfony/security-core": "5.3.0",
         "doctrine/dbal": "2.7.0",
         "ezsystems/ezpublish-legacy": "*",
-        "phpunit/phpunit": "8.4.0"
+        "phpunit/phpunit": "^9.5"
     },
     "replace": {
         "ezsystems/ezplatform-kernel": "*"

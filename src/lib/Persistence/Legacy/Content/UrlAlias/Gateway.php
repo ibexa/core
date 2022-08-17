@@ -99,7 +99,8 @@ abstract class Gateway
         int $languageId,
         int $newId,
         int $parentId,
-        string $textMD5
+        string $textMD5,
+        bool $alwaysAvailable
     ): void;
 
     /**

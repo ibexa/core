@@ -79,10 +79,11 @@ final class ExceptionConversion extends Gateway
         int $languageId,
         int $newId,
         int $parentId,
-        string $textMD5
+        string $textMD5,
+        bool $alwaysAvailable
     ): void {
         try {
-            $this->innerGateway->cleanupAfterPublish($action, $languageId, $newId, $parentId, $textMD5);
+            $this->innerGateway->cleanupAfterPublish($action, $languageId, $newId, $parentId, $textMD5, $alwaysAvailable);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

@@ -298,7 +298,7 @@ class Handler implements UrlAliasHandlerInterface
         /* @var $newTextMD5 */
         // Note: cleanup does not touch custom and global entries
         if ($cleanup) {
-            $this->gateway->cleanupAfterPublish($action, $languageId, $newId, $parentId, $newTextMD5);
+            $this->gateway->cleanupAfterPublish($action, $languageId, $newId, $parentId, $newTextMD5, $alwaysAvailable);
         }
 
         return $this->mapper->generateIdentityKey($parentId, $newTextMD5);

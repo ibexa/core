@@ -255,13 +255,15 @@ final class DoctrineDatabase extends Gateway
         int $languageId,
         int $newId,
         int $parentId,
-        string $textMD5
+        string $textMD5,
+        bool $alwaysAvailable
     ): void {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
             ->select(
                 'parent',
+                'text',
                 'text_md5',
                 'lang_mask'
             )
@@ -321,8 +323,28 @@ final class DoctrineDatabase extends Gateway
                 (int)$languageId,
                 (int)$row['parent'],
                 $row['text_md5'],
-                (int)$newId
+                (int)$newId,
             );
+
+            $languageMask = (int)$row['lang_mask'];
+            if ($languageMask & ~($languageId | 1)) {
+//                dd($row, [
+//                    'lang_mask' => $languageId,
+//                    'action' => $action,
+//                    'parent' => $parentId,
+//                    'text' => $row['text'],
+//                    'text_md5' => $row['text_md5'],
+//                    'link' => (int)$newId,
+//                ]);
+                $this->insertRow([
+                    'lang_mask' => $languageId,
+                    'action' => $action,
+                    'parent' => $parentId,
+                    'text' => $row['text'],
+                    'text_md5' => $row['text_md5'],
+                    'link' => (int)$newId,
+                ]);
+            }
         }
     }
 
