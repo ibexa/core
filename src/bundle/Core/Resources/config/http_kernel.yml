@@ -1,0 +1,5 @@
+services:
+    Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener:
+        class: Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener
+        tags:
+              - { name: kernel.event_subscriber }

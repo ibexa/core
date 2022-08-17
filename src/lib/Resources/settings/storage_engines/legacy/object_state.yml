@@ -1,0 +1,27 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.object_state.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
+        arguments:
+            - '@ibexa.spi.persistence.legacy.language.handler'
+
+    Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler:
+        class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.object_state.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper'
+        lazy: true

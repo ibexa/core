@@ -1,0 +1,49 @@
+services:
+    Ibexa\Bundle\Core\Features\Context\ContentContext:
+        public: true
+        arguments:
+            $repository: '@ibexa.api.repository'
+
+    Ibexa\Bundle\Core\Features\Context\ConsoleContext:
+        public: true
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $siteaccessList: '%ibexa.site_access.list%'
+            $defaultSiteaccess: '%ibexa.site_access.default%'
+
+    Ibexa\Bundle\Core\Features\Context\YamlConfigurationContext:
+        public: true
+        arguments:
+            $kernel: '@kernel'
+
+    Ibexa\Bundle\Core\Features\Context\QueryControllerContext: ~
+
+    Ibexa\Bundle\Core\Features\Context\ContentTypeContext:
+        public: true
+        arguments:
+            $contentTypeService: '@ibexa.api.service.content_type'
+
+    Ibexa\Bundle\Core\Features\Context\BasicContentContext:
+        public: true
+        arguments:
+            $repository: '@ibexa.api.repository'
+            $contentTypeService: '@ibexa.api.service.content_type'
+            $contentService: '@ibexa.api.service.content'
+
+    Ibexa\Bundle\Core\Features\Context\FieldTypeContext:
+        public: true
+        arguments:
+            $contentTypeService: '@ibexa.api.service.content_type'
+            $contentService: '@ibexa.api.service.content'
+            $locationService: '@ibexa.api.service.location'
+
+    Ibexa\Bundle\Core\Features\Context\RoleContext:
+        public: true
+        arguments:
+            $roleService: '@ibexa.api.service.role'
+
+    Ibexa\Bundle\Core\Features\Context\UserContext:
+        public: true
+        arguments:
+            $userService: '@ibexa.api.service.user'
+            $searchService: '@ibexa.api.service.search'

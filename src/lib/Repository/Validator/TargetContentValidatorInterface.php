@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Validator;
 
-use eZ\Publish\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 
 /**
  * @internal
