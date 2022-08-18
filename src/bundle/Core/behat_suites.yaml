@@ -1,0 +1,34 @@
+# This file is meant to be imported from Ibexa behat.yml.dist.
+# All path are relative to the root Ibexa project directory.
+core:
+    suites:
+        console:
+            paths:
+                - vendor/ibexa/core/src/bundle/Core/Features/Console
+            contexts:
+                - Ibexa\Bundle\Core\Features\Context\ConsoleContext
+        web:
+            paths:
+                - vendor/ibexa/core/src/bundle/Core/Features/Content
+                - vendor/ibexa/core/src/bundle/Core/Features/Exception
+            contexts:
+                - Ibexa\Bundle\Core\Features\Context\ContentPreviewContext
+                - Ibexa\Bundle\Core\Features\Context\ContentContext
+                - Ibexa\Bundle\Core\Features\Context\ExceptionContext
+        query_controller:
+            paths:
+                - vendor/ibexa/core/src/bundle/Core/Features/QueryController/query_controller.feature
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - Ibexa\Behat\API\Context\ContentContext
+                - Ibexa\Behat\API\Context\TestContext
+                - Ibexa\Behat\Core\Context\ConfigurationContext
+                - Ibexa\Bundle\Core\Features\Context\QueryControllerContext
+        setup:
+            paths:
+                - vendor/ibexa/core/src/bundle/Core/Features/QueryController/setup.feature
+            contexts:
+                - Ibexa\Behat\API\Context\ContentContext
+                - Ibexa\Behat\API\Context\TestContext
+                - Ibexa\Behat\Core\Context\ConfigurationContext
+                - Ibexa\Behat\Core\Context\FileContext
