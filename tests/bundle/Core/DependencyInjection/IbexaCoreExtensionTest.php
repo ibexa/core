@@ -15,6 +15,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository\Search
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository\Storage;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
+use Ibexa\Bundle\Core\Features\Context\QueryControllerContext;
 use Ibexa\Contracts\Core\Repository\Values\Filter;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder;
@@ -894,6 +895,19 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             CustomSortClauseQueryBuilder::class,
             ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER,
         ];
+    }
+
+    public function testDoesNotLoadTestServicesByDefault(): void
+    {
+        $this->load();
+        $this->assertContainerBuilderNotHasService(QueryControllerContext::class);
+    }
+
+    public function testLoadsTestServicesWhenParameterIsSpecified(): void
+    {
+        $this->container->setParameter('ibexa.behat.browser.enabled', true);
+        $this->load();
+        $this->assertContainerBuilderHasService(QueryControllerContext::class);
     }
 
     /**
