@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
@@ -781,6 +782,43 @@ class LanguageLimitationTest extends BaseTest
             $this->expectException(UnauthorizedException::class);
 
             $contentService->revealContent($content->contentInfo);
+        }
+    }
+
+    /**
+     * @dataProvider providerForPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testUpdateLocationWithLanguageLimitationAndDifferentContentTranslations(
+        array $limitationValues,
+        bool $containsAllTranslations
+    ): void {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+
+        $content = $this->testPrepareDataForTestsWithLanguageLimitationAndDifferentContentTranslations(
+            $limitationValues,
+            $containsAllTranslations
+        );
+
+        $location = $locationService->loadLocation($content->contentInfo->mainLocationId);
+
+        $locationUpdateStruct = new LocationUpdateStruct();
+        $newPriority = 3;
+        $locationUpdateStruct->priority = $newPriority;
+
+        if ($containsAllTranslations) {
+            $updatedLocation = $locationService->updateLocation($location, $locationUpdateStruct);
+
+            self::assertEquals($newPriority, $updatedLocation->priority);
+        } else {
+            $this->expectException(UnauthorizedException::class);
+
+            $locationService->updateLocation($location, $locationUpdateStruct);
         }
     }
 
