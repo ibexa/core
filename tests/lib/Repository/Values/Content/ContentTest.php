@@ -4,18 +4,93 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Tests\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\Repository\Values\Content\Content;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Content
+ * @covers \Ibexa\Core\Repository\Values\Content\Content
  */
-class ContentTest extends TestCase
+final class ContentTest extends TestCase
 {
-    public function testObjectProperties()
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
+    private $internalFields;
+
+    /** @var \Ibexa\Core\Repository\Values\Content\Content */
+    private $content;
+
+    protected function setUp(): void
+    {
+        $this->internalFields = [
+            new Field(
+                [
+                    'fieldDefIdentifier' => 'foo',
+                    'languageCode' => 'pol-PL',
+                    'value' => new TextLineValue('Foo'),
+                    'fieldTypeIdentifier' => 'string',
+                ]
+            ),
+            new Field(
+                [
+                    'fieldDefIdentifier' => 'foo',
+                    'languageCode' => 'eng-GB',
+                    'value' => new TextLineValue('English Foo'),
+                    'fieldTypeIdentifier' => 'string',
+                ]
+            ),
+            new Field(
+                [
+                    'fieldDefIdentifier' => 'bar',
+                    'languageCode' => 'pol-PL',
+                    'value' => new TextLineValue('Bar'),
+                    'fieldTypeIdentifier' => 'custom_type',
+                ]
+            ),
+        ];
+
+        $this->content = new Content(
+            [
+                'internalFields' => $this->internalFields,
+                'prioritizedFieldLanguageCode' => 'pol-PL',
+            ]
+        );
+    }
+
+    public function testGetFields(): void
+    {
+        self::assertSame($this->internalFields, $this->content->getFields());
+    }
+
+    public function testGetField(): void
+    {
+        self::assertSame($this->internalFields[0], $this->content->getField('foo'));
+        self::assertSame($this->internalFields[1], $this->content->getField('foo', 'eng-GB'));
+    }
+
+    public function testGetFieldValue(): void
+    {
+        self::assertEquals(new TextLineValue('Bar'), $this->content->getFieldValue('bar', 'pol-PL'));
+        self::assertNull($this->content->getFieldValue('bar', 'eng-GB'));
+    }
+
+    public function testGetFieldsByLanguage(): void
+    {
+        self::assertSame(
+            [
+                'foo' => $this->internalFields[0],
+                'bar' => $this->internalFields[2],
+            ],
+            $this->content->getFieldsByLanguage('pol-PL')
+        );
+    }
+
+    public function testObjectProperties(): void
     {
         $object = new Content(['internalFields' => []]);
         $properties = $object->attributes();
@@ -37,7 +112,7 @@ class ContentTest extends TestCase
         }
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $name = 'Translated name';
         $versionInfoMock = $this->createMock(VersionInfo::class);
