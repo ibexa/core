@@ -234,4 +234,3 @@ jobs:
                     CUSTOM_CACHE_POOL: singleredis
                     CACHE_HOST: 127.0.0.1
                     CORES_SETUP: single
-
