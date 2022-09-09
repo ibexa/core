@@ -42,6 +42,8 @@ use Ibexa\Contracts\Core\MVC\View\VariableProvider;
 use Ibexa\Core\Base\Container\Compiler\FieldTypeRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\GenericFieldTypeConverterPass;
 use Ibexa\Core\Base\Container\Compiler\Persistence\FieldTypeRegistryPass as PersistenceFieldTypeRegistryPass;
+use Ibexa\Core\Base\Container\Compiler\Search\AggregateFieldValueMapperPass;
+use Ibexa\Core\Base\Container\Compiler\Search\FieldRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Storage\ExternalStorageRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\FieldValueConverterRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\RoleLimitationConverterPass;
@@ -63,6 +65,8 @@ class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new RegisterStorageEnginePass());
         $container->addCompilerPass(new RegisterSearchEnginePass());
         $container->addCompilerPass(new RegisterSearchEngineIndexerPass());
+        $container->addCompilerPass(new AggregateFieldValueMapperPass());
+        $container->addCompilerPass(new FieldRegistryPass());
         $container->addCompilerPass(new RouterPass());
         $container->addCompilerPass(new SecurityPass());
         $container->addCompilerPass(new FragmentPass());
