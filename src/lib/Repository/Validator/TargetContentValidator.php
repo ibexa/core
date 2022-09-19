@@ -8,10 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Validator;
 
-use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\FieldType\ValidationError;
 
 /**
@@ -21,25 +19,25 @@ use Ibexa\Core\FieldType\ValidationError;
  */
 final class TargetContentValidator implements TargetContentValidatorInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
+    private $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
+    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    private $contentTypeHandler;
 
     public function __construct(
-        ContentService $contentService,
-        ContentTypeService $contentTypeService
+        Content\Handler $contentHandler,
+        Content\Type\Handler $contentTypeHandler
     ) {
-        $this->contentService = $contentService;
-        $this->contentTypeService = $contentTypeService;
+        $this->contentHandler = $contentHandler;
+        $this->contentTypeHandler = $contentTypeHandler;
     }
 
     public function validate(int $value, array $allowedContentTypes = []): ?ValidationError
     {
         try {
-            $contentInfo = $this->contentService->loadContentInfo($value);
-            $contentType = $this->contentTypeService->loadContentType($contentInfo->contentTypeId);
+            $content = $this->contentHandler->load($value);
+            $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
 
             if (!empty($allowedContentTypes) && !in_array($contentType->identifier, $allowedContentTypes, true)) {
                 return new ValidationError(
@@ -51,7 +49,7 @@ final class TargetContentValidator implements TargetContentValidatorInterface
                     'targetContentId'
                 );
             }
-        } catch (NotFoundException | UnauthorizedException $e) {
+        } catch (NotFoundException $e) {
             return new ValidationError(
                 'Content with identifier %contentId% is not a valid relation target',
                 null,
