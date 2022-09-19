@@ -253,8 +253,8 @@ services:
 
     Ibexa\Core\Repository\Validator\TargetContentValidator:
         arguments:
-            $contentService: '@ibexa.api.service.content'
-            $contentTypeService: '@ibexa.api.service.content_type'
+            $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
 
     Ibexa\Core\Repository\Validator\TargetContentValidatorInterface:
         alias: Ibexa\Core\Repository\Validator\TargetContentValidator
