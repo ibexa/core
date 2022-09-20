@@ -128,3 +128,15 @@ services:
         class: Ibexa\Core\Limitation\BlockingLimitationType
         arguments: ['AntiSpam']
         tags: [{name: ibexa.permissions.limitation_type, alias: AntiSpam}]
+
+    Ibexa\Core\Limitation\MemberOfLimitationType:
+        arguments:
+            $persistence: '@ibexa.api.persistence_handler'
+        tags:
+            - { name: ibexa.permissions.limitation_type, alias: MemberOf }
+
+    Ibexa\Core\Limitation\RoleLimitationType:
+        arguments:
+            $persistence: '@ibexa.api.persistence_handler'
+        tags:
+            - { name: ibexa.permissions.limitation_type, alias: Role }
