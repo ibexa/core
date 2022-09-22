@@ -30,6 +30,10 @@ class Handler implements BaseSettingHandler
 
         $setting = $this->settingGateway->loadSettingById($lastId);
 
+        if (empty($setting)) {
+            throw $this->createNotFoundException($group, $identifier);
+        }
+
         return new Setting([
             'group' => $setting['group'],
             'identifier' => $setting['identifier'],
@@ -50,6 +54,10 @@ class Handler implements BaseSettingHandler
 
         $setting = $this->settingGateway->loadSetting($group, $identifier);
 
+        if (empty($setting)) {
+            throw $this->createNotFoundException($group, $identifier);
+        }
+
         return new Setting([
             'group' => $setting['group'],
             'identifier' => $setting['identifier'],
@@ -65,10 +73,7 @@ class Handler implements BaseSettingHandler
         $setting = $this->settingGateway->loadSetting($group, $identifier);
 
         if (empty($setting)) {
-            throw new NotFound('Setting', [
-                'group' => $group,
-                'identifier' => $identifier,
-            ]);
+            throw $this->createNotFoundException($group, $identifier);
         }
 
         return new Setting([
@@ -81,6 +86,14 @@ class Handler implements BaseSettingHandler
     public function delete(string $group, string $identifier): void
     {
         $this->settingGateway->deleteSetting($group, $identifier);
+    }
+
+    private function createNotFoundException(string $group, string $identifier): NotFound
+    {
+        return new NotFound('Setting', [
+            'group' => $group,
+            'identifier' => $identifier,
+        ]);
     }
 }
 
