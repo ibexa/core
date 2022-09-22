@@ -1,0 +1,18 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\Location\Trash\Handler:
+        class: Ibexa\Core\Persistence\Legacy\Content\Location\Trash\Handler
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Location\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\ExceptionConversion'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Location\Mapper'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
+        lazy: true
+
+    # reusing parts of LSE
+    ibexa.core.trash.search.legacy.gateway.criteria_converter:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
+        lazy: true
+
+    ibexa.core.trash.search.legacy.gateway.sort_clause_converter:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter
+        lazy: true

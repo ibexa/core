@@ -1,0 +1,4 @@
+parameters:
+    # User configured IO handlers
+    ibexa.io.metadata_handlers: {}
+    ibexa.io.binarydata_handlers: {}

@@ -1,0 +1,20 @@
+parameters:
+    ibexa.session.attribute_bag.storage_key: "_ezpublish"
+
+services:
+    Ibexa\Bundle\Core\EventListener\SessionSetDynamicNameListener:
+        class: Ibexa\Bundle\Core\EventListener\SessionSetDynamicNameListener
+        arguments: ['@ibexa.config.resolver', "@session.storage.factory"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\SessionInitByPostListener:
+        class: Ibexa\Bundle\Core\EventListener\SessionInitByPostListener
+        tags:
+            - { name: kernel.event_subscriber }
+
+    # Override the session attribute bag to set custom storage key so same is used as legacy
+    # @deprecated To be removed in 7.0 kernel, see 594b083d94f1cff7008fb0d7d54f40d0ce0a2ace
+    session.attribute_bag:
+        class: Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag
+        arguments: ['%ibexa.session.attribute_bag.storage_key%']
