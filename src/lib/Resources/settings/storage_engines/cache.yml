@@ -248,6 +248,8 @@ services:
             $prefix: '%ibexa.core.persistence.cache.tag_prefix%'
             $tagPatterns: '%ibexa.core.persistence.cache.tag_patterns%'
             $keyPatterns: '%ibexa.core.persistence.cache.key_patterns%'
+        tags:
+            - { name: monolog.logger, channel: 'ibexa.cache' }
 
     # SPI Persistence Cache Handlers, incl abstracts
     Ibexa\Core\Persistence\Cache\AbstractHandler:

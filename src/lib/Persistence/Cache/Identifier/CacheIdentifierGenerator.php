@@ -9,13 +9,18 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Cache\Identifier;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
 /**
  * @internal
  */
-final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterface
+final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterface, LoggerAwareInterface
 {
     private const PLACEHOLDER = '-%s';
+
+    use LoggerAwareTrait;
 
     /** @var string */
     private $prefix;
@@ -31,6 +36,7 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
         $this->prefix = $prefix;
         $this->tagPatterns = $tagPatterns;
         $this->keyPatterns = $keyPatterns;
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -76,6 +82,12 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
         if ($withPrefix) {
             $cacheIdentifier = $this->prefix . $cacheIdentifier;
         }
+
+        $this->logger->debug(sprintf('Generated cache identifier: %s', $cacheIdentifier), [
+            'values' => $values,
+            'pattern' => $pattern,
+            'prefix' => $withPrefix ? $this->prefix : null,
+        ]);
 
         return $cacheIdentifier;
     }
