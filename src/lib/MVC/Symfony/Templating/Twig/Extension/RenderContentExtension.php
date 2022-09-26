@@ -48,7 +48,7 @@ final class RenderContentExtension extends AbstractExtension
                 ]
             ),
             new TwigFunction(
-                'ez_render_content',
+                'ibexa_render_content',
                 [$this, 'renderContent'],
                 ['is_safe' => ['html']]
             ),
