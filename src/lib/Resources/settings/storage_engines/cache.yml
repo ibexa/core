@@ -244,6 +244,7 @@ services:
     Ibexa\Core\Persistence\Cache\LocationPathConverter: ~
 
     Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGenerator:
+        autoconfigure: true
         arguments:
             $prefix: '%ibexa.core.persistence.cache.tag_prefix%'
             $tagPatterns: '%ibexa.core.persistence.cache.tag_patterns%'
