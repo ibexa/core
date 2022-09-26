@@ -11,6 +11,7 @@ namespace Ibexa\Core\Persistence\Cache\Identifier;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 /**
@@ -31,12 +32,12 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
     /** @var array<string,string> */
     private $keyPatterns;
 
-    public function __construct(string $prefix, array $tagPatterns, array $keyPatterns)
+    public function __construct(string $prefix, array $tagPatterns, array $keyPatterns, ?LoggerInterface $logger)
     {
         $this->prefix = $prefix;
         $this->tagPatterns = $tagPatterns;
         $this->keyPatterns = $keyPatterns;
-        $this->logger = new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
