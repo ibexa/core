@@ -32,7 +32,7 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
     /** @var array<string,string> */
     private $keyPatterns;
 
-    public function __construct(string $prefix, array $tagPatterns, array $keyPatterns, ?LoggerInterface $logger)
+    public function __construct(string $prefix, array $tagPatterns, array $keyPatterns, ?LoggerInterface $logger = null)
     {
         $this->prefix = $prefix;
         $this->tagPatterns = $tagPatterns;
