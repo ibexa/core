@@ -349,7 +349,7 @@ services:
         parent: Ibexa\Core\Persistence\Cache\AbstractHandler
 
     Ibexa\Core\Persistence\Cache\SettingHandler:
-        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
 
     Ibexa\Core\Persistence\Cache\Handler:
         class: Ibexa\Core\Persistence\Cache\Handler
