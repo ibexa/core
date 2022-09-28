@@ -9,7 +9,7 @@ namespace Ibexa\Core\Persistence\Cache;
 use Ibexa\Contracts\Core\Persistence\Setting\Handler as SettingHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Setting\Setting;
 
-final class SettingHandler extends AbstractHandler implements SettingHandlerInterface
+final class SettingHandler extends AbstractInMemoryPersistenceHandler implements SettingHandlerInterface
 {
     private const SETTING_IDENTIFIER = 'setting';
 
