@@ -34,6 +34,7 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Filter\Location\Handler'
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             - '%languages%'
+            - '%user_content_type_identifier_list%'
 
     Ibexa\Core\Repository\ContentService:
         class: Ibexa\Core\Repository\ContentService

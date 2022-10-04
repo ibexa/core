@@ -124,6 +124,7 @@ class IbexaCoreBundle extends Bundle
                     new ConfigParser\IO(new ComplexSettingParser()),
                     new ConfigParser\UrlChecker(),
                     new ConfigParser\TwigVariablesParser(),
+                    new ConfigParser\UserIdentifier(),
                 ],
                 [
                     new RepositoryConfigParser\Storage(),

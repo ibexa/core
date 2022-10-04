@@ -26,6 +26,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId as CriterionContentTypeId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier as CriterionContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd as CriterionLogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId as CriterionParentLocationId;
@@ -114,7 +115,7 @@ class UserService implements UserServiceInterface
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
             'defaultUserPlacement' => 12,
-            'userClassID' => 4, // @todo Rename this settings to swap out "Class" for "Type"
+            'userClassID' => 4, // @deprecated, use `user_content_type_identifier` configuration instead
             'userGroupClassID' => 3,
             'hashType' => $passwordHashGenerator->getDefaultHashType(),
             'siteName' => 'ibexa.co',
@@ -1043,11 +1044,15 @@ class UserService implements UserServiceInterface
 
         $searchQuery = new LocationQuery();
 
+        $contentTypesCriterions = [];
+
+        foreach ($this->settings['user_content_type_identifier'] as $contentTypeIdentifier) {
+            $contentTypesCriterions[] = new CriterionContentTypeIdentifier($contentTypeIdentifier);
+        }
+        $contentTypesCriterions[] = new CriterionParentLocationId($mainGroupLocation->id);
+
         $searchQuery->filter = new CriterionLogicalAnd(
-            [
-                new CriterionContentTypeId($this->settings['userClassID']),
-                new CriterionParentLocationId($mainGroupLocation->id),
-            ]
+            $contentTypesCriterions
         );
 
         $searchQuery->offset = $offset;
@@ -1077,7 +1082,11 @@ class UserService implements UserServiceInterface
     public function isUser(APIContent $content): bool
     {
         // First check against config for fast check
-        if ($this->settings['userClassID'] == $content->getVersionInfo()->getContentInfo()->contentTypeId) {
+        if (in_array(
+            $content->getVersionInfo()->getContentInfo()->getContentType()->identifier,
+            $this->settings['user_content_type_identifier'],
+            true
+        )) {
             return true;
         }
 
@@ -1114,9 +1123,8 @@ class UserService implements UserServiceInterface
     public function newUserCreateStruct(string $login, string $email, string $password, string $mainLanguageCode, ?ContentType $contentType = null): APIUserCreateStruct
     {
         if ($contentType === null) {
-            $contentType = $this->repository->getContentTypeService()->loadContentType(
-                $this->settings['userClassID']
-            );
+            $defaultIdentifier = reset($this->settings['user_content_type_identifier']);
+            $contentType = $this->repository->getContentTypeService()->loadContentTypeByIdentifier($defaultIdentifier);
         }
 
         $fieldDefIdentifier = '';
@@ -1206,10 +1214,8 @@ class UserService implements UserServiceInterface
         $errors = [];
 
         if ($context === null) {
-            $contentType = $this->repository->getContentTypeService()->loadContentType(
-                $this->settings['userClassID']
-            );
-
+            $defaultIdentifier = reset($this->settings['user_content_type_identifier']);
+            $contentType = $this->repository->getContentTypeService()->loadContentTypeByIdentifier($defaultIdentifier);
             $context = new PasswordValidationContext([
                 'contentType' => $contentType,
             ]);

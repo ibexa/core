@@ -123,6 +123,9 @@ class RepositoryFactory implements ContainerAwareInterface
                     'default_version_archive_limit' => $config['options']['default_version_archive_limit'],
                     'remove_archived_versions_on_publish' => $config['options']['remove_archived_versions_on_publish'],
                 ],
+                'user' => [
+                    'user_content_type_identifier' => $this->configResolver->getParameter('user_content_type_identifier'),
+                ],
             ],
             $this->logger
         );

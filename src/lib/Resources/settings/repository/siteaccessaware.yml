@@ -3,6 +3,7 @@ parameters:
     ibexa.io.dir.storage: var/ibexa_demo_site/storage
     ibexa.legacy.url_prefix: var/ibexa_demo_site/storage
     ibexa.url_prefix: var/ibexa_demo_site/storage
+    user_content_type_identifier_list: ['user']
 
 services:
     Ibexa\Core\Repository\SiteAccessAware\Repository:
