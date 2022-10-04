@@ -405,7 +405,7 @@ class PermissionResolver implements PermissionResolverInterface
      *         }
      *     );
      *
-     * @param \Closure $callback
+     * @param \callable(\Ibexa\Contracts\Core\Repository\Repository): mixed $callback
      * @param \Ibexa\Contracts\Core\Repository\Repository $outerRepository
      *
      * @throws \RuntimeException Thrown on recursive sudo() use.
