@@ -287,7 +287,7 @@ class CheckboxTest extends FieldTypeTest
 
     /**
      * @return iterable<array{
-     *     \eZ\Publish\Core\FieldType\Checkbox\Value,
+     *     \Ibexa\Core\FieldType\Checkbox\Value,
      * }>
      */
     public function provideForValueIsNeverEmpty(): iterable
