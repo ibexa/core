@@ -274,6 +274,32 @@ class CheckboxTest extends FieldTypeTest
             [new CheckboxValue(false), '0', [], 'en_GB'],
         ];
     }
+
+    /**
+     * @dataProvider provideForValueIsNeverEmpty
+     */
+    public function testValueIsNeverEmpty(CheckboxValue $value): void
+    {
+        $fieldType = $this->getFieldTypeUnderTest();
+
+        self::assertFalse($fieldType->isEmptyValue($value));
+    }
+
+    /**
+     * @return iterable<array{
+     *     \Ibexa\Core\FieldType\Checkbox\Value,
+     * }>
+     */
+    public function provideForValueIsNeverEmpty(): iterable
+    {
+        yield [new CheckboxValue(true)];
+        yield [new CheckboxValue(false)];
+    }
+
+    public function testEmptyValueIsEmpty(): void
+    {
+        self::markTestSkipped('Value of Checkbox fieldtype is never considered empty');
+    }
 }
 
 class_alias(CheckboxTest::class, 'eZ\Publish\Core\FieldType\Tests\CheckboxTest');
