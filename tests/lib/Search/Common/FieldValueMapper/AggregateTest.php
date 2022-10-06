@@ -8,22 +8,22 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Search\Common\FieldValueMapper;
 
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\Core\Search\Common\FieldValueMapper\Aggregate;
-use eZ\Publish\Core\Search\Common\FieldValueMapper\BooleanMapper;
-use eZ\Publish\SPI\Search\Field;
-use eZ\Publish\SPI\Search\FieldType\BooleanField;
-use eZ\Publish\SPI\Search\FieldType\FloatField;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
+use Ibexa\Contracts\Core\Search\FieldType\FloatField;
+use Ibexa\Core\Search\Common\FieldValueMapper\Aggregate;
+use Ibexa\Core\Search\Common\FieldValueMapper\BooleanMapper;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \eZ\Publish\Core\Search\Common\FieldValueMapper\Aggregate
+ * @covers \Ibexa\Core\Search\Common\FieldValueMapper\Aggregate
  */
 final class AggregateTest extends TestCase
 {
     private const MAPPED_VALUE = true;
 
-    /** @var \eZ\Publish\Core\Search\Common\FieldValueMapper\Aggregate */
+    /** @var \Ibexa\Core\Search\Common\FieldValueMapper\Aggregate */
     private $aggregateMapper;
 
     public function setUp(): void

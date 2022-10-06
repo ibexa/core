@@ -1,0 +1,45 @@
+services:
+    # Note: services tagged with:
+    #  - ibexa.search.legacy.gateway.sort_clause_handler.location
+    # are registered to this one using compilation pass
+    ibexa.search.legacy.gateway.sort_clause_converter.location:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Id:
+        parent: ibexa.search.legacy.gateway.sort_clause_handler.base
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Id
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Depth:
+        parent: ibexa.search.legacy.gateway.sort_clause_handler.base
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Depth
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Path:
+        parent: ibexa.search.legacy.gateway.sort_clause_handler.base
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Path
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\IsMainLocation:
+        parent: ibexa.search.legacy.gateway.sort_clause_handler.base
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\IsMainLocation
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Priority:
+        parent: ibexa.search.legacy.gateway.sort_clause_handler.base
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Priority
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.sort_clause.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Visibility:
+        parent: ibexa.search.legacy.gateway.sort_clause_handler.base
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Visibility
+        tags:
+            - {name: ibexa.search.legacy.gateway.sort_clause_handler.location}

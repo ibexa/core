@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Exceptions;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-
 final class InvalidCriterionArgumentException extends InvalidArgumentException
 {
     public function __construct($key, $criterion, string $expectedCriterionFQCN)

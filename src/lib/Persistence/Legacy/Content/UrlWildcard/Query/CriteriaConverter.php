@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query;
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
 
 final class CriteriaConverter
@@ -26,7 +26,7 @@ final class CriteriaConverter
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotImplementedException if Criterion is not applicable to its target
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if Criterion is not applicable to its target
      *
      * @return \Doctrine\DBAL\Query\Expression\CompositeExpression|string
      */
