@@ -13,6 +13,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextu
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 /**
+ * @internal
  * Configuration parser for user identifier configuration.
  *
  * Example configuration:
@@ -23,7 +24,7 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  *          user_content_type_identifier: ['user', 'my_custom_user_identifier']
  * ```
  */
-class UserIdentifier extends AbstractParser
+final class UserContentTypeIdentifier extends AbstractParser
 {
     /**
      * Adds semantic configuration definition.
@@ -58,5 +59,5 @@ class UserIdentifier extends AbstractParser
     }
 }
 
-class_alias(UserIdentifier::class, 'EzSystems\EzPlatformAdminUiBundle\DependencyInjection\Configuration\Parser\UserIdentifier');
-class_alias(UserIdentifier::class, 'Ibexa\Bundle\AdminUi\DependencyInjection\Configuration\Parser\UserIdentifier');
+class_alias(UserContentTypeIdentifier::class, 'EzSystems\EzPlatformAdminUiBundle\DependencyInjection\Configuration\Parser\UserIdentifier');
+class_alias(UserContentTypeIdentifier::class, 'Ibexa\Bundle\AdminUi\DependencyInjection\Configuration\Parser\UserIdentifier');
