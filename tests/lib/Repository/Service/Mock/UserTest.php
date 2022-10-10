@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\UserService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
@@ -155,6 +156,7 @@ class UserTest extends BaseServiceMockTest
                     $this->getPersistenceMock()->locationHandler(),
                     $this->createMock(PasswordHashService::class),
                     $this->createMock(PasswordValidatorInterface::class),
+                    $this->createMock(ConfigResolverInterface::class),
                 ]
             )
             ->getMock();

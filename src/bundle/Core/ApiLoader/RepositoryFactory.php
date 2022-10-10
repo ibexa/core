@@ -90,7 +90,8 @@ class RepositoryFactory implements ContainerAwareInterface
         PermissionService $permissionService,
         ContentFilteringHandler $contentFilteringHandler,
         LocationFilteringHandler $locationFilteringHandler,
-        PasswordValidatorInterface $passwordValidator
+        PasswordValidatorInterface $passwordValidator,
+        ConfigResolverInterface $configResolver
     ): Repository {
         $config = $this->container->get(\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider::class)->getRepositoryConfig();
 
@@ -114,6 +115,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $contentFilteringHandler,
             $locationFilteringHandler,
             $passwordValidator,
+            $configResolver,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,
@@ -122,9 +124,6 @@ class RepositoryFactory implements ContainerAwareInterface
                 'content' => [
                     'default_version_archive_limit' => $config['options']['default_version_archive_limit'],
                     'remove_archived_versions_on_publish' => $config['options']['remove_archived_versions_on_publish'],
-                ],
-                'user' => [
-                    'user_content_type_identifier' => $this->configResolver->getParameter('user_content_type_identifier'),
                 ],
             ],
             $this->logger

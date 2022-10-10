@@ -42,6 +42,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct as APIUser
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -91,6 +92,8 @@ class UserService implements UserServiceInterface
     /** @var \Ibexa\Core\Repository\User\PasswordValidatorInterface */
     private $passwordValidator;
 
+    private ConfigResolverInterface $configResolver;
+
     public function setLogger(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
@@ -106,6 +109,7 @@ class UserService implements UserServiceInterface
         LocationHandler $locationHandler,
         PasswordHashService $passwordHashGenerator,
         PasswordValidatorInterface $passwordValidator,
+        ConfigResolverInterface $configResolver,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -122,6 +126,7 @@ class UserService implements UserServiceInterface
         ];
         $this->passwordHashService = $passwordHashGenerator;
         $this->passwordValidator = $passwordValidator;
+        $this->configResolver = $configResolver;
     }
 
     /**
@@ -1044,15 +1049,11 @@ class UserService implements UserServiceInterface
 
         $searchQuery = new LocationQuery();
 
-        $contentTypesCriterions = [];
-
-        foreach ($this->settings['user_content_type_identifier'] as $contentTypeIdentifier) {
-            $contentTypesCriterions[] = new CriterionContentTypeIdentifier($contentTypeIdentifier);
-        }
-        $contentTypesCriterions[] = new CriterionParentLocationId($mainGroupLocation->id);
-
         $searchQuery->filter = new CriterionLogicalAnd(
-            $contentTypesCriterions
+            [
+                new CriterionContentTypeIdentifier($this->getUserContentTypeIdentifiers()),
+                new CriterionParentLocationId($mainGroupLocation->id),
+            ]
         );
 
         $searchQuery->offset = $offset;
@@ -1084,7 +1085,7 @@ class UserService implements UserServiceInterface
         // First check against config for fast check
         if (in_array(
             $content->getVersionInfo()->getContentInfo()->getContentType()->identifier,
-            $this->settings['user_content_type_identifier'],
+            $this->getUserContentTypeIdentifiers(),
             true
         )) {
             return true;
@@ -1123,7 +1124,8 @@ class UserService implements UserServiceInterface
     public function newUserCreateStruct(string $login, string $email, string $password, string $mainLanguageCode, ?ContentType $contentType = null): APIUserCreateStruct
     {
         if ($contentType === null) {
-            $defaultIdentifier = reset($this->settings['user_content_type_identifier']);
+            $userContentTypeIdentifiers = $this->getUserContentTypeIdentifiers();
+            $defaultIdentifier = reset($userContentTypeIdentifiers);
             $contentType = $this->repository->getContentTypeService()->loadContentTypeByIdentifier($defaultIdentifier);
         }
 
@@ -1214,7 +1216,8 @@ class UserService implements UserServiceInterface
         $errors = [];
 
         if ($context === null) {
-            $defaultIdentifier = reset($this->settings['user_content_type_identifier']);
+            $userContentTypeIdentifiers = $this->getUserContentTypeIdentifiers();
+            $defaultIdentifier = reset($userContentTypeIdentifiers);
             $contentType = $this->repository->getContentTypeService()->loadContentTypeByIdentifier($defaultIdentifier);
             $context = new PasswordValidationContext([
                 'contentType' => $contentType,
@@ -1409,6 +1412,12 @@ class UserService implements UserServiceInterface
         }
 
         return null;
+    }
+
+    /** @return string[] */
+    private function getUserContentTypeIdentifiers(): array
+    {
+        return $this->configResolver->getParameter('user_content_type_identifier');
     }
 }
 

@@ -38,6 +38,7 @@ use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServi
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
@@ -263,6 +264,8 @@ class Repository implements RepositoryInterface
     /** @var \Ibexa\Core\Repository\User\PasswordValidatorInterface */
     private $passwordValidator;
 
+    private ConfigResolverInterface $configResolver;
+
     public function __construct(
         PersistenceHandler $persistenceHandler,
         SearchHandler $searchHandler,
@@ -283,6 +286,7 @@ class Repository implements RepositoryInterface
         ContentFilteringHandler $contentFilteringHandler,
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
+        ConfigResolverInterface $configResolver,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -332,6 +336,7 @@ class Repository implements RepositoryInterface
         $this->contentMapper = $contentMapper;
         $this->contentValidator = $contentValidator;
         $this->passwordValidator = $passwordValidator;
+        $this->configResolver = $configResolver;
     }
 
     /**
@@ -523,6 +528,7 @@ class Repository implements RepositoryInterface
             $this->persistenceHandler->locationHandler(),
             $this->passwordHashService,
             $this->passwordValidator,
+            $this->configResolver,
             $this->serviceSettings['user']
         );
 
