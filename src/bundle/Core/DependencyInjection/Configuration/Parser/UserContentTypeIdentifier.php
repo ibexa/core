@@ -43,9 +43,6 @@ final class UserContentTypeIdentifier extends AbstractParser
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
     {
         if (empty($scopeSettings['user_content_type_identifier'])) {

@@ -62,7 +62,6 @@ class RepositoryFactory implements ContainerAwareInterface
      * directly to make sure you get an instance wrapped inside Event / Cache / * functionality.
      *
      * @param string[] $languages
-     * @param string[] $userContentTypeIdentifierList
      */
     public function buildRepository(
         PersistenceHandler $persistenceHandler,
