@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Repository as APIRepository;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\FieldTypeService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
@@ -124,6 +125,7 @@ abstract class Base extends TestCase
                 $this->getContentFilteringHandlerMock(),
                 $this->getLocationFilteringHandlerMock(),
                 $this->createMock(PasswordValidatorInterface::class),
+                $this->createMock(ConfigResolverInterface::class),
                 $serviceSettings,
             );
 

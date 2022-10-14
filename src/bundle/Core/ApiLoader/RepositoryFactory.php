@@ -90,7 +90,8 @@ class RepositoryFactory implements ContainerAwareInterface
         PermissionService $permissionService,
         ContentFilteringHandler $contentFilteringHandler,
         LocationFilteringHandler $locationFilteringHandler,
-        PasswordValidatorInterface $passwordValidator
+        PasswordValidatorInterface $passwordValidator,
+        ConfigResolverInterface $configResolver
     ): Repository {
         $config = $this->container->get(\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider::class)->getRepositoryConfig();
 
@@ -114,6 +115,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $contentFilteringHandler,
             $locationFilteringHandler,
             $passwordValidator,
+            $configResolver,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

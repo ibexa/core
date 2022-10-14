@@ -12,6 +12,8 @@ parameters:
         name_field_identifier: name
         parent_location_id: 51
 
+    ibexa.site_access.config.default.user_content_type_identifier: ['user']
+
 services:
     Ibexa\Core\FieldType\ImageAsset\AssetMapper:
         arguments:

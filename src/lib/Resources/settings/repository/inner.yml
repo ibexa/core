@@ -33,6 +33,7 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
             - '@Ibexa\Contracts\Core\Persistence\Filter\Location\Handler'
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
+            - '@ibexa.config.resolver'
             - '%languages%'
 
     Ibexa\Core\Repository\ContentService:

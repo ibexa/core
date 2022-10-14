@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
@@ -81,6 +82,7 @@ class RepositoryFactory implements ContainerAwareInterface
         ContentFilteringHandler $contentFilteringHandler,
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
+        ConfigResolverInterface $configResolver,
         array $languages
     ): Repository {
         return new $this->repositoryClass(
@@ -103,6 +105,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $contentFilteringHandler,
             $locationFilteringHandler,
             $passwordValidator,
+            $configResolver,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

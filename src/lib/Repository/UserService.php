@@ -26,6 +26,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId as CriterionContentTypeId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier as CriterionContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd as CriterionLogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId as CriterionParentLocationId;
@@ -41,6 +42,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct as APIUser
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -90,6 +92,8 @@ class UserService implements UserServiceInterface
     /** @var \Ibexa\Core\Repository\User\PasswordValidatorInterface */
     private $passwordValidator;
 
+    private ConfigResolverInterface $configResolver;
+
     public function setLogger(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
@@ -105,6 +109,7 @@ class UserService implements UserServiceInterface
         LocationHandler $locationHandler,
         PasswordHashService $passwordHashGenerator,
         PasswordValidatorInterface $passwordValidator,
+        ConfigResolverInterface $configResolver,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -114,13 +119,14 @@ class UserService implements UserServiceInterface
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
             'defaultUserPlacement' => 12,
-            'userClassID' => 4, // @todo Rename this settings to swap out "Class" for "Type"
+            'userClassID' => 4, // @deprecated, use `user_content_type_identifier` configuration instead
             'userGroupClassID' => 3,
             'hashType' => $passwordHashGenerator->getDefaultHashType(),
             'siteName' => 'ibexa.co',
         ];
         $this->passwordHashService = $passwordHashGenerator;
         $this->passwordValidator = $passwordValidator;
+        $this->configResolver = $configResolver;
     }
 
     /**
@@ -1045,7 +1051,7 @@ class UserService implements UserServiceInterface
 
         $searchQuery->filter = new CriterionLogicalAnd(
             [
-                new CriterionContentTypeId($this->settings['userClassID']),
+                new CriterionContentTypeIdentifier($this->getUserContentTypeIdentifiers()),
                 new CriterionParentLocationId($mainGroupLocation->id),
             ]
         );
@@ -1077,7 +1083,11 @@ class UserService implements UserServiceInterface
     public function isUser(APIContent $content): bool
     {
         // First check against config for fast check
-        if ($this->settings['userClassID'] == $content->getVersionInfo()->getContentInfo()->contentTypeId) {
+        if (in_array(
+            $content->getVersionInfo()->getContentInfo()->getContentType()->identifier,
+            $this->getUserContentTypeIdentifiers(),
+            true
+        )) {
             return true;
         }
 
@@ -1114,9 +1124,9 @@ class UserService implements UserServiceInterface
     public function newUserCreateStruct(string $login, string $email, string $password, string $mainLanguageCode, ?ContentType $contentType = null): APIUserCreateStruct
     {
         if ($contentType === null) {
-            $contentType = $this->repository->getContentTypeService()->loadContentType(
-                $this->settings['userClassID']
-            );
+            $userContentTypeIdentifiers = $this->getUserContentTypeIdentifiers();
+            $defaultIdentifier = reset($userContentTypeIdentifiers);
+            $contentType = $this->repository->getContentTypeService()->loadContentTypeByIdentifier($defaultIdentifier);
         }
 
         $fieldDefIdentifier = '';
@@ -1206,10 +1216,9 @@ class UserService implements UserServiceInterface
         $errors = [];
 
         if ($context === null) {
-            $contentType = $this->repository->getContentTypeService()->loadContentType(
-                $this->settings['userClassID']
-            );
-
+            $userContentTypeIdentifiers = $this->getUserContentTypeIdentifiers();
+            $defaultIdentifier = reset($userContentTypeIdentifiers);
+            $contentType = $this->repository->getContentTypeService()->loadContentTypeByIdentifier($defaultIdentifier);
             $context = new PasswordValidationContext([
                 'contentType' => $contentType,
             ]);
@@ -1403,6 +1412,14 @@ class UserService implements UserServiceInterface
         }
 
         return null;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getUserContentTypeIdentifiers(): array
+    {
+        return $this->configResolver->getParameter('user_content_type_identifier');
     }
 }
 
