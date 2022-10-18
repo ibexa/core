@@ -232,9 +232,7 @@ EOT
                     $processScriptFragments[] = '--dry-run';
                 }
 
-                $process = new Process(
-                    implode(' ', $processScriptFragments)
-                );
+                $process = new Process($processScriptFragments);
 
                 $process->setEnv(['INNER_CALL' => 1]);
                 $process->run();
@@ -272,7 +270,7 @@ EOT
         $dateTimeInUTC->setTimezone(new DateTimeZone('UTC'));
 
         foreach ($timestampBasedFields as $timestampBasedField) {
-            $timestamp = $timestampBasedField['data_int'];
+            $timestamp = (int)$timestampBasedField['data_int'];
             $dateTimeInUTC->setTimestamp($timestamp);
             $newTimestamp = $this->convertToUtcTimestamp($timestamp);
 
@@ -373,7 +371,7 @@ EOT
         $dateTimeZone = new DateTimeZone($this->timezone);
         $dateTimeZoneUTC = new DateTimeZone('UTC');
 
-        $dateTime = new DateTime(null, $dateTimeZone);
+        $dateTime = new DateTime('now', $dateTimeZone);
         $dateTime->setTimestamp($timestamp);
         $dateTimeUTC = new DateTime($dateTime->format('Y-m-d H:i:s'), $dateTimeZoneUTC);
 
