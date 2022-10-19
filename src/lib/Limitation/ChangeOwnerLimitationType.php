@@ -19,8 +19,6 @@ use Ibexa\Core\FieldType\ValidationError;
 
 final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
 {
-    public const LIMITATION_VALUE_SELF = -1;
-
     public function acceptValue(Limitation $limitationValue): void
     {
         if (!is_array($limitationValue->limitationValues)) {
@@ -80,7 +78,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
 
         $userId = $currentUser->getUserId();
         $limitationValues = array_map(
-            static fn (int $value): int => $value === self::LIMITATION_VALUE_SELF ? $userId : $value,
+            static fn (int $value): int => $value === ChangeOwnerLimitation::LIMITATION_VALUE_SELF ? $userId : $value,
             $limitationValues
         );
 
