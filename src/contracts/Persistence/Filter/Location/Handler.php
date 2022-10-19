@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 interface Handler
 {
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Content\LocationWithContentInfo[]
+     * @return \Ibexa\Contracts\Core\Persistence\Filter\Location\LazyLocationListIterator
      */
     public function find(Filter $filter): iterable;
 }

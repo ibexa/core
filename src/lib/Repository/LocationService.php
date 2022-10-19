@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use function count;
 use Exception;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
@@ -928,7 +927,8 @@ class LocationService implements LocationServiceInterface
         }
 
         $locations = [];
-        foreach ($this->locationFilteringHandler->find($filter) as $locationWithContentInfo) {
+        $locationListIterator = $this->locationFilteringHandler->find($filter);
+        foreach ($locationListIterator as $locationWithContentInfo) {
             $spiContentInfo = $locationWithContentInfo->getContentInfo();
             $locations[] = $this->contentDomainMapper->buildLocationWithContent(
                 $locationWithContentInfo->getLocation(),
@@ -939,7 +939,7 @@ class LocationService implements LocationServiceInterface
 
         return new LocationList(
             [
-                'totalCount' => count($locations),
+                'totalCount' => $locationListIterator->getTotalCount(),
                 'locations' => $locations,
             ]
         );

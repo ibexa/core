@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\Filtering;
 
+use Ibexa\Contracts\Core\Repository\Collections\TotalCountAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -26,6 +27,10 @@ use IteratorAggregate;
  */
 abstract class BaseRepositoryFilteringTestCase extends BaseTest
 {
+    private const PAGINATION_EXPECTED_TOTAL_COUNT = 5;
+    private const PAGINATION_LIMIT = 3;
+    private const PAGINATION_OFFSET = 2;
+
     /** @var \Ibexa\Tests\Core\Repository\Filtering\TestContentProvider */
     protected $contentProvider;
 
@@ -92,6 +97,36 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTest
         $list = $this->find($filter, []);
 
         self::assertCount(0, $list);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testFindPaginated(): void
+    {
+        $parentFolder = $this->createFolder([TestContentProvider::ENG_US => 'Parent Folder'], 2);
+        $parentLocationId = $parentFolder->contentInfo->mainLocationId;
+        for ($i = 0; $i < self::PAGINATION_EXPECTED_TOTAL_COUNT; ++$i) {
+            $this->createFolder(
+                [
+                    TestContentProvider::ENG_US => 'Folder ' . ($i + 1),
+                ],
+                $parentLocationId
+            );
+        }
+
+        $filter = new Filter();
+        $filter
+            ->withCriterion(
+                new Criterion\ParentLocationId($parentLocationId)
+            )
+            ->withLimit(self::PAGINATION_LIMIT)
+            ->withOffset(self::PAGINATION_OFFSET);
+
+        $list = $this->find($filter, []);
+        self::assertInstanceOf(TotalCountAwareInterface::class, $list);
+        self::assertSame(self::PAGINATION_EXPECTED_TOTAL_COUNT, $list->getTotalCount());
+        self::assertCount(self::PAGINATION_LIMIT, $list);
     }
 
     /**
