@@ -49,15 +49,15 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
      */
     public function allowedProvider(): array
     {
-        $otherUser1 = $this->createUserVersion1('other_user_1');
-        $otherUser2 = $this->createUserVersion1('other_user_2');
+        $otherUserId1 = 123;
+        $otherUserId2 = 456;
 
         return [
             [null, []],
             [null, [-1]],
-            [null, [$otherUser1->id, $otherUser2->id, -1]],
-            [$otherUser1->id, [$otherUser1->id, $otherUser2->id, -1]],
-            [$otherUser1->id, []],
+            [null, [$otherUserId1, $otherUserId2, -1]],
+            [$otherUserId1, [$otherUserId1, $otherUserId2, -1]],
+            [$otherUserId1, []],
         ];
     }
 
@@ -70,13 +70,13 @@ final class ChangeOwnerLimitationTest extends BaseLimitationTest
      */
     public function deniedProvider(): array
     {
-        $otherUser1 = $this->createUserVersion1('other_user_1');
-        $otherUser2 = $this->createUserVersion1('other_user_2');
-        $otherUser3 = $this->createUserVersion1('other_user_3');
+        $otherUserId1 = 123;
+        $otherUserId2 = 456;
+        $otherUserId3 = 789;
 
         return [
-            [$otherUser1->id, [-1]],
-            [$otherUser1->id, [$otherUser2->id, $otherUser3->id]],
+            [$otherUserId1, [-1]],
+            [$otherUserId1, [$otherUserId2, $otherUserId3]],
         ];
     }
 
