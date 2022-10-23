@@ -1149,28 +1149,22 @@ class LocationServiceTest extends BaseTest
     }
 
     /**
-     * Test for the loadLocationChildren() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
-     *
-     * @depends testLoadLocationChildren
      */
     public function testLoadLocationChildrenWithOffset(): LocationList
     {
         $repository = $this->getRepository();
 
         $locationId = $this->generateId('location', 5);
-        /* BEGIN: Use Case */
         // $locationId is the ID of an existing location
         $locationService = $repository->getLocationService();
 
         $location = $locationService->loadLocation($locationId);
 
         $childLocations = $locationService->loadLocationChildren($location, 2);
-        /* END: Use Case */
 
-        $this->assertIsArray($childLocations->locations);
-        $this->assertIsInt($childLocations->totalCount);
+        self::assertIsIterable($childLocations);
+        self::assertIsInt($childLocations->totalCount);
 
         return $childLocations;
     }
@@ -1180,33 +1174,28 @@ class LocationServiceTest extends BaseTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationList $locations
      *
-     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren($location, $offset)
+     * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
+     *
      * @depends testLoadLocationChildrenWithOffset
      */
-    public function testLoadLocationChildrenDataWithOffset(LocationList $locations)
+    public function testLoadLocationChildrenDataWithOffset(LocationList $locations): void
     {
-        $this->assertCount(3, $locations->locations);
-        $this->assertEquals(5, $locations->getTotalCount());
+        self::assertCount(3, $locations->locations);
+        self::assertEquals(5, $locations->getTotalCount());
 
+        $actualLocationIds = [];
         foreach ($locations->locations as $location) {
-            $this->assertInstanceOf(
-                Location::class,
-                $location
-            );
+            self::assertInstanceOf(Location::class, $location);
+            $actualLocationIds[] = $location->id;
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 $this->generateId('location', 14),
                 $this->generateId('location', 44),
                 $this->generateId('location', 61),
             ],
-            array_map(
-                static function (Location $location) {
-                    return $location->id;
-                },
-                $locations->locations
-            )
+            $actualLocationIds
         );
     }
 
@@ -1220,14 +1209,12 @@ class LocationServiceTest extends BaseTest
         $repository = $this->getRepository();
 
         $locationId = $this->generateId('location', 5);
-        /* BEGIN: Use Case */
         // $locationId is the ID of an existing location
         $locationService = $repository->getLocationService();
 
         $location = $locationService->loadLocation($locationId);
 
         $childLocations = $locationService->loadLocationChildren($location, 2, 2);
-        /* END: Use Case */
 
         $this->assertIsArray($childLocations->locations);
         $this->assertIsInt($childLocations->totalCount);
@@ -1237,6 +1224,7 @@ class LocationServiceTest extends BaseTest
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationChildren
+     *
      * @depends testLoadLocationChildrenWithOffsetAndLimit
      */
     public function testLoadLocationChildrenDataWithOffsetAndLimit(LocationList $locations): void
@@ -1244,11 +1232,10 @@ class LocationServiceTest extends BaseTest
         $this->assertCount(2, $locations->locations);
         $this->assertEquals(5, $locations->getTotalCount());
 
+        $actualLocationIds = [];
         foreach ($locations->locations as $location) {
-            $this->assertInstanceOf(
-                Location::class,
-                $location
-            );
+            self::assertInstanceOf(Location::class, $location);
+            $actualLocationIds[] = $location->id;
         }
 
         $this->assertEquals(
@@ -1256,12 +1243,7 @@ class LocationServiceTest extends BaseTest
                 $this->generateId('location', 14),
                 $this->generateId('location', 44),
             ],
-            array_map(
-                static function (Location $location) {
-                    return $location->id;
-                },
-                $locations->locations
-            )
+            $actualLocationIds
         );
     }
 

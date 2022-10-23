@@ -278,6 +278,14 @@ class ContentService implements ContentServiceInterface
             $this->languageResolver->getPrioritizedLanguages($languages)
         );
     }
+
+    public function count(Filter $filter, ?array $languages = null): int
+    {
+        return $this->service->count(
+            $filter,
+            $this->languageResolver->getPrioritizedLanguages($languages)
+        );
+    }
 }
 
 class_alias(ContentService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\ContentService');

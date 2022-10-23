@@ -27,7 +27,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
-use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -284,11 +283,12 @@ class LocationService implements LocationServiceInterface
         return $locations;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadLocationChildren(APILocation $location, int $offset = 0, int $limit = 25, ?array $prioritizedLanguages = null): LocationList
-    {
+    public function loadLocationChildren(
+        APILocation $location,
+        int $offset = 0,
+        int $limit = 25,
+        ?array $prioritizedLanguages = null
+    ): LocationList {
         if (!$this->contentDomainMapper->isValidLocationSortField($location->sortField)) {
             throw new InvalidArgumentValue('sortField', $location->sortField, 'Location');
         }
@@ -305,18 +305,12 @@ class LocationService implements LocationServiceInterface
             throw new InvalidArgumentValue('limit', $limit);
         }
 
-        $childLocations = [];
-        $searchResult = $this->searchChildrenLocations($location, $offset, $limit, $prioritizedLanguages ?: []);
-        foreach ($searchResult->searchHits as $searchHit) {
-            $childLocations[] = $searchHit->valueObject;
-        }
+        $filter = $this->buildLocationChildrenFilter($location);
+        $filter
+            ->withLimit($limit)
+            ->withOffset($offset);
 
-        return new LocationList(
-            [
-                'locations' => $childLocations,
-                'totalCount' => $searchResult->totalCount,
-            ]
-        );
+        return $this->find($filter, $prioritizedLanguages);
     }
 
     /**
@@ -364,38 +358,22 @@ class LocationService implements LocationServiceInterface
     }
 
     /**
-     * Returns the number of children which are readable by the current user of a location object.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     *
-     * @return int
+     * Returns the number of children which are readable by the current user of a Location object.
      */
     public function getLocationChildCount(APILocation $location): int
     {
-        $searchResult = $this->searchChildrenLocations($location, 0, 0);
+        $filter = $this->buildLocationChildrenFilter($location);
 
-        return $searchResult->totalCount;
+        return $this->count($filter);
     }
 
-    /**
-     * Searches children locations of the provided parent location id.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
-     */
-    protected function searchChildrenLocations(APILocation $location, $offset = 0, $limit = -1, array $prioritizedLanguages = null)
+    protected function buildLocationChildrenFilter(APILocation $location): Filter
     {
-        $query = new LocationQuery([
-            'filter' => new Criterion\ParentLocationId($location->id),
-            'offset' => $offset >= 0 ? (int)$offset : 0,
-            'limit' => $limit >= 0 ? (int)$limit : null,
-            'sortClauses' => $location->getSortClauses(),
-        ]);
+        $filter = new Filter();
+        $filter
+            ->withCriterion(new Criterion\ParentLocationId($location->id));
 
-        return $this->repository->getSearchService()->findLocations($query, ['languages' => $prioritizedLanguages]);
+        return $filter;
     }
 
     /**
@@ -943,6 +921,29 @@ class LocationService implements LocationServiceInterface
                 'locations' => $locations,
             ]
         );
+    }
+
+    public function count(Filter $filter, ?array $languages = null): int
+    {
+        $filter = clone $filter;
+        if (!empty($languages)) {
+            $filter->andWithCriterion(new LanguageCode($languages));
+        }
+
+        $permissionCriterion = $this->permissionCriterionResolver->getQueryPermissionsCriterion();
+        if ($permissionCriterion instanceof Criterion\MatchNone) {
+            return 0;
+        }
+
+        if (!$permissionCriterion instanceof Criterion\MatchAll) {
+            if (!$permissionCriterion instanceof FilteringCriterion) {
+                return 0;
+            }
+
+            $filter->andWithCriterion($permissionCriterion);
+        }
+
+        return $this->locationFilteringHandler->count($filter);
     }
 
     private function checkCreatePermissionOnSubtreeTarget(APILocation $targetParentLocation, APILocation $loadedSubtree, APILocation $loadedTargetLocation): void

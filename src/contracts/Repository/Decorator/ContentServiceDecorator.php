@@ -270,6 +270,11 @@ abstract class ContentServiceDecorator implements ContentService
     {
         return $this->innerService->find($filter, $languages);
     }
+
+    public function count(Filter $filter, ?array $languages = null): int
+    {
+        return $this->innerService->count($filter, $languages);
+    }
 }
 
 class_alias(ContentServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\ContentServiceDecorator');

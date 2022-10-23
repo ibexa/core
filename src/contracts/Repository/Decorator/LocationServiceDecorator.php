@@ -154,6 +154,11 @@ abstract class LocationServiceDecorator implements LocationService
     {
         return $this->innerService->find($filter, $languages);
     }
+
+    public function count(Filter $filter, ?array $languages = null): int
+    {
+        return $this->innerService->count($filter, $languages);
+    }
 }
 
 class_alias(LocationServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\LocationServiceDecorator');
