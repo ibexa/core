@@ -456,6 +456,40 @@ class DoctrineStorage extends Gateway
             ->execute()
         ;
     }
+
+    /**
+     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function hasImageReference(string $uri, int $fieldId): bool
+    {
+        $path = $this->redecorator->redecorateFromSource($uri);
+
+        $selectQuery = $this->connection->createQueryBuilder();
+        $selectQuery
+            ->select(1)
+            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->andWhere(
+                $selectQuery->expr()->eq(
+                    $this->connection->quoteIdentifier('filepath'),
+                    ':path'
+                )
+            )
+            ->andWhere(
+                $selectQuery->expr()->eq(
+                    $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                    ':field_id'
+                )
+            )
+            ->setParameter(':path', $path)
+            ->setParameter(':field_id', $fieldId)
+        ;
+
+        $statement = $selectQuery->execute();
+
+        return (bool)$statement->fetchOne();
+    }
 }
 
 class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage');

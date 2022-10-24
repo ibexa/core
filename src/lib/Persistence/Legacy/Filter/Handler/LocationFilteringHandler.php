@@ -68,6 +68,11 @@ class LocationFilteringHandler implements Handler
 
         return $list;
     }
+
+    public function count(Filter $filter): int
+    {
+        return $this->gateway->count($filter->getCriterion());
+    }
 }
 
 class_alias(LocationFilteringHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Handler\LocationFilteringHandler');

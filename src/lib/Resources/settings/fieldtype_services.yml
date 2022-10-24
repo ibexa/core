@@ -1,5 +1,5 @@
 services:
-    # Deprecated since 5.4. Use ezpublish.fieldType.ezimage.io_service.
+    # Deprecated since eZ Publish 5.4. Use Ibexa\Core\FieldType\Image\IO\Legacy instead.
     ibexa.field_type.ezimage.io:
         alias: Ibexa\Core\FieldType\Image\IO\Legacy
 

@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 class LegacyDFSClusterTest extends TestCase
 {
-    /** @var \eZ\Publish\Core\IO\IOMetadataHandler&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\IO\IOMetadataHandler&\PHPUnit\Framework\MockObject\MockObject */
     private $handler;
 
     /** @var \Doctrine\DBAL\Connection&\PHPUnit\Framework\MockObject\MockObject */
@@ -30,7 +30,7 @@ class LegacyDFSClusterTest extends TestCase
     /** @var \Doctrine\DBAL\Query\QueryBuilder&\PHPUnit\Framework\MockObject\MockObject */
     private $qbMock;
 
-    /** @var \eZ\Publish\Core\IO\UrlDecorator&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\IO\UrlDecorator&\PHPUnit\Framework\MockObject\MockObject */
     private $urlDecoratorMock;
 
     protected function setUp(): void

@@ -21,6 +21,8 @@ interface Handler
      * @return \Ibexa\Contracts\Core\Persistence\Filter\Content\LazyContentItemListIterator
      */
     public function find(Filter $filter): iterable;
+
+    public function count(Filter $filter): int;
 }
 
 class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Filter\Content\Handler');
