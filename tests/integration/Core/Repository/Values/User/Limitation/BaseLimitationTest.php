@@ -47,7 +47,6 @@ abstract class BaseLimitationTest extends BaseTest
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
 
-        /* BEGIN: Inline */
         // $parentLocationId is the id of the /Home/Contact-Us node
         $parentLocationId = $this->generateId('location', 60);
 
@@ -59,7 +58,6 @@ abstract class BaseLimitationTest extends BaseTest
             $wikiPageCreate,
             [$locationCreate]
         );
-        /* END: Inline */
 
         return $draft;
     }
@@ -72,7 +70,6 @@ abstract class BaseLimitationTest extends BaseTest
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 
-        /* BEGIN: Inline */
         $locationCreate = $locationService->newLocationCreateStruct($parentLocationId);
 
         $locationCreate->priority = 23;
@@ -80,7 +77,6 @@ abstract class BaseLimitationTest extends BaseTest
         $locationCreate->remoteId = '0123456789abcdef0123456789abcdef';
         $locationCreate->sortField = Location::SORT_FIELD_NODE_ID;
         $locationCreate->sortOrder = Location::SORT_ORDER_DESC;
-        /* END: Inline */
 
         return $locationCreate;
     }
@@ -96,7 +92,6 @@ abstract class BaseLimitationTest extends BaseTest
         $contentTypeService = $repository->getContentTypeService();
         $contentService = $repository->getContentService();
 
-        /* BEGIN: Inline */
         $sectionId = $this->generateId('section', 1);
 
         // Load content type
@@ -120,7 +115,6 @@ abstract class BaseLimitationTest extends BaseTest
         if ($ownerId !== null) {
             $wikiPageCreate->ownerId = $ownerId;
         }
-        /* END: Inline */
 
         return $wikiPageCreate;
     }
