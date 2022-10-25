@@ -10,12 +10,15 @@ namespace Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
-class ChangeOwnerLimitation extends Limitation
+final class ChangeOwnerLimitation extends Limitation
 {
     public const IDENTIFIER = 'ChangeOwner';
 
     public const LIMITATION_VALUE_SELF = -1;
 
+    /**
+     * @param int[] $limitationValues
+     */
     public function __construct(array $limitationValues)
     {
         parent::__construct([

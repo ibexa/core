@@ -4,6 +4,8 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentType;
@@ -22,7 +24,11 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
     public function acceptValue(Limitation $limitationValue): void
     {
         if (!is_array($limitationValue->limitationValues)) {
-            throw new InvalidArgumentType('$limitationValue->limitationValues', 'array', $limitationValue->limitationValues);
+            throw new InvalidArgumentType(
+                '$limitationValue->limitationValues',
+                'array',
+                $limitationValue->limitationValues
+            );
         }
 
         foreach ($limitationValue->limitationValues as $key => $value) {
@@ -40,16 +46,18 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
         $validationErrors = [];
 
         foreach ($limitationValue->limitationValues as $key => $value) {
-            if (!is_int($value)) {
-                $validationErrors[] = new ValidationError(
-                    "limitationValues[%key%] => '%value%' must be an integer",
-                    null,
-                    [
-                        'value' => $value,
-                        'key' => $key,
-                    ]
-                );
+            if (is_int($value)) {
+                continue;
             }
+
+            $validationErrors[] = new ValidationError(
+                "limitationValues[%key%] => '%value%' must be an integer",
+                null,
+                [
+                    'value' => $value,
+                    'key' => $key,
+                ]
+            );
         }
 
         return $validationErrors;
@@ -82,7 +90,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
             $limitationValues
         );
 
-        if (in_array($object->ownerId, $limitationValues)) {
+        if (in_array($object->ownerId, $limitationValues, true)) {
             return self::ACCESS_GRANTED;
         }
 
