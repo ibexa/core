@@ -47,7 +47,7 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
     public function getBaseUrl(): string
     {
         $baseUrl = $this->innerExtractor->getBaseUrl();
-        $request = $this->requestStack->getMasterRequest();
+        $request = $this->requestStack->getMainRequest();
         if ($request === null) {
             return $baseUrl;
         }
