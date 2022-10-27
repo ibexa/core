@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInterface
+final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInterface
 {
     public const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
 
