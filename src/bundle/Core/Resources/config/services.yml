@@ -296,7 +296,7 @@ services:
 
     Ibexa\Bundle\Core\EventSubscriber\TrustedHeaderClientIpEventSubscriber:
         arguments:
-            $trustedHeaderName: '%trusted_header_client_ip_name%'
+            $trustedHeaderName: '%ibexa.trusted_header_client_ip_name%'
         tags:
             - {name: kernel.event_subscriber}
 
