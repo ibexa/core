@@ -19,6 +19,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 {
+    private const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
+
     private ?string $originalRemoteAddr;
 
     private const PROXY_IP = '127.100.100.1';
@@ -80,7 +82,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
                 self::PROXY_IP,
                 self::PROXY_IP,
                 'X-Custom-Header',
-                [TrustedHeaderClientIpEventSubscriber::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP],
+                [self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP],
                 ['PLATFORM_RELATIONSHIPS' => true],
             ],
             'use custom header with valid value on platform.sh' => [
@@ -88,7 +90,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
                 self::PROXY_IP,
                 'X-Custom-Header',
                 [
-                    TrustedHeaderClientIpEventSubscriber::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
+                    self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
                     'X-Custom-Header' => self::CUSTOM_CLIENT_IP,
                 ],
                 ['PLATFORM_RELATIONSHIPS' => true],
@@ -98,7 +100,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
                 self::PROXY_IP,
                 null,
                 [
-                    TrustedHeaderClientIpEventSubscriber::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
+                    self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
                     'X-Custom-Header' => self::CUSTOM_CLIENT_IP,
                 ],
                 ['PLATFORM_RELATIONSHIPS' => true],

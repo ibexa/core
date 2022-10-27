@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInterface
 {
-    public const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
+    private const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
 
     private ?string $trustedHeaderName;
 
