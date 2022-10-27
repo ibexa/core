@@ -27,9 +27,14 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer
         return ['subMatchers'];
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, string $format = null): bool
     {
         return $data instanceof Matcher\Compound;
+    }
+
+    public function supportsDenormalization($data, string $type, string $format = null): bool
+    {
+        return $type === Matcher\Compound::class;
     }
 }
 
