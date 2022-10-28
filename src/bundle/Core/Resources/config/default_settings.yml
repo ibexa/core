@@ -2,6 +2,8 @@ parameters:
     # Kernel related params
     webroot_dir: "%kernel.project_dir%/public"
 
+    ibexa.trusted_header_client_ip_name: ~
+
     ###
     # ibexa.site_access.config namespace, default scope
     ###
