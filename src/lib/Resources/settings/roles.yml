@@ -104,6 +104,12 @@ services:
         tags:
             - {name: ibexa.permissions.limitation_type, alias: Status}
 
+    Ibexa\Core\Limitation\ChangeOwnerLimitationType:
+        arguments:
+            $persistence: '@ibexa.api.persistence_handler'
+        tags:
+            - { name: ibexa.permissions.limitation_type, alias: ChangeOwner }
+
     ## Non implemented Limitations
     # Configured to use "blocking" limitation (as they are not implemented) to avoid LimitationNotFoundException
 

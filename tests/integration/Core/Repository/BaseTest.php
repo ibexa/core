@@ -312,14 +312,15 @@ abstract class BaseTest extends TestCase
     /**
      * Create a user in editor user group.
      */
-    protected function createUserVersion1(string $login = 'user', ?string $email = null, ContentType $contentType = null): User
-    {
+    protected function createUserVersion1(
+        string $login = 'user',
+        ?string $email = null,
+        ContentType $contentType = null,
+        int $userGroupId = 13
+    ): User {
         $repository = $this->getRepository();
 
         /* BEGIN: Inline */
-        // ID of the "Editors" user group in an Ibexa demo installation
-        $editorsGroupId = 13;
-
         $userService = $repository->getUserService();
 
         // Instantiate a create struct with mandatory properties
@@ -341,7 +342,7 @@ abstract class BaseTest extends TestCase
         }
 
         // Load parent group for the user
-        $group = $userService->loadUserGroup($editorsGroupId);
+        $group = $userService->loadUserGroup($userGroupId);
 
         // Create a new user instance.
         $user = $userService->createUser($userCreate, [$group]);
