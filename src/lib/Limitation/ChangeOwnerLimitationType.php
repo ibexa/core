@@ -90,7 +90,11 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
             $limitationValues
         );
 
-        if (in_array($object->ownerId, $limitationValues, true)) {
+        if (!is_numeric($object->ownerId)) {
+            return self::ACCESS_ABSTAIN;
+        }
+
+        if (in_array((int)$object->ownerId, $limitationValues, true)) {
             return self::ACCESS_GRANTED;
         }
 
