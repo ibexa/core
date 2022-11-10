@@ -32,8 +32,5 @@
     <testsuite name="bundle_lse">
       <directory>tests/bundle/LegacySearchEngineBundle</directory>
     </testsuite>
-    <testsuite name="Ibexa\Tests\Core\">
-        <directory>tests/lib</directory>
-    </testsuite>
   </testsuites>
 </phpunit>
