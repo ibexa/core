@@ -1,0 +1,29 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter'
+
+    Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.url_wildcard.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
+
+    Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.url_wildcard.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper'
+        lazy: true
+
+    Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Query\CriteriaConverter:
+        arguments:
+            $handlers: !tagged_iterator ibexa.storage.legacy.url_wildcard.criterion.handler

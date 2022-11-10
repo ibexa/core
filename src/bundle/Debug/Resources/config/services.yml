@@ -1,0 +1,27 @@
+services:
+    Ibexa\Bundle\Debug\Collector\IbexaCoreCollector:
+        class: Ibexa\Bundle\Debug\Collector\IbexaCoreCollector
+        tags:
+            -
+                name: data_collector
+                template: '@IbexaDebug/Profiler/layout.html.twig'
+                id: "ezpublish.debug.toolbar"
+
+    Ibexa\Bundle\Debug\Collector\SiteAccessCollector:
+        class: Ibexa\Bundle\Debug\Collector\SiteAccessCollector
+        tags:
+            -
+                name: ibexa.debug.data_collector
+                id: "ezpublish.debug.siteaccess"
+                panelTemplate: '@IbexaDebug/Profiler/siteaccess/panel.html.twig'
+                toolbarTemplate: '@IbexaDebug/Profiler/siteaccess/toolbar.html.twig'
+
+    Ibexa\Bundle\Debug\Collector\PersistenceCacheCollector:
+        class: Ibexa\Bundle\Debug\Collector\PersistenceCacheCollector
+        arguments: ['@Ibexa\Core\Persistence\Cache\PersistenceLogger']
+        tags:
+            -
+                name: ibexa.debug.data_collector
+                id: "ezpublish.debug.persistence"
+                panelTemplate: '@IbexaDebug/Profiler/persistence/panel.html.twig'
+                toolbarTemplate: '@IbexaDebug/Profiler/persistence/toolbar.html.twig'

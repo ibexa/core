@@ -1,0 +1,24 @@
+services:
+    Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider:
+        public: true # @todo should be private
+        class: Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider
+        arguments:
+            - '@ibexa.config.resolver'
+            - '%ibexa.repositories%'
+
+    Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory:
+        class: Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory
+        arguments:
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+        calls:
+            - [setContainer, ["@service_container"]]
+
+    ibexa.persistence.connection:
+        public: true # @todo should be private
+        class: Doctrine\DBAL\Connection
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory', getConnection]
+        lazy: true
+
+    # Legacy storage engine
+    ibexa.api.storage_engine.legacy:
+        alias: Ibexa\Core\Persistence\Legacy\Handler

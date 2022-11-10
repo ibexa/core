@@ -8,28 +8,26 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Limitation;
 
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Limitation\Tests\Base;
-use eZ\Publish\Core\Persistence\Legacy\Content\Handler as ContentHandlerInterface;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\Repository\Values\User\Role;
-use eZ\Publish\Core\Repository\Values\User\User;
-use eZ\Publish\Core\Repository\Values\User\UserGroup;
-use eZ\Publish\Core\Repository\Values\User\UserGroupRoleAssignment;
-use eZ\Publish\Core\Repository\Values\User\UserRoleAssignment;
-use eZ\Publish\SPI\Persistence\Content\Location;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandlerInterface;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentType;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandlerInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\MemberOfLimitation;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Limitation\MemberOfLimitationType;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\User\Role;
+use Ibexa\Core\Repository\Values\User\User;
+use Ibexa\Core\Repository\Values\User\UserGroup;
+use Ibexa\Core\Repository\Values\User\UserGroupRoleAssignment;
+use Ibexa\Core\Repository\Values\User\UserRoleAssignment;
 
-class MemberOfLimitationTypeTest extends Base
+final class MemberOfLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Core\Limitation\MemberOfLimitationType */
-    private $limitationType;
+    private MemberOfLimitationType $limitationType;
 
     protected function setUp(): void
     {
@@ -145,7 +143,7 @@ class MemberOfLimitationTypeTest extends Base
         self::assertCount($errorCount, $validationErrors);
     }
 
-    public function providerForTestValidateError()
+    public function providerForTestValidateError(): array
     {
         return [
             [
@@ -201,7 +199,7 @@ class MemberOfLimitationTypeTest extends Base
         self::assertEquals($expected, $value);
     }
 
-    public function providerForTestEvaluate()
+    public function providerForTestEvaluate(): array
     {
         return [
             'valid_group_limitation' => [
@@ -350,7 +348,7 @@ class MemberOfLimitationTypeTest extends Base
     }
 
     /**
-     * @param \eZ\Publish\API\Repository\Values\User\User|\eZ\Publish\API\Repository\Values\User\UserRoleAssignment $object
+     * @param \Ibexa\Core\Repository\Values\User\User|\Ibexa\Core\Repository\Values\User\UserRoleAssignment $object
      * @dataProvider providerForTestEvaluateSelfGroup
      */
     public function testEvaluateSelfGroup(

@@ -8,50 +8,50 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Image\ImageStorage;
 
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\Core\Base\Utils\DeprecationWarnerInterface;
-use eZ\Publish\Core\FieldType\Image\AliasCleanerInterface;
-use eZ\Publish\Core\FieldType\Image\ImageStorage;
-use eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
-use eZ\Publish\Core\FieldType\Image\PathGenerator;
-use eZ\Publish\Core\FieldType\Tests\Integration\BaseCoreFieldTypeIntegrationTest;
-use eZ\Publish\Core\IO\FilePathNormalizerInterface;
-use eZ\Publish\Core\IO\IOServiceInterface;
-use eZ\Publish\Core\IO\MetadataHandler;
-use eZ\Publish\Core\IO\UrlRedecoratorInterface;
-use eZ\Publish\Core\IO\Values\BinaryFile;
-use eZ\Publish\Core\IO\Values\BinaryFileCreateStruct;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Core\Base\Utils\DeprecationWarnerInterface;
+use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
+use Ibexa\Core\FieldType\Image\ImageStorage;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
+use Ibexa\Core\FieldType\Image\PathGenerator;
+use Ibexa\Core\IO\FilePathNormalizerInterface;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\MetadataHandler;
+use Ibexa\Core\IO\UrlRedecoratorInterface;
+use Ibexa\Core\IO\Values\BinaryFile;
+use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
 
 final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 {
-    /** @var \eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway */
+    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
     private $gateway;
 
-    /** @var \eZ\Publish\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $redecorator;
 
-    /** @var \eZ\Publish\Core\IO\MetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\IO\MetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
     private $imageSizeMetadataHandler;
 
-    /** @var \eZ\Publish\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
     private $pathGenerator;
 
-    /** @var \eZ\Publish\Core\Base\Utils\DeprecationWarnerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\Base\Utils\DeprecationWarnerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $deprecationWarner;
 
-    /** @var \eZ\Publish\Core\FieldType\Image\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $aliasCleaner;
 
-    /** @var \eZ\Publish\Core\IO\FilePathNormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $filePathNormalizer;
 
-    /** @var \eZ\Publish\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $ioService;
 
-    /** @var \eZ\Publish\Core\FieldType\Image\ImageStorage */
+    /** @var \Ibexa\Core\FieldType\Image\ImageStorage */
     private $storage;
 
     protected function setUp(): void
@@ -93,8 +93,8 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
     /**
      * @dataProvider providerOfFieldData
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentException
-     * @throws \eZ\Publish\Core\IO\Exception\InvalidBinaryFileIdException
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Core\IO\Exception\InvalidBinaryFileIdException
      */
     public function testStoreFieldDataDuringCreate(VersionInfo $versionInfo, Field $field): void
     {
@@ -208,8 +208,8 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 
     /**
      * @return iterable<array{
-     *     eZ\Publish\SPI\Persistence\Content\VersionInfo,
-     *     eZ\Publish\SPI\Persistence\Content\Field
+     *     Ibexa\Contracts\Core\Persistence\Content\VersionInfo,
+     *     Ibexa\Contracts\Core\Persistence\Content\Field
      * }>
      */
     public function providerOfFieldData(): iterable

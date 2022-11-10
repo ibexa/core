@@ -9,15 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Exception;
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\Content\ContentList;
-use eZ\Publish\API\Repository\Values\Content\Query;
-use eZ\Publish\API\Repository\Values\ContentType\ContentType;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\API\Repository\Values\Filter\Filter;
-use eZ\Publish\SPI\Persistence\User\Handler;
+use Ibexa\Contracts\Core\Persistence\User\Handler;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -45,17 +45,13 @@ final class ExpireUserPasswordsCommand extends Command
 - Run this command in production environment using <info>--env=prod</info>
 EOT;
 
-    /** @var \eZ\Publish\API\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
-    /** @var \eZ\Publish\API\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \eZ\Publish\API\Repository\ContentTypeService */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
-    /** @var \eZ\Publish\SPI\Persistence\User\Handler */
-    private $userHandler;
+    private Handler $userHandler;
 
     public function __construct(
         Repository $repository,
@@ -441,9 +437,7 @@ EOT
         $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
         $fieldSettings = $fieldDefinition->getFieldSettings();
 
-        $isUpdateNeeded = !$validatorConfiguration['PasswordValueValidator']['requireNewPassword']
+        return !$validatorConfiguration['PasswordValueValidator']['requireNewPassword']
             || 0 === $fieldSettings['PasswordTTL'];
-
-        return $isUpdateNeeded;
     }
 }

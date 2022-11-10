@@ -1,0 +1,34 @@
+services:
+    Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber:
+        autoconfigure: true
+        public: false
+        arguments:
+            - '@=service("kernel").locateResource("@IbexaCoreBundle/Resources/config/storage/legacy/schema.yaml")'
+
+    Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller:
+        abstract: true
+        arguments: ['@ibexa.persistence.connection']
+        lazy: true
+
+    Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller:
+        autowire: true
+        parent: Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller
+        tags:
+            - { name: ibexa.installer, type: ibexa-oss }
+
+    Ibexa\Bundle\RepositoryInstaller\Command\InstallPlatformCommand:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $installers: []
+            $cachePool: '@ibexa.cache_pool'
+            $environment: "%kernel.environment%"
+            $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\RepositoryInstaller\Command\ValidatePasswordHashesCommand:
+        arguments:
+            $userStorage: '@Ibexa\Core\FieldType\User\UserStorage'
+            $passwordHashService: '@Ibexa\Contracts\Core\Repository\PasswordHashService'
+        tags:
+            - { name: console.command }
