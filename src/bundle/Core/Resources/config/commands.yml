@@ -60,3 +60,7 @@ services:
         autoconfigure: true
         tags:
             - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\ExpireUserPasswordsCommand:
+        autowire: true
+        autoconfigure: true
