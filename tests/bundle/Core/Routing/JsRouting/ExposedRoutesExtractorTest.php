@@ -67,7 +67,7 @@ final class ExposedRoutesExtractorTest extends TestCase
         $requestStack = $this->createMock(RequestStack::class);
 
         $innerExtractor->method('getBaseUrl')->willReturn(self::BASE_URL);
-        $requestStack->method('getMasterRequest')->willReturn($masterRequest);
+        $requestStack->method('getMainRequest')->willReturn($masterRequest);
 
         $extractor = new ExposedRoutesExtractor($innerExtractor, $requestStack);
 
