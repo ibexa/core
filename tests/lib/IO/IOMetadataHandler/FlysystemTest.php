@@ -11,8 +11,7 @@ use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\UnableToRetrieveMetadata;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
@@ -20,12 +19,12 @@ class FlysystemTest extends TestCase
     /** @var \Ibexa\Core\IO\IOMetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
     private $handler;
 
-    /** @var \League\Flysystem\FilesystemInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \League\Flysystem\FilesystemOperator|\PHPUnit\Framework\MockObject\MockObject */
     private $filesystem;
 
     protected function setUp(): void
     {
-        $this->filesystem = $this->createMock(FilesystemInterface::class);
+        $this->filesystem = $this->createMock(\League\Flysystem\FilesystemOperator::class);
         $this->handler = new Flysystem($this->filesystem);
     }
 
@@ -114,17 +113,18 @@ class FlysystemTest extends TestCase
         $this->assertNull($spiBinaryFile->mtime);
     }
 
-    public function testLoadNotFound()
+    public function testLoadNotFound(): void
     {
+        $notExistentPath = 'prefix/my/file.png';
+        $this->filesystem
+            ->expects(self::once())
+            ->method('fileSize')
+            ->with($notExistentPath)
+            ->willThrowException(UnableToRetrieveMetadata::fileSize($notExistentPath));
+
         $this->expectException(BinaryFileNotFoundException::class);
 
-        $this->filesystem
-            ->expects($this->once())
-            ->method('getMetadata')
-            ->with('prefix/my/file.png')
-            ->will($this->throwException(new FileNotFoundException('prefix/my/file.png')));
-
-        $this->handler->load('prefix/my/file.png');
+        $this->handler->load($notExistentPath);
     }
 
     public function testExists()

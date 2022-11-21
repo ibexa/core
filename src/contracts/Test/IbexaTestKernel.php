@@ -16,9 +16,9 @@ use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
-use Ibexa\Core\IO\Adapter\LocalAdapter;
+use Ibexa\Core\IO\Adapter\LocalSiteAccessAwareFilesystemAdapter;
 use JMS\TranslationBundle\JMSTranslationBundle;
-use League\Flysystem\Memory\MemoryAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Liip\ImagineBundle\LiipImagineBundle;
 use LogicException;
 use Psr\Log\NullLogger;
@@ -209,15 +209,18 @@ class IbexaTestKernel extends Kernel
 
     private static function prepareIOServices(ContainerBuilder $container): void
     {
-        if (!class_exists(MemoryAdapter::class)) {
+        if (!class_exists(InMemoryFilesystemAdapter::class)) {
             throw new LogicException(sprintf(
                 'Missing %s class. Ensure that %s package is installed as a dev dependency',
-                MemoryAdapter::class,
+                InMemoryFilesystemAdapter::class,
                 'league/flysystem-memory',
             ));
         }
 
-        $container->setDefinition(LocalAdapter::class, new Definition(MemoryAdapter::class));
+        $container->setDefinition(
+            LocalSiteAccessAwareFilesystemAdapter::class,
+            new Definition(InMemoryFilesystemAdapter::class)
+        );
     }
 
     private static function createPublicAliasesForServicesUnderTest(ContainerBuilder $container): void

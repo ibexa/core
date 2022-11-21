@@ -10,26 +10,26 @@ use DateTime;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\Exception\IOException;
 use Ibexa\Core\IO\IOMetadataHandler;
-use League\Flysystem\FileNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemOperator;
 
 class Flysystem implements IOMetadataHandler
 {
-    /** @var \League\Flysystem\FilesystemInterface */
-    private $filesystem;
+    private FilesystemOperator $filesystem;
 
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(FilesystemOperator $filesystem)
     {
         $this->filesystem = $filesystem;
     }
 
     /**
-     * Only reads & return metadata, since the binarydata handler took care of creating the file already.
+     * Only reads & return metadata, since the binary data handler took care of creating the file already.
      *
-     * @throws \Ibexa\Core\IO\Exception\BinaryFileNotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct)
+    public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct): SPIBinaryFile
     {
         return $this->load($spiBinaryFileCreateStruct->id);
     }
@@ -43,37 +43,48 @@ class Flysystem implements IOMetadataHandler
     {
     }
 
-    public function load($spiBinaryFileId)
+    public function load($spiBinaryFileId): SPIBinaryFile
     {
         try {
-            $info = $this->filesystem->getMetadata($spiBinaryFileId);
-        } catch (FileNotFoundException $e) {
+            $spiBinaryFile = new SPIBinaryFile();
+            $spiBinaryFile->id = $spiBinaryFileId;
+            $spiBinaryFile->size = $this->filesystem->fileSize($spiBinaryFileId);
+            $spiBinaryFile->mtime = new DateTime(
+                '@' . $this->filesystem->lastModified($spiBinaryFileId)
+            );
+
+            return $spiBinaryFile;
+        } catch (FilesystemException $e) {
             throw new BinaryFileNotFoundException($spiBinaryFileId);
         }
+    }
 
-        $spiBinaryFile = new SPIBinaryFile();
-        $spiBinaryFile->id = $spiBinaryFileId;
-        $spiBinaryFile->size = $info['size'];
-
-        if (isset($info['timestamp'])) {
-            $spiBinaryFile->mtime = new DateTime('@' . $info['timestamp']);
+    public function exists($spiBinaryFileId): bool
+    {
+        try {
+            return $this->filesystem->fileExists($spiBinaryFileId);
+        } catch (FilesystemException $e) {
+            throw new IOException(
+                "Unable to check if file '$spiBinaryFileId' exists: {$e->getMessage()}",
+                $e
+            );
         }
-
-        return $spiBinaryFile;
     }
 
-    public function exists($spiBinaryFileId)
+    public function getMimeType($spiBinaryFileId): string
     {
-        return $this->filesystem->has($spiBinaryFileId);
-    }
-
-    public function getMimeType($spiBinaryFileId)
-    {
-        return $this->filesystem->getMimetype($spiBinaryFileId);
+        try {
+            return $this->filesystem->mimeType($spiBinaryFileId);
+        } catch (FilesystemException $e) {
+            throw new IOException(
+                "Unable to get mime type of file '$spiBinaryFileId': {$e->getMessage()}",
+                $e
+            );
+        }
     }
 
     /**
-     * Does nothing, as the binarydata handler takes care of it.
+     * Does nothing, as the binary data handler takes care of it.
      */
     public function deleteDirectory($spiPath)
     {
