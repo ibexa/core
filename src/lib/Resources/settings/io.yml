@@ -75,8 +75,17 @@ services:
             - ~
             - '@Ibexa\Core\IO\UrlDecorator\Prefix'
 
+    ibexa.core.io.flysystem.path_normalizer:
+        class: League\Flysystem\PathNormalizer
+        abstract: true
+
+    ibexa.core.io.flysystem.path_normalizer.whitespace:
+        parent: ibexa.core.io.flysystem.path_normalizer
+        class: League\Flysystem\WhitespacePathNormalizer
+
     Ibexa\Core\IO\FilePathNormalizer\Flysystem:
         arguments:
             $slugConverter: '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter'
+            $pathNormalizer: '@ibexa.core.io.flysystem.path_normalizer.whitespace'
 
     Ibexa\Core\IO\FilePathNormalizerInterface: '@Ibexa\Core\IO\FilePathNormalizer\Flysystem'

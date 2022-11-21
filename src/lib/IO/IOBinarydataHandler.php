@@ -48,6 +48,8 @@ interface IOBinarydataHandler
      * @param string $spiBinaryFileId
      *
      * @return resource A read-only binary resource to $path
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function getResource($spiBinaryFileId);
 
