@@ -222,7 +222,7 @@ jobs:
                   coverage: none
             
             - name: Add solr dependency
-              run: composer require --no-update "ibexa/solr:~4.3.0@dev"
+              run: composer require --no-update "ibexa/solr:~4.4.0@dev"
 
             - uses: "ramsey/composer-install@v1"
               with:
