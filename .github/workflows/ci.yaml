@@ -223,7 +223,7 @@ jobs:
             
             - name: Add solr dependency
               run: |
-                VERSION=$(cat composer.json | jq -r '.extra | ."branch-alias" | ."dev-main"')
+                VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
                 composer require --no-update "ibexa/solr:$VERSION"
 
             - uses: "ramsey/composer-install@v1"
