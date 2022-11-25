@@ -42,7 +42,10 @@ final class PasswordHashService implements PasswordHashServiceInterface
     /**
      * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
      */
-    public function createPasswordHash(string $password, ?int $hashType = null): string
+    public function createPasswordHash(
+        #[\SensitiveParameter]
+        string $password,
+        ?int $hashType = null): string
     {
         $hashType = $hashType ?? $this->defaultHashType;
 
@@ -58,10 +61,14 @@ final class PasswordHashService implements PasswordHashServiceInterface
         }
     }
 
-    public function isValidPassword(string $plainPassword, string $passwordHash, ?int $hashType = null): bool
+    public function isValidPassword(
+        #[\SensitiveParameter]
+        string $plainPassword,
+        string $passwordHash,
+        ?int $hashType = null): bool
     {
         if ($hashType === User::PASSWORD_HASH_BCRYPT || $hashType === User::PASSWORD_HASH_PHP_DEFAULT) {
-            // In case of bcrypt let php's password functionality do it's magic
+            // In case of bcrypt let PHP's password functionality do its magic
             return password_verify($plainPassword, $passwordHash);
         }
 
