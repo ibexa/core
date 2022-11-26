@@ -38,6 +38,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
@@ -283,6 +284,10 @@ class LocationService implements LocationServiceInterface
         return $locations;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
     public function loadLocationChildren(
         APILocation $location,
         int $offset = 0,
@@ -309,6 +314,13 @@ class LocationService implements LocationServiceInterface
         $filter
             ->withLimit($limit)
             ->withOffset($offset);
+
+        $sortClauses = $location->getSortClauses();
+        foreach ($sortClauses as $sortClause) {
+            if ($sortClause instanceof FilteringSortClause) {
+                $filter->withSortClause($sortClause);
+            }
+        }
 
         return $this->find($filter, $prioritizedLanguages);
     }
