@@ -219,7 +219,7 @@ abstract class Location extends ValueObject
     }
 
     /**
-     * Get SortClause objects built from Locations's sort options.
+     * Get SortClause objects built from Locations' sort options.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException If sort field has a deprecated/unsupported value which does not have a Sort Clause.
      *
