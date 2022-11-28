@@ -45,8 +45,8 @@ final class PasswordHashService implements PasswordHashServiceInterface
     public function createPasswordHash(
         #[\SensitiveParameter]
         string $password,
-        ?int $hashType = null): string
-    {
+        ?int $hashType = null
+    ): string {
         $hashType = $hashType ?? $this->defaultHashType;
 
         switch ($hashType) {
@@ -65,8 +65,8 @@ final class PasswordHashService implements PasswordHashServiceInterface
         #[\SensitiveParameter]
         string $plainPassword,
         string $passwordHash,
-        ?int $hashType = null): bool
-    {
+        ?int $hashType = null
+    ): bool {
         if ($hashType === User::PASSWORD_HASH_BCRYPT || $hashType === User::PASSWORD_HASH_PHP_DEFAULT) {
             // In case of bcrypt let PHP's password functionality do its magic
             return password_verify($plainPassword, $passwordHash);

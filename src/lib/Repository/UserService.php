@@ -512,8 +512,11 @@ class UserService implements UserServiceInterface
      *
      * @return bool
      */
-    public function checkUserCredentials(APIUser $user, string $credentials): bool
-    {
+    public function checkUserCredentials(
+        APIUser $user,
+        #[\SensitiveParameter]
+        string $credentials
+    ): bool {
         return $this->comparePasswordHashForAPIUser($user, $credentials);
     }
 
@@ -751,8 +754,11 @@ class UserService implements UserServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
      */
-    public function updateUserPassword(APIUser $user, string $newPassword): APIUser
-    {
+    public function updateUserPassword(
+        APIUser $user,
+        #[\SensitiveParameter]
+        string $newPassword
+    ): APIUser {
         $loadedUser = $this->loadUser($user->id);
 
         if (!$this->permissionResolver->canUser('content', 'edit', $loadedUser)
@@ -1121,8 +1127,14 @@ class UserService implements UserServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct
      */
-    public function newUserCreateStruct(string $login, string $email, string $password, string $mainLanguageCode, ?ContentType $contentType = null): APIUserCreateStruct
-    {
+    public function newUserCreateStruct(
+        string $login,
+        string $email,
+        #[\SensitiveParameter]
+        string $password,
+        string $mainLanguageCode,
+        ?ContentType $contentType = null
+    ): APIUserCreateStruct {
         if ($contentType === null) {
             $userContentTypeIdentifiers = $this->getUserContentTypeIdentifiers();
             $defaultIdentifier = reset($userContentTypeIdentifiers);
@@ -1211,8 +1223,11 @@ class UserService implements UserServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function validatePassword(string $password, PasswordValidationContext $context = null): array
-    {
+    public function validatePassword(
+        #[\SensitiveParameter]
+        string $password,
+        PasswordValidationContext $context = null
+    ): array {
         $errors = [];
 
         if ($context === null) {
@@ -1352,8 +1367,11 @@ class UserService implements UserServiceInterface
      *
      * @return bool return true if the login and password are successfully validated and false, if not.
      */
-    protected function comparePasswordHashForSPIUser(SPIUser $user, string $password): bool
-    {
+    protected function comparePasswordHashForSPIUser(
+        SPIUser $user,
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
         return $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
     }
 
@@ -1362,8 +1380,11 @@ class UserService implements UserServiceInterface
      *
      * @return bool return true if the login and password are successfully validated and false, if not.
      */
-    protected function comparePasswordHashForAPIUser(APIUser $user, string $password): bool
-    {
+    protected function comparePasswordHashForAPIUser(
+        APIUser $user,
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
         return $this->comparePasswordHashes($password, $user->passwordHash, $user->hashAlgorithm);
     }
 
@@ -1377,6 +1398,7 @@ class UserService implements UserServiceInterface
      * @return bool return true if the login and password are successfully validated and false, if not.
      */
     private function comparePasswordHashes(
+        #[\SensitiveParameter]
         string $plainPassword,
         string $passwordHash,
         int $hashAlgorithm
