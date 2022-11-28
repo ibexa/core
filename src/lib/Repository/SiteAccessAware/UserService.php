@@ -102,8 +102,11 @@ class UserService implements UserServiceInterface
         return $this->service->loadUser($userId, $prioritizedLanguages);
     }
 
-    public function checkUserCredentials(User $user, string $credentials): bool
-    {
+    public function checkUserCredentials(
+        User $user,
+        #[\SensitiveParameter]
+        string $credentials
+    ): bool {
         return $this->service->checkUserCredentials($user, $credentials);
     }
 
