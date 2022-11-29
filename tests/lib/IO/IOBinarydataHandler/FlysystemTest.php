@@ -15,7 +15,6 @@ use Ibexa\Core\IO\IOBinarydataHandler\Flysystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToDeleteFile;
 use League\Flysystem\UnableToReadFile;
-use League\Flysystem\UnableToWriteFile;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
@@ -50,29 +49,6 @@ class FlysystemTest extends TestCase
                 $this->equalTo($stream),
                 $this->equalTo(['mimetype' => 'image/png', 'visibility' => 'public'])
             );
-
-        $this->handler->create($spiBinaryFileCreateStruct);
-    }
-
-    public function testCreateOverwritesIfExists(): void
-    {
-        $stream = fopen('php://memory', 'rb');
-        $spiBinaryFileCreateStruct = new SPIBinaryFileCreateStruct();
-        $spiBinaryFileCreateStruct->id = 'prefix/my/file.png';
-        $spiBinaryFileCreateStruct->mimeType = 'image/png';
-        $spiBinaryFileCreateStruct->size = 123;
-        $spiBinaryFileCreateStruct->mtime = 1307155200;
-        $spiBinaryFileCreateStruct->setInputStream($stream);
-
-        $this->filesystem
-            ->expects($this->once())
-            ->method('writeStream')
-            ->with(
-                $this->equalTo($spiBinaryFileCreateStruct->id),
-                $this->equalTo($stream),
-                $this->equalTo(['mimetype' => 'image/png', 'visibility' => 'public'])
-            )
-            ->willThrowException(UnableToWriteFile::atLocation($spiBinaryFileCreateStruct->id));
 
         $this->handler->create($spiBinaryFileCreateStruct);
     }
