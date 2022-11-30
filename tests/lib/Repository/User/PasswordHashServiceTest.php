@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Repository\User;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordHashService;
 use PHPUnit\Framework\TestCase;
 
@@ -39,6 +40,45 @@ final class PasswordHashServiceTest extends TestCase
     {
         $this->assertTrue($this->passwordHashService->isHashTypeSupported(User::DEFAULT_PASSWORD_HASH));
         $this->assertFalse($this->passwordHashService->isHashTypeSupported(self::NON_EXISTING_PASSWORD_HASH));
+    }
+
+    public function testCreatePasswordHashThrowsUnsupportedPasswordHashType(): void
+    {
+        $this->expectException(UnsupportedPasswordHashType::class);
+
+        $this->passwordHashService->createPasswordHash('secret', self::NON_EXISTING_PASSWORD_HASH);
+    }
+
+    public function testCreatePasswordHashExceptionHidesSensitiveParameter(): void
+    {
+        $ignoreArgs = ini_get('zend.exception_ignore_args');
+        $paramMax = ini_get('zend.exception_string_param_max_len');
+
+        ini_set('zend.exception_ignore_args', 0);
+        ini_set('zend.exception_string_param_max_len', 10);
+
+        $password = 'secret';
+
+        try {
+            $this->passwordHashService->createPasswordHash($password, self::NON_EXISTING_PASSWORD_HASH);
+        } catch (UnsupportedPasswordHashType $e) {
+            $stackTrace = $e->getTrace();
+            $this->assertIsArray($stackTrace);
+            $this->assertGreaterThan(1, count($stackTrace));
+            $this->assertArrayHasKey('function', $stackTrace[0]);
+            $this->assertEquals('createPasswordHash', $stackTrace[0]['function']);
+            $this->assertArrayHasKey('args', $stackTrace[0]);
+
+            // SensitiveParameter was introduced in PHP 8.2, in older versions it is ignored
+            if (\PHP_VERSION_ID < 80200) {
+                $this->assertEquals($password, $stackTrace[0]['args'][0]);
+            } else {
+                $this->assertInstanceOf(\SensitiveParameterValue::class, $stackTrace[0]['args'][0]);
+            }
+        }
+
+        ini_set('zend.exception_ignore_args', $ignoreArgs);
+        ini_set('zend.exception_string_param_max_len', $paramMax);
     }
 }
 
