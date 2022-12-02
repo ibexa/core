@@ -54,8 +54,8 @@ final class PasswordHashServiceTest extends TestCase
         $ignoreArgs = ini_get('zend.exception_ignore_args');
         $paramMax = ini_get('zend.exception_string_param_max_len');
 
-        ini_set('zend.exception_ignore_args', 0);
-        ini_set('zend.exception_string_param_max_len', 10);
+        ini_set('zend.exception_ignore_args', '0');
+        ini_set('zend.exception_string_param_max_len', '10');
 
         $password = 'secret';
 
