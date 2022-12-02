@@ -64,6 +64,7 @@ final class PasswordHashService implements PasswordHashServiceInterface
     public function isValidPassword(
         #[\SensitiveParameter]
         string $plainPassword,
+        #[\SensitiveParameter]
         string $passwordHash,
         ?int $hashType = null
     ): bool {

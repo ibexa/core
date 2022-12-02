@@ -1400,6 +1400,7 @@ class UserService implements UserServiceInterface
     private function comparePasswordHashes(
         #[\SensitiveParameter]
         string $plainPassword,
+        #[\SensitiveParameter]
         string $passwordHash,
         int $hashAlgorithm
     ): bool {
