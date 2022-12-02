@@ -73,6 +73,7 @@ final class PasswordHashServiceTest extends TestCase
             if (\PHP_VERSION_ID < 80200) {
                 $this->assertEquals($password, $stackTrace[0]['args'][0]);
             } else {
+                // @phpstan-ignore-next-line This class is only found in PHP 8.2+, but on older PHP we never reach this else-block.
                 $this->assertInstanceOf(\SensitiveParameterValue::class, $stackTrace[0]['args'][0]);
             }
         }
