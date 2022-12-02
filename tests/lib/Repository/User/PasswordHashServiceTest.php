@@ -71,10 +71,10 @@ final class PasswordHashServiceTest extends TestCase
 
             // SensitiveParameter was introduced in PHP 8.2, in older versions it is ignored
             if (\PHP_VERSION_ID < 80200) {
-                $this->assertEquals($password, $stackTrace[0]['args'][0]);
+                static::assertEquals($password, $stackTrace[0]['args'][0]);
             } else {
                 // @phpstan-ignore-next-line This class is PHP 8.2+ only, but older PHP never reaches this else-block.
-                $this->assertInstanceOf(\SensitiveParameterValue::class, $stackTrace[0]['args'][0]);
+                static::assertInstanceOf(\SensitiveParameterValue::class, $stackTrace[0]['args'][0]);
             }
         }
 
