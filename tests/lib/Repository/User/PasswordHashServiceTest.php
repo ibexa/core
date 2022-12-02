@@ -63,11 +63,11 @@ final class PasswordHashServiceTest extends TestCase
             $this->passwordHashService->createPasswordHash($password, self::NON_EXISTING_PASSWORD_HASH);
         } catch (UnsupportedPasswordHashType $e) {
             $stackTrace = $e->getTrace();
-            $this->assertIsArray($stackTrace);
-            $this->assertGreaterThan(1, count($stackTrace));
-            $this->assertArrayHasKey('function', $stackTrace[0]);
-            $this->assertEquals('createPasswordHash', $stackTrace[0]['function']);
-            $this->assertArrayHasKey('args', $stackTrace[0]);
+            static::assertIsArray($stackTrace);
+            static::assertGreaterThan(1, count($stackTrace));
+            static::assertArrayHasKey('function', $stackTrace[0]);
+            static::assertEquals('createPasswordHash', $stackTrace[0]['function']);
+            static::assertArrayHasKey('args', $stackTrace[0]);
 
             // SensitiveParameter was introduced in PHP 8.2, in older versions it is ignored
             if (\PHP_VERSION_ID < 80200) {
