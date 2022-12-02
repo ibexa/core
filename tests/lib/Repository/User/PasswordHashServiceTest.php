@@ -78,8 +78,8 @@ final class PasswordHashServiceTest extends TestCase
             }
         }
 
-        ini_set('zend.exception_ignore_args', $ignoreArgs);
-        ini_set('zend.exception_string_param_max_len', $paramMax);
+        ini_set('zend.exception_ignore_args', (string)$ignoreArgs);
+        ini_set('zend.exception_string_param_max_len', (string)$paramMax);
     }
 }
 
