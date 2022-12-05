@@ -41,14 +41,6 @@ final class PasswordHashServiceTest extends TestCase
         $this->assertTrue($this->passwordHashService->isHashTypeSupported(User::DEFAULT_PASSWORD_HASH));
         $this->assertFalse($this->passwordHashService->isHashTypeSupported(self::NON_EXISTING_PASSWORD_HASH));
     }
-
-    public function testCreatePasswordHashThrowsUnsupportedPasswordHashType(): void
-    {
-        $this->expectException(UnsupportedPasswordHashType::class);
-
-        $this->passwordHashService->createPasswordHash('secret', self::NON_EXISTING_PASSWORD_HASH);
-    }
-
     public function testCreatePasswordHashExceptionHidesSensitiveParameter(): void
     {
         $ignoreArgs = ini_get('zend.exception_ignore_args');
@@ -61,6 +53,10 @@ final class PasswordHashServiceTest extends TestCase
 
         try {
             $this->passwordHashService->createPasswordHash($password, self::NON_EXISTING_PASSWORD_HASH);
+            self::fail(sprintf(
+                'Expected exception %s to be thrown.',
+                UnsupportedPasswordHashType::class,
+            ));
         } catch (UnsupportedPasswordHashType $e) {
             $stackTrace = $e->getTrace();
             self::assertIsArray($stackTrace);
