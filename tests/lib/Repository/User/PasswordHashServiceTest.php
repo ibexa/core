@@ -41,6 +41,7 @@ final class PasswordHashServiceTest extends TestCase
         $this->assertTrue($this->passwordHashService->isHashTypeSupported(User::DEFAULT_PASSWORD_HASH));
         $this->assertFalse($this->passwordHashService->isHashTypeSupported(self::NON_EXISTING_PASSWORD_HASH));
     }
+
     public function testCreatePasswordHashExceptionHidesSensitiveParameter(): void
     {
         $ignoreArgs = ini_get('zend.exception_ignore_args');
