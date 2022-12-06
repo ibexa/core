@@ -25,6 +25,7 @@ final class UpdateUserPasswordEvent extends AfterEvent
     public function __construct(
         User $updatedUser,
         User $user,
+        #[\SensitiveParameter]
         string $newPassword
     ) {
         $this->user = $user;

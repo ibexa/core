@@ -19,8 +19,11 @@ final class PasswordValidator implements PasswordValidatorInterface
     /**
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validatePassword(string $password, FieldDefinition $userFieldDefinition): array
-    {
+    public function validatePassword(
+        #[\SensitiveParameter]
+        string $password,
+        FieldDefinition $userFieldDefinition
+    ): array {
         $configuration = $userFieldDefinition->getValidatorConfiguration();
         if (!isset($configuration['PasswordValueValidator'])) {
             return [];

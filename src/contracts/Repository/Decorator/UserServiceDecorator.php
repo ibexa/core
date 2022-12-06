@@ -100,6 +100,7 @@ abstract class UserServiceDecorator implements UserService
 
     public function checkUserCredentials(
         User $user,
+        #[\SensitiveParameter]
         string $credentials
     ): bool {
         return $this->innerService->checkUserCredentials($user, $credentials);

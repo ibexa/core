@@ -40,8 +40,10 @@ class UserPasswordValidator
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(string $password): array
-    {
+    public function validate(
+        #[\SensitiveParameter]
+        string $password
+    ): array {
         $errors = [];
 
         if (!$this->isLongEnough($password)) {
@@ -76,8 +78,10 @@ class UserPasswordValidator
      *
      * @return bool
      */
-    private function isLongEnough(string $password): bool
-    {
+    private function isLongEnough(
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
         if ((int) $this->constraints['minLength'] > 0) {
             return mb_strlen($password) >= (int) $this->constraints['minLength'];
         }
@@ -92,8 +96,10 @@ class UserPasswordValidator
      *
      * @return bool
      */
-    private function containsAtLeastOneLowerCaseCharacter(string $password): bool
-    {
+    private function containsAtLeastOneLowerCaseCharacter(
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
         if ($this->constraints['requireAtLeastOneLowerCaseCharacter']) {
             return (bool)preg_match(self::AT_LEAST_ONE_LOWER_CASE_CHARACTER_REGEX, $password);
         }
@@ -108,8 +114,10 @@ class UserPasswordValidator
      *
      * @return bool
      */
-    private function containsAtLeastOneUpperCaseCharacter(string $password): bool
-    {
+    private function containsAtLeastOneUpperCaseCharacter(
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
         if ($this->constraints['requireAtLeastOneUpperCaseCharacter']) {
             return (bool)preg_match(self::AT_LEAST_ONE_UPPER_CASE_CHARACTER_REGEX, $password);
         }
@@ -124,8 +132,10 @@ class UserPasswordValidator
      *
      * @return bool
      */
-    private function containsAtLeastOneNumericCharacter(string $password): bool
-    {
+    private function containsAtLeastOneNumericCharacter(
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
         if ($this->constraints['requireAtLeastOneNumericCharacter']) {
             return (bool)preg_match(self::AT_LEAST_ONE_NUMERIC_CHARACTER_REGEX, $password);
         }
@@ -140,8 +150,10 @@ class UserPasswordValidator
      *
      * @return bool
      */
-    private function containsAtLeastOneNonAlphanumericCharacter(string $password): bool
-    {
+    private function containsAtLeastOneNonAlphanumericCharacter(
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
         if ($this->constraints['requireAtLeastOneNonAlphanumericCharacter']) {
             return (bool)preg_match(self::AT_LEAST_ONE_NON_ALPHANUMERIC_CHARACTER_REGEX, $password);
         }
