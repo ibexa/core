@@ -256,8 +256,11 @@ parameters:
     ##
     ibexa.orm.entity_mappings: []
 
+    # fallback for existing project configuration, should be overridden
+    dfs_nfs_path: '%ibexa.io.dir.storage%'
+
     ibexa.io.nfs.adapter.config:
-        root: './'
+        root: '%dfs_nfs_path%'
         path: '$var_dir$/$storage_dir$/'
         writeFlags: ~
         linkHandling: ~

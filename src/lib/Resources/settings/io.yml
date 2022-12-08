@@ -41,12 +41,59 @@ services:
     ibexa.core.io.flysystem.default_filesystem:
         parent: ibexa.core.io.flysystem.base_filesystem
         arguments:
-            - '@Ibexa\Core\IO\Adapter\LocalAdapter'
+            $adapter: '@Ibexa\Core\IO\Flysystem\Adapter\LocalSiteAccessAwareFilesystemAdapter'
 
-    Ibexa\Core\IO\Adapter\LocalAdapter:
-        class: League\Flysystem\Adapter\Local
+    Ibexa\Core\IO\Flysystem\Adapter\LocalSiteAccessAwareFilesystemAdapter:
         arguments:
-            - '%ibexa.io.dir.root%'
+            $location: '%ibexa.io.dir.storage%'
+            $visibilityConverter: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter'
+            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer'
+            $mimeTypeDetector: '@ibexa.core.io.flysystem.mime_type_detector'
+
+    ibexa.io.nfs.adapter.site_access_aware:
+        class: Ibexa\Core\IO\Flysystem\Adapter\LocalSiteAccessAwareFilesystemAdapter
+        arguments:
+            $location: "@=parameter('ibexa.io.nfs.adapter.config')['root']" # used this expression due to BC for parameter name
+            $visibilityConverter: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter'
+            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer'
+            $mimeTypeDetector: '@ibexa.core.io.flysystem.mime_type_detector'
+
+    ibexa.core.io.flysystem.mime_type_detector:
+        alias: ibexa.core.io.flysystem.mime_type_detector.f_info
+
+    ibexa.core.io.flysystem.mime_type_detector.f_info:
+        class: League\MimeTypeDetection\FinfoMimeTypeDetector
+
+    ibexa.core.io.flysystem.visibility.portable_visibility.converter:
+        class: League\Flysystem\UnixVisibility\PortableVisibilityConverter
+
+    Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter:
+        abstract: true
+        arguments:
+            $nativeVisibilityConverter: '@ibexa.core.io.flysystem.visibility.portable_visibility.converter'
+
+    Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter:
+        parent: Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
+        arguments:
+            $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
+
+    Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter:
+        parent: Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
+        arguments:
+            $permissions: "@=parameter('ibexa.io.nfs.adapter.config')['permissions']"
+
+    Ibexa\Core\IO\Flysystem\PathPrefixer\BaseSiteAccessAwarePathPrefixer:
+        abstract: true
+
+    Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer:
+        arguments:
+            $ioConfigProvider: '@Ibexa\Core\IO\IOConfigProvider'
+
+    Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer:
+        arguments:
+            $configProcessor: '@Ibexa\Contracts\Core\SiteAccess\ConfigProcessor'
+            $rootDir: "@=parameter('ibexa.io.nfs.adapter.config')['root']"
+            $path: "@=parameter('ibexa.io.nfs.adapter.config')['path']"
 
     ibexa.core.io.default_url_decorator:
         alias: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix
