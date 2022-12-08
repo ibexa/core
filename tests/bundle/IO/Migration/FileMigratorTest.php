@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\IO\Migration;
 
+use DateTime;
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator;
 use Ibexa\Contracts\Core\IO\BinaryFile;
@@ -48,8 +49,8 @@ final class FileMigratorTest extends TestCase
         $this->metadataFlysystem = $this->createMock(IOMetadataHandler\Flysystem::class);
         $this->metadataLegacyDFSCluster = $this->createMock(IOMetadataHandler\LegacyDFSCluster::class);
 
-        $this->binaryFlysystemFrom = $this->createMock(IOBinarydataHandler\Flysystem::class);
-        $this->binaryFlysystemTo = $this->createMock(IOBinarydataHandler\Flysystem::class);
+        $this->binaryFlysystemFrom = $this->createMock(IOBinarydataHandler::class);
+        $this->binaryFlysystemTo = $this->createMock(IOBinarydataHandler::class);
 
         $this->fileMigrator = new FileMigrator($this->metadataHandlerRegistry, $this->binaryHandlerRegistry);
     }
@@ -84,7 +85,7 @@ final class FileMigratorTest extends TestCase
 
         $binaryFile = new BinaryFile();
         $binaryFile->id = '1234.jpg';
-        $binaryFile->mtime = new \DateTime();
+        $binaryFile->mtime = new DateTime();
         $binaryFile->size = 12345;
         $binaryFile->uri = '1/1234.jpg';
 

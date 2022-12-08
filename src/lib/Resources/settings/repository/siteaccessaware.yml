@@ -110,6 +110,6 @@ services:
 
     Ibexa\Core\Repository\SiteAccessAware\Config\IOConfigResolver:
         arguments:
-            - '%ibexa.io.dir.storage%'
+            - '%ibexa.io.dir.root%'
             - '%ibexa.legacy.url_prefix%'
             - '%ibexa.url_prefix%'
