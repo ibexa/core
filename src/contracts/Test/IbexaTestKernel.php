@@ -16,7 +16,7 @@ use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
-use Ibexa\Core\IO\Adapter\LocalSiteAccessAwareFilesystemAdapter;
+use Ibexa\Core\IO\Flysystem\Adapter\LocalSiteAccessAwareFilesystemAdapter;
 use JMS\TranslationBundle\JMSTranslationBundle;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Liip\ImagineBundle\LiipImagineBundle;

@@ -9,7 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ConsoleCommandPass;
+use Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor;
+use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\Compiler;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use Ibexa\Tests\Integration\Core\Repository\Container\Compiler\SetAllServicesPublicPass;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Config\FileLocator;
@@ -17,6 +21,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DependencyInjection\Reference;
@@ -52,6 +57,8 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
         $this->setParameter('ibexa.kernel.root_dir', $installDir);
 
         $this->registerCompilerPasses();
+
+        $this->registerCoreBundleServices();
     }
 
     /**
@@ -137,5 +144,29 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
         }
 
         return $this->coreLoader;
+    }
+
+    /**
+     * Register needed services from Core Bundle.
+     *
+     * Note: if a service from a bundle layer is required to be registered here, it most likely
+     * means that the service should be located in core lib layer in the first place.
+     */
+    private function registerCoreBundleServices(): void
+    {
+        $this->registerSiteAccessConfigProcessingServices();
+    }
+
+    private function registerSiteAccessConfigProcessingServices(): void
+    {
+        if ($this->hasDefinition(ConfigProcessor::class)) {
+            return;
+        }
+
+        $definition = new Definition(ComplexConfigProcessor::class);
+        $definition->setArgument('$configResolver', new Reference(ConfigResolverInterface::class));
+        $definition->setArgument('$siteAccessService', new Reference(SiteAccessService::class));
+
+        $this->setDefinition(ConfigProcessor::class, $definition);
     }
 }

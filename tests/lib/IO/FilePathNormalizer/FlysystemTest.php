@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\IO\FilePathNormalizer;
 
 use Ibexa\Core\IO\FilePathNormalizer\Flysystem;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
+use League\Flysystem\WhitespacePathNormalizer;
 use PHPUnit\Framework\TestCase;
 
 final class FlysystemTest extends TestCase
@@ -23,7 +24,7 @@ final class FlysystemTest extends TestCase
     public function setUp(): void
     {
         $this->slugConverter = $this->createMock(SlugConverter::class);
-        $this->filePathNormalizer = new Flysystem($this->slugConverter);
+        $this->filePathNormalizer = new Flysystem($this->slugConverter, new WhitespacePathNormalizer());
     }
 
     /**

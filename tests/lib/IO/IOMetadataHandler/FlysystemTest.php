@@ -28,7 +28,10 @@ class FlysystemTest extends TestCase
         $this->handler = new Flysystem($this->filesystem);
     }
 
-    public function testCreate()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testCreate(): void
     {
         // good example of bad responsibilities... since create also loads, we test the same thing twice
         $spiCreateStruct = new SPIBinaryFileCreateStruct();
@@ -42,17 +45,16 @@ class FlysystemTest extends TestCase
         $expectedSpiBinaryFile->mtime = new DateTime('@1307155200');
 
         $this->filesystem
-            ->expects($this->once())
-            ->method('getMetadata')
+            ->expects(self::once())
+            ->method('fileSize')
             ->with($spiCreateStruct->id)
-            ->will(
-                $this->returnValue(
-                    [
-                        'timestamp' => 1307155200,
-                        'size' => 123,
-                    ]
-                )
-            );
+            ->willReturn(123);
+
+        $this->filesystem
+            ->expects(self::once())
+            ->method('lastModified')
+            ->with($spiCreateStruct->id)
+            ->willReturn(1307155200);
 
         $spiBinaryFile = $this->handler->create($spiCreateStruct);
 
@@ -66,51 +68,30 @@ class FlysystemTest extends TestCase
         $this->handler->delete('prefix/my/file.png');
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $expectedSpiBinaryFile = new SPIBinaryFile();
-        $expectedSpiBinaryFile->id = 'prefix/my/file.png';
+        $filePath = 'prefix/my/file.png';
+        $expectedSpiBinaryFile->id = $filePath;
         $expectedSpiBinaryFile->size = 123;
         $expectedSpiBinaryFile->mtime = new DateTime('@1307155200');
 
         $this->filesystem
-            ->expects($this->once())
-            ->method('getMetadata')
-            ->with('prefix/my/file.png')
-            ->will(
-                $this->returnValue(
-                    [
-                        'timestamp' => 1307155200,
-                        'size' => 123,
-                    ]
-                )
-            );
+            ->expects(self::once())
+            ->method('fileSize')
+            ->with($filePath)
+            ->willReturn(123);
 
-        $spiBinaryFile = $this->handler->load('prefix/my/file.png');
+        $this->filesystem
+            ->expects(self::once())
+            ->method('lastModified')
+            ->with($filePath)
+            ->willReturn(1307155200);
+
+        $spiBinaryFile = $this->handler->load($filePath);
 
         $this->assertInstanceOf(SPIBinaryFile::class, $spiBinaryFile);
         $this->assertEquals($expectedSpiBinaryFile, $spiBinaryFile);
-    }
-
-    /**
-     * The timestamp index can be unset with some handlers, like AWS/S3.
-     */
-    public function testLoadNoTimestamp()
-    {
-        $this->filesystem
-            ->expects($this->once())
-            ->method('getMetadata')
-            ->with('prefix/my/file.png')
-            ->will(
-                $this->returnValue(
-                    [
-                        'size' => 123,
-                    ]
-                )
-            );
-
-        $spiBinaryFile = $this->handler->load('prefix/my/file.png');
-        $this->assertNull($spiBinaryFile->mtime);
     }
 
     public function testLoadNotFound(): void
@@ -127,42 +108,50 @@ class FlysystemTest extends TestCase
         $this->handler->load($notExistentPath);
     }
 
-    public function testExists()
+    /**
+     * @dataProvider getDataForFileExists
+     */
+    public function testExists(string $filePath, bool $exists): void
     {
         $this->filesystem
             ->expects($this->once())
-            ->method('has')
-            ->with('prefix/my/file.png')
-            ->will($this->returnValue(true));
+            ->method('fileExists')
+            ->with($filePath)
+            // Note: test proper proxying of Flysystem call as this is a unit test
+            ->willReturn($exists);
 
-        self::assertTrue($this->handler->exists('prefix/my/file.png'));
+        self::assertSame($exists, $this->handler->exists($filePath));
     }
 
-    public function testExistsNot()
+    public function getDataForFileExists(): iterable
     {
+        $filePath = 'prefix/my/file.png';
+
+        yield 'exists' => [$filePath, true];
+        yield 'does not exist' => [$filePath, false];
+    }
+
+    public function testGetMimeType(): void
+    {
+        $fileName = 'file.txt';
         $this->filesystem
-            ->expects($this->once())
-            ->method('has')
-            ->with('prefix/my/file.png')
-            ->will($this->returnValue(false));
+            ->expects(self::once())
+            ->method('mimeType')
+            ->with($fileName)
+            // Note: test proper proxying of Flysystem call as this is a unit test
+            ->willReturn('text/plain');
 
-        self::assertFalse($this->handler->exists('prefix/my/file.png'));
+        self::assertEquals('text/plain', $this->handler->getMimeType($fileName));
     }
 
-    public function testGetMimeType()
+    public function testDeleteDirectory(): void
     {
+        // test this actually doesn't call Flysystem's FilesystemOperator::deleteDirectory
+        // (see \Ibexa\Core\IO\IOMetadataHandler\Flysystem::deleteDirectory for more details)
         $this->filesystem
-            ->expects($this->once())
-            ->method('getMimeType')
-            ->with('file.txt')
-            ->will($this->returnValue('text/plain'));
+            ->expects(self::never())
+            ->method('deleteDirectory');
 
-        self::assertEquals('text/plain', $this->handler->getMimeType('file.txt'));
-    }
-
-    public function testDeleteDirectory()
-    {
-        $this->filesystem->expects($this->never())->method('deleteDir');
         $this->handler->deleteDirectory('some/path');
     }
 }
