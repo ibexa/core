@@ -112,16 +112,15 @@ class Legacy extends SetupFactory
     }
 
     /**
-     * Creates a temporary directory and returns it.
+     * Creates a temporary directory and returns its path name.
      *
-     * @return string
      * @throw \RuntimeException If the root directory can't be created
      */
-    private function createTemporaryDirectory()
+    private function createTemporaryDirectory(): string
     {
         $tmpFile = tempnam(
             sys_get_temp_dir(),
-            'ez_legacy_tests_' . time()
+            'ibexa_core_io_tests_' . time()
         );
         unlink($tmpFile);
 
