@@ -56,7 +56,8 @@
         "friendsofphp/proxy-manager-lts": "^1.0",
         "psr/event-dispatcher": "^1.0",
         "symfony/templating": "^5.3.0",
-        "composer/package-versions-deprecated": "^1.11"
+        "composer/package-versions-deprecated": "^1.11",
+        "league/flysystem": "dev-injectable-path-prefixer-2.x as 2.5.x-dev"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
@@ -157,6 +158,12 @@
         "thanks": {
             "name": "ezsystems/ezplatform",
             "url": "https://github.com/ezsystems/ezplatform"
+        }
+    },
+    "repositories": {
+        "flysystem": {
+            "type": "vcs",
+            "url": "https://github.com/alongosz/flysystem"
         }
     }
 }
