@@ -25,7 +25,7 @@ class Flysystem implements IOMetadataHandler
     }
 
     /**
-     * Only reads & return metadata, since the binary data handler took care of creating the file already.
+     * Only reads & returns metadata, since the binary data handler took care of creating the file already.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
