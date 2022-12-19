@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Limitation;
 
-use Ibexa\Core\Limitation\LimitationLabelIdentifierConverter;
+use Ibexa\Core\Limitation\LimitationIdentifierToLabelConverter;
 use PHPUnit\Framework\TestCase;
 
-class LimitationLabelIdentifierConverterTest extends TestCase
+final class LimitationIdentifierToLabelConverterTest extends TestCase
 {
     public function testConvert(): void
     {
-        $label = LimitationLabelIdentifierConverter::convert('Some_Identifier');
+        $label = LimitationIdentifierToLabelConverter::convert('Some_Identifier');
 
-        self::assertEquals('policy.limitation.identifier.some_identifier', $label);
+        self::assertSame('policy.limitation.identifier.some_identifier', $label);
     }
 }
