@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Limitation;
 
+/**
+ * @internal
+ */
 final class LimitationLabelIdentifierConverter
 {
     public const MESSAGE_ID_PREFIX = 'policy.limitation.identifier.';
