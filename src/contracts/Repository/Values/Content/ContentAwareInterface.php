@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
-interface ContentAware
+interface ContentAwareInterface
 {
     public function getContent(): Content;
 }
