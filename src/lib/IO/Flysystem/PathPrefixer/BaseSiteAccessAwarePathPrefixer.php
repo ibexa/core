@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\IO\Flysystem\PathPrefixer;
 
+use const DIRECTORY_SEPARATOR;
+
 /**
  * @internal
  */
@@ -15,7 +17,7 @@ abstract class BaseSiteAccessAwarePathPrefixer implements PathPrefixerInterface
 {
     protected string $separator;
 
-    public function __construct(string $separator = \DIRECTORY_SEPARATOR)
+    public function __construct(string $separator = DIRECTORY_SEPARATOR)
     {
         $this->separator = $separator;
     }

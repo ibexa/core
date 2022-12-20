@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\IO\Flysystem\PathPrefixer;
 
+use const DIRECTORY_SEPARATOR;
 use Ibexa\Core\IO\IOConfigProvider;
 
 /**
@@ -19,7 +20,7 @@ class LocalSiteAccessAwarePathPrefixer extends BaseSiteAccessAwarePathPrefixer
 
     public function __construct(
         IOConfigProvider $ioConfigProvider,
-        string $separator = \DIRECTORY_SEPARATOR
+        string $separator = DIRECTORY_SEPARATOR
     ) {
         parent::__construct($separator);
         $this->ioConfigProvider = $ioConfigProvider;
