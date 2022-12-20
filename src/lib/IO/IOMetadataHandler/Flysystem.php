@@ -7,7 +7,7 @@
 namespace Ibexa\Core\IO\IOMetadataHandler;
 
 use DateTime;
-use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
+use Ibexa\Contracts\Core\IO\BinaryFile as IOBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\IOException;
@@ -29,7 +29,7 @@ class Flysystem implements IOMetadataHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct): SPIBinaryFile
+    public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct): IOBinaryFile
     {
         return $this->load($spiBinaryFileCreateStruct->id);
     }
@@ -43,17 +43,10 @@ class Flysystem implements IOMetadataHandler
     {
     }
 
-    public function load($spiBinaryFileId): SPIBinaryFile
+    public function load($spiBinaryFileId): IOBinaryFile
     {
         try {
-            $spiBinaryFile = new SPIBinaryFile();
-            $spiBinaryFile->id = $spiBinaryFileId;
-            $spiBinaryFile->size = $this->filesystem->fileSize($spiBinaryFileId);
-            $spiBinaryFile->mtime = new DateTime(
-                '@' . $this->filesystem->lastModified($spiBinaryFileId)
-            );
-
-            return $spiBinaryFile;
+            return $this->getIOBinaryFile($spiBinaryFileId);
         } catch (FilesystemException $e) {
             throw new BinaryFileNotFoundException($spiBinaryFileId);
         }
@@ -88,6 +81,21 @@ class Flysystem implements IOMetadataHandler
      */
     public function deleteDirectory($spiPath)
     {
+    }
+
+    /**
+     * @throws \League\Flysystem\FilesystemException
+     */
+    private function getIOBinaryFile(string $spiBinaryFileId): IOBinaryFile
+    {
+        $spiBinaryFile = new IOBinaryFile();
+        $spiBinaryFile->id = $spiBinaryFileId;
+        $spiBinaryFile->size = $this->filesystem->fileSize($spiBinaryFileId);
+        $spiBinaryFile->mtime = new DateTime(
+            '@' . $this->filesystem->lastModified($spiBinaryFileId)
+        );
+
+        return $spiBinaryFile;
     }
 }
 
