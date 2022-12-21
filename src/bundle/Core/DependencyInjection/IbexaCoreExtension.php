@@ -121,9 +121,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             $loader->load('routing/js_routing.yml');
         }
 
-        // Default settings
-        $this->handleDefaultSettingsLoading($container, $loader);
-
         $this->registerRepositoriesConfiguration($config, $container);
         $this->registerSiteAccessConfiguration($config, $container);
         $this->registerImageMagickConfiguration($config, $container);
@@ -191,6 +188,9 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $this->prependTranslatorConfiguration($container);
         $this->prependDoctrineConfiguration($container);
 
+        // Default settings
+        $this->handleDefaultSettingsLoading($container);
+
         $this->configureGenericSetup($container);
         $this->configurePlatformShSetup($container);
     }
@@ -229,15 +229,14 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * Handle default settings.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
-     *
      * @throws \Exception
      */
-    private function handleDefaultSettingsLoading(ContainerBuilder $container, FileLoader $loader)
+    private function handleDefaultSettingsLoading(ContainerBuilder $container): void
     {
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../Resources/config')
+        );
         $loader->load('default_settings.yml');
 
         foreach ($this->defaultSettingsCollection as $fileLocation => $files) {
