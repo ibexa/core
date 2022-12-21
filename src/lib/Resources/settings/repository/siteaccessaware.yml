@@ -1,6 +1,7 @@
 parameters:
     languages: []
-    ibexa.io.dir.storage: var/ibexa_demo_site/storage
+    ibexa.io.dir.storage: var/site/storage
+    ibexa.io.dir.root: '%ibexa.io.dir.storage%'
     ibexa.legacy.url_prefix: var/ibexa_demo_site/storage
     ibexa.url_prefix: var/ibexa_demo_site/storage
 
