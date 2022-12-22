@@ -37,10 +37,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 {
+    public const EXTENSION_NAME = 'ibexa';
     private const ENTITY_MANAGER_TEMPLATE = [
         'connection' => null,
         'mappings' => [],
     ];
+
     private const TRANSLATIONS_DIRECTORY = '/vendor/ibexa/i18n/translations';
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollector */
@@ -81,7 +83,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
     public function getAlias()
     {
-        return 'ibexa';
+        return self::EXTENSION_NAME;
     }
 
     /**
@@ -190,6 +192,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     {
         $this->prependTranslatorConfiguration($container);
         $this->prependDoctrineConfiguration($container);
+        $this->prependJMSTranslation($container);
 
         $this->configureGenericSetup($container);
         $this->configurePlatformShSetup($container);
@@ -1001,6 +1004,23 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     {
         return $container->hasParameter('ibexa.behat.browser.enabled')
             && $container->getParameter('ibexa.behat.browser.enabled');
+    }
+
+    private function prependJMSTranslation(ContainerBuilder $container): void
+    {
+        $container->prependExtensionConfig('jms_translation', [
+            'configs' => [
+                self::EXTENSION_NAME => [
+                    'dirs' => [
+                        __DIR__ . '/../',
+                    ],
+                    'output_dir' => __DIR__ . '/../Resources/translations/',
+                    'output_format' => 'xliff',
+                    'excluded_dirs' => ['Behat', 'Tests', 'node_modules', 'Features'],
+                    'extractors' => [],
+                ],
+            ],
+        ]);
     }
 }
 
