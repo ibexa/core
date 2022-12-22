@@ -38,7 +38,7 @@ abstract class BaseVisibilityConverterTest extends TestCase
 
     abstract public function getDataForTestInverseForDirectory(): iterable;
 
-    protected function setUp(): void
+    final protected function setUp(): void
     {
         $this->innerVisibilityConverterMock = $this->createMock(FlysystemVisibilityConverter::class);
         $this->innerVisibilityConverterMock
@@ -56,7 +56,7 @@ abstract class BaseVisibilityConverterTest extends TestCase
     /**
      * @dataProvider getDataForTestForFile
      */
-    public function testForFile(string $visibility, int $expectedVisibilityFlags): void
+    final public function testForFile(string $visibility, int $expectedVisibilityFlags): void
     {
         self::assertSame(
             $expectedVisibilityFlags,
@@ -67,7 +67,7 @@ abstract class BaseVisibilityConverterTest extends TestCase
     /**
      * @dataProvider getDataForTestForDirectory
      */
-    public function testForDirectory(string $visibility, int $expectedVisibilityFlags): void
+    final public function testForDirectory(string $visibility, int $expectedVisibilityFlags): void
     {
         self::assertSame(
             $expectedVisibilityFlags,
@@ -78,7 +78,7 @@ abstract class BaseVisibilityConverterTest extends TestCase
     /**
      * @dataProvider getDataForTestInverseForFile
      */
-    public function testInverseForFile(int $fileVisibilityFlags, string $expectedVisibility): void
+    final public function testInverseForFile(int $fileVisibilityFlags, string $expectedVisibility): void
     {
         self::assertSame(
             $expectedVisibility,
@@ -89,7 +89,7 @@ abstract class BaseVisibilityConverterTest extends TestCase
     /**
      * @dataProvider getDataForTestInverseForDirectory
      */
-    public function testInverseForDirectory(
+    final public function testInverseForDirectory(
         int $directoryVisibilityFlags,
         string $expectedVisibility
     ): void {
@@ -99,7 +99,7 @@ abstract class BaseVisibilityConverterTest extends TestCase
         );
     }
 
-    public function testDefaultForDirectories(): void
+    final public function testDefaultForDirectories(): void
     {
         $this->innerVisibilityConverterMock
             ->expects(self::once())

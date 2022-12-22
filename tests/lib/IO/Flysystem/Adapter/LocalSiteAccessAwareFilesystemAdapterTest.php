@@ -47,6 +47,7 @@ final class LocalSiteAccessAwareFilesystemAdapterTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$fileSystem = new Filesystem(new LocalFilesystemAdapter(self::FLYSYSTEM_TEST_DIR));
+        self::$fileSystem->deleteDirectory('.');
         self::$fileSystem->createDirectory('.');
     }
 
@@ -112,7 +113,7 @@ final class LocalSiteAccessAwareFilesystemAdapterTest extends TestCase
      */
     public function testFileSize(string $relativeFilePath): void
     {
-        self::assertEquals(
+        self::assertSame(
             filesize($this->buildAbsolutePath($relativeFilePath)),
             $this->adapter->fileSize($relativeFilePath)->fileSize()
         );
@@ -135,7 +136,7 @@ final class LocalSiteAccessAwareFilesystemAdapterTest extends TestCase
      */
     public function testLastModified(string $relativeFilePath): void
     {
-        self::assertEquals(
+        self::assertSame(
             filemtime($this->buildAbsolutePath($relativeFilePath)),
             $this->adapter->lastModified($relativeFilePath)->lastModified()
         );
