@@ -16,6 +16,7 @@ use Ibexa\Core\Variation\VariationHandlerRegistry;
 class VariationHandlerResolver implements VariationHandler
 {
     private VariationHandlerRegistry $variationHandlerRegistry;
+
     private ConfigResolverInterface $configResolver;
 
     public function __construct(
