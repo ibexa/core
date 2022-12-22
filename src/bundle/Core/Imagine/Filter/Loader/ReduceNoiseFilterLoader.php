@@ -19,6 +19,8 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
  */
 class ReduceNoiseFilterLoader implements LoaderInterface
 {
+    public const IDENTIFIER = 'filter/noise';
+
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
     private $filter;
 

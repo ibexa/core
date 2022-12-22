@@ -25,7 +25,7 @@ class ImageVariation extends Variation
     /**
      * The height as number of pixels (for example "256").
      *
-     * @var int
+     * @var int|null
      */
     protected $height;
 
@@ -50,6 +50,17 @@ class ImageVariation extends Variation
 
     /** @var mixed */
     protected $imageId;
+
+    /**
+     * Contains identifier of variation handler used to generate this particular variation.
+     */
+    protected ?string $handler = null;
+
+    /**
+     * Indicator if variation image is external (like Fastly IO) or local (like built-in Imagine based alias).
+     * External images won't have SPLInfo data and image dimensions as it would be redundant to fetch file.
+     */
+    protected bool $isExternal = false;
 }
 
 class_alias(ImageVariation::class, 'eZ\Publish\SPI\Variation\Values\ImageVariation');

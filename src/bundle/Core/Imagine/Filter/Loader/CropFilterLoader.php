@@ -15,6 +15,8 @@ use Imagine\Image\ImageInterface;
  */
 class CropFilterLoader extends FilterLoaderWrapped
 {
+    public const IDENTIFIER = 'geometry/crop';
+
     public function load(ImageInterface $image, array $options = [])
     {
         if (count($options) < 4) {

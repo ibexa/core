@@ -15,6 +15,8 @@ use Imagine\Image\ImageInterface;
  */
 class ScalePercentFilterLoader extends FilterLoaderWrapped
 {
+    public const IDENTIFIER = 'geometry/scalepercent';
+
     public function load(ImageInterface $image, array $options = [])
     {
         if (count($options) < 2) {

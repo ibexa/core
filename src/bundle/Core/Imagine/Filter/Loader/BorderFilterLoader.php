@@ -19,6 +19,8 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
  */
 class BorderFilterLoader implements LoaderInterface
 {
+    public const IDENTIFIER = 'border';
+
     public const DEFAULT_BORDER_COLOR = '#000';
 
     public function load(ImageInterface $image, array $options = [])

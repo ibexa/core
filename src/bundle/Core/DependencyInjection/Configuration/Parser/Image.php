@@ -112,6 +112,11 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
                     ->end()
                 ->end()
             ->end()
+            ->scalarNode('variation_handler_identifier')
+                ->info('Variation handler to be used. Defaults to built-in alias variations.')
+                ->defaultValue('alias')
+                ->example('alias')
+            ->end()
             ->scalarNode('image_host')
                 ->info('Images host. All system images URLs are prefixed with given host if configured.')
                 ->example('https://ezplatform.com')
@@ -122,6 +127,7 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
     {
         $contextualizer->mapConfigArray('image_variations', $config);
         $contextualizer->mapSetting('image_host', $config);
+        $contextualizer->mapSetting('variation_handler_identifier', $config);
     }
 
     public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)

@@ -6,6 +6,8 @@
  */
 namespace Ibexa\Bundle\Core\Imagine;
 
+use Ibexa\Bundle\Core\Variation\PathResolver;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -19,24 +21,18 @@ use Symfony\Component\Routing\RequestContext;
 /**
  * LiipImagineBundle cache resolver using Ibexa IO repository.
  */
-class IORepositoryResolver implements ResolverInterface
+class IORepositoryResolver extends PathResolver implements ResolverInterface
 {
     public const VARIATION_ORIGINAL = 'original';
 
     /** @var \Ibexa\Core\IO\IOServiceInterface */
     private $ioService;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
-    private $requestContext;
-
     /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
     private $filterConfiguration;
 
     /** @var \Ibexa\Contracts\Core\Variation\VariationPurger */
     private $variationPurger;
-
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator */
-    private $variationPathGenerator;
 
     public function __construct(
         IOServiceInterface $ioService,
@@ -45,11 +41,11 @@ class IORepositoryResolver implements ResolverInterface
         VariationPurger $variationPurger,
         VariationPathGenerator $variationPathGenerator
     ) {
+        parent::__construct($requestContext, $variationPathGenerator);
+
         $this->ioService = $ioService;
-        $this->requestContext = $requestContext;
         $this->filterConfiguration = $filterConfiguration;
         $this->variationPurger = $variationPurger;
-        $this->variationPathGenerator = $variationPathGenerator;
     }
 
     public function isStored($path, $filter)
@@ -129,51 +125,6 @@ class IORepositoryResolver implements ResolverInterface
                 $this->ioService->deleteBinaryFile($binaryFile);
             }
         }
-    }
-
-    /**
-     * Returns path for filtered image from original path, using the VariationPathGenerator.
-     *
-     * @param string $path
-     * @param string $filter
-     *
-     * @return string
-     */
-    public function getFilePath($path, $filter)
-    {
-        return $this->variationPathGenerator->getVariationPath($path, $filter);
-    }
-
-    /**
-     * Returns base URL, with scheme, host and port, for current request context.
-     * If no delivery URL is configured for current SiteAccess, will return base URL from current RequestContext.
-     *
-     * @return string
-     */
-    protected function getBaseUrl()
-    {
-        $port = '';
-        if ($this->requestContext->getScheme() === 'https' && $this->requestContext->getHttpsPort() != 443) {
-            $port = ":{$this->requestContext->getHttpsPort()}";
-        }
-
-        if ($this->requestContext->getScheme() === 'http' && $this->requestContext->getHttpPort() != 80) {
-            $port = ":{$this->requestContext->getHttpPort()}";
-        }
-
-        $baseUrl = $this->requestContext->getBaseUrl();
-        if (substr($this->requestContext->getBaseUrl(), -4) === '.php') {
-            $baseUrl = pathinfo($this->requestContext->getBaseurl(), PATHINFO_DIRNAME);
-        }
-        $baseUrl = rtrim($baseUrl, '/\\');
-
-        return sprintf(
-            '%s://%s%s%s',
-            $this->requestContext->getScheme(),
-            $this->requestContext->getHost(),
-            $port,
-            $baseUrl
-        );
     }
 }
 

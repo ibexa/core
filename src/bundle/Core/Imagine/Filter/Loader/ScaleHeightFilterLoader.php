@@ -15,6 +15,8 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleHeightFilterLoader extends FilterLoaderWrapped
 {
+    public const IDENTIFIER = 'geometry/scaleheight';
+
     public function load(ImageInterface $image, array $options = [])
     {
         if (empty($options)) {

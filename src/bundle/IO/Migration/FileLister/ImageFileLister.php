@@ -6,10 +6,10 @@
  */
 namespace Ibexa\Bundle\IO\Migration\FileLister;
 
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Bundle\IO\Migration\FileListerInterface;
 use Ibexa\Bundle\IO\Migration\MigrationHandler;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Iterator;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
@@ -21,7 +21,7 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
     /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileList */
     private $imageFileList;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator */
+    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
     private $variationPathGenerator;
 
     /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
@@ -35,7 +35,7 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
      * @param \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry $binarydataHandlerRegistry
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Iterator $imageFileList
-     * @param \Ibexa\Bundle\Core\Imagine\VariationPathGenerator
+     * @param \Ibexa\Contracts\Core\Variation\VariationPathGenerator
      * @param \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration
      * @param string $imagesDir Directory where images are stored, within the storage dir. Example: 'images'
      */

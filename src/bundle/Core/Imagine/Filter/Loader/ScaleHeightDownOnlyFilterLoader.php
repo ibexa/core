@@ -15,6 +15,8 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleHeightDownOnlyFilterLoader extends FilterLoaderWrapped
 {
+    public const IDENTIFIER = 'geometry/scaleheightdownonly';
+
     public function load(ImageInterface $image, array $options = [])
     {
         if (empty($options)) {
