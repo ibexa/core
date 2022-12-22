@@ -360,3 +360,5 @@ services:
             $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
             $defaultConnection: '%doctrine.default_connection%'
             $entityManagers: '%doctrine.entity_managers%'
+            
+    Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
