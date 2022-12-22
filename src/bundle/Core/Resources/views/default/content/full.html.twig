@@ -1,6 +1,5 @@
 {% extends no_layout == true ? view_base_layout : page_layout %}
 {% block content %}
-    <pre>{{ ibexa_image_alias(content.getField('image'), content.versionInfo, 'medium').uri }}</pre>
     <h2>{{ ibexa_content_name(content) }}</h2>
     {% for field in content.fieldsByLanguage(language|default(null)) %}
         <h3>{{ field.fieldDefIdentifier }}</h3>
