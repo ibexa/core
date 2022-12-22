@@ -62,8 +62,8 @@ final class LocalSiteAccessAwareFilesystemAdapter implements FilesystemAdapter
         $this->visibility = $visibilityConverter;
         $this->writeFlags = $writeFlags;
         $this->linkHandling = $linkHandling;
-        $this->ensureDirectoryExists($location, $this->visibility->defaultForDirectories());
         $this->mimeTypeDetector = $mimeTypeDetector;
+        $this->ensureDirectoryExists($location, $this->visibility->defaultForDirectories());
     }
 
     public function fileExists(string $path): bool
