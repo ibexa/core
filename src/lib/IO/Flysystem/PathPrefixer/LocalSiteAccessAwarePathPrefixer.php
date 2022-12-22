@@ -14,7 +14,7 @@ use Ibexa\Core\IO\IOConfigProvider;
 /**
  * @internal
  */
-class LocalSiteAccessAwarePathPrefixer extends BaseSiteAccessAwarePathPrefixer
+final class LocalSiteAccessAwarePathPrefixer extends BaseSiteAccessAwarePathPrefixer
 {
     private IOConfigProvider $ioConfigProvider;
 

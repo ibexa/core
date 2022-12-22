@@ -24,7 +24,7 @@ abstract class BaseSiteAccessAwarePathPrefixer implements PathPrefixerInterface
 
     abstract protected function getSiteAccessAwarePathPrefix(): string;
 
-    public function prefixPath(string $path): string
+    final public function prefixPath(string $path): string
     {
         $siteAccessAwarePathPrefix = $this->getSiteAccessAwarePathPrefix();
         $prefix = rtrim($siteAccessAwarePathPrefix, '\\/');
@@ -35,17 +35,17 @@ abstract class BaseSiteAccessAwarePathPrefixer implements PathPrefixerInterface
         return $prefix . ltrim($path, '\\/');
     }
 
-    public function stripPrefix(string $path): string
+    final public function stripPrefix(string $path): string
     {
         return substr($path, strlen($this->getSiteAccessAwarePathPrefix()));
     }
 
-    public function stripDirectoryPrefix(string $path): string
+    final public function stripDirectoryPrefix(string $path): string
     {
         return rtrim($this->stripPrefix($path), '\\/');
     }
 
-    public function prefixDirectoryPath(string $path): string
+    final public function prefixDirectoryPath(string $path): string
     {
         $prefixedPath = $this->prefixPath(rtrim($path, '\\/'));
 

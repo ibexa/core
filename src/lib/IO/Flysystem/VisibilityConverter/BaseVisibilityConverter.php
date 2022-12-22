@@ -35,7 +35,7 @@ abstract class BaseVisibilityConverter implements VisibilityConverter
 
     abstract protected function getPublicDirectoryPermissions(): int;
 
-    public function forFile(string $visibility): int
+    final public function forFile(string $visibility): int
     {
         PortableVisibilityGuard::guardAgainstInvalidInput($visibility);
 
@@ -44,7 +44,7 @@ abstract class BaseVisibilityConverter implements VisibilityConverter
             : $this->nativeVisibilityConverter->forFile($visibility);
     }
 
-    public function forDirectory(string $visibility): int
+    final public function forDirectory(string $visibility): int
     {
         PortableVisibilityGuard::guardAgainstInvalidInput($visibility);
 
@@ -53,7 +53,7 @@ abstract class BaseVisibilityConverter implements VisibilityConverter
             : $this->nativeVisibilityConverter->forDirectory($visibility);
     }
 
-    public function inverseForFile(int $visibility): string
+    final public function inverseForFile(int $visibility): string
     {
         if ($visibility === $this->getPublicFilePermissions()) {
             return Visibility::PUBLIC;
@@ -66,7 +66,7 @@ abstract class BaseVisibilityConverter implements VisibilityConverter
         return Visibility::PUBLIC; // default
     }
 
-    public function inverseForDirectory(int $visibility): string
+    final public function inverseForDirectory(int $visibility): string
     {
         if ($visibility === $this->getPublicDirectoryPermissions()) {
             return Visibility::PUBLIC;
@@ -79,7 +79,7 @@ abstract class BaseVisibilityConverter implements VisibilityConverter
         return Visibility::PUBLIC; // default
     }
 
-    public function defaultForDirectories(): int
+    final public function defaultForDirectories(): int
     {
         return $this->nativeVisibilityConverter->defaultForDirectories();
     }
