@@ -49,7 +49,7 @@ abstract class BaseSiteAccessAwarePathPrefixer implements PathPrefixerInterface
     {
         $prefixedPath = $this->prefixPath(rtrim($path, '\\/'));
 
-        if ($prefixedPath === '' || (substr($prefixedPath, -1) === $this->separator)) {
+        if ($prefixedPath === '' || str_ends_with($prefixedPath, $this->separator)) {
             return $prefixedPath;
         }
 
