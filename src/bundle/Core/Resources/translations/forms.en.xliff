@@ -31,6 +31,11 @@
         <target state="new">Content Type / Update</target>
         <note>key: role.policy.class.update</note>
       </trans-unit>
+      <trans-unit id="ffe83a713e8b33558df040efa1eeadd0b1cc18e0" resname="role.policy.content">
+        <source>Content</source>
+        <target state="new">Content</target>
+        <note>key: role.policy.content</note>
+      </trans-unit>
       <trans-unit id="ea72f76a43bc0ec3eff965e68279dab5597b19c0" resname="role.policy.content.all_functions">
         <source>Content / All functions</source>
         <target state="new">Content / All functions</target>
