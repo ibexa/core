@@ -23,6 +23,8 @@ abstract class PathResolver
         $this->variationPathGenerator = $variationPathGenerator;
     }
 
+    abstract public function resolve($path, $variation): string;
+
     /**
      * Returns path for filtered image from original path, using the VariationPathGenerator.
      */

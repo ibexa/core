@@ -53,7 +53,7 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
         return $this->ioService->exists($this->getFilePath($path, $filter));
     }
 
-    public function resolve($path, $filter)
+    public function resolve($path, $filter): string
     {
         try {
             $binaryFile = $this->ioService->loadBinaryFile($path);
