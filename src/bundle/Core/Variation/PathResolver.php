@@ -27,8 +27,10 @@ abstract class PathResolver
 
     /**
      * Returns path for filtered image from original path, using the VariationPathGenerator.
+     *
+     * @return string
      */
-    public function getFilePath(string $path, string $variation): string
+    public function getFilePath(string $path, string $variation)
     {
         return $this->variationPathGenerator->getVariationPath($path, $variation);
     }
