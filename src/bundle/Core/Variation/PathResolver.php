@@ -30,7 +30,7 @@ abstract class PathResolver
      *
      * @return string
      */
-    public function getFilePath(string $path, string $variation)
+    public function getFilePath(?string $path, string $variation)
     {
         return $this->variationPathGenerator->getVariationPath($path, $variation);
     }
