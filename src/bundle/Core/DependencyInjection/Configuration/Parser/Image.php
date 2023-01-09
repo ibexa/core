@@ -114,7 +114,6 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
             ->end()
             ->scalarNode('variation_handler_identifier')
                 ->info('Variation handler to be used. Defaults to built-in alias variations.')
-                ->defaultValue('alias')
                 ->example('alias')
             ->end()
             ->scalarNode('image_host')
