@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 
 /**
  * Puts variations in the an _alias/<aliasName> subfolder.
