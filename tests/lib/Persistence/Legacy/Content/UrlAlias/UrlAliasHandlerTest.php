@@ -2814,6 +2814,73 @@ class UrlAliasHandlerTest extends TestCase
     }
 
     /**
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testLocationMovedReparentWithCustomAlias(): void
+    {
+        $handler = $this->getHandler();
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_move.php');
+
+        $handler->createCustomUrlAlias(
+            6, // Location's id of 'sub2' alias
+            'move-this/sub1/sub2-alias',
+            false,
+            'eng-GB',
+            false
+        );
+
+        $handler->publishUrlAliasForLocation(
+            5, // Location's id of 'sub1' alias that we are moving
+            3, // Location's id of 'move-here' alias that would be a parent
+            'sub1',
+            'eng-GB',
+            false
+        );
+
+        $handler->locationMoved(
+            5,
+            4,
+            3
+        );
+
+        $customUrlAlias = $handler->lookup('move-here/sub1/sub2-alias');
+
+        self::assertEquals(
+            new UrlAlias(
+                [
+                    'id' => '10-' . md5('sub2-alias'),
+                    'type' => UrlAlias::LOCATION,
+                    'destination' => '6',
+                    'languageCodes' => ['eng-GB'],
+                    'pathData' => [
+                        [
+                            'always-available' => false,
+                            'translations' => ['eng-GB' => 'move-here'],
+                        ],
+                        [
+                            'always-available' => false,
+                            'translations' => ['eng-GB' => 'sub1'],
+                        ],
+                        [
+                            'always-available' => false,
+                            'translations' => ['eng-GB' => 'sub2-alias'],
+                        ],
+                    ],
+                    'alwaysAvailable' => false,
+                    'isHistory' => false,
+                    'isCustom' => true,
+                    'forward' => false,
+                ]
+            ),
+            $customUrlAlias
+        );
+    }
+
+    /**
      * Test for the locationCopied() method.
      */
     public function testLocationCopiedCopiedLocationAliasIsValid()
