@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Variation\Values\Variation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Core\Variation\VariationHandlerRegistry;
 
-class VariationHandlerResolver implements VariationHandler
+final class VariationHandlerResolver implements VariationHandler
 {
     private VariationHandlerRegistry $variationHandlerRegistry;
 
