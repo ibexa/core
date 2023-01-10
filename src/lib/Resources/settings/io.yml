@@ -1,3 +1,9 @@
+parameters:
+    # Needs to point to filesystem actual root / for decorators to work
+    ibexa.core.io.flysystem.filesystem_root: '/'
+    ibexa.core.io.flysystem.write_flags: !php/const LOCK_EX
+    ibexa.core.io.flysystem.link_handling: !php/const \League\Flysystem\Local\LocalFilesystemAdapter::DISALLOW_LINKS
+
 services:
     ibexa.core.io.service:
         class: Ibexa\Core\IO\TolerantIOService
@@ -38,31 +44,43 @@ services:
         class: League\Flysystem\Filesystem
         abstract: true
 
+    ibexa.core.io.flysystem.adapter.site_access_aware:
+        class: League\Flysystem\Local\LocalFilesystemAdapter
+        arguments:
+            $location: '%ibexa.core.io.flysystem.filesystem_root%'
+            $visibility: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter'
+            $writeFlags: '%ibexa.core.io.flysystem.write_flags%'
+            $linkHandling: '%ibexa.core.io.flysystem.link_handling%'
+
+    ibexa.core.io.flysystem.adapter.dfs:
+        class: League\Flysystem\Local\LocalFilesystemAdapter
+        arguments:
+            $location: '%ibexa.core.io.flysystem.filesystem_root%'
+            $visibility: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter'
+            $writeFlags: "@=parameter('ibexa.io.nfs.adapter.config')['writeFlags'] ? parameter('ibexa.io.nfs.adapter.config')['writeFlags'] : parameter('ibexa.core.io.flysystem.write_flags')"
+            $linkHandling: "@=parameter('ibexa.io.nfs.adapter.config')['linkHandling'] ? parameter('ibexa.io.nfs.adapter.config')['linkHandling'] : parameter('ibexa.core.io.flysystem.link_handling')"
+
+    ibexa.core.io.flysystem.adapter.dynamic_path.site_access_aware.decorator:
+        class: Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator
+        decorates: ibexa.core.io.flysystem.adapter.site_access_aware
+        arguments:
+            $innerAdapter: '@.inner'
+            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer'
+
+    ibexa.core.io.flysystem.adapter.dynamic_path.dfs.decorator:
+        class: Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator
+        decorates: ibexa.core.io.flysystem.adapter.dfs
+        arguments:
+            $innerAdapter: '@.inner'
+            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer'
+
     ibexa.core.io.flysystem.default_filesystem:
         parent: ibexa.core.io.flysystem.base_filesystem
         arguments:
-            $adapter: '@Ibexa\Core\IO\Flysystem\Adapter\LocalSiteAccessAwareFilesystemAdapter'
-
-    Ibexa\Core\IO\Flysystem\Adapter\LocalSiteAccessAwareFilesystemAdapter:
-        arguments:
-            $location: '%ibexa.io.dir.storage%'
-            $visibilityConverter: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter'
-            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer'
-            $mimeTypeDetector: '@ibexa.core.io.flysystem.mime_type_detector'
+            $adapter: '@ibexa.core.io.flysystem.adapter.dynamic_path.site_access_aware.decorator'
 
     ibexa.io.nfs.adapter.site_access_aware:
-        class: Ibexa\Core\IO\Flysystem\Adapter\LocalSiteAccessAwareFilesystemAdapter
-        arguments:
-            $location: "@=parameter('ibexa.io.nfs.adapter.config')['root']" # used this expression due to BC for parameter name
-            $visibilityConverter: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter'
-            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer'
-            $mimeTypeDetector: '@ibexa.core.io.flysystem.mime_type_detector'
-
-    ibexa.core.io.flysystem.mime_type_detector:
-        alias: ibexa.core.io.flysystem.mime_type_detector.f_info
-
-    ibexa.core.io.flysystem.mime_type_detector.f_info:
-        class: League\MimeTypeDetection\FinfoMimeTypeDetector
+        alias: ibexa.core.io.flysystem.adapter.dynamic_path.dfs.decorator
 
     ibexa.core.io.flysystem.visibility.portable_visibility.converter:
         class: League\Flysystem\UnixVisibility\PortableVisibilityConverter
