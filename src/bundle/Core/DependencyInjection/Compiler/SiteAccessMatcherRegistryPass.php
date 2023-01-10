@@ -14,11 +14,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * The SiteAccessMatcherRegistryPass will register all services tagged as "ezplatform.siteaccess.matcher" to the registry.
+ * The SiteAccessMatcherRegistryPass will register all services tagged as "ibexa.site_access.matcher" to the registry.
  */
 final class SiteAccessMatcherRegistryPass implements CompilerPassInterface
 {
-    public const MATCHER_TAG = 'ezplatform.siteaccess.matcher';
+    public const MATCHER_TAG = 'ibexa.site_access.matcher';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
