@@ -10,18 +10,20 @@ namespace Ibexa\Core\IO\FilePathNormalizer;
 
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
-use League\Flysystem\Util;
+use League\Flysystem\PathNormalizer;
 
 final class Flysystem implements FilePathNormalizerInterface
 {
     private const HASH_PATTERN = '/^[0-9a-f]{12}-/';
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter */
-    private $slugConverter;
+    private SlugConverter $slugConverter;
 
-    public function __construct(SlugConverter $slugConverter)
+    private PathNormalizer $pathNormalizer;
+
+    public function __construct(SlugConverter $slugConverter, PathNormalizer $pathNormalizer)
     {
         $this->slugConverter = $slugConverter;
+        $this->pathNormalizer = $pathNormalizer;
     }
 
     public function normalizePath(string $filePath, bool $doHash = true): string
@@ -37,7 +39,7 @@ final class Flysystem implements FilePathNormalizerInterface
 
         $filePath = $directory . \DIRECTORY_SEPARATOR . $hash . $fileName;
 
-        return Util::normalizePath($filePath);
+        return $this->pathNormalizer->normalizePath($filePath);
     }
 }
 

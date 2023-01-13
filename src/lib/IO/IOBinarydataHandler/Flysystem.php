@@ -8,28 +8,29 @@ namespace Ibexa\Core\IO\IOBinarydataHandler;
 
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\Exception\IOException;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\UrlDecorator;
-use League\Flysystem\AdapterInterface;
-use League\Flysystem\FileExistsException;
-use League\Flysystem\FileNotFoundException as FlysystemNotFoundException;
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\FilesystemOperator;
+use League\Flysystem\Visibility;
 
-class Flysystem implements IOBinaryDataHandler
+/**
+ * @internal type-hint \Ibexa\Core\IO\IOBinarydataHandler instead
+ */
+final class Flysystem implements IOBinaryDataHandler
 {
-    /** @var \League\Flysystem\FilesystemInterface */
-    private $filesystem;
+    private FilesystemOperator $filesystem;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator */
-    private $urlDecorator;
+    private ?UrlDecorator $urlDecorator;
 
-    public function __construct(FilesystemInterface $filesystem, UrlDecorator $urlDecorator = null)
+    public function __construct(FilesystemOperator $filesystem, UrlDecorator $urlDecorator = null)
     {
         $this->filesystem = $filesystem;
         $this->urlDecorator = $urlDecorator;
     }
 
-    public function create(BinaryFileCreateStruct $binaryFileCreateStruct)
+    public function create(BinaryFileCreateStruct $binaryFileCreateStruct): void
     {
         try {
             $this->filesystem->writeStream(
@@ -37,35 +38,28 @@ class Flysystem implements IOBinaryDataHandler
                 $binaryFileCreateStruct->getInputStream(),
                 [
                     'mimetype' => $binaryFileCreateStruct->mimeType,
-                    'visibility' => AdapterInterface::VISIBILITY_PUBLIC,
+                    'visibility' => Visibility::PUBLIC,
                 ]
             );
-        } catch (FileExistsException $e) {
-            $this->filesystem->updateStream(
-                $binaryFileCreateStruct->id,
-                $binaryFileCreateStruct->getInputStream(),
-                [
-                    'mimetype' => $binaryFileCreateStruct->mimeType,
-                    'visibility' => AdapterInterface::VISIBILITY_PUBLIC,
-                ]
-            );
+        } catch (FilesystemException $e) {
+            throw new IOException("Failed to create file '{$binaryFileCreateStruct->id}'", $e);
         }
     }
 
-    public function delete($spiBinaryFileId)
+    public function delete($spiBinaryFileId): void
     {
         try {
             $this->filesystem->delete($spiBinaryFileId);
-        } catch (FlysystemNotFoundException $e) {
+        } catch (FilesystemException $e) {
             throw new BinaryFileNotFoundException($spiBinaryFileId, $e);
         }
     }
 
-    public function getContents($spiBinaryFileId)
+    public function getContents($spiBinaryFileId): string
     {
         try {
             return $this->filesystem->read($spiBinaryFileId);
-        } catch (FlysystemNotFoundException $e) {
+        } catch (FilesystemException $e) {
             throw new BinaryFileNotFoundException($spiBinaryFileId, $e);
         }
     }
@@ -74,32 +68,34 @@ class Flysystem implements IOBinaryDataHandler
     {
         try {
             return $this->filesystem->readStream($spiBinaryFileId);
-        } catch (FlysystemNotFoundException $e) {
+        } catch (FilesystemException $e) {
             throw new BinaryFileNotFoundException($spiBinaryFileId, $e);
         }
     }
 
-    public function getUri($spiBinaryFileId)
+    public function getUri($spiBinaryFileId): string
     {
-        if (isset($this->urlDecorator)) {
-            return $this->urlDecorator->decorate($spiBinaryFileId);
-        } else {
-            return '/' . $spiBinaryFileId;
-        }
+        return null !== $this->urlDecorator
+            ? $this->urlDecorator->decorate($spiBinaryFileId)
+            : '/' . $spiBinaryFileId;
     }
 
-    public function getIdFromUri($binaryFileUri)
+    public function getIdFromUri($binaryFileUri): string
     {
         if (isset($this->urlDecorator)) {
             return $this->urlDecorator->undecorate($binaryFileUri);
-        } else {
-            return ltrim($binaryFileUri, '/');
         }
+
+        return ltrim($binaryFileUri, '/');
     }
 
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory($spiPath): void
     {
-        $this->filesystem->deleteDir($spiPath);
+        try {
+            $this->filesystem->deleteDirectory($spiPath);
+        } catch (FilesystemException $e) {
+            throw new IOException("'Unable to delete directory '$spiPath'", $e);
+        }
     }
 }
 

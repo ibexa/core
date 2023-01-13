@@ -39,6 +39,8 @@ interface IOMetadataHandler
      * @param string $spiBinaryFileId
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function load($spiBinaryFileId);
 

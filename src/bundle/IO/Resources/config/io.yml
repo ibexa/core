@@ -97,20 +97,6 @@ services:
         class: Ibexa\Bundle\IO\ApiLoader\HandlerRegistry
 
     # Inject the siteaccess config into a few io services
-    Ibexa\Core\IO\Adapter\LocalAdapter:
-        autoconfigure: true
-        arguments:
-            - '@Ibexa\Core\IO\IOConfigProvider'
-            - '@ibexa.config.resolver'
-
-    Ibexa\Bundle\IO\Flysystem\Adapter\SiteAccessAwareLocalAdapter:
-        arguments:
-            $configProcessor: '@Ibexa\Contracts\Core\SiteAccess\ConfigProcessor'
-            $config: '%ibexa.io.nfs.adapter.config%'
-
-    ibexa.io.nfs.adapter.site_access_aware:
-        alias: Ibexa\Bundle\IO\Flysystem\Adapter\SiteAccessAwareLocalAdapter
-
     Ibexa\Core\IO\UrlDecorator\AbsolutePrefix:
         class: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix
         arguments:

@@ -6,10 +6,10 @@ parameters:
     ibexa.io.images.storage.prefix: images
     ibexa.io.images.storage.prefix.draft: images-versioned
     ibexa.io.binary_file.storage.prefix: original
-    ibexa.io.dir.storage: var/ibexa_demo_site/storage
-    ibexa.io.dir.root: '%ibexa.io.dir.storage%'
     ibexa.site_access.list: [test]
     ibexa.site_access.config.default.anonymous_user_id: 10
+    ibexa.site_access.config.default.io.permissions.files: 0644
+    ibexa.site_access.config.default.io.permissions.directories: 0755
 
 services:
     ibexa.api.persistence_handler:

@@ -9,3 +9,4 @@ parameters:
         - ger-DE
 
     ibexa.spi.persistence.cache.inmemory.ttl: 0
+    ibexa.legacy.url_prefix: var/ibexa_demo_site/storage
