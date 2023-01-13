@@ -8,8 +8,8 @@ namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
 use Ibexa\Bundle\Core\Imagine\IORepositoryResolver;
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -42,7 +42,7 @@ class IORepositoryResolverTest extends TestCase
     /** @var \Ibexa\Contracts\Core\Variation\VariationPurger|\PHPUnit\Framework\MockObject\MockObject */
     protected $variationPurger;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
     protected $variationPathGenerator;
 
     protected function setUp(): void

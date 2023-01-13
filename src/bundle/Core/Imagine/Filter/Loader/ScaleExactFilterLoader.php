@@ -15,6 +15,8 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleExactFilterLoader extends FilterLoaderWrapped
 {
+    public const IDENTIFIER = 'geometry/scaleexact';
+
     public function load(ImageInterface $image, array $options = [])
     {
         if (count($options) < 2) {

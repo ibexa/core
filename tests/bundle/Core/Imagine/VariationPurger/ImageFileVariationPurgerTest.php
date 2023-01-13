@@ -7,8 +7,8 @@
 namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPurger;
 
 use ArrayIterator;
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class ImageFileVariationPurgerTest extends TestCase
     /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $ioServiceMock;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
     protected $pathGeneratorMock;
 
     /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger */

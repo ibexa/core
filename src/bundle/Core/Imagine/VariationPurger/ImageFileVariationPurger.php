@@ -6,7 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\Imagine\VariationPurger;
 
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Contracts\Core\Variation\VariationPurger;
 use Ibexa\Core\IO\IOServiceInterface;
 use Iterator;
@@ -25,7 +25,7 @@ class ImageFileVariationPurger implements VariationPurger
     /** @var \Ibexa\Core\IO\IOServiceInterface */
     private $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator */
+    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
     private $variationPathGenerator;
 
     /** @var \Psr\Log\LoggerInterface */

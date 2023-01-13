@@ -6,20 +6,13 @@
  */
 namespace Ibexa\Bundle\Core\Imagine;
 
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator as VariationPathGeneratorContract;
+
 /**
- * Generates the path to variations of original images.
+ * @deprecated 4.4.0 Use \Ibexa\Contracts\Core\Variation\VariationPathGenerator instead.
  */
-interface VariationPathGenerator
+interface VariationPathGenerator extends VariationPathGeneratorContract
 {
-    /**
-     * Returns the variation for image $originalPath with $filter.
-     *
-     * @param string $originalPath
-     * @param string $filter
-     *
-     * @return string
-     */
-    public function getVariationPath($originalPath, $filter);
 }
 
 class_alias(VariationPathGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator');

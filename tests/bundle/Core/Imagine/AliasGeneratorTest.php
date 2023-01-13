@@ -8,11 +8,11 @@ namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\AliasGenerator;
 use Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator;
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -67,7 +67,7 @@ class AliasGeneratorTest extends TestCase
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\IO\IOServiceInterface */
     private $ioService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Bundle\Core\Imagine\VariationPathGenerator */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Variation\VariationPathGenerator */
     private $variationPathGenerator;
 
     protected function setUp(): void

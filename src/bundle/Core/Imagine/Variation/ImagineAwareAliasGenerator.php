@@ -7,11 +7,11 @@
 namespace Ibexa\Bundle\Core\Imagine\Variation;
 
 use Ibexa\Bundle\Core\Imagine\IORepositoryResolver;
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 use Ibexa\Core\IO\IOServiceInterface;
 use Imagine\Image\ImagineInterface;
 
@@ -24,7 +24,7 @@ class ImagineAwareAliasGenerator implements VariationHandler
     /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
     private $aliasGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator */
+    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
     private $variationPathGenerator;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface */

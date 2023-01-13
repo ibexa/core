@@ -12,6 +12,8 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
 class SwirlFilterLoader implements LoaderInterface
 {
+    public const IDENTIFIER = 'filter/swirl';
+
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
     private $filter;
 

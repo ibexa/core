@@ -15,6 +15,8 @@ use Imagine\Image\ImageInterface;
  */
 class ScaleDownOnlyFilterLoader extends FilterLoaderWrapped
 {
+    public const IDENTIFIER = 'geometry/scaledownonly';
+
     /**
      * Loads and applies a filter on the given image.
      *

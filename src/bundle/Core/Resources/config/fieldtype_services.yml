@@ -57,10 +57,6 @@ services:
         arguments:
             $configResolver: '@ibexa.config.resolver'
 
-    # Image alias generator
-    ibexa.field_type.ezimage.variation_service:
-        alias: Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator
-
     ibexa.field_type.ezimage.io_service.published:
         parent: ibexa.core.io.service
 

@@ -71,14 +71,6 @@ services:
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
 
-    Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator:
-        class: Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator
-        arguments:
-            - '@ibexa.image_alias.imagine.alias_generator'
-            - '@ibexa.image_alias.variation_path_generator'
-            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
-            - '@liip_imagine'
-
     ibexa.image_alias.imagine.alias_generator:
         class: Ibexa\Bundle\Core\Imagine\AliasGenerator
         arguments:
@@ -119,6 +111,8 @@ services:
             - '@ibexa.api.service.content'
             - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
         public: false
+        tags:
+            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias' }
 
     Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry:
         class: 'Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry'
@@ -285,5 +279,29 @@ services:
     Ibexa\Bundle\Core\Imagine\VariationPathGenerator\AliasDirectoryVariationPathGenerator:
         class: Ibexa\Bundle\Core\Imagine\VariationPathGenerator\AliasDirectoryVariationPathGenerator
 
+    # Abstract Image Variations
+
+    Ibexa\Core\Variation\VariationHandlerRegistry:
+        arguments:
+            $variationHandlers: !tagged_iterator { tag: 'ibexa.media.images.variation.handler', index_by: 'identifier' }
+
+    Ibexa\Bundle\Core\Variation\VariationHandlerResolver:
+        autowire: true
+        autoconfigure: true
+
+    Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator:
+        class: Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator
+        arguments:
+            - '@ibexa.image_alias.imagine.alias_generator'
+            - '@ibexa.image_alias.variation_path_generator'
+            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            - '@liip_imagine'
+        tags:
+            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias' }
+
     # SPI Aliases
-    Ibexa\Contracts\Core\Variation\VariationHandler: '@Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator'
+    Ibexa\Contracts\Core\Variation\VariationHandler: '@Ibexa\Bundle\Core\Variation\VariationHandlerResolver'
+
+    # Image alias generator
+    ibexa.field_type.ezimage.variation_service:
+        alias: Ibexa\Contracts\Core\Variation\VariationHandler
