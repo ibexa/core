@@ -82,7 +82,7 @@ final class FlysystemTest extends IbexaKernelTestCase
         return $container->get('ibexa.core.io.flysystem.default_filesystem');
     }
 
-    private function getBinaryDataHandler(ContainerInterface $container)
+    private function getBinaryDataHandler(ContainerInterface $container): IOBinarydataHandler
     {
         return $container->get('ibexa.core.io.binarydata_handler.flysystem');
     }
