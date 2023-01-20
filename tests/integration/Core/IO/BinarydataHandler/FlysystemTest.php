@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Integration\Core\IO\BinarydataHandler;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapterInterface;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Visibility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -24,13 +25,30 @@ final class FlysystemTest extends IbexaKernelTestCase
 
     private FilesystemOperator $filesystem;
 
+    private static function getAdapter(): FlysystemTestAdapterInterface
+    {
+        $adapter = self::getContainer()->get(FlysystemTestAdapterInterface::class);
+        self::assertInstanceOf(FlysystemTestAdapterInterface::class, $adapter);
+
+        return $adapter;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $container = self::getContainer();
+        // by default, we use InMemory "virtual" adapter for tests,
+        // but here we need to test real file system permissions
+        self::getAdapter()->useRealFileSystem(true);
+
         $this->binaryDataHandler = $this->getBinaryDataHandler($container);
         $this->filesystem = $this->getFlysystemFilesystem($container);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->filesystem->deleteDirectory('/');
     }
 
     public function testCreateSetsCorrectPermissions(): void
