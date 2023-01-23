@@ -173,7 +173,7 @@ parameters:
     ibexa.site_access.config.default.image.published_images_dir: images
     ibexa.site_access.config.default.image.versioned_images_dir: images-versioned
 
-    ibexa.site_access.config.default.variation_handler_identifier: alias
+    ibexa.site_access.config.default.variation_handler_identifier: '%env(string:VARIATION_HANDLER_IDENTIFIER)%'
     ibexa.site_access.config.default.image_variations:
         original:
         reference:
