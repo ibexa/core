@@ -15,7 +15,7 @@ use League\Flysystem\FilesystemAdapter;
 /**
  * @internal
  *
- * Proxying Flysystem adapter. Depending on runtime configuration it proxes to either InMemory one
+ * Proxying Flysystem adapter. Depending on runtime configuration it proxies to either InMemory one
  * or real file system local adapter.
  */
 final class FlysystemTestAdapter implements FlysystemTestAdapterInterface, FilesystemAdapter
