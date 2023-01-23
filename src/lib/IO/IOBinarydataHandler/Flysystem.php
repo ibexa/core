@@ -11,6 +11,7 @@ use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\IOException;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\UrlDecorator;
+use League\Flysystem\Config;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\Visibility;
@@ -38,7 +39,8 @@ final class Flysystem implements IOBinaryDataHandler
                 $binaryFileCreateStruct->getInputStream(),
                 [
                     'mimetype' => $binaryFileCreateStruct->mimeType,
-                    'visibility' => Visibility::PUBLIC,
+                    Config::OPTION_VISIBILITY => Visibility::PUBLIC,
+                    Config::OPTION_DIRECTORY_VISIBILITY => Visibility::PUBLIC,
                 ]
             );
         } catch (FilesystemException $e) {

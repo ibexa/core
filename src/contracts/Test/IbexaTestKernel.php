@@ -16,6 +16,8 @@ use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
+use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapter;
+use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapterInterface;
 use JMS\TranslationBundle\JMSTranslationBundle;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Liip\ImagineBundle\LiipImagineBundle;
@@ -27,6 +29,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
@@ -209,16 +212,36 @@ class IbexaTestKernel extends Kernel
     private static function prepareIOServices(ContainerBuilder $container): void
     {
         if (!class_exists(InMemoryFilesystemAdapter::class)) {
-            throw new LogicException(sprintf(
-                'Missing %s class. Ensure that %s package is installed as a dev dependency',
-                InMemoryFilesystemAdapter::class,
-                'league/flysystem-memory',
-            ));
+            throw new LogicException(
+                sprintf(
+                    'Missing %s class. Ensure that %s package is installed as a dev dependency',
+                    InMemoryFilesystemAdapter::class,
+                    'league/flysystem-memory',
+                )
+            );
         }
 
-        $container->setDefinition(
+        $container->setParameter('webroot_dir', dirname(__DIR__, 3) . '/var/public');
+        $inMemoryAdapter = new Definition(InMemoryFilesystemAdapter::class);
+        $container->setDefinition(InMemoryFilesystemAdapter::class, $inMemoryAdapter);
+
+        $testAdapterDefinition = new Definition(FlysystemTestAdapter::class);
+        $testAdapterDefinition->setDecoratedService(
             'ibexa.core.io.flysystem.adapter.site_access_aware',
-            new Definition(InMemoryFilesystemAdapter::class)
+            null,
+            -10
+        );
+        $testAdapterDefinition->setArgument('$inMemoryAdapter', $inMemoryAdapter);
+        $testAdapterDefinition->setArgument(
+            '$localAdapter',
+            new Reference(
+                '.inner'
+            )
+        );
+        $testAdapterDefinition->setPublic(true);
+        $container->setDefinition(
+            FlysystemTestAdapterInterface::class,
+            $testAdapterDefinition
         );
     }
 

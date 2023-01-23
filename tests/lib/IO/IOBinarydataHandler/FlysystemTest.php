@@ -47,7 +47,13 @@ class FlysystemTest extends TestCase
             ->with(
                 $this->equalTo($spiBinaryFileCreateStruct->id),
                 $this->equalTo($stream),
-                $this->equalTo(['mimetype' => 'image/png', 'visibility' => 'public'])
+                $this->equalTo(
+                    [
+                        'mimetype' => 'image/png',
+                        'visibility' => 'public',
+                        'directory_visibility' => 'public',
+                    ]
+                )
             );
 
         $this->handler->create($spiBinaryFileCreateStruct);
