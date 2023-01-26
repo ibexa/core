@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Contract\Core\Specification;
+namespace Ibexa\Contracts\Core\Specification;
 
 abstract class AbstractSpecification implements SpecificationInterface
 {
