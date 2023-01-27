@@ -21,7 +21,17 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
 
         // We receive limitations as values, but we want them as keys to be used by isset().
         foreach ($config as $module => $functionArray) {
+            if (preg_match('/\W+/', $module)) {
+                throw new \InvalidArgumentException(
+                    "Policy module '{$module}' can only contain characters [a-zA-Z0-9_]"
+                );
+            }
             foreach ($functionArray as $function => $limitationCollection) {
+                if (preg_match('/\W+/', $function)) {
+                    throw new \InvalidArgumentException(
+                        "Policy function {$function}' can only contain characters [a-zA-Z0-9_]"
+                    );
+                }
                 if (null !== $limitationCollection && $this->policyExists($previousPolicyMap, $module, $function)) {
                     $limitations = array_merge_recursive($previousPolicyMap[$module][$function] ?? [], array_fill_keys((array)$limitationCollection, true));
                 } else {
