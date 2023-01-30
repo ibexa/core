@@ -29,7 +29,7 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
             foreach ($functionArray as $function => $limitationCollection) {
                 if (preg_match('/\W+/', $function)) {
                     throw new \InvalidArgumentException(
-                        "Policy function {$function}' can only contain characters [a-zA-Z0-9_]"
+                        "Policy function {$function}' can only contain letters, digits, or the underscore character."
                     );
                 }
                 if (null !== $limitationCollection && $this->policyExists($previousPolicyMap, $module, $function)) {
