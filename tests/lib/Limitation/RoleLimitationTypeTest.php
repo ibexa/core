@@ -8,29 +8,27 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Limitation;
 
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\Base\Exceptions\NotFoundException;
-use eZ\Publish\Core\Limitation\Tests\Base;
-use eZ\Publish\Core\Persistence\Legacy\Content\Handler as ContentHandlerInterface;
-use eZ\Publish\Core\Persistence\Legacy\User\Handler as UserHandlerInterface;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\Repository\Values\User\Role;
-use eZ\Publish\Core\Repository\Values\User\User;
-use eZ\Publish\Core\Repository\Values\User\UserGroup;
-use eZ\Publish\Core\Repository\Values\User\UserGroupRoleAssignment;
-use eZ\Publish\Core\Repository\Values\User\UserRoleAssignment;
-use eZ\Publish\SPI\Persistence\Content\Location;
-use eZ\Publish\SPI\Persistence\Content\Location\Handler as LocationHandlerInterface;
-use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandlerInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserRoleLimitation;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Limitation\RoleLimitationType;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\User\Role;
+use Ibexa\Core\Repository\Values\User\User;
+use Ibexa\Core\Repository\Values\User\UserGroup;
+use Ibexa\Core\Repository\Values\User\UserGroupRoleAssignment;
+use Ibexa\Core\Repository\Values\User\UserRoleAssignment;
 
-class RoleLimitationTypeTest extends Base
+final class RoleLimitationTypeTest extends Base
 {
-    /** @var \Ibexa\Core\Limitation\RoleLimitationType */
-    private $limitationType;
+    private RoleLimitationType $limitationType;
 
     protected function setUp(): void
     {
@@ -44,7 +42,7 @@ class RoleLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestAcceptValue
      */
-    public function testAcceptValue(RoleLimitation $limitation): void
+    public function testAcceptValue(UserRoleLimitation $limitation): void
     {
         $this->expectNotToPerformAssertions();
         $this->limitationType->acceptValue($limitation);
@@ -54,12 +52,12 @@ class RoleLimitationTypeTest extends Base
     {
         return [
             [
-                new RoleLimitation([
+                new UserRoleLimitation([
                     'limitationValues' => [],
                 ]),
             ],
             [
-                new RoleLimitation([
+                new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
             ],
@@ -69,7 +67,7 @@ class RoleLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestAcceptValueException
      */
-    public function testAcceptValueException(RoleLimitation $limitation): void
+    public function testAcceptValueException(UserRoleLimitation $limitation): void
     {
         $this->expectException(InvalidArgumentType::class);
         $this->limitationType->acceptValue($limitation);
@@ -79,22 +77,22 @@ class RoleLimitationTypeTest extends Base
     {
         return [
             [
-                new RoleLimitation([
+                new UserRoleLimitation([
                     'limitationValues' => 1,
                 ]),
             ],
             [
-                new RoleLimitation([
+                new UserRoleLimitation([
                     'limitationValues' => null,
                 ]),
             ],
             [
-                new RoleLimitation([
+                new UserRoleLimitation([
                     'limitationValues' => 'string',
                 ]),
             ],
             [
-                new RoleLimitation([
+                new UserRoleLimitation([
                     'limitationValues' => ['string'],
                 ]),
             ],
@@ -104,7 +102,7 @@ class RoleLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestAcceptValue
      */
-    public function testValidatePass(RoleLimitation $limitation): void
+    public function testValidatePass(UserRoleLimitation $limitation): void
     {
         $userHandlerMock = $this->createMock(UserHandlerInterface::class);
         $contentHandlerMock = $this->createMock(ContentHandlerInterface::class);
@@ -137,7 +135,7 @@ class RoleLimitationTypeTest extends Base
     /**
      * @dataProvider providerForTestValidateError
      */
-    public function testValidateError(RoleLimitation $limitation, int $errorCount): void
+    public function testValidateError(UserRoleLimitation $limitation, int $errorCount): void
     {
         $userHandlerMock = $this->createMock(UserHandlerInterface::class);
 
@@ -163,7 +161,7 @@ class RoleLimitationTypeTest extends Base
     {
         return [
             [
-                new RoleLimitation([
+                new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
                 1,
@@ -175,7 +173,7 @@ class RoleLimitationTypeTest extends Base
      * @dataProvider providerForTestEvaluate
      */
     public function testEvaluate(
-        RoleLimitation $limitation,
+        UserRoleLimitation $limitation,
         ValueObject $object,
         ?array $targets,
         ?bool $expected
@@ -210,7 +208,7 @@ class RoleLimitationTypeTest extends Base
     {
         return [
             'valid_role_limitation' => [
-                'limitation' => new RoleLimitation([
+                'limitation' => new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
                 'object' => new Role(['id' => 4]),
@@ -218,7 +216,7 @@ class RoleLimitationTypeTest extends Base
                 'expected' => true,
             ],
             'allow_non_role_limitation' => [
-                'limitation' => new RoleLimitation([
+                'limitation' => new UserRoleLimitation([
                     'limitationValues' => [],
                 ]),
                 'object' => new Role(['id' => 4]),
@@ -226,7 +224,7 @@ class RoleLimitationTypeTest extends Base
                 'expected' => false,
             ],
             'pass_to_next_limitation' => [
-                'limitation' => new RoleLimitation([
+                'limitation' => new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
                 'object' => new VersionInfo([
@@ -238,7 +236,7 @@ class RoleLimitationTypeTest extends Base
                 'expected' => null,
             ],
             'user_role_assigment_valid' => [
-                'limitation' => new RoleLimitation([
+                'limitation' => new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
                 'object' => new UserRoleAssignment([
@@ -257,7 +255,7 @@ class RoleLimitationTypeTest extends Base
                 'expected' => true,
             ],
             'user_role_assigment_invalid_role' => [
-                'limitation' => new RoleLimitation([
+                'limitation' => new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
                 'object' => new UserRoleAssignment([
@@ -276,7 +274,7 @@ class RoleLimitationTypeTest extends Base
                 'expected' => false,
             ],
             'user_group_role_assigment_valid' => [
-                'limitation' => new RoleLimitation([
+                'limitation' => new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
                 'object' => new UserGroupRoleAssignment([
@@ -295,7 +293,7 @@ class RoleLimitationTypeTest extends Base
                 'expected' => true,
             ],
             'user_group_role_assigment_invalid_role' => [
-                'limitation' => new RoleLimitation([
+                'limitation' => new UserRoleLimitation([
                     'limitationValues' => [4, 8],
                 ]),
                 'object' => new UserGroupRoleAssignment([

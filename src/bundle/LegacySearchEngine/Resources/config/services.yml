@@ -1,0 +1,12 @@
+services:
+    Ibexa\Bundle\LegacySearchEngine\ApiLoader\ConnectionFactory:
+        class: Ibexa\Bundle\LegacySearchEngine\ApiLoader\ConnectionFactory
+        arguments:
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+        calls:
+            - [setContainer, ["@service_container"]]
+
+    ibexa.api.search_engine.legacy.connection:
+        class: Doctrine\DBAL\Connection
+        factory: ['@Ibexa\Bundle\LegacySearchEngine\ApiLoader\ConnectionFactory', getConnection]
+        lazy: true

@@ -18,7 +18,7 @@ abstract class LogicalOperator implements Criterion
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion[]
      */
-    public $criteria = [];
+    public array $criteria = [];
 
     /**
      * Creates a Logic operation with the given criteria.

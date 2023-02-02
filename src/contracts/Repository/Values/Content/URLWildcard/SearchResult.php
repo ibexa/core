@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 
 use ArrayIterator;
-use eZ\Publish\API\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IteratorAggregate;
 use Traversable;
 
@@ -17,17 +17,15 @@ class SearchResult extends ValueObject implements IteratorAggregate
 {
     /**
      * The total number of URLs.
-     *
-     * @var int|null
      */
-    public $totalCount = 0;
+    public ?int $totalCount = 0;
 
     /**
      * The value objects found for the query.
      *
-     * @var \eZ\Publish\API\Repository\Values\Content\URLWildcard[]
+     * @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard[]
      */
-    public $items = [];
+    public array $items = [];
 
     /**
      * {@inheritdoc}

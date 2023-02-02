@@ -8,34 +8,34 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\IO\Migration;
 
-use eZ\Bundle\EzPublishIOBundle\ApiLoader\HandlerRegistry;
-use eZ\Bundle\EzPublishIOBundle\Migration\FileMigrator\FileMigrator;
-use eZ\Publish\Core\IO\IOBinarydataHandler;
-use eZ\Publish\Core\IO\IOMetadataHandler;
-use eZ\Publish\SPI\IO\BinaryFile;
+use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
+use Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator;
+use Ibexa\Contracts\Core\IO\BinaryFile;
+use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\IO\IOMetadataHandler;
 use PHPUnit\Framework\TestCase;
 
 final class FileMigratorTest extends TestCase
 {
-    /** @var \eZ\Bundle\EzPublishIOBundle\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     private $metadataHandlerRegistry;
 
-    /** @var \eZ\Bundle\EzPublishIOBundle\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry|\PHPUnit\Framework\MockObject\MockObject */
     private $binaryHandlerRegistry;
 
-    /** @var \eZ\Bundle\EzPublishIOBundle\Migration\FileMigratorInterface */
+    /** @var \Ibexa\Bundle\IO\Migration\FileMigratorInterface */
     private $fileMigrator;
 
-    /** @var \eZ\Publish\Core\IO\IOMetadataHandler\Flysystem */
+    /** @var \Ibexa\Core\IO\IOMetadataHandler\Flysystem */
     private $metadataFlysystem;
 
-    /** @var \eZ\Publish\Core\IO\IOMetadataHandler\LegacyDFSCluster */
+    /** @var \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster */
     private $metadataLegacyDFSCluster;
 
-    /** @var \eZ\Publish\Core\IO\IOBinarydataHandler\Flysystem */
+    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
     private $binaryFlysystemFrom;
 
-    /** @var \eZ\Publish\Core\IO\IOBinarydataHandler\Flysystem */
+    /** @var \Ibexa\Core\IO\IOBinarydataHandler\Flysystem */
     private $binaryFlysystemTo;
 
     protected function setUp(): void
