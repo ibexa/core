@@ -141,11 +141,6 @@ parameters:
 			path: src/lib/FieldType/User/UserStorage.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController\\:\\:\\$locationProvider\\.$#"
-			count: 2
-			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ContentBased\\\\Id\\\\LocationRemote\\:\\:matchContentInfo\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Matcher/ContentBased/Id/LocationRemote.php
