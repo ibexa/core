@@ -103,12 +103,13 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController
         arguments:
-            - '@ibexa.api.service.content'
-            - "@http_kernel"
-            - '@Ibexa\Core\Helper\ContentPreviewHelper'
-            - "@security.authorization_checker"
-            - '@Ibexa\Core\Helper\PreviewLocationProvider'
-            - '@Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker'
+            $contentService: '@ibexa.api.service.content'
+            $locationService: '@ibexa.api.service.location'
+            $kernel: "@http_kernel"
+            $previewHelper: '@Ibexa\Core\Helper\ContentPreviewHelper'
+            $authorizationChecker: "@security.authorization_checker"
+            $locationProvider: '@Ibexa\Core\Helper\PreviewLocationProvider'
+            $controllerChecker: '@Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker'
         tags:
             - { name: controller.service_arguments }
 
