@@ -544,7 +544,7 @@ class UserContext implements Context
      */
     private function findNonExistingUserEmail($username = 'User')
     {
-        $email = "${username}@ibexa.co";
+        $email = "{$username}@ibexa.co";
         if ($this->checkUserExistenceByEmail($email)) {
             return $email;
         }
