@@ -332,6 +332,11 @@ class Handler implements BaseLocationHandler
         return $copiedSubtreeRootLocation;
     }
 
+    public function getSubtreeSize(string $path): int
+    {
+        return $this->locationGateway->getSubtreeSize($path);
+    }
+
     /**
      * Retrieves section ID of the location's content.
      *
