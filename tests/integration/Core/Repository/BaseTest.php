@@ -173,7 +173,7 @@ abstract class BaseTest extends TestCase
         if (null === $this->setupFactory) {
             if (false === ($setupClass = getenv('setupFactory'))) {
                 $setupClass = LegacySetupFactory::class;
-                putenv("setupFactory=${setupClass}");
+                putenv("setupFactory=$setupClass");
             }
 
             if (false === getenv('fixtureDir')) {
