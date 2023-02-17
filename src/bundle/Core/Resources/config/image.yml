@@ -299,6 +299,12 @@ services:
         tags:
             - { name: 'ibexa.media.images.variation.handler', identifier: 'alias' }
 
+    Ibexa\Bundle\Core\Imagine\VariationPathGenerator\WebpFormatVariationPathGenerator:
+        decorates: ibexa.image_alias.variation_path_generator
+        arguments:
+            $innerVariationPathGenerator: '@.inner'
+            $filterConfiguration: '@liip_imagine.filter.configuration'
+
     # SPI Aliases
     Ibexa\Contracts\Core\Variation\VariationHandler: '@Ibexa\Bundle\Core\Variation\VariationHandlerResolver'
 
