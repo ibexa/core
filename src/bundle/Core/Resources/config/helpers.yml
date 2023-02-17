@@ -1,0 +1,67 @@
+parameters:
+    # Helpers
+    ibexa.config_resolver.resettable_services: []
+    ibexa.config_resolver.updateable_services: []
+
+services:
+    # Helpers
+    Ibexa\Core\Helper\TranslationHelper:
+        class: Ibexa\Core\Helper\TranslationHelper
+        arguments:
+            - '@ibexa.config.resolver'
+            - '@ibexa.api.service.content'
+            - '%ibexa.site_access.by_language%'
+            - "@?logger"
+
+    Ibexa\Core\Helper\FieldHelper:
+        class: Ibexa\Core\Helper\FieldHelper
+        arguments: ['@Ibexa\Core\Helper\TranslationHelper', '@ibexa.api.service.content_type', '@ibexa.api.service.field_type']
+
+    Ibexa\Core\Helper\ContentPreviewHelper:
+        class: Ibexa\Core\Helper\ContentPreviewHelper
+        arguments: ["@event_dispatcher", '@Ibexa\Core\MVC\Symfony\SiteAccess\Router']
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+
+    Ibexa\Bundle\Core\EventListener\ConfigScopeListener:
+        class: Ibexa\Bundle\Core\EventListener\ConfigScopeListener
+        arguments:
+            $configResolvers: !tagged ibexa.site.config.resolver
+            $viewManager: '@Ibexa\Bundle\Core\View\Manager'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\Helper\PreviewLocationProvider:
+        class: Ibexa\Core\Helper\PreviewLocationProvider
+        arguments:
+            - '@ibexa.api.service.location'
+            - '@ibexa.api.service.content'
+            - '@Ibexa\Core\Persistence\Cache\LocationHandler'
+
+    Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader:
+        class: 'Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader'
+        arguments:
+            - '@ibexa.api.repository'
+
+    Ibexa\Bundle\Core\SiteAccess\LanguageResolver:
+        parent: Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+
+    Ibexa\Contracts\Core\Repository\LanguageResolver:
+        alias: Ibexa\Bundle\Core\SiteAccess\LanguageResolver
+
+    Ibexa\Core\IO\IOConfigProvider:
+        alias: Ibexa\Bundle\Core\SiteAccess\Config\IOConfigResolver
+
+    Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor:
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $siteAccessService: '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
+
+    Ibexa\Contracts\Core\SiteAccess\ConfigProcessor:
+        alias: Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor
+
+    Ibexa\Bundle\Core\SiteAccess\Config\IOConfigResolver:
+        arguments:
+            $complexConfigProcessor: '@Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor'

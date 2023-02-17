@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 
-use eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator;
+use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
 
 /**
@@ -16,11 +16,9 @@ use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration;
  */
 final class WebpFormatVariationPathGenerator implements VariationPathGenerator
 {
-    /** @var \eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator */
-    private $innerVariationPathGenerator;
+    private VariationPathGenerator $innerVariationPathGenerator;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
     public function __construct(
         VariationPathGenerator $innerVariationPathGenerator,
