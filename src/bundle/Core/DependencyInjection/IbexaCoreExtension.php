@@ -1019,14 +1019,13 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     {
         $container->prependExtensionConfig('jms_translation', [
             'configs' => [
-                self::EXTENSION_NAME => [
+                'ibexa_core' => [
                     'dirs' => [
                         __DIR__ . '/../',
                     ],
                     'output_dir' => __DIR__ . '/../Resources/translations/',
                     'output_format' => 'xliff',
                     'excluded_dirs' => ['Behat', 'Tests', 'node_modules', 'Features'],
-                    'extractors' => [],
                 ],
             ],
         ]);
