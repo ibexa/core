@@ -13,5 +13,5 @@ final class Ibexa
     /**
      * Ibexa DXP Version.
      */
-    public const VERSION = '4.3.4';
+    public const VERSION = '4.3.5';
 }
