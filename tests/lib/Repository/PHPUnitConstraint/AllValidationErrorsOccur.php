@@ -9,11 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Repository\PHPUnitConstraint;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
-use Ibexa\Contracts\Core\Repository\Translatable;
 use PHPUnit\Framework\Constraint\Constraint as AbstractPHPUnitConstraint;
 
 /**
- * PHPUnit constraint checking that all the given validation error messages occur in the asserted
+ * PHPUnit's constraint checking that all the given validation error messages occur in the asserted
  * ContentFieldValidationException.
  *
  * @see \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
@@ -61,22 +60,17 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
      */
     private function extractAllFieldErrorMessages(ContentFieldValidationException $exception): array
     {
-        $allFieldErrors = [];
-        foreach ($exception->getFieldErrors() as $errors) {
-            foreach ($errors as $fieldErrors) {
-                $allFieldErrors = array_merge(
-                    $allFieldErrors,
-                    array_map(
-                        static function (Translatable $translatableFieldError) {
-                            return $translatableFieldError->getTranslatableMessage()->message;
-                        },
-                        $fieldErrors
-                    )
-                );
+        return iterator_to_array($this->extractTranslatable($exception->getFieldErrors()));
+    }
+
+    private function extractTranslatable(array $fieldErrors): \Traversable
+    {
+        // structure: [<fieldId> => [<languageCode> => array<ValidationError>]]
+        foreach (array_merge(...$fieldErrors) as $errorsPerTranslation) {
+            foreach ($errorsPerTranslation as $fieldError) {
+                yield (string)$fieldError->getTranslatableMessage();
             }
         }
-
-        return $allFieldErrors;
     }
 
     /**

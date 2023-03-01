@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -49,12 +48,9 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\MissingUserFieldTypeException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
-use Ibexa\Core\FieldType\User\Type as UserType;
 use Ibexa\Core\FieldType\User\Value as UserValue;
-use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
-use Ibexa\Core\Repository\Validator\UserPasswordValidator;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
@@ -745,15 +741,6 @@ class UserService implements UserServiceInterface
         return $this->loadUser($loadedUser->id);
     }
 
-    /**
-     * Validates and updates just the user's password.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType
-     */
     public function updateUserPassword(
         APIUser $user,
         #[\SensitiveParameter]
@@ -772,9 +759,18 @@ class UserService implements UserServiceInterface
             throw new MissingUserFieldTypeException($loadedUser->getContentType(), self::USER_FIELD_TYPE_NAME);
         }
 
-        $errors = $this->passwordValidator->validatePassword($newPassword, $userFieldDefinition);
+        $errors = $this->passwordValidator->validatePassword(
+            $newPassword,
+            $userFieldDefinition,
+            $user
+        );
         if (!empty($errors)) {
-            throw ContentFieldValidationException::createNewWithMultiline($errors, $loadedUser->getName());
+            // Note: @deprecated this should rather throw a list wrapper of `ValidationError`s
+            throw ContentFieldValidationException::createNewWithMultiline(
+                // build errors array as expected by ContentFieldValidationException
+                [$userFieldDefinition->id => [$userFieldDefinition->mainLanguageCode => $errors]],
+                $loadedUser->getName()
+            );
         }
 
         $passwordHashAlgorithm = (int) $loadedUser->hashAlgorithm;
@@ -1228,8 +1224,6 @@ class UserService implements UserServiceInterface
         string $password,
         PasswordValidationContext $context = null
     ): array {
-        $errors = [];
-
         if ($context === null) {
             $userContentTypeIdentifiers = $this->getUserContentTypeIdentifiers();
             $defaultIdentifier = reset($userContentTypeIdentifiers);
@@ -1245,23 +1239,11 @@ class UserService implements UserServiceInterface
             throw new MissingUserFieldTypeException($context->contentType, self::USER_FIELD_TYPE_NAME);
         }
 
-        $configuration = $userFieldDefinition->getValidatorConfiguration();
-        if (isset($configuration['PasswordValueValidator'])) {
-            $errors = (new UserPasswordValidator($configuration['PasswordValueValidator']))->validate($password);
-        }
-
-        if ($context->user !== null) {
-            $isPasswordTTLEnabled = $this->getPasswordInfo($context->user)->hasExpirationDate();
-            $isNewPasswordRequired = $configuration['PasswordValueValidator']['requireNewPassword'] ?? false;
-
-            if (($isPasswordTTLEnabled || $isNewPasswordRequired) &&
-                $this->comparePasswordHashForAPIUser($context->user, $password)
-            ) {
-                $errors[] = new ValidationError('New password cannot be the same as old password', null, [], 'password');
-            }
-        }
-
-        return $errors;
+        return $this->passwordValidator->validatePassword(
+            $password,
+            $userFieldDefinition,
+            $context->user
+        );
     }
 
     /**
@@ -1327,34 +1309,9 @@ class UserService implements UserServiceInterface
 
     public function getPasswordInfo(APIUser $user): PasswordInfo
     {
-        $passwordUpdatedAt = $user->passwordUpdatedAt;
-        if ($passwordUpdatedAt === null) {
-            return new PasswordInfo();
-        }
-
         $definition = $this->getUserFieldDefinition($user->getContentType());
-        if ($definition === null) {
-            return new PasswordInfo();
-        }
 
-        $expirationDate = null;
-        $expirationWarningDate = null;
-
-        $passwordTTL = (int)$definition->fieldSettings[UserType::PASSWORD_TTL_SETTING];
-        if ($passwordTTL > 0) {
-            if ($passwordUpdatedAt instanceof DateTime) {
-                $passwordUpdatedAt = DateTimeImmutable::createFromMutable($passwordUpdatedAt);
-            }
-
-            $expirationDate = $passwordUpdatedAt->add(new DateInterval(sprintf('P%dD', $passwordTTL)));
-
-            $passwordTTLWarning = (int)$definition->fieldSettings[UserType::PASSWORD_TTL_WARNING_SETTING];
-            if ($passwordTTLWarning > 0) {
-                $expirationWarningDate = $expirationDate->sub(new DateInterval(sprintf('P%dD', $passwordTTLWarning)));
-            }
-        }
-
-        return new PasswordInfo($expirationDate, $expirationWarningDate);
+        return $this->passwordValidator->getPasswordInfo($user, $definition);
     }
 
     private function getUserFieldDefinition(ContentType $contentType): ?FieldDefinition

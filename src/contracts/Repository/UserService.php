@@ -247,10 +247,14 @@ interface UserService
     public function updateUser(User $user, UserUpdateStruct $userUpdateStruct): User;
 
     /**
-     * Updates user's password.
+     * Validates and updates just the user's password.
      *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if new password does not pass validation
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to update the user
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Exception
      */
     public function updateUserPassword(User $user, string $newPassword): User;
 
