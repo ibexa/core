@@ -16,7 +16,7 @@ use IteratorAggregate;
 /**
  * This class represents a search result.
  */
-class SearchResult extends ValueObject implements IteratorAggregate
+class SearchResult extends ValueObject implements IteratorAggregate, AggregationResultAwareInterface
 {
     /**
      * The facets for this search.
@@ -84,6 +84,11 @@ class SearchResult extends ValueObject implements IteratorAggregate
         }
 
         parent::__construct($properties);
+    }
+
+    public function getAggregations(): ?AggregationResultCollection
+    {
+        return $this->aggregations;
     }
 
     public function getIterator(): Iterator
