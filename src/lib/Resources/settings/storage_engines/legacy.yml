@@ -20,6 +20,7 @@ imports:
     - {resource: storage_engines/legacy/notification.yml}
     - {resource: storage_engines/legacy/user_preference.yml}
     - {resource: storage_engines/legacy/setting.yml}
+    - {resource: storage_engines/legacy/token.yml}
 
 services:
     Ibexa\Core\Persistence\Legacy\Handler:

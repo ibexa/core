@@ -4,6 +4,8 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Bundle\Core\DependencyInjection;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\QueryTypePass;
@@ -390,6 +392,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $coreLoader->load('user_preference.yml');
         $coreLoader->load('events.yml');
         $coreLoader->load('thumbnails.yml');
+        $coreLoader->load('tokens.yml');
         $coreLoader->load('content_location_mapper.yml');
 
         // Public API services
