@@ -1,0 +1,19 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Doctrine\DoctrineGateway:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $tokenTypeGateway: '@Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway'
+
+    Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+
+    Ibexa\Core\Persistence\Legacy\Token\Mapper: ~
+
+    Ibexa\Core\Persistence\Legacy\Token\Handler:
+        arguments:
+            $tokenGateway: '@Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Doctrine\DoctrineGateway'
+            $tokenTypeGateway: '@Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway'
+            $mapper: '@Ibexa\Core\Persistence\Legacy\Token\Mapper'
+
+    Ibexa\Contracts\Core\Persistence\Token\Handler: '@Ibexa\Core\Persistence\Legacy\Token\Handler'

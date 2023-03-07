@@ -21,6 +21,7 @@ services:
     Ibexa\Contracts\Core\Repository\URLAliasService: '@ibexa.api.service.url_alias'
     Ibexa\Contracts\Core\Repository\TrashService: '@ibexa.api.service.trash'
     Ibexa\Contracts\Core\Repository\SettingService: '@Ibexa\Core\Event\SettingService'
+    Ibexa\Contracts\Core\Repository\TokenService: '@Ibexa\Core\Event\TokenService'
 
     Ibexa\Contracts\Core\Repository\PermissionService: '@Ibexa\Core\Repository\Permission\CachedPermissionService'
     Ibexa\Contracts\Core\Repository\PermissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionService'

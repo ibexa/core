@@ -1,0 +1,116 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Core\Repository;
+
+use DateTimeImmutable;
+use Ibexa\Contracts\Core\Persistence\Token\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Token\Handler;
+use Ibexa\Contracts\Core\Persistence\Token\Token as SPIToken;
+use Ibexa\Contracts\Core\Persistence\Token\TokenType as SPITokenType;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\TokenService as TokenServiceInterface;
+use Ibexa\Contracts\Core\Repository\Values\Token\Token;
+use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
+use Ibexa\Core\Base\Exceptions\TokenExpiredException;
+
+class TokenService implements TokenServiceInterface
+{
+    private Handler $persistenceHandler;
+
+    private TokenGeneratorInterface $defaultTokenGenerator;
+
+    public function __construct(
+        Handler $persistenceHandler,
+        TokenGeneratorInterface $defaultTokenGenerator
+    ) {
+        $this->persistenceHandler = $persistenceHandler;
+        $this->defaultTokenGenerator = $defaultTokenGenerator;
+    }
+
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\TokenExpiredException
+     */
+    public function getToken(
+        string $tokenType,
+        string $token,
+        ?string $identifier = null
+    ): Token {
+        $type = $this->persistenceHandler->getTokenType($tokenType);
+        $token = $this->persistenceHandler->getToken(
+            $type->identifier,
+            $token,
+            $identifier
+        );
+
+        return $this->buildDomainObject(
+            $token,
+            $type
+        );
+    }
+
+    public function checkToken(
+        string $tokenType,
+        string $token,
+        ?string $identifier = null
+    ): bool {
+        try {
+            $this->getToken($tokenType, $token, $identifier);
+
+            return true;
+        } catch (NotFoundException|TokenExpiredException $exception) {
+        }
+
+        return false;
+    }
+
+    public function generateToken(
+        string $type,
+        ?string $identifier,
+        int $ttl,
+        int $tokenLength = 64,
+        ?TokenGeneratorInterface $tokenGenerator = null
+    ): Token {
+        $createStruct = new CreateStruct([
+            'type' => $type,
+            'token' => ($tokenGenerator ?? $this->defaultTokenGenerator)->generateToken($tokenLength),
+            'identifier' => $identifier,
+            'ttl' => $ttl,
+        ]);
+
+        $token = $this->persistenceHandler->createToken($createStruct);
+        $tokenType = $this->persistenceHandler->getTokenType($type);
+
+        return $this->buildDomainObject(
+            $token,
+            $tokenType
+        );
+    }
+
+    public function deleteToken(Token $token): void
+    {
+        $this->persistenceHandler->deleteTokenById($token->getId());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function buildDomainObject(
+        SPIToken $spiToken,
+        SPITokenType $spiTokenType
+    ): Token {
+        return new Token([
+            'id' => $spiToken->id,
+            'type' => $spiTokenType->identifier,
+            'token' => $spiToken->token,
+            'identifier' => $spiToken->identifier,
+            'created' => new DateTimeImmutable('@' . $spiToken->created),
+            'expires' => new DateTimeImmutable('@' . $spiToken->expires),
+        ]);
+    }
+}

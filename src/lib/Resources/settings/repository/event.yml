@@ -96,3 +96,7 @@ services:
     Ibexa\Core\Event\SettingService:
         arguments:
             $innerService: '@Ibexa\Core\Repository\SettingService'
+
+    Ibexa\Core\Event\TokenService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\TokenService'
