@@ -17,7 +17,7 @@ class WebSafeGenerator implements TokenGeneratorInterface
      */
     public function generateToken(int $length = 64): string
     {
-        $entropy = floor(($length + 1) * 0.75);
+        $entropy = (int)floor(($length + 1) * 0.75);
         $encoded = base64_encode(random_bytes($entropy));
 
         return substr(rtrim(strtr($encoded, '+-', '/_'), '='), 0, $length);
