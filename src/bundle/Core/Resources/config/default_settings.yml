@@ -175,7 +175,6 @@ parameters:
 
     ibexa.site_access.config.default.variation_handler_identifier: alias
     ibexa.site_access.config.default.image_variations:
-        original:
         reference:
             reference: ~
             filters:
