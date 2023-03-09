@@ -965,8 +965,17 @@ class LocationService implements LocationServiceInterface
         return $this->locationFilteringHandler->count($filter);
     }
 
-    private function checkCreatePermissionOnSubtreeTarget(APILocation $targetParentLocation, APILocation $loadedSubtree, APILocation $loadedTargetLocation): void
-    {
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    private function checkCreatePermissionOnSubtreeTarget(
+        APILocation $targetParentLocation,
+        APILocation $loadedSubtree,
+        APILocation $loadedTargetLocation
+    ): void {
         $locationTarget = (new DestinationLocationTarget($targetParentLocation->id, $loadedSubtree->contentInfo));
         if (!$this->permissionResolver->canUser(
             'content',
@@ -997,8 +1006,10 @@ class LocationService implements LocationServiceInterface
                     'limit' => 0,
                     'filter' => new CriterionLogicalAnd(
                         [
-                            new CriterionSubtree($loadedSubtree->pathString),
+                            new CriterionSubtree($loadedSubtree->getPathString()),
                             new CriterionLogicalNot($contentReadCriterion),
+                            // Do not take the same content into consideration as it can have more than one location
+                            new CriterionLogicalNot(new Criterion\ContentId($loadedSubtree->getContentInfo()->getId())),
                         ]
                     ),
                 ]
