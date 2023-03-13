@@ -106,6 +106,10 @@ class SecurityPass implements CompilerPassInterface
             'setConfigResolver',
             [$configResolverRef]
         );
+        $successHandlerDef->addMethodCall(
+            'setEventDispatcher',
+            [new Reference('event_dispatcher')]
+        );
     }
 }
 
