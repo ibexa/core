@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Security\Authentication;
 
-use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class DetermineTargetUrlEvent extends Event
 {
