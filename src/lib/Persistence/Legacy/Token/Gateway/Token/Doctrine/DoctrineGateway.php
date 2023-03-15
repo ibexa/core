@@ -11,11 +11,12 @@ namespace Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Doctrine;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
+use Ibexa\Core\Persistence\Legacy\Token\AbstractGateway;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Gateway;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway as TokenTypeGateway;
 use PDO;
 
-final class DoctrineGateway implements Gateway
+final class DoctrineGateway extends AbstractGateway implements Gateway
 {
     public const TABLE_NAME = 'ibexa_token';
     public const DEFAULT_TABLE_ALIAS = 'token';
@@ -29,14 +30,9 @@ final class DoctrineGateway implements Gateway
 
     private Connection $connection;
 
-    private TokenTypeGateway $tokenTypeGateway;
-
-    public function __construct(
-        Connection $connection,
-        TokenTypeGateway $tokenTypeGateway
-    ) {
+    public function __construct(Connection $connection)
+    {
         $this->connection = $connection;
-        $this->tokenTypeGateway = $tokenTypeGateway;
     }
 
     public static function getColumns(): array
@@ -132,11 +128,11 @@ final class DoctrineGateway implements Gateway
     {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select(...$this->getAliasedColumns())
+            ->select(...$this->getAliasedColumns(self::DEFAULT_TABLE_ALIAS, self::getColumns()))
             ->from(self::TABLE_NAME, self::DEFAULT_TABLE_ALIAS)
             ->andWhere(
                 $query->expr()->eq(
-                    $this->getAliasedColumn(self::COLUMN_ID),
+                    $this->getAliasedColumn(self::COLUMN_ID, self::DEFAULT_TABLE_ALIAS),
                     ':tokenId'
                 )
             );
@@ -152,7 +148,7 @@ final class DoctrineGateway implements Gateway
         return $row;
     }
 
-    public function getTokenSelectQueryBuilder(
+    private function getTokenSelectQueryBuilder(
         string $tokenType,
         string $token,
         ?string $identifier = null,
@@ -161,26 +157,32 @@ final class DoctrineGateway implements Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->select(...$this->getAliasedColumns())
+            ->select(...$this->getAliasedColumns(self::DEFAULT_TABLE_ALIAS, self::getColumns()))
             ->from(self::TABLE_NAME, self::DEFAULT_TABLE_ALIAS)
             ->innerJoin(
                 self::DEFAULT_TABLE_ALIAS,
                 TokenTypeGateway::TABLE_NAME,
                 TokenTypeGateway::DEFAULT_TABLE_ALIAS,
                 $expr->eq(
-                    $this->getAliasedColumn(self::COLUMN_TYPE_ID),
-                    $this->tokenTypeGateway->getAliasedColumn(TokenTypeGateway::COLUMN_ID)
+                    $this->getAliasedColumn(self::COLUMN_TYPE_ID, self::DEFAULT_TABLE_ALIAS),
+                    $this->getAliasedColumn(
+                        TokenTypeGateway::COLUMN_ID,
+                        TokenTypeGateway::DEFAULT_TABLE_ALIAS
+                    )
                 )
             )
             ->andWhere(
                 $query->expr()->eq(
-                    $this->getAliasedColumn(self::COLUMN_TOKEN),
+                    $this->getAliasedColumn(self::COLUMN_TOKEN, self::DEFAULT_TABLE_ALIAS),
                     ':token'
                 )
             )
             ->andWhere(
                 $query->expr()->eq(
-                    $this->tokenTypeGateway->getAliasedColumn(TokenTypeGateway::COLUMN_IDENTIFIER),
+                    $this->getAliasedColumn(
+                        TokenTypeGateway::COLUMN_IDENTIFIER,
+                        TokenTypeGateway::DEFAULT_TABLE_ALIAS
+                    ),
                     ':tokenType'
                 )
             );
@@ -188,10 +190,10 @@ final class DoctrineGateway implements Gateway
         $query->setParameter(':tokenType', $tokenType, PDO::PARAM_STR);
         $query->setParameter(':token', $token, PDO::PARAM_STR);
 
-        if (!$externalIdentifier) {
+        if (!$externalIdentifier && null !== $identifier) {
             $query->andWhere(
                 $query->expr()->eq(
-                    $this->getAliasedColumn(self::COLUMN_IDENTIFIER),
+                    $this->getAliasedColumn(self::COLUMN_IDENTIFIER, self::DEFAULT_TABLE_ALIAS),
                     ':identifier'
                 )
             );
@@ -199,26 +201,5 @@ final class DoctrineGateway implements Gateway
         }
 
         return $query;
-    }
-
-    public function getAliasedColumns(
-        string $alias = self::DEFAULT_TABLE_ALIAS,
-        array $columns = null
-    ): array {
-        if (empty($columns)) {
-            $columns = self::getColumns();
-        }
-
-        return array_map(
-            fn (string $column) => $this->getAliasedColumn($column, $alias),
-            $columns
-        );
-    }
-
-    public function getAliasedColumn(
-        string $column,
-        string $alias = self::DEFAULT_TABLE_ALIAS
-    ): string {
-        return sprintf('%s.%s', $alias, $column);
     }
 }
