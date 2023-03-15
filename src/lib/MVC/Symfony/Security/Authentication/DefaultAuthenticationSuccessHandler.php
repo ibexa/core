@@ -19,30 +19,32 @@ class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
 
     /**
      * Injects the ConfigResolver to potentially override default_target_path for redirections after authentication success.
-     *
-     * @param \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface $configResolver
      */
-    public function setConfigResolver(ConfigResolverInterface $configResolver)
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
     }
 
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
     }
 
     protected function determineTargetUrl(Request $request)
     {
-        $defaultPage = $this->configResolver->getParameter('default_page');
-        if ($defaultPage !== null) {
-            $this->options['default_target_path'] = $defaultPage;
+        if (isset($this->configResolver)) {
+            $defaultPage = $this->configResolver->getParameter('default_page');
+            if ($defaultPage !== null) {
+                $this->options['default_target_path'] = $defaultPage;
+            }
         }
 
-        $event = new DetermineTargetUrlEvent($request, $this->options, $this->getFirewallName());
-        $this->eventDispatcher->dispatch($event);
+        if (isset($this->eventDispatcher)) {
+            $event = new DetermineTargetUrlEvent($request, $this->options, $this->getFirewallName());
+            $this->eventDispatcher->dispatch($event);
 
-        $this->options = $event->getOptions();
+            $this->options = $event->getOptions();
+        }
 
         return parent::determineTargetUrl($request);
     }

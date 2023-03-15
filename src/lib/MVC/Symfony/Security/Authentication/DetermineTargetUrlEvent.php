@@ -11,7 +11,7 @@ namespace Ibexa\Core\MVC\Symfony\Security\Authentication;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class DetermineTargetUrlEvent extends Event
+final class DetermineTargetUrlEvent extends Event
 {
     private Request $request;
 
@@ -20,6 +20,9 @@ class DetermineTargetUrlEvent extends Event
     /** @var array<string, mixed> */
     private array $options;
 
+    /**
+     * @param array<string, mixed> $options
+     **/
     public function __construct(
         Request $request,
         array $options,
