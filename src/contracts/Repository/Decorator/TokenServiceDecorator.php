@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\TokenService;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 
-class TokenServiceDecorator implements TokenService
+abstract class TokenServiceDecorator implements TokenService
 {
     protected TokenService $innerService;
 
@@ -48,15 +48,15 @@ class TokenServiceDecorator implements TokenService
 
     public function generateToken(
         string $type,
-        ?string $identifier,
         int $ttl,
+        ?string $identifier = null,
         int $tokenLength = 64,
         ?TokenGeneratorInterface $tokenGenerator = null
     ): Token {
         return $this->innerService->generateToken(
             $type,
-            $identifier,
             $ttl,
+            $identifier,
             $tokenLength,
             $tokenGenerator
         );
