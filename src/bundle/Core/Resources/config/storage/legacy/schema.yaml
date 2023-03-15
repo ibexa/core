@@ -638,6 +638,15 @@ tables:
             group: { type: string, nullable: false, length: 128 }
             identifier: { type: string, nullable: false, length: 128 }
             value: { type: json, nullable: false, length: 0 }
+    ibexa_token_type:
+        indexes:
+            ibexa_token_type_id: { fields: [id] }
+        uniqueConstraints:
+            ibexa_token_type_unique: { fields: [identifier] }
+        id:
+            id: { type: integer, nullable: false, options: { autoincrement: true } }
+        fields:
+            identifier: { type: string, nullable: false, length: 32 }
     ibexa_token:
         indexes:
             ibexa_token_id: { fields: [id] }
@@ -659,12 +668,3 @@ tables:
             identifier: { type: string, nullable: true, length: 128 }
             created: { type: integer, nullable: false, options: { default: '0' } }
             expires: { type: integer, nullable: false, options: { default: '0' } }
-    ibexa_token_type:
-        indexes:
-            ibexa_token_type_id: { fields: [id] }
-        uniqueConstraints:
-            ibexa_token_type_unique: { fields: [identifier] }
-        id:
-            id: { type: integer, nullable: false, options: { autoincrement: true } }
-        fields:
-            identifier: { type: string, nullable: false, length: 32 }
