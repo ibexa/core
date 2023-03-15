@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException as APIUnaut
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
 
-class TokenExpiredException extends APIUnauthorizedException implements Httpable, Translatable
+final class TokenExpiredException extends APIUnauthorizedException implements Httpable, Translatable
 {
     use TranslatableBase;
 

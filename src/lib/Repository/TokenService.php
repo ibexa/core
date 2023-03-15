@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 use Ibexa\Core\Base\Exceptions\TokenExpiredException;
 
-class TokenService implements TokenServiceInterface
+final class TokenService implements TokenServiceInterface
 {
     private Handler $persistenceHandler;
 
@@ -71,8 +71,8 @@ class TokenService implements TokenServiceInterface
 
     public function generateToken(
         string $type,
-        ?string $identifier,
         int $ttl,
+        ?string $identifier = null,
         int $tokenLength = 64,
         ?TokenGeneratorInterface $tokenGenerator = null
     ): Token {
@@ -100,7 +100,7 @@ class TokenService implements TokenServiceInterface
     /**
      * @throws \Exception
      */
-    protected function buildDomainObject(
+    private function buildDomainObject(
         SPIToken $spiToken,
         SPITokenType $spiTokenType
     ): Token {

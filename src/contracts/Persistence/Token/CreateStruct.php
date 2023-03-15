@@ -10,13 +10,13 @@ namespace Ibexa\Contracts\Core\Persistence\Token;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 
-class CreateStruct extends ValueObject
+final class CreateStruct extends ValueObject
 {
     public string $type;
 
     public string $token;
 
-    public ?string $identifier = null;
-
     public int $ttl;
+
+    public ?string $identifier = null;
 }

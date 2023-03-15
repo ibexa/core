@@ -16,7 +16,7 @@ interface Handler
     public function getToken(
         string $tokenType,
         string $token,
-        ?string $identifier
+        ?string $identifier = null
     ): Token;
 
     public function getTokenType(
