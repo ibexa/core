@@ -31,8 +31,6 @@ use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
 
 /**
  * ObjectStateService service.
- *
- * @example Examples/objectstates.php tbd.
  */
 class ObjectStateService implements ObjectStateServiceInterface
 {
