@@ -1,19 +1,25 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
     Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Doctrine\DoctrineGateway:
         arguments:
             $connection: '@ibexa.persistence.connection'
-            $tokenTypeGateway: '@Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway'
+
+    Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Doctrine\DoctrineGateway
 
     Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway:
         arguments:
             $connection: '@ibexa.persistence.connection'
 
+    Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway
+
     Ibexa\Core\Persistence\Legacy\Token\Mapper: ~
 
-    Ibexa\Core\Persistence\Legacy\Token\Handler:
-        arguments:
-            $tokenGateway: '@Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Doctrine\DoctrineGateway'
-            $tokenTypeGateway: '@Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway'
-            $mapper: '@Ibexa\Core\Persistence\Legacy\Token\Mapper'
+    Ibexa\Core\Persistence\Legacy\Token\Handler: ~
 
     Ibexa\Contracts\Core\Persistence\Token\Handler: '@Ibexa\Core\Persistence\Legacy\Token\Handler'
