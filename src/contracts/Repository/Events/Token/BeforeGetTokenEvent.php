@@ -25,7 +25,7 @@ final class BeforeGetTokenEvent extends BeforeEvent
     public function __construct(
         string $tokenType,
         string $token,
-        ?string $identifier
+        ?string $identifier = null
     ) {
         $this->tokenType = $tokenType;
         $this->token = $token;

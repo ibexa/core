@@ -19,7 +19,7 @@ final class Token extends ValueObject
 
     protected string $token;
 
-    protected ?string $identifier;
+    protected ?string $identifier = null;
 
     protected DateTimeImmutable $created;
 

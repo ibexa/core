@@ -24,7 +24,7 @@ final class CheckTokenEvent extends AfterEvent
         bool $result,
         string $tokenType,
         string $token,
-        ?string $identifier
+        ?string $identifier = null
     ) {
         $this->result = $result;
         $this->tokenType = $tokenType;

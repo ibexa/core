@@ -29,14 +29,14 @@ final class BeforeGenerateTokenEvent extends BeforeEvent
 
     public function __construct(
         string $type,
-        ?string $identifier,
         int $ttl,
+        ?string $identifier = null,
         int $tokenLength = 64,
         ?TokenGeneratorInterface $tokenGenerator = null
     ) {
         $this->tokenType = $type;
-        $this->identifier = $identifier;
         $this->ttl = $ttl;
+        $this->identifier = $identifier;
         $this->tokenLength = $tokenLength;
         $this->tokenGenerator = $tokenGenerator;
     }

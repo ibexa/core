@@ -22,9 +22,9 @@ use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class TokenService extends TokenServiceDecorator
+final class TokenService extends TokenServiceDecorator
 {
-    protected EventDispatcherInterface $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         TokenServiceInterface $innerService,
@@ -87,12 +87,12 @@ class TokenService extends TokenServiceDecorator
 
     public function generateToken(
         string $type,
-        ?string $identifier,
         int $ttl,
+        ?string $identifier = null,
         int $tokenLength = 64,
         ?TokenGeneratorInterface $tokenGenerator = null
     ): Token {
-        $eventData = [$type, $identifier, $ttl, $tokenLength, $tokenGenerator];
+        $eventData = [$type, $ttl, $identifier, $tokenLength, $tokenGenerator];
 
         $beforeEvent = new BeforeGenerateTokenEvent(...$eventData);
 

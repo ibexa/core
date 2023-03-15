@@ -27,8 +27,8 @@ interface TokenService
 
     public function generateToken(
         string $type,
-        ?string $identifier,
         int $ttl,
+        ?string $identifier = null,
         int $tokenLength = 64,
         ?TokenGeneratorInterface $tokenGenerator = null
     ): Token;

@@ -29,8 +29,8 @@ final class GenerateTokenEvent extends AfterEvent
     public function __construct(
         Token $token,
         string $tokenType,
-        ?string $identifier,
         int $ttl,
+        ?string $identifier = null,
         int $tokenLength = 64,
         ?TokenGeneratorInterface $tokenGenerator = null
     ) {

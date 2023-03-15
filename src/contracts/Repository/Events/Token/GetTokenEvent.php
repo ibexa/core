@@ -25,7 +25,7 @@ final class GetTokenEvent extends AfterEvent
         Token $result,
         string $tokenType,
         string $token,
-        ?string $identifier
+        ?string $identifier = null
     ) {
         $this->result = $result;
         $this->tokenType = $tokenType;

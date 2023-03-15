@@ -46,7 +46,7 @@ final class Handler implements HandlerInterface
     public function getToken(
         string $tokenType,
         string $token,
-        ?string $identifier
+        ?string $identifier = null
     ): Token {
         $token = $this->mapper->mapToken(
             $this->tokenGateway->getToken($tokenType, $token, $identifier)
