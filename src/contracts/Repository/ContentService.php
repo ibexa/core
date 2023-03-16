@@ -276,7 +276,7 @@ interface ContentService
      *
      * If no user is given the drafts for the authenticated user are returned
      *
-     * @deprecated Please use {@see loadContentDraftList()} instead to avoid risking loading too much data.
+     * @deprecated Please use {@see ContentService::loadContentDraftList()} instead to avoid risking loading too much data.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current-user is not allowed to load the draft list
      *
@@ -504,7 +504,7 @@ interface ContentService
      *
      * Content hidden by this API can be revealed by revealContent API.
      *
-     * @see revealContent
+     * @see ContentService::revealContent()
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
@@ -514,7 +514,7 @@ interface ContentService
      * Reveals Content hidden by hideContent API.
      * Locations which were hidden before hiding Content will remain hidden.
      *
-     * @see hideContent
+     * @see ContentService::hideContent()
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
@@ -570,7 +570,7 @@ interface ContentService
     public function find(Filter $filter, ?array $languages = null): ContentList;
 
     /**
-     * Count total number of items returned by {@see find} method.
+     * Count total number of items returned by {@see ContentService::find()} method.
      *
      * @param string[] $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
