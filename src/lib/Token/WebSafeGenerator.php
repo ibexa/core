@@ -10,7 +10,7 @@ namespace Ibexa\Core\Token;
 
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 
-class WebSafeGenerator implements TokenGeneratorInterface
+final class WebSafeGenerator implements TokenGeneratorInterface
 {
     /**
      * @throws \Exception
