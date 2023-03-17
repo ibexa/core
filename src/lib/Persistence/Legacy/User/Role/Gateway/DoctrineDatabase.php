@@ -138,6 +138,10 @@ final class DoctrineDatabase extends Gateway
         return $query;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
+     */
     public function loadRole(int $roleId, int $status = Role::STATUS_DEFINED): array
     {
         $query = $this->getLoadRoleQueryBuilder();
@@ -151,11 +155,16 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $this->buildRoleDraftQueryConstraint($status, $query)
             )
-            ->orderBy('p.id', 'ASC');
+            ->orderBy('p.id', 'ASC')
+            ->addOrderBy('l.identifier', 'ASC');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
+     */
     public function loadRoleByIdentifier(
         string $identifier,
         int $status = Role::STATUS_DEFINED
@@ -171,11 +180,10 @@ final class DoctrineDatabase extends Gateway
             ->andWhere(
                 $this->buildRoleDraftQueryConstraint($status, $query)
             )
-            ->orderBy('p.id', 'ASC');
+            ->orderBy('p.id', 'ASC')
+            ->addOrderBy('l.identifier', 'ASC');
 
-        $statement = $query->execute();
-
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadRoleDraftByRoleId(int $roleId): array
