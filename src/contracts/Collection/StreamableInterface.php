@@ -19,7 +19,7 @@ interface StreamableInterface
      * Returns all the elements of this collection that satisfy the predicate.
      * The order of the elements is preserved.
      *
-     * @return static<TValue>
+     * @phpstan-return static<TValue>
      */
     public function filter(Closure $predicate): self;
 
@@ -27,7 +27,7 @@ interface StreamableInterface
      * Applies the given function to each element in the collection and returns
      * a new collection with the elements returned by the function.
      *
-     * @return static<TValue>
+     * @phpstan-return static<TValue>
      */
     public function map(Closure $function): self;
 

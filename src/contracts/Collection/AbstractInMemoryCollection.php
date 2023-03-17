@@ -52,7 +52,7 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @return static<TValue>
+     * @phpstan-return static<TValue>
      */
     public function filter(Closure $predicate): self
     {
@@ -60,7 +60,7 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     }
 
     /**
-     * @return static<TValue>
+     * @phpstan-return static<TValue>
      */
     public function map(Closure $function): self
     {
@@ -92,7 +92,7 @@ abstract class AbstractInMemoryCollection implements CollectionInterface, Stream
     /**
      * @param TValue[] $items
      *
-     * @return static<TValue>
+     * @phpstan-return static<TValue>
      */
     abstract protected function createFrom(array $items): self;
 }
