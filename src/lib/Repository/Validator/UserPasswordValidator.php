@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Validator;
 
 use Ibexa\Core\FieldType\ValidationError;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Internal service to user password validation against specified constraints.
@@ -25,12 +27,19 @@ class UserPasswordValidator
     /** @var array */
     private $constraints;
 
+    private ValidatorInterface $validator;
+
     /**
      * @param array $constraints
+     * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
-    public function __construct(array $constraints)
-    {
+    public function __construct(
+        array $constraints,
+        ValidatorInterface $validator
+    ) {
         $this->constraints = $constraints;
+        $this->constraints['requireNotCompromisedPassword'] = true; // TODO replace with field type option
+        $this->validator = $validator;
     }
 
     /**
@@ -66,6 +75,10 @@ class UserPasswordValidator
 
         if (!$this->containsAtLeastOneNonAlphanumericCharacter($password)) {
             $errors[] = $this->createValidationError('User password must include at least one special character');
+        }
+
+        if (!$this->isNotCompromised($password)) {
+            $errors[] = $this->createValidationError('This password has been leaked in a data breach, it must not be used. Please use another password.');
         }
 
         return $errors;
@@ -156,6 +169,28 @@ class UserPasswordValidator
     ): bool {
         if ($this->constraints['requireAtLeastOneNonAlphanumericCharacter']) {
             return (bool)preg_match(self::AT_LEAST_ONE_NON_ALPHANUMERIC_CHARACTER_REGEX, $password);
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if given $password is included in a public data breach tracked by https://haveibeenpwned.com.
+     *
+     * @param string $password
+     *
+     * @return bool
+     */
+    private function isNotCompromised(
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
+        if ($this->constraints['requireNotCompromisedPassword']) {
+            $constraintViolationList = $this->validator->validate($password, [new Assert\NotCompromisedPassword()]); // TODO configurable options
+            // Only one violation is possible for NotCompromisedPassword.
+            if (count($constraintViolationList) > 0) {
+                return false;
+            }
         }
 
         return true;

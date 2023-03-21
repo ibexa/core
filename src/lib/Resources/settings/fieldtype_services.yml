@@ -68,6 +68,7 @@ services:
     Ibexa\Core\Repository\User\PasswordValidator:
         arguments:
             $passwordHashService: '@Ibexa\Contracts\Core\Repository\PasswordHashService'
+            $validator: '@validator'
 
     Ibexa\Core\Repository\User\PasswordValidatorInterface:
         alias: Ibexa\Core\Repository\User\PasswordValidator
