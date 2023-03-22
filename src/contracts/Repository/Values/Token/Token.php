@@ -13,17 +13,35 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 final class Token extends ValueObject
 {
-    protected int $id;
+    private int $id;
 
-    protected string $type;
+    private string $type;
 
-    protected string $token;
+    private string $token;
 
-    protected ?string $identifier = null;
+    private ?string $identifier;
 
-    protected DateTimeImmutable $created;
+    private DateTimeImmutable $created;
 
-    protected DateTimeImmutable $expires;
+    private DateTimeImmutable $expires;
+
+    public function __construct(
+        int $id,
+        string $type,
+        string $token,
+        ?string $identifier,
+        DateTimeImmutable $created,
+        DateTimeImmutable $expires
+    ) {
+        parent::__construct();
+
+        $this->id = $id;
+        $this->type = $type;
+        $this->token = $token;
+        $this->identifier = $identifier;
+        $this->created = $created;
+        $this->expires = $expires;
+    }
 
     public function getId(): int
     {
@@ -58,5 +76,17 @@ final class Token extends ValueObject
     public function __toString(): string
     {
         return $this->token;
+    }
+
+    public static function fromArray(array $properties): self
+    {
+        return new self(
+            $properties['id'],
+            $properties['type'],
+            $properties['token'],
+            $properties['identifier'],
+            $properties['created'],
+            $properties['expires'],
+        );
     }
 }

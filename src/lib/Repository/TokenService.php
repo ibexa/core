@@ -12,7 +12,7 @@ use DateTimeImmutable;
 use Ibexa\Contracts\Core\Persistence\Token\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Token\Handler;
 use Ibexa\Contracts\Core\Persistence\Token\Token as PersistenceTokenValue;
-use Ibexa\Contracts\Core\Persistence\Token\TokenType as PersistenceTokenType;
+use Ibexa\Contracts\Core\Persistence\Token\TokenType as PersistenceTokenTypeValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\TokenService as TokenServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
@@ -100,9 +100,9 @@ final class TokenService implements TokenServiceInterface
      */
     private function buildDomainObject(
         PersistenceTokenValue $spiToken,
-        PersistenceTokenType $spiTokenType
+        PersistenceTokenTypeValue $spiTokenType
     ): Token {
-        return new Token([
+        return Token::fromArray([
             'id' => $spiToken->id,
             'type' => $spiTokenType->identifier,
             'token' => $spiToken->token,
