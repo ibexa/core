@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Token\AbstractGateway;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Gateway;
-use PDO;
 
 /**
  * @internal
@@ -46,7 +46,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         $query
             ->insert(self::TABLE_NAME)
             ->values([self::COLUMN_IDENTIFIER => ':identifier'])
-            ->setParameter(':identifier', $identifier, PDO::PARAM_STR);
+            ->setParameter(':identifier', $identifier, ParameterType::STRING);
 
         $query->execute();
 
@@ -62,7 +62,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         $query
             ->delete(self::TABLE_NAME)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter(':id', $typeId, PDO::PARAM_INT);
+            ->setParameter(':id', $typeId, ParameterType::STRING);
 
         $query->execute();
     }
@@ -76,7 +76,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         $query
             ->delete(self::TABLE_NAME)
             ->where($query->expr()->eq(self::COLUMN_IDENTIFIER, ':identifier'))
-            ->setParameter(':identifier', $identifier, PDO::PARAM_STR);
+            ->setParameter(':identifier', $identifier, ParameterType::STRING);
 
         $query->execute();
     }
@@ -94,7 +94,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':typeId', $typeId, PDO::PARAM_INT);
+        $query->setParameter(':typeId', $typeId, ParameterType::INTEGER);
 
         $row = $query->execute()->fetchAssociative();
 
@@ -118,7 +118,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':identifier', $identifier, PDO::PARAM_STR);
+        $query->setParameter(':identifier', $identifier, ParameterType::STRING);
 
         $row = $query->execute()->fetchAssociative();
 

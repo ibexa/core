@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Doctrine;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Token\AbstractGateway;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Gateway;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway as TokenTypeGateway;
-use PDO;
 
 /**
  * @internal
@@ -67,11 +67,11 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 self::COLUMN_CREATED => ':created',
                 self::COLUMN_EXPIRES => ':expires',
             ])
-            ->setParameter(':type_id', $typeId, PDO::PARAM_INT)
-            ->setParameter(':token', $token, PDO::PARAM_STR)
-            ->setParameter(':identifier', $identifier, PDO::PARAM_STR)
-            ->setParameter(':created', $now, PDO::PARAM_INT)
-            ->setParameter(':expires', $now + $ttl, PDO::PARAM_INT);
+            ->setParameter(':type_id', $typeId, ParameterType::INTEGER)
+            ->setParameter(':token', $token, ParameterType::STRING)
+            ->setParameter(':identifier', $identifier, ParameterType::STRING)
+            ->setParameter(':created', $now, ParameterType::INTEGER)
+            ->setParameter(':expires', $now + $ttl, ParameterType::INTEGER);
 
         $query->execute();
 
@@ -84,7 +84,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         $query
             ->delete(self::TABLE_NAME)
             ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter(':id', $tokenId, PDO::PARAM_INT);
+            ->setParameter(':id', $tokenId, ParameterType::INTEGER);
 
         $query->execute();
     }
@@ -97,16 +97,16 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             ->andWhere(
                 $query->expr()->lt(self::COLUMN_EXPIRES, ':now')
             )
-            ->setParameter(':now', time(), PDO::PARAM_INT);
+            ->setParameter(':now', time(), ParameterType::INTEGER);
 
-        if (!empty($typeId)) {
+        if (null !== $typeId) {
             $query->andWhere(
                 $query->expr()->eq(
                     self::COLUMN_TYPE_ID,
                     ':type_id'
                 )
             );
-            $query->setParameter(':type_id', $typeId, PDO::PARAM_INT);
+            $query->setParameter(':type_id', $typeId, ParameterType::INTEGER);
         }
 
         $query->execute();
@@ -140,7 +140,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':tokenId', $tokenId, PDO::PARAM_INT);
+        $query->setParameter(':tokenId', $tokenId, ParameterType::INTEGER);
 
         $row = $query->execute()->fetchAssociative();
 
@@ -190,8 +190,8 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 )
             );
 
-        $query->setParameter(':tokenType', $tokenType, PDO::PARAM_STR);
-        $query->setParameter(':token', $token, PDO::PARAM_STR);
+        $query->setParameter(':tokenType', $tokenType, ParameterType::STRING);
+        $query->setParameter(':token', $token, ParameterType::STRING);
 
         if (!$externalIdentifier && null !== $identifier) {
             $query->andWhere(
@@ -200,7 +200,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                     ':identifier'
                 )
             );
-            $query->setParameter(':identifier', $identifier, PDO::PARAM_STR);
+            $query->setParameter(':identifier', $identifier, ParameterType::STRING);
         }
 
         return $query;
