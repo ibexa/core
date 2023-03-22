@@ -34,7 +34,10 @@ final class BeforeCheckTokenEvent extends BeforeEvent
     public function getResult(): bool
     {
         if (!$this->hasResult()) {
-            throw new UnexpectedValueException('Return value is not set or not of type boolean. Check hasResult() or set it using setResult() before you call the getter.');
+            throw new UnexpectedValueException(
+                'Return value is not set or not of type boolean. 
+                Check hasResult() or set it using setResult() before you call the getter.'
+            );
         }
 
         return $this->result;
