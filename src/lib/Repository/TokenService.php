@@ -11,8 +11,8 @@ namespace Ibexa\Core\Repository;
 use DateTimeImmutable;
 use Ibexa\Contracts\Core\Persistence\Token\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Token\Handler;
-use Ibexa\Contracts\Core\Persistence\Token\Token as SPIToken;
-use Ibexa\Contracts\Core\Persistence\Token\TokenType as SPITokenType;
+use Ibexa\Contracts\Core\Persistence\Token\Token as PersistenceTokenValue;
+use Ibexa\Contracts\Core\Persistence\Token\TokenType as PersistenceTokenType;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\TokenService as TokenServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
@@ -42,14 +42,13 @@ final class TokenService implements TokenServiceInterface
         ?string $identifier = null
     ): Token {
         $type = $this->persistenceHandler->getTokenType($tokenType);
-        $token = $this->persistenceHandler->getToken(
-            $type->identifier,
-            $token,
-            $identifier
-        );
 
         return $this->buildDomainObject(
-            $token,
+            $this->persistenceHandler->getToken(
+                $type->identifier,
+                $token,
+                $identifier
+            ),
             $type
         );
     }
@@ -64,9 +63,8 @@ final class TokenService implements TokenServiceInterface
 
             return true;
         } catch (NotFoundException|TokenExpiredException $exception) {
+            return false;
         }
-
-        return false;
     }
 
     public function generateToken(
@@ -101,8 +99,8 @@ final class TokenService implements TokenServiceInterface
      * @throws \Exception
      */
     private function buildDomainObject(
-        SPIToken $spiToken,
-        SPITokenType $spiTokenType
+        PersistenceTokenValue $spiToken,
+        PersistenceTokenType $spiTokenType
     ): Token {
         return new Token([
             'id' => $spiToken->id,
