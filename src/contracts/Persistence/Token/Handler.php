@@ -14,7 +14,8 @@ namespace Ibexa\Contracts\Core\Persistence\Token;
 interface Handler
 {
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\TokenExpiredException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function getToken(
         string $tokenType,

@@ -18,6 +18,9 @@ use Ibexa\Core\Base\Exceptions\TokenExpiredException;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Gateway as TokenGateway;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Gateway as TokenTypeGateway;
 
+/**
+ * @internal
+ */
 final class Handler implements HandlerInterface
 {
     private Mapper $mapper;
@@ -37,10 +40,10 @@ final class Handler implements HandlerInterface
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Core\Base\Exceptions\TokenExpiredException
      * @throws \Doctrine\DBAL\Driver\Exception
      * @throws \Doctrine\DBAL\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Core\Base\Exceptions\TokenExpiredException
      * @throws \Exception
      */
     public function getToken(
@@ -96,7 +99,7 @@ final class Handler implements HandlerInterface
             $createStruct->ttl
         );
 
-        return  $this->mapper->mapToken(
+        return $this->mapper->mapToken(
             $this->tokenGateway->getTokenById($tokenId)
         );
     }

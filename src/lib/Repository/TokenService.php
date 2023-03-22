@@ -14,10 +14,10 @@ use Ibexa\Contracts\Core\Persistence\Token\Handler;
 use Ibexa\Contracts\Core\Persistence\Token\Token as PersistenceTokenValue;
 use Ibexa\Contracts\Core\Persistence\Token\TokenType as PersistenceTokenTypeValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\TokenService as TokenServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
-use Ibexa\Core\Base\Exceptions\TokenExpiredException;
 
 final class TokenService implements TokenServiceInterface
 {
@@ -34,7 +34,9 @@ final class TokenService implements TokenServiceInterface
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\TokenExpiredException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Exception
      */
     public function getToken(
         string $tokenType,
@@ -53,6 +55,9 @@ final class TokenService implements TokenServiceInterface
         );
     }
 
+    /**
+     * @throws \Exception
+     */
     public function checkToken(
         string $tokenType,
         string $token,
@@ -62,11 +67,14 @@ final class TokenService implements TokenServiceInterface
             $this->getToken($tokenType, $token, $identifier);
 
             return true;
-        } catch (NotFoundException|TokenExpiredException $exception) {
+        } catch (NotFoundException|UnauthorizedException $exception) {
             return false;
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function generateToken(
         string $type,
         int $ttl,
