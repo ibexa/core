@@ -10,6 +10,9 @@ namespace Ibexa\Contracts\Core\Persistence\Token;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 
+/**
+ * @internal
+ */
 final class TokenType extends ValueObject
 {
     public int $id;

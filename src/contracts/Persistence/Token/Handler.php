@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Token;
 
+/**
+ * @internal
+ */
 interface Handler
 {
     /**

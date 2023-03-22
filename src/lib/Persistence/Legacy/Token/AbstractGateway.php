@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Token;
 
+/**
+ * @internal
+ */
 abstract class AbstractGateway
 {
     protected function getAliasedColumns(

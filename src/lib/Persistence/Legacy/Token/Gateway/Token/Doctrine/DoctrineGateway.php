@@ -16,6 +16,9 @@ use Ibexa\Core\Persistence\Legacy\Token\Gateway\Token\Gateway;
 use Ibexa\Core\Persistence\Legacy\Token\Gateway\TokenType\Doctrine\DoctrineGateway as TokenTypeGateway;
 use PDO;
 
+/**
+ * @internal
+ */
 final class DoctrineGateway extends AbstractGateway implements Gateway
 {
     public const TABLE_NAME = 'ibexa_token';

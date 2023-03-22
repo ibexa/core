@@ -11,6 +11,9 @@ namespace Ibexa\Core\Persistence\Legacy\Token;
 use Ibexa\Contracts\Core\Persistence\Token\Token;
 use Ibexa\Contracts\Core\Persistence\Token\TokenType;
 
+/**
+ * @internal
+ */
 final class Mapper
 {
     public function mapToken(array $tokenRow): Token
