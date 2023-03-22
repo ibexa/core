@@ -90,11 +90,11 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             ->andWhere(
                 $query->expr()->eq(
                     $this->getAliasedColumn(self::COLUMN_ID, self::DEFAULT_TABLE_ALIAS),
-                    ':typeId'
+                    ':type_id'
                 )
             );
 
-        $query->setParameter(':typeId', $typeId, ParameterType::INTEGER);
+        $query->setParameter(':type_id', $typeId, ParameterType::INTEGER);
 
         $row = $query->execute()->fetchAssociative();
 

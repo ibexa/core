@@ -56,7 +56,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         ?string $identifier,
         int $ttl
     ): int {
-        $now = time();
+        $now = $this->getCurrentUnixTimestamp();
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::TABLE_NAME)
@@ -97,7 +97,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             ->andWhere(
                 $query->expr()->lt(self::COLUMN_EXPIRES, ':now')
             )
-            ->setParameter(':now', time(), ParameterType::INTEGER);
+            ->setParameter(':now', $this->getCurrentUnixTimestamp(), ParameterType::INTEGER);
 
         if (null !== $typeId) {
             $query->andWhere(
@@ -136,11 +136,11 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             ->andWhere(
                 $query->expr()->eq(
                     $this->getAliasedColumn(self::COLUMN_ID, self::DEFAULT_TABLE_ALIAS),
-                    ':tokenId'
+                    ':token_id'
                 )
             );
 
-        $query->setParameter(':tokenId', $tokenId, ParameterType::INTEGER);
+        $query->setParameter(':token_id', $tokenId, ParameterType::INTEGER);
 
         $row = $query->execute()->fetchAssociative();
 
@@ -151,11 +151,15 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         return $row;
     }
 
+    private function getCurrentUnixTimestamp(): int
+    {
+        return time();
+    }
+
     private function getTokenSelectQueryBuilder(
         string $tokenType,
         string $token,
-        ?string $identifier = null,
-        bool $externalIdentifier = false
+        ?string $identifier = null
     ): QueryBuilder {
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
@@ -186,14 +190,14 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                         TokenTypeGateway::COLUMN_IDENTIFIER,
                         TokenTypeGateway::DEFAULT_TABLE_ALIAS
                     ),
-                    ':tokenType'
+                    ':token_type'
                 )
             );
 
-        $query->setParameter(':tokenType', $tokenType, ParameterType::STRING);
+        $query->setParameter(':token_type', $tokenType, ParameterType::STRING);
         $query->setParameter(':token', $token, ParameterType::STRING);
 
-        if (!$externalIdentifier && null !== $identifier) {
+        if (null !== $identifier) {
             $query->andWhere(
                 $query->expr()->eq(
                     $this->getAliasedColumn(self::COLUMN_IDENTIFIER, self::DEFAULT_TABLE_ALIAS),
