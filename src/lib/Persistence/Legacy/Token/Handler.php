@@ -48,19 +48,19 @@ final class Handler implements HandlerInterface
         string $token,
         ?string $identifier = null
     ): Token {
-        $token = $this->mapper->mapToken(
+        $persistenceTokenValue = $this->mapper->mapToken(
             $this->tokenGateway->getToken($tokenType, $token, $identifier)
         );
 
-        if ($token->expires < time()) {
+        if ($persistenceTokenValue->expires < time()) {
             throw new TokenExpiredException(
                 $tokenType,
-                $token->token,
-                new DateTimeImmutable('@' . $token->expires)
+                $persistenceTokenValue->token,
+                new DateTimeImmutable('@' . $persistenceTokenValue->expires)
             );
         }
 
-        return $token;
+        return $persistenceTokenValue;
     }
 
     /**
