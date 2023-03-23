@@ -46,8 +46,8 @@ final class BeforeGenerateTokenEvent extends BeforeEvent
         if (!$this->hasToken()) {
             throw new UnexpectedValueException(
                 sprintf(
-                    'Return value is not set or not of type %s. 
-                    Check hasToken() or set it using setToken() before you call the getter.',
+                    'Return value is not set or not of type %s.' . PHP_EOL
+                    . 'Check hasToken() or set it using setToken() before you call the getter.',
                     Token::class
                 )
             );
