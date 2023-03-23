@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 final class Token extends ValueObject
 {
+    public const MAX_LENGTH = 255;
+
     private int $id;
 
     private string $type;

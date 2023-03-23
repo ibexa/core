@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\TokenService as TokenServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
+use Ibexa\Core\Base\Exceptions\TokenLengthException;
 
 final class TokenService implements TokenServiceInterface
 {
@@ -73,6 +74,7 @@ final class TokenService implements TokenServiceInterface
     }
 
     /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Exception
      */
     public function generateToken(
@@ -82,6 +84,10 @@ final class TokenService implements TokenServiceInterface
         int $tokenLength = 64,
         ?TokenGeneratorInterface $tokenGenerator = null
     ): Token {
+        if ($tokenLength > Token::MAX_LENGTH) {
+            throw new TokenLengthException($tokenLength);
+        }
+
         $createStruct = new CreateStruct([
             'type' => $type,
             'token' => ($tokenGenerator ?? $this->defaultTokenGenerator)->generateToken($tokenLength),
@@ -107,16 +113,16 @@ final class TokenService implements TokenServiceInterface
      * @throws \Exception
      */
     private function buildDomainObject(
-        PersistenceTokenValue $spiToken,
-        PersistenceTokenTypeValue $spiTokenType
+        PersistenceTokenValue $token,
+        PersistenceTokenTypeValue $tokenType
     ): Token {
         return Token::fromArray([
-            'id' => $spiToken->id,
-            'type' => $spiTokenType->identifier,
-            'token' => $spiToken->token,
-            'identifier' => $spiToken->identifier,
-            'created' => new DateTimeImmutable('@' . $spiToken->created),
-            'expires' => new DateTimeImmutable('@' . $spiToken->expires),
+            'id' => $token->id,
+            'type' => $tokenType->identifier,
+            'token' => $token->token,
+            'identifier' => $token->identifier,
+            'created' => new DateTimeImmutable('@' . $token->created),
+            'expires' => new DateTimeImmutable('@' . $token->expires),
         ]);
     }
 }

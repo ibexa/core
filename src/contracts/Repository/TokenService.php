@@ -25,6 +25,9 @@ interface TokenService
         ?string $identifier = null
     ): bool;
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function generateToken(
         string $type,
         int $ttl,
