@@ -74,8 +74,6 @@ class IOConfigurationPass implements CompilerPassInterface
      * @param array $configuredHandlers Handlers configuration declared via semantic config
      * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject $factories Map of alias => handler service id
      * @param string $defaultHandler default handler id
-     *
-     * @internal param $HandlerTypesMap
      */
     protected function processHandlers(
         ContainerBuilder $container,
