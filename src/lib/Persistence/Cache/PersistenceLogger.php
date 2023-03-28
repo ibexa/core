@@ -34,7 +34,7 @@ class PersistenceLogger
 
     /**
      * @param bool $logCalls Flag to enable logging of calls or not, provides extra debug info about calls made to SPI
-     *                       level, including where they come form. However this uses quite a bit of memory.
+     *                       level, including where they come form. However, this uses quite a bit of memory.
      */
     public function __construct(bool $logCalls = true)
     {

@@ -45,6 +45,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
     private const TRANSLATIONS_DIRECTORY = '/vendor/ibexa/i18n/translations';
 
+    private const DEBUG_PARAM = 'kernel.debug';
+
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollector */
     private $suggestionCollector;
 
@@ -445,6 +447,13 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             $purgeType = $container->resolveEnvPlaceholders($config['http_cache']['purge_type'], true);
 
             $container->setParameter('ibexa.http_cache.purge_type', $purgeType);
+        }
+
+        if (
+            $container->hasParameter(self::DEBUG_PARAM)
+            && $container->getParameter(self::DEBUG_PARAM) === true
+        ) {
+            $loader->load('debug/cache_validator.yaml');
         }
     }
 
