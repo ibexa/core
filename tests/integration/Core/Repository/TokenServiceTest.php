@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Tests\Integration\Core\Repository;
+
+use Ibexa\Contracts\Core\Repository\TokenService;
+
+/**
+ * @covers \Ibexa\Core\Repository\TokenService
+ */
+final class TokenServiceTest extends BaseTest
+{
+    private const TOKEN_TYPE = 'foo';
+    private const TOKEN_TTL = 100;
+    private const TOKEN_IDENTIFIER = 'test';
+
+    private TokenService $tokenService;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->tokenService = $this->getTokenService();
+    }
+
+    /**
+     * @dataProvider provideTokenData
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testGenerateToken(
+        string $type,
+        int $tll,
+        int $length = 64,
+        ?string $identifier = null
+    ): void {
+        $token = $this->tokenService->generateToken($type, $tll, $identifier, $length);
+
+        self::assertSame($type, $token->getType());
+        self::assertSame($identifier, $token->getIdentifier());
+        self::assertSame($length, strlen($token->getToken()));
+    }
+
+    /**
+     * @dataProvider provideDataForTestCheckToken
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testCheckExistingToken(
+        string $type,
+        int $tll,
+        ?string $identifier = null
+    ): void {
+        $token = $this->tokenService->generateToken($type, $tll, $identifier);
+
+        self::assertTrue(
+            $this->tokenService->checkToken(
+                $token->getType(),
+                $token->getToken(),
+                $token->getIdentifier()
+            )
+        );
+    }
+
+    public function testCheckNotExistentToken(): void
+    {
+        self::assertFalse(
+            $this->tokenService->checkToken(
+                'bar',
+                '1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,',
+                'test'
+            )
+        );
+    }
+
+    /**
+     * @dataProvider provideTokenData
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testGetToken(
+        string $type,
+        int $tll,
+        int $length = 64,
+        ?string $identifier = null
+    ): void {
+        $token = $this->tokenService->generateToken($type, $tll, $identifier, $length);
+
+        self::assertEquals(
+            $token,
+            $this->tokenService->getToken($type, $token->getToken(), $identifier)
+        );
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testDeleteToken(): void
+    {
+        $token = $this->tokenService->generateToken(
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+            self::TOKEN_IDENTIFIER
+        );
+
+        $this->tokenService->deleteToken($token);
+
+        self::assertFalse(
+            $this->tokenService->checkToken(
+                $token->getType(),
+                $token->getToken(),
+                $token->getIdentifier()
+            )
+        );
+    }
+
+    /**
+     * @return iterable<array{
+     *     string,
+     *     int,
+     *     ?string,
+     *     ?int
+     * }>
+     */
+    public function provideTokenData(): iterable
+    {
+        yield 'Token with default length 64 and custom identifier' => [
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+            64,
+            self::TOKEN_IDENTIFIER,
+        ];
+
+        yield 'Token with length 200 and custom identifier' => [
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+            200,
+            self::TOKEN_IDENTIFIER,
+        ];
+
+        yield 'Token without identifier' => [
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+        ];
+    }
+
+    /**
+     * @return iterable<array{
+     *     string,
+     *     int,
+     *     ?string
+     * }>
+     */
+    public function provideDataForTestCheckToken(): iterable
+    {
+        yield 'Token with identifier' => [
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+            self::TOKEN_IDENTIFIER,
+        ];
+
+        yield 'Token without identifier' => [
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+        ];
+    }
+
+    /**
+     * @throws \ErrorException
+     */
+    private function getTokenService(): TokenService
+    {
+        $container = $this->getSetupFactory()->getServiceContainer();
+
+        /** @var \Ibexa\Contracts\Core\Repository\TokenService $tokenService */
+        $tokenService = $container->get(TokenService::class);
+
+        return $tokenService;
+    }
+}
