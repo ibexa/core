@@ -30,6 +30,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
     public const COLUMN_IDENTIFIER = 'identifier';
     public const COLUMN_CREATED = 'created';
     public const COLUMN_EXPIRES = 'expires';
+    public const TOKEN_SEQ = 'ibexa_token_id_seq';
 
     private Connection $connection;
 
@@ -75,7 +76,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
 
         $query->execute();
 
-        return (int)$this->connection->lastInsertId();
+        return (int)$this->connection->lastInsertId(self::TOKEN_SEQ);
     }
 
     public function delete(int $tokenId): void

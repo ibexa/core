@@ -24,6 +24,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
 
     public const COLUMN_ID = 'id';
     public const COLUMN_IDENTIFIER = 'identifier';
+    public const TOKEN_TYPE_SEQ = 'ibexa_token_type_id_seq';
 
     private Connection $connection;
 
@@ -50,7 +51,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
 
         $query->execute();
 
-        return (int)$this->connection->lastInsertId();
+        return (int)$this->connection->lastInsertId(self::TOKEN_TYPE_SEQ);
     }
 
     /**
