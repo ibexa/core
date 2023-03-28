@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\TokenService;
+use Ibexa\Core\Base\Exceptions\TokenLengthException;
 
 /**
  * @covers \Ibexa\Core\Repository\TokenService
@@ -44,6 +45,24 @@ final class TokenServiceTest extends BaseTest
         self::assertSame($type, $token->getType());
         self::assertSame($identifier, $token->getIdentifier());
         self::assertSame($length, strlen($token->getToken()));
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testGenerateTokenThrowsTokenLengthException(): void
+    {
+        $length = 300;
+
+        $this->expectException(TokenLengthException::class);
+        $this->expectExceptionMessage('Token length is too long: 300 characters. Max length is 255.');
+
+        $this->tokenService->generateToken(
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+            self::TOKEN_IDENTIFIER,
+            $length
+        );
     }
 
     /**
