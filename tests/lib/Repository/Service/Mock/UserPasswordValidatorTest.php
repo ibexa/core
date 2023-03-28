@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserPasswordValidatorTest extends TestCase
 {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $symfonyValidator;
+    private ValidatorInterface $symfonyValidator;
 
     protected function setUp(): void
     {
