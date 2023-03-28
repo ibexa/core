@@ -669,6 +669,23 @@ class LocationHandlerTest extends TestCase
     }
 
     /**
+     * @covers \Ibexa\Contracts\Core\Persistence\Content\Location\Handler::countLocationsByContent
+     */
+    public function testCountLocationsByContent(): void
+    {
+        $handler = $this->getLocationHandler();
+
+        $contentId = 41;
+
+        $this->locationGateway
+            ->expects(self::once())
+            ->method('countLocationsByContentId')
+            ->with($contentId);
+
+        $handler->countLocationsByContent($contentId);
+    }
+
+    /**
      * Returns the handler to test with $methods mocked.
      *
      * @param string[] $methods

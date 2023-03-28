@@ -594,6 +594,11 @@ class Handler implements BaseLocationHandler
 
         return $this->locationMapper->createLocationsFromRows($rows);
     }
+
+    public function countLocationsByContent(int $contentId): int
+    {
+        return $this->locationGateway->countLocationsByContentId($contentId);
+    }
 }
 
 class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Handler');
