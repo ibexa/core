@@ -21,6 +21,7 @@ use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use Psr\Log\LoggerInterface;
 
 /**
  * @covers \Ibexa\Core\Repository\Mapper\ContentDomainMapper
@@ -268,6 +269,7 @@ class DomainMapperTest extends BaseServiceMockTest
             $this->getLanguageHandlerMock(),
             $this->getFieldTypeRegistryMock(),
             $this->getThumbnailStrategy(),
+            $this->getLoggerMock(),
             $this->getProxyFactoryMock()
         );
     }
@@ -299,6 +301,11 @@ class DomainMapperTest extends BaseServiceMockTest
     protected function getProxyFactoryMock(): ProxyDomainMapperInterface
     {
         return $this->createMock(ProxyDomainMapperInterface::class);
+    }
+
+    protected function getLoggerMock(): LoggerInterface
+    {
+        return $this->createMock(LoggerInterface::class);
     }
 }
 

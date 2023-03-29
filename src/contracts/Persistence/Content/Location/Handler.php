@@ -252,6 +252,11 @@ interface Handler
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
     public function loadAllLocations($offset, $limit);
+
+    /**
+     * Counts locations for a given content represented by its id.
+     */
+    public function countLocationsByContent(int $contentId): int;
 }
 
 class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Location\Handler');
