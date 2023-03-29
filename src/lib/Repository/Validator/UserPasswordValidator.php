@@ -176,10 +176,6 @@ class UserPasswordValidator
 
     /**
      * Checks if given $password is included in a public data breach tracked by https://haveibeenpwned.com.
-     *
-     * @param string $password
-     *
-     * @return bool
      */
     private function isNotCompromised(
         #[\SensitiveParameter]
