@@ -11,32 +11,18 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\UserPasswordValidator;
 use Ibexa\Tests\Core\Search\TestCase;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationList;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @covers \Ibexa\Core\Repository\Validator\UserPasswordValidator
  */
 class UserPasswordValidatorTest extends TestCase
 {
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private ValidatorInterface $symfonyValidator;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->symfonyValidator = $this->createMock(ValidatorInterface::class);
-    }
-
     /**
      * @dataProvider dateProviderForValidate
      */
     public function testValidate(array $constraints, string $password, array $expectedErrors)
     {
-        $validator = new UserPasswordValidator($constraints, $this->symfonyValidator);
+        $validator = new UserPasswordValidator($constraints);
 
         $this->assertEqualsCanonicalizing($expectedErrors, $validator->validate($password), '');
     }
@@ -219,27 +205,6 @@ class UserPasswordValidatorTest extends TestCase
                 'H@xxi0r!',
                 [/* No errors */],
             ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderForValidateNotCompromised
-     */
-    public function testValidateNotCompromised(array $constraints, string $password, array $expectedErrors): void
-    {
-        $this->symfonyValidator
-            ->method('validate')
-            ->with($password, null)
-            ->willReturn($this->createMock(ConstraintViolationListInterface::class));
-
-        $validator = new UserPasswordValidator($constraints, $this->symfonyValidator);
-
-        $this->assertEqualsCanonicalizing($expectedErrors, $validator->validate($password), '');
-    }
-
-    public function dataProviderForValidateNotCompromised(): array
-    {
-        return [
             [
                 [
                     'minLength' => -1,
@@ -249,39 +214,10 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
                     'requireNotCompromisedPassword' => true,
                 ],
-                // The actual value doesn't matter here as we're mocking the Symfony validator.
-                'b9634b07bef1d1f99495b97ba4b9a1ba19f353eb9696443996b82fad93f37b67',
+                // 64 chars, very unlikely to ever be in a breach
+                bin2hex(random_bytes(32)),
                 [/* No errors */],
             ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderForValidateCompromised
-     */
-    public function testValidateCompromised(array $constraints, string $password, array $expectedErrors): void
-    {
-        $constraintViolationList = new ConstraintViolationList([
-            new ConstraintViolation($expectedErrors[0]->getTranslatableMessage(), null, [], $password, null, $password),
-        ]);
-
-        $this->symfonyValidator
-            ->method('validate')
-            ->with($password, null)
-            ->willReturn($constraintViolationList);
-
-        $validator = new UserPasswordValidator($constraints, $this->symfonyValidator);
-
-        $this->assertEqualsCanonicalizing($expectedErrors, $validator->validate($password), '');
-    }
-
-    public function dataProviderForValidateCompromised(): array
-    {
-        $errorMessage = <<<EOT
-This password has been leaked in a data breach, it must not be used. Please use another password.
-EOT;
-
-        return [
             [
                 [
                     'minLength' => -1,
@@ -291,10 +227,14 @@ EOT;
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
                     'requireNotCompromisedPassword' => true,
                 ],
-                // The actual value doesn't matter here as we're mocking the Symfony validator.
-                'publish',
+                'secret',
                 [
-                    new ValidationError($errorMessage, null, [], 'password'),
+                    new ValidationError(
+                        'This password has been leaked in a data breach, it must not be used. Please use another password.',
+                        null,
+                        [],
+                        'password'
+                    ),
                 ],
             ],
         ];

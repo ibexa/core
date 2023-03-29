@@ -10,7 +10,7 @@ namespace Ibexa\Core\Repository\Validator;
 
 use Ibexa\Core\FieldType\ValidationError;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validation;
 
 /**
  * Internal service to user password validation against specified constraints.
@@ -27,19 +27,12 @@ class UserPasswordValidator
     /** @var array */
     private $constraints;
 
-    private ValidatorInterface $validator;
-
     /**
      * @param array $constraints
-     * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator
      */
-    public function __construct(
-        array $constraints,
-        ValidatorInterface $validator
-    ) {
+    public function __construct(array $constraints)
+    {
         $this->constraints = $constraints;
-        $this->constraints['requireNotCompromisedPassword'] = true; // TODO replace with field type option
-        $this->validator = $validator;
     }
 
     /**
@@ -182,7 +175,8 @@ class UserPasswordValidator
         string $password
     ): bool {
         if ($this->constraints['requireNotCompromisedPassword']) {
-            $constraintViolationList = $this->validator->validate($password, [new Assert\NotCompromisedPassword()]); // TODO configurable options
+            $validator = Validation::createValidator();
+            $constraintViolationList = $validator->validate($password, [new Assert\NotCompromisedPassword()]);
             // Only one violation is possible for NotCompromisedPassword.
             if (count($constraintViolationList) > 0) {
                 return false;

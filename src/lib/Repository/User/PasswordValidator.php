@@ -19,7 +19,6 @@ use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\FieldType\User\Type as UserType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Validator\UserPasswordValidator;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @internal
@@ -28,14 +27,9 @@ final class PasswordValidator implements PasswordValidatorInterface
 {
     private APIPasswordHashService $passwordHashService;
 
-    private ValidatorInterface $validator;
-
-    public function __construct(
-        APIPasswordHashService $passwordHashService,
-        ValidatorInterface $validator
-    ) {
+    public function __construct(APIPasswordHashService $passwordHashService)
+    {
         $this->passwordHashService = $passwordHashService;
-        $this->validator = $validator;
     }
 
     /**
@@ -53,8 +47,7 @@ final class PasswordValidator implements PasswordValidatorInterface
         }
 
         $userPasswordValidator = new UserPasswordValidator(
-            $configuration['PasswordValueValidator'],
-            $this->validator
+            $configuration['PasswordValueValidator']
         );
 
         $errors = $userPasswordValidator->validate($password);
