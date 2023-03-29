@@ -35,25 +35,23 @@ abstract class AbstractInMemoryHandler
      */
     private $inMemory;
 
-    /**
-     * Setups current handler with everything needed.
-     *
-     * @param \Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface $cache
-     * @param \Ibexa\Core\Persistence\Cache\PersistenceLogger $logger
-     * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache $inMemory
-     */
+    /** @var \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface */
+    private $cacheIndicesValidator;
+
     public function __construct(
         TransactionAwareAdapterInterface $cache,
         PersistenceLogger $logger,
-        InMemoryCache $inMemory
+        InMemoryCache $inMemory,
+        ?CacheIndicesValidatorInterface $cacheIndicesValidator = null
     ) {
         $this->cache = $cache;
         $this->logger = $logger;
         $this->inMemory = $inMemory;
+        $this->cacheIndicesValidator = $cacheIndicesValidator;
     }
 
     /**
-     * Load one cache item from cache and loggs the hits / misses.
+     * Loads one cache item from cache and logs the hits / misses.
      *
      * Load items from in-memory cache, symfony cache pool or backend in that order.
      * If not cached the returned objects will be placed in cache.
@@ -99,6 +97,11 @@ abstract class AbstractInMemoryHandler
         $this->logger->logCacheMiss($arguments ?: [$id], 3);
 
         $object = $backendLoader($id);
+
+        if ($this->cacheIndicesValidator !== null) {
+            $this->cacheIndicesValidator->validate($keyPrefix, $object, $cacheIndexes);
+        }
+
         $this->inMemory->setMulti([$object], $cacheIndexes);
         $this->cache->save(
             $cacheItem

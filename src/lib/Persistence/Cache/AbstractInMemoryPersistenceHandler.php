@@ -31,17 +31,6 @@ abstract class AbstractInMemoryPersistenceHandler extends AbstractInMemoryHandle
     /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
     protected $locationPathConverter;
 
-    /**
-     * Setups current handler with everything needed.
-     *
-     * @param \Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface $cache
-     * @param \Ibexa\Core\Persistence\Cache\PersistenceLogger $logger
-     * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache $inMemory
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $persistenceHandler
-     * @param \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface $cacheIdentifierGenerator
-     * @param \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer $cacheIdentifierSanitizer
-     * @param \Ibexa\Core\Persistence\Cache\LocationPathConverter $locationPathConverter
-     */
     public function __construct(
         TransactionAwareAdapterInterface $cache,
         PersistenceLogger $logger,
@@ -49,9 +38,10 @@ abstract class AbstractInMemoryPersistenceHandler extends AbstractInMemoryHandle
         PersistenceHandler $persistenceHandler,
         CacheIdentifierGeneratorInterface $cacheIdentifierGenerator,
         CacheIdentifierSanitizer $cacheIdentifierSanitizer,
-        LocationPathConverter $locationPathConverter
+        LocationPathConverter $locationPathConverter,
+        ?CacheIndicesValidatorInterface $cacheIndicesValidator = null
     ) {
-        parent::__construct($cache, $logger, $inMemory);
+        parent::__construct($cache, $logger, $inMemory, $cacheIndicesValidator);
 
         $this->persistenceHandler = $persistenceHandler;
         $this->cacheIdentifierGenerator = $cacheIdentifierGenerator;

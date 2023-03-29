@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
 use Ibexa\Core\Persistence\Cache\BookmarkHandler as CacheBookmarkHandler;
+use Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface;
 use Ibexa\Core\Persistence\Cache\ContentHandler as CacheContentHandler;
 use Ibexa\Core\Persistence\Cache\ContentLanguageHandler as CacheContentLanguageHandler;
 use Ibexa\Core\Persistence\Cache\ContentTypeHandler as CacheContentTypeHandler;
@@ -67,6 +68,9 @@ abstract class AbstractBaseHandlerTest extends TestCase
     /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
     protected $locationPathConverter;
 
+    /** @var \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface */
+    protected $cacheIndicesValidator;
+
     /**
      * Setup the HandlerTest.
      */
@@ -81,6 +85,7 @@ abstract class AbstractBaseHandlerTest extends TestCase
         $this->cacheIdentifierGeneratorMock = $this->createMock(CacheIdentifierGeneratorInterface::class);
         $this->cacheIdentifierSanitizer = new CacheIdentifierSanitizer();
         $this->locationPathConverter = new LocationPathConverter();
+        $this->cacheIndicesValidator = $this->createMock(CacheIndicesValidatorInterface::class);
 
         $cacheAbstractHandlerArguments = $this->provideAbstractCacheHandlerArguments();
         $cacheInMemoryHandlerArguments = $this->provideInMemoryCacheHandlerArguments();
@@ -178,6 +183,7 @@ abstract class AbstractBaseHandlerTest extends TestCase
             $this->cacheIdentifierGeneratorMock,
             $this->cacheIdentifierSanitizer,
             $this->locationPathConverter,
+            $this->cacheIndicesValidator,
         ];
     }
 }
