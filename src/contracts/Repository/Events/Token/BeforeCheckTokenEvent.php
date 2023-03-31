@@ -35,7 +35,7 @@ final class BeforeCheckTokenEvent extends BeforeEvent
     {
         if (!$this->hasResult()) {
             throw new UnexpectedValueException(
-                'Return value is not set or not of type boolean.' . PHP_EOL
+                'Return value is not set.' . PHP_EOL
                 . 'Check hasResult() or set it using setResult() before you call the getter.'
             );
         }
