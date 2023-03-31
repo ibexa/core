@@ -58,23 +58,20 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         int $ttl
     ): int {
         $now = $this->getCurrentUnixTimestamp();
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->insert(self::TABLE_NAME)
-            ->values([
-                self::COLUMN_TYPE_ID => ':type_id',
-                self::COLUMN_TOKEN => ':token',
-                self::COLUMN_IDENTIFIER => ':identifier',
-                self::COLUMN_CREATED => ':created',
-                self::COLUMN_EXPIRES => ':expires',
-            ])
-            ->setParameter(':type_id', $typeId, ParameterType::INTEGER)
-            ->setParameter(':token', $token, ParameterType::STRING)
-            ->setParameter(':identifier', $identifier, ParameterType::STRING)
-            ->setParameter(':created', $now, ParameterType::INTEGER)
-            ->setParameter(':expires', $now + $ttl, ParameterType::INTEGER);
-
-        $query->execute();
+        $this->connection->insert(
+            self::TABLE_NAME,
+            [
+                self::COLUMN_TYPE_ID => $typeId,
+                self::COLUMN_TOKEN => $token,
+                self::COLUMN_IDENTIFIER => $identifier,
+                self::COLUMN_CREATED => $now,
+                self::COLUMN_EXPIRES => $now + $ttl,
+            ], [
+                self::COLUMN_TYPE_ID => ParameterType::INTEGER,
+                self::COLUMN_CREATED => ParameterType::INTEGER,
+                self::COLUMN_EXPIRES => ParameterType::INTEGER,
+            ]
+        );
 
         return (int)$this->connection->lastInsertId(self::TOKEN_SEQ);
     }
