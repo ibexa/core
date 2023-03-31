@@ -43,13 +43,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
 
     public function insert(string $identifier): int
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->insert(self::TABLE_NAME)
-            ->values([self::COLUMN_IDENTIFIER => ':identifier'])
-            ->setParameter(':identifier', $identifier, ParameterType::STRING);
-
-        $query->execute();
+        $this->connection->insert(self::TABLE_NAME, [
+            self::COLUMN_IDENTIFIER => $identifier,
+        ]);
 
         return (int)$this->connection->lastInsertId(self::TOKEN_TYPE_SEQ);
     }
