@@ -37,8 +37,8 @@ final class TokenServiceTest extends BaseTest
     public function testGenerateToken(
         string $type,
         int $tll,
-        int $length = 64,
-        ?string $identifier = null
+        ?string $identifier,
+        int $length = 64
     ): void {
         $token = $this->tokenService->generateToken($type, $tll, $identifier, $length);
 
@@ -73,7 +73,7 @@ final class TokenServiceTest extends BaseTest
     public function testCheckExistingToken(
         string $type,
         int $tll,
-        ?string $identifier = null
+        ?string $identifier
     ): void {
         $token = $this->tokenService->generateToken($type, $tll, $identifier);
 
@@ -105,8 +105,8 @@ final class TokenServiceTest extends BaseTest
     public function testGetToken(
         string $type,
         int $tll,
-        int $length = 64,
-        ?string $identifier = null
+        ?string $identifier,
+        int $length = 64
     ): void {
         $token = $this->tokenService->generateToken($type, $tll, $identifier, $length);
 
@@ -151,20 +151,21 @@ final class TokenServiceTest extends BaseTest
         yield 'Token with default length 64 and custom identifier' => [
             self::TOKEN_TYPE,
             self::TOKEN_TTL,
-            64,
             self::TOKEN_IDENTIFIER,
+            64,
         ];
 
         yield 'Token with length 200 and custom identifier' => [
             self::TOKEN_TYPE,
             self::TOKEN_TTL,
-            200,
             self::TOKEN_IDENTIFIER,
+            200,
         ];
 
         yield 'Token without identifier' => [
             self::TOKEN_TYPE,
             self::TOKEN_TTL,
+            null,
         ];
     }
 
@@ -186,6 +187,7 @@ final class TokenServiceTest extends BaseTest
         yield 'Token without identifier' => [
             self::TOKEN_TYPE,
             self::TOKEN_TTL,
+            null,
         ];
     }
 
@@ -196,9 +198,7 @@ final class TokenServiceTest extends BaseTest
     {
         $container = $this->getSetupFactory()->getServiceContainer();
 
-        /** @var \Ibexa\Contracts\Core\Repository\TokenService $tokenService */
-        $tokenService = $container->get(TokenService::class);
-
-        return $tokenService;
+        /** @var \Ibexa\Contracts\Core\Repository\TokenService */
+        return $container->get(TokenService::class);
     }
 }
