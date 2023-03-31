@@ -66,7 +66,8 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 self::COLUMN_IDENTIFIER => $identifier,
                 self::COLUMN_CREATED => $now,
                 self::COLUMN_EXPIRES => $now + $ttl,
-            ], [
+            ],
+            [
                 self::COLUMN_TYPE_ID => ParameterType::INTEGER,
                 self::COLUMN_CREATED => ParameterType::INTEGER,
                 self::COLUMN_EXPIRES => ParameterType::INTEGER,
@@ -82,7 +83,8 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             self::TABLE_NAME,
             [
                 self::COLUMN_ID => $tokenId,
-            ], [
+            ],
+            [
                 self::COLUMN_ID => ParameterType::INTEGER,
             ]
         );

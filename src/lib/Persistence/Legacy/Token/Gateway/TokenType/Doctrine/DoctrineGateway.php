@@ -66,7 +66,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
     public function deleteByIdentifier(string $identifier): void
     {
         $this->connection->delete(self::TABLE_NAME, [
-            self::COLUMN_IDENTIFIER => $typeId,
+            self::COLUMN_IDENTIFIER => $identifier,
         ]);
     }
 
