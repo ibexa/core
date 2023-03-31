@@ -655,7 +655,6 @@ tables:
                 foreignFields: [id]
                 options:
                     onDelete: CASCADE
-                    onUpdate: 'NO ACTION'
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
