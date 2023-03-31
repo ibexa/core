@@ -55,13 +55,9 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
      */
     public function deleteById(int $typeId): void
     {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->delete(self::TABLE_NAME)
-            ->where($query->expr()->eq(self::COLUMN_ID, ':id'))
-            ->setParameter(':id', $typeId, ParameterType::STRING);
-
-        $query->execute();
+        $this->connection->delete(self::TABLE_NAME, [
+            self::COLUMN_ID => $typeId,
+        ]);
     }
 
     /**
