@@ -70,7 +70,7 @@ class UserPasswordValidator
             $errors[] = $this->createValidationError('User password must include at least one special character');
         }
 
-        if (!$this->isNotCompromised($password)) {
+        if ($this->isCompromised($password)) {
             $errors[] = $this->createValidationError(
                 <<<EOF
 This password has been leaked in a data breach, it must not be used. Please use another password.
@@ -174,7 +174,7 @@ EOF
     /**
      * Checks if given $password is included in a public data breach tracked by https://haveibeenpwned.com.
      */
-    private function isNotCompromised(
+    private function isCompromised(
         #[\SensitiveParameter]
         string $password
     ): bool {
@@ -183,11 +183,11 @@ EOF
             $constraintViolationList = $validator->validate($password, [new Assert\NotCompromisedPassword()]);
             // Only one violation is possible for NotCompromisedPassword.
             if (count($constraintViolationList) > 0) {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
