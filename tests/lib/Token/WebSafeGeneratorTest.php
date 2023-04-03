@@ -19,45 +19,131 @@ final class WebSafeGeneratorTest extends TestCase
 {
     private TokenGeneratorInterface $tokenGenerator;
 
+    /** @var \Ibexa\Contracts\Core\Token\TokenGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private TokenGeneratorInterface $randomBytesTokenGenerator;
+
     protected function setUp(): void
     {
-        $this->tokenGenerator = new WebSafeGenerator();
+        $this->randomBytesTokenGenerator = $this->createMock(TokenGeneratorInterface::class);
+        $this->tokenGenerator = new WebSafeGenerator($this->randomBytesTokenGenerator);
     }
 
     /**
      * @dataProvider provideDataForTestGenerateToken
      *
+     * @param array<array<int>> $tokenGeneratingArguments
+     * @param array<string> $tokens
+     *
      * @throws \Exception
      */
-    public function testGenerateToken(int $expectedTokenLength): void
-    {
-        $token = $this->tokenGenerator->generateToken($expectedTokenLength);
+    public function testGenerateToken(
+        int $expectedTokenLength,
+        string $expectedToken,
+        array $tokenGeneratingArguments,
+        array $tokens
+    ): void {
+        $this->mockTokenGeneratorGenerateToken($tokenGeneratingArguments, $tokens);
+
+        $generatedToken = $this->tokenGenerator->generateToken($expectedTokenLength);
 
         // Check if Generator returns different tokens
         self::assertNotSame(
-            $token,
+            $generatedToken,
             $this->tokenGenerator->generateToken($expectedTokenLength)
         );
 
         self::assertSame(
             $expectedTokenLength,
-            strlen($token)
+            strlen($generatedToken)
+        );
+
+        // Check if generated token is web safe
+        self::assertStringNotContainsString(
+            $generatedToken,
+            '='
+        );
+
+        self::assertStringNotContainsString(
+            $generatedToken,
+            '+-'
         );
     }
 
     /**
      * @return iterable<array{
-     *     int
+     *     int,
+     *     string,
+     *     array<array<int>>,
+     *     array<string>
      * }>
      */
     public function provideDataForTestGenerateToken(): iterable
     {
-        yield [20];
+        yield [
+            20,
+            '1234561qaz2wsx3edc4rfv',
+            [
+                [20],
+                [20],
+            ],
+            [
+                '1234561qaz2wsx3edc4rfv',
+                '2wsx3edc4rfv5tgb04ddda',
+            ],
+        ];
 
-        yield [64];
+        yield [
+            64,
+            '1234561qaz2wsx3edc4rfv1234561qaz2wsx3edc4rfv14567',
+            [
+                [64],
+                [64],
+            ],
+            [
+                '1234561qaz2wsx3edc4rfv1234561qaz2wsx3edc4rfv14567',
+                '2wsx3edc4rfv5tgb04ddda2wsx3edc4rfv5tgb04dddazxcvb',
+            ],
+        ];
 
-        yield [100];
+        yield [
+            100,
+            '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz',
+            [
+                [100],
+                [100],
+            ],
+            [
+                '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz',
+                '2wsx3edc4rfv5tgb04ddda2ws2wsx3edc4rfv5tgb04dddazxcvb5678913ec4rfv12aaazccwwa',
+            ],
+        ];
 
-        yield [256];
+        yield [
+            256,
+            '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnz3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz12345',
+            [
+                [256],
+                [256],
+            ],
+            [
+                '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnz3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz12345',
+                '4rfv1234561qaz2wsx3ec4rfv1234561qaz2561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz1234561qaz2wsx3edcrfv1234561qazwsx3edc4rfv14567yhnz3ec41234561qaz2wsx3edc4rfv12342wsx3edc4rfv14567yhnzz12345',
+            ],
+        ];
+    }
+
+    /**
+     * @param array<array<int>> $tokenGeneratingArguments
+     * @param array<string> $tokens
+     */
+    private function mockTokenGeneratorGenerateToken(
+        array $tokenGeneratingArguments,
+        array $tokens
+    ): void {
+        $this->randomBytesTokenGenerator
+            ->expects(self::atLeastOnce())
+            ->method('generateToken')
+            ->withConsecutive(...$tokenGeneratingArguments)
+            ->willReturnOnConsecutiveCalls(...$tokens);
     }
 }

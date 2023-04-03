@@ -4,6 +4,11 @@ services:
         autoconfigure: true
         autowire: true
 
-    Ibexa\Core\Token\WebSafeGenerator: ~
+    Ibexa\Core\Token\RandomBytesGenerator: ~
 
-    Ibexa\Contracts\Core\Token\TokenGeneratorInterface: '@Ibexa\Core\Token\WebSafeGenerator'
+    Ibexa\Core\Token\WebSafeGenerator:
+        arguments:
+            $tokenGenerator: '@Ibexa\Core\Token\RandomBytesGenerator'
+
+    Ibexa\Contracts\Core\Token\TokenGeneratorInterface:
+        alias: Ibexa\Core\Token\WebSafeGenerator
