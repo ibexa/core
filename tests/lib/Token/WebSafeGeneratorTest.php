@@ -31,113 +31,73 @@ final class WebSafeGeneratorTest extends TestCase
     /**
      * @dataProvider provideDataForTestGenerateToken
      *
-     * @param array<array<int>> $tokenGeneratingArguments
-     * @param array<string> $tokens
-     *
      * @throws \Exception
      */
     public function testGenerateToken(
         int $expectedTokenLength,
-        array $tokenGeneratingArguments,
-        array $tokens
+        string $mockGeneratorOutputToken,
+        string $expectedToken
     ): void {
-        $this->mockTokenGeneratorGenerateToken($tokenGeneratingArguments, $tokens);
+        $this->mockTokenGeneratorGenerateToken(
+            strlen($mockGeneratorOutputToken),
+            $mockGeneratorOutputToken
+        );
 
         $generatedToken = $this->tokenGenerator->generateToken($expectedTokenLength);
-
-        // Check if Generator returns different tokens
-        self::assertNotSame(
-            $generatedToken,
-            $this->tokenGenerator->generateToken($expectedTokenLength)
-        );
 
         self::assertSame(
             $expectedTokenLength,
             strlen($generatedToken)
         );
 
-        // Check if generated token is web safe
-        self::assertStringNotContainsString(
-            $generatedToken,
-            '='
-        );
-
-        self::assertStringNotContainsString(
-            $generatedToken,
-            '+-'
+        self::assertSame(
+            $expectedToken,
+            $generatedToken
         );
     }
 
     /**
      * @return iterable<array{
      *     int,
-     *     array<array<int>>,
-     *     array<string>
+     *     string,
+     *     string
      * }>
      */
     public function provideDataForTestGenerateToken(): iterable
     {
         yield [
             20,
-            [
-                [20],
-                [20],
-            ],
-            [
-                '1234561qaz2wsx3edc4rfv',
-                '2wsx3edc4rfv5tgb04ddda',
-            ],
+            '123456+-1az2w3edc4==',
+            'MTIzNDU2Ky0xYXoydzNl',
         ];
 
         yield [
             64,
-            [
-                [64],
-                [64],
-            ],
-            [
-                '1234561qaz2wsx3edc4rfv1234561qaz2wsx3edc4rfv14567',
-                '2wsx3edc4rfv5tgb04ddda2wsx3edc4rfv5tgb04dddazxcvb',
-            ],
+            '123/561qaz2wsx3edc4rfv1234561qaz2wsx+-dc=3edc4rv1234561qarfv145=',
+            'MTIzLzU2MXFhejJ3c3gzZWRjNHJmdjEyMzQ1NjFxYXoyd3N4Ky1kYz0zZWRjNHJ2',
         ];
 
         yield [
             100,
-            [
-                [100],
-                [100],
-            ],
-            [
-                '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz',
-                '2wsx3edc4rfv5tgb04ddda2ws2wsx3edc4rfv5tgb04dddazxcvb5678913ec4rfv12aaazccwwa',
-            ],
+            '+-34561qaz2wsx3ec4rfv1234561qax3edc4rfv5tgbz2wsxaz2wsxdc4rfv123ec4rfv1234561qaz2wsx3edc4rfv457yhnzz=',
+            'Ky0zNDU2MXFhejJ3c3gzZWM0cmZ2MTIzNDU2MXFheDNlZGM0cmZ2NXRnYnoyd3N4YXoyd3N4ZGM0cmZ2MTIzZWM0cmZ2MTIzNDU2',
         ];
 
         yield [
             256,
-            [
-                [256],
-                [256],
-            ],
-            [
-                '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnz3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz12345',
-                '4rfv1234561qaz2wsx3ec4rfv1234561qaz2561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz1234561qaz2wsx3edcrfv1234561qazwsx3edc4rfv14567yhnz3ec41234561qaz2wsx3edc4rfv12342wsx3edc4rfv14567yhnzz12345',
-            ],
+            '1234561qaz2wsx3ed+-rfv1234561qa561qaz2wsx3edc4rfv1==234561qaz2wsxz2wsx3ec4rfv1234561qaz2wsx3edc4rfv145=7yhnzz1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv1fv1234561qaz2wsx3ec4rf==234564567yhnz3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz12345',
+            'MTIzNDU2MXFhejJ3c3gzZWQrLXJmdjEyMzQ1NjFxYTU2MXFhejJ3c3gzZWRjNHJmdjE9PTIzNDU2MXFhejJ3c3h6MndzeDNlYzRyZnYxMjM0NTYxcWF6MndzeDNlZGM0cmZ2MTQ1PTd5aG56ejEyMzQ1NjFxYXoyd3N4M2VkYzRyZnYxMjM0NTYxcWF6MndzeDNlYzRyZnYxMjM0NTYxcWF6MndzeDNlZGM0cmZ2MWZ2MTIzNDU2MXFhejJ3c3gz',
         ];
     }
 
-    /**
-     * @param array<array<int>> $tokenGeneratingArguments
-     * @param array<string> $tokens
-     */
     private function mockTokenGeneratorGenerateToken(
-        array $tokenGeneratingArguments,
-        array $tokens
+        int $length,
+        string $token
     ): void {
         $this->randomBytesTokenGenerator
-            ->expects(self::atLeastOnce())
+            ->expects(self::once())
             ->method('generateToken')
-            ->withConsecutive(...$tokenGeneratingArguments)
-            ->willReturnOnConsecutiveCalls(...$tokens);
+            ->with($length)
+            ->willReturn($token);
     }
 }
