@@ -39,7 +39,7 @@ final class WebSafeGeneratorTest extends TestCase
         string $expectedToken
     ): void {
         $this->mockTokenGeneratorGenerateToken(
-            strlen($mockGeneratorOutputToken),
+            $expectedTokenLength,
             $mockGeneratorOutputToken
         );
 
