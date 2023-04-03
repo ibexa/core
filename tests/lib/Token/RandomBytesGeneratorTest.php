@@ -35,10 +35,10 @@ final class RandomBytesGeneratorTest extends TestCase
     ): void {
         $generatedToken = $this->tokenGenerator->generateToken($length);
 
-        // Check if Generator returns different tokens
         self::assertNotSame(
             $generatedToken,
-            $this->tokenGenerator->generateToken($length)
+            $this->tokenGenerator->generateToken($length),
+            'Token generator should return different values on subsequent calls',
         );
 
         self::assertSame(
