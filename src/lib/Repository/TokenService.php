@@ -116,13 +116,13 @@ final class TokenService implements TokenServiceInterface
         PersistenceTokenValue $token,
         PersistenceTokenTypeValue $tokenType
     ): Token {
-        return Token::fromArray([
-            'id' => $token->id,
-            'type' => $tokenType->identifier,
-            'token' => $token->token,
-            'identifier' => $token->identifier,
-            'created' => new DateTimeImmutable('@' . $token->created),
-            'expires' => new DateTimeImmutable('@' . $token->expires),
-        ]);
+        return new Token(
+            $token->id,
+            $tokenType->identifier,
+            $token->token,
+            $token->identifier,
+            new DateTimeImmutable('@' . $token->created),
+            new DateTimeImmutable('@' . $token->expires)
+        );
     }
 }

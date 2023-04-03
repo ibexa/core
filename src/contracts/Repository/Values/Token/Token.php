@@ -79,16 +79,4 @@ final class Token extends ValueObject
     {
         return $this->token;
     }
-
-    public static function fromArray(array $properties): self
-    {
-        return new self(
-            $properties['id'],
-            $properties['type'],
-            $properties['token'],
-            $properties['identifier'],
-            $properties['created'],
-            $properties['expires'],
-        );
-    }
 }
