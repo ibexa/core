@@ -38,7 +38,6 @@ final class WebSafeGeneratorTest extends TestCase
      */
     public function testGenerateToken(
         int $expectedTokenLength,
-        string $expectedToken,
         array $tokenGeneratingArguments,
         array $tokens
     ): void {
@@ -72,7 +71,6 @@ final class WebSafeGeneratorTest extends TestCase
     /**
      * @return iterable<array{
      *     int,
-     *     string,
      *     array<array<int>>,
      *     array<string>
      * }>
@@ -81,7 +79,6 @@ final class WebSafeGeneratorTest extends TestCase
     {
         yield [
             20,
-            '1234561qaz2wsx3edc4rfv',
             [
                 [20],
                 [20],
@@ -94,7 +91,6 @@ final class WebSafeGeneratorTest extends TestCase
 
         yield [
             64,
-            '1234561qaz2wsx3edc4rfv1234561qaz2wsx3edc4rfv14567',
             [
                 [64],
                 [64],
@@ -107,7 +103,6 @@ final class WebSafeGeneratorTest extends TestCase
 
         yield [
             100,
-            '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz',
             [
                 [100],
                 [100],
@@ -120,7 +115,6 @@ final class WebSafeGeneratorTest extends TestCase
 
         yield [
             256,
-            '1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz1234561qaz2wsx3edc4rfv1234561qaz2wsx3ec4rfv1234561qaz2wsx3edc4rfv14567yhnz3ec4rfv1234561qaz2wsx3edc4rfv14567yhnzz12345',
             [
                 [256],
                 [256],
