@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Bundle\Core\Imagine\Filter;
 
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Liip\ImagineBundle\Imagine\Filter\FilterConfiguration as BaseFilterConfiguration;
 
@@ -26,7 +25,7 @@ class FilterConfiguration extends BaseFilterConfiguration
     public function get($filter)
     {
         $configuredVariations = $this->configResolver->getParameter('image_variations');
-        if (!array_key_exists($configuredVariations, $filter)) {
+        if (!array_key_exists($filter, $configuredVariations)) {
             return parent::get($filter);
         }
 
