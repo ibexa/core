@@ -26,7 +26,7 @@ class FilterConfiguration extends BaseFilterConfiguration
     public function get($filter)
     {
         $configuredVariations = $this->configResolver->getParameter('image_variations');
-        if (!isset($configuredVariations[$filter])) {
+        if (!array_key_exists($configuredVariations, $filter)) {
             return parent::get($filter);
         }
 
@@ -55,14 +55,12 @@ class FilterConfiguration extends BaseFilterConfiguration
      * @param string $variationName
      * @param array $configuredVariations Variations set in eZ.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException
-     *
      * @return array
      */
     private function getVariationFilters($variationName, array $configuredVariations)
     {
         if (!isset($configuredVariations[$variationName]['filters']) && !isset($this->filters[$variationName]['filters'])) {
-            throw new InvalidVariationException($variationName, 'image');
+            return [];
         }
 
         // Check variations configured in Ibexa config first.
