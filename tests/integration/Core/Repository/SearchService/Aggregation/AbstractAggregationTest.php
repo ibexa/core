@@ -48,7 +48,7 @@ abstract class AbstractAggregationTest extends BaseTest
             $expectedResult,
             $searchService->findContent(
                 $this->createContentQuery($aggregation)
-            )->aggregations->first()
+            )->getAggregations()->first()
         );
     }
 
@@ -67,7 +67,7 @@ abstract class AbstractAggregationTest extends BaseTest
             $expectedResult,
             $searchService->findLocations(
                 $this->createLocationQuery($aggregation)
-            )->aggregations->first()
+            )->getAggregations()->first()
         );
     }
 

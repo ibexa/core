@@ -33,7 +33,7 @@ final class FixedSearchResultHitAdapter implements SearchResultAdapter
 
     public function getAggregations(): AggregationResultCollection
     {
-        return $this->searchResult->aggregations;
+        return $this->searchResult->getAggregations();
     }
 
     public function getTime(): ?float
