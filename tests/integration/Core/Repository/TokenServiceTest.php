@@ -9,12 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\TokenService;
+use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Core\Base\Exceptions\TokenLengthException;
 
 /**
  * @covers \Ibexa\Core\Repository\TokenService
  */
-final class TokenServiceTest extends BaseTest
+final class TokenServiceTest extends IbexaKernelTestCase
 {
     private const TOKEN_TYPE = 'foo';
     private const TOKEN_TTL = 100;
@@ -26,7 +27,10 @@ final class TokenServiceTest extends BaseTest
     {
         parent::setUp();
 
-        $this->tokenService = $this->getTokenService();
+        self::loadSchema();
+        self::loadFixtures();
+
+        $this->tokenService = self::getServiceByClassName(TokenService::class);
     }
 
     /**
@@ -189,16 +193,5 @@ final class TokenServiceTest extends BaseTest
             self::TOKEN_TTL,
             null,
         ];
-    }
-
-    /**
-     * @throws \ErrorException
-     */
-    private function getTokenService(): TokenService
-    {
-        $container = $this->getSetupFactory()->getServiceContainer();
-
-        /** @var \Ibexa\Contracts\Core\Repository\TokenService */
-        return $container->get(TokenService::class);
     }
 }

@@ -88,6 +88,7 @@ class IbexaTestKernel extends Kernel
         Repository\SearchService::class,
         Repository\SectionService::class,
         Repository\UserService::class,
+        Repository\TokenService::class,
     ];
 
     /**
