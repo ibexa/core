@@ -62,7 +62,7 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->get('foobar');
     }
 
-    public function testGetWithEzVariationInvalidFilters()
+    public function testGetWithEzVariationNullConfiguration(): void
     {
         $this->expectException(InvalidVariationException::class);
 
@@ -72,7 +72,7 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->set('bar', $barConfig);
 
         $variations = [
-            'some_variation' => [],
+            'some_variation' => null,
         ];
         $this->configResolver
             ->expects($this->once())
@@ -80,7 +80,16 @@ class FilterConfigurationTest extends TestCase
             ->with('image_variations')
             ->will($this->returnValue($variations));
 
-        $this->filterConfiguration->get('some_variation');
+        self::assertSame(
+            [
+                'cache' => 'ibexa',
+                'data_loader' => 'ibexa',
+                'reference' => null,
+                'filters' => [],
+                'post_processors' => [],
+            ],
+            $this->filterConfiguration->get('some_variation')
+        );
     }
 
     public function testGetEzVariationNoReference()
