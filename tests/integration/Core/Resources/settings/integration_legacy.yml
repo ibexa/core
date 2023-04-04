@@ -57,8 +57,4 @@ services:
         public: true
         alias: Ibexa\Core\Event\SettingService
 
-    Ibexa\Contracts\Core\Repository\TokenService:
-        public: true
-        alias: Ibexa\Core\Event\TokenService
-
     Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator: '@Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler'
