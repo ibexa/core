@@ -89,7 +89,11 @@ abstract class Relation extends ValueObject
     /**
      * The relation type bitmask.
      *
-     * @see Relation::COMMON, Relation::EMBED, Relation::LINK, Relation::FIELD, Relation::ASSET
+     * @see Relation::COMMON
+     * @see Relation::EMBED
+     * @see Relation::LINK
+     * @see Relation::FIELD
+     * @see Relation::ASSET
      *
      * @var int
      */
