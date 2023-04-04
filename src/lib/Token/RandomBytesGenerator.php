@@ -17,8 +17,6 @@ final class RandomBytesGenerator implements TokenGeneratorInterface
      */
     public function generateToken(int $length = 64): string
     {
-        $entropy = (int)floor(($length + 1) * 0.75);
-
-        return random_bytes($entropy);
+        return random_bytes($length);
     }
 }

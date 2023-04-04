@@ -29,49 +29,42 @@ final class RandomBytesGeneratorTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testGenerateToken(
-        int $expectedTokenLengthInBytes,
-        int $length
-    ): void {
-        $generatedToken = $this->tokenGenerator->generateToken($length);
+    public function testGenerateToken(int $expectedTokenLength): void
+    {
+        $generatedToken = $this->tokenGenerator->generateToken($expectedTokenLength);
 
         self::assertNotSame(
             $generatedToken,
-            $this->tokenGenerator->generateToken($length),
+            $this->tokenGenerator->generateToken($expectedTokenLength),
             'Token generator should return different values on subsequent calls',
         );
 
         self::assertSame(
-            $expectedTokenLengthInBytes,
+            $expectedTokenLength,
             strlen($generatedToken)
         );
     }
 
     /**
      * @return iterable<array{
-     *     int,
      *     int
      * }>
      */
     public function provideDataForTestGenerateToken(): iterable
     {
         yield [
-            15,
             20,
         ];
 
         yield [
-            48,
             64,
         ];
 
         yield [
-            75,
             100,
         ];
 
         yield [
-            192,
             256,
         ];
     }
