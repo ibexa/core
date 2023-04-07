@@ -74,7 +74,7 @@ class Specifications
     /**
      * Creates a new Specifications object.
      *
-     * @param string $operator The specified operator, as one of the Operator::* constants
+     * @param string $operator The specified operator, as one of the {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator}::* constants
      * @param int $valueFormat The accepted value format, either {@see Specifications::FORMAT_ARRAY} or {@see Specifications::FORMAT_SINGLE}
      * @param int $valueTypes The supported value types, as a bit field of the self::TYPE_* constants
      * @param int $valueCount The required number of values, when the accepted format is {@see Specifications::FORMAT_ARRAY}
