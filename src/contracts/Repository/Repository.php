@@ -28,6 +28,7 @@ interface Repository
      * @template T
      *
      * @phpstan-param callable(\Ibexa\Contracts\Core\Repository\Repository): T $callback
+     *
      * @param \Ibexa\Contracts\Core\Repository\Repository|null $outerRepository Optional, mostly
      *        for internal use but allows to specify Repository to pass to closure.
      *
