@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultColle
 use Pagerfanta\Adapter\AdapterInterface;
 
 /**
- * Contract for {@link \Ibexa\Contracts\Core\Repository\SearchService SearchService} based adapters.
+ * Contract for SearchService based adapters.
  *
- * @see \Ibexa\Contracts\Core\Repository\SearchService
+ * Contract for {@see \Ibexa\Contracts\Core\Repository\SearchService} based adapters.
  */
 interface SearchResultAdapter extends AdapterInterface
 {
