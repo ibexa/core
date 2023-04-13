@@ -110,7 +110,7 @@ interface SearchService
     /**
      * Capability flag for aggregation feature for use with {@see ::supports()}.
      *
-     * @since 3.2 eZ Platform 3.2
+     * @since 3.2 eZ Platform 3.2 (ezplatform-kernel 1.2)
      */
     public const CAPABILITY_AGGREGATIONS = 128;
 
