@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\Repository\Values\User\User;
+use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
 
 /**
  * Integration test for use field type.
@@ -97,38 +98,8 @@ class UserIntegrationTest extends BaseIntegrationTest
      */
     public function getValidatorSchema()
     {
-        return [
-            'PasswordValueValidator' => [
-                'requireAtLeastOneUpperCaseCharacter' => [
-                    'type' => 'int',
-                    'default' => 1,
-                ],
-                'requireAtLeastOneLowerCaseCharacter' => [
-                    'type' => 'int',
-                    'default' => 1,
-                ],
-                'requireAtLeastOneNumericCharacter' => [
-                    'type' => 'int',
-                    'default' => 1,
-                ],
-                'requireAtLeastOneNonAlphanumericCharacter' => [
-                    'type' => 'int',
-                    'default' => null,
-                ],
-                'requireNewPassword' => [
-                    'type' => 'int',
-                    'default' => null,
-                ],
-                'requireNotCompromisedPassword' => [
-                    'type' => 'int',
-                    'default' => null,
-                ],
-                'minLength' => [
-                    'type' => 'int',
-                    'default' => 10,
-                ],
-            ],
-        ];
+        return (new UserValidatorConfigurationSchemaProvider())
+            ->getExpectedValidatorConfigurationSchema();
     }
 
     /**
