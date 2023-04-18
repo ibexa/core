@@ -72,9 +72,7 @@ class UserPasswordValidator
 
         if ($this->isCompromised($password)) {
             $errors[] = $this->createValidationError(
-                <<<EOF
-This password has been leaked in a data breach, it must not be used. Please use another password.
-EOF
+                'This password has been leaked in a data breach, it must not be used. Please use another password.'
             );
         }
 

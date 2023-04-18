@@ -230,9 +230,8 @@ class UserPasswordValidatorTest extends TestCase
                 'secret',
                 [
                     new ValidationError(
-                        <<<EOF
-This password has been leaked in a data breach, it must not be used. Please use another password.
-EOF,
+                        'This password has been leaked in a data breach, it must not be used. '
+                        . 'Please use another password.',
                         null,
                         [],
                         'password'
