@@ -37,6 +37,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'pass',
                 [/* No errors */],
@@ -48,6 +49,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 '123',
                 [
@@ -63,6 +65,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 '123456!',
                 [/* No errors */],
@@ -74,6 +77,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'PASS',
                 [
@@ -87,6 +91,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'PaSS',
                 [/* No errors */],
@@ -98,6 +103,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => true,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'pass',
                 [
@@ -111,6 +117,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => true,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'pAss',
                 [/* No errors */],
@@ -122,6 +129,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => true,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'pass',
                 [
@@ -135,6 +143,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => true,
                     'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'pass1',
                 [/* No errors */],
@@ -146,6 +155,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => true,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'pass',
                 [
@@ -159,6 +169,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => false,
                     'requireAtLeastOneNumericCharacter' => false,
                     'requireAtLeastOneNonAlphanumericCharacter' => true,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'pass!',
                 [/* No errors */],
@@ -170,6 +181,7 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => true,
                     'requireAtLeastOneNumericCharacter' => true,
                     'requireAtLeastOneNonAlphanumericCharacter' => true,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'asdf',
                 [
@@ -188,9 +200,43 @@ class UserPasswordValidatorTest extends TestCase
                     'requireAtLeastOneUpperCaseCharacter' => true,
                     'requireAtLeastOneNumericCharacter' => true,
                     'requireAtLeastOneNonAlphanumericCharacter' => true,
+                    'requireNotCompromisedPassword' => false,
                 ],
                 'H@xxi0r!',
                 [/* No errors */],
+            ],
+            [
+                [
+                    'minLength' => -1,
+                    'requireAtLeastOneLowerCaseCharacter' => false,
+                    'requireAtLeastOneUpperCaseCharacter' => false,
+                    'requireAtLeastOneNumericCharacter' => false,
+                    'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => true,
+                ],
+                // 64 chars, very unlikely to ever be in a breach
+                bin2hex(random_bytes(32)),
+                [/* No errors */],
+            ],
+            [
+                [
+                    'minLength' => -1,
+                    'requireAtLeastOneLowerCaseCharacter' => false,
+                    'requireAtLeastOneUpperCaseCharacter' => false,
+                    'requireAtLeastOneNumericCharacter' => false,
+                    'requireAtLeastOneNonAlphanumericCharacter' => false,
+                    'requireNotCompromisedPassword' => true,
+                ],
+                'secret',
+                [
+                    new ValidationError(
+                        'This password has been leaked in a data breach, it must not be used. '
+                        . 'Please use another password.',
+                        null,
+                        [],
+                        'password'
+                    ),
+                ],
             ],
         ];
     }

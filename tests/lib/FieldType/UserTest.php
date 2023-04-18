@@ -21,6 +21,7 @@ use Ibexa\Core\Persistence\Cache\UserHandler;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition as CoreFieldDefinition;
 use Ibexa\Core\Repository\Values\User\User as RepositoryUser;
+use Ibexa\Tests\Core\FieldType\DataProvider\UserValidatorConfigurationSchemaProvider;
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
 /**
@@ -61,34 +62,8 @@ class UserTest extends FieldTypeTest
      */
     protected function getValidatorConfigurationSchemaExpectation()
     {
-        return [
-            'PasswordValueValidator' => [
-                'requireAtLeastOneUpperCaseCharacter' => [
-                    'type' => 'int',
-                    'default' => 1,
-                ],
-                'requireAtLeastOneLowerCaseCharacter' => [
-                    'type' => 'int',
-                    'default' => 1,
-                ],
-                'requireAtLeastOneNumericCharacter' => [
-                    'type' => 'int',
-                    'default' => 1,
-                ],
-                'requireAtLeastOneNonAlphanumericCharacter' => [
-                    'type' => 'int',
-                    'default' => null,
-                ],
-                'requireNewPassword' => [
-                    'type' => 'int',
-                    'default' => null,
-                ],
-                'minLength' => [
-                    'type' => 'int',
-                    'default' => 10,
-                ],
-            ],
-        ];
+        return (new UserValidatorConfigurationSchemaProvider())
+            ->getExpectedValidatorConfigurationSchema();
     }
 
     /**

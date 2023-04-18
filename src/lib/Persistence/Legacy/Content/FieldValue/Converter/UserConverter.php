@@ -26,6 +26,7 @@ class UserConverter implements Converter
     private const REQUIRE_AT_LEAST_ONE_NON_ALPHANUMERIC_CHAR = 8;
     private const REQUIRE_NEW_PASSWORD = 16;
     private const REQUIRE_UNIQUE_EMAIL = 32;
+    private const REQUIRE_NOT_COMPROMISED = 64;
 
     /**
      * {@inheritdoc}
@@ -59,6 +60,7 @@ class UserConverter implements Converter
             'requireAtLeastOneNumericCharacter' => self::REQUIRE_AT_LEAST_ONE_NUMERIC_CHAR,
             'requireAtLeastOneNonAlphanumericCharacter' => self::REQUIRE_AT_LEAST_ONE_NON_ALPHANUMERIC_CHAR,
             'requireNewPassword' => self::REQUIRE_NEW_PASSWORD,
+            'requireNotCompromisedPassword' => self::REQUIRE_NOT_COMPROMISED,
         ];
 
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
@@ -98,6 +100,7 @@ class UserConverter implements Converter
             self::REQUIRE_AT_LEAST_ONE_NUMERIC_CHAR => 'requireAtLeastOneNumericCharacter',
             self::REQUIRE_AT_LEAST_ONE_NON_ALPHANUMERIC_CHAR => 'requireAtLeastOneNonAlphanumericCharacter',
             self::REQUIRE_NEW_PASSWORD => 'requireNewPassword',
+            self::REQUIRE_NOT_COMPROMISED => 'requireNotCompromisedPassword',
         ];
 
         foreach ($rules as $flag => $rule) {

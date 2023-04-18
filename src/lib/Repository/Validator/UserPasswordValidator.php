@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Validator;
 
 use Ibexa\Core\FieldType\ValidationError;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validation;
 
 /**
  * Internal service to user password validation against specified constraints.
@@ -66,6 +68,12 @@ class UserPasswordValidator
 
         if (!$this->containsAtLeastOneNonAlphanumericCharacter($password)) {
             $errors[] = $this->createValidationError('User password must include at least one special character');
+        }
+
+        if ($this->isCompromised($password)) {
+            $errors[] = $this->createValidationError(
+                'This password has been leaked in a data breach, it must not be used. Please use another password.'
+            );
         }
 
         return $errors;
@@ -159,6 +167,25 @@ class UserPasswordValidator
         }
 
         return true;
+    }
+
+    /**
+     * Checks if given $password is included in a public data breach tracked by https://haveibeenpwned.com.
+     */
+    private function isCompromised(
+        #[\SensitiveParameter]
+        string $password
+    ): bool {
+        if ($this->constraints['requireNotCompromisedPassword']) {
+            $validator = Validation::createValidator();
+            $constraintViolationList = $validator->validate($password, [new Assert\NotCompromisedPassword()]);
+            // Only one violation is possible for NotCompromisedPassword.
+            if (count($constraintViolationList) > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
