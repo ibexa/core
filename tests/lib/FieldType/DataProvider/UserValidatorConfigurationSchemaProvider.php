@@ -42,7 +42,7 @@ final class UserValidatorConfigurationSchemaProvider
                 ],
                 'requireNotCompromisedPassword' => [
                     'type' => 'bool',
-                    'default' => null,
+                    'default' => false,
                 ],
                 'minLength' => [
                     'type' => 'int',

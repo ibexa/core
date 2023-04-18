@@ -77,7 +77,7 @@ class Type extends FieldType
             ],
             'requireNotCompromisedPassword' => [
                 'type' => 'bool',
-                'default' => null,
+                'default' => false,
             ],
             'minLength' => [
                 'type' => 'int',
