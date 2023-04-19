@@ -14,7 +14,7 @@ use Pagerfanta\Adapter\AdapterInterface;
 /**
  * Contract for SearchService based adapters.
  *
- * Contract for {@see \Ibexa\Contracts\Core\Repository\SearchService} based adapters.
+ * @see \Ibexa\Contracts\Core\Repository\SearchService
  */
 interface SearchResultAdapter extends AdapterInterface
 {
