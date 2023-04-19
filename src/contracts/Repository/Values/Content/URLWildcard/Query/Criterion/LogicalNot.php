@@ -17,7 +17,7 @@ final class LogicalNot extends LogicalOperator
      *
      * Will match of the given criterion doesn't match
      *
-     * @throws \InvalidArgumentException if more than one criterion is given in the array parameter
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException if more than one criterion is given in the array parameter
      */
     public function __construct(Criterion $criterion)
     {

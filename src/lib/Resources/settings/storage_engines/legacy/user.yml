@@ -1,0 +1,57 @@
+services:
+    Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\User\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\User\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.user.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\User\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\User\Role\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\User\Role\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.role.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\User\Role\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\User\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\User\Mapper
+
+    Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler:
+        abstract: true
+        class: Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler
+        arguments:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler\ObjectStateHandler:
+        parent: Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler
+        class: Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler\ObjectStateHandler
+        tags:
+            - {name: ibexa.storage.legacy.role.limitation.handler}
+
+    # Note: services tagged with 'ibexa.storage.legacy.role.limitation.handler'
+    # are registered to this one using compilation pass
+    Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter:
+        class: Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter
+
+    Ibexa\Core\Persistence\Legacy\User\Handler:
+        class: Ibexa\Core\Persistence\Legacy\User\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.user.gateway'
+            - '@ibexa.persistence.legacy.role.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\User\Mapper'
+            - '@Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter'
+        lazy: true

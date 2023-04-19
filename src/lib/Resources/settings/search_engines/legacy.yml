@@ -1,0 +1,87 @@
+imports:
+    - {resource: search_engines/legacy/criterion_handlers_common.yml}
+    - {resource: search_engines/legacy/criterion_handlers_content.yml}
+    - {resource: search_engines/legacy/criterion_handlers_location.yml}
+    - {resource: search_engines/legacy/indexer.yml}
+    - {resource: search_engines/legacy/sort_clause_handlers_common.yml}
+    - {resource: search_engines/legacy/sort_clause_handlers_content.yml}
+    - {resource: search_engines/legacy/sort_clause_handlers_location.yml}
+    - {resource: search_engines/common.yml}
+
+services:
+    # Aliasing storage connection in order to support sqlite://:memory:
+    # Otherwise it should be possible to use a separate database and/or database connection
+    ibexa.api.search_engine.legacy.connection:
+        alias: ibexa.api.storage_engine.legacy.connection
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\DoctrineDatabase
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $criteriaConverter: '@ibexa.search.legacy.gateway.criteria_converter.content'
+            $sortClauseConverter: '@ibexa.search.legacy.gateway.sort_clause_converter.content'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+
+    Ibexa\Core\Search\Legacy\Content\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Search\Legacy\Content\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Search\Legacy\Content\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.search.legacy.gateway.content:
+        alias: Ibexa\Core\Search\Legacy\Content\Gateway\ExceptionConversion
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\DoctrineDatabase
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $criteriaConverter: '@ibexa.search.legacy.gateway.criteria_converter.location'
+            $sortClauseConverter: '@ibexa.search.legacy.gateway.sort_clause_converter.location'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Search\Legacy\Content\Location\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.search.legacy.gateway.location:
+        alias: Ibexa\Core\Search\Legacy\Content\Location\Gateway\ExceptionConversion
+
+    Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper:
+        class: Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper
+        arguments:
+            - '@Ibexa\Core\Search\Common\FieldRegistry'
+            - '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+
+    ibexa.search.legacy.fulltext_mapper:
+        alias: Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper
+
+    Ibexa\Core\Search\Legacy\Content\Handler:
+        class: Ibexa\Core\Search\Legacy\Content\Handler
+        arguments:
+            $gateway: '@ibexa.search.legacy.gateway.content'
+            $locationGateway: '@ibexa.search.legacy.gateway.location'
+            $indexerGateway: '@Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway\DoctrineDatabase'
+            $contentMapper: '@Ibexa\Core\Persistence\Legacy\Content\Mapper'
+            $locationMapper: '@Ibexa\Core\Persistence\Legacy\Content\Location\Mapper'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $mapper: '@ibexa.search.legacy.fulltext_mapper'
+        tags:
+            - {name: ibexa.search.engine, alias: legacy}
+        lazy: true
+
+    Ibexa\Core\Search\Legacy\Content\Indexer:
+        class: Ibexa\Core\Search\Legacy\Content\Indexer
+        arguments:
+            $logger: '@logger'
+            $persistenceHandler: '@Ibexa\Contracts\Core\Persistence\Handler'
+            $connection: '@ibexa.persistence.connection'
+            $searchHandler: '@Ibexa\Core\Search\Legacy\Content\Handler'
+        tags:
+            - {name: ibexa.search.engine.indexer, alias: legacy}
+        lazy: true
+
+    Ibexa\Core\Search\Legacy\Content\IndexerGateway:
+        arguments:
+            $connection: '@ibexa.persistence.connection'

@@ -1,0 +1,45 @@
+services:
+    Ibexa\Bundle\Core\URLChecker\URLChecker:
+        class: 'Ibexa\Bundle\Core\URLChecker\URLChecker'
+        arguments:
+            - '@Ibexa\Core\Repository\URLService'
+            - '@Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry'
+        calls:
+            - ['setLogger', ['@?logger']]
+        lazy: true
+
+    Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry:
+        class: 'Ibexa\Bundle\Core\URLChecker\URLHandlerRegistry'
+
+    ibexa.url_checker.handler.base:
+        abstract: true
+        arguments:
+            - '@Ibexa\Core\Repository\URLService'
+        calls:
+            - ['setLogger', ['@?logger']]
+
+    ibexa.url_checker.handler.http:
+        class: 'Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler'
+        parent: ibexa.url_checker.handler.base
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $parameterName: url_handler.http.options
+        tags:
+            - { name: ibexa.url_checker.handler, scheme: http }
+
+    ibexa.url_checker.handler.https:
+        class: 'Ibexa\Bundle\Core\URLChecker\Handler\HTTPHandler'
+        parent: ibexa.url_checker.handler.base
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $parameterName: url_handler.https.options
+        tags:
+            - { name: ibexa.url_checker.handler, scheme: https }
+
+    Ibexa\Bundle\Core\URLChecker\Handler\MailToHandler:
+        class: 'Ibexa\Bundle\Core\URLChecker\Handler\MailToHandler'
+        parent: ibexa.url_checker.handler.base
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+        tags:
+            - { name: ibexa.url_checker.handler, scheme: mailto }

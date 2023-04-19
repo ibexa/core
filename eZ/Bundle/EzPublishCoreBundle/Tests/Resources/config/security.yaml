@@ -1,8 +1,0 @@
-security:
-    providers:
-        default:
-            id: ezpublish.security.user_provider
-
-    firewalls:
-        main:
-            anonymous: ~

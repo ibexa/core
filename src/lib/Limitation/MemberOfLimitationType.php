@@ -8,28 +8,27 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Limitation;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\API\Repository\Values\User\Limitation as APILimitationValue;
-use eZ\Publish\API\Repository\Values\User\User;
-use eZ\Publish\API\Repository\Values\User\UserGroup;
-use eZ\Publish\API\Repository\Values\User\UserGroupRoleAssignment;
-use eZ\Publish\API\Repository\Values\User\UserReference as APIUserReference;
-use eZ\Publish\API\Repository\Values\User\UserRoleAssignment;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Limitation\AbstractPersistenceLimitationType;
-use eZ\Publish\SPI\Limitation\Type as SPILimitationTypeInterface;
+use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\MemberOfLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
+use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\ValidationError;
 
 final class MemberOfLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
 {
     public const SELF_USER_GROUP = -1;
 
     /**
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentType
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
     public function acceptValue(APILimitationValue $limitationValue): void
     {
@@ -83,8 +82,6 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
 
     /**
      * @param mixed[] $limitationValues
-     *
-     * @return \eZ\Publish\API\Repository\Values\User\Limitation
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {

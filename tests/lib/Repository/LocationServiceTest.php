@@ -8,21 +8,21 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\PermissionCriterionResolver;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\Filter\Filter;
-use eZ\Publish\Core\Repository\Helper\NameSchemaService;
-use eZ\Publish\Core\Repository\LocationService;
-use eZ\Publish\Core\Repository\Mapper\ContentDomainMapper;
-use eZ\Publish\SPI\Persistence\Filter\Location\Handler as LocationFilteringHandler;
-use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Core\Repository\Helper\NameSchemaService;
+use Ibexa\Core\Repository\LocationService;
+use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use PHPUnit\Framework\TestCase;
 
 final class LocationServiceTest extends TestCase
 {
-    /** @var \eZ\Publish\API\Repository\LocationService */
+    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
     private $locationService;
 
     protected function setUp(): void
@@ -40,7 +40,7 @@ final class LocationServiceTest extends TestCase
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testFindDoesNotModifyFilter(): void
     {

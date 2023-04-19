@@ -1,0 +1,30 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@ibexa.core.trash.search.legacy.gateway.criteria_converter'
+            - '@ibexa.core.trash.search.legacy.gateway.sort_clause_converter'
+
+    Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.location.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\Content\Location\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+
+    Ibexa\Core\Persistence\Legacy\Content\Location\Handler:
+        class: Ibexa\Core\Persistence\Legacy\Content\Location\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.location.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Location\Mapper'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\TreeHandler'
+        lazy: true

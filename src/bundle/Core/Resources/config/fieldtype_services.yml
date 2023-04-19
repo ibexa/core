@@ -1,0 +1,125 @@
+services:
+    # Parameter providers
+    Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry:
+        class: Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry
+
+    Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider:
+        class: Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider
+        arguments: ['@Ibexa\Core\MVC\Symfony\Locale\LocaleConverter']
+        calls:
+            - [setRequestStack, ["@request_stack"]]
+        tags:
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezdatetime}
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezdate}
+            - {name: ibexa.field_type.view.parameter.provider, alias: eztime}
+
+    Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider:
+        class: Ibexa\Core\MVC\Symfony\FieldType\Relation\ParameterProvider
+        arguments:
+            - '@ibexa.api.service.content'
+        tags:
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelation}
+
+    Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider:
+        class: Ibexa\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider
+        arguments:
+            - '@ibexa.api.service.content'
+        tags:
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezobjectrelationlist}
+
+    ibexa.field_type.ezimageasset.parameterProvider:
+        class: Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider
+        lazy: true
+        arguments:
+            - '@ibexa.siteaccessaware.repository'
+        tags:
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezimageasset}
+
+    Ibexa\Core\MVC\Symfony\FieldType\User\ParameterProvider:
+        lazy: true
+        arguments:
+            - '@ibexa.api.service.user'
+        tags:
+            - {name: ibexa.field_type.view.parameter.provider, alias: ezuser}
+
+    # Image
+    Ibexa\Core\FieldType\Image\IO\Legacy:
+        class: Ibexa\Core\FieldType\Image\IO\Legacy
+        arguments:
+            - '@ibexa.field_type.ezimage.io_service.published'
+            - '@ibexa.field_type.ezimage.io_service.draft'
+            - '@Ibexa\Core\FieldType\Image\IO\OptionsProvider'
+        # Required by ezpublish.core.io.stream_file_listener. Request listeners are initialized very early.
+        lazy: true
+
+    Ibexa\Core\FieldType\Image\IO\OptionsProvider:
+        class: Ibexa\Core\FieldType\Image\IO\OptionsProvider
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+
+    ibexa.field_type.ezimage.io_service.published:
+        parent: ibexa.core.io.service
+
+    ibexa.field_type.ezimage.io_service.draft:
+        parent: ibexa.core.io.service
+
+    ibexa.field_type.ezimage.io_service.published.config_scope_change_aware:
+        class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
+        decorates: ibexa.field_type.ezimage.io_service.published
+        autoconfigure: true
+        lazy: true
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $innerIOService: '@ibexa.field_type.ezimage.io_service.published.config_scope_change_aware.inner'
+            $prefixParameterName: 'image.published_images_dir'
+
+    ibexa.field_type.ezimage.io_service.draft.config_scope_change_aware:
+        class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
+        decorates: ibexa.field_type.ezimage.io_service.draft
+        lazy: true
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $innerIOService: '@ibexa.field_type.ezimage.io_service.draft.config_scope_change_aware.inner'
+            $prefixParameterName: 'image.versioned_images_dir'
+
+    Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator:
+        class: Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator
+
+    Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator:
+        class: Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator
+        arguments:
+            - '@ibexa.config.resolver'
+
+    Ibexa\Core\FieldType\Validator\ImageValidator:
+        class: Ibexa\Core\FieldType\Validator\ImageValidator
+
+    # BinaryFile
+    ibexa.field_type.ezbinaryfile.io_service:
+        parent: ibexa.core.io.service
+
+    ibexa.field_type.ezbinaryfile.io_service.config_scope_change_aware:
+        class: Ibexa\Core\IO\ConfigScopeChangeAwareIOService
+        decorates: ibexa.field_type.ezbinaryfile.io_service
+        lazy: true
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $innerIOService: '@ibexa.field_type.ezbinaryfile.io_service.config_scope_change_aware.inner'
+            $prefixParameterName: 'binary_dir'
+
+    Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator:
+        class: Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator
+
+    # Will be added to binaryfile & mediafile external storage handlers by a compiler pass
+    Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator:
+        public: true # @todo should be private
+        class: Ibexa\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator
+        arguments: ["@router"]
+
+    # Symfony 3.4+ service definitions:
+    Ibexa\Core\FieldType\ImageAsset\AssetMapper:
+        lazy: true
+        arguments:
+            $contentService: '@ibexa.api.service.content'
+            $locationService: '@ibexa.api.service.location'
+            $contentTypeService: '@ibexa.api.service.content_type'
+            $configResolver: '@ibexa.config.resolver'

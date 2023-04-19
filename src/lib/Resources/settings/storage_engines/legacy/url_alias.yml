@@ -1,0 +1,33 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.url_alias.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler:
+        class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.url_alias.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper'
+            - '@ibexa.persistence.legacy.location.gateway'
+            - '@ibexa.spi.persistence.legacy.language.handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter'
+            - '@ibexa.persistence.legacy.content.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@Ibexa\Core\Persistence\Legacy\TransactionHandler'
+        lazy: true

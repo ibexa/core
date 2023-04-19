@@ -8,14 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
-use eZ\Publish\API\Repository\Values\User\Limitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
-final class RoleLimitation extends Limitation
+abstract class RoleLimitation extends Limitation
 {
-    public const IDENTIFIER = 'Role';
-
-    public function getIdentifier(): string
-    {
-        return self::IDENTIFIER;
-    }
 }
+
+class_alias(RoleLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\RoleLimitation');

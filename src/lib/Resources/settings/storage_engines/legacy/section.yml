@@ -1,0 +1,20 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+
+    Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.section.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Section\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\Content\Section\Handler:
+        class: Ibexa\Core\Persistence\Legacy\Content\Section\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.section.gateway'
+        lazy: true
