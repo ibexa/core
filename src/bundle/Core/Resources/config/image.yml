@@ -112,7 +112,7 @@ services:
             - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
         public: false
         tags:
-            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias' }
+            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias', priority: -100 }
 
     Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry:
         class: 'Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry'
@@ -297,7 +297,7 @@ services:
             - '@Ibexa\Core\FieldType\Image\IO\Legacy'
             - '@liip_imagine'
         tags:
-            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias', priority: 10 }
+            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias', priority: -50 }
 
     Ibexa\Bundle\Core\Imagine\VariationPathGenerator\WebpFormatVariationPathGenerator:
         decorates: ibexa.image_alias.variation_path_generator
