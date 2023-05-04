@@ -50,31 +50,8 @@ final class FixtureImporter
             }
         );
         foreach ($nonEmptyTablesData as $table => $rows) {
-            $firstRow = current($rows);
-            $query = $this->connection->createQueryBuilder();
-            $columns = array_keys($firstRow);
-            $query
-                ->insert($table)
-                ->values(
-                    array_combine(
-                        array_map(
-                            function (string $columnName) {
-                                return $this->connection->quoteIdentifier($columnName);
-                            },
-                            $columns
-                        ),
-                        array_map(
-                            static function (string $columnName) {
-                                return ":{$columnName}";
-                            },
-                            $columns
-                        )
-                    )
-                );
-
             foreach ($rows as $row) {
-                $query->setParameters($row);
-                $query->execute();
+                $this->connection->insert($table, $row);
             }
         }
 
