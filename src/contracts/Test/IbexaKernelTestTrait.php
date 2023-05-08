@@ -90,11 +90,11 @@ trait IbexaKernelTestTrait
     protected static function getTestServiceId(?string $id, string $className): string
     {
         $kernel = self::$kernel;
-        if (!$kernel instanceof IbexaTestKernel) {
+        if (!$kernel instanceof IbexaTestKernelInterface) {
             throw new RuntimeException(sprintf(
                 'Expected %s to be an instance of %s.',
                 get_class($kernel),
-                IbexaTestKernel::class,
+                IbexaTestKernelInterface::class,
             ));
         }
 
