@@ -69,7 +69,7 @@ use Symfony\Component\HttpKernel\Kernel;
  * If don't need the repository services (or not all), you can replace the IbexaTestKernel::EXPOSED_SERVICES_BY_CLASS and
  * IbexaTestKernel::EXPOSED_SERVICES_BY_ID consts in extending class, without changing the methods above.
  */
-class IbexaTestKernel extends Kernel
+class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
 {
     /**
      * @var iterable<class-string>
