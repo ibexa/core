@@ -14,12 +14,14 @@ use JMS\TranslationBundle\Translation\FileSourceFactory;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 use SplFileInfo;
 
 class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
 {
-    /** @var int[] */
+    use LoggerAwareTrait;
+
+    /** @var array<string, int> */
     protected $methodsToExtractFrom = ['setMessageTemplate' => -1];
 
     protected string $defaultDomain = 'repository_exceptions';
@@ -31,8 +33,6 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
     private SplFileInfo $file;
 
     private MessageCatalogue $catalogue;
-
-    private LoggerInterface $logger;
 
     public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
     {
@@ -75,11 +75,6 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);
-    }
-
-    public function setLogger(LoggerInterface $logger): void
-    {
-        $this->logger = $logger;
     }
 }
 
