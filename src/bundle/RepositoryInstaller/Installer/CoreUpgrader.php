@@ -125,13 +125,11 @@ class CoreUpgrader extends DbBasedInstaller implements Installer
         }
 
         foreach($nextPackageList as $package) {
-            $schemaFile="vendor/$package/src/bundle/Resources/config/schema.yaml";
-            if (file_exists($schemaFile)) {
-                $schemaFiles[] = $schemaFile;
-            }
-            $schemaFile="vendor/$package/src/bundle/Resources/config/storage/legacy/schema.yaml";
-            if (file_exists($schemaFile)) {
-                $schemaFiles[] = $schemaFile;
+            foreach (['', 'storage/', 'storage/legacy/'] as $subDir) {
+                $schemaFile="vendor/$package/src/bundle/Resources/config/{$subDir}schema.yaml";
+                if (file_exists($schemaFile)) {
+                    $schemaFiles[] = $schemaFile;
+                }
             }
         }
 
