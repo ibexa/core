@@ -644,7 +644,7 @@ tables:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
-            identifier: { type: string, nullable: false, length: 32 }
+            identifier: { type: string, nullable: false, length: 64 }
     ibexa_token:
         uniqueConstraints:
             ibexa_token_unique: { fields: [token, identifier, type_id] }
