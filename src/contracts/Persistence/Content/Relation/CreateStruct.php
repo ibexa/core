@@ -44,10 +44,10 @@ class CreateStruct extends ValueObject
     /**
      * Type bitmask.
      *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED,
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD
      *
      * @var int
      */

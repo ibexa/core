@@ -28,7 +28,7 @@ interface RoleService
     /**
      * Creates a new RoleDraft.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct $roleCreateStruct
      *
@@ -44,7 +44,7 @@ interface RoleService
     /**
      * Creates a new RoleDraft for existing Role.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Role $role
      *
@@ -59,7 +59,7 @@ interface RoleService
     /**
      * Copies an existing Role.
      *
-     * @since eZ Platform 3.0
+     * @since 3.0 eZ Platform 3.0 (ezplatform-kernel 1.0)
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the authenticated user is not allowed to copy a role
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the name of the role already exists or if limitation of the same type
@@ -73,7 +73,7 @@ interface RoleService
     /**
      * Loads a RoleDraft for the given id.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param int $id
      *
@@ -99,7 +99,7 @@ interface RoleService
     /**
      * Updates the properties of a RoleDraft.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft $roleDraft
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleUpdateStruct $roleUpdateStruct
@@ -114,7 +114,7 @@ interface RoleService
     /**
      * Adds a new policy to the RoleDraft.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft $roleDraft
      * @param \Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct $policyCreateStruct
@@ -131,7 +131,7 @@ interface RoleService
     /**
      * Removes a policy from a RoleDraft.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft $roleDraft
      * @param \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policyDraft the policy to remove from the RoleDraft
@@ -147,7 +147,7 @@ interface RoleService
      * Updates the limitations of a policy. The module and function cannot be changed and
      * the limitations are replaced by the ones in $roleUpdateStruct.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft $roleDraft
      * @param \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy
@@ -169,7 +169,7 @@ interface RoleService
     /**
      * Deletes the given RoleDraft.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft $roleDraft
      *
@@ -180,7 +180,7 @@ interface RoleService
     /**
      * Publishes the given RoleDraft.
      *
-     * @since 6.0
+     * @since 1.0 eZ Platform 1.0 (ezpublish-kernel 6.0)
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\RoleDraft $roleDraft
      *
