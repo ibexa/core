@@ -94,7 +94,7 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
             $this->languageFilter
         );
 
-        $this->aggregations = $searchResult->aggregations;
+        $this->aggregations = $searchResult->getAggregations();
         $this->time = $searchResult->time;
         $this->timedOut = $searchResult->timedOut;
         $this->maxScore = $searchResult->maxScore;

@@ -23,7 +23,7 @@ final class FixedSearchResultHitAdapterTest extends TestCase
 
         $this->assertEquals($searchResult->totalCount, $adapter->getNbResults());
         $this->assertEquals($searchResult->searchHits, $adapter->getSlice(0, 10));
-        $this->assertEquals($searchResult->aggregations, $adapter->getAggregations());
+        $this->assertSame($searchResult->getAggregations(), $adapter->getAggregations());
         $this->assertEquals($searchResult->maxScore, $adapter->getMaxScore());
         $this->assertEquals($searchResult->time, $adapter->getTime());
         $this->assertEquals($searchResult->timedOut, $adapter->getTimedOut());
