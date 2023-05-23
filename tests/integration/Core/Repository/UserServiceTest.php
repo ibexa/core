@@ -3265,6 +3265,12 @@ class UserServiceTest extends BaseTest
         $this->assertEquals(new PasswordInfo($expectedPasswordExpirationDate, null), $passwordInfo);
     }
 
+    public function testGetUserContentTypeIdentifiers(): void
+    {
+        $userService = $this->getRepository()->getUserService();
+        self::assertEquals(['user'], $userService->getUserContentTypeIdentifiers());
+    }
+
     public function createTestUser(ContentType $contentType): User
     {
         return $this->createTestUserWithPassword(self::EXAMPLE_PASSWORD, $contentType);
