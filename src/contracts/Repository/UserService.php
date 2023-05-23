@@ -406,6 +406,13 @@ interface UserService
      * @return \Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo
      */
     public function getPasswordInfo(User $user): PasswordInfo;
+
+    /**
+     * Returns configured list of User Content Type identifiers.
+     *
+     * @return array<string>
+     */
+    public function getUserContentTypeIdentifiers(): array;
 }
 
 class_alias(UserService::class, 'eZ\Publish\API\Repository\UserService');

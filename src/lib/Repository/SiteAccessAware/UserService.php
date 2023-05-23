@@ -227,6 +227,11 @@ class UserService implements UserServiceInterface
     {
         return $this->service->getPasswordInfo($user);
     }
+
+    public function getUserContentTypeIdentifiers(): array
+    {
+        return $this->service->getUserContentTypeIdentifiers();
+    }
 }
 
 class_alias(UserService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\UserService');

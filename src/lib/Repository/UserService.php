@@ -1394,10 +1394,7 @@ class UserService implements UserServiceInterface
         return null;
     }
 
-    /**
-     * @return string[]
-     */
-    private function getUserContentTypeIdentifiers(): array
+    public function getUserContentTypeIdentifiers(): array
     {
         return $this->configResolver->getParameter('user_content_type_identifier');
     }
