@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Search\SearchContextInterface;
 
 /**
  * The Search handler retrieves sets of of Content objects, based on a
@@ -18,6 +19,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
  */
 interface Handler
 {
+    /**
+     * Finds objects for the given query.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Query criterion is not applicable to its target
+     */
+    public function find(Query $query, SearchContextInterface $context = null);
+
     /**
      * Finds content objects for the given query.
      *

@@ -14,15 +14,20 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Search\SearchContextInterface;
 
 abstract class SearchServiceDecorator implements SearchService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    protected $innerService;
+    protected SearchService $innerService;
 
     public function __construct(SearchService $innerService)
     {
         $this->innerService = $innerService;
+    }
+
+    public function find(Query $query, SearchContextInterface $context = null): SearchResult
+    {
+        return $this->innerService->find($query, $context);
     }
 
     public function findContent(
@@ -30,7 +35,11 @@ abstract class SearchServiceDecorator implements SearchService
         array $languageFilter = [],
         bool $filterOnUserPermissions = true
     ): SearchResult {
-        return $this->innerService->findContent($query, $languageFilter, $filterOnUserPermissions);
+        return $this->innerService->findContent(
+            $query,
+            $languageFilter,
+            $filterOnUserPermissions
+        );
     }
 
     public function findContentInfo(

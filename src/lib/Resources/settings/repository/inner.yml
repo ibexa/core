@@ -18,6 +18,7 @@ services:
             - '@ibexa.api.persistence_handler'
             - '@ibexa.spi.search'
             - '@Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener'
+            - '@Ibexa\Core\Repository\Mapper\SearchHitMapperRegistryInterface'
             - '@Ibexa\Core\Repository\Helper\RelationProcessor'
             - '@Ibexa\Core\FieldType\FieldTypeRegistry'
             - '@Ibexa\Core\Repository\User\PasswordHashService'
@@ -164,6 +165,13 @@ services:
         alias: 'Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapper'
 
     # Mappers
+    Ibexa\Core\Repository\Mapper\SearchHitMapperRegistryInterface:
+        alias: Ibexa\Core\Repository\Mapper\SearchHitMapperRegistry
+
+    Ibexa\Core\Repository\Mapper\SearchHitMapperRegistry:
+        arguments:
+            $mappers: !tagged_iterator { tag: ibexa.search_hit.mapper }
+
     Ibexa\Core\Repository\Mapper\ProxyAwareDomainMapper:
         abstract: true
         calls:
@@ -197,6 +205,7 @@ services:
             - [setLogger, ['@?logger']]
         tags:
             - { name: 'monolog.logger', channel: 'ibexa.core' }
+            - { name: 'ibexa.search_hit.mapper', priority: -110 }
 
     Ibexa\Core\Repository\Mapper\RoleDomainMapper:
         arguments:

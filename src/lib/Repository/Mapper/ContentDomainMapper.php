@@ -24,9 +24,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Search\SearchContextInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
@@ -46,7 +48,7 @@ use Psr\Log\NullLogger;
  *
  * @internal Meant for internal use by Repository.
  */
-class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareInterface
+class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareInterface, SearchHitMapperInterface
 {
     use LoggerAwareTrait;
 
@@ -610,8 +612,8 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             $info = $hit->valueObject;
             $contentIds[] = $info->id;
             $contentTypeIds[] = $info->contentTypeId;
-            // Unless we are told to load all languages, we add main language to translations so they are loaded too
-            // Might in some case load more languages then intended, but prioritised handling will pick right one
+            // Unless we are told to load all languages, we add main language to translations, so they are loaded too
+            // Might in some case load more languages than intended, but prioritised handling will pick right one
             if (!empty($languageFilter['languages']) && $useAlwaysAvailable && $info->alwaysAvailable) {
                 $translations[] = $info->mainLanguageCode;
             }
@@ -892,6 +894,52 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     private function isRootLocation(SPILocation $spiLocation): bool
     {
         return $spiLocation->id === $spiLocation->parentId;
+    }
+
+    public function buildObjectOnSearchHit(SearchHit $hit, SearchContextInterface $context = null)
+    {
+        return $this->buildContentDomainObjectsOnSearchHit($hit, $context);
+    }
+
+    public function supports(SearchHit $hit, SearchContextInterface $context = null): bool
+    {
+        return $hit->valueObject instanceof SPIContent\ContentInfo;
+    }
+
+    private function buildContentDomainObjectsOnSearchHit(SearchHit $hit, SearchContextInterface $context = null): ?Content
+    {
+        /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo $info */
+        $info = $hit->valueObject;
+        $languageFilter = [];
+
+        if ($context !== null) {
+            $languageFilter = $context->getLanguageFilter();
+        }
+
+        $translations = $languageFilter['languages'] ?? [];
+        $useAlwaysAvailable = $languageFilter['useAlwaysAvailable'] ?? true;
+
+        if (!empty($languageFilter['languages']) && $useAlwaysAvailable && $info->alwaysAvailable) {
+            $translations[] = $info->mainLanguageCode;
+        }
+
+        try {
+            $content = $this->contentHandler->load($info->id, null, $translations);
+            $contentType = $this->contentTypeHandler->load($info->contentTypeId);
+            $languages = $languageFilter['languages'] ?? [];
+
+            return $this->buildContentDomainObject(
+                $content,
+                $this->contentTypeDomainMapper->buildContentTypeDomainObject(
+                    $contentType,
+                    $languages
+                ),
+                $languages,
+                $useAlwaysAvailable ? $info->mainLanguageCode : null
+            );
+        } catch (NotFoundException $e) {
+            return null;
+        }
     }
 }
 

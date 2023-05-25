@@ -42,6 +42,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Mapper\SearchHitMapperRegistryInterface;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
@@ -228,6 +229,8 @@ class Repository implements RepositoryInterface
     /** @var \Ibexa\Core\Search\Common\BackgroundIndexer|null */
     protected $backgroundIndexer;
 
+    protected SearchHitMapperRegistryInterface $searchHitMapperRegistry;
+
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
@@ -270,6 +273,7 @@ class Repository implements RepositoryInterface
         PersistenceHandler $persistenceHandler,
         SearchHandler $searchHandler,
         BackgroundIndexer $backgroundIndexer,
+        SearchHitMapperRegistryInterface $searchHitMapperRegistry,
         RelationProcessor $relationProcessor,
         FieldTypeRegistry $fieldTypeRegistry,
         PasswordHashService $passwordHashGenerator,
@@ -293,6 +297,7 @@ class Repository implements RepositoryInterface
         $this->persistenceHandler = $persistenceHandler;
         $this->searchHandler = $searchHandler;
         $this->backgroundIndexer = $backgroundIndexer;
+        $this->searchHitMapperRegistry = $searchHitMapperRegistry;
         $this->relationProcessor = $relationProcessor;
         $this->fieldTypeRegistry = $fieldTypeRegistry;
         $this->passwordHashService = $passwordHashGenerator;
@@ -694,6 +699,7 @@ class Repository implements RepositoryInterface
             $this->contentDomainMapper,
             $this->getPermissionCriterionResolver(),
             $this->backgroundIndexer,
+            $this->searchHitMapperRegistry,
             $this->serviceSettings['search']
         );
 

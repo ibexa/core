@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Search\SearchContextInterface;
 
 /**
  * Search service.
@@ -113,6 +114,8 @@ interface SearchService
      * @since 3.2 eZ Platform 3.2 (ezplatform-kernel 1.2)
      */
     public const CAPABILITY_AGGREGATIONS = 128;
+
+    public function find(Query $query, SearchContextInterface $context = null): SearchResult;
 
     /**
      * Finds content objects for the given query.

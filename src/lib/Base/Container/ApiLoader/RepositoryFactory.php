@@ -21,6 +21,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper;
+use Ibexa\Core\Repository\Mapper\SearchHitMapperRegistryInterface;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
@@ -67,6 +68,7 @@ class RepositoryFactory implements ContainerAwareInterface
         PersistenceHandler $persistenceHandler,
         SearchHandler $searchHandler,
         BackgroundIndexer $backgroundIndexer,
+        SearchHitMapperRegistryInterface $searchHitMapperRegistry,
         RelationProcessor $relationProcessor,
         FieldTypeRegistry $fieldTypeRegistry,
         PasswordHashService $passwordHashService,
@@ -89,6 +91,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $persistenceHandler,
             $searchHandler,
             $backgroundIndexer,
+            $searchHitMapperRegistry,
             $relationProcessor,
             $fieldTypeRegistry,
             $passwordHashService,

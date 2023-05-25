@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Search\SearchContextInterface;
 use Ibexa\Contracts\Core\Search\VersatileHandler as SearchHandlerInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -112,6 +113,16 @@ class Handler implements SearchHandlerInterface
         $this->locationMapper = $locationMapper;
         $this->languageHandler = $languageHandler;
         $this->mapper = $mapper;
+    }
+
+    public function find(
+        Query $query,
+        SearchContextInterface $context = null
+    ): SearchResult {
+        $languageFilter = $context !== null ? $context->getLanguageFilter() : [];
+
+        //fallback to findContent method for the time being to keep BC
+        return $this->findContent($query, $languageFilter);
     }
 
     /**

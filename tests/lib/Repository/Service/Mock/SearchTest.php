@@ -42,13 +42,14 @@ class SearchTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::__construct
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $contentDomainMapperMock = $this->getContentDomainMapperMock();
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
         $settings = ['teh setting'];
 
         $service = new SearchService(
@@ -57,11 +58,12 @@ class SearchTest extends BaseServiceMockTest
             $contentDomainMapperMock,
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             $settings
         );
     }
 
-    public function providerForFindContentValidatesLocationCriteriaAndSortClauses()
+    public function providerForFindContentValidatesLocationCriteriaAndSortClauses(): array
     {
         return [
             [
@@ -94,7 +96,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * @dataProvider providerForFindContentValidatesLocationCriteriaAndSortClauses
      */
-    public function testFindContentValidatesLocationCriteriaAndSortClauses($query, $exceptionMessage)
+    public function testFindContentValidatesLocationCriteriaAndSortClauses($query, $exceptionMessage): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -102,6 +104,7 @@ class SearchTest extends BaseServiceMockTest
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
 
         $service = new SearchService(
             $repositoryMock,
@@ -109,6 +112,7 @@ class SearchTest extends BaseServiceMockTest
             $this->getContentDomainMapperMock(),
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -119,10 +123,10 @@ class SearchTest extends BaseServiceMockTest
             throw $e;
         }
 
-        $this->fail('Expected exception was not thrown');
+        self::fail('Expected exception was not thrown');
     }
 
-    public function providerForFindSingleValidatesLocationCriteria()
+    public function providerForFindSingleValidatesLocationCriteria(): array
     {
         return [
             [
@@ -143,7 +147,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * @dataProvider providerForFindSingleValidatesLocationCriteria
      */
-    public function testFindSingleValidatesLocationCriteria($criterion, $exceptionMessage)
+    public function testFindSingleValidatesLocationCriteria($criterion, $exceptionMessage): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -151,23 +155,26 @@ class SearchTest extends BaseServiceMockTest
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $this->getContentDomainMapperMock(),
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
         try {
             $service->findSingle($criterion);
         } catch (InvalidArgumentException $e) {
-            $this->assertEquals($exceptionMessage, $e->getMessage());
+            self::assertEquals($exceptionMessage, $e->getMessage());
             throw $e;
         }
 
-        $this->fail('Expected exception was not thrown');
+        self::fail('Expected exception was not thrown');
     }
 
     /**
@@ -176,7 +183,7 @@ class SearchTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
-    public function testFindContentThrowsHandlerException()
+    public function testFindContentThrowsHandlerException(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -185,6 +192,7 @@ class SearchTest extends BaseServiceMockTest
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
 
         $service = new SearchService(
             $repositoryMock,
@@ -192,6 +200,7 @@ class SearchTest extends BaseServiceMockTest
             $this->getContentDomainMapperMock(),
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -205,9 +214,9 @@ class SearchTest extends BaseServiceMockTest
         $permissionsCriterionResolverMock->expects($this->once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
-            ->will($this->throwException(new Exception('Handler threw an exception')));
+            ->will(self::throwException(new Exception('Handler threw an exception')));
 
-        $service->findContent($query, [], true);
+        $service->findContent($query);
     }
 
     /**
@@ -215,12 +224,14 @@ class SearchTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
-    public function testFindContentWhenDomainMapperThrowsException()
+    public function testFindContentWhenDomainMapperThrowsException(): void
     {
         $indexer = $this->createMock(BackgroundIndexer::class);
-        $indexer->expects($this->once())
+        $indexer->expects(self::once())
             ->method('registerContent')
-            ->with($this->isInstanceOf(SPIContentInfo::class));
+            ->with(self::isInstanceOf(SPIContentInfo::class));
+
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
 
         $service = $this->getMockBuilder(SearchService::class)
             ->setConstructorArgs([
@@ -229,20 +240,21 @@ class SearchTest extends BaseServiceMockTest
                 $mapper = $this->getContentDomainMapperMock(),
                 $this->getPermissionCriterionResolverMock(),
                 $indexer,
+                $searchResultMapperRegistryMock,
             ])->setMethods(['internalFindContentInfo'])
             ->getMock();
 
         $info = new SPIContentInfo(['id' => 33]);
         $result = new SearchResult(['searchHits' => [new SearchHit(['valueObject' => $info])], 'totalCount' => 2]);
-        $service->expects($this->once())
+        $service->expects(self::once())
             ->method('internalFindContentInfo')
-            ->with($this->isInstanceOf(Query::class))
+            ->with(self::isInstanceOf(Query::class))
             ->willReturn($result);
 
-        $mapper->expects($this->once())
+        $mapper->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
-            ->with($this->equalTo($result), $this->equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($info) {
+            ->with(self::equalTo($result), self::equalTo([]))
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($info): array {
                 unset($spiResult->searchHits[0]);
                 --$spiResult->totalCount;
 
@@ -251,8 +263,8 @@ class SearchTest extends BaseServiceMockTest
 
         $finalResult = $service->findContent(new Query());
 
-        $this->assertEmpty($finalResult->searchHits, 'Expected search hits to be empty');
-        $this->assertEquals(1, $finalResult->totalCount, 'Expected total count to be 1');
+        self::assertEmpty($finalResult->searchHits, 'Expected search hits to be empty');
+        self::assertEquals(1, $finalResult->totalCount, 'Expected total count to be 1');
     }
 
     /**
@@ -261,21 +273,24 @@ class SearchTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
-    public function testFindContentNoPermissionsFilter()
+    public function testFindContentNoPermissionsFilter(): void
     {
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $repositoryMock = $this->getRepositoryMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $mapper = $this->getContentDomainMapperMock(),
-            $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock(),
+            $this->getPermissionCriterionResolverMock(),
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
-        $repositoryMock->expects($this->never())->method('getPermissionResolver');
+        $repositoryMock->expects(self::never())->method('getPermissionResolver');
 
         $serviceQuery = new Query();
         $handlerQuery = new Query(['filter' => new Criterion\MatchAll(), 'limit' => 25]);
@@ -284,11 +299,11 @@ class SearchTest extends BaseServiceMockTest
         $contentMock = $this->getMockForAbstractClass(Content::class);
 
         /* @var \PHPUnit\Framework\MockObject\MockObject $searchHandlerMock */
-        $searchHandlerMock->expects($this->once())
+        $searchHandlerMock->expects(self::once())
             ->method('findContent')
-            ->with($this->equalTo($handlerQuery), $this->equalTo($languageFilter))
+            ->with(self::equalTo($handlerQuery), self::equalTo($languageFilter))
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     new SearchResult(
                         [
                             'searchHits' => [new SearchHit(['valueObject' => $spiContentInfo])],
@@ -298,10 +313,10 @@ class SearchTest extends BaseServiceMockTest
                 )
             );
 
-        $mapper->expects($this->once())
+        $mapper->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
-            ->with($this->isInstanceOf(SearchResult::class), $this->equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock) {
+            ->with($this->isInstanceOf(SearchResult::class), self::equalTo([]))
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock): array {
                 $spiResult->searchHits[0]->valueObject = $contentMock;
 
                 return [];
@@ -309,7 +324,7 @@ class SearchTest extends BaseServiceMockTest
 
         $result = $service->findContent($serviceQuery, $languageFilter, false);
 
-        $this->assertEquals(
+        self::assertEquals(
             new SearchResult(
                 [
                     'searchHits' => [new SearchHit(['valueObject' => $contentMock])],
@@ -326,18 +341,21 @@ class SearchTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
-    public function testFindContentWithPermission()
+    public function testFindContentWithPermission(): void
     {
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $domainMapperMock = $this->getContentDomainMapperMock();
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $this->getRepositoryMock(),
             $searchHandlerMock,
             $domainMapperMock,
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -345,22 +363,23 @@ class SearchTest extends BaseServiceMockTest
             ->getMockBuilder(Criterion::class)
             ->disableOriginalConstructor()
             ->getMock();
+
         $query = new Query(['filter' => $criterionMock, 'limit' => 10]);
         $languageFilter = [];
         $spiContentInfo = new SPIContentInfo();
         $contentMock = $this->getMockForAbstractClass(Content::class);
 
-        $permissionsCriterionResolverMock->expects($this->once())
+        $permissionsCriterionResolverMock->expects(self::once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
 
         /* @var \PHPUnit\Framework\MockObject\MockObject $searchHandlerMock */
-        $searchHandlerMock->expects($this->once())
+        $searchHandlerMock->expects(self::once())
             ->method('findContent')
-            ->with($this->equalTo($query), $this->equalTo($languageFilter))
+            ->with(self::equalTo($query), self::equalTo($languageFilter))
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     new SearchResult(
                         [
                             'searchHits' => [new SearchHit(['valueObject' => $spiContentInfo])],
@@ -371,10 +390,10 @@ class SearchTest extends BaseServiceMockTest
             );
 
         $domainMapperMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
-            ->with($this->isInstanceOf(SearchResult::class), $this->equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock) {
+            ->with(self::isInstanceOf(SearchResult::class), self::equalTo([]))
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock): array {
                 $spiResult->searchHits[0]->valueObject = $contentMock;
 
                 return [];
@@ -382,7 +401,7 @@ class SearchTest extends BaseServiceMockTest
 
         $result = $service->findContent($query, $languageFilter, true);
 
-        $this->assertEquals(
+        self::assertEquals(
             new SearchResult(
                 [
                     'searchHits' => [new SearchHit(['valueObject' => $contentMock])],
@@ -399,22 +418,25 @@ class SearchTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      */
-    public function testFindContentWithNoPermission()
+    public function testFindContentWithNoPermission(): void
     {
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $this->getRepositoryMock(),
             $searchHandlerMock,
             $mapper = $this->getContentDomainMapperMock(),
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
         /* @var \PHPUnit\Framework\MockObject\MockObject $searchHandlerMock */
-        $searchHandlerMock->expects($this->never())->method('findContent');
+        $searchHandlerMock->expects(self::never())->method('findContent');
 
         $criterionMock = $this
             ->getMockBuilder(Criterion::class)
@@ -422,19 +444,19 @@ class SearchTest extends BaseServiceMockTest
             ->getMock();
         $query = new Query(['filter' => $criterionMock]);
 
-        $permissionsCriterionResolverMock->expects($this->once())
+        $permissionsCriterionResolverMock->expects(self::once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
 
-        $mapper->expects($this->once())
+        $mapper->expects(self::once())
             ->method('buildContentDomainObjectsOnSearchResult')
-            ->with($this->isInstanceOf(SearchResult::class), $this->equalTo([]))
+            ->with(self::isInstanceOf(SearchResult::class), self::equalTo([]))
             ->willReturn([]);
 
-        $result = $service->findContent($query, [], true);
+        $result = $service->findContent($query);
 
-        $this->assertEquals(
+        self::assertEquals(
             new SearchResult(['time' => 0, 'totalCount' => 0]),
             $result
         );
@@ -448,12 +470,15 @@ class SearchTest extends BaseServiceMockTest
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $domainMapperMock = $this->getContentDomainMapperMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $this->getRepositoryMock(),
             $searchHandlerMock,
             $domainMapperMock,
             $this->getPermissionCriterionResolverMock(),
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -463,7 +488,7 @@ class SearchTest extends BaseServiceMockTest
 
         /* @var \PHPUnit\Framework\MockObject\MockObject $searchHandlerMock */
         $searchHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
             ->with(
                 new Query(
@@ -475,7 +500,7 @@ class SearchTest extends BaseServiceMockTest
                 []
             )
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     new SearchResult(
                         [
                             'searchHits' => [new SearchHit(['valueObject' => $spiContentInfo])],
@@ -489,7 +514,7 @@ class SearchTest extends BaseServiceMockTest
             ->expects($this->once())
             ->method('buildContentDomainObjectsOnSearchResult')
             ->with($this->isInstanceOf(SearchResult::class), $this->equalTo([]))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($contentMock): array {
                 $spiResult->searchHits[0]->valueObject = $contentMock;
 
                 return [];
@@ -497,7 +522,7 @@ class SearchTest extends BaseServiceMockTest
 
         $result = $service->findContent(new Query(), $languageFilter, false);
 
-        $this->assertEquals(
+        self::assertEquals(
             new SearchResult(
                 [
                     'searchHits' => [new SearchHit(['valueObject' => $contentMock])],
@@ -514,19 +539,22 @@ class SearchTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findSingle
      */
-    public function testFindSingleThrowsNotFoundException()
+    public function testFindSingleThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $this->getContentDomainMapperMock(),
             $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock(),
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -550,7 +578,7 @@ class SearchTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findSingle
      */
-    public function testFindSingleThrowsHandlerException()
+    public function testFindSingleThrowsHandlerException(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -559,12 +587,15 @@ class SearchTest extends BaseServiceMockTest
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $this->getContentDomainMapperMock(),
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -588,19 +619,22 @@ class SearchTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findSingle
      */
-    public function testFindSingle()
+    public function testFindSingle(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $domainMapperMock = $this->getContentDomainMapperMock();
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $domainMapperMock,
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -654,19 +688,22 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsWithPermission()
+    public function testFindLocationsWithPermission(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $domainMapperMock = $this->getContentDomainMapperMock();
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $domainMapperMock,
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -708,13 +745,13 @@ class SearchTest extends BaseServiceMockTest
         $domainMapperMock->expects($this->once())
             ->method('buildLocationDomainObjectsOnSearchResult')
             ->with($this->equalTo($spiResult))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult): array {
                 $spiResult->searchHits[0] = $endResult->searchHits[0];
 
                 return [];
             });
 
-        $result = $service->findLocations($query, [], true);
+        $result = $service->findLocations($query);
 
         $this->assertEquals(
             $endResult,
@@ -725,19 +762,22 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsWithNoPermissionsFilter()
+    public function testFindLocationsWithNoPermissionsFilter(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $domainMapperMock = $this->getContentDomainMapperMock();
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $domainMapperMock,
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -794,12 +834,14 @@ class SearchTest extends BaseServiceMockTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
      */
-    public function testFindLocationsBackgroundIndexerWhenDomainMapperThrowsException()
+    public function testFindLocationsBackgroundIndexerWhenDomainMapperThrowsException(): void
     {
         $indexer = $this->createMock(BackgroundIndexer::class);
         $indexer->expects($this->once())
             ->method('registerLocation')
             ->with($this->isInstanceOf(SPILocation::class));
+
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
 
         $service = $this->getMockBuilder(SearchService::class)
             ->setConstructorArgs([
@@ -808,6 +850,7 @@ class SearchTest extends BaseServiceMockTest
                 $mapper = $this->getContentDomainMapperMock(),
                 $this->getPermissionCriterionResolverMock(),
                 $indexer,
+                $searchResultMapperRegistryMock,
             ])->setMethods(['addPermissionsCriterion'])
             ->getMock();
 
@@ -826,7 +869,7 @@ class SearchTest extends BaseServiceMockTest
         $mapper->expects($this->once())
             ->method('buildLocationDomainObjectsOnSearchResult')
             ->with($this->equalTo($result))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($location) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($location): array {
                 unset($spiResult->searchHits[0]);
                 --$spiResult->totalCount;
 
@@ -842,7 +885,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsThrowsHandlerException()
+    public function testFindLocationsThrowsHandlerException(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -851,6 +894,7 @@ class SearchTest extends BaseServiceMockTest
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
 
         $service = new SearchService(
             $repositoryMock,
@@ -858,6 +902,7 @@ class SearchTest extends BaseServiceMockTest
             $this->getContentDomainMapperMock(),
             $permissionsCriterionResolverMock,
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -873,24 +918,27 @@ class SearchTest extends BaseServiceMockTest
             ->with('content', 'read')
             ->will($this->throwException(new Exception('Handler threw an exception')));
 
-        $service->findLocations($query, [], true);
+        $service->findLocations($query);
     }
 
     /**
      * Test for the findLocations() method.
      */
-    public function testFindLocationsWithDefaultQueryValues()
+    public function testFindLocationsWithDefaultQueryValues(): void
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $domainMapperMock = $this->getContentDomainMapperMock();
+        $searchResultMapperRegistryMock = $this->getSearchResultMapperRegistryMock();
+
         $service = new SearchService(
             $repositoryMock,
             $searchHandlerMock,
             $domainMapperMock,
             $this->getPermissionCriterionResolverMock(),
             new NullIndexer(),
+            $searchResultMapperRegistryMock,
             []
         );
 
@@ -930,7 +978,7 @@ class SearchTest extends BaseServiceMockTest
         $domainMapperMock->expects($this->once())
             ->method('buildLocationDomainObjectsOnSearchResult')
             ->with($this->equalTo($spiResult))
-            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult) {
+            ->willReturnCallback(static function (SearchResult $spiResult) use ($endResult): array {
                 $spiResult->searchHits[0] = $endResult->searchHits[0];
 
                 return [];
@@ -947,7 +995,7 @@ class SearchTest extends BaseServiceMockTest
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\PermissionCriterionResolver
      */
-    protected function getPermissionCriterionResolverMock()
+    protected function getPermissionCriterionResolverMock(): PermissionCriterionResolver
     {
         if (!isset($this->permissionsCriterionResolverMock)) {
             $this->permissionsCriterionResolverMock = $this

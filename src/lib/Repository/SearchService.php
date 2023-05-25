@@ -20,12 +20,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location as LocationSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Search\SearchContextInterface;
 use Ibexa\Contracts\Core\Search\Capable;
 use Ibexa\Contracts\Core\Search\Handler;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
+use Ibexa\Core\Repository\Mapper\SearchHitMapperRegistryInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
 
 /**
@@ -33,23 +35,19 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
  */
 class SearchService implements SearchServiceInterface
 {
-    /** @var \Ibexa\Core\Repository\Repository */
-    protected $repository;
+    protected RepositoryInterface $repository;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
-    protected $searchHandler;
+    protected Handler $searchHandler;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    protected $contentDomainMapper;
+    protected ContentDomainMapper $contentDomainMapper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
-    protected $permissionCriterionResolver;
+    protected PermissionCriterionResolver $permissionCriterionResolver;
 
-    /** @var \Ibexa\Core\Search\Common\BackgroundIndexer */
-    protected $backgroundIndexer;
+    protected BackgroundIndexer $backgroundIndexer;
+
+    protected SearchHitMapperRegistryInterface $searchHitMapperRegistry;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -67,6 +65,7 @@ class SearchService implements SearchServiceInterface
         ContentDomainMapper $contentDomainMapper,
         PermissionCriterionResolver $permissionCriterionResolver,
         BackgroundIndexer $backgroundIndexer,
+        SearchHitMapperRegistryInterface $searchHitMapperRegistry,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -78,6 +77,70 @@ class SearchService implements SearchServiceInterface
         ];
         $this->permissionCriterionResolver = $permissionCriterionResolver;
         $this->backgroundIndexer = $backgroundIndexer;
+        $this->searchHitMapperRegistry = $searchHitMapperRegistry;
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function find(Query $query, SearchContextInterface $context = null): SearchResult
+    {
+        $domainObjects = [];
+        $result = $this->internalFind($query, $context);
+
+        foreach ($result->searchHits as $hit) {
+            $domainObject = $this->searchHitMapperRegistry
+                ->getMapper($hit)
+                ->buildObjectOnSearchHit($hit, $context);
+
+            if ($domainObject !== null) {
+                $domainObjects[] = $domainObject;
+            }
+        }
+
+        $result->searchHits = $domainObjects;
+
+        return $result;
+    }
+
+    /**
+     * Finds persistence objects for the given query.
+     *
+     * Internal for use by {@link find}.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
+     */
+    protected function internalFind(Query $query, SearchContextInterface $context = null): SearchResult
+    {
+        if (!is_int($query->offset)) {
+            throw new InvalidArgumentType(
+                '$query->offset',
+                'integer',
+                $query->offset
+            );
+        }
+
+        if (!is_int($query->limit)) {
+            throw new InvalidArgumentType(
+                '$query->limit',
+                'integer',
+                $query->limit
+            );
+        }
+
+        $query = clone $query;
+        $query->filter = $query->filter ?: new Criterion\MatchAll();
+
+        $this->validateContentCriteria([$query->query], '$query');
+        $this->validateContentCriteria([$query->filter], '$query');
+        $this->validateContentSortClauses($query);
+
+        $doesFilterOnUserPermissions = $context !== null && $context->doesFilterOnUserPermissions();
+        if ($doesFilterOnUserPermissions && !$this->addPermissionsCriterion($query->filter)) {
+            return new SearchResult(['time' => 0, 'totalCount' => 0]);
+        }
+
+        return $this->searchHandler->find($query, $context);
     }
 
     /**

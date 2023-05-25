@@ -24,6 +24,8 @@ use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
+use Ibexa\Core\Repository\Mapper\SearchHitMapperInterface;
+use Ibexa\Core\Repository\Mapper\SearchHitMapperRegistryInterface;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\Repository;
@@ -109,6 +111,7 @@ abstract class Base extends TestCase
                 $this->getPersistenceMock(),
                 $this->getSPIMockHandler('Search\\Handler'),
                 new NullIndexer(),
+                $this->getSearchResultMapperRegistryMock(),
                 $this->getRelationProcessorMock(),
                 $this->getFieldTypeRegistryMock(),
                 $this->createMock(PasswordHashService::class),
@@ -431,6 +434,27 @@ abstract class Base extends TestCase
         }
 
         return $this->contentFilteringHandlerMock;
+    }
+
+    /**
+     * @return \Ibexa\Core\Repository\Mapper\SearchHitMapperRegistryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getSearchResultMapperRegistryMock(): SearchHitMapperRegistryInterface
+    {
+        $domainMapper = $this->createMock(SearchHitMapperInterface::class);
+        $searchResultMapperRegistryMock = $this->createMock(
+            SearchHitMapperRegistryInterface::class
+        );
+
+        $searchResultMapperRegistryMock
+            ->method('hasMapper')
+            ->willReturn(true);
+
+        $searchResultMapperRegistryMock
+            ->method('getMapper')
+            ->willReturn($domainMapper);
+
+        return $searchResultMapperRegistryMock;
     }
 
     private function getLocationFilteringHandlerMock(): LocationFilteringHandler

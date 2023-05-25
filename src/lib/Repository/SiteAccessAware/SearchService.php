@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Search\SearchContextInterface;
 
 /**
  * SiteAccess aware implementation of SearchService injecting languages where needed.
@@ -39,6 +40,22 @@ class SearchService implements SearchServiceInterface
     ) {
         $this->service = $service;
         $this->languageResolver = $languageResolver;
+    }
+
+    public function find(Query $query, SearchContextInterface $context = null): SearchResult
+    {
+        $languageFilter = $context !== null ? $context->getLanguageFilter() : [];
+        $languageFilter['languages'] = $this->languageResolver->getPrioritizedLanguages(
+            $languageFilter['languages'] ?? null
+        );
+
+        $languageFilter['useAlwaysAvailable'] = $this->languageResolver->getUseAlwaysAvailable(
+            $languageFilter['useAlwaysAvailable'] ?? null
+        );
+
+        $context->setLanguageFilter($languageFilter);
+
+        return $this->service->find($query, $context);
     }
 
     public function findContent(Query $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult

@@ -234,7 +234,7 @@ class HandlerTest extends TestCase
         if (!isset(self::$legacyHandler)) {
             $container = $this->getContainer();
 
-            self::$legacyHandler = $container->get(\Ibexa\Core\Persistence\Legacy\Handler::class);
+            self::$legacyHandler = $container->get(Handler::class);
         }
 
         return self::$legacyHandler;
