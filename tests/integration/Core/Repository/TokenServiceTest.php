@@ -134,14 +134,16 @@ final class TokenServiceTest extends IbexaKernelTestCase
 
         $this->tokenService->revokeToken($token);
 
-        self::assertSame(
-            $token,
-            $this->tokenService->getToken(
-                $token->getType(),
-                $token->getToken(),
-                $token->getIdentifier()
-            )
+        $revokedToken = $this->tokenService->getToken(
+            $token->getType(),
+            $token->getToken(),
+            $token->getIdentifier()
         );
+
+        self::assertSame($token->getType(), $revokedToken->getType());
+        self::assertSame($token->getToken(), $revokedToken->getToken());
+        self::assertSame($token->getIdentifier(), $revokedToken->getIdentifier());
+        self::assertTrue($revokedToken->isRevoked());
 
         self::assertFalse(
             $this->tokenService->checkToken(
