@@ -104,6 +104,11 @@ final class Handler implements HandlerInterface
         );
     }
 
+    public function revokeTokenById(int $tokenId): void
+    {
+        $this->tokenGateway->revoke($tokenId);
+    }
+
     public function deleteToken(Token $token): void
     {
         $this->deleteTokenById($token->id);

@@ -36,5 +36,7 @@ interface TokenService
         ?TokenGeneratorInterface $tokenGenerator = null
     ): Token;
 
+    public function revokeToken(Token $token): void;
+
     public function deleteToken(Token $token): void;
 }

@@ -27,13 +27,16 @@ final class Token extends ValueObject
 
     private DateTimeImmutable $expires;
 
+    private bool $revoked;
+
     public function __construct(
         int $id,
         string $type,
         string $token,
         ?string $identifier,
         DateTimeImmutable $created,
-        DateTimeImmutable $expires
+        DateTimeImmutable $expires,
+        bool $revoked
     ) {
         parent::__construct();
 
@@ -43,6 +46,7 @@ final class Token extends ValueObject
         $this->identifier = $identifier;
         $this->created = $created;
         $this->expires = $expires;
+        $this->revoked = $revoked;
     }
 
     public function getId(): int
@@ -73,6 +77,11 @@ final class Token extends ValueObject
     public function getExpires(): DateTimeImmutable
     {
         return $this->expires;
+    }
+
+    public function isRevoked(): bool
+    {
+        return $this->revoked;
     }
 
     public function __toString(): string

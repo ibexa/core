@@ -20,6 +20,8 @@ interface Gateway
         int $ttl
     ): int;
 
+    public function revoke(int $tokenId): void;
+
     /**
      * @throws \Doctrine\DBAL\Exception
      */

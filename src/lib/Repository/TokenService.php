@@ -65,9 +65,9 @@ final class TokenService implements TokenServiceInterface
         ?string $identifier = null
     ): bool {
         try {
-            $this->getToken($tokenType, $token, $identifier);
+            $token = $this->getToken($tokenType, $token, $identifier);
 
-            return true;
+            return !$token->isRevoked();
         } catch (NotFoundException|UnauthorizedException $exception) {
             return false;
         }
@@ -104,6 +104,11 @@ final class TokenService implements TokenServiceInterface
         );
     }
 
+    public function revokeToken(Token $token): void
+    {
+        $this->persistenceHandler->revokeTokenById($token->getId());
+    }
+
     public function deleteToken(Token $token): void
     {
         $this->persistenceHandler->deleteTokenById($token->getId());
@@ -122,7 +127,8 @@ final class TokenService implements TokenServiceInterface
             $token->token,
             $token->identifier,
             new DateTimeImmutable('@' . $token->created),
-            new DateTimeImmutable('@' . $token->expires)
+            new DateTimeImmutable('@' . $token->expires),
+            $token->revoked
         );
     }
 }

@@ -663,3 +663,4 @@ tables:
             identifier: { type: string, nullable: true, length: 128 }
             created: { type: integer, nullable: false, options: { default: '0' } }
             expires: { type: integer, nullable: false, options: { default: '0' } }
+            revoked: { type: boolean, nullable: false, options: { default: '0' } }

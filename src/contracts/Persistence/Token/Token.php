@@ -26,4 +26,6 @@ final class Token extends ValueObject
     public int $created;
 
     public int $expires;
+
+    public bool $revoked;
 }
