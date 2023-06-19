@@ -42,6 +42,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
@@ -50,6 +51,7 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RuntimeException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Repository class.
@@ -265,6 +267,8 @@ class Repository implements RepositoryInterface
     private $passwordValidator;
 
     private ConfigResolverInterface $configResolver;
+    private EventDispatcherInterface $eventDispatcher;
+    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     public function __construct(
         PersistenceHandler $persistenceHandler,
@@ -287,6 +291,8 @@ class Repository implements RepositoryInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
+        EventDispatcherInterface $eventDispatcher,
+        SchemaIdentifierExtractor $schemaIdentifierExtractor,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -337,6 +343,8 @@ class Repository implements RepositoryInterface
         $this->contentValidator = $contentValidator;
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -747,6 +755,8 @@ class Repository implements RepositoryInterface
             $this->persistenceHandler->contentTypeHandler(),
             $this->contentTypeDomainMapper,
             $this->fieldTypeRegistry,
+            $this->schemaIdentifierExtractor,
+            $this->eventDispatcher,
             $this->serviceSettings['nameSchema']
         );
 

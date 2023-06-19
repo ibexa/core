@@ -27,6 +27,8 @@ use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
+use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Repository class.
@@ -68,6 +70,8 @@ class Repository implements RepositoryInterface
 
     /** @var \Ibexa\Core\Repository\NotificationService */
     protected $notificationService;
+    private EventDispatcherInterface $eventDispatcher;
+    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     /**
      * Construct repository object from aggregated repository.
@@ -84,7 +88,9 @@ class Repository implements RepositoryInterface
         TrashService $trashService,
         LocationService $locationService,
         LanguageService $languageService,
-        NotificationService $notificationService
+        NotificationService $notificationService,
+        EventDispatcherInterface $eventDispatcher,
+        SchemaIdentifierExtractor $schemaIdentifierExtractor
     ) {
         $this->repository = $repository;
         $this->contentService = $contentService;
@@ -98,6 +104,8 @@ class Repository implements RepositoryInterface
         $this->locationService = $locationService;
         $this->languageService = $languageService;
         $this->notificationService = $notificationService;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -208,6 +216,16 @@ class Repository implements RepositoryInterface
     public function rollback(): void
     {
         $this->repository->rollback();
+    }
+
+    public function getEventDispatcher(): EventDispatcherInterface
+    {
+        return $this->eventDispatcher;
+    }
+
+    public function getSchemaIdentifierExtractor(): SchemaIdentifierExtractor
+    {
+        return $this->schemaIdentifierExtractor;
     }
 }
 

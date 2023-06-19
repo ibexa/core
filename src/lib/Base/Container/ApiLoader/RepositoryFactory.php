@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
@@ -27,6 +28,7 @@ use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RepositoryFactory implements ContainerAwareInterface
 {
@@ -83,6 +85,8 @@ class RepositoryFactory implements ContainerAwareInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
+        EventDispatcherInterface $eventDispatcher,
+        SchemaIdentifierExtractor $schemaIdentifierExtractor,
         array $languages
     ): Repository {
         return new $this->repositoryClass(
@@ -106,6 +110,8 @@ class RepositoryFactory implements ContainerAwareInterface
             $locationFilteringHandler,
             $passwordValidator,
             $configResolver,
+            $eventDispatcher,
+            $schemaIdentifierExtractor,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,
