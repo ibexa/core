@@ -363,3 +363,7 @@ services:
             $entityManagers: '%doctrine.entity_managers%'
             
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
+
+    Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }

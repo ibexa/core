@@ -20,6 +20,8 @@ services:
             - '@Ibexa\Core\Repository\SiteAccessAware\LocationService'
             - '@Ibexa\Core\Repository\SiteAccessAware\LanguageService'
             - '@Ibexa\Core\Repository\SiteAccessAware\NotificationService'
+            - '@event_dispatcher'
+            - '@Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor'
 
     Ibexa\Core\Repository\SiteAccessAware\ContentService:
         arguments:

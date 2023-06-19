@@ -27,6 +27,8 @@ use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
+use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class Repository implements RepositoryInterface
 {
@@ -83,6 +85,8 @@ final class Repository implements RepositoryInterface
 
     /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
+    private EventDispatcherInterface $eventDispatcher;
+    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     public function __construct(
         RepositoryInterface $repository,
@@ -102,7 +106,9 @@ final class Repository implements RepositoryInterface
         URLServiceInterface $urlService,
         URLWildcardServiceInterface $urlWildcardService,
         UserPreferenceServiceInterface $userPreferenceService,
-        UserServiceInterface $userService
+        UserServiceInterface $userService,
+        EventDispatcherInterface $eventDispatcher,
+        SchemaIdentifierExtractor $schemaIdentifierExtractor
     ) {
         $this->repository = $repository;
         $this->bookmarkService = $bookmarkService;
@@ -122,6 +128,8 @@ final class Repository implements RepositoryInterface
         $this->urlWildcardService = $urlWildcardService;
         $this->userPreferenceService = $userPreferenceService;
         $this->userService = $userService;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -232,6 +240,16 @@ final class Repository implements RepositoryInterface
     public function getUserService(): UserServiceInterface
     {
         return $this->userService;
+    }
+
+    public function getEventDispatcher(): EventDispatcherInterface
+    {
+        return $this->eventDispatcher;
+    }
+
+    public function getSchemaIdentifierExtractor(): SchemaIdentifierExtractor
+    {
+        return $this->schemaIdentifierExtractor;
     }
 }
 

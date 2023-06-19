@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
@@ -28,6 +29,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RepositoryFactory implements ContainerAwareInterface
 {
@@ -51,12 +53,16 @@ class RepositoryFactory implements ContainerAwareInterface
 
     /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
     private $languageResolver;
+    private EventDispatcherInterface $eventDispatcher;
+    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     public function __construct(
         ConfigResolverInterface $configResolver,
         $repositoryClass,
         array $policyMap,
         LanguageResolver $languageResolver,
+        EventDispatcherInterface $eventDispatcher,
+        SchemaIdentifierExtractor $schemaIdentifierExtractor,
         LoggerInterface $logger = null
     ) {
         $this->configResolver = $configResolver;
@@ -64,6 +70,8 @@ class RepositoryFactory implements ContainerAwareInterface
         $this->policyMap = $policyMap;
         $this->languageResolver = $languageResolver;
         $this->logger = null !== $logger ? $logger : new NullLogger();
+        $this->eventDispatcher = $eventDispatcher;
+        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
     /**
@@ -93,7 +101,7 @@ class RepositoryFactory implements ContainerAwareInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver
     ): Repository {
-        $config = $this->container->get(\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider::class)->getRepositoryConfig();
+        $config = $this->container->get(RepositoryConfigurationProvider::class)->getRepositoryConfig();
 
         return new $this->repositoryClass(
             $persistenceHandler,
@@ -116,6 +124,8 @@ class RepositoryFactory implements ContainerAwareInterface
             $locationFilteringHandler,
             $passwordValidator,
             $configResolver,
+            $this->eventDispatcher,
+            $this->schemaIdentifierExtractor,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

@@ -6,13 +6,13 @@
  */
 namespace Ibexa\Core\Repository\Helper;
 
-use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * NameSchemaService is internal service for resolving content name and url alias patterns.
@@ -58,6 +58,8 @@ class NameSchemaService
 
     /** @var array */
     protected $settings;
+    private EventDispatcherInterface $eventDispatcher;
+    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     /**
      * Constructs a object to resolve $nameSchema with $contentVersion fields values.
@@ -66,11 +68,15 @@ class NameSchemaService
      * @param \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper $contentTypeDomainMapper
      * @param \Ibexa\Core\FieldType\FieldTypeRegistry $fieldTypeRegistry
      * @param array $settings
+     * @param SchemaIdentifierExtractor $schemaIdentifierExtractor
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         ContentTypeHandler $contentTypeHandler,
         ContentTypeDomainMapper $contentTypeDomainMapper,
         FieldTypeRegistry $fieldTypeRegistry,
+        SchemaIdentifierExtractor $schemaIdentifierExtractor,
+        EventDispatcherInterface $eventDispatcher,
         array $settings = []
     ) {
         $this->contentTypeHandler = $contentTypeHandler;
@@ -81,6 +87,8 @@ class NameSchemaService
             'limit' => 150,
             'sequence' => '...',
         ];
+        $this->eventDispatcher = $eventDispatcher;
+        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
     /**
@@ -91,18 +99,25 @@ class NameSchemaService
      *
      * @return array
      */
-    public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null)
+    public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null):array
     {
-        if ($contentType === null) {
-            $contentType = $this->contentTypeHandler->load($content->contentInfo->contentTypeId);
-        }
+        $contentType = $contentType ?? $content->getContentType();
+        $schemaName = $contentType->urlAliasSchema ?? $contentType->nameSchema;
+        $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
-        return $this->resolve(
-            strlen($contentType->urlAliasSchema) === 0 ? $contentType->nameSchema : $contentType->urlAliasSchema,
-            $contentType,
-            $content->fields,
-            $content->versionInfo->languageCodes
+        $event = new ResolveUrlAliasSchemaEvent(
+            $schemaName,
+            $schemaIdentifiers,
+            $content,
+            $contentType
         );
+
+        /** @var ResolveUrlAliasSchemaEvent $event */
+        $this->eventDispatcher->dispatch(
+            $event
+        );
+
+        return [];
     }
 
     /**
@@ -166,19 +181,41 @@ class NameSchemaService
     /**
      * Returns the real name for a content name pattern.
      *
+     * @deprecated
+     *
      * @param string $nameSchema
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type|\Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param array $fieldMap
      * @param array $languageCodes
      *
      * @return string[]
      */
-    public function resolve($nameSchema, $contentType, array $fieldMap, array $languageCodes)
+    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes)
     {
         list($filteredNameSchema, $groupLookupTable) = $this->filterNameSchema($nameSchema);
         $tokens = $this->extractTokens($filteredNameSchema);
         $schemaIdentifiers = $this->getIdentifiers($nameSchema);
 
+/*
+ * <x|y>-<name>-<attribute:xyz>
+ * <x|y>-<name>-<attribute:xyz|name>
+ *
+ * Array
+(
+    [field] => Array
+        (
+            [0] => x
+            [1] => y
+            [2] => name
+        )
+
+    [attribute] => Array
+        (
+            [0] => xyz
+        )
+    [xyz] =>
+)
+ */
         $names = [];
 
         foreach ($languageCodes as $languageCode) {
@@ -191,7 +228,7 @@ class NameSchemaService
                 $string = $this->resolveToken($token, $titles, $groupLookupTable);
                 $name = str_replace($token, $string, $name);
             }
-
+//<name>-<attr_xxx>
             // Make sure length is not longer then $limit unless it's 0
             if ($this->settings['limit'] && mb_strlen($name) > $this->settings['limit']) {
                 $name = rtrim(mb_substr($name, 0, $this->settings['limit'] - strlen($this->settings['sequence']))) . $this->settings['sequence'];
@@ -210,7 +247,7 @@ class NameSchemaService
      * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
      *
      * @param string[] $schemaIdentifiers
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type|\Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param array $fieldMap
      * @param string $languageCode
      *
@@ -218,40 +255,19 @@ class NameSchemaService
      *
      * @return string[] Key is the field identifier, value is the title value
      */
-    protected function getFieldTitles(array $schemaIdentifiers, $contentType, array $fieldMap, $languageCode)
+    protected function getFieldTitles(array $schemaIdentifiers, ContentType $contentType, array $fieldMap, string $languageCode): array
     {
         $fieldTitles = [];
 
         foreach ($schemaIdentifiers as $fieldDefinitionIdentifier) {
             if (isset($fieldMap[$fieldDefinitionIdentifier][$languageCode])) {
-                if ($contentType instanceof SPIContentType) {
-                    $fieldDefinition = null;
-                    foreach ($contentType->fieldDefinitions as $spiFieldDefinition) {
-                        if ($spiFieldDefinition->identifier === $fieldDefinitionIdentifier) {
-                            $fieldDefinition = $this->contentTypeDomainMapper->buildFieldDefinitionDomainObject(
-                                $spiFieldDefinition,
-                                // This is probably not main language, but as we don't expose it, it's ok for now.
-                                $languageCode
-                            );
-                            break;
-                        }
-                    }
+                $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
 
-                    if ($fieldDefinition === null) {
-                        $fieldTitles[$fieldDefinitionIdentifier] = '';
-                        continue;
-                    }
-                } elseif ($contentType instanceof ContentType) {
-                    $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
-                } else {
-                    throw new InvalidArgumentType('$contentType', 'API or SPI variant of a Content Type');
-                }
-
-                $fieldTypeService = $this->fieldTypeRegistry->getFieldType(
+                $persistenceFieldType = $this->fieldTypeRegistry->getFieldType(
                     $fieldDefinition->fieldTypeIdentifier
                 );
 
-                $fieldTitles[$fieldDefinitionIdentifier] = $fieldTypeService->getName(
+                $fieldTitles[$fieldDefinitionIdentifier] = $persistenceFieldType->getName(
                     $fieldMap[$fieldDefinitionIdentifier][$languageCode],
                     $fieldDefinition,
                     $languageCode
@@ -296,7 +312,7 @@ class NameSchemaService
      *
      * @return string
      */
-    protected function resolveToken($token, $titles, $groupLookupTable)
+    protected function resolveToken(string $token, array $titles, array $groupLookupTable): string
     {
         $replaceString = '';
         $tokenParts = $this->tokenParts($token);
@@ -342,7 +358,7 @@ class NameSchemaService
      *
      * @return bool
      */
-    protected function isTokenGroup($identifier)
+    protected function isTokenGroup(string $identifier): bool
     {
         if (strpos($identifier, self::META_STRING) === false) {
             return false;
@@ -365,7 +381,7 @@ class NameSchemaService
      *
      * @return array
      */
-    protected function tokenParts($token)
+    protected function tokenParts(string $token): array
     {
         return preg_split('#\\W#', $token, -1, PREG_SPLIT_NO_EMPTY);
     }
@@ -380,9 +396,9 @@ class NameSchemaService
      *
      * @param string $nameSchema
      *
-     * @return string
+     * @return array
      */
-    protected function filterNameSchema($nameSchema)
+    protected function filterNameSchema(string $nameSchema): array
     {
         $retNamePattern = '';
         $foundGroups = preg_match_all('/[<|\\|](\\(.+\\))[\\||>]/U', $nameSchema, $groupArray);
@@ -416,27 +432,18 @@ class NameSchemaService
      *
      * @return array
      */
-    protected function getIdentifiers($schemaString)
+    protected function getIdentifiers(string $schemaString): array
     {
-        $allTokens = '#<(.*)>#U';
-        $identifiers = '#\\W#';
+        $allTokensPattern = '#<(.*)>#U';
+        $identifiersPattern = '#([^<>]+)#';
 
-        $tmpArray = [];
-        preg_match_all($allTokens, $schemaString, $matches);
-
-        foreach ($matches[1] as $match) {
-            $tmpArray[] = preg_split($identifiers, $match, -1, PREG_SPLIT_NO_EMPTY);
-        }
+        $matches = [];
+        preg_match_all($allTokensPattern, $schemaString, $matches);
 
         $retArray = [];
-        foreach ($tmpArray as $matchGroup) {
-            if (is_array($matchGroup)) {
-                foreach ($matchGroup as $item) {
-                    $retArray[] = $item;
-                }
-            } else {
-                $retArray[] = $matchGroup;
-            }
+        foreach ($matches[1] as $match) {
+            preg_match_all($identifiersPattern, $match, $tokens);
+            $retArray = array_merge($retArray, $tokens[1]);
         }
 
         return $retArray;

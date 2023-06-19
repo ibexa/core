@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\FieldTypeService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
@@ -38,6 +39,7 @@ use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Search\Common\BackgroundIndexer\NullIndexer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Base test case for tests on services using Mock testing.
@@ -126,6 +128,8 @@ abstract class Base extends TestCase
                 $this->getLocationFilteringHandlerMock(),
                 $this->createMock(PasswordValidatorInterface::class),
                 $this->createMock(ConfigResolverInterface::class),
+                $this->createMock(EventDispatcherInterface::class),
+                $this->createMock(SchemaIdentifierExtractor::class),
                 $serviceSettings,
             );
 
