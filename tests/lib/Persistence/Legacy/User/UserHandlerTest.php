@@ -1067,12 +1067,12 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleAssignmentsByRoleId()
+    public function testLoadRoleAssignmentsByRoleId(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\RoleAssignment(
                     [
@@ -1097,6 +1097,32 @@ class UserHandlerTest extends TestCase
                 ),
             ],
             $handler->loadRoleAssignmentsByRoleId(1)
+        );
+    }
+
+    public function testLoadRoleAssignmentsByRoleIdWithOffsetAndLimit(): void
+    {
+        $this->insertSharedDatabaseFixture();
+        $handler = $this->getUserHandler();
+
+        self::assertEquals(
+            [
+                new Persistence\User\RoleAssignment(
+                    [
+                        'id' => 28,
+                        'roleId' => 1,
+                        'contentId' => 11,
+                    ]
+                ),
+                new Persistence\User\RoleAssignment(
+                    [
+                        'id' => 31,
+                        'roleId' => 1,
+                        'contentId' => 42,
+                    ]
+                ),
+            ],
+            $handler->loadRoleAssignmentsByRoleIdWithOffsetAndLimit(1, 0, 2)
         );
     }
 
