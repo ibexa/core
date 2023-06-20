@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
@@ -20,10 +21,12 @@ use Ibexa\Contracts\Core\Repository\Values\User\Policy;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Role;
+use Ibexa\Contracts\Core\Repository\Values\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCopyStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\RoleUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
 
@@ -1790,7 +1793,7 @@ class RoleServiceTest extends BaseTest
         $roleService = $repository->getRoleService();
         $user = $repository->getUserService()->loadUser(14);
 
-        // Check inital empty assigments (also warms up potential cache to validate it is correct below)
+        // Check initial empty assignments (also warms up potential cache to validate it is correct below)
         $this->assertCount(0, $roleService->getRoleAssignmentsForUser($user));
 
         // Assignment to user group
@@ -1875,6 +1878,100 @@ class RoleServiceTest extends BaseTest
             'Subtree',
             reset($roleAssignments)->limitation->getIdentifier()
         );
+    }
+
+    /**
+     * @covers \Ibexa\Contracts\Core\Repository\RoleService::loadRoleAssignments()
+     */
+    public function testLoadRoleAssignments(): void
+    {
+        $repository = $this->getRepository();
+        $roleService = $repository->getRoleService();
+
+        $role = $this->createRoleWithPolicies('testLoadRoleAssignments', []);
+        $user = $this->createUser('test', 'Test', 'Test');
+        $user2 = $this->createUser('test2', 'Test2', 'Test2');
+
+        $roleService->assignRoleToUser($role, $user);
+        $roleService->assignRoleToUser($role, $user2);
+
+        $loadedRole = $roleService->loadRole($role->id);
+
+        $roleAssignments = $roleService->loadRoleAssignments($loadedRole, 0, 1);
+
+        self::assertCount(1, $roleAssignments);
+        self::assertInstanceOf(UserRoleAssignment::class, $roleAssignments[0]);
+    }
+
+    /**
+     * @covers \Ibexa\Contracts\Core\Repository\RoleService::countRoleAssignments()
+     */
+    public function testLoadRoleAssignmentsWithDeletedUser(): void
+    {
+        $repository = $this->getRepository();
+        $roleService = $repository->getRoleService();
+        $userService = $repository->getUserService();
+
+        $role = $roleService->loadRoleByIdentifier('Editor');
+        $roleAssignments = $roleService->loadRoleAssignments($role);
+        $expectedCount = count($roleAssignments);
+
+        // Adding user should add '1' to the assignments count
+        $newUser = $this->createUser('login', 'Test', 'Test');
+        $roleService->assignRoleToUser($role, $newUser);
+        ++$expectedCount;
+
+        $roleAssignments = $roleService->loadRoleAssignments($role);
+
+        self::assertCount($expectedCount, $roleAssignments);
+
+        // Removing user should subtract '1' from the assignments count
+        $userService->deleteUser($newUser);
+        --$expectedCount;
+
+        $roleAssignments = $roleService->loadRoleAssignments($role);
+
+        self::assertCount($expectedCount, $roleAssignments);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testCountRoleAssignmentsAfterRemovingRoleAssignment(): void
+    {
+        $repository = $this->getRepository();
+        $roleService = $repository->getRoleService();
+
+        $role = $roleService->loadRoleByIdentifier('Editor');
+        $newUser = $this->createUser('login', 'Test', 'Test');
+        $roleService->assignRoleToUser($role, $newUser);
+        $roleAssignmentsCount = $roleService->countRoleAssignments($role);
+
+        $userRoleAssignment = $this->loadRoleAssignmentForUser($roleService, $role, $newUser);
+        $roleService->removeRoleAssignment($userRoleAssignment);
+
+        self::assertEquals($roleAssignmentsCount - 1, $roleService->countRoleAssignments($role));
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testCountRoleAssignmentsAfterDeletingUser(): void
+    {
+        $repository = $this->getRepository();
+        $roleService = $repository->getRoleService();
+        $userService = $repository->getUserService();
+
+        $role = $roleService->loadRoleByIdentifier('Editor');
+        $newUser = $this->createUser('login', 'Test', 'Test');
+        $roleService->assignRoleToUser($role, $newUser);
+
+        $roleAssignmentsCount = $roleService->countRoleAssignments($role);
+
+        $userService->deleteUser($newUser);
+        $afterUserDeleteCount = $roleService->countRoleAssignments($role);
+
+        self::assertEquals($roleAssignmentsCount - 1, $afterUserDeleteCount);
     }
 
     /**
@@ -2963,6 +3060,21 @@ class RoleServiceTest extends BaseTest
         /* END: Inline */
 
         return $userGroup;
+    }
+
+    private function loadRoleAssignmentForUser(RoleService $roleService, Role $role, User $newUser): UserRoleAssignment
+    {
+        [$userRoleAssignment] = array_values(
+            array_filter(
+                (array)$roleService->getRoleAssignments($role),
+                static function (RoleAssignment $roleAssignment) use ($newUser): bool {
+                    return $roleAssignment instanceof UserRoleAssignment
+                        && $roleAssignment->getUser()->login === $newUser->login;
+                }
+            )
+        );
+
+        return $userRoleAssignment;
     }
 }
 
