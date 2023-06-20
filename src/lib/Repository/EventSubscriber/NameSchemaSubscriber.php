@@ -12,55 +12,32 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ResolveUrlAliasSchemaEvent::class => 'onResolveUrlAliasSchema',
+            ResolveUrlAliasSchemaEvent::class => [
+                ['onResolveUrlAliasSchema', 0],
+            ],
         ];
     }
+
 
     public function onResolveUrlAliasSchema(ResolveUrlAliasSchemaEvent $event): void
     {
         $inputString = $event->getSchemaName();
-        $identifiers = $event->getSchemaIdentifiers()['field'] ?? [];
-        $contentType = $event->getContentType();
+        $content = $event->getContent();
         $languageCodes = $event->getContent()->versionInfo->languageCodes;
 
         $names = [];
 
         foreach ($languageCodes as $languageCode) {
-            $replacedString = $inputString;
+            $pattern = '/<(\w+)>/';
+            $stringToReplace = $names[$languageCode] ?? $inputString;
+            $stringToReplace = preg_replace_callback($pattern, function ($matches) use ($content, $languageCode) {
+                $fieldIdentifier = $matches[1];
 
-            foreach ($identifiers as $identifier) {
-                $replacedString = $this->replacePlaceholdersInString(
-                    $replacedString,
-                    $identifier,
-                    $contentType
-                );
-            }
-
-            $names[$languageCode] = $replacedString;
+                return $content->getFieldValue($fieldIdentifier, $languageCode);
+            }, $stringToReplace);
+            $names[$languageCode] = $stringToReplace;
         }
 
         $event->setNames($names);
-    }
-
-    private function replacePlaceholdersInString(
-        string $inputString,
-        string $identifier,
-        $contentType
-    ): string {
-        $pattern = '/<(\w+)>/';
-
-        return preg_replace_callback($pattern, function ($matches) use ($identifier, $contentType) {
-            $fieldIdentifier = $matches[1];
-
-            foreach ($contentType->getFieldDefinitions() as $key => $fieldDefinition) {
-                if ($identifier == $key) {
-                    if (isset($replacementValues[$fieldIdentifier])) {
-                        return $replacementValues[$fieldIdentifier];
-                    }
-                }
-            }
-
-            return ''; // Return the original token if no replacement value found
-        }, $inputString);
     }
 }

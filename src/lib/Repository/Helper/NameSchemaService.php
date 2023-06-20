@@ -105,19 +105,17 @@ class NameSchemaService
         $schemaName = $contentType->urlAliasSchema ?? $contentType->nameSchema;
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
-        $event = new ResolveUrlAliasSchemaEvent(
-            $schemaName,
-            $schemaIdentifiers,
-            $content,
-            $contentType
-        );
-
         /** @var ResolveUrlAliasSchemaEvent $event */
-        $this->eventDispatcher->dispatch(
-            $event
+        $event = $this->eventDispatcher->dispatch(
+            new ResolveUrlAliasSchemaEvent(
+                $schemaName,
+                $schemaIdentifiers,
+                $content,
+                $contentType
+            )
         );
 
-        return [];
+        return $event->getNames();
     }
 
     /**
@@ -196,26 +194,6 @@ class NameSchemaService
         $tokens = $this->extractTokens($filteredNameSchema);
         $schemaIdentifiers = $this->getIdentifiers($nameSchema);
 
-/*
- * <x|y>-<name>-<attribute:xyz>
- * <x|y>-<name>-<attribute:xyz|name>
- *
- * Array
-(
-    [field] => Array
-        (
-            [0] => x
-            [1] => y
-            [2] => name
-        )
-
-    [attribute] => Array
-        (
-            [0] => xyz
-        )
-    [xyz] =>
-)
- */
         $names = [];
 
         foreach ($languageCodes as $languageCode) {
@@ -228,7 +206,6 @@ class NameSchemaService
                 $string = $this->resolveToken($token, $titles, $groupLookupTable);
                 $name = str_replace($token, $string, $name);
             }
-//<name>-<attr_xxx>
             // Make sure length is not longer then $limit unless it's 0
             if ($this->settings['limit'] && mb_strlen($name) > $this->settings['limit']) {
                 $name = rtrim(mb_substr($name, 0, $this->settings['limit'] - strlen($this->settings['sequence']))) . $this->settings['sequence'];

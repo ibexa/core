@@ -20,8 +20,12 @@ final class ResolveUrlAliasSchemaEvent extends Event
     private array $names = [];
     private string $schemaName;
 
-    public function __construct(string $schemaName, array $schemaIdentifiers, Content $content, ContentType $contentType = null)
-    {
+    public function __construct(
+        string $schemaName,
+        array $schemaIdentifiers,
+        Content $content,
+        ContentType $contentType = null
+    ) {
         $this->schemaIdentifiers = $schemaIdentifiers;
         $this->content = $content;
         $this->contentType = $contentType;
