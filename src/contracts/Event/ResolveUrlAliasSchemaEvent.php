@@ -13,6 +13,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class ResolveUrlAliasSchemaEvent extends Event
 {
+    /** @var array<string, array> */
     private array $schemaIdentifiers;
     private Content $content;
     private ?ContentType $contentType;

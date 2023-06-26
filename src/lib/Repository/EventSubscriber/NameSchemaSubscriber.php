@@ -13,7 +13,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
     {
         return [
             ResolveUrlAliasSchemaEvent::class => [
-                ['onResolveUrlAliasSchema', 0],
+                ['onResolveUrlAliasSchema', -100],
             ],
         ];
     }
@@ -25,7 +25,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         $content = $event->getContent();
         $languageCodes = $event->getContent()->versionInfo->languageCodes;
 
-        $names = [];
+        $names = $event->getNames();
 
         foreach ($languageCodes as $languageCode) {
             $pattern = '/<(\w+)>/';
