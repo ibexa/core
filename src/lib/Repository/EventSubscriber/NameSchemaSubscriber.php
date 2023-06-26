@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\EventSubscriber;
@@ -18,26 +22,25 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         ];
     }
 
-
     public function onResolveUrlAliasSchema(ResolveUrlAliasSchemaEvent $event): void
     {
-        $inputString = $event->getSchemaName();
-        $content = $event->getContent();
-        $languageCodes = $event->getContent()->versionInfo->languageCodes;
-
-        $names = $event->getNames();
-
-        foreach ($languageCodes as $languageCode) {
-            $pattern = '/<(\w+)>/';
-            $stringToReplace = $names[$languageCode] ?? $inputString;
-            $stringToReplace = preg_replace_callback($pattern, function ($matches) use ($content, $languageCode) {
-                $fieldIdentifier = $matches[1];
-
-                return $content->getFieldValue($fieldIdentifier, $languageCode);
-            }, $stringToReplace);
-            $names[$languageCode] = $stringToReplace;
+        if (!array_key_exists('field', $event->getSchemaIdentifiers())) {
+            return;
         }
 
-        $event->setNames($names);
+        $content = $event->getContent();
+        $identifiers = $event->getSchemaIdentifiers()['field'];
+        $languageCodes = $event->getContent()->versionInfo->languageCodes;
+        $tokenValues = $event->getTokenValues();
+        foreach ($languageCodes as $languageCode) {
+            foreach ($identifiers as $identifier) {
+                $tokenValues[$languageCode][$identifier] = $content->getFieldValue(
+                    $identifier,
+                    $languageCode
+                ) ?? $identifier;
+            }
+        }
+
+        $event->setTokenValues($tokenValues);
     }
 }

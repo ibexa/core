@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -20,7 +21,7 @@ class SchemaIdentifierExtractorTest extends TestCase
         $schemaString = '<field:username>|<relation:author>|<field:title>';
         $expectedResult = [
             'field' => ['username', 'title'],
-            'relation' => ['author']
+            'relation' => ['author'],
         ];
         $this->assertEquals($expectedResult, $extractor->extract($schemaString));
 
@@ -38,7 +39,7 @@ class SchemaIdentifierExtractorTest extends TestCase
         $schemaString = '<field:username>|<invalid_token>|<relation:author>';
         $expectedResult = [
             'field' => ['username'],
-            'relation' => ['author']
+            'relation' => ['author'],
         ];
         $this->assertEquals($expectedResult, $extractor->extract($schemaString));
     }

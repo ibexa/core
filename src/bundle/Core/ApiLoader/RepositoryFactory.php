@@ -53,7 +53,9 @@ class RepositoryFactory implements ContainerAwareInterface
 
     /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
     private $languageResolver;
+
     private EventDispatcherInterface $eventDispatcher;
+
     private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     public function __construct(

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
@@ -13,10 +14,9 @@ class SchemaIdentifierExtractor
     {
         $allTokens = '/<(.*?)>/';
 
-
         if (false === preg_match_all($allTokens, $schemaString, $matches)) {
             return [];
-        };
+        }
 
         $strategyIdentifiers = [];
         foreach ($matches[1] as $tokenExpression) {
@@ -29,7 +29,6 @@ class SchemaIdentifierExtractor
             }
 
             $strategyIdentifiers[$strategy] = array_merge($strategyIdentifiers[$strategy] ?? [], explode('|', $token));
-
         }
 
         return $strategyIdentifiers;

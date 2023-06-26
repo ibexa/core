@@ -70,7 +70,9 @@ class Repository implements RepositoryInterface
 
     /** @var \Ibexa\Core\Repository\NotificationService */
     protected $notificationService;
+
     private EventDispatcherInterface $eventDispatcher;
+
     private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     /**
