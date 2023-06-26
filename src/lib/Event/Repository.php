@@ -85,7 +85,9 @@ final class Repository implements RepositoryInterface
 
     /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
+
     private EventDispatcherInterface $eventDispatcher;
+
     private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     public function __construct(

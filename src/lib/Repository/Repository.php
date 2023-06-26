@@ -267,7 +267,9 @@ class Repository implements RepositoryInterface
     private $passwordValidator;
 
     private ConfigResolverInterface $configResolver;
+
     private EventDispatcherInterface $eventDispatcher;
+
     private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     public function __construct(

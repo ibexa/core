@@ -6,10 +6,10 @@
  */
 namespace Ibexa\Core\Repository\Helper;
 
+use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
-use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -58,7 +58,9 @@ class NameSchemaService
 
     /** @var array */
     protected $settings;
+
     private EventDispatcherInterface $eventDispatcher;
+
     private SchemaIdentifierExtractor $schemaIdentifierExtractor;
 
     /**
@@ -69,7 +71,7 @@ class NameSchemaService
      * @param \Ibexa\Core\FieldType\FieldTypeRegistry $fieldTypeRegistry
      * @param array $settings
      * @param SchemaIdentifierExtractor $schemaIdentifierExtractor
-     * @param EventDispatcherInterface $eventDispatcher
+     * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         ContentTypeHandler $contentTypeHandler,
@@ -99,23 +101,33 @@ class NameSchemaService
      *
      * @return array
      */
-    public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null):array
+    public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array
     {
         $contentType = $contentType ?? $content->getContentType();
-        $schemaName = $contentType->urlAliasSchema ?? $contentType->nameSchema;
+        $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
-        /** @var ResolveUrlAliasSchemaEvent $event */
+        /** @var \Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent $event */
         $event = $this->eventDispatcher->dispatch(
             new ResolveUrlAliasSchemaEvent(
-                $schemaName,
                 $schemaIdentifiers,
-                $content,
-                $contentType
+                $content
             )
         );
 
-        return $event->getNames();
+        $names = [];
+        $tokens = $event->getTokenValues();
+        $extractedTokens = $this->extractTokens($schemaName);
+        foreach ($tokens as $languageCode => $tokenValues) {
+            $schema = $schemaName;
+            foreach ($extractedTokens as $extractedToken) {
+                $name = $this->resolveToken($extractedToken, $tokenValues, []);
+                $schema = str_replace($extractedToken, $name, $schema);
+            }
+            $names[$languageCode] = $schema;
+        }
+
+        return $names;
     }
 
     /**
@@ -179,8 +191,6 @@ class NameSchemaService
     /**
      * Returns the real name for a content name pattern.
      *
-     * @deprecated
-     *
      * @param string $nameSchema
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param array $fieldMap
@@ -206,10 +216,7 @@ class NameSchemaService
                 $string = $this->resolveToken($token, $titles, $groupLookupTable);
                 $name = str_replace($token, $string, $name);
             }
-            // Make sure length is not longer then $limit unless it's 0
-            if ($this->settings['limit'] && mb_strlen($name) > $this->settings['limit']) {
-                $name = rtrim(mb_substr($name, 0, $this->settings['limit'] - strlen($this->settings['sequence']))) . $this->settings['sequence'];
-            }
+            $name = $this->validateNameLength($name);
 
             $names[$languageCode] = $name;
         }
@@ -224,7 +231,7 @@ class NameSchemaService
      * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
      *
      * @param string[] $schemaIdentifiers
-     * @param Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param array $fieldMap
      * @param string $languageCode
      *
@@ -360,7 +367,7 @@ class NameSchemaService
      */
     protected function tokenParts(string $token): array
     {
-        return preg_split('#\\W#', $token, -1, PREG_SPLIT_NO_EMPTY);
+        return preg_split('/[^\w:]+/', $token, -1, PREG_SPLIT_NO_EMPTY);
     }
 
     /**
@@ -424,6 +431,18 @@ class NameSchemaService
         }
 
         return $retArray;
+    }
+
+    public function validateNameLength(string $name): string
+    {
+        // Make sure length is not longer then $limit unless it's 0
+        if ($this->settings['limit'] && mb_strlen($name) > $this->settings['limit']) {
+            $name = rtrim(
+                mb_substr($name, 0, $this->settings['limit'] - strlen($this->settings['sequence']))
+            ) . $this->settings['sequence'];
+        }
+
+        return $name;
     }
 }
 
