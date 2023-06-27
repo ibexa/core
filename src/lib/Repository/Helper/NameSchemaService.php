@@ -274,7 +274,7 @@ class NameSchemaService
      *
      * @return array
      */
-    protected function extractTokens($nameSchema)
+    protected function extractTokens(string $nameSchema): array
     {
         preg_match_all(
             '|<([^>]+)>|U',
