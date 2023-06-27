@@ -34,7 +34,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         $tokenValues = $event->getTokenValues();
         foreach ($languageCodes as $languageCode) {
             foreach ($identifiers as $identifier) {
-                $tokenValues[$languageCode][$identifier] = $content->getFieldValue(
+                $tokenValues[$languageCode][$identifier] = (string) $content->getFieldValue(
                     $identifier,
                     $languageCode
                 ) ?? $identifier;
