@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Helper;
 
-use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
+use Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor;
 use PHPUnit\Framework\TestCase;
 
 class SchemaIdentifierExtractorTest extends TestCase

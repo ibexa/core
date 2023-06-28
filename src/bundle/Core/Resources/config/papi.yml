@@ -18,12 +18,9 @@ services:
             - '%ibexa.api.role.policy_map%'
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
             - '@event_dispatcher'
-            - '@Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor'
             - "@?logger"
         calls:
             - [setContainer, ["@service_container"]]
-
-    Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor: ~
 
     Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory:
         class: Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory

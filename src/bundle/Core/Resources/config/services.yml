@@ -364,6 +364,23 @@ services:
             
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
 
+    Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor:
+
+    Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface:
+        alias: 'Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor'
+
+    Ibexa\Core\Repository\NameSchema\NameSchemaService:
+        lazy: true
+        arguments:
+            - '@ibexa.api.persistence_handler'
+            - '@Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper'
+            - '@Ibexa\Core\FieldType\FieldTypeRegistry'
+            - '@Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface'
+            - '@event_dispatcher'
+
+    Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface:
+        alias: 'Ibexa\Core\Repository\NameSchema\NameSchemaService'
+
     Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber:
         tags:
             - { name: kernel.event_subscriber }

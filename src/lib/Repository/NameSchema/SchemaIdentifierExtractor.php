@@ -6,11 +6,26 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Core\Repository\Helper;
+namespace Ibexa\Core\Repository\NameSchema;
 
-class SchemaIdentifierExtractor
+use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
+
+final class SchemaIdentifierExtractor implements SchemaIdentifierExtractorInterface
 {
-    public function extract($schemaString)
+    /**
+     * @return array<string, array<string, string>>
+     *
+     * @example
+     *  $extractor = new SchemaIdentifierExtractor();
+     *  $schemaString = '<foo|bar>-<attribute:bar>-<attribute:baz>';
+     *  $result = $extractor->extract($schemaString);
+     *  // $result will be:
+     *  // [
+     *  //    'field' => ['foo', 'bar'],
+     *  //    'attribute' => ['bar', 'baz'],
+     *  // ]
+     */
+    public function extract(string $schemaString): array
     {
         $allTokens = '/<(.*?)>/';
 

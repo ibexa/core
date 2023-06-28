@@ -19,6 +19,8 @@ use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterfac
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
+use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
@@ -40,9 +42,7 @@ use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
-use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
-use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
@@ -270,7 +270,7 @@ class Repository implements RepositoryInterface
 
     private EventDispatcherInterface $eventDispatcher;
 
-    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
+    private SchemaIdentifierExtractorInterface $schemaIdentifierExtractor;
 
     public function __construct(
         PersistenceHandler $persistenceHandler,
@@ -294,7 +294,7 @@ class Repository implements RepositoryInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         EventDispatcherInterface $eventDispatcher,
-        SchemaIdentifierExtractor $schemaIdentifierExtractor,
+        NameSchemaServiceInterface $nameSchemaService,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -346,7 +346,7 @@ class Repository implements RepositoryInterface
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
         $this->eventDispatcher = $eventDispatcher;
-        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
+        $this->nameSchemaService = $nameSchemaService;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -745,23 +745,10 @@ class Repository implements RepositoryInterface
      * @internal
      * @private
      *
-     * @return \Ibexa\Core\Repository\Helper\NameSchemaService
+     * @return \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
      */
-    public function getNameSchemaService(): NameSchemaService
+    public function getNameSchemaService(): NameSchemaServiceInterface
     {
-        if ($this->nameSchemaService !== null) {
-            return $this->nameSchemaService;
-        }
-
-        $this->nameSchemaService = new Helper\NameSchemaService(
-            $this->persistenceHandler->contentTypeHandler(),
-            $this->contentTypeDomainMapper,
-            $this->fieldTypeRegistry,
-            $this->schemaIdentifierExtractor,
-            $this->eventDispatcher,
-            $this->serviceSettings['nameSchema']
-        );
-
         return $this->nameSchemaService;
     }
 
