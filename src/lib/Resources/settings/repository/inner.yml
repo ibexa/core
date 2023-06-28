@@ -1,3 +1,6 @@
+imports:
+    - { resource: inner/name_schema.yaml }
+
 parameters:
     ibexa.kernel.proxy_cache_dir: 'var/cache/repository/proxy'
 
@@ -34,8 +37,8 @@ services:
             - '@Ibexa\Contracts\Core\Persistence\Filter\Location\Handler'
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             - '@ibexa.config.resolver'
-            - '%languages%'
             - '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
+            - '%languages%'
 
     Ibexa\Core\Repository\ContentService:
         class: Ibexa\Core\Repository\ContentService

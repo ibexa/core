@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInte
 use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterface;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
-use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
@@ -28,7 +27,6 @@ use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Repository class.
@@ -71,10 +69,6 @@ class Repository implements RepositoryInterface
     /** @var \Ibexa\Core\Repository\NotificationService */
     protected $notificationService;
 
-    private EventDispatcherInterface $eventDispatcher;
-
-    private NameSchemaServiceInterface $nameSchemaService;
-
     /**
      * Construct repository object from aggregated repository.
      */
@@ -90,9 +84,7 @@ class Repository implements RepositoryInterface
         TrashService $trashService,
         LocationService $locationService,
         LanguageService $languageService,
-        NotificationService $notificationService,
-        EventDispatcherInterface $eventDispatcher,
-        NameSchemaServiceInterface $nameSchemaService
+        NotificationService $notificationService
     ) {
         $this->repository = $repository;
         $this->contentService = $contentService;
@@ -106,8 +98,6 @@ class Repository implements RepositoryInterface
         $this->locationService = $locationService;
         $this->languageService = $languageService;
         $this->notificationService = $notificationService;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->nameSchemaService = $nameSchemaService;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -218,16 +208,6 @@ class Repository implements RepositoryInterface
     public function rollback(): void
     {
         $this->repository->rollback();
-    }
-
-    public function getEventDispatcher(): EventDispatcherInterface
-    {
-        return $this->eventDispatcher;
-    }
-
-    public function getNameSchemaService(): NameSchemaServiceInterface
-    {
-        return $this->nameSchemaService;
     }
 }
 

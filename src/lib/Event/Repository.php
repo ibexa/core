@@ -243,16 +243,6 @@ final class Repository implements RepositoryInterface
     {
         return $this->userService;
     }
-
-    public function getEventDispatcher(): EventDispatcherInterface
-    {
-        return $this->eventDispatcher;
-    }
-
-    public function getNameSchemaService(): NameSchemaServiceInterface
-    {
-        return $this->nameSchemaService;
-    }
 }
 
 class_alias(Repository::class, 'eZ\Publish\Core\Event\Repository');
