@@ -11,13 +11,11 @@ parameters:
 services:
     # API
     Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
-        class: Ibexa\Bundle\Core\ApiLoader\RepositoryFactory
         arguments:
             - '@ibexa.config.resolver'
             - Ibexa\Core\Repository\Repository
             - '%ibexa.api.role.policy_map%'
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
-            - '@event_dispatcher'
             - "@?logger"
         calls:
             - [setContainer, ["@service_container"]]

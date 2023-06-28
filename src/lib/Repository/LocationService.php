@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
@@ -100,7 +101,7 @@ class LocationService implements LocationServiceInterface
         RepositoryInterface $repository,
         Handler $handler,
         ContentDomainMapper $contentDomainMapper,
-        Helper\NameSchemaService $nameSchemaService,
+        NameSchemaServiceInterface $nameSchemaService,
         PermissionCriterionResolver $permissionCriterionResolver,
         PermissionResolver $permissionResolver,
         LocationFilteringHandler $locationFilteringHandler,

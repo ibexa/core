@@ -29,7 +29,6 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RepositoryFactory implements ContainerAwareInterface
 {
@@ -54,23 +53,18 @@ class RepositoryFactory implements ContainerAwareInterface
     /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
     private $languageResolver;
 
-    private EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
         ConfigResolverInterface $configResolver,
         $repositoryClass,
         array $policyMap,
         LanguageResolver $languageResolver,
-        EventDispatcherInterface $eventDispatcher,
         LoggerInterface $logger = null
     ) {
         $this->configResolver = $configResolver;
         $this->repositoryClass = $repositoryClass;
         $this->policyMap = $policyMap;
         $this->languageResolver = $languageResolver;
-        $this->logger = null !== $logger ? $logger : new NullLogger();
-        $this->eventDispatcher = $eventDispatcher;
-        $this->nameSchemaService = $nameSchemaService;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -124,7 +118,6 @@ class RepositoryFactory implements ContainerAwareInterface
             $locationFilteringHandler,
             $passwordValidator,
             $configResolver,
-            $this->eventDispatcher,
             $nameSchemaService,
             [
                 'role' => [

@@ -27,6 +27,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService as APILocationService;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct as APIContentCreateStruct;
@@ -45,7 +46,6 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\Repository\ContentService;
-use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
@@ -6215,15 +6215,16 @@ class ContentTest extends BaseServiceMockTest
         return $this->relationProcessorMock;
     }
 
-    protected $nameSchemaServiceMock;
+    /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface */
+    protected NameSchemaServiceInterface $nameSchemaServiceMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Helper\NameSchemaService
+     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
      */
-    protected function getNameSchemaServiceMock()
+    protected function getNameSchemaServiceMock(): NameSchemaServiceInterface
     {
         if (!isset($this->nameSchemaServiceMock)) {
-            $this->nameSchemaServiceMock = $this->createMock(NameSchemaService::class);
+            $this->nameSchemaServiceMock = $this->createMock(NameSchemaServiceInterface::class);
         }
 
         return $this->nameSchemaServiceMock;

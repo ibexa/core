@@ -20,7 +20,6 @@ use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
-use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
@@ -51,7 +50,6 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RuntimeException;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Repository class.
@@ -268,10 +266,6 @@ class Repository implements RepositoryInterface
 
     private ConfigResolverInterface $configResolver;
 
-    private EventDispatcherInterface $eventDispatcher;
-
-    private SchemaIdentifierExtractorInterface $schemaIdentifierExtractor;
-
     public function __construct(
         PersistenceHandler $persistenceHandler,
         SearchHandler $searchHandler,
@@ -293,7 +287,6 @@ class Repository implements RepositoryInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
-        EventDispatcherInterface $eventDispatcher,
         NameSchemaServiceInterface $nameSchemaService,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
@@ -340,12 +333,11 @@ class Repository implements RepositoryInterface
             $this->serviceSettings['language']['languages'] = $this->serviceSettings['languages'];
         }
 
-        $this->logger = null !== $logger ? $logger : new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
         $this->contentMapper = $contentMapper;
         $this->contentValidator = $contentValidator;
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
-        $this->eventDispatcher = $eventDispatcher;
         $this->nameSchemaService = $nameSchemaService;
     }
 
@@ -737,11 +729,6 @@ class Repository implements RepositoryInterface
     }
 
     /**
-     * Get NameSchemaResolverService.
-     *
-     *
-     * @todo Move out from this & other repo instances when services becomes proper services in DIC terms using factory.
-     *
      * @internal
      * @private
      *

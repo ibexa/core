@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
-use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -28,7 +28,6 @@ use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RepositoryFactory implements ContainerAwareInterface
 {
@@ -85,8 +84,7 @@ class RepositoryFactory implements ContainerAwareInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
-        EventDispatcherInterface $eventDispatcher,
-        SchemaIdentifierExtractorInterface $schemaIdentifierExtractor,
+        NameSchemaServiceInterface $nameSchemaService,
         array $languages
     ): Repository {
         return new $this->repositoryClass(
@@ -110,8 +108,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $locationFilteringHandler,
             $passwordValidator,
             $configResolver,
-            $eventDispatcher,
-            $schemaIdentifierExtractor,
+            $nameSchemaService,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,
