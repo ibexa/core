@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInte
 use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterface;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
@@ -27,7 +28,6 @@ use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
-use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -73,7 +73,7 @@ class Repository implements RepositoryInterface
 
     private EventDispatcherInterface $eventDispatcher;
 
-    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
+    private NameSchemaServiceInterface $nameSchemaService;
 
     /**
      * Construct repository object from aggregated repository.
@@ -92,7 +92,7 @@ class Repository implements RepositoryInterface
         LanguageService $languageService,
         NotificationService $notificationService,
         EventDispatcherInterface $eventDispatcher,
-        SchemaIdentifierExtractor $schemaIdentifierExtractor
+        NameSchemaServiceInterface $nameSchemaService
     ) {
         $this->repository = $repository;
         $this->contentService = $contentService;
@@ -107,7 +107,7 @@ class Repository implements RepositoryInterface
         $this->languageService = $languageService;
         $this->notificationService = $notificationService;
         $this->eventDispatcher = $eventDispatcher;
-        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
+        $this->nameSchemaService = $nameSchemaService;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -225,9 +225,9 @@ class Repository implements RepositoryInterface
         return $this->eventDispatcher;
     }
 
-    public function getSchemaIdentifierExtractor(): SchemaIdentifierExtractor
+    public function getNameSchemaService(): NameSchemaServiceInterface
     {
-        return $this->schemaIdentifierExtractor;
+        return $this->nameSchemaService;
     }
 }
 

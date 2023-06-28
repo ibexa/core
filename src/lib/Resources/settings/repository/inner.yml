@@ -35,6 +35,7 @@ services:
             - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             - '@ibexa.config.resolver'
             - '%languages%'
+            - '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
 
     Ibexa\Core\Repository\ContentService:
         class: Ibexa\Core\Repository\ContentService

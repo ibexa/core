@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -20,7 +21,6 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
-use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
@@ -86,7 +86,7 @@ class RepositoryFactory implements ContainerAwareInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         EventDispatcherInterface $eventDispatcher,
-        SchemaIdentifierExtractor $schemaIdentifierExtractor,
+        SchemaIdentifierExtractorInterface $schemaIdentifierExtractor,
         array $languages
     ): Repository {
         return new $this->repositoryClass(

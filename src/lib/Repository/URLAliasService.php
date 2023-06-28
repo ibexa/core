@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\URLAlias as SPIURLAlias;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
@@ -33,7 +34,7 @@ class URLAliasService implements URLAliasServiceInterface
     /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler */
     protected $urlAliasHandler;
 
-    /** @var \Ibexa\Core\Repository\Helper\NameSchemaService */
+    /** @var \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface */
     protected $nameSchemaService;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
@@ -45,7 +46,7 @@ class URLAliasService implements URLAliasServiceInterface
     public function __construct(
         RepositoryInterface $repository,
         Handler $urlAliasHandler,
-        Helper\NameSchemaService $nameSchemaService,
+        NameSchemaServiceInterface $nameSchemaService,
         PermissionResolver $permissionResolver,
         LanguageResolver $languageResolver
     ) {

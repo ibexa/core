@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInte
 use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterface;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
@@ -27,7 +28,6 @@ use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
-use Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class Repository implements RepositoryInterface
@@ -88,7 +88,7 @@ final class Repository implements RepositoryInterface
 
     private EventDispatcherInterface $eventDispatcher;
 
-    private SchemaIdentifierExtractor $schemaIdentifierExtractor;
+    private NameSchemaServiceInterface $nameSchemaService;
 
     public function __construct(
         RepositoryInterface $repository,
@@ -110,7 +110,7 @@ final class Repository implements RepositoryInterface
         UserPreferenceServiceInterface $userPreferenceService,
         UserServiceInterface $userService,
         EventDispatcherInterface $eventDispatcher,
-        SchemaIdentifierExtractor $schemaIdentifierExtractor
+        NameSchemaServiceInterface $nameSchemaService
     ) {
         $this->repository = $repository;
         $this->bookmarkService = $bookmarkService;
@@ -131,7 +131,7 @@ final class Repository implements RepositoryInterface
         $this->userPreferenceService = $userPreferenceService;
         $this->userService = $userService;
         $this->eventDispatcher = $eventDispatcher;
-        $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
+        $this->nameSchemaService = $nameSchemaService;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -249,9 +249,9 @@ final class Repository implements RepositoryInterface
         return $this->eventDispatcher;
     }
 
-    public function getSchemaIdentifierExtractor(): SchemaIdentifierExtractor
+    public function getNameSchemaService(): NameSchemaServiceInterface
     {
-        return $this->schemaIdentifierExtractor;
+        return $this->nameSchemaService;
     }
 }
 

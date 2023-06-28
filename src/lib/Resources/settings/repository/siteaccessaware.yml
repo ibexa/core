@@ -21,7 +21,7 @@ services:
             - '@Ibexa\Core\Repository\SiteAccessAware\LanguageService'
             - '@Ibexa\Core\Repository\SiteAccessAware\NotificationService'
             - '@event_dispatcher'
-            - '@Ibexa\Core\Repository\Helper\SchemaIdentifierExtractor'
+            - '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
 
     Ibexa\Core\Repository\SiteAccessAware\ContentService:
         arguments:
