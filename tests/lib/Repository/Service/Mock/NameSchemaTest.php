@@ -364,6 +364,8 @@ class NameSchemaTest extends BaseServiceMockTest
                     $this->getPersistenceMock()->contentTypeHandler(),
                     $this->getContentTypeDomainMapperMock(),
                     $this->getFieldTypeRegistryMock(),
+                    $this->getSchemaIdentifierExtractorMock(),
+                    $this->getEventDispatcher(),
                     $settings,
                 ]
             )

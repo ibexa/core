@@ -12,7 +12,7 @@ use Ibexa\Core\Repository\NameSchema\NameSchemaService as NativeNameSchemaServic
  * @deprecated inject \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface instead.
  * @see \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
  */
-final class NameSchemaService extends NativeNameSchemaService
+class NameSchemaService extends NativeNameSchemaService
 {
 }
 

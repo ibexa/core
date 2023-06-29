@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as APIRepository;
@@ -169,6 +170,35 @@ abstract class Base extends TestCase
         }
 
         return $this->fieldTypeRegistryMock;
+    }
+
+    protected $schemaIdentifierExtractor;
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface
+     */
+    protected function getSchemaIdentifierExtractorMock()
+    {
+        if (!isset($this->schemaIdentifierExtractor)) {
+            $this->schemaIdentifierExtractor = $this->createMock(SchemaIdentifierExtractorInterface::class);
+        }
+
+        return $this->schemaIdentifierExtractor;
+    }
+
+
+    protected $eventDispatcher;
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface
+     */
+    protected function getEventDispatcher()
+    {
+        if (!isset($this->eventDispatcher)) {
+            $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        }
+
+        return $this->eventDispatcher;
     }
 
     /**
