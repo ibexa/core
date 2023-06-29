@@ -109,6 +109,11 @@ final class TokenService implements TokenServiceInterface
         $this->persistenceHandler->revokeTokenById($token->getId());
     }
 
+    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void
+    {
+        $this->persistenceHandler->revokeTokenByIdentifier($tokenType, $identifier);
+    }
+
     public function deleteToken(Token $token): void
     {
         $this->persistenceHandler->deleteTokenById($token->getId());

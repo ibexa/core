@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\TokenService;
+use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Core\Base\Exceptions\TokenLengthException;
 
@@ -134,23 +135,63 @@ final class TokenServiceTest extends IbexaKernelTestCase
 
         $this->tokenService->revokeToken($token);
 
-        $revokedToken = $this->tokenService->getToken(
-            $token->getType(),
-            $token->getToken(),
-            $token->getIdentifier()
+        $this->assertRevokedToken($token);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testRevokeAllTokensByIdentifier(): void
+    {
+        $tokens = [
+            $this->tokenService->generateToken(
+                self::TOKEN_TYPE,
+                self::TOKEN_TTL,
+                self::TOKEN_IDENTIFIER
+            ),
+            $this->tokenService->generateToken(
+                self::TOKEN_TYPE,
+                self::TOKEN_TTL,
+                self::TOKEN_IDENTIFIER
+            ),
+            $this->tokenService->generateToken(
+                self::TOKEN_TYPE,
+                self::TOKEN_TTL,
+                self::TOKEN_IDENTIFIER
+            ),
+        ];
+
+        $differentToken = $this->tokenService->generateToken(
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL,
+            'different'
         );
 
-        self::assertSame($token->getType(), $revokedToken->getType());
-        self::assertSame($token->getToken(), $revokedToken->getToken());
-        self::assertSame($token->getIdentifier(), $revokedToken->getIdentifier());
-        self::assertTrue($revokedToken->isRevoked());
+        $tokenWithoutIdentifier = $this->tokenService->generateToken(
+            self::TOKEN_TYPE,
+            self::TOKEN_TTL
+        );
+
+        $this->tokenService->revokeTokenByIdentifier(self::TOKEN_TYPE, self::TOKEN_IDENTIFIER);
+
+        foreach ($tokens as $token) {
+            $this->assertRevokedToken($token);
+        }
 
         self::assertFalse(
-            $this->tokenService->checkToken(
-                $token->getType(),
-                $token->getToken(),
-                $token->getIdentifier()
-            )
+            $this->tokenService->getToken(
+                $differentToken->getType(),
+                $differentToken->getToken(),
+                $differentToken->getIdentifier()
+            )->isRevoked()
+        );
+
+        self::assertFalse(
+            $this->tokenService->getToken(
+                $tokenWithoutIdentifier->getType(),
+                $tokenWithoutIdentifier->getToken(),
+                $tokenWithoutIdentifier->getIdentifier()
+            )->isRevoked()
         );
     }
 
@@ -227,5 +268,27 @@ final class TokenServiceTest extends IbexaKernelTestCase
             self::TOKEN_TTL,
             null,
         ];
+    }
+
+    private function assertRevokedToken(Token $token): void
+    {
+        $revokedToken = $this->tokenService->getToken(
+            $token->getType(),
+            $token->getToken(),
+            $token->getIdentifier()
+        );
+
+        self::assertSame($token->getType(), $revokedToken->getType());
+        self::assertSame($token->getToken(), $revokedToken->getToken());
+        self::assertSame($token->getIdentifier(), $revokedToken->getIdentifier());
+        self::assertTrue($revokedToken->isRevoked());
+
+        self::assertFalse(
+            $this->tokenService->checkToken(
+                $token->getType(),
+                $token->getToken(),
+                $token->getIdentifier()
+            )
+        );
     }
 }

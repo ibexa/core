@@ -109,6 +109,20 @@ final class Handler implements HandlerInterface
         $this->tokenGateway->revoke($tokenId);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
+     */
+    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void
+    {
+        $type = $this->getTokenType($tokenType);
+        $this->tokenGateway->revokeByIdentifier(
+            $type->id,
+            $identifier
+        );
+    }
+
     public function deleteToken(Token $token): void
     {
         $this->deleteTokenById($token->id);

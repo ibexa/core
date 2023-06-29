@@ -22,6 +22,11 @@ interface Gateway
 
     public function revoke(int $tokenId): void;
 
+    public function revokeByIdentifier(
+        int $typeId,
+        ?string $identifier
+    ): void;
+
     /**
      * @throws \Doctrine\DBAL\Exception
      */
