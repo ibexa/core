@@ -194,7 +194,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      */
     public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
     {
-        list($filteredNameSchema, $groupLookupTable) = $this->filterNameSchema($nameSchema);
+        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
         $tokens = $this->extractTokens($filteredNameSchema);
         $schemaIdentifiers = $this->getIdentifiers($nameSchema);
 
