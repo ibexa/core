@@ -30,14 +30,16 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
 
         $content = $event->getContent();
         $identifiers = $event->getSchemaIdentifiers()['field'];
-        $languageCodes = $event->getContent()->versionInfo->languageCodes;
+        $languages = $event->getContent()->getVersionInfo()->getLanguages();
         $tokenValues = $event->getTokenValues();
-        foreach ($languageCodes as $languageCode) {
+        foreach ($languages as $language) {
+            $languageCode = $language->getLanguageCode();
             foreach ($identifiers as $identifier) {
-                $tokenValues[$languageCode][$identifier] = (string) $content->getFieldValue(
+                $fieldValue = $content->getFieldValue(
                     $identifier,
                     $languageCode
-                ) ?? $identifier;
+                );
+                $tokenValues[$languageCode][$identifier] = null !== $fieldValue ? (string)$fieldValue : $identifier;
             }
         }
 
