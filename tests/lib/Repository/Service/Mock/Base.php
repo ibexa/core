@@ -186,7 +186,6 @@ abstract class Base extends TestCase
         return $this->schemaIdentifierExtractor;
     }
 
-
     protected $eventDispatcher;
 
     /**

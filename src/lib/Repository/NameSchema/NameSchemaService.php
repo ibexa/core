@@ -398,18 +398,27 @@ class NameSchemaService implements NameSchemaServiceInterface
      *
      * @return array
      */
-    protected function getIdentifiers(string $schemaString): array
+    protected function getIdentifiers($schemaString)
     {
-        $allTokensPattern = '#<(.*)>#U';
-        $identifiersPattern = '#([^<>]+)#';
+        $allTokens = '#<(.*)>#U';
+        $identifiers = '#\\W#';
 
-        $matches = [];
-        preg_match_all($allTokensPattern, $schemaString, $matches);
+        $tmpArray = [];
+        preg_match_all($allTokens, $schemaString, $matches);
+
+        foreach ($matches[1] as $match) {
+            $tmpArray[] = preg_split($identifiers, $match, -1, PREG_SPLIT_NO_EMPTY);
+        }
 
         $retArray = [];
-        foreach ($matches[1] as $match) {
-            preg_match_all($identifiersPattern, $match, $tokens);
-            $retArray = array_merge($retArray, $tokens[1]);
+        foreach ($tmpArray as $matchGroup) {
+            if (is_array($matchGroup)) {
+                foreach ($matchGroup as $item) {
+                    $retArray[] = $item;
+                }
+            } else {
+                $retArray[] = $matchGroup;
+            }
         }
 
         return $retArray;
