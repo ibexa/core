@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
@@ -25,7 +26,6 @@ use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
-use Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\Repository;
@@ -129,8 +129,7 @@ abstract class Base extends TestCase
                 $this->getLocationFilteringHandlerMock(),
                 $this->createMock(PasswordValidatorInterface::class),
                 $this->createMock(ConfigResolverInterface::class),
-                $this->createMock(EventDispatcherInterface::class),
-                $this->createMock(SchemaIdentifierExtractor::class),
+                $this->createMock(NameSchemaServiceInterface::class),
                 $serviceSettings,
             );
 

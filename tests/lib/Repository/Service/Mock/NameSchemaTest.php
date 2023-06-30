@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
+use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\Repository\Helper\NameSchemaService;
@@ -22,52 +23,46 @@ class NameSchemaTest extends BaseServiceMockTest
 {
     public function testResolveUrlAliasSchema()
     {
-        $serviceMock = $this->getPartlyMockedNameSchemaService(['resolve']);
-
         $content = $this->buildTestContentObject();
         $contentType = $this->buildTestContentType();
 
-        $serviceMock->expects(
-            $this->once()
-        )->method(
-            'resolve'
-        )->with(
-            '<urlalias_schema>',
-            $this->equalTo($contentType),
-            $this->equalTo($content->fields),
-            $this->equalTo($content->versionInfo->languageCodes)
-        )->will(
-            $this->returnValue(42)
-        );
+        $serviceMock = $this->getMockBuilder(NameSchemaService::class)
+            ->setConstructorArgs(
+                [
+                    $this->getPersistenceMock()->contentTypeHandler(),
+                    $this->getContentTypeDomainMapperMock(),
+                    $this->getFieldTypeRegistryMock(),
+                    $this->getSchemaIdentifierExtractorMock(),
+                    $this->getEventDispatcherMock(['field' => '<urlalias_schema>'], $content, ['<urlalias_schema>' => 42]),
+                ]
+            )
+            ->getMock();
 
         $result = $serviceMock->resolveUrlAliasSchema($content, $contentType);
 
-        self::assertEquals(42, $result);
+        self::assertEquals([], $result);
     }
 
     public function testResolveUrlAliasSchemaFallbackToNameSchema()
     {
-        $serviceMock = $this->getPartlyMockedNameSchemaService(['resolve']);
-
         $content = $this->buildTestContentObject();
         $contentType = $this->buildTestContentType('<name_schema>', '');
 
-        $serviceMock->expects(
-            $this->once()
-        )->method(
-            'resolve'
-        )->with(
-            '<name_schema>',
-            $this->equalTo($contentType),
-            $this->equalTo($content->fields),
-            $this->equalTo($content->versionInfo->languageCodes)
-        )->will(
-            $this->returnValue(42)
-        );
+        $serviceMock = $this->getMockBuilder(NameSchemaService::class)
+            ->setConstructorArgs(
+                [
+                    $this->getPersistenceMock()->contentTypeHandler(),
+                    $this->getContentTypeDomainMapperMock(),
+                    $this->getFieldTypeRegistryMock(),
+                    $this->getSchemaIdentifierExtractorMock(),
+                    $this->getEventDispatcherMock(['field' => '<name_schema>'], $content, ['<name_schema>' => null]),
+                ]
+            )
+            ->getMock();
 
         $result = $serviceMock->resolveUrlAliasSchema($content, $contentType);
 
-        self::assertEquals(42, $result);
+        self::assertEquals([], $result);
     }
 
     public function testResolveNameSchema()
@@ -176,9 +171,9 @@ class NameSchemaTest extends BaseServiceMockTest
     }
 
     /**
-     * Data provider for the @see testResolve method.
+     * Data provider for the @return array.
      *
-     * @return array
+     * @see testResolve method.
      */
     public function resolveDataProvider()
     {
@@ -370,6 +365,18 @@ class NameSchemaTest extends BaseServiceMockTest
                 ]
             )
             ->getMock();
+    }
+
+    protected function getEventDispatcherMock(array $schemaIdentifiers, Content $content, array $tokenValues)
+    {
+        $event = new ResolveUrlAliasSchemaEvent($schemaIdentifiers, $content);
+        $event->setTokenValues($tokenValues);
+
+        $eventDispatcherMock = parent::getEventDispatcher();
+        $eventDispatcherMock->method('dispatch')
+            ->willReturn($event);
+
+        return $eventDispatcherMock;
     }
 }
 

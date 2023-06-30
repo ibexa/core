@@ -392,13 +392,9 @@ class NameSchemaService implements NameSchemaServiceInterface
     }
 
     /**
-     * Returns all identifiers from all tokens in the name schema.
-     *
-     * @param string $schemaString
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function getIdentifiers($schemaString)
+    protected function getIdentifiers(string $schemaString): array
     {
         $allTokens = '#<(.*)>#U';
         $identifiers = '#\\W#';
