@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
-use Ibexa\Core\Repository\Helper\NameSchemaService;
+use Ibexa\Core\Repository\NameSchema\NameSchemaService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
@@ -27,13 +27,14 @@ class NameSchemaTest extends BaseServiceMockTest
         $contentType = $this->buildTestContentType();
 
         $serviceMock = $this->getMockBuilder(NameSchemaService::class)
+            ->setMethods(['resolve'])
             ->setConstructorArgs(
                 [
                     $this->getPersistenceMock()->contentTypeHandler(),
                     $this->getContentTypeDomainMapperMock(),
                     $this->getFieldTypeRegistryMock(),
                     $this->getSchemaIdentifierExtractorMock(),
-                    $this->getEventDispatcherMock(['field' => '<urlalias_schema>'], $content, ['<urlalias_schema>' => 42]),
+                    $this->getEventDispatcherMock(['field' => '<urlalias_schema>'], $content, []),
                 ]
             )
             ->getMock();
@@ -49,13 +50,14 @@ class NameSchemaTest extends BaseServiceMockTest
         $contentType = $this->buildTestContentType('<name_schema>', '');
 
         $serviceMock = $this->getMockBuilder(NameSchemaService::class)
+            ->setMethods(['resolve'])
             ->setConstructorArgs(
                 [
                     $this->getPersistenceMock()->contentTypeHandler(),
                     $this->getContentTypeDomainMapperMock(),
                     $this->getFieldTypeRegistryMock(),
                     $this->getSchemaIdentifierExtractorMock(),
-                    $this->getEventDispatcherMock(['field' => '<name_schema>'], $content, ['<name_schema>' => null]),
+                    $this->getEventDispatcherMock(['field' => '<name_schema>'], $content, []),
                 ]
             )
             ->getMock();
@@ -82,12 +84,12 @@ class NameSchemaTest extends BaseServiceMockTest
             $this->equalTo($content->fields),
             $this->equalTo($content->versionInfo->languageCodes)
         )->will(
-            $this->returnValue(42)
+            $this->returnValue([42])
         );
 
         $result = $serviceMock->resolveNameSchema($content, [], [], $contentType);
 
-        self::assertEquals(42, $result);
+        self::assertEquals([42], $result);
     }
 
     public function testResolveNameSchemaWithFields()
@@ -120,12 +122,12 @@ class NameSchemaTest extends BaseServiceMockTest
             $this->equalTo($mergedFields),
             $this->equalTo($languages)
         )->will(
-            $this->returnValue(42)
+            $this->returnValue([42])
         );
 
         $result = $serviceMock->resolveNameSchema($content, $fields, $languages, $contentType);
 
-        self::assertEquals(42, $result);
+        self::assertEquals([42], $result);
     }
 
     /**
@@ -171,9 +173,9 @@ class NameSchemaTest extends BaseServiceMockTest
     }
 
     /**
-     * Data provider for the @return array.
+     * Data provider for the @see testResolve method.
      *
-     * @see testResolve method.
+     * @return array
      */
     public function resolveDataProvider()
     {

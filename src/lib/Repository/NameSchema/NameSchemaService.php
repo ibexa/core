@@ -134,7 +134,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      *
      * @return array
      */
-    public function resolveNameSchema(Content $content, array $fieldMap = [], array $languageCodes = [], ContentType $contentType = null)
+    public function resolveNameSchema(Content $content, array $fieldMap = [], array $languageCodes = [], ContentType $contentType = null): array
     {
         if ($contentType === null) {
             $contentType = $this->contentTypeHandler->load($content->contentInfo->contentTypeId);
@@ -192,7 +192,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      *
      * @return string[]
      */
-    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes)
+    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
     {
         list($filteredNameSchema, $groupLookupTable) = $this->filterNameSchema($nameSchema);
         $tokens = $this->extractTokens($filteredNameSchema);
