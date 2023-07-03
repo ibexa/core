@@ -23,7 +23,6 @@ class SecurityPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition('security.authentication.provider.dao', new Definition());
         $this->setDefinition('security.authentication.provider.rememberme', new Definition());
         $this->setDefinition('security.authentication.provider.anonymous', new Definition());
-        $this->setDefinition('security.authentication.provider.guard', new Definition());
         $this->setDefinition('security.http_utils', new Definition());
         $this->setDefinition('security.authentication.success_handler', new Definition());
         $this->setDefinition('ibexa.config.resolver', new Definition());
@@ -52,11 +51,6 @@ class SecurityPassTest extends AbstractCompilerPassTestCase
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.authentication.provider.rememberme',
-            'setPermissionResolver',
-            [new Reference(PermissionResolver::class)]
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'security.authentication.provider.guard',
             'setPermissionResolver',
             [new Reference(PermissionResolver::class)]
         );
