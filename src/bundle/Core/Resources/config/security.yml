@@ -53,6 +53,11 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    Ibexa\Core\MVC\Symfony\Security\Authentication\GuardRepositoryAuthenticationProvider:
+        decorates: security.authentication.provider.guard
+        calls:
+            - ['setPermissionResolver', ['@Ibexa\Contracts\Core\Repository\PermissionResolver']]
+
     ibexa.security.user_provider: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
     ibexa.security.user_provider.username: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
     ibexa.security.user_provider.email: '@Ibexa\Core\MVC\Symfony\Security\User\EmailProvider'
