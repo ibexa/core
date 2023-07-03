@@ -29,6 +29,10 @@ interface Handler
 
     public function createToken(CreateStruct $createStruct): Token;
 
+    public function revokeTokenById(int $tokenId): void;
+
+    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void;
+
     public function deleteToken(Token $token): void;
 
     public function deleteTokenById(int $tokenId): void;

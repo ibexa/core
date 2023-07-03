@@ -13,10 +13,14 @@ use Ibexa\Contracts\Core\Repository\Events\Token\BeforeCheckTokenEvent;
 use Ibexa\Contracts\Core\Repository\Events\Token\BeforeDeleteTokenEvent;
 use Ibexa\Contracts\Core\Repository\Events\Token\BeforeGenerateTokenEvent;
 use Ibexa\Contracts\Core\Repository\Events\Token\BeforeGetTokenEvent;
+use Ibexa\Contracts\Core\Repository\Events\Token\BeforeRevokeTokenByIdentifierEvent;
+use Ibexa\Contracts\Core\Repository\Events\Token\BeforeRevokeTokenEvent;
 use Ibexa\Contracts\Core\Repository\Events\Token\CheckTokenEvent;
 use Ibexa\Contracts\Core\Repository\Events\Token\DeleteTokenEvent;
 use Ibexa\Contracts\Core\Repository\Events\Token\GenerateTokenEvent;
 use Ibexa\Contracts\Core\Repository\Events\Token\GetTokenEvent;
+use Ibexa\Contracts\Core\Repository\Events\Token\RevokeTokenByIdentifierEvent;
+use Ibexa\Contracts\Core\Repository\Events\Token\RevokeTokenEvent;
 use Ibexa\Contracts\Core\Repository\TokenService as TokenServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Token\Token;
 use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
@@ -127,6 +131,42 @@ final class TokenService extends TokenServiceDecorator
 
         $this->eventDispatcher->dispatch(
             new DeleteTokenEvent(...$eventData)
+        );
+    }
+
+    public function revokeToken(Token $token): void
+    {
+        $eventData = [$token];
+
+        $beforeEvent = new BeforeRevokeTokenEvent(...$eventData);
+
+        $this->eventDispatcher->dispatch($beforeEvent);
+        if ($beforeEvent->isPropagationStopped()) {
+            return;
+        }
+
+        $this->innerService->revokeToken($token);
+
+        $this->eventDispatcher->dispatch(
+            new RevokeTokenEvent(...$eventData)
+        );
+    }
+
+    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void
+    {
+        $eventData = [$tokenType, $identifier];
+
+        $beforeEvent = new BeforeRevokeTokenByIdentifierEvent(...$eventData);
+
+        $this->eventDispatcher->dispatch($beforeEvent);
+        if ($beforeEvent->isPropagationStopped()) {
+            return;
+        }
+
+        $this->innerService->revokeTokenByIdentifier($tokenType, $identifier);
+
+        $this->eventDispatcher->dispatch(
+            new RevokeTokenByIdentifierEvent(...$eventData)
         );
     }
 }

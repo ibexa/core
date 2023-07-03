@@ -30,6 +30,8 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
     public const COLUMN_IDENTIFIER = 'identifier';
     public const COLUMN_CREATED = 'created';
     public const COLUMN_EXPIRES = 'expires';
+    public const COLUMN_REVOKED = 'revoked';
+
     public const TOKEN_SEQ = 'ibexa_token_id_seq';
 
     private Connection $connection;
@@ -48,6 +50,7 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
             self::COLUMN_IDENTIFIER,
             self::COLUMN_CREATED,
             self::COLUMN_EXPIRES,
+            self::COLUMN_REVOKED,
         ];
     }
 
@@ -66,15 +69,50 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
                 self::COLUMN_IDENTIFIER => $identifier,
                 self::COLUMN_CREATED => $now,
                 self::COLUMN_EXPIRES => $now + $ttl,
+                self::COLUMN_REVOKED => false,
             ],
             [
                 self::COLUMN_TYPE_ID => ParameterType::INTEGER,
                 self::COLUMN_CREATED => ParameterType::INTEGER,
                 self::COLUMN_EXPIRES => ParameterType::INTEGER,
+                self::COLUMN_REVOKED => ParameterType::BOOLEAN,
             ]
         );
 
         return (int)$this->connection->lastInsertId(self::TOKEN_SEQ);
+    }
+
+    public function revoke(int $tokenId): void
+    {
+        $this->connection->update(
+            self::TABLE_NAME,
+            [
+                self::COLUMN_REVOKED => true,
+            ],
+            [
+                self::COLUMN_ID => $tokenId,
+            ],
+            [
+                self::COLUMN_REVOKED => ParameterType::BOOLEAN,
+            ]
+        );
+    }
+
+    public function revokeByIdentifier(int $typeId, ?string $identifier): void
+    {
+        $this->connection->update(
+            self::TABLE_NAME,
+            [
+                self::COLUMN_REVOKED => true,
+            ],
+            [
+                self::COLUMN_TYPE_ID => $typeId,
+                self::COLUMN_IDENTIFIER => $identifier,
+            ],
+            [
+                self::COLUMN_REVOKED => ParameterType::BOOLEAN,
+            ]
+        );
     }
 
     public function delete(int $tokenId): void

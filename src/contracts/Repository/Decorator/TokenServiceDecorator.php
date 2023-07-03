@@ -62,6 +62,16 @@ abstract class TokenServiceDecorator implements TokenService
         );
     }
 
+    public function revokeToken(Token $token): void
+    {
+        $this->innerService->revokeToken($token);
+    }
+
+    public function revokeTokenByIdentifier(string $tokenType, ?string $identifier): void
+    {
+        $this->innerService->revokeTokenByIdentifier($tokenType, $identifier);
+    }
+
     public function deleteToken(Token $token): void
     {
         $this->innerService->deleteToken($token);

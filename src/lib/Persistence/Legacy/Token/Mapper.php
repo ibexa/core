@@ -25,6 +25,7 @@ final class Mapper
             'identifier' => $tokenRow['identifier'] === null ? null : (string)$tokenRow['identifier'],
             'created' => (int)$tokenRow['created'],
             'expires' => (int)$tokenRow['expires'],
+            'revoked' => (bool)$tokenRow['revoked'],
         ]);
     }
 
