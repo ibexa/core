@@ -12,7 +12,16 @@ services:
     logger:
         class: Psr\Log\NullLogger
 
-    Symfony\Component\EventDispatcher\EventDispatcher: ~
+    Symfony\Component\EventDispatcher\EventDispatcher:
+        calls:
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\ContentEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\LocationEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\ObjectStateEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\SectionEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\UserEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber' ] ]
+
     Symfony\Contracts\EventDispatcher\EventDispatcherInterface: '@Symfony\Component\EventDispatcher\EventDispatcher'
 
     # By default use in-memory cache for tests to avoid disk IO but still make sure we tests cache clearing works
