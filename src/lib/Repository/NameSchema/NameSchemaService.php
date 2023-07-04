@@ -9,13 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\NameSchema;
 
 use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
-use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -51,14 +49,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      */
     public const META_STRING = 'EZMETAGROUP_';
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
-    protected $contentTypeHandler;
-
-    /** @var \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
-    protected $contentTypeDomainMapper;
-
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
     /** @var array */
     protected $settings;
@@ -68,15 +59,11 @@ class NameSchemaService implements NameSchemaServiceInterface
     private SchemaIdentifierExtractorInterface $schemaIdentifierExtractor;
 
     public function __construct(
-        ContentTypeHandler $contentTypeHandler,
-        ContentTypeDomainMapper $contentTypeDomainMapper,
         FieldTypeRegistry $fieldTypeRegistry,
         SchemaIdentifierExtractorInterface $schemaIdentifierExtractor,
         EventDispatcherInterface $eventDispatcher,
         array $settings = []
     ) {
-        $this->contentTypeHandler = $contentTypeHandler;
-        $this->contentTypeDomainMapper = $contentTypeDomainMapper;
         $this->fieldTypeRegistry = $fieldTypeRegistry;
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
@@ -88,16 +75,11 @@ class NameSchemaService implements NameSchemaServiceInterface
     }
 
     /**
-     * Convenience method for resolving URL alias schema.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType
-     *
-     * @return array
+     * @return array<string, string> key value map of names for a language code
      */
     public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array
     {
-        $contentType = $contentType ?? $content->getContentType();
+        $contentType ??= $content->getContentType();
         $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
@@ -136,9 +118,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      */
     public function resolveNameSchema(Content $content, array $fieldMap = [], array $languageCodes = [], ContentType $contentType = null): array
     {
-        if ($contentType === null) {
-            $contentType = $this->contentTypeHandler->load($content->contentInfo->contentTypeId);
-        }
+        $contentType ??= $content->getContentType();
 
         $languageCodes = $languageCodes ?: $content->versionInfo->languageCodes;
 
