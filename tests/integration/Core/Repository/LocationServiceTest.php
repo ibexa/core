@@ -1728,14 +1728,14 @@ class LocationServiceTest extends BaseTest
         $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);
         $folder3 = $this->createFolder(['eng-GB' => 'Folder3'], 2);
 
-        $primaryLocation = $locationService->loadLocation($folder1->contentInfo->mainLocationId);
-        $parentLocation = $locationService->loadLocation($folder2->contentInfo->mainLocationId);
+        $primaryLocation = $folder1->getVersionInfo()->getContentInfo()->getMainLocation();
+        $parentLocation = $folder2->getVersionInfo()->getContentInfo()->getMainLocation();
         $secondaryLocation = $locationService->createLocation(
-            $folder1->contentInfo,
+            $folder1->getVersionInfo()->getContentInfo(),
             $locationService->newLocationCreateStruct($parentLocation->id)
         );
 
-        $targetLocation = $locationService->loadLocation($folder3->contentInfo->mainLocationId);
+        $targetLocation = $folder3->getVersionInfo()->getContentInfo()->getMainLocation();
 
         // perform sanity checks
         $this->assertContentHasExpectedLocations([$primaryLocation, $secondaryLocation], $folder1);
@@ -1748,26 +1748,26 @@ class LocationServiceTest extends BaseTest
         $secondaryLocation = $locationService->loadLocation($secondaryLocation->id);
         $targetLocation = $locationService->loadLocation($targetLocation->id);
 
-        self::assertEquals($folder1->id, $primaryLocation->contentInfo->id);
-        self::assertEquals($folder1->id, $targetLocation->contentInfo->id);
-        self::assertEquals($folder3->id, $secondaryLocation->contentInfo->id);
+        self::assertEquals($folder1->id, $primaryLocation->getContentInfo()->getId());
+        self::assertEquals($folder1->id, $targetLocation->getContentInfo()->getId());
+        self::assertEquals($folder3->id, $secondaryLocation->getContentInfo()->getId());
 
         $this->assertContentHasExpectedLocations([$primaryLocation, $targetLocation], $folder1);
 
         self::assertEquals(
-            $folder1,
-            $contentService->loadContent($folder1->id, Language::ALL)
+            $primaryLocation->id,
+            $contentService->loadContent($folder1->id)->getVersionInfo()->getContentInfo()->getMainLocationId()
         );
 
         self::assertEquals(
-            $folder2,
-            $contentService->loadContent($folder2->id, Language::ALL)
+            $parentLocation->id,
+            $contentService->loadContent($folder2->id)->getVersionInfo()->getContentInfo()->getMainLocationId()
         );
 
         // only in case of Folder 3, main location id changed due to swap
         self::assertEquals(
             $secondaryLocation->id,
-            $contentService->loadContent($folder3->id)->contentInfo->mainLocationId
+            $contentService->loadContent($folder3->id)->getVersionInfo()->getContentInfo()->getMainLocation()->id
         );
 
         return [$folder1, $folder2, $folder3];
@@ -1781,7 +1781,7 @@ class LocationServiceTest extends BaseTest
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    private function assertContentHasExpectedLocations(array $expectedLocations, Content $content)
+    private function assertContentHasExpectedLocations(array $expectedLocations, Content $content): void
     {
         $repository = $this->getRepository(false);
         $locationService = $repository->getLocationService();
@@ -1871,7 +1871,7 @@ class LocationServiceTest extends BaseTest
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testSwapLocationForSecondaryLocations()
+    public function testSwapLocationForSecondaryLocations(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -1882,14 +1882,14 @@ class LocationServiceTest extends BaseTest
         $parentFolder1 = $this->createFolder(['eng-GB' => 'Parent1'], 2);
         $parentFolder2 = $this->createFolder(['eng-GB' => 'Parent2'], 2);
 
-        $parentLocation1 = $locationService->loadLocation($parentFolder1->contentInfo->mainLocationId);
-        $parentLocation2 = $locationService->loadLocation($parentFolder2->contentInfo->mainLocationId);
+        $parentLocation1 = $parentFolder1->getVersionInfo()->getContentInfo()->getMainLocation();
+        $parentLocation2 = $parentFolder2->getVersionInfo()->getContentInfo()->getMainLocation();
         $secondaryLocation1 = $locationService->createLocation(
-            $folder1->contentInfo,
+            $folder1->getVersionInfo()->getContentInfo(),
             $locationService->newLocationCreateStruct($parentLocation1->id)
         );
         $secondaryLocation2 = $locationService->createLocation(
-            $folder2->contentInfo,
+            $folder2->getVersionInfo()->getContentInfo(),
             $locationService->newLocationCreateStruct($parentLocation2->id)
         );
 
@@ -1900,17 +1900,23 @@ class LocationServiceTest extends BaseTest
         $secondaryLocation1 = $locationService->loadLocation($secondaryLocation1->id);
         $secondaryLocation2 = $locationService->loadLocation($secondaryLocation2->id);
 
-        self::assertEquals($folder2->id, $secondaryLocation1->contentInfo->id);
-        self::assertEquals($folder1->id, $secondaryLocation2->contentInfo->id);
+        self::assertEquals($folder2->id, $secondaryLocation1->getContentInfo()->getId());
+        self::assertEquals($folder1->id, $secondaryLocation2->getContentInfo()->getId());
 
-        self::assertEquals(
-            $folder1,
-            $contentService->loadContent($folder1->id, Language::ALL)
+        self::assertEqualsCanonicalizing(
+            [$folder1->getVersionInfo()->getContentInfo()->getMainLocationId(), $secondaryLocation2->id],
+            array_map(
+                static fn (Location $location): int => $location->id,
+                $locationService->loadLocations($folder1->getVersionInfo()->getContentInfo())
+            )
         );
 
-        self::assertEquals(
-            $folder2,
-            $contentService->loadContent($folder2->id, Language::ALL)
+        self::assertEqualsCanonicalizing(
+            [$folder2->getVersionInfo()->getContentInfo()->getMainLocationId(), $secondaryLocation1->id],
+            array_map(
+                static fn (Location $location): int => $location->id,
+                $locationService->loadLocations($folder2->getVersionInfo()->getContentInfo())
+            )
         );
     }
 

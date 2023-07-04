@@ -918,10 +918,7 @@ class UserServiceTest extends BaseTest
         $this->assertSame($userType, $userCreate->contentType);
     }
 
-    /**
-     * Test for creating user with Active Directory login name.
-     */
-    public function testNewUserWithDomainName()
+    public function testNewUserWithDomainName(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -931,7 +928,7 @@ class UserServiceTest extends BaseTest
         );
         $loadedUser = $userService->loadUserByLogin('ibexa-user-Domain\username-by-login', Language::ALL);
 
-        $this->assertEquals($createdUser, $loadedUser);
+        $this->assertIsSameUser($createdUser, $loadedUser);
     }
 
     /**
@@ -1334,12 +1331,13 @@ class UserServiceTest extends BaseTest
     }
 
     /**
-     * Test for the loadUser() method.
+     * @covers  \Ibexa\Contracts\Core\Repository\UserService::loadUser()
      *
-     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUser()
      * @depends testCreateUser
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testLoadUser()
+    public function testLoadUser(): void
     {
         $repository = $this->getRepository();
 
@@ -1352,11 +1350,11 @@ class UserServiceTest extends BaseTest
         $userReloaded = $userService->loadUser($user->id, Language::ALL);
         /* END: Use Case */
 
-        $this->assertEquals($user, $userReloaded);
+        $this->assertIsSameUser($user, $userReloaded);
 
         // User happens to also be a Content; isUser() should be true and isUserGroup() should be false
-        $this->assertTrue($userService->isUser($user), 'isUser() => false on a user');
-        $this->assertFalse($userService->isUserGroup($user), 'isUserGroup() => true on a user group');
+        self::assertTrue($userService->isUser($user), 'isUser() => false on a user');
+        self::assertFalse($userService->isUserGroup($user), 'isUserGroup() => true on a user group');
     }
 
     /**
@@ -1541,25 +1539,23 @@ class UserServiceTest extends BaseTest
     }
 
     /**
-     * Test for the loadUsersByEmail() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUsersByEmail()
+     *
      * @depends testCreateUser
      */
-    public function testLoadUserByEmail()
+    public function testLoadUserByEmail(): void
     {
         $repository = $this->getRepository();
 
         $userService = $repository->getUserService();
 
-        /* BEGIN: Use Case */
         $user = $this->createUserVersion1();
 
         // Load the newly created user
         $usersReloaded = $userService->loadUsersByEmail('user@example.com', Language::ALL);
-        /* END: Use Case */
 
-        $this->assertEquals([$user], $usersReloaded);
+        self::assertCount(1, $usersReloaded);
+        $this->assertIsSameUser($user, $usersReloaded[0]);
     }
 
     /**
@@ -2944,11 +2940,9 @@ class UserServiceTest extends BaseTest
     }
 
     /**
-     * Test loading User by Token.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserByToken
      */
-    public function testLoadUserByToken()
+    public function testLoadUserByToken(): string
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2962,7 +2956,7 @@ class UserServiceTest extends BaseTest
         $userService->updateUserToken($user, $userTokenUpdateStruct);
 
         $loadedUser = $userService->loadUserByToken($userTokenUpdateStruct->hashKey, Language::ALL);
-        self::assertEquals($user, $loadedUser);
+        $this->assertIsSameUser($user, $loadedUser);
 
         return $userTokenUpdateStruct->hashKey;
     }
@@ -3444,6 +3438,14 @@ class UserServiceTest extends BaseTest
             ->setParameter('user_id', $userId);
 
         $queryBuilder->execute();
+    }
+
+    private function assertIsSameUser(User $expectedUser, User $actualUser): void
+    {
+        self::assertSame($expectedUser->getUserId(), $actualUser->getUserId());
+        self::assertSame($expectedUser->getName(), $actualUser->getName());
+        self::assertSame($expectedUser->login, $actualUser->login);
+        self::assertSame($expectedUser->email, $actualUser->email);
     }
 }
 
