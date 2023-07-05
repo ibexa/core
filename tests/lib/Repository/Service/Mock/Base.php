@@ -171,26 +171,12 @@ abstract class Base extends TestCase
         return $this->fieldTypeRegistryMock;
     }
 
-    protected $schemaIdentifierExtractor;
+    protected EventDispatcherInterface $eventDispatcher;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface
+     * @return \Symfony\Contracts\EventDispatcher\EventDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getSchemaIdentifierExtractorMock()
-    {
-        if (!isset($this->schemaIdentifierExtractor)) {
-            $this->schemaIdentifierExtractor = $this->createMock(SchemaIdentifierExtractorInterface::class);
-        }
-
-        return $this->schemaIdentifierExtractor;
-    }
-
-    protected $eventDispatcher;
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface
-     */
-    protected function getEventDispatcher()
+    protected function getEventDispatcher(): EventDispatcherInterface
     {
         if (!isset($this->eventDispatcher)) {
             $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);

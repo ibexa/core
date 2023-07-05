@@ -4,67 +4,58 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-namespace Ibexa\Tests\Core\Repository\Service\Mock;
+declare(strict_types=1);
+
+namespace Ibexa\Tests\Core\Repository\NameSchema;
 
 use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\Repository\NameSchema\NameSchemaService;
+use Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @covers \Ibexa\Core\Repository\Helper\NameSchemaService
+ * @covers \Ibexa\Core\Repository\NameSchema\NameSchemaService
  */
-class NameSchemaTest extends BaseServiceMockTest
+class NameSchemaServiceTest extends BaseServiceMockTest
 {
-    public function testResolveUrlAliasSchema()
+    public function testResolveUrlAliasSchema(): void
     {
         $content = $this->buildTestContentObject();
-        $contentType = $this->buildTestContentType();
+        $contentType = $this->buildTestContentTypeStub();
 
-        $serviceMock = $this->getMockBuilder(NameSchemaService::class)
-            ->setMethods(['resolve'])
-            ->setConstructorArgs(
-                [
-                    $this->getPersistenceMock()->contentTypeHandler(),
-                    $this->getContentTypeDomainMapperMock(),
-                    $this->getFieldTypeRegistryMock(),
-                    $this->getSchemaIdentifierExtractorMock(),
-                    $this->getEventDispatcherMock(['field' => '<urlalias_schema>'], $content, []),
-                ]
-            )
-            ->getMock();
+        $nameSchemaService = $this->buildNameSchemaService(
+            ['field' => ['<url_alias_schema>']],
+            $content,
+            ['eng-GB' => ['url_alias_schema' => 'foo']]
+        );
 
-        $result = $serviceMock->resolveUrlAliasSchema($content, $contentType);
+        $result = $nameSchemaService->resolveUrlAliasSchema($content, $contentType);
 
-        self::assertEquals([], $result);
+        self::assertEquals(['eng-GB' => 'foo'], $result);
     }
 
-    public function testResolveUrlAliasSchemaFallbackToNameSchema()
+    public function testResolveUrlAliasSchemaFallbackToNameSchema(): void
     {
         $content = $this->buildTestContentObject();
-        $contentType = $this->buildTestContentType('<name_schema>', '');
+        $contentType = $this->buildTestContentTypeStub('<name_schema>', '');
 
-        $serviceMock = $this->getMockBuilder(NameSchemaService::class)
-            ->setMethods(['resolve'])
-            ->setConstructorArgs(
-                [
-                    $this->getPersistenceMock()->contentTypeHandler(),
-                    $this->getContentTypeDomainMapperMock(),
-                    $this->getFieldTypeRegistryMock(),
-                    $this->getSchemaIdentifierExtractorMock(),
-                    $this->getEventDispatcherMock(['field' => '<name_schema>'], $content, []),
-                ]
-            )
-            ->getMock();
+        $nameSchemaService = $this->buildNameSchemaService(
+            ['field' => ['<name_schema>']],
+            $content,
+            ['eng-GB' => ['name_schema' => 'bar']]
+        );
 
-        $result = $serviceMock->resolveUrlAliasSchema($content, $contentType);
+        $result = $nameSchemaService->resolveUrlAliasSchema($content, $contentType);
 
-        self::assertEquals([], $result);
+        self::assertEquals(['eng-GB' => 'bar'], $result);
     }
 
     public function testResolveNameSchema()
@@ -72,7 +63,7 @@ class NameSchemaTest extends BaseServiceMockTest
         $serviceMock = $this->getPartlyMockedNameSchemaService(['resolve']);
 
         $content = $this->buildTestContentObject();
-        $contentType = $this->buildTestContentType();
+        $contentType = $this->buildTestContentTypeStub();
 
         $serviceMock->expects(
             $this->once()
@@ -97,7 +88,7 @@ class NameSchemaTest extends BaseServiceMockTest
         $serviceMock = $this->getPartlyMockedNameSchemaService(['resolve']);
 
         $content = $this->buildTestContentObject();
-        $contentType = $this->buildTestContentType();
+        $contentType = $this->buildTestContentTypeStub();
 
         $fields = [];
         $fields['text3']['cro-HR'] = new TextLineValue('tri');
@@ -149,7 +140,7 @@ class NameSchemaTest extends BaseServiceMockTest
         $serviceMock = $this->getPartlyMockedNameSchemaService(['getFieldTitles'], $settings);
 
         $content = $this->buildTestContentObject();
-        $contentType = $this->buildTestContentType();
+        $contentType = $this->buildTestContentTypeStub();
 
         $index = 0;
         foreach ($languageFieldValues as $languageCode => $fieldValue) {
@@ -173,9 +164,9 @@ class NameSchemaTest extends BaseServiceMockTest
     }
 
     /**
-     * Data provider for the @see testResolve method.
+     * Data provider for the @return array.
      *
-     * @return array
+     * @see testResolve method.
      */
     public function resolveDataProvider()
     {
@@ -323,16 +314,10 @@ class NameSchemaTest extends BaseServiceMockTest
         );
     }
 
-    /**
-     * Build ContentType stub for testing purpose.
-     *
-     * @param string $nameSchema
-     * @param string $urlAliasSchema
-     *
-     * @return \Ibexa\Core\Repository\Values\ContentType\ContentType
-     */
-    protected function buildTestContentType($nameSchema = '<name_schema>', $urlAliasSchema = '<urlalias_schema>')
-    {
+    protected function buildTestContentTypeStub(
+        string $nameSchema = '<name_schema>',
+        string $urlAliasSchema = '<url_alias_schema>'
+    ): ContentType {
         return new ContentType(
             [
                 'nameSchema' => $nameSchema,
@@ -350,18 +335,16 @@ class NameSchemaTest extends BaseServiceMockTest
      * @param string[] $methods
      * @param array $settings
      *
-     * @return \Ibexa\Core\Repository\Helper\NameSchemaService|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedNameSchemaService(array $methods = null, array $settings = [])
+    protected function getPartlyMockedNameSchemaService(array $methods = null, array $settings = []): NameSchemaServiceInterface
     {
         return $this->getMockBuilder(NameSchemaService::class)
             ->setMethods($methods)
             ->setConstructorArgs(
                 [
-                    $this->getPersistenceMock()->contentTypeHandler(),
-                    $this->getContentTypeDomainMapperMock(),
                     $this->getFieldTypeRegistryMock(),
-                    $this->getSchemaIdentifierExtractorMock(),
+                    new SchemaIdentifierExtractor(),
                     $this->getEventDispatcher(),
                     $settings,
                 ]
@@ -369,17 +352,37 @@ class NameSchemaTest extends BaseServiceMockTest
             ->getMock();
     }
 
-    protected function getEventDispatcherMock(array $schemaIdentifiers, Content $content, array $tokenValues)
-    {
+    /**
+     * @param array<string, array<string, string>> $schemaIdentifiers
+     */
+    protected function getEventDispatcherMock(
+        array $schemaIdentifiers,
+        Content $content,
+        array $tokenValues
+    ): EventDispatcherInterface {
         $event = new ResolveUrlAliasSchemaEvent($schemaIdentifiers, $content);
         $event->setTokenValues($tokenValues);
 
-        $eventDispatcherMock = parent::getEventDispatcher();
+        $eventDispatcherMock = $this->getEventDispatcher();
         $eventDispatcherMock->method('dispatch')
             ->willReturn($event);
 
         return $eventDispatcherMock;
     }
-}
 
-class_alias(NameSchemaTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\NameSchemaTest');
+    /**
+     * @param array<string, array<string>> $schemaIdentifiers
+     * @param array<string, array<string, string>> $tokenValues
+     */
+    private function buildNameSchemaService(
+        array $schemaIdentifiers,
+        Content $content,
+        array $tokenValues
+    ): NameSchemaService {
+        return new NameSchemaService(
+            $this->getFieldTypeRegistryMock(),
+            new SchemaIdentifierExtractor(),
+            $this->getEventDispatcherMock($schemaIdentifiers, $content, $tokenValues),
+        );
+    }
+}
