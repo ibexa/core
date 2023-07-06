@@ -45,8 +45,8 @@ final class SchemaIdentifierExtractorTest extends TestCase
         yield $schemaString => [
             $schemaString,
             [
-                'custom_strategy' => ['foo'],
-                'field' => ['bar'],
+                'custom_strategy' => ['bar'],
+                'field' => ['baz'],
             ],
         ];
 
@@ -56,6 +56,15 @@ final class SchemaIdentifierExtractorTest extends TestCase
             [
                 'custom_strategy' => ['foo'],
                 'field' => ['bar'],
+            ],
+        ];
+
+        $schemaString = '<custom_strategy:foo|custom_strategy:bar>-<field:bar|baz>';
+        yield $schemaString => [
+            $schemaString,
+            [
+                'custom_strategy' => ['foo', 'bar'],
+                'field' => ['bar', 'baz'],
             ],
         ];
     }
@@ -72,8 +81,6 @@ final class SchemaIdentifierExtractorTest extends TestCase
      */
     public function testExtract(string $schemaString, array $expectedStrategyIdentifierMap): void
     {
-        $this->markTestIncomplete('Requires fixing SchemaIdentifierExtractor behavior');
-
         self::assertSame($expectedStrategyIdentifierMap, $this->extractor->extract($schemaString));
     }
 }

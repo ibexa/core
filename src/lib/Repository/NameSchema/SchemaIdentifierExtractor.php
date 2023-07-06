@@ -27,7 +27,7 @@ final class SchemaIdentifierExtractor implements SchemaIdentifierExtractorInterf
      */
     public function extract(string $schemaString): array
     {
-        $allTokens = '/<(.*?)>/';
+        $allTokens = '/<([^>]+)>/';
 
         if (false === preg_match_all($allTokens, $schemaString, $matches)) {
             return [];
@@ -35,15 +35,20 @@ final class SchemaIdentifierExtractor implements SchemaIdentifierExtractorInterf
 
         $strategyIdentifiers = [];
         foreach ($matches[1] as $tokenExpression) {
-            $strategyToken = explode(':', $tokenExpression, 2);
-            if (count($strategyToken) === 2) {
-                [$strategy, $token] = $strategyToken;
-            } else {
-                $token = $strategyToken[0];
-                $strategy = 'field';
-            }
+            $tokens = explode('|', $tokenExpression);
 
-            $strategyIdentifiers[$strategy] = array_merge($strategyIdentifiers[$strategy] ?? [], explode('|', $token));
+            foreach ($tokens as $token) {
+                $strategyToken = explode(':', $token, 2);
+
+                if (count($strategyToken) === 2) {
+                    [$strategy, $token] = $strategyToken;
+                } else {
+                    $token = $strategyToken[0];
+                    $strategy = 'field';
+                }
+
+                $strategyIdentifiers[$strategy][] = $token;
+            }
         }
 
         return $strategyIdentifiers;
