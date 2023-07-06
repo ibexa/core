@@ -33,7 +33,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
     /**
      * Resolves the URL alias schema by setting token values for specified field identifiers and languages.
      *
-     * @param \Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent $event The event object containing the schema identifiers, content, languages, and token values.
+     * @param \Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent $event
      */
     public function onResolveUrlAliasSchema(ResolveUrlAliasSchemaEvent $event): void
     {

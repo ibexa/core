@@ -6215,11 +6215,15 @@ class ContentTest extends BaseServiceMockTest
         return $this->relationProcessorMock;
     }
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface */
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject
+     * &\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
+     */
     protected NameSchemaServiceInterface $nameSchemaServiceMock;
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject
+     * &\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
      */
     protected function getNameSchemaServiceMock(): NameSchemaServiceInterface
     {

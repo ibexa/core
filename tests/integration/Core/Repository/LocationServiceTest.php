@@ -1875,7 +1875,6 @@ class LocationServiceTest extends BaseTest
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
-        $contentService = $repository->getContentService();
 
         $folder1 = $this->createFolder(['eng-GB' => 'Folder1'], 2);
         $folder2 = $this->createFolder(['eng-GB' => 'Folder2'], 2);

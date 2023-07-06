@@ -67,9 +67,9 @@ class NameSchemaService implements NameSchemaServiceInterface
         $this->fieldTypeRegistry = $fieldTypeRegistry;
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
-            'limit' => 150,
-            'sequence' => '...',
-        ];
+                'limit' => 150,
+                'sequence' => '...',
+            ];
         $this->eventDispatcher = $eventDispatcher;
         $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
@@ -109,15 +109,17 @@ class NameSchemaService implements NameSchemaServiceInterface
     /**
      * Convenience method for resolving name schema.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      * @param array $fieldMap
      * @param array $languageCodes
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType
      *
      * @return array
      */
-    public function resolveNameSchema(Content $content, array $fieldMap = [], array $languageCodes = [], ContentType $contentType = null): array
-    {
+    public function resolveNameSchema(
+        Content $content,
+        array $fieldMap = [],
+        array $languageCodes = [],
+        ContentType $contentType = null
+    ): array {
         $contentType ??= $content->getContentType();
 
         $languageCodes = $languageCodes ?: $content->versionInfo->languageCodes;
@@ -202,17 +204,21 @@ class NameSchemaService implements NameSchemaServiceInterface
      * Fetches the list of available Field identifiers in the token and returns
      * an array of their current title value.
      *
-     * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
-     *
      * @param array<string> $schemaIdentifiers
      * @param array<string,string> $fieldMap
      *
+     * @return string[] Key is the field identifier, value is the title value
+     *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      *
-     * @return string[] Key is the field identifier, value is the title value
+     * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
      */
-    protected function getFieldTitles(array $schemaIdentifiers, ContentType $contentType, array $fieldMap, string $languageCode): array
-    {
+    protected function getFieldTitles(
+        array $schemaIdentifiers,
+        ContentType $contentType,
+        array $fieldMap,
+        string $languageCode
+    ): array {
         $fieldTitles = [];
 
         foreach ($schemaIdentifiers as $fieldDefinitionIdentifier) {
@@ -285,7 +291,10 @@ class NameSchemaService implements NameSchemaServiceInterface
                 // In this case id1 or id1 is a token group.
                 break;
             } else {
-                if (array_key_exists($tokenPart, $titles) && $titles[$tokenPart] !== '' && $titles[$tokenPart] !== null) {
+                if (array_key_exists(
+                    $tokenPart,
+                    $titles
+                ) && $titles[$tokenPart] !== '' && $titles[$tokenPart] !== null) {
                     $replaceString = $titles[$tokenPart];
                     // We want to stop after the first matching token part / identifier is found
                     // <id1|id2> if id1 has a value, id2 will not be used.
@@ -347,7 +356,7 @@ class NameSchemaService implements NameSchemaServiceInterface
     protected function filterNameSchema(string $nameSchema): array
     {
         $retNamePattern = '';
-        $foundGroups = preg_match_all('/[<|\\|](\\(.+\\))[\\||>]/U', $nameSchema, $groupArray);
+        $foundGroups = preg_match_all('/\((.+)\)/U', $nameSchema, $groupArray);
         $groupLookupTable = [];
 
         if ($foundGroups) {

@@ -26,6 +26,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 class NameSchemaServiceTest extends BaseServiceMockTest
 {
+    private const NAME_SCHEMA = '<name_schema>';
+
     public function testResolveUrlAliasSchema(): void
     {
         $content = $this->buildTestContentObject();
@@ -45,10 +47,10 @@ class NameSchemaServiceTest extends BaseServiceMockTest
     public function testResolveUrlAliasSchemaFallbackToNameSchema(): void
     {
         $content = $this->buildTestContentObject();
-        $contentType = $this->buildTestContentTypeStub('<name_schema>', '');
+        $contentType = $this->buildTestContentTypeStub(self::NAME_SCHEMA, '');
 
         $nameSchemaService = $this->buildNameSchemaService(
-            ['field' => ['<name_schema>']],
+            ['field' => [self::NAME_SCHEMA]],
             $content,
             ['eng-GB' => ['name_schema' => 'bar']]
         );
@@ -70,7 +72,7 @@ class NameSchemaServiceTest extends BaseServiceMockTest
         )->method(
             'resolve'
         )->with(
-            '<name_schema>',
+            self::NAME_SCHEMA,
             $this->equalTo($contentType),
             $this->equalTo($content->fields),
             $this->equalTo($content->versionInfo->languageCodes)
@@ -108,7 +110,7 @@ class NameSchemaServiceTest extends BaseServiceMockTest
         )->method(
             'resolve'
         )->with(
-            '<name_schema>',
+            self::NAME_SCHEMA,
             $this->equalTo($contentType),
             $this->equalTo($mergedFields),
             $this->equalTo($languages)
@@ -158,7 +160,12 @@ class NameSchemaServiceTest extends BaseServiceMockTest
             );
         }
 
-        $result = $serviceMock->resolve($nameSchema, $contentType, $content->fields, $content->versionInfo->languageCodes);
+        $result = $serviceMock->resolve(
+            $nameSchema,
+            $contentType,
+            $content->fields,
+            $content->versionInfo->languageCodes
+        );
 
         self::assertEquals($languageFieldValues, $result);
     }
@@ -335,10 +342,13 @@ class NameSchemaServiceTest extends BaseServiceMockTest
      * @param string[] $methods
      * @param array $settings
      *
-     * @return \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
+     *         &\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedNameSchemaService(array $methods = null, array $settings = []): NameSchemaServiceInterface
-    {
+    protected function getPartlyMockedNameSchemaService(
+        array $methods = null,
+        array $settings = []
+    ): NameSchemaServiceInterface {
         return $this->getMockBuilder(NameSchemaService::class)
             ->setMethods($methods)
             ->setConstructorArgs(

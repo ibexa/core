@@ -20,7 +20,12 @@ interface NameSchemaServiceInterface
 {
     public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array;
 
-    public function resolveNameSchema(Content $content, array $fieldMap = [], array $languageCodes = [], ContentType $contentType = null): array;
+    public function resolveNameSchema(
+        Content $content,
+        array $fieldMap = [],
+        array $languageCodes = [],
+        ContentType $contentType = null
+    ): array;
 
     public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array;
 }
