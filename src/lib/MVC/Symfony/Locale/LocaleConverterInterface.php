@@ -34,6 +34,12 @@ interface LocaleConverterInterface
      * @return string|null
      */
     public function convertToEz($posixLocale);
+
+    /**
+     * Converts a locale in POSIX format to Repository internal format.
+     * Returns null if conversion cannot be made.
+     */
+    public function convertToRepository(string $posixLocale): ?string;
 }
 
 class_alias(LocaleConverterInterface::class, 'eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverterInterface');

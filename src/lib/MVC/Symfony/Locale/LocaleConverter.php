@@ -58,6 +58,9 @@ class LocaleConverter implements LocaleConverterInterface
      * Converts a locale in POSIX format to Ibexa internal format.
      * Returns null if conversion cannot be made.
      *
+     * @deprecated use convertToRepository instead
+     * @see convertToRepository
+     *
      * @param string $posixLocale
      *
      * @return string|null
@@ -68,6 +71,17 @@ class LocaleConverter implements LocaleConverterInterface
             $this->logger->warning("Could not convert locale '$posixLocale' to Ibexa format. Please check your locale configuration in ezplatform.yml");
 
             return;
+        }
+
+        return $this->reverseConversionMap[$posixLocale];
+    }
+
+    public function convertToRepository(string $posixLocale): ?string
+    {
+        if (!isset($this->reverseConversionMap[$posixLocale])) {
+            $this->logger->warning("Could not convert locale '$posixLocale' to Repository format. Please check your locale configuration in ibexa.yaml");
+
+            return null;
         }
 
         return $this->reverseConversionMap[$posixLocale];

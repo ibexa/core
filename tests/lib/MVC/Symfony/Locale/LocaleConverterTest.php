@@ -13,19 +13,27 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \Ibexa\Core\MVC\Symfony\Locale\LocaleConverter
  */
-class LocaleConverterTest extends TestCase
+final class LocaleConverterTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverter */
-    private $localeConverter;
+    private LocaleConverter $localeConverter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $logger;
+    /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private LoggerInterface $logger;
 
-    private $conversionMap;
+    /**
+     * @var array{
+     *   array{
+     *     string,
+     *     string|null,
+     *   }
+     * }
+     */
+    private array $conversionMap;
 
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->conversionMap = [
             'eng-GB' => 'en_GB',
             'eng-US' => 'en_US',
@@ -41,11 +49,8 @@ class LocaleConverterTest extends TestCase
 
     /**
      * @dataProvider convertToPOSIXProvider
-     *
-     * @param $ezpLocale
-     * @param $expected
      */
-    public function testConvertToPOSIX($ezpLocale, $expected)
+    public function testConvertToPOSIX(string $ezpLocale, ?string $expected): void
     {
         if ($expected === null) {
             $this->logger
@@ -53,10 +58,10 @@ class LocaleConverterTest extends TestCase
                 ->method('warning');
         }
 
-        $this->assertSame($expected, $this->localeConverter->convertToPOSIX($ezpLocale));
+        self::assertSame($expected, $this->localeConverter->convertToPOSIX($ezpLocale));
     }
 
-    public function convertToPOSIXProvider()
+    public function convertToPOSIXProvider(): array
     {
         return [
             ['eng-GB', 'en_GB'],
@@ -69,12 +74,9 @@ class LocaleConverterTest extends TestCase
     }
 
     /**
-     * @dataProvider convertToEzProvider
-     *
-     * @param $posixLocale
-     * @param $expected
+     * @dataProvider convertToRepositoryProvider
      */
-    public function testConvertToEz($posixLocale, $expected)
+    public function testConvertToEz(string $posixLocale, ?string $expected): void
     {
         if ($expected === null) {
             $this->logger
@@ -82,10 +84,32 @@ class LocaleConverterTest extends TestCase
                 ->method('warning');
         }
 
-        $this->assertSame($expected, $this->localeConverter->convertToEz($posixLocale));
+        self::assertSame($expected, $this->localeConverter->convertToEz($posixLocale));
     }
 
-    public function convertToEzProvider()
+    /**
+     * @dataProvider convertToRepositoryProvider
+     */
+    public function testConvertToRepository(string $posixLocale, ?string $expected): void
+    {
+        if ($expected === null) {
+            $this->logger
+                ->expects($this->once())
+                ->method('warning');
+        }
+
+        self::assertSame($expected, $this->localeConverter->convertToRepository($posixLocale));
+    }
+
+    /**
+     * @return array{
+     *   array{
+     *     string,
+     *     string|null,
+     *   }
+     * }
+     */
+    public function convertToRepositoryProvider(): array
     {
         return [
             ['en_GB', 'eng-GB'],
