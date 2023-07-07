@@ -19,6 +19,9 @@ interface LocaleConverterInterface
      * Converts a locale in Ibexa internal format to POSIX format.
      * Returns null if conversion cannot be made.
      *
+     * @deprecated use convertToRepository instead
+     * @see convertToRepository
+     *
      * @param string $ezpLocale
      *
      * @return string|null

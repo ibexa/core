@@ -50,7 +50,7 @@ final class LocaleConverterTest extends TestCase
     /**
      * @dataProvider convertToPOSIXProvider
      */
-    public function testConvertToPOSIX(string $ezpLocale, ?string $expected): void
+    public function testConvertToPOSIX(string $repositoryLocale, ?string $expected): void
     {
         if ($expected === null) {
             $this->logger
@@ -58,7 +58,7 @@ final class LocaleConverterTest extends TestCase
                 ->method('warning');
         }
 
-        self::assertSame($expected, $this->localeConverter->convertToPOSIX($ezpLocale));
+        self::assertSame($expected, $this->localeConverter->convertToPOSIX($repositoryLocale));
     }
 
     public function convertToPOSIXProvider(): array

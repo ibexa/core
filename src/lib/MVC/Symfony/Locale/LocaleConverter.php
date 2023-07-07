@@ -58,9 +58,6 @@ class LocaleConverter implements LocaleConverterInterface
      * Converts a locale in POSIX format to Ibexa internal format.
      * Returns null if conversion cannot be made.
      *
-     * @deprecated use convertToRepository instead
-     * @see convertToRepository
-     *
      * @param string $posixLocale
      *
      * @return string|null
