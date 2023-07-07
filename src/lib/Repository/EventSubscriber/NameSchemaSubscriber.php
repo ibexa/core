@@ -51,6 +51,9 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
             $languageCode = $language->getLanguageCode();
             foreach ($identifiers as $identifier) {
                 $fieldDefinition = $contentType->getFieldDefinition($identifier);
+                if (null === $fieldDefinition) {
+                    continue;
+                }
                 $persistenceFieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldTypeIdentifier);
 
                 $fieldValue = $content->getFieldValue($identifier, $languageCode);
