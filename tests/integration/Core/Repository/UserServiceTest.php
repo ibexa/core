@@ -1331,7 +1331,7 @@ class UserServiceTest extends BaseTest
     }
 
     /**
-     * @covers  \Ibexa\Contracts\Core\Repository\UserService::loadUser()
+     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUser()
      *
      * @depends testCreateUser
      *

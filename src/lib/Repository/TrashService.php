@@ -51,8 +51,7 @@ class TrashService implements TrashServiceInterface
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Core\Repository\Helper\NameSchemaService */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
     private $permissionCriterionResolver;

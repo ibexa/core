@@ -88,8 +88,7 @@ class ContentService implements ContentServiceInterface
     /** @var \Ibexa\Core\Repository\Helper\RelationProcessor */
     protected $relationProcessor;
 
-    /** @var \Ibexa\Core\Repository\Helper\NameSchemaService */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
     protected $fieldTypeRegistry;

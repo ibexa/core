@@ -150,12 +150,7 @@ class Repository implements RepositoryInterface
     /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
     private $fieldTypeRegistry;
 
-    /**
-     * Instance of name schema resolver service.
-     *
-     * @var \Ibexa\Core\Repository\Helper\NameSchemaService
-     */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /**
      * Instance of relation processor service.
@@ -731,8 +726,6 @@ class Repository implements RepositoryInterface
     /**
      * @internal
      * @private
-     *
-     * @return \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
      */
     public function getNameSchemaService(): NameSchemaServiceInterface
     {

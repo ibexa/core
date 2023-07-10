@@ -34,8 +34,7 @@ class URLAliasService implements URLAliasServiceInterface
     /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler */
     protected $urlAliasHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;

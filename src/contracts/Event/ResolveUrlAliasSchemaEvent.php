@@ -18,6 +18,9 @@ final class ResolveUrlAliasSchemaEvent extends Event
 
     private Content $content;
 
+    /**
+     * @var array<string, array<string>>
+     */
     private array $names = [];
 
     public function __construct(

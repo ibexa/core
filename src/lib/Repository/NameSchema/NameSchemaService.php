@@ -51,8 +51,10 @@ class NameSchemaService implements NameSchemaServiceInterface
 
     protected FieldTypeRegistry $fieldTypeRegistry;
 
-    /** @var array */
-    protected $settings;
+    /**
+     * @param array{limit?: integer, sequence?: string} $settings
+     */
+    protected array $settings;
 
     private EventDispatcherInterface $eventDispatcher;
 
@@ -145,7 +147,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      *
      * @return array
      */
-    protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes)
+    protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes): array
     {
         if (empty($fieldMap)) {
             return $content->fields;
@@ -155,9 +157,8 @@ class NameSchemaService implements NameSchemaServiceInterface
 
         foreach ($content->fields as $fieldIdentifier => $fieldLanguageMap) {
             foreach ($languageCodes as $languageCode) {
-                $mergedFieldMap[$fieldIdentifier][$languageCode] = isset($fieldMap[$fieldIdentifier][$languageCode])
-                    ? $fieldMap[$fieldIdentifier][$languageCode]
-                    : $fieldLanguageMap[$languageCode];
+                $mergedFieldMap[$fieldIdentifier][$languageCode]
+                    = $fieldMap[$fieldIdentifier][$languageCode] ?? $fieldLanguageMap[$languageCode];
             }
         }
 
@@ -366,6 +367,7 @@ class NameSchemaService implements NameSchemaServiceInterface
                 $metaToken = self::META_STRING . $i;
 
                 // Insert the group with its placeholder token
+                /** @var string $retNamePattern */
                 $retNamePattern = str_replace($group, $metaToken, $nameSchema);
 
                 // Remove the pattern "(" ")" from the tokens
@@ -411,7 +413,7 @@ class NameSchemaService implements NameSchemaServiceInterface
 
     public function validateNameLength(string $name): string
     {
-        // Make sure length is not longer then $limit unless it's 0
+        // Make sure length is not longer than $limit unless it's 0
         if ($this->settings['limit'] && mb_strlen($name) > $this->settings['limit']) {
             $name = rtrim(
                 mb_substr($name, 0, $this->settings['limit'] - strlen($this->settings['sequence']))
