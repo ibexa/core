@@ -26,7 +26,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * @covers \Ibexa\Core\Repository\NameSchema\NameSchemaService
  */
-class NameSchemaServiceTest extends BaseServiceMockTest
+final class NameSchemaServiceTest extends BaseServiceMockTest
 {
     private const NAME_SCHEMA = '<name_schema>';
 
