@@ -352,7 +352,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      *
      * @param string $nameSchema
      *
-     * @return array
+     * @return array{string, array<string, string>}
      */
     protected function filterNameSchema(string $nameSchema): array
     {
