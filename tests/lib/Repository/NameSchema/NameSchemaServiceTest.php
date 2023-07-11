@@ -22,6 +22,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Traversable;
 
 /**
  * @covers \Ibexa\Core\Repository\NameSchema\NameSchemaService
@@ -202,54 +203,35 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[]
+     * @return \Traversable<\Ibexa\Contracts\Core\Repository\Values\Content\Field>
      */
-    protected function getFields(): array
+    protected function getFields(): Traversable
     {
-        return [
-            new Field(
-                [
-                    'languageCode' => 'eng-GB',
-                    'fieldDefIdentifier' => 'text1',
-                    'value' => new TextLineValue('one'),
-                ]
-            ),
-            new Field(
-                [
-                    'languageCode' => 'eng-GB',
-                    'fieldDefIdentifier' => 'text2',
-                    'value' => new TextLineValue('two'),
-                ]
-            ),
-            new Field(
-                [
-                    'languageCode' => 'eng-GB',
-                    'fieldDefIdentifier' => 'text3',
-                    'value' => new TextLineValue(''),
-                ]
-            ),
-            new Field(
-                [
-                    'languageCode' => 'cro-HR',
-                    'fieldDefIdentifier' => 'text1',
-                    'value' => new TextLineValue('jedan'),
-                ]
-            ),
-            new Field(
-                [
-                    'languageCode' => 'cro-HR',
-                    'fieldDefIdentifier' => 'text2',
-                    'value' => new TextLineValue('dva'),
-                ]
-            ),
-            new Field(
-                [
-                    'languageCode' => 'cro-HR',
-                    'fieldDefIdentifier' => 'text3',
-                    'value' => new TextLineValue(''),
-                ]
-            ),
+        $translatedFieldValueMap = [
+            'eng-GB' => [
+                'text1' => 'one',
+                'text2' => 'two',
+                'text3' => '',
+            ],
+            'cro-HR' => [
+                'text1' => 'jedan',
+                'text2' => 'dva',
+                'text3' => '',
+            ],
         ];
+
+        foreach ($translatedFieldValueMap as $languageCode => $fieldValues) {
+            foreach ($fieldValues as $fieldDefinitionIdentifier => $textValue) {
+                yield new Field(
+                    [
+                        'languageCode' => $languageCode,
+                        'fieldDefIdentifier' => $fieldDefinitionIdentifier,
+                        'value' => new TextLineValue($textValue),
+                        'fieldTypeIdentifier' => 'ezstring',
+                    ]
+                );
+            }
+        }
     }
 
     protected function getFieldDefinitions(): APIFieldDefinitionCollection
@@ -290,7 +272,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     {
         return new Content(
             [
-                'internalFields' => $this->getFields(),
+                'internalFields' => iterator_to_array($this->getFields()),
                 'versionInfo' => new VersionInfo(
                     [
                         'languageCodes' => ['eng-GB', 'cro-HR'],
