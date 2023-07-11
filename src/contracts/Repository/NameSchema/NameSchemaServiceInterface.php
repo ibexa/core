@@ -18,6 +18,9 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
  */
 interface NameSchemaServiceInterface
 {
+    /**
+     * @return array<string, string> key value map of names for a language code
+     */
     public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array;
 
     /**

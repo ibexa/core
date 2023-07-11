@@ -60,6 +60,9 @@ class NameSchemaService implements NameSchemaServiceInterface
 
     private SchemaIdentifierExtractorInterface $schemaIdentifierExtractor;
 
+    /**
+     * @param array{limit?: integer, sequence?: string} $settings
+     */
     public function __construct(
         FieldTypeRegistry $fieldTypeRegistry,
         SchemaIdentifierExtractorInterface $schemaIdentifierExtractor,
@@ -76,9 +79,6 @@ class NameSchemaService implements NameSchemaServiceInterface
         $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
 
-    /**
-     * @return array<string, string> key value map of names for a language code
-     */
     public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array
     {
         $contentType ??= $content->getContentType();
@@ -108,14 +108,6 @@ class NameSchemaService implements NameSchemaServiceInterface
         return $names;
     }
 
-    /**
-     * Convenience method for resolving name schema.
-     *
-     * @param array $fieldMap
-     * @param array $languageCodes
-     *
-     * @return array
-     */
     public function resolveNameSchema(
         Content $content,
         array $fieldMap = [],
@@ -165,16 +157,6 @@ class NameSchemaService implements NameSchemaServiceInterface
         return $mergedFieldMap;
     }
 
-    /**
-     * Returns the real name for a content name pattern.
-     *
-     * @param string $nameSchema
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param array $fieldMap
-     * @param array $languageCodes
-     *
-     * @return string[]
-     */
     public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
     {
         [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
@@ -206,11 +188,9 @@ class NameSchemaService implements NameSchemaServiceInterface
      * an array of their current title value.
      *
      * @param array<string> $schemaIdentifiers
-     * @param array<string,string> $fieldMap
+     * @param array<string, array<string, string>> $fieldMap
      *
      * @return string[] Key is the field identifier, value is the title value
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      *
      * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
      */
@@ -223,19 +203,20 @@ class NameSchemaService implements NameSchemaServiceInterface
         $fieldTitles = [];
 
         foreach ($schemaIdentifiers as $fieldDefinitionIdentifier) {
-            if (isset($fieldMap[$fieldDefinitionIdentifier][$languageCode])) {
-                $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
-
-                $persistenceFieldType = $this->fieldTypeRegistry->getFieldType(
-                    $fieldDefinition->fieldTypeIdentifier
-                );
-
-                $fieldTitles[$fieldDefinitionIdentifier] = $persistenceFieldType->getName(
-                    $fieldMap[$fieldDefinitionIdentifier][$languageCode],
-                    $fieldDefinition,
-                    $languageCode
-                );
+            if (!isset($fieldMap[$fieldDefinitionIdentifier][$languageCode])) {
+                continue;
             }
+
+            $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
+            $persistenceFieldType = $this->fieldTypeRegistry->getFieldType(
+                $fieldDefinition->fieldTypeIdentifier
+            );
+
+            $fieldTitles[$fieldDefinitionIdentifier] = $persistenceFieldType->getName(
+                $fieldMap[$fieldDefinitionIdentifier][$languageCode],
+                $fieldDefinition,
+                $languageCode
+            );
         }
 
         return $fieldTitles;
@@ -246,7 +227,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      *
      * Example:
      * <code>
-     * Text &lt;token&gt; more text ==&gt; &lt;token&gt;
+     * Text <token> more text ==> <token>
      * </code>
      */
     protected function extractTokens(string $nameSchema): array
@@ -291,16 +272,15 @@ class NameSchemaService implements NameSchemaServiceInterface
                 // <id1|id2> if id1 has a value, id2 will not be used.
                 // In this case id1 or id1 is a token group.
                 break;
-            } else {
-                if (array_key_exists(
-                    $tokenPart,
-                    $titles
-                ) && $titles[$tokenPart] !== '' && $titles[$tokenPart] !== null) {
-                    $replaceString = $titles[$tokenPart];
-                    // We want to stop after the first matching token part / identifier is found
-                    // <id1|id2> if id1 has a value, id2 will not be used.
-                    break;
-                }
+            }
+            if (array_key_exists($tokenPart, $titles)
+                && $titles[$tokenPart] !== ''
+                && $titles[$tokenPart] !== null
+            ) {
+                $replaceString = $titles[$tokenPart];
+                // We want to stop after the first matching token part / identifier is found
+                // <id1|id2> if id1 has a value, id2 will not be used.
+                break;
             }
         }
 
@@ -309,18 +289,10 @@ class NameSchemaService implements NameSchemaServiceInterface
 
     /**
      * Checks whether $identifier is a placeholder for a token group.
-     *
-     * @param string $identifier
-     *
-     * @return bool
      */
     protected function isTokenGroup(string $identifier): bool
     {
-        if (strpos($identifier, self::META_STRING) === false) {
-            return false;
-        }
-
-        return true;
+        return strpos($identifier, self::META_STRING) !== false;
     }
 
     /**
@@ -347,8 +319,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      * The groups are referenced with a generated meta-token in the original
      * name pattern.
      *
-     * Returns intermediate name pattern where groups are replaced with meta-
-     * tokens.
+     * Returns intermediate name pattern where groups are replaced with meta-tokens.
      *
      * @param string $nameSchema
      *
