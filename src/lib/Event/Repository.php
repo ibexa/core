@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInte
 use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterface;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
-use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
@@ -28,7 +27,6 @@ use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServiceInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class Repository implements RepositoryInterface
 {
@@ -86,10 +84,6 @@ final class Repository implements RepositoryInterface
     /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
 
-    private EventDispatcherInterface $eventDispatcher;
-
-    private NameSchemaServiceInterface $nameSchemaService;
-
     public function __construct(
         RepositoryInterface $repository,
         BookmarkServiceInterface $bookmarkService,
@@ -108,9 +102,7 @@ final class Repository implements RepositoryInterface
         URLServiceInterface $urlService,
         URLWildcardServiceInterface $urlWildcardService,
         UserPreferenceServiceInterface $userPreferenceService,
-        UserServiceInterface $userService,
-        EventDispatcherInterface $eventDispatcher,
-        NameSchemaServiceInterface $nameSchemaService
+        UserServiceInterface $userService
     ) {
         $this->repository = $repository;
         $this->bookmarkService = $bookmarkService;
@@ -130,8 +122,6 @@ final class Repository implements RepositoryInterface
         $this->urlWildcardService = $urlWildcardService;
         $this->userPreferenceService = $userPreferenceService;
         $this->userService = $userService;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->nameSchemaService = $nameSchemaService;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)

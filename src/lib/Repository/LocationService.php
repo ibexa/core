@@ -67,8 +67,7 @@ class LocationService implements LocationServiceInterface
     /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
     protected $contentDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Helper\NameSchemaService */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
     protected $permissionCriterionResolver;

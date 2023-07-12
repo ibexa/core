@@ -12,6 +12,9 @@ use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @internal
+ */
 final class NameSchemaSubscriber implements EventSubscriberInterface
 {
     private FieldTypeRegistry $fieldTypeRegistry;
