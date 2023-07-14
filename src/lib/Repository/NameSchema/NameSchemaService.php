@@ -83,7 +83,9 @@ class NameSchemaService implements NameSchemaServiceInterface
     {
         $contentType ??= $content->getContentType();
         $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
+        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($schemaName);
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
+        $tokens = $this->extractTokens($filteredNameSchema);
 
         /** @var \Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent $event */
         $event = $this->eventDispatcher->dispatch(
@@ -92,17 +94,17 @@ class NameSchemaService implements NameSchemaServiceInterface
                 $content
             )
         );
-
         $names = [];
-        $tokens = $event->getTokenValues();
-        $extractedTokens = $this->extractTokens($schemaName);
-        foreach ($tokens as $languageCode => $tokenValues) {
-            $schema = $schemaName;
-            foreach ($extractedTokens as $extractedToken) {
-                $name = $this->resolveToken($extractedToken, $tokenValues, []);
-                $schema = str_replace($extractedToken, $name, $schema);
+        $tokenValues = $event->getTokenValues();
+        foreach ($tokenValues as $languageCode => $tokenValue) {
+            $name = $filteredNameSchema;
+            foreach ($tokens as $token) {
+                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
+                $name = str_replace($token, $string, $name);
             }
-            $names[$languageCode] = $schema;
+            $name = $this->validateNameLength($name);
+
+            $names[$languageCode] = $name;
         }
 
         return $names;

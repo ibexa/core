@@ -76,6 +76,15 @@ final class SchemaIdentifierExtractorTest extends TestCase
                 'custom' => ['bar'],
             ],
         ];
+
+        $schemaString = '<specification|(<name> <image1>)-(<custom:bar(|baz|bar)>)-<field:bar|baz>';
+        yield $schemaString => [
+            $schemaString,
+            [
+                'field' => ['specification', 'name', 'image1', 'baz', 'bar'],
+                'custom' => ['bar'],
+            ],
+        ];
     }
 
     protected function setUp(): void
