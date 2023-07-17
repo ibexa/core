@@ -72,6 +72,17 @@ class LocaleConverter implements LocaleConverterInterface
 
         return $this->reverseConversionMap[$posixLocale];
     }
+
+    public function convertToRepository(string $posixLocale): ?string
+    {
+        if (!isset($this->reverseConversionMap[$posixLocale])) {
+            $this->logger->warning("Could not convert locale '$posixLocale' to Repository format. Please check your locale configuration in ibexa.yaml");
+
+            return null;
+        }
+
+        return $this->reverseConversionMap[$posixLocale];
+    }
 }
 
 class_alias(LocaleConverter::class, 'eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverter');
