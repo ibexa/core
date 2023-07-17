@@ -109,7 +109,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
             }
 
             $params = [
-                '_route' => self::URL_ALIAS_ROUTE_NAME,
+                '_route' => static::URL_ALIAS_ROUTE_NAME,
             ];
             switch ($urlAlias->type) {
                 case URLAlias::LOCATION:
@@ -305,7 +305,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
         }
 
         // Normal route name
-        if ($name === self::URL_ALIAS_ROUTE_NAME) {
+        if ($name === static::URL_ALIAS_ROUTE_NAME) {
             if (isset($parameters['location']) || isset($parameters['locationId'])) {
                 // Check if location is a valid Location object
                 if (isset($parameters['location']) && !$parameters['location'] instanceof Location) {
@@ -379,7 +379,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      */
     public function supports($name)
     {
-        return $name === self::URL_ALIAS_ROUTE_NAME || $this->supportsObject($name);
+        return $name === static::URL_ALIAS_ROUTE_NAME || $this->supportsObject($name);
     }
 
     private function supportsObject($object): bool
