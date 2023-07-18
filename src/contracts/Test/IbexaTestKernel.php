@@ -89,6 +89,7 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
         Repository\SectionService::class,
         Repository\UserService::class,
         Repository\TokenService::class,
+        Repository\URLAliasService::class,
     ];
 
     /**
@@ -150,6 +151,7 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
     {
         $loader->load(static function (ContainerBuilder $container): void {
             $container->setParameter('ibexa.core.test.resource_dir', self::getResourcesPath());
+            $container->setParameter('ibexa.kernel.root_dir', dirname(__DIR__, 3));
         });
 
         $this->loadConfiguration($loader);

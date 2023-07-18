@@ -27,15 +27,6 @@ services:
         Ibexa\DoctrineSchema\Database\DbPlatform\DbPlatformInterface:
             tags: [ ibexa.doctrine.db.platform ]
 
-    Symfony\Component\EventDispatcher\EventDispatcher:
-        calls:
-            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\ContentEventSubscriber']]
-            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\LocationEventSubscriber']]
-            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\ObjectStateEventSubscriber']]
-            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\SectionEventSubscriber']]
-            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber']]
-            - ['addSubscriber', ['@Ibexa\Core\Search\Common\EventSubscriber\UserEventSubscriber']]
-
     Doctrine\Common\EventManager: ~
 
     Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform:

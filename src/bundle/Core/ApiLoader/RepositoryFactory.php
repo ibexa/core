@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -63,7 +64,7 @@ class RepositoryFactory implements ContainerAwareInterface
         $this->repositoryClass = $repositoryClass;
         $this->policyMap = $policyMap;
         $this->languageResolver = $languageResolver;
-        $this->logger = null !== $logger ? $logger : new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -91,9 +92,10 @@ class RepositoryFactory implements ContainerAwareInterface
         ContentFilteringHandler $contentFilteringHandler,
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
-        ConfigResolverInterface $configResolver
+        ConfigResolverInterface $configResolver,
+        NameSchemaServiceInterface $nameSchemaService
     ): Repository {
-        $config = $this->container->get(\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider::class)->getRepositoryConfig();
+        $config = $this->container->get(RepositoryConfigurationProvider::class)->getRepositoryConfig();
 
         return new $this->repositoryClass(
             $persistenceHandler,
@@ -116,6 +118,7 @@ class RepositoryFactory implements ContainerAwareInterface
             $locationFilteringHandler,
             $passwordValidator,
             $configResolver,
+            $nameSchemaService,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

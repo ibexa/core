@@ -1,0 +1,20 @@
+parameters:
+    ibexa.core.repository.name_schema.settings: []
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor: ~
+
+    Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface:
+        alias: 'Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor'
+
+    Ibexa\Core\Repository\NameSchema\NameSchemaService:
+        arguments:
+            $settings: '%ibexa.core.repository.name_schema.settings%'
+
+    Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface:
+        alias: 'Ibexa\Core\Repository\NameSchema\NameSchemaService'

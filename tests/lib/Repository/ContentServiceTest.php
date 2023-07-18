@@ -10,13 +10,13 @@ namespace Ibexa\Tests\Core\Repository;
 
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\ContentService;
-use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentMapper;
@@ -37,7 +37,7 @@ final class ContentServiceTest extends TestCase
             $this->createMock(PersistenceHandler::class),
             $this->createMock(ContentDomainMapper::class),
             $this->createMock(RelationProcessor::class),
-            $this->createMock(NameSchemaService::class),
+            $this->createMock(NameSchemaServiceInterface::class),
             $this->createMock(FieldTypeRegistry::class),
             $this->createMock(PermissionService::class),
             $this->createMock(ContentMapper::class),

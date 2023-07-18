@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\FieldTypeService as FieldTypeServiceInterfac
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\ObjectStateService as ObjectStateServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
@@ -40,7 +41,6 @@ use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
-use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
@@ -150,12 +150,7 @@ class Repository implements RepositoryInterface
     /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
     private $fieldTypeRegistry;
 
-    /**
-     * Instance of name schema resolver service.
-     *
-     * @var \Ibexa\Core\Repository\Helper\NameSchemaService
-     */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /**
      * Instance of relation processor service.
@@ -287,6 +282,7 @@ class Repository implements RepositoryInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
+        NameSchemaServiceInterface $nameSchemaService,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -332,11 +328,12 @@ class Repository implements RepositoryInterface
             $this->serviceSettings['language']['languages'] = $this->serviceSettings['languages'];
         }
 
-        $this->logger = null !== $logger ? $logger : new NullLogger();
+        $this->logger = $logger ?? new NullLogger();
         $this->contentMapper = $contentMapper;
         $this->contentValidator = $contentValidator;
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
+        $this->nameSchemaService = $nameSchemaService;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -727,29 +724,11 @@ class Repository implements RepositoryInterface
     }
 
     /**
-     * Get NameSchemaResolverService.
-     *
-     *
-     * @todo Move out from this & other repo instances when services becomes proper services in DIC terms using factory.
-     *
      * @internal
      * @private
-     *
-     * @return \Ibexa\Core\Repository\Helper\NameSchemaService
      */
-    public function getNameSchemaService(): NameSchemaService
+    public function getNameSchemaService(): NameSchemaServiceInterface
     {
-        if ($this->nameSchemaService !== null) {
-            return $this->nameSchemaService;
-        }
-
-        $this->nameSchemaService = new Helper\NameSchemaService(
-            $this->persistenceHandler->contentTypeHandler(),
-            $this->contentTypeDomainMapper,
-            $this->fieldTypeRegistry,
-            $this->serviceSettings['nameSchema']
-        );
-
         return $this->nameSchemaService;
     }
 

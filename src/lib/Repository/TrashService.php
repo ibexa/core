@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException as APIUnauthorizedException;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
@@ -50,8 +51,7 @@ class TrashService implements TrashServiceInterface
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Core\Repository\Helper\NameSchemaService */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
     private $permissionCriterionResolver;
@@ -67,7 +67,6 @@ class TrashService implements TrashServiceInterface
      *
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param \Ibexa\Contracts\Core\Persistence\Handler $handler
-     * @param \Ibexa\Core\Repository\Helper\NameSchemaService $nameSchemaService
      * @param \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver $permissionCriterionResolver
      * @param \Ibexa\Contracts\Core\Repository\PermissionResolver $permissionResolver
      * @param array $settings
@@ -75,7 +74,7 @@ class TrashService implements TrashServiceInterface
     public function __construct(
         RepositoryInterface $repository,
         Handler $handler,
-        Helper\NameSchemaService $nameSchemaService,
+        NameSchemaServiceInterface $nameSchemaService,
         PermissionCriterionResolver $permissionCriterionResolver,
         PermissionResolver $permissionResolver,
         ProxyDomainMapperInterface $proxyDomainMapper,

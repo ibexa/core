@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as APIRepository;
@@ -38,6 +39,7 @@ use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Search\Common\BackgroundIndexer\NullIndexer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Base test case for tests on services using Mock testing.
@@ -126,6 +128,7 @@ abstract class Base extends TestCase
                 $this->getLocationFilteringHandlerMock(),
                 $this->createMock(PasswordValidatorInterface::class),
                 $this->createMock(ConfigResolverInterface::class),
+                $this->createMock(NameSchemaServiceInterface::class),
                 $serviceSettings,
             );
 
@@ -165,6 +168,20 @@ abstract class Base extends TestCase
         }
 
         return $this->fieldTypeRegistryMock;
+    }
+
+    protected EventDispatcherInterface $eventDispatcher;
+
+    /**
+     * @return \Symfony\Contracts\EventDispatcher\EventDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getEventDispatcher(): EventDispatcherInterface
+    {
+        if (!isset($this->eventDispatcher)) {
+            $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+        }
+
+        return $this->eventDispatcher;
     }
 
     /**

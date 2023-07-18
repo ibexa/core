@@ -25,6 +25,7 @@ use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringH
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
@@ -87,8 +88,7 @@ class ContentService implements ContentServiceInterface
     /** @var \Ibexa\Core\Repository\Helper\RelationProcessor */
     protected $relationProcessor;
 
-    /** @var \Ibexa\Core\Repository\Helper\NameSchemaService */
-    protected $nameSchemaService;
+    protected NameSchemaServiceInterface $nameSchemaService;
 
     /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
     protected $fieldTypeRegistry;
@@ -110,7 +110,7 @@ class ContentService implements ContentServiceInterface
         Handler $handler,
         ContentDomainMapper $contentDomainMapper,
         Helper\RelationProcessor $relationProcessor,
-        Helper\NameSchemaService $nameSchemaService,
+        NameSchemaServiceInterface $nameSchemaService,
         FieldTypeRegistry $fieldTypeRegistry,
         PermissionService $permissionService,
         ContentMapper $contentMapper,
