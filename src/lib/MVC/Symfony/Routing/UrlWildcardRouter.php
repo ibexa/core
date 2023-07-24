@@ -151,7 +151,7 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
      */
     public function supports($name): bool
     {
-        return $name === self::URL_ALIAS_ROUTE_NAME;
+        return $name === static::URL_ALIAS_ROUTE_NAME;
     }
 
     /**
