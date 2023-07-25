@@ -85,6 +85,15 @@ final class SchemaIdentifierExtractorTest extends TestCase
                 'custom' => ['bar'],
             ],
         ];
+
+        $schemaString = '<description|(<attribute:mouse_type> <attribute:mouse_weight>)>';
+        yield $schemaString => [
+            $schemaString,
+            [
+                'field' => ['description'],
+                'attribute' => ['mouse_type', 'mouse_weight'],
+            ],
+        ];
     }
 
     protected function setUp(): void
@@ -99,6 +108,7 @@ final class SchemaIdentifierExtractorTest extends TestCase
      */
     public function testExtract(string $schemaString, array $expectedStrategyIdentifierMap): void
     {
-        self::assertSame($expectedStrategyIdentifierMap, $this->extractor->extract($schemaString));
+        $extracted = $this->extractor->extract($schemaString);
+        self::assertSame($expectedStrategyIdentifierMap, $extracted);
     }
 }

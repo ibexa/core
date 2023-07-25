@@ -329,7 +329,7 @@ class NameSchemaService implements NameSchemaServiceInterface
      */
     protected function filterNameSchema(string $nameSchema): array
     {
-        $retNamePattern = '';
+        $retNamePattern = $nameSchema;
         $foundGroups = preg_match_all('/\((.+)\)/U', $nameSchema, $groupArray);
         $groupLookupTable = [];
 
@@ -341,7 +341,7 @@ class NameSchemaService implements NameSchemaServiceInterface
 
                 // Insert the group with its placeholder token
                 /** @var string $retNamePattern */
-                $retNamePattern = str_replace($group, $metaToken, $nameSchema);
+                $retNamePattern = str_replace($group, $metaToken, $retNamePattern);
 
                 // Remove the pattern "(" ")" from the tokens
                 $group = str_replace(['(', ')'], '', $group);
