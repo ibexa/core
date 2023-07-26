@@ -112,6 +112,9 @@ parameters:
     ibexa.site_access.config.default.io.file_storage.file_type_blacklist:
         - php
         - php3
+        - php4
+        - php5
+        - phps
         - phar
         - phpt
         - pht
