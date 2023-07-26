@@ -769,7 +769,8 @@ final class DoctrineDatabase extends Gateway
                 'a.data_text AS ezcontentobject_attribute_data_text',
                 'a.sort_key_int AS ezcontentobject_attribute_sort_key_int',
                 'a.sort_key_string AS ezcontentobject_attribute_sort_key_string',
-                't.main_node_id AS ezcontentobject_tree_main_node_id'
+                't.main_node_id AS ezcontentobject_tree_main_node_id',
+                'cc.identifier AS ezcontentclass_identifier',
             )
             ->from('ezcontentobject', 'c')
             ->innerJoin(
@@ -797,6 +798,15 @@ final class DoctrineDatabase extends Gateway
                 $expr->andX(
                     $expr->eq('c.id', 't.contentobject_id'),
                     $expr->eq('t.node_id', 't.main_node_id')
+                )
+            )
+            ->leftJoin(
+                'c',
+                'ezcontentclass',
+                'cc',
+                $expr->and(
+                    $expr->eq('c.contentclass_id', 'cc.id'),
+                    $expr->eq('cc.version', 0)
                 )
             );
 

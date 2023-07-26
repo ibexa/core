@@ -113,13 +113,26 @@ final class QueryBuilder
         }
 
         $queryBuilder
-            ->select('c.*', 't.main_node_id AS ezcontentobject_tree_main_node_id')
+            ->select(
+                'c.*',
+                't.main_node_id AS ezcontentobject_tree_main_node_id',
+                'cc.identifier AS ezcontentclass_identifier'
+            )
             ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
             ->leftJoin(
                 'c',
                 'ezcontentobject_tree',
                 't',
                 $joinCondition
+            )
+            ->leftJoin(
+                'c',
+                'ezcontentclass',
+                'cc',
+                $expr->and(
+                    $expr->eq('c.contentclass_id', 'cc.id'),
+                    $expr->eq('cc.version', 0)
+                )
             );
 
         return $queryBuilder;
@@ -163,7 +176,9 @@ final class QueryBuilder
                 'c.status AS ezcontentobject_status',
                 'c.name AS ezcontentobject_name',
                 'c.language_mask AS ezcontentobject_language_mask',
-                'c.is_hidden AS ezcontentobject_is_hidden'
+                'c.is_hidden AS ezcontentobject_is_hidden',
+                // Content class
+                'cc.identifier AS ezcontentclass_identifier'
             )
             ->from(Gateway::CONTENT_VERSION_TABLE, 'v')
             ->innerJoin(
@@ -179,6 +194,15 @@ final class QueryBuilder
                 $expr->andX(
                     $expr->eq('t.contentobject_id', 'v.contentobject_id'),
                     $expr->eq('t.main_node_id', 't.node_id')
+                )
+            )
+            ->leftJoin(
+                'c',
+                'ezcontentclass',
+                'cc',
+                $expr->and(
+                    $expr->eq('c.contentclass_id', 'cc.id'),
+                    $expr->eq('cc.version', 0)
                 )
             );
 

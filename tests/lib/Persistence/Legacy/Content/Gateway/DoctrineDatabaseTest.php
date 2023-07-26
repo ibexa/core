@@ -608,7 +608,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         foreach ($res as $row) {
             $this->assertCount(
-                23,
+                24,
                 $row
             );
         }
@@ -651,7 +651,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         foreach ($res as $row) {
             $this->assertCount(
-                23,
+                24,
                 $row
             );
         }
@@ -698,9 +698,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testCreateFixtureForMapperExtractContentFromRowsMultipleVersions()
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
 
@@ -721,9 +719,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     public function testCreateFixtureForMapperExtractContentFromRows()
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
 
@@ -1667,9 +1663,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
      */
     public function testLoadVersionInfo(): void
     {
-        $this->insertDatabaseFixture(
-            __DIR__ . '/../_fixtures/contentobjects.php'
-        );
+        $this->insertContentToDatabase();
 
         $gateway = $this->getDatabaseGateway();
 
@@ -1987,6 +1981,17 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     )
                 )
                 ->orderBy('id')
+        );
+    }
+
+    private function insertContentToDatabase(): void
+    {
+        $this->insertDatabaseFixture(
+            __DIR__ . '/../_fixtures/contentclass.php'
+        );
+
+        $this->insertDatabaseFixture(
+            __DIR__ . '/../_fixtures/contentobjects.php'
         );
     }
 }

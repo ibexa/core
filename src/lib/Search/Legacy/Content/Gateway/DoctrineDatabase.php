@@ -216,8 +216,9 @@ final class DoctrineDatabase extends Gateway
         array $languageFilter
     ): array {
         $query = $this->connection->createQueryBuilder();
+        $expr = $query->expr();
         $query->select(
-            'DISTINCT c.*, main_tree.main_node_id AS main_tree_main_node_id',
+            'DISTINCT c.*, main_tree.main_node_id AS main_tree_main_node_id, cc.identifier AS ezcontentclass_identifier',
         );
 
         if ($sort !== null) {
@@ -236,9 +237,18 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_tree',
-                $query->expr()->andX(
+                $expr->andX(
                     'main_tree.contentobject_id = c.id',
                     'main_tree.main_node_id = main_tree.node_id'
+                )
+            )
+            ->leftJoin(
+                'c',
+                'ezcontentclass',
+                'cc',
+                $expr->and(
+                    $expr->eq('c.contentclass_id', 'cc.id'),
+                    $expr->eq('cc.version', 0)
                 )
             );
 
