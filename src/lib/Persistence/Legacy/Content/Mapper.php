@@ -243,12 +243,17 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
      */
-    public function extractContentInfoFromRow(array $row, $prefix = '', $treePrefix = 'ezcontentobject_tree_')
-    {
+    public function extractContentInfoFromRow(
+        array $row,
+        $prefix = '',
+        $treePrefix = 'ezcontentobject_tree_',
+        $contentClassPrefix = 'ezcontentclass_'
+    ) {
         $contentInfo = new ContentInfo();
         $contentInfo->id = (int)$row["{$prefix}id"];
         $contentInfo->name = $row["{$prefix}name"];
         $contentInfo->contentTypeId = (int)$row["{$prefix}contentclass_id"];
+        $contentInfo->contentTypeIdentifier = $row["{$contentClassPrefix}identifier"];
         $contentInfo->sectionId = (int)$row["{$prefix}section_id"];
         $contentInfo->currentVersionNo = (int)$row["{$prefix}current_version"];
         $contentInfo->isPublished = ($row["{$prefix}status"] == ContentInfo::STATUS_PUBLISHED);
