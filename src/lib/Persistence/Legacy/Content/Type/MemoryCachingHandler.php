@@ -189,6 +189,22 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     /**
      * {@inheritdoc}
      */
+    public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array
+    {
+        $cacheKey = 'ibx-ctlbfdi-' . $identifier;
+
+        $types = $this->cache->get($cacheKey);
+        if ($types === null) {
+            $types = $this->innerHandler->loadContentTypesByFieldDefinitionIdentifier($identifier);
+            $this->storeTypeCache($types, $cacheKey);
+        }
+
+        return $types;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function load($contentTypeId, $status = Type::STATUS_DEFINED)
     {
         $contentType = $this->cache->get('ez-content-type-' . $contentTypeId . '-' . $status);

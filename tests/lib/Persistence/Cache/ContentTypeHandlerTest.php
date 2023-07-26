@@ -204,6 +204,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
             ],
             ['loadAllGroups', [], 'ibx-ctgl', null, null, [['content_type_group_list', [], true]], ['ibx-ctgl'], [3 => $group]],
             ['loadContentTypes', [3, 0], 'ibx-ctlbg-3', null, null, [['content_type_list_by_group', [3], true]], ['ibx-ctlbg-3'], [$type]],
+            ['loadContentTypesByFieldDefinitionIdentifier', [3, 0], 'ibx-ctlbfdi-3', null, null, [['content_type_list_by_field_definition_identifier', [3], true]], ['ibx-ctlbfdi-3'], [$type]],
             ['loadContentTypeList', [[5]], 'ibx-ct-5', null, null, [['content_type', [], true]], ['ibx-ct'], [5 => $type], true],
             ['load', [5, 0], 'ibx-ct-5', null, null, [['content_type', [], true]], ['ibx-ct'], $type],
             [

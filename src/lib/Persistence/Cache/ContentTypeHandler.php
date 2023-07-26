@@ -26,6 +26,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     private const BY_IDENTIFIER_SUFFIX = 'by_identifier_suffix';
     private const CONTENT_TYPE_LIST_BY_GROUP_IDENTIFIER = 'content_type_list_by_group';
     private const BY_REMOTE_SUFFIX = 'by_remote_suffix';
+    private const CONTENT_TYPE_LIST_BY_FIELD_DEFINITION_IDENTIFIER = 'content_type_list_by_field_definition_identifier';
     private const TYPE_MAP_IDENTIFIER = 'type_map';
     private const CONTENT_FIELDS_TYPE_IDENTIFIER = 'content_fields_type';
     private const TYPE_WITHOUT_VALUE_IDENTIFIER = 'type_without_value';
@@ -300,6 +301,23 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
             $this->getTypeTags,
             $this->getTypeKeys,
             '-' . $this->cacheIdentifierGenerator->generateKey(self::BY_REMOTE_SUFFIX)
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array
+    {
+        return $this->getListCacheValue(
+            $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_LIST_BY_FIELD_DEFINITION_IDENTIFIER, [$identifier], true),
+            function () use ($identifier): array {
+                return $this->persistenceHandler->contentTypeHandler()->loadContentTypesByFieldDefinitionIdentifier($identifier);
+            },
+            $this->getTypeTags,
+            $this->getTypeKeys,
+            null,
+            [$identifier]
         );
     }
 

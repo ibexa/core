@@ -284,6 +284,30 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
+    public function testLoadContentTypesByFieldDefinitionIdentifier(): void
+    {
+        $gatewayMock = $this->getGatewayMock();
+        $gatewayMock->expects($this->once())
+            ->method('loadTypesDataByFieldDefinitionIdentifier')
+            ->with(self::equalTo('ezstring'))
+            ->willReturn([]);
+
+        $mapperMock = $this->getMapperMock();
+        $mapperMock->expects(self::once())
+            ->method('extractTypesFromRows')
+            ->with($this->equalTo([]))
+            ->willReturn([23 => new Type()]);
+
+        $handler = $this->getHandler();
+        $types = $handler->loadContentTypesByFieldDefinitionIdentifier('ezstring');
+
+        self::assertEquals(
+            [23 => new Type()],
+            $types,
+            'Types not loaded correctly'
+        );
+    }
+
     public function testLoad()
     {
         $gatewayMock = $this->getGatewayMock();

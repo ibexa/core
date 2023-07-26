@@ -245,6 +245,15 @@ final class ExceptionConversion extends Gateway
         }
     }
 
+    public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array
+    {
+        try {
+            return $this->innerGateway->loadTypesDataByFieldDefinitionIdentifier($identifier);
+        } catch (PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function countInstancesOfType(int $typeId): int
     {
         try {

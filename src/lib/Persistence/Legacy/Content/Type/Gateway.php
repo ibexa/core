@@ -116,6 +116,8 @@ abstract class Gateway
      */
     abstract public function loadTypesListData(array $typeIds): array;
 
+    abstract public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array;
+
     abstract public function loadTypeData(int $typeId, int $status): array;
 
     abstract public function loadTypeDataByIdentifier(string $identifier, int $status): array;

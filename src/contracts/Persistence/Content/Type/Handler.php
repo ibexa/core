@@ -92,6 +92,11 @@ interface Handler
     public function loadContentTypeList(array $contentTypeIds): array;
 
     /**
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     */
+    public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array;
+
+    /**
      * Loads a content type by id and status.
      *
      * Note: This method is responsible of having the Field Definitions of the loaded ContentType sorted by placement.
