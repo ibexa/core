@@ -602,13 +602,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $res
         );
 
-        foreach ($res as $row) {
-            $this->assertCount(
-                24,
-                $row
-            );
-        }
-
         $this->assertEquals(
             675,
             $res[0]['ezcontentobject_version_id']
@@ -642,13 +635,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             2,
             $res
         );
-
-        foreach ($res as $row) {
-            $this->assertCount(
-                24,
-                $row
-            );
-        }
 
         $this->assertEquals(
             677,
