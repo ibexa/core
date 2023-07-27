@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use function time;
 
@@ -116,7 +117,7 @@ final class QueryBuilder
             ->select(
                 'c.*',
                 't.main_node_id AS ezcontentobject_tree_main_node_id',
-                'cc.identifier AS ezcontentclass_identifier'
+                'ct.identifier AS content_type_identifier'
             )
             ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
             ->leftJoin(
@@ -125,13 +126,13 @@ final class QueryBuilder
                 't',
                 $joinCondition
             )
-            ->leftJoin(
+            ->innerJoin(
                 'c',
                 'ezcontentclass',
-                'cc',
+                'ct',
                 $expr->and(
-                    $expr->eq('c.contentclass_id', 'cc.id'),
-                    $expr->eq('cc.version', 0)
+                    $expr->eq('c.contentclass_id', 'ct.id'),
+                    $expr->eq('ct.version', Type::STATUS_DEFINED)
                 )
             );
 
@@ -177,8 +178,7 @@ final class QueryBuilder
                 'c.name AS ezcontentobject_name',
                 'c.language_mask AS ezcontentobject_language_mask',
                 'c.is_hidden AS ezcontentobject_is_hidden',
-                // Content class
-                'cc.identifier AS ezcontentclass_identifier'
+                'ct.identifier AS content_type_identifier'
             )
             ->from(Gateway::CONTENT_VERSION_TABLE, 'v')
             ->innerJoin(
@@ -196,13 +196,13 @@ final class QueryBuilder
                     $expr->eq('t.main_node_id', 't.node_id')
                 )
             )
-            ->leftJoin(
+            ->innerJoin(
                 'c',
                 'ezcontentclass',
-                'cc',
+                'ct',
                 $expr->and(
-                    $expr->eq('c.contentclass_id', 'cc.id'),
-                    $expr->eq('cc.version', 0)
+                    $expr->eq('c.contentclass_id', 'ct.id'),
+                    $expr->eq('ct.version', Type::STATUS_DEFINED)
                 )
             );
 
