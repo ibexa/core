@@ -9,7 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\ValueObject;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
-class ContentInfoTest extends TestCase
+final class ContentInfoTest extends TestCase
 {
     public function testGetContentTypeIdentifier(): void
     {
