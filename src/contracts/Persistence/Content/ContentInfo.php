@@ -137,7 +137,7 @@ class ContentInfo extends ValueObject
      */
     public $isHidden = false;
 
-    public function getContentIdentifier(): string
+    public function getContentTypeIdentifier(): string
     {
         return $this->contentTypeIdentifier;
     }

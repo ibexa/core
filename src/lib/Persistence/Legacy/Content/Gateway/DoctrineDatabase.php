@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
@@ -770,14 +771,14 @@ final class DoctrineDatabase extends Gateway
                 'a.sort_key_int AS ezcontentobject_attribute_sort_key_int',
                 'a.sort_key_string AS ezcontentobject_attribute_sort_key_string',
                 't.main_node_id AS ezcontentobject_tree_main_node_id',
-                'cc.identifier AS ezcontentclass_identifier',
+                'ct.identifier AS content_type_identifier',
             )
             ->from('ezcontentobject', 'c')
             ->innerJoin(
                 'c',
                 'ezcontentobject_version',
                 'v',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('c.id', 'v.contentobject_id'),
                     $expr->eq('v.version', $version ?? 'c.current_version')
                 )
@@ -786,7 +787,7 @@ final class DoctrineDatabase extends Gateway
                 'v',
                 'ezcontentobject_attribute',
                 'a',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('v.contentobject_id', 'a.contentobject_id'),
                     $expr->eq('v.version', 'a.version')
                 )
@@ -795,18 +796,18 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 'ezcontentobject_tree',
                 't',
-                $expr->andX(
+                $expr->and(
                     $expr->eq('c.id', 't.contentobject_id'),
                     $expr->eq('t.node_id', 't.main_node_id')
                 )
             )
-            ->leftJoin(
+            ->innerJoin(
                 'c',
                 'ezcontentclass',
-                'cc',
+                'ct',
                 $expr->and(
-                    $expr->eq('c.contentclass_id', 'cc.id'),
-                    $expr->eq('cc.version', 0)
+                    $expr->eq('c.contentclass_id', 'ct.id'),
+                    $expr->eq('ct.version', Type::STATUS_DEFINED)
                 )
             );
 
