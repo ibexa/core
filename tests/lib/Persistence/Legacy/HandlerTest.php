@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Core\Persistence\Legacy;
 
+use Ibexa\Contracts\Core\Container;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPILanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
@@ -30,7 +31,7 @@ use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
  */
 class HandlerTest extends TestCase
 {
-    public function testContentHandler()
+    public function testContentHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $contentHandler = $handler->contentHandler();
@@ -45,7 +46,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testContentHandlerTwice()
+    public function testContentHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -55,7 +56,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testContentTypeHandler()
+    public function testContentTypeHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $contentTypeHandler = $handler->contentTypeHandler();
@@ -66,7 +67,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testContentLanguageHandler()
+    public function testContentLanguageHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $contentLanguageHandler = $handler->contentLanguageHandler();
@@ -77,7 +78,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testContentTypeHandlerTwice()
+    public function testContentTypeHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -87,7 +88,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testLocationHandler()
+    public function testLocationHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $locationHandler = $handler->locationHandler();
@@ -102,7 +103,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testLocationHandlerTwice()
+    public function testLocationHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -112,7 +113,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testUserHandler()
+    public function testUserHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $userHandler = $handler->userHandler();
@@ -127,7 +128,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testUserHandlerTwice()
+    public function testUserHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -137,7 +138,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testSectionHandler()
+    public function testSectionHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $sectionHandler = $handler->sectionHandler();
@@ -152,7 +153,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testSectionHandlerTwice()
+    public function testSectionHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -162,7 +163,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testUrlAliasHandler()
+    public function testUrlAliasHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $urlAliasHandler = $handler->urlAliasHandler();
@@ -177,7 +178,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testUrlAliasHandlerTwice()
+    public function testUrlAliasHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -187,7 +188,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testNotificationHandlerTwice()
+    public function testNotificationHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -197,7 +198,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testTransactionHandler()
+    public function testTransactionHandler(): void
     {
         $handler = $this->getHandlerFixture();
         $transactionHandler = $handler->transactionHandler();
@@ -212,7 +213,7 @@ class HandlerTest extends TestCase
         );
     }
 
-    public function testTransactionHandlerTwice()
+    public function testTransactionHandlerTwice(): void
     {
         $handler = $this->getHandlerFixture();
 
@@ -222,27 +223,22 @@ class HandlerTest extends TestCase
         );
     }
 
-    protected static $legacyHandler;
+    protected static Handler $legacyHandler;
 
-    /**
-     * Returns the Handler.
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Handler
-     */
-    protected function getHandlerFixture()
+    protected function getHandlerFixture(): Handler
     {
         if (!isset(self::$legacyHandler)) {
             $container = $this->getContainer();
 
-            self::$legacyHandler = $container->get(\Ibexa\Core\Persistence\Legacy\Handler::class);
+            self::$legacyHandler = $container->get(Handler::class);
         }
 
         return self::$legacyHandler;
     }
 
-    protected static $container;
+    protected static Container $container;
 
-    protected function getContainer()
+    protected function getContainer(): Container
     {
         if (!isset(self::$container)) {
             $installDir = self::getInstallationDir();

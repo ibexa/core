@@ -14,76 +14,75 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCre
 use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as BaseContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
+use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 
 class MemoryCachingHandler implements BaseContentTypeHandler
 {
-    /**
-     * Inner handler to dispatch calls to.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
-     */
-    protected $innerHandler;
+    private const CONTENT_TYPE_GROUP_LIST = 'content_type_group_list';
+    private const CONTENT_TYPE_GROUP = 'content_type_group';
+    private const BY_IDENTIFIER_SUFFIX = 'by_identifier_suffix';
+    private const CONTENT_TYPE_GROUP_LIST_BY_GROUP = 'content_type_list_by_group';
+    private const CONTENT_TYPE = 'content_type';
+    private const BY_REMOTE_SUFFIX = 'by_remote_suffix';
+    private const CONTENT_TYPE_LIST_BY_GROUP = 'content_type_list_by_group';
+    private const CONTENT_TYPE_FIELD_MAP = 'content_type_field_map';
 
-    /**
-     * Type cache.
-     *
-     * @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
-     */
-    protected $cache;
+    /** Inner handler to dispatch calls to. */
+    protected BaseContentTypeHandler $innerHandler;
 
-    /**
-     * Creates a new content type handler.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Handler $handler
-     * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache $cache
-     */
-    public function __construct(BaseContentTypeHandler $handler, InMemoryCache $cache)
-    {
+    protected InMemoryCache $cache;
+
+    private CacheIdentifierGeneratorInterface $generator;
+
+    public function __construct(
+        BaseContentTypeHandler $handler,
+        InMemoryCache $cache,
+        CacheIdentifierGeneratorInterface $generator
+    ) {
         $this->innerHandler = $handler;
         $this->cache = $cache;
+        $this->generator = $generator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createGroup(GroupCreateStruct $createStruct)
+    public function createGroup(GroupCreateStruct $createStruct): Group
     {
         $group = $this->innerHandler->createGroup($createStruct);
         $this->storeGroupCache([$group]);
-        $this->cache->deleteMulti(['ez-content-type-group-list']);
+        $this->cache->deleteMulti([
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true),
+        ]);
 
         return $group;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updateGroup(GroupUpdateStruct $struct)
+    public function updateGroup(GroupUpdateStruct $struct): Group
     {
         $group = $this->innerHandler->updateGroup($struct);
         $this->storeGroupCache([$group]);
-        $this->cache->deleteMulti(['ez-content-type-group-list']);
+        $this->cache->deleteMulti([
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true),
+        ]);
 
         return $group;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteGroup($groupId)
+    public function deleteGroup($groupId): void
     {
         $this->innerHandler->deleteGroup($groupId);
         // Delete by primary key will remove the object, so we don't need to clear `-by-identifier` variant here.
-        $this->cache->deleteMulti(['ez-content-type-group-' . $groupId, 'ez-content-type-group-list']);
+        $this->cache->deleteMulti([
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP, [$groupId], true),
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true),
+        ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadGroup($groupId)
+    public function loadGroup($groupId): Group
     {
-        $group = $this->cache->get('ez-content-type-group-' . $groupId);
+        $group = $this->cache->get(
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP, [$groupId], true)
+        );
+
         if ($group === null) {
             $group = $this->innerHandler->loadGroup($groupId);
             $this->storeGroupCache([$group]);
@@ -93,13 +92,17 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
      */
-    public function loadGroups(array $groupIds)
+    public function loadGroups(array $groupIds): array
     {
         $groups = $missingIds = [];
         foreach ($groupIds as $groupId) {
-            if ($group = $this->cache->get('ez-content-type-group-' . $groupId)) {
+            $group = $this->cache->get(
+                $this->generator->generateKey(self::CONTENT_TYPE_GROUP, [$groupId], true)
+            );
+
+            if ($group !== null) {
                 $groups[$groupId] = $group;
             } else {
                 $missingIds[] = $groupId;
@@ -116,12 +119,13 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $groups;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadGroupByIdentifier($identifier)
+    public function loadGroupByIdentifier($identifier): Group
     {
-        $group = $this->cache->get('ez-content-type-group-' . $identifier . '-by-identifier');
+        $group = $this->cache->get(
+            $this->generator->generateKey(self::CONTENT_TYPE_GROUP, [$identifier], true) .
+            $this->generator->generateKey(self::BY_IDENTIFIER_SUFFIX)
+        );
+
         if ($group === null) {
             $group = $this->innerHandler->loadGroupByIdentifier($identifier);
             $this->storeGroupCache([$group]);
@@ -131,46 +135,57 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
      */
-    public function loadAllGroups()
+    public function loadAllGroups(): array
     {
-        $groups = $this->cache->get('ez-content-type-group-list');
+        $contentTypeGroupListKey = $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST, [], true);
+        $groups = $this->cache->get($contentTypeGroupListKey);
+
         if ($groups === null) {
             $groups = $this->innerHandler->loadAllGroups();
-            $this->storeGroupCache($groups, 'ez-content-type-group-list');
+            $this->storeGroupCache($groups, $contentTypeGroupListKey);
         }
 
         return $groups;
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
      */
-    public function loadContentTypes($groupId, $status = Type::STATUS_DEFINED)
+    public function loadContentTypes($groupId, $status = Type::STATUS_DEFINED): array
     {
         if ($status !== Type::STATUS_DEFINED) {
             return $this->innerHandler->loadContentTypes($groupId, $status);
         }
 
-        $types = $this->cache->get('ez-content-type-list-by-group-' . $groupId);
+        $contentTypeGroupListByGroup = $this->generator->generateKey(self::CONTENT_TYPE_GROUP_LIST_BY_GROUP, [$groupId], true);
+        $types = $this->cache->get($contentTypeGroupListByGroup);
+
         if ($types === null) {
             $types = $this->innerHandler->loadContentTypes($groupId, $status);
-            $this->storeTypeCache($types, 'ez-content-type-list-by-group-' . $groupId);
+            $this->storeTypeCache($types, $contentTypeGroupListByGroup);
         }
 
         return $types;
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
      */
     public function loadContentTypeList(array $contentTypeIds): array
     {
         $contentTypes = $missingIds = [];
         foreach ($contentTypeIds as $contentTypeId) {
-            if ($contentType = $this->cache->get('ez-content-type-' . $contentTypeId . '-' . Type::STATUS_DEFINED)) {
-                $contentTypes[$contentTypeId] = $contentType;
+            $cacheKey = $this->generator->generateKey(
+                self::CONTENT_TYPE,
+                [$contentTypeId],
+                true
+            ) . '-' . Type::STATUS_DEFINED;
+
+            $cacheItem = $this->cache->get($cacheKey);
+            if ($cacheItem !== null) {
+                $contentTypes[$contentTypeId] = $cacheItem;
             } else {
                 $missingIds[] = $contentTypeId;
             }
@@ -207,7 +222,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
      */
     public function load($contentTypeId, $status = Type::STATUS_DEFINED)
     {
-        $contentType = $this->cache->get('ez-content-type-' . $contentTypeId . '-' . $status);
+        $contentType = $this->cache->get(
+            $this->generator->generateKey(self::CONTENT_TYPE, [$contentTypeId], true) . '-' . $status
+        );
+
         if ($contentType === null) {
             $contentType = $this->innerHandler->load($contentTypeId, $status);
             $this->storeTypeCache([$contentType]);
@@ -216,12 +234,13 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadByIdentifier($identifier)
+    public function loadByIdentifier($identifier): Type
     {
-        $contentType = $this->cache->get('ez-content-type-' . $identifier . '-by-identifier');
+        $contentType = $this->cache->get(
+            $this->generator->generateKey(self::CONTENT_TYPE, [$identifier], true) .
+            $this->generator->generateKey(self::BY_IDENTIFIER_SUFFIX)
+        );
+
         if ($contentType === null) {
             $contentType = $this->innerHandler->loadByIdentifier($identifier);
             $this->storeTypeCache([$contentType]);
@@ -230,12 +249,13 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadByRemoteId($remoteId)
+    public function loadByRemoteId($remoteId): Type
     {
-        $contentType = $this->cache->get('ez-content-type-' . $remoteId . '-by-remote');
+        $contentType = $this->cache->get(
+            $this->generator->generateKey(self::CONTENT_TYPE, [$remoteId], true) .
+            $this->generator->generateKey(self::BY_REMOTE_SUFFIX)
+        );
+
         if ($contentType === null) {
             $contentType = $this->innerHandler->loadByRemoteId($remoteId);
             $this->storeTypeCache([$contentType]);
@@ -244,10 +264,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function create(CreateStruct $createStruct)
+    public function create(CreateStruct $createStruct): Type
     {
         $contentType = $this->innerHandler->create($createStruct);
         // Don't store as FieldTypeConstraints is not setup fully here from Legacy SE side
@@ -256,10 +273,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function update($typeId, $status, UpdateStruct $contentType)
+    public function update($typeId, $status, UpdateStruct $contentType): Type
     {
         $contentType = $this->innerHandler->update($typeId, $status, $contentType);
         $this->storeTypeCache([$contentType]);
@@ -267,19 +281,13 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($contentTypeId, $status)
+    public function delete($contentTypeId, $status): void
     {
         $this->innerHandler->delete($contentTypeId, $status);
         $this->deleteTypeCache($contentTypeId, $status);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createDraft($modifierId, $contentTypeId)
+    public function createDraft($modifierId, $contentTypeId): Type
     {
         $contentType = $this->innerHandler->createDraft($modifierId, $contentTypeId);
         // Don't store as FieldTypeConstraints is not setup fully here from Legacy SE side
@@ -288,10 +296,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function copy($userId, $contentTypeId, $status)
+    public function copy($userId, $contentTypeId, $status): Type
     {
         $contentType = $this->innerHandler->copy($userId, $contentTypeId, $status);
         $this->storeTypeCache([$contentType]);
@@ -299,53 +304,46 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $contentType;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unlink($groupId, $contentTypeId, $status)
+    public function unlink($groupId, $contentTypeId, $status): bool
     {
-        $keys = ['ez-content-type-' . $contentTypeId . '-' . $status];
+        $keys = [
+            $this->generator->generateKey(self::CONTENT_TYPE, [$contentTypeId], true) . '-' . $status,
+        ];
+
         if ($status === Type::STATUS_DEFINED) {
-            $keys[] = 'ez-content-type-list-by-group-' . $groupId;
+            $keys[] = $this->generator->generateKey(self::CONTENT_TYPE_LIST_BY_GROUP, [$groupId], true);
         }
+
         $this->cache->deleteMulti($keys);
 
         return $this->innerHandler->unlink($groupId, $contentTypeId, $status);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function link($groupId, $contentTypeId, $status)
+    public function link($groupId, $contentTypeId, $status): bool
     {
-        $keys = ['ez-content-type-' . $contentTypeId . '-' . $status];
+        $keys = [
+            $this->generator->generateKey(self::CONTENT_TYPE, [$contentTypeId], true) . '-' . $status,
+        ];
+
         if ($status === Type::STATUS_DEFINED) {
-            $keys[] = 'ez-content-type-list-by-group-' . $groupId;
+            $keys[] = $this->generator->generateKey(self::CONTENT_TYPE_LIST_BY_GROUP, [$groupId], true);
         }
+
         $this->cache->deleteMulti($keys);
 
         return $this->innerHandler->link($groupId, $contentTypeId, $status);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFieldDefinition($id, $status)
+    public function getFieldDefinition($id, $status): FieldDefinition
     {
         return $this->innerHandler->getFieldDefinition($id, $status);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getContentCount($contentTypeId)
+    public function getContentCount($contentTypeId): int
     {
         return $this->innerHandler->getContentCount($contentTypeId);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition)
     {
         $this->deleteTypeCache($contentTypeId, $status);
@@ -353,9 +351,6 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         return $this->innerHandler->addFieldDefinition($contentTypeId, $status, $fieldDefinition);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeFieldDefinition(
         int $contentTypeId,
         int $status,
@@ -365,47 +360,43 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         $this->innerHandler->removeFieldDefinition($contentTypeId, $status, $fieldDefinition);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updateFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition)
+    public function updateFieldDefinition($contentTypeId, $status, FieldDefinition $fieldDefinition): void
     {
         $this->deleteTypeCache($contentTypeId, $status);
 
-        return $this->innerHandler->updateFieldDefinition($contentTypeId, $status, $fieldDefinition);
+        $this->innerHandler->updateFieldDefinition($contentTypeId, $status, $fieldDefinition);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function publish($contentTypeId)
+    public function publish($contentTypeId): void
     {
         $this->clearCache();
 
-        return $this->innerHandler->publish($contentTypeId);
+        $this->innerHandler->publish($contentTypeId);
     }
 
     /**
-     * {@inheritdoc}
+     * @return array<mixed>
      */
-    public function getSearchableFieldMap()
+    public function getSearchableFieldMap(): array
     {
-        $map = $this->cache->get('ez-content-type-field-map');
+        $mapCacheKey = $this->generator->generateKey(self::CONTENT_TYPE_FIELD_MAP, [], true);
+        $map = $this->cache->get($mapCacheKey);
+
         if ($map === null) {
             $map = $this->innerHandler->getSearchableFieldMap();
+
             $this->cache->setMulti(
                 $map,
-                static function () { return []; },
-                'ez-content-type-field-map'
+                static function (): array {
+                    return [];
+                },
+                $mapCacheKey
             );
         }
 
         return $map;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function removeContentTypeTranslation(int $contentTypeId, string $languageCode): Type
     {
         $this->clearCache();
@@ -416,7 +407,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     /**
      * Clear internal caches.
      */
-    public function clearCache()
+    public function clearCache(): void
     {
         $this->cache->clear();
     }
@@ -425,7 +416,10 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     {
         if ($status !== Type::STATUS_DEFINED) {
             // Delete by primary key will remove the object, so we don't need to clear other variants here.
-            $this->cache->deleteMulti(['ez-content-type-' . $contentTypeId . '-' . $status, 'ez-content-type-field-map']);
+            $this->cache->deleteMulti([
+                $this->generator->generateKey(self::CONTENT_TYPE, [$contentTypeId], true) . '-' . $status,
+                $this->generator->generateKey(self::CONTENT_TYPE_FIELD_MAP, [], true),
+            ]);
         } else {
             // We don't know group id in order to clear relevant "ez-content-type-list-by-group-$groupId".
             $this->cache->clear();
@@ -436,31 +430,40 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     {
         $this->cache->setMulti(
             $types,
-            static function (Type $type) {
+            function (Type $type): array {
                 if ($type->status !== Type::STATUS_DEFINED) {
-                    return ['ez-content-type-' . $type->id . '-' . $type->status];
+                    return [
+                        $this->generator->generateKey(self::CONTENT_TYPE, [$type->id], true) . '-' . $type->status,
+                    ];
                 }
 
                 return [
-                    'ez-content-type-' . $type->id . '-' . $type->status,
-                    'ez-content-type-' . $type->identifier . '-by-identifier',
-                    'ez-content-type-' . $type->remoteId . '-by-remote',
+                    $this->generator->generateKey(self::CONTENT_TYPE, [$type->id], true) . '-' . $type->status,
+
+                    $this->generator->generateKey(self::CONTENT_TYPE, [$type->identifier], true) . '-' . $type->status .
+                    $this->generator->generateKey(self::BY_IDENTIFIER_SUFFIX),
+
+                    $this->generator->generateKey(self::CONTENT_TYPE, [$type->remoteId], true) . '-' . $type->status .
+                    $this->generator->generateKey(self::BY_REMOTE_SUFFIX),
                 ];
             },
             $listIndex
         );
 
-        $this->cache->deleteMulti(['ez-content-type-field-map']);
+        $this->cache->deleteMulti([
+            $this->generator->generateKey(self::CONTENT_TYPE_FIELD_MAP, [], true),
+        ]);
     }
 
     protected function storeGroupCache(array $groups, string $listIndex = null): void
     {
         $this->cache->setMulti(
             $groups,
-            static function (Group $group) {
+            function (Group $group): array {
                 return [
-                    'ez-content-type-group-' . $group->id,
-                    'ez-content-type-group-' . $group->identifier . '-by-identifier',
+                    $this->generator->generateKey(self::CONTENT_TYPE_GROUP, [$group->id], true),
+                    $this->generator->generateKey(self::CONTENT_TYPE_GROUP, [$group->identifier], true) .
+                    $this->generator->generateKey(self::BY_IDENTIFIER_SUFFIX),
                 ];
             },
             $listIndex
