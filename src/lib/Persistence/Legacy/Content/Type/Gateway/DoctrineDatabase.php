@@ -953,7 +953,7 @@ final class DoctrineDatabase extends Gateway
     {
         $query = $this->getLoadTypeQueryBuilder();
         $query
-            ->where(
+            ->andWhere(
                 $query->expr()->eq(
                     'a.data_type_string',
                     $query->createNamedParameter($identifier)

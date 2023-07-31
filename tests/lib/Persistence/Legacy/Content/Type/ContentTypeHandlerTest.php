@@ -289,13 +289,13 @@ class ContentTypeHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects($this->once())
             ->method('loadTypesDataByFieldDefinitionIdentifier')
-            ->with(self::equalTo('ezstring'))
+            ->with('ezstring')
             ->willReturn([]);
 
         $mapperMock = $this->getMapperMock();
         $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
-            ->with($this->equalTo([]))
+            ->with([])
             ->willReturn([23 => new Type()]);
 
         $handler = $this->getHandler();
