@@ -304,9 +304,6 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array
     {
         return $this->getListCacheValue(
