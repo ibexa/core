@@ -467,6 +467,13 @@ abstract class Gateway
         int $versionNo,
         string $languageCode
     ): void;
+
+    /**
+     * @param array<int> $contentIds
+     *
+     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException
+     */
+    abstract public function loadVersionInfoList(array $contentIds): array;
 }
 
 class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Gateway');

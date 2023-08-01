@@ -370,6 +370,16 @@ interface Handler
      * @return \Ibexa\Contracts\Core\Persistence\Content The Content Draft w/o removed Translation
      */
     public function deleteTranslationFromDraft($contentId, $versionNo, $languageCode);
+
+    /**
+     * @param array<int> $contentIds
+     *
+     * @return array<\Ibexa\Contracts\Core\Persistence\Content\VersionInfo>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function loadVersionInfoList(array $contentIds): array;
 }
 
 class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Handler');
