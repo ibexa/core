@@ -29,8 +29,7 @@ interface LocaleConverterInterface
      * Converts a locale in POSIX format to Ibexa internal format.
      * Returns null if conversion cannot be made.
      *
-     * @deprecated use convertToRepository instead
-     * @see convertToRepository
+     * @deprecated 4.5.2 To be removed in 5.0. Use {@see convertToRepository()} instead.
      *
      * @param string $posixLocale
      *
