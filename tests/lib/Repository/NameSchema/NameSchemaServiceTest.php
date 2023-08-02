@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\NameSchema;
 
-use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
+use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineFieldType;

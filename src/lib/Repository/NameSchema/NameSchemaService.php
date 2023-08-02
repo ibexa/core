@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\NameSchema;
 
-use Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent;
+use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
+use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
+use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -116,65 +118,21 @@ class NameSchemaService implements NameSchemaServiceInterface
         array $languageCodes = [],
         ContentType $contentType = null
     ): array {
-        $contentType ??= $content->getContentType();
+        $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
+        $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
-        $languageCodes = $languageCodes ?: $content->versionInfo->languageCodes;
+        $event = new ResolveContentNameSchemaEvent($schemaIdentifiers, $content);
+        $this->eventDispatcher->dispatch($event);
 
-        return $this->resolve(
-            $contentType->nameSchema,
-            $contentType,
-            $this->mergeFieldMap(
-                $content,
-                $fieldMap,
-                $languageCodes
-            ),
-            $languageCodes
-        );
-    }
-
-    /**
-     * Convenience method for resolving name schema.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param array $fieldMap
-     * @param array $languageCodes
-     *
-     * @return array
-     */
-    protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes): array
-    {
-        if (empty($fieldMap)) {
-            return $content->fields;
-        }
-
-        $mergedFieldMap = [];
-
-        foreach ($content->fields as $fieldIdentifier => $fieldLanguageMap) {
-            foreach ($languageCodes as $languageCode) {
-                $mergedFieldMap[$fieldIdentifier][$languageCode]
-                    = $fieldMap[$fieldIdentifier][$languageCode] ?? $fieldLanguageMap[$languageCode];
-            }
-        }
-
-        return $mergedFieldMap;
-    }
-
-    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
-    {
-        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
+        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($schemaName);
         $tokens = $this->extractTokens($filteredNameSchema);
-        $schemaIdentifiers = $this->getIdentifiers($nameSchema);
 
         $names = [];
-
-        foreach ($languageCodes as $languageCode) {
-            // Fetch titles for language code
-            $titles = $this->getFieldTitles($schemaIdentifiers, $contentType, $fieldMap, $languageCode);
+        $tokenValues = $event->getTokenValues();
+        foreach ($tokenValues as $languageCode => $tokenValue) {
             $name = $filteredNameSchema;
-
-            // Replace tokens with real values
             foreach ($tokens as $token) {
-                $string = $this->resolveToken($token, $titles, $groupLookupTable);
+                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
                 $name = str_replace($token, $string, $name);
             }
             $name = $this->validateNameLength($name);
@@ -185,43 +143,30 @@ class NameSchemaService implements NameSchemaServiceInterface
         return $names;
     }
 
-    /**
-     * Fetches the list of available Field identifiers in the token and returns
-     * an array of their current title value.
-     *
-     * @param array<string> $schemaIdentifiers
-     * @param array<string, array<string, string>> $fieldMap
-     *
-     * @return string[] Key is the field identifier, value is the title value
-     *
-     * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
-     */
-    protected function getFieldTitles(
-        array $schemaIdentifiers,
-        ContentType $contentType,
-        array $fieldMap,
-        string $languageCode
-    ): array {
-        $fieldTitles = [];
+    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
+    {
+        $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($nameSchema);
+        $event = new ResolveNameSchemaEvent($schemaIdentifiers, $contentType, $fieldMap, $languageCodes);
 
-        foreach ($schemaIdentifiers as $fieldDefinitionIdentifier) {
-            if (!isset($fieldMap[$fieldDefinitionIdentifier][$languageCode])) {
-                continue;
+        $this->eventDispatcher->dispatch($event);
+        $tokenValues = $event->getTokenValues();
+
+        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
+        $tokens = $this->extractTokens($filteredNameSchema);
+
+        $names = [];
+        foreach ($tokenValues as $languageCode => $tokenValue) {
+            $name = $filteredNameSchema;
+            foreach ($tokens as $token) {
+                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
+                $name = str_replace($token, $string, $name);
             }
+            $name = $this->validateNameLength($name);
 
-            $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
-            $persistenceFieldType = $this->fieldTypeRegistry->getFieldType(
-                $fieldDefinition->fieldTypeIdentifier
-            );
-
-            $fieldTitles[$fieldDefinitionIdentifier] = $persistenceFieldType->getName(
-                $fieldMap[$fieldDefinitionIdentifier][$languageCode],
-                $fieldDefinition,
-                $languageCode
-            );
+            $names[$languageCode] = $name;
         }
 
-        return $fieldTitles;
+        return $names;
     }
 
     /**
