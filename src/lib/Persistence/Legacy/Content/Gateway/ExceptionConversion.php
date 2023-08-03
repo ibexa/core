@@ -525,6 +525,15 @@ final class ExceptionConversion extends Gateway
             throw DatabaseException::wrap($e);
         }
     }
+
+    public function loadVersionInfoList(array $contentIds): array
+    {
+        try {
+            return $this->innerGateway->loadVersionInfoList($contentIds);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
 }
 
 class_alias(ExceptionConversion::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Gateway\ExceptionConversion');

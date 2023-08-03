@@ -2011,6 +2011,29 @@ final class DoctrineDatabase extends Gateway
 
         return $query;
     }
+
+    /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function loadVersionInfoList(array $contentIds): array
+    {
+        $queryBuilder = $this->queryBuilder->createVersionInfoFindQueryBuilder();
+        $expr = $queryBuilder->expr();
+
+        $queryBuilder
+            ->andWhere(
+                $expr->in(
+                    'c.id',
+                    $queryBuilder->createNamedParameter($contentIds, Connection::PARAM_INT_ARRAY)
+                )
+            )
+            ->andWhere(
+                $expr->eq('v.version', 'c.current_version')
+            );
+
+        return $queryBuilder->execute()->fetchAllAssociative();
+    }
 }
 
 class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase');

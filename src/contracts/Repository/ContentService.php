@@ -100,6 +100,19 @@ interface ContentService
     public function loadVersionInfoById(int $contentId, ?int $versionNo = null): VersionInfo;
 
     /**
+     * Bulk-load VersionInfo items by the list of ContentInfo Value Objects.
+     *
+     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> $contentInfoList
+     *
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo> List of VersionInfo items with Content Ids as keys
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function loadVersionInfoListByContentInfo(array $contentInfoList): array;
+
+    /**
      * Loads content in a version for the given content info object.
      *
      * If no version number is given, the method returns the current version

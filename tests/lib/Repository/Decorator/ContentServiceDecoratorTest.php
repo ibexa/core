@@ -473,6 +473,27 @@ class ContentServiceDecoratorTest extends TestCase
 
         $decoratedService->newContentUpdateStruct(...$parameters);
     }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testLoadVersionInfoListByContentInfoDecorator(): void
+    {
+        $serviceMock = $this->createServiceMock();
+        $decoratedService = $this->createDecorator($serviceMock);
+
+        $argument = [$this->createMock(ContentInfo::class)];
+
+        $serviceMock
+            ->expects(self::once())
+            ->method('loadVersionInfoListByContentInfo')
+            ->with($argument)
+            ->willReturn([]);
+
+        $decoratedService->loadVersionInfoListByContentInfo($argument);
+    }
 }
 
 class_alias(ContentServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\ContentServiceDecoratorTest');
