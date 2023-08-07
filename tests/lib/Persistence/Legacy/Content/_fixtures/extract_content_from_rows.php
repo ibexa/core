@@ -38,7 +38,7 @@ return [
         'ezcontentobject_attribute_sort_key_int' => 0,
         'ezcontentobject_attribute_sort_key_string' => 'new test article (2)',
         'ezcontentobject_tree_main_node_id' => 228,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
     1 => [
         'ezcontentobject_id' => 226,
@@ -73,7 +73,7 @@ return [
         'ezcontentobject_attribute_sort_key_string' => 'something',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
     2 => [
         'ezcontentobject_id' => 226,
@@ -110,7 +110,7 @@ return [
         'ezcontentobject_attribute_sort_key_string' => '',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
     3 => [
         'ezcontentobject_id' => 226,
@@ -145,7 +145,7 @@ return [
         'ezcontentobject_attribute_sort_key_string' => '',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
     4 => [
         'ezcontentobject_id' => 226,
@@ -182,7 +182,7 @@ return [
         'ezcontentobject_attribute_sort_key_string' => '',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
     5 => [
         'ezcontentobject_id' => 226,
@@ -217,7 +217,7 @@ return [
         'ezcontentobject_attribute_sort_key_string' => '',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
     6 => [
         'ezcontentobject_id' => 226,
@@ -252,7 +252,7 @@ return [
         'ezcontentobject_attribute_sort_key_string' => '',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
     7 => [
         'ezcontentobject_id' => 226,
@@ -287,6 +287,7 @@ return [
         'ezcontentobject_attribute_sort_key_string' => '',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
+        'content_type_identifier' => 'article',
     ],
     8 => [
         'ezcontentobject_id' => 226,
@@ -321,6 +322,6 @@ return [
         'ezcontentobject_attribute_sort_key_string' => '',
         'ezcontentobject_tree_main_node_id' => 228,
         'ezcontentobject_is_hidden' => 0,
-        'ezcontentclass_identifier' => 'article',
+        'content_type_identifier' => 'article',
     ],
 ];
