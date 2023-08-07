@@ -8,22 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Event\NameSchema;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-
-final class ResolveContentNameSchemaEvent extends AbstractNameSchemaEvent
+final class ResolveContentNameSchemaEvent extends AbstractContentAwareNameSchemaEvent
 {
-    private Content $content;
-
-    public function __construct(
-        array $schemaIdentifiers,
-        Content $content
-    ) {
-        parent::__construct($schemaIdentifiers);
-        $this->content = $content;
-    }
-
-    public function getContent(): Content
-    {
-        return $this->content;
-    }
 }

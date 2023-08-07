@@ -13,12 +13,12 @@ use Symfony\Contracts\EventDispatcher\Event;
 abstract class AbstractNameSchemaEvent extends Event
 {
     /** @var array<string, array> */
-    private array $schemaIdentifiers;
+    protected array $schemaIdentifiers;
 
     /**
      * @var array<string, array<string>>
      */
-    private array $tokenValues = [];
+    protected array $tokenValues = [];
 
     public function __construct(array $schemaIdentifiers)
     {

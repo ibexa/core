@@ -85,31 +85,16 @@ class NameSchemaService implements NameSchemaServiceInterface
     {
         $contentType ??= $content->getContentType();
         $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
-        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($schemaName);
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
-        $tokens = $this->extractTokens($filteredNameSchema);
 
-        /** @var \Ibexa\Contracts\Core\Event\ResolveUrlAliasSchemaEvent $event */
         $event = $this->eventDispatcher->dispatch(
             new ResolveUrlAliasSchemaEvent(
                 $schemaIdentifiers,
                 $content
             )
         );
-        $names = [];
-        $tokenValues = $event->getTokenValues();
-        foreach ($tokenValues as $languageCode => $tokenValue) {
-            $name = $filteredNameSchema;
-            foreach ($tokens as $token) {
-                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
-                $name = str_replace($token, $string, $name);
-            }
-            $name = $this->validateNameLength($name);
 
-            $names[$languageCode] = $name;
-        }
-
-        return $names;
+        return $this->buildNames($event->getTokenValues(), $schemaName);
     }
 
     public function resolveNameSchema(
@@ -121,52 +106,29 @@ class NameSchemaService implements NameSchemaServiceInterface
         $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
-        $event = new ResolveContentNameSchemaEvent($schemaIdentifiers, $content);
-        $this->eventDispatcher->dispatch($event);
+        $event = $this->eventDispatcher->dispatch(
+            new ResolveContentNameSchemaEvent(
+                $schemaIdentifiers,
+                $content
+            )
+        );
 
-        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($schemaName);
-        $tokens = $this->extractTokens($filteredNameSchema);
-
-        $names = [];
-        $tokenValues = $event->getTokenValues();
-        foreach ($tokenValues as $languageCode => $tokenValue) {
-            $name = $filteredNameSchema;
-            foreach ($tokens as $token) {
-                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
-                $name = str_replace($token, $string, $name);
-            }
-            $name = $this->validateNameLength($name);
-
-            $names[$languageCode] = $name;
-        }
-
-        return $names;
+        return $this->buildNames($event->getTokenValues(), $schemaName);
     }
 
     public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
     {
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($nameSchema);
-        $event = new ResolveNameSchemaEvent($schemaIdentifiers, $contentType, $fieldMap, $languageCodes);
+        $event = $this->eventDispatcher->dispatch(
+            new ResolveNameSchemaEvent(
+                $schemaIdentifiers,
+                $contentType,
+                $fieldMap,
+                $languageCodes
+            )
+        );
 
-        $this->eventDispatcher->dispatch($event);
-        $tokenValues = $event->getTokenValues();
-
-        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
-        $tokens = $this->extractTokens($filteredNameSchema);
-
-        $names = [];
-        foreach ($tokenValues as $languageCode => $tokenValue) {
-            $name = $filteredNameSchema;
-            foreach ($tokens as $token) {
-                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
-                $name = str_replace($token, $string, $name);
-            }
-            $name = $this->validateNameLength($name);
-
-            $names[$languageCode] = $name;
-        }
-
-        return $names;
+        return $this->buildNames($event->getTokenValues(), $nameSchema);
     }
 
     /**
@@ -298,6 +260,27 @@ class NameSchemaService implements NameSchemaServiceInterface
         }
 
         return [$nameSchema, $groupLookupTable];
+    }
+
+    /**
+     * @param array $tokenValues
+     */
+    public function buildNames(array $tokenValues, string $nameSchema): array
+    {
+        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
+        $tokens = $this->extractTokens($filteredNameSchema);
+
+        $names = [];
+        foreach ($tokenValues as $languageCode => $tokenValue) {
+            $name = $filteredNameSchema;
+            foreach ($tokens as $token) {
+                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
+                $name = str_replace($token, $string, $name);
+            }
+            $names[$languageCode] = $this->validateNameLength($name);
+        }
+
+        return $names;
     }
 
     /**
