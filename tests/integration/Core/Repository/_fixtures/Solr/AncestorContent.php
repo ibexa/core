@@ -34,7 +34,7 @@ return SearchResult::__set_state([
     2 => SearchHit::__set_state([
        'valueObject' => [
         'id' => 42,
-        'title' => 'Anonymous Users',
+        'title' => 'Anonymous users',
       ],
        'score' => 1.0,
        'index' => null,

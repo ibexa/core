@@ -2304,7 +2304,7 @@ class UserServiceTest extends BaseTest
         $anonymousGroupId = $this->generateId('group', 42);
 
         /* BEGIN: Use Case */
-        // $anonymousGroupId is the ID of the "Anonymous Users" group in an Ibexa
+        // $anonymousGroupId is the ID of the "Anonymous users" group in an Ibexa
         // Publish demo installation
 
         $user = $this->createUserVersion1();
@@ -2321,14 +2321,14 @@ class UserServiceTest extends BaseTest
             $userService->loadUserGroup($editorsGroupId)
         );
 
-        // This array will contain "Anonymous Users"
+        // This array will contain "Anonymous users"
         $userGroupNames = [];
         foreach ($userService->loadUserGroupsOfUser($user) as $userGroup) {
             $userGroupNames[] = $userGroup->getFieldValue('name');
         }
         /* END: Use Case */
 
-        $this->assertEquals(['Anonymous Users'], $userGroupNames);
+        $this->assertEquals(['Anonymous users'], $userGroupNames);
     }
 
     /**

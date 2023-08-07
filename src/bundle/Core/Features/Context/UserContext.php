@@ -475,7 +475,7 @@ class UserContext implements Context
      * Checks that user ':username' does not exist in any of the provided groups. Example:
      *      | parentGroup           |
      *      | Partners              |
-     *      | Anonymous Users       |
+     *      | Anonymous users       |
      *      | Editors               |
      *      | Administrator users   |
      */

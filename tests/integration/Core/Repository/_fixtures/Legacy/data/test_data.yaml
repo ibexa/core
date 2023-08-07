@@ -248,7 +248,7 @@ ezcontentobject:
   - { contentclass_id: 3, current_version: 1, id: 13, initial_language_id: 2, language_mask: 3, modified: 1033920794, name: Editors, owner_id: 14, published: 1033920794, remote_id: 3c160cca19fb135f83bd02d911f04db2, section_id: 2, status: 1 }
   - { contentclass_id: 4, current_version: 4, id: 14, initial_language_id: 2, language_mask: 3, modified: 1343140540, name: 'Administrator User', owner_id: 14, published: 1033920830, remote_id: 1bb4fe25487f05527efa8bfd394cecc7, section_id: 2, status: 1 }
   - { contentclass_id: 1, current_version: 1, id: 41, initial_language_id: 2, language_mask: 3, modified: 1060695457, name: Media, owner_id: 14, published: 1060695457, remote_id: a6e35cbcb7cd6ae4b691f3eee30cd262, section_id: 3, status: 1 }
-  - { contentclass_id: 3, current_version: 1, id: 42, initial_language_id: 2, language_mask: 3, modified: 1072180330, name: 'Anonymous Users', owner_id: 14, published: 1072180330, remote_id: 15b256dbea2ae72418ff5facc999e8f9, section_id: 2, status: 1 }
+  - { contentclass_id: 3, current_version: 1, id: 42, initial_language_id: 2, language_mask: 3, modified: 1072180330, name: 'Anonymous users', owner_id: 14, published: 1072180330, remote_id: 15b256dbea2ae72418ff5facc999e8f9, section_id: 2, status: 1 }
   - { contentclass_id: 1, current_version: 1, id: 45, initial_language_id: 2, language_mask: 3, modified: 1079684190, name: Setup, owner_id: 14, published: 1079684190, remote_id: 241d538ce310074e602f29f49e44e938, section_id: 4, status: 1 }
   - { contentclass_id: 1, current_version: 1, id: 49, initial_language_id: 2, language_mask: 3, modified: 1080220197, name: Images, owner_id: 14, published: 1080220197, remote_id: e7ff633c6b8e0fd3531e74c6e712bead, section_id: 3, status: 1 }
   - { contentclass_id: 1, current_version: 1, id: 50, initial_language_id: 2, language_mask: 3, modified: 1080220220, name: Files, owner_id: 14, published: 1080220220, remote_id: 732a5acd01b51a6fe6eab448ad4138a9, section_id: 3, status: 1 }
@@ -280,7 +280,7 @@ ezcontentobject_attribute:
   - { attribute_original_id: 30, contentclassattribute_id: 12, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ezuser, id: 30, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 3 }
   - { attribute_original_id: 30, contentclassattribute_id: 12, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ezuser, id: 30, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 4 }
   - { attribute_original_id: 0, contentclassattribute_id: 4, contentobject_id: 41, data_float: 0, data_int: 0, data_text: Media, data_type_string: ezstring, id: 98, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: media, version: 1 }
-  - { attribute_original_id: 0, contentclassattribute_id: 6, contentobject_id: 42, data_float: 0, data_int: 0, data_text: 'Anonymous Users', data_type_string: ezstring, id: 100, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: 'anonymous users', version: 1 }
+  - { attribute_original_id: 0, contentclassattribute_id: 6, contentobject_id: 42, data_float: 0, data_int: 0, data_text: 'Anonymous users', data_type_string: ezstring, id: 100, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: 'anonymous users', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 7, contentobject_id: 42, data_float: 0, data_int: 0, data_text: 'User group for the anonymous user', data_type_string: ezstring, id: 101, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: 'user group for the anonymous user', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 155, contentobject_id: 41, data_float: 0, data_int: 0, data_text: '', data_type_string: ezstring, id: 103, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, contentclassattribute_id: 158, contentobject_id: 41, data_float: 0, data_int: 0, data_text: '', data_type_string: ezboolean, id: 109, language_code: eng-US, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
@@ -362,7 +362,7 @@ ezcontentobject_name:
   - { content_translation: eng-US, content_version: 3, contentobject_id: 14, language_id: 3, name: 'Administrator User', real_translation: eng-US }
   - { content_translation: eng-US, content_version: 4, contentobject_id: 14, language_id: 3, name: 'Administrator User', real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 41, language_id: 3, name: Media, real_translation: eng-US }
-  - { content_translation: eng-US, content_version: 1, contentobject_id: 42, language_id: 3, name: 'Anonymous Users', real_translation: eng-US }
+  - { content_translation: eng-US, content_version: 1, contentobject_id: 42, language_id: 3, name: 'Anonymous users', real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 45, language_id: 3, name: Setup, real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 49, language_id: 3, name: Images, real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 50, language_id: 3, name: Files, real_translation: eng-US }
