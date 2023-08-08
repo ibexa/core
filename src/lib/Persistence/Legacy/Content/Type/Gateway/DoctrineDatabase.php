@@ -949,6 +949,20 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll();
     }
 
+    public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array
+    {
+        $query = $this->getLoadTypeQueryBuilder();
+        $query
+            ->andWhere(
+                $query->expr()->eq(
+                    'a.data_type_string',
+                    $query->createNamedParameter($identifier)
+                )
+            );
+
+        return $query->execute()->fetchAllAssociative();
+    }
+
     public function loadTypeData(int $typeId, int $status): array
     {
         $query = $this->getLoadTypeQueryBuilder();
