@@ -27,6 +27,7 @@ class MemoryCachingHandler implements BaseContentTypeHandler
     private const BY_REMOTE_SUFFIX = 'by_remote_suffix';
     private const CONTENT_TYPE_LIST_BY_GROUP = 'content_type_list_by_group';
     private const CONTENT_TYPE_FIELD_MAP = 'content_type_field_map';
+    private const CONTENT_TYPE_LIST_BY_FIELD_DEFINITION_IDENTIFIER = 'content_type_list_by_field_definition_identifier';
 
     /** Inner handler to dispatch calls to. */
     protected BaseContentTypeHandler $innerHandler;
@@ -206,7 +207,11 @@ class MemoryCachingHandler implements BaseContentTypeHandler
      */
     public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array
     {
-        $cacheKey = 'ibx-ctlbfdi-' . $identifier;
+        $cacheKey = $this->generator->generateKey(
+            self::CONTENT_TYPE_LIST_BY_FIELD_DEFINITION_IDENTIFIER,
+            [$identifier],
+            true
+        );
 
         $types = $this->cache->get($cacheKey);
         if ($types === null) {
