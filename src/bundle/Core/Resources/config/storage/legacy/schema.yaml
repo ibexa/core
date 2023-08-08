@@ -141,6 +141,7 @@ tables:
     ezcontentclass_attribute:
         indexes:
             ezcontentclass_attr_ccid: { fields: [contentclass_id] }
+            ezcontentclass_attr_dts: { fields: [data_type_string] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
             version: { type: integer, nullable: false, options: { default: '0' } }

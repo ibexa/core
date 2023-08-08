@@ -196,6 +196,16 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     */
+    public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array
+    {
+        return $this->mapper->extractTypesFromRows(
+            $this->contentTypeGateway->loadTypesDataByFieldDefinitionIdentifier($identifier)
+        );
+    }
+
+    /**
      * Loads a content type by id and status.
      *
      * Note: This method is responsible of having the Field Definitions of the loaded ContentType sorted by placement.

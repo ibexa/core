@@ -125,6 +125,7 @@ parameters:
         content_type_group: 'ctg-%s'
         content_type_group_with_id_suffix: 'ctg-%s-bi'
         content_type_group_with_by_remote_suffix: 'ctg-%s-br'
+        content_type_list_by_field_definition_identifier: 'ctlbfdi-%s'
         content_type_group_list: 'ctgl-%s'
         content_type_list_by_group: 'ctlbg-%s'
         image_variation: 'ig'
