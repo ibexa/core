@@ -50,7 +50,12 @@ class NameSchemaService extends NativeNameSchemaService
         );
     }
 
-    public function resolveNameSchema(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
+    public function resolveNameSchema(
+        string $nameSchema,
+        ContentType $contentType,
+        array $fieldMap,
+        array $languageCodes
+    ): array
     {
         [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
         $tokens = $this->extractTokens($filteredNameSchema);

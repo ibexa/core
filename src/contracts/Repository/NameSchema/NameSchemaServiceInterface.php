@@ -46,5 +46,10 @@ interface NameSchemaServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function resolveNameSchema(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array;
+    public function resolveNameSchema(
+        string $nameSchema,
+        ContentType $contentType,
+        array $fieldMap,
+        array $languageCodes
+    ): array;
 }

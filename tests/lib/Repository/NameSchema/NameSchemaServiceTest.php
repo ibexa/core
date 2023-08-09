@@ -107,7 +107,12 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      * @param array<string> $languageCodes
      * @param array<string, string> $expectedNames
      */
-    public function testResolveNameSchema(array $fieldMap, array $tokenValues, array $languageCodes, array $expectedNames): void
+    public function testResolveNameSchema(
+        array $fieldMap,
+        array $tokenValues,
+        array $languageCodes,
+        array $expectedNames
+    ): void
     {
         $content = $this->buildTestContentObject();
         $nameSchema = '<text3|text2>';
