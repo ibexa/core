@@ -116,8 +116,16 @@ class NameSchemaService implements NameSchemaServiceInterface
         return $this->buildNames($event->getTokenValues(), $schemaName);
     }
 
-    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
-    {
+    public function resolveContentNameSchema(){
+
+    }
+
+    public function resolve(
+        string $nameSchema,
+        ContentType $contentType,
+        array $fieldMap,
+        array $languageCodes
+    ): array {
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($nameSchema);
         $event = $this->eventDispatcher->dispatch(
             new ResolveNameSchemaEvent(

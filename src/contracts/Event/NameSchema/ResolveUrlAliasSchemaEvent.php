@@ -8,6 +8,22 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Event\NameSchema;
 
-final class ResolveUrlAliasSchemaEvent extends AbstractContentAwareNameSchemaEvent
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+
+final class ResolveUrlAliasSchemaEvent extends AbstractSchemaEvent implements ContentAwareEventInterface
 {
+    protected Content $content;
+
+    public function __construct(
+        array $schemaIdentifiers,
+        Content $content
+    ) {
+        parent::__construct($schemaIdentifiers);
+        $this->content = $content;
+    }
+
+    public function getContent(): Content
+    {
+        return $this->content;
+    }
 }

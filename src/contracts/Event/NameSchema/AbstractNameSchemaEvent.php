@@ -8,35 +8,40 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Event\NameSchema;
 
-use Symfony\Contracts\EventDispatcher\Event;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
-abstract class AbstractNameSchemaEvent extends Event
+abstract class AbstractNameSchemaEvent extends AbstractSchemaEvent
 {
-    /** @var array<string, array> */
-    protected array $schemaIdentifiers;
+    private ContentType $contentType;
 
-    /**
-     * @var array<string, array<string>>
-     */
-    protected array $tokenValues = [];
+    private array $fieldMap;
 
-    public function __construct(array $schemaIdentifiers)
-    {
-        $this->schemaIdentifiers = $schemaIdentifiers;
+    private array $languageCodes;
+
+    public function __construct(
+        array $schemaIdentifiers,
+        ContentType $contentType,
+        array $fieldMap,
+        array $languageCodes
+    ) {
+        parent::__construct($schemaIdentifiers);
+        $this->contentType = $contentType;
+        $this->fieldMap = $fieldMap;
+        $this->languageCodes = $languageCodes;
     }
 
-    public function getTokenValues(): array
+    public function getContentType(): ContentType
     {
-        return $this->tokenValues;
+        return $this->contentType;
     }
 
-    public function setTokenValues(array $names): void
+    public function getFieldMap(): array
     {
-        $this->tokenValues = $names;
+        return $this->fieldMap;
     }
 
-    public function getSchemaIdentifiers(): array
+    public function getLanguageCodes(): array
     {
-        return $this->schemaIdentifiers;
+        return $this->languageCodes;
     }
 }
