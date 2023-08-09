@@ -739,7 +739,7 @@ class ContentService implements ContentServiceInterface
 
         $spiContentCreateStruct = new SPIContentCreateStruct(
             [
-                'name' => $this->nameSchemaService->resolve(
+                'name' => $this->nameSchemaService->resolveNameSchema(
                     $contentCreateStruct->contentType->nameSchema,
                     $contentCreateStruct->contentType,
                     $fieldValues,
@@ -1406,7 +1406,7 @@ class ContentService implements ContentServiceInterface
 
         $spiContentUpdateStruct = new SPIContentUpdateStruct(
             [
-                'name' => $this->nameSchemaService->resolveNameSchema(
+                'name' => $this->nameSchemaService->resolveContentNameSchema(
                     $content,
                     $fieldValues,
                     $allLanguageCodes,

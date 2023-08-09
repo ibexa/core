@@ -20,7 +20,7 @@ class NameSchemaService extends NativeNameSchemaService
     {
         $contentType = $contentType ?? $content->getContentType();
 
-        return $this->resolve(
+        return $this->resolveNameSchema(
             empty($contentType->urlAliasSchema) ? $contentType->nameSchema : $contentType->urlAliasSchema,
             $contentType,
             $content->fields,
@@ -28,7 +28,7 @@ class NameSchemaService extends NativeNameSchemaService
         );
     }
 
-    public function resolveNameSchema(
+    public function resolveContentNameSchema(
         Content $content,
         array $fieldMap = [],
         array $languageCodes = [],
@@ -38,7 +38,7 @@ class NameSchemaService extends NativeNameSchemaService
 
         $languageCodes = $languageCodes ?: $content->versionInfo->languageCodes;
 
-        return $this->resolve(
+        return $this->resolveNameSchema(
             $contentType->nameSchema,
             $contentType,
             $this->mergeFieldMap(
@@ -50,7 +50,7 @@ class NameSchemaService extends NativeNameSchemaService
         );
     }
 
-    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
+    public function resolveNameSchema(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
     {
         [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
         $tokens = $this->extractTokens($filteredNameSchema);

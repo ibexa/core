@@ -97,7 +97,7 @@ class NameSchemaService implements NameSchemaServiceInterface
         return $this->buildNames($event->getTokenValues(), $schemaName);
     }
 
-    public function resolveNameSchema(
+    public function resolveContentNameSchema(
         Content $content,
         array $fieldMap = [],
         array $languageCodes = [],
@@ -119,11 +119,7 @@ class NameSchemaService implements NameSchemaServiceInterface
         return $this->buildNames($event->getTokenValues(), $schemaName);
     }
 
-    public function resolveContentNameSchema()
-    {
-    }
-
-    public function resolve(
+    public function resolveNameSchema(
         string $nameSchema,
         ContentType $contentType,
         array $fieldMap,

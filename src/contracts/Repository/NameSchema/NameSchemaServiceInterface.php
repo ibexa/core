@@ -29,7 +29,7 @@ interface NameSchemaServiceInterface
      *
      * @return array
      */
-    public function resolveNameSchema(
+    public function resolveContentNameSchema(
         Content $content,
         array $fieldMap = [],
         array $languageCodes = [],
@@ -46,5 +46,5 @@ interface NameSchemaServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array;
+    public function resolveNameSchema(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array;
 }

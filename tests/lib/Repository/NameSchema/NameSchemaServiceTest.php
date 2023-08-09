@@ -125,7 +125,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
             $event
         );
 
-        $result = $nameSchemaService->resolveNameSchema($content, $fieldMap, $languageCodes, $contentType);
+        $result = $nameSchemaService->resolveContentNameSchema($content, $fieldMap, $languageCodes, $contentType);
 
         self::assertEquals(
             $expectedNames,
@@ -216,7 +216,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
             $settings
         );
 
-        $result = $nameSchemaService->resolve(
+        $result = $nameSchemaService->resolveNameSchema(
             $nameSchema,
             $contentType,
             $content->fields,
