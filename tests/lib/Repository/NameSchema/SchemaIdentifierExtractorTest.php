@@ -99,8 +99,8 @@ final class SchemaIdentifierExtractorTest extends TestCase
         yield $schemaString => [
             $schemaString,
             [
-                'field' => ['description'],
-                'attribute' => ['mouse_type', 'mouse_weight'],
+                'field' => ['abc', 'xyz', 'name'],
+                'attribute' => ['color'],
             ],
         ];
     }

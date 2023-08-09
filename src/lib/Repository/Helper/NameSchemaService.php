@@ -27,6 +27,54 @@ class NameSchemaService extends NativeNameSchemaService
             $content->versionInfo->languageCodes
         );
     }
+
+    public function resolveNameSchema(
+        Content $content,
+        array $fieldMap = [],
+        array $languageCodes = [],
+        ContentType $contentType = null
+    ): array {
+        $contentType ??= $content->getContentType();
+
+        $languageCodes = $languageCodes ?: $content->versionInfo->languageCodes;
+
+        return $this->resolve(
+            $contentType->nameSchema,
+            $contentType,
+            $this->mergeFieldMap(
+                $content,
+                $fieldMap,
+                $languageCodes
+            ),
+            $languageCodes
+        );
+    }
+
+    public function resolve(string $nameSchema, ContentType $contentType, array $fieldMap, array $languageCodes): array
+    {
+        [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
+        $tokens = $this->extractTokens($filteredNameSchema);
+        $schemaIdentifiers = $this->getIdentifiers($nameSchema);
+
+        $names = [];
+
+        foreach ($languageCodes as $languageCode) {
+            // Fetch titles for language code
+            $titles = $this->getFieldTitles($schemaIdentifiers, $contentType, $fieldMap, $languageCode);
+            $name = $filteredNameSchema;
+
+            // Replace tokens with real values
+            foreach ($tokens as $token) {
+                $string = $this->resolveToken($token, $titles, $groupLookupTable);
+                $name = str_replace($token, $string, $name);
+            }
+            $name = $this->validateNameLength($name);
+
+            $names[$languageCode] = $name;
+        }
+
+        return $names;
+    }
 }
 
 class_alias(NameSchemaService::class, 'eZ\Publish\Core\Repository\Helper\NameSchemaService');

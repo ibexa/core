@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\NameSchema;
 
+use Ibexa\Contracts\Core\Event\NameSchema\AbstractSchemaEvent;
+use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
+use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
@@ -36,11 +39,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         $content = $this->buildTestContentObject();
         $contentType = $this->buildTestContentTypeStub();
 
-        $nameSchemaService = $this->buildNameSchemaService(
-            ['field' => ['<url_alias_schema>']],
-            $content,
-            ['eng-GB' => ['url_alias_schema' => 'foo']]
-        );
+        $event = new ResolveUrlAliasSchemaEvent(['field' => ['<url_alias_schema>']], $content);
+        $event->setTokenValues(['eng-GB' => ['url_alias_schema' => 'foo']]);
+
+        $nameSchemaService = $this->buildNameSchemaService($event);
 
         $result = $nameSchemaService->resolveUrlAliasSchema($content, $contentType);
 
@@ -52,12 +54,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         $content = $this->buildTestContentObject();
         $contentType = $this->buildTestContentTypeStub(self::NAME_SCHEMA, '');
 
-        $nameSchemaService = $this->buildNameSchemaService(
-            ['field' => [self::NAME_SCHEMA]],
-            $content,
-            ['eng-GB' => ['name_schema' => 'bar']]
-        );
+        $event = new ResolveUrlAliasSchemaEvent(['field' => [self::NAME_SCHEMA]], $content);
+        $event->setTokenValues(['eng-GB' => ['name_schema' => 'bar']]);
 
+        $nameSchemaService = $this->buildNameSchemaService($event);
         $result = $nameSchemaService->resolveUrlAliasSchema($content, $contentType);
 
         self::assertEquals(['eng-GB' => 'bar'], $result);
@@ -70,6 +70,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     {
         yield 'Default: Field Map and Languages taken from Content Version' => [
             [],
+            [
+                'eng-GB' => ['text2' => 'two'],
+                'cro-HR' => ['text2' => 'dva'],
+            ],
             [],
             [
                 'eng-GB' => 'two',
@@ -83,6 +87,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
                 'text3' => ['eng-GB' => new TextLineValue('three')],
             ],
+            [
+                'eng-GB' => ['text2' => 'two', 'text3' => 'three'],
+                'cro-HR' => ['text2' => 'Dva'],
+            ],
             ['eng-GB', 'cro-HR'],
             [
                 'eng-GB' => 'three',
@@ -95,19 +103,27 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      * @dataProvider getDataForTestResolveNameSchema
      *
      * @param array<string, array<string, string>> $fieldMap A map of Field Definition Identifier and Language Code to Field Value
+     * @param array<string, array<string, string>> $tokenValues
      * @param array<string> $languageCodes
      * @param array<string, string> $expectedNames
      */
-    public function testResolveNameSchema(array $fieldMap, array $languageCodes, array $expectedNames): void
+    public function testResolveNameSchema(array $fieldMap, array $tokenValues, array $languageCodes, array $expectedNames): void
     {
         $content = $this->buildTestContentObject();
         $nameSchema = '<text3|text2>';
-        $nameSchemaService = $this->buildNameSchemaService(
-            ['field' => [$nameSchema]],
-            $content,
-            []
-        );
         $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
+        $event = new ResolveContentNameSchemaEvent(
+            $content,
+            ['field' => ['text3', 'text2']],
+            $contentType,
+            $fieldMap,
+            $languageCodes
+        );
+        $event->setTokenValues($tokenValues);
+
+        $nameSchemaService = $this->buildNameSchemaService(
+            $event
+        );
 
         $result = $nameSchemaService->resolveNameSchema($content, $fieldMap, $languageCodes, $contentType);
 
@@ -184,13 +200,21 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         array $settings = []
     ): void {
         $content = $this->buildTestContentObject();
+        $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
+
+        $event = new ResolveNameSchemaEvent(
+            $schemaIdentifiers,
+            $contentType,
+            $content->fields,
+            $content->versionInfo->languageCodes
+        );
+
+        $event->setTokenValues($fieldTitles);
+
         $nameSchemaService = $this->buildNameSchemaService(
-            ['field' => [$nameSchema]],
-            $content,
-            [],
+            $event,
             $settings
         );
-        $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
 
         $result = $nameSchemaService->resolve(
             $nameSchema,
@@ -299,13 +323,8 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      * @param array<string, array<string, string>> $schemaIdentifiers
      */
     protected function getEventDispatcherMock(
-        array $schemaIdentifiers,
-        Content $content,
-        array $tokenValues
+        AbstractSchemaEvent $event
     ): EventDispatcherInterface {
-        $event = new ResolveUrlAliasSchemaEvent($schemaIdentifiers, $content);
-        $event->setTokenValues($tokenValues);
-
         $eventDispatcherMock = $this->getEventDispatcher();
         $eventDispatcherMock->method('dispatch')
             ->willReturn($event);
@@ -314,14 +333,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @param array<string, array<string>> $schemaIdentifiers
-     * @param array<string, array<string, string>> $tokenValues
      * @param array{limit?: integer, sequence?: string} $settings
      */
     private function buildNameSchemaService(
-        array $schemaIdentifiers,
-        Content $content,
-        array $tokenValues,
+        AbstractSchemaEvent $event,
         array $settings = []
     ): NameSchemaService {
         $fieldTypeRegistryMock = $this->getFieldTypeRegistryMock();
@@ -333,7 +348,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         return new NameSchemaService(
             $fieldTypeRegistryMock,
             new SchemaIdentifierExtractor(),
-            $this->getEventDispatcherMock($schemaIdentifiers, $content, $tokenValues),
+            $this->getEventDispatcherMock($event),
             $settings
         );
     }
