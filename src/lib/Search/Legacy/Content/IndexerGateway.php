@@ -144,6 +144,34 @@ final class IndexerGateway implements SPIIndexerGateway
             yield $contentIds;
         } while (!empty($contentId));
     }
+
+    public function getContentWithContentTypeIdentifier(string $contentTypeIdentifier, int $iterationCount): Generator{
+        $query = $this->buildQueryForContentWithContentTypeIdentifier($contentTypeIdentifier);
+
+        yield from $this->fetchIteration($query->execute(), $iterationCount);
+    }
+
+    public function countContentWithContentTypeIdentifier(string $contentTypeIdentifier): int
+    {
+        $query = $this->buildCountingQuery(
+            $this->buildQueryForContentWithContentTypeIdentifier($contentTypeIdentifier)
+        );
+
+        return (int)$query->execute()->fetchOne();
+    }
+
+    private function buildQueryForContentWithContentTypeIdentifier(string $contentTypeIdentifier): QueryBuilder
+    {
+        return $this->connection->createQueryBuilder()
+            ->select('DISTINCT c.id')
+            ->from('ezcontentobject', 'c')
+            ->innerJoin('c', 'ezcontentclass', 'cc', 'cc.id = c.contentclass_id')
+            ->where('c.status = :status')
+            ->andWhere('cc.identifier LIKE :identifier')
+            ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER)
+            ->setParameter('identifier', $contentTypeIdentifier, ParameterType::STRING);
+    }
+
 }
 
 class_alias(IndexerGateway::class, 'eZ\Publish\Core\Search\Legacy\Content\IndexerGateway');
