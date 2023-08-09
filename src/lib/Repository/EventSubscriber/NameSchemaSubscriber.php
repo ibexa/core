@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\EventSubscriber;
 
 use Ibexa\Contracts\Core\Event\NameSchema\AbstractNameSchemaEvent;
+use Ibexa\Contracts\Core\Event\NameSchema\AbstractSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
@@ -46,54 +47,12 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
 
     public function onResolveNameSchema(ResolveNameSchemaEvent $event): void
     {
-        if (!$this->isValid($event)) {
-            return;
-        }
-
-        $identifiers = $event->getSchemaIdentifiers()['field'];
-        $tokenValues = $event->getTokenValues();
-        $fieldMap = $event->getFieldMap();
-
-        $contentType = $event->getContentType();
-        foreach ($event->getLanguageCodes() as $languageCode) {
-            foreach ($identifiers as $identifier) {
-                $fieldDefinition = $contentType->getFieldDefinition($identifier);
-                if (null === $fieldDefinition) {
-                    continue;
-                }
-                $persistenceFieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldTypeIdentifier);
-
-                $fieldValue = $fieldMap[$identifier][$languageCode] ?? '';
-                $fieldValue = $persistenceFieldType->getName(
-                    $fieldValue,
-                    $fieldDefinition,
-                    $languageCode
-                );
-
-                $tokenValues[$languageCode][$identifier] = $fieldValue;
-            }
-        }
-
-        $event->setTokenValues($tokenValues);
+        $this->processNameSchemaEvent($event);
     }
 
     public function onResolveContentNameSchema(ResolveContentNameSchemaEvent $event): void
     {
-        if (!$this->isValid($event)) {
-            return;
-        }
-
-        $content = $event->getContent();
-        $contentType = $content->getContentType();
-        $tokenValues = $this->processEvent(
-            $event->getContent()->getVersionInfo()->getLanguages(),
-            $event->getSchemaIdentifiers()['field'],
-            $contentType,
-            $content,
-            $event->getTokenValues()
-        );
-
-        $event->setTokenValues($tokenValues);
+        $this->processNameSchemaEvent($event);
     }
 
     public function onResolveUrlAliasSchema(ResolveUrlAliasSchemaEvent $event): void
@@ -115,28 +74,39 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         $event->setTokenValues($tokenValues);
     }
 
-    public function isValid(AbstractNameSchemaEvent $event): bool
+    public function isValid(AbstractSchemaEvent $event): bool
     {
         return array_key_exists('field', $event->getSchemaIdentifiers());
     }
 
-    /**
-     * @param array<string, string> $tokens
-     * @param array<string> $languageCodes
-     * @param array<int, mixed> $attributes
-     * @param array<string, mixed> $tokenValues
-     *
-     * @return array
-     */
-    public function processEvent(
-        $languages,
-        $identifiers,
+    private function processNameSchemaEvent(AbstractNameSchemaEvent $event): void
+    {
+        if (!$this->isValid($event)) {
+            return;
+        }
+
+        $tokenValues = $this->processEvent(
+            $event->getLanguageCodes(),
+            $event->getSchemaIdentifiers()['field'],
+            $event->getContentType(),
+            null,
+            $event->getTokenValues(),
+            $event->getFieldMap()
+        );
+
+        $event->setTokenValues($tokenValues);
+    }
+
+    private function processEvent(
+        array $languages,
+        array $identifiers,
         ContentType $contentType,
-        Content $content,
-        array $tokenValues
+        ?Content $content,
+        array $tokenValues,
+        ?array $fieldMap = null
     ): array {
         foreach ($languages as $language) {
-            $languageCode = $language->getLanguageCode();
+            $languageCode = is_string($language) ? $language : $language->getLanguageCode();
             foreach ($identifiers as $identifier) {
                 $fieldDefinition = $contentType->getFieldDefinition($identifier);
                 if (null === $fieldDefinition) {
@@ -144,7 +114,10 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
                 }
                 $persistenceFieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldTypeIdentifier);
 
-                $fieldValue = $content->getFieldValue($identifier, $languageCode);
+                $fieldValue = $fieldMap
+                    ? $fieldMap[$identifier][$languageCode] ?? ''
+                    : $content->getFieldValue($identifier, $languageCode);
+
                 $fieldValue = $persistenceFieldType->getName(
                     $fieldValue,
                     $fieldDefinition,

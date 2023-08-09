@@ -108,8 +108,11 @@ class NameSchemaService implements NameSchemaServiceInterface
 
         $event = $this->eventDispatcher->dispatch(
             new ResolveContentNameSchemaEvent(
+                $content,
                 $schemaIdentifiers,
-                $content
+                $contentType,
+                $fieldMap,
+                $languageCodes
             )
         );
 
