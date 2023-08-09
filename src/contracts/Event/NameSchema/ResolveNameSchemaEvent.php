@@ -10,5 +10,4 @@ namespace Ibexa\Contracts\Core\Event\NameSchema;
 
 final class ResolveNameSchemaEvent extends AbstractNameSchemaEvent
 {
-
 }

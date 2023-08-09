@@ -119,8 +119,8 @@ class NameSchemaService implements NameSchemaServiceInterface
         return $this->buildNames($event->getTokenValues(), $schemaName);
     }
 
-    public function resolveContentNameSchema(){
-
+    public function resolveContentNameSchema()
+    {
     }
 
     public function resolve(
