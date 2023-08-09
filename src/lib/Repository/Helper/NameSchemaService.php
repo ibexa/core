@@ -55,8 +55,7 @@ class NameSchemaService extends NativeNameSchemaService
         ContentType $contentType,
         array $fieldMap,
         array $languageCodes
-    ): array
-    {
+    ): array {
         [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
         $tokens = $this->extractTokens($filteredNameSchema);
         $schemaIdentifiers = $this->getIdentifiers($nameSchema);

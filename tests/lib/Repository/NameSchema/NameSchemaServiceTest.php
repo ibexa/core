@@ -112,8 +112,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         array $tokenValues,
         array $languageCodes,
         array $expectedNames
-    ): void
-    {
+    ): void {
         $content = $this->buildTestContentObject();
         $nameSchema = '<text3|text2>';
         $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
