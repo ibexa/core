@@ -6,9 +6,16 @@
  */
 namespace Ibexa\Core\Repository\Helper;
 
+use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\NameSchema\NameSchemaService as NativeNameSchemaService;
+use Ibexa\Core\Repository\NameSchema\SchemaIdentifierExtractor;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @deprecated inject \Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface instead.
@@ -16,6 +23,32 @@ use Ibexa\Core\Repository\NameSchema\NameSchemaService as NativeNameSchemaServic
  */
 class NameSchemaService extends NativeNameSchemaService
 {
+    protected ContentTypeHandler $contentTypeHandler;
+
+    protected ContentTypeDomainMapper $contentTypeDomainMapper;
+
+    public function __construct(
+        ContentTypeHandler $contentTypeHandler,
+        ContentTypeDomainMapper $contentTypeDomainMapper,
+        FieldTypeRegistry $fieldTypeRegistry,
+        EventDispatcherInterface $eventDispatcher,
+        array $settings = []
+    ) {
+        $this->settings = $settings + [
+                'limit' => 150,
+                'sequence' => '...',
+            ];
+
+        parent::__construct(
+            $fieldTypeRegistry,
+            new SchemaIdentifierExtractor(),
+            $eventDispatcher,
+            $settings
+        );
+        $this->contentTypeHandler = $contentTypeHandler;
+        $this->contentTypeDomainMapper = $contentTypeDomainMapper;
+    }
+
     public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array
     {
         $contentType = $contentType ?? $content->getContentType();
@@ -78,6 +111,84 @@ class NameSchemaService extends NativeNameSchemaService
         }
 
         return $names;
+    }
+
+    protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes)
+    {
+        if (empty($fieldMap)) {
+            return $content->fields;
+        }
+
+        $mergedFieldMap = [];
+
+        foreach ($content->fields as $fieldIdentifier => $fieldLanguageMap) {
+            foreach ($languageCodes as $languageCode) {
+                $mergedFieldMap[$fieldIdentifier][$languageCode] = isset($fieldMap[$fieldIdentifier][$languageCode])
+                    ? $fieldMap[$fieldIdentifier][$languageCode]
+                    : $fieldLanguageMap[$languageCode];
+            }
+        }
+
+        return $mergedFieldMap;
+    }
+
+    /**
+     * Fetches the list of available Field identifiers in the token and returns
+     * an array of their current title value.
+     *
+     * @param string[] $schemaIdentifiers
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Type|\Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param array $fieldMap
+     * @param string $languageCode
+     *
+     * @return string[] Key is the field identifier, value is the title value
+     *
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     *
+     * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
+     */
+    protected function getFieldTitles(array $schemaIdentifiers, $contentType, array $fieldMap, $languageCode)
+    {
+        $fieldTitles = [];
+
+        foreach ($schemaIdentifiers as $fieldDefinitionIdentifier) {
+            if (isset($fieldMap[$fieldDefinitionIdentifier][$languageCode])) {
+                if ($contentType instanceof SPIContentType) {
+                    $fieldDefinition = null;
+                    foreach ($contentType->fieldDefinitions as $spiFieldDefinition) {
+                        if ($spiFieldDefinition->identifier === $fieldDefinitionIdentifier) {
+                            $fieldDefinition = $this->contentTypeDomainMapper->buildFieldDefinitionDomainObject(
+                                $spiFieldDefinition,
+                                // This is probably not main language, but as we don't expose it, it's ok for now.
+                                $languageCode
+                            );
+                            break;
+                        }
+                    }
+
+                    if ($fieldDefinition === null) {
+                        $fieldTitles[$fieldDefinitionIdentifier] = '';
+                        continue;
+                    }
+                } elseif ($contentType instanceof ContentType) {
+                    $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
+                } else {
+                    throw new InvalidArgumentType('$contentType', 'API or SPI variant of a Content Type');
+                }
+
+                $fieldTypeService = $this->fieldTypeRegistry->getFieldType(
+                    $fieldDefinition->fieldTypeIdentifier
+                );
+
+                $fieldTitles[$fieldDefinitionIdentifier] = $fieldTypeService->getName(
+                    $fieldMap[$fieldDefinitionIdentifier][$languageCode],
+                    $fieldDefinition,
+                    $languageCode
+                );
+            }
+        }
+
+        return $fieldTitles;
     }
 }
 
