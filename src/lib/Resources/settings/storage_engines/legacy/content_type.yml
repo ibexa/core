@@ -58,6 +58,7 @@ services:
         arguments:
             - '@Ibexa\Core\Persistence\Legacy\Content\Type\Handler.inner'
             - '@ibexa.spi.persistence.cache.inmemory'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
 
     ibexa.spi.persistence.legacy.content_type.handler:
         alias: Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler
