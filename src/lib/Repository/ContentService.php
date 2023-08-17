@@ -1565,7 +1565,7 @@ class ContentService implements ContentServiceInterface
         }
 
         $updateStruct = new SPIContentUpdateStruct();
-        $updateStruct->name = $this->nameSchemaService->resolveNameSchema(
+        $updateStruct->name = $this->nameSchemaService->resolveContentNameSchema(
             $currentVersionContent,
             $fieldValues,
             $versionInfo->languageCodes,
