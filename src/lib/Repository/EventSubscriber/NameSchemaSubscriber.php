@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -64,7 +65,12 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         $content = $event->getContent();
         $contentType = $content->getContentType();
         $tokenValues = $this->processEvent(
-            $event->getContent()->getVersionInfo()->getLanguages(),
+            array_map(
+                static function (Language $language) {
+                    return $language->getLanguageCode();
+                },
+                $event->getContent()->getVersionInfo()->getLanguages()
+            ),
             $event->getSchemaIdentifiers()['field'],
             $contentType,
             $content,
@@ -97,6 +103,11 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         $event->setTokenValues($tokenValues);
     }
 
+    /**
+     * @param array<string> $languages
+     * @param array<string<array<string>> $identifiers
+     * @param array<string<array<string>> $tokenValues
+     */
     private function processEvent(
         array $languages,
         array $identifiers,
@@ -105,9 +116,9 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         array $tokenValues,
         ?array $fieldMap = null
     ): array {
-        foreach ($languages as $language) {
-            $languageCode = is_string($language) ? $language : $language->getLanguageCode();
+        foreach ($languages as $languageCode) {
             foreach ($identifiers as $identifier) {
+                $tokenValues[$languageCode] = [];
                 $fieldDefinition = $contentType->getFieldDefinition($identifier);
                 if (null === $fieldDefinition) {
                     continue;
