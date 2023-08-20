@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Core\Base\Utils\DeprecationWarnerInterface;
 use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
 use Ibexa\Core\FieldType\Image\ImageStorage;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
