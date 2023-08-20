@@ -16,7 +16,6 @@ services:
             $ioService: '@Ibexa\Core\FieldType\Image\IO\Legacy'
             $pathGenerator: '@Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator'
             $imageSizeMetadataHandler: '@Ibexa\Core\IO\MetadataHandler\ImageSize'
-            $deprecationWarner: '@Ibexa\Core\Base\Utils\DeprecationWarner'
             $aliasCleaner: '@Ibexa\Core\FieldType\Image\AliasCleanerInterface'
             $filePathNormalizer: '@Ibexa\Core\IO\FilePathNormalizerInterface'
         tags:
