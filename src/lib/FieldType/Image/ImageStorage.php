@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Base\Utils\DeprecationWarnerInterface as DeprecationWarner;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\MetadataHandler;
@@ -30,9 +29,6 @@ class ImageStorage extends GatewayBasedStorage
     /** @var \Ibexa\Core\IO\MetadataHandler */
     protected $imageSizeMetadataHandler;
 
-    /** @var \Ibexa\Core\Base\Utils\DeprecationWarnerInterface */
-    private $deprecationWarner;
-
     /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface */
     protected $aliasCleaner;
 
@@ -47,7 +43,6 @@ class ImageStorage extends GatewayBasedStorage
         IOServiceInterface $ioService,
         PathGenerator $pathGenerator,
         MetadataHandler $imageSizeMetadataHandler,
-        DeprecationWarner $deprecationWarner,
         AliasCleanerInterface $aliasCleaner,
         FilePathNormalizerInterface $filePathNormalizer
     ) {
@@ -55,7 +50,6 @@ class ImageStorage extends GatewayBasedStorage
         $this->ioService = $ioService;
         $this->pathGenerator = $pathGenerator;
         $this->imageSizeMetadataHandler = $imageSizeMetadataHandler;
-        $this->deprecationWarner = $deprecationWarner;
         $this->aliasCleaner = $aliasCleaner;
         $this->filePathNormalizer = $filePathNormalizer;
     }
