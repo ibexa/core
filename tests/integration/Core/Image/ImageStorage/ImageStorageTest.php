@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
-use Ibexa\Core\Base\Utils\DeprecationWarnerInterface;
 use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
 use Ibexa\Core\FieldType\Image\ImageStorage;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
@@ -39,9 +38,6 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
     /** @var \Ibexa\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
     private $pathGenerator;
 
-    /** @var \Ibexa\Core\Base\Utils\DeprecationWarnerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $deprecationWarner;
-
     /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $aliasCleaner;
 
@@ -62,7 +58,6 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
         $this->gateway = new DoctrineStorage($this->redecorator, $this->getDatabaseConnection());
         $this->imageSizeMetadataHandler = $this->createMock(MetadataHandler::class);
         $this->pathGenerator = $this->createMock(PathGenerator::class);
-        $this->deprecationWarner = $this->createMock(DeprecationWarnerInterface::class);
         $this->aliasCleaner = $this->createMock(AliasCleanerInterface::class);
         $this->filePathNormalizer = $this->createMock(FilePathNormalizerInterface::class);
         $this->ioService = $this->createMock(IOServiceInterface::class);
@@ -71,7 +66,6 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
             $this->ioService,
             $this->pathGenerator,
             $this->imageSizeMetadataHandler,
-            $this->deprecationWarner,
             $this->aliasCleaner,
             $this->filePathNormalizer,
         );
