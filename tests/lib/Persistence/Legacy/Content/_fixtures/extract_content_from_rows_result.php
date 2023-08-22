@@ -44,16 +44,6 @@ $versionInfo->contentInfo->status = 1;
 $content->versionInfo = $versionInfo;
 
 $field = new Field();
-$field->id = 4000;
-$field->fieldDefinitionId = 193;
-$field->type = 'ezkeyword';
-$field->value = new FieldValue();
-$field->languageCode = 'eng-GB';
-$field->versionNo = 2;
-
-$content->fields[] = $field;
-
-$field = new Field();
 $field->id = 1332;
 $field->fieldDefinitionId = 183;
 $field->type = 'ezstring';
@@ -129,6 +119,16 @@ $field->fieldDefinitionId = 193;
 $field->type = 'ezkeyword';
 $field->value = new FieldValue();
 $field->languageCode = 'eng-US';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 4000;
+$field->fieldDefinitionId = 193;
+$field->type = 'ezkeyword';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
 $field->versionNo = 2;
 
 $content->fields[] = $field;
