@@ -2,7 +2,7 @@
 
 namespace Ibexa\Tests\Core\Repository\Values\Content\Query\Criterion;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\DateMetadata;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\DateMetadata;
 use PHPUnit\Framework\TestCase;
 
 final class DateMetadataTest extends TestCase
