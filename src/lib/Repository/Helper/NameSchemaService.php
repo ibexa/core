@@ -123,9 +123,7 @@ class NameSchemaService extends NativeNameSchemaService
 
         foreach ($content->fields as $fieldIdentifier => $fieldLanguageMap) {
             foreach ($languageCodes as $languageCode) {
-                $mergedFieldMap[$fieldIdentifier][$languageCode] = isset($fieldMap[$fieldIdentifier][$languageCode])
-                    ? $fieldMap[$fieldIdentifier][$languageCode]
-                    : $fieldLanguageMap[$languageCode];
+                $mergedFieldMap[$fieldIdentifier][$languageCode] = $fieldMap[$fieldIdentifier][$languageCode] ?? $fieldLanguageMap[$languageCode];
             }
         }
 
@@ -152,40 +150,38 @@ class NameSchemaService extends NativeNameSchemaService
         $fieldTitles = [];
 
         foreach ($schemaIdentifiers as $fieldDefinitionIdentifier) {
-            if (isset($fieldMap[$fieldDefinitionIdentifier][$languageCode])) {
-                if ($contentType instanceof SPIContentType) {
-                    $fieldDefinition = null;
-                    foreach ($contentType->fieldDefinitions as $spiFieldDefinition) {
-                        if ($spiFieldDefinition->identifier === $fieldDefinitionIdentifier) {
-                            $fieldDefinition = $this->contentTypeDomainMapper->buildFieldDefinitionDomainObject(
-                                $spiFieldDefinition,
-                                // This is probably not main language, but as we don't expose it, it's ok for now.
-                                $languageCode
-                            );
-                            break;
-                        }
-                    }
-
-                    if ($fieldDefinition === null) {
-                        $fieldTitles[$fieldDefinitionIdentifier] = '';
-                        continue;
-                    }
-                } elseif ($contentType instanceof ContentType) {
-                    $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
-                } else {
-                    throw new InvalidArgumentType('$contentType', 'API or SPI variant of a Content Type');
-                }
-
-                $fieldTypeService = $this->fieldTypeRegistry->getFieldType(
-                    $fieldDefinition->fieldTypeIdentifier
-                );
-
-                $fieldTitles[$fieldDefinitionIdentifier] = $fieldTypeService->getName(
-                    $fieldMap[$fieldDefinitionIdentifier][$languageCode],
-                    $fieldDefinition,
-                    $languageCode
-                );
+            if (!isset($fieldMap[$fieldDefinitionIdentifier][$languageCode])) {
+                continue;
             }
+            if ($contentType instanceof SPIContentType) {
+                $fieldDefinition = null;
+                foreach ($contentType->fieldDefinitions as $spiFieldDefinition) {
+                    if ($spiFieldDefinition->identifier === $fieldDefinitionIdentifier) {
+                        $fieldDefinition = $this->contentTypeDomainMapper->buildFieldDefinitionDomainObject(
+                            $spiFieldDefinition,
+                            // This is probably not main language, but as we don't expose it, it's ok for now.
+                            $languageCode
+                        );
+                        break;
+                    }
+                }
+                if ($fieldDefinition === null) {
+                    $fieldTitles[$fieldDefinitionIdentifier] = '';
+                    continue;
+                }
+            } elseif ($contentType instanceof ContentType) {
+                $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
+            } else {
+                throw new InvalidArgumentType('$contentType', 'API or SPI variant of a Content Type');
+            }
+            $fieldTypeService = $this->fieldTypeRegistry->getFieldType(
+                $fieldDefinition->fieldTypeIdentifier
+            );
+            $fieldTitles[$fieldDefinitionIdentifier] = $fieldTypeService->getName(
+                $fieldMap[$fieldDefinitionIdentifier][$languageCode],
+                $fieldDefinition,
+                $languageCode
+            );
         }
 
         return $fieldTitles;

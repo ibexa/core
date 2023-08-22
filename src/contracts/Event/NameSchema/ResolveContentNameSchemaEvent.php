@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 final class ResolveContentNameSchemaEvent extends AbstractNameSchemaEvent implements ContentAwareEventInterface
 {
-    protected Content $content;
+    private Content $content;
 
     public function __construct(
         Content $content,

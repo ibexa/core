@@ -58,9 +58,9 @@ class NameSchemaService implements NameSchemaServiceInterface
      */
     protected array $settings;
 
-    protected EventDispatcherInterface $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
-    protected SchemaIdentifierExtractorInterface $schemaIdentifierExtractor;
+    private SchemaIdentifierExtractorInterface $schemaIdentifierExtractor;
 
     /**
      * @param array{limit?: integer, sequence?: string} $settings
