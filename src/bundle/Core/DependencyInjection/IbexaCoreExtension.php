@@ -1024,10 +1024,10 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             'configs' => [
                 'ibexa_core' => [
                     'dirs' => [
-                        __DIR__ . '/../',
+                        __DIR__ . '/../../../',
                     ],
                     'output_dir' => __DIR__ . '/../Resources/translations/',
-                    'output_format' => 'xliff',
+                    'output_format' => 'xlf',
                     'excluded_dirs' => ['Behat', 'Tests', 'node_modules', 'Features'],
                 ],
             ],

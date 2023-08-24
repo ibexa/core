@@ -7,6 +7,7 @@
 namespace Ibexa\Core\Helper\FieldsGroups;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -39,6 +40,7 @@ final class ArrayTranslatorFieldsGroupsList implements FieldsGroupsList
 
         foreach ($this->groups as $groupIdentifier) {
             $translatedGroups[$groupIdentifier] = $this->translator->trans(
+                /** @Ignore */
                 $groupIdentifier,
                 [],
                 'ezplatform_fields_groups'
