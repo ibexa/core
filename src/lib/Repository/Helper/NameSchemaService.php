@@ -35,9 +35,9 @@ class NameSchemaService extends NativeNameSchemaService
         array $settings = []
     ) {
         $this->settings = $settings + [
-                'limit' => 150,
-                'sequence' => '...',
-            ];
+            'limit' => 150,
+            'sequence' => '...',
+        ];
 
         parent::__construct(
             $fieldTypeRegistry,
