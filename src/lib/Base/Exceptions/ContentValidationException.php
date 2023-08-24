@@ -9,6 +9,7 @@ namespace Ibexa\Core\Base\Exceptions;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException as APIContentValidationException;
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
+use JMS\TranslationBundle\Annotation\Ignore;
 
 /**
  * This Exception is thrown on create or update content one or more given fields are not valid.
@@ -25,8 +26,7 @@ class ContentValidationException extends APIContentValidationException implement
      */
     public function __construct($messageTemplate, array $parameters = [])
     {
-        /** @Ignore */
-        $this->setMessageTemplate($messageTemplate);
+        $this->setMessageTemplate(/** @Ignore */$messageTemplate);
         $this->setParameters($parameters);
 
         parent::__construct($this->getBaseTranslation());

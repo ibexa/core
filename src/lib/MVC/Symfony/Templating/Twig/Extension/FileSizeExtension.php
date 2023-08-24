@@ -8,6 +8,7 @@ namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use JMS\TranslationBundle\Annotation\Ignore;
 use Locale;
 use NumberFormatter;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -110,7 +111,9 @@ class FileSizeExtension extends AbstractExtension
             $i = ($index - 1);
         }
         $formatter = new NumberFormatter($this->getLocale(), NumberFormatter::PATTERN_DECIMAL);
-        $formatter->setPattern($formatter->getPattern() . ' ' . $this->translator->trans($this->suffixes[$i]));
+        $formatter->setPattern(
+            $formatter->getPattern() . ' ' . $this->translator->trans(/** @Ignore */$this->suffixes[$i])
+        );
         $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $precision);
 
         return $formatter->format($number);
