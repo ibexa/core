@@ -7,6 +7,7 @@
 namespace Ibexa\Core\MVC\Symfony\Translation;
 
 use Doctrine\Common\Annotations\DocParser;
+use JMS\TranslationBundle\Annotation\Ignore;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Extractor\File\DefaultPhpFileExtractor;
@@ -34,10 +35,15 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
 
     private MessageCatalogue $catalogue;
 
+    private Node $previousNode;
+
+    private DocParser $docParser;
+
     public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
     {
         parent::__construct($docParser, $fileSourceFactory);
         $this->fileSourceFactory = $fileSourceFactory;
+        $this->docParser = $docParser;
         $this->traverser = new NodeTraverser();
         $this->traverser->addVisitor($this);
     }
@@ -52,10 +58,18 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
             !is_string($methodCallNodeName)
             || !array_key_exists($methodCallNodeName, $this->methodsToExtractFrom)
         ) {
+            $this->previousNode = $node;
+
             return;
         }
 
+        $ignore = $this->isIgnore($node);
+
         if (!$node->args[0]->value instanceof String_) {
+            if ($ignore) {
+                return;
+            }
+
             $message = sprintf('Can only extract the translation id from a scalar string, but got "%s". Please refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($node->args[0]->value), $this->file, $node->args[0]->value->getLine());
 
             $this->logger->error($message);
@@ -75,6 +89,42 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);
+    }
+
+    private function getDocCommentForNode(Node $node): ?string
+    {
+        if (null !== $comment = $node->args[0]->getDocComment()) {
+            return $comment->getText();
+        }
+
+        if (null !== $comment = $node->getDocComment()) {
+            return $comment->getText();
+        }
+
+        if (null !== $this->previousNode && $this->previousNode->getDocComment() !== null) {
+            $comment = $this->previousNode->getDocComment();
+
+            return is_object($comment) ? $comment->getText() : $comment;
+        }
+
+        return null;
+    }
+
+    private function isIgnore($node): bool
+    {
+        if (null !== $docComment = $this->getDocCommentForNode($node)) {
+            $annotations = $this->docParser->parse(
+                $docComment,
+                'file ' . $this->file . ' near line ' . $node->getLine()
+            );
+            foreach ($annotations as $annot) {
+                if ($annot instanceof Ignore) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
 
