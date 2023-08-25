@@ -80,6 +80,8 @@ class DateMetadata extends CriterionHandler
                 return 't.' . Criterion\DateMetadata::TRASHED;
             case Criterion\DateMetadata::MODIFIED:
                 return 'c.' . Criterion\DateMetadata::MODIFIED;
+            case Criterion\DateMetadata::CREATED:
+            case Criterion\DateMetadata::PUBLISHED:
             default:
                 return 'c.' . Criterion\DateMetadata::PUBLISHED;
         }
