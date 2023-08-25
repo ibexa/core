@@ -64,7 +64,11 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     public function __construct(string $target, string $operator, $value)
     {
         if (!in_array($target, self::TARGETS)) {
-            throw new InvalidArgumentException("Unknown DateMetadata $target");
+            throw new InvalidArgumentException(sprintf(
+                'Unknown DateMetadata target "%s". Expected one of: "%s"',
+                $target,
+                implode('", "', self::TARGETS),
+            ));
         }
         parent::__construct($target, $operator, $value);
     }
