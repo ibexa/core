@@ -129,7 +129,7 @@ class RoutingExtension extends AbstractExtension
         } elseif ($object instanceof ContentAwareInterface) {
             $routeName = UrlAliasRouter::URL_ALIAS_ROUTE_NAME;
             $parameters += [
-                'contentId' => $object->getContent()->id,
+                'contentId' => $object->getContent()->getVersionInfo()->getContentInfo()->id,
             ];
         } elseif ($object instanceof RouteReference) {
             $routeName = $object->getRoute();
