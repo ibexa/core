@@ -137,7 +137,7 @@ final class Handler implements HandlerInterface
     {
         try {
             if (null !== $tokenType) {
-                $typeId = $this->getTokenType($tokenType);
+                $typeId = $this->getTokenType($tokenType)->id;
             }
         } catch (NotFoundException $exception) {
             return;
