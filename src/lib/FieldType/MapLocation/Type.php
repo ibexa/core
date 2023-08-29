@@ -12,13 +12,15 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * MapLocation field types.
  *
  * Represents keywords.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     /**
      * Returns the field type identifier for this field type.
@@ -199,6 +201,13 @@ class Type extends FieldType
         }
 
         return $this->fromHash($fieldValue->externalData);
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezgmaplocation.name', 'ibexa_fieldtypes')->setDesc('Map location'),
+        ];
     }
 }
 

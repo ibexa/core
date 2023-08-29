@@ -11,13 +11,15 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * Checkbox field type.
  *
  * Represent boolean values.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     /**
      * Returns the field type identifier for this field type.
@@ -139,6 +141,13 @@ class Type extends FieldType
     public function isSearchable()
     {
         return true;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezboolean.name', 'ibexa_fieldtypes')->setDesc('Checkbox'),
+        ];
     }
 }
 

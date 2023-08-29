@@ -12,13 +12,15 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The Url field type.
  *
  * This field type represents a simple string.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     /**
      * Returns the field type identifier for this field type.
@@ -178,6 +180,13 @@ class Type extends FieldType
             $fieldValue->externalData,
             $fieldValue->data['text']
         );
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezurl.name', 'ibexa_fieldtypes')->setDesc('URL'),
+        ];
     }
 }
 

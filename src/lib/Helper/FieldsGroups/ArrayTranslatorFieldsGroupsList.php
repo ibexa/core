@@ -43,7 +43,7 @@ final class ArrayTranslatorFieldsGroupsList implements FieldsGroupsList
                 /** @Ignore */
                 $groupIdentifier,
                 [],
-                'ezplatform_fields_groups'
+                'ibexa_fields_groups'
             );
         }
 

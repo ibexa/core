@@ -12,13 +12,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\BinaryBase\Type as BaseType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The TextLine field type.
  *
  * This field type represents a simple string.
  */
-class Type extends BaseType
+class Type extends BaseType implements TranslationContainerInterface
 {
     /**
      * List of possible media type settings.
@@ -263,6 +265,14 @@ class Type extends BaseType
     public function isSearchable()
     {
         return false;
+    }
+
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezmedia.name', 'ibexa_fieldtypes')->setDesc('Media'),
+        ];
     }
 }
 

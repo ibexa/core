@@ -12,13 +12,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * Integer field types.
  *
  * Represents integers.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     protected $validatorConfigurationSchema = [
         'IntegerValueValidator' => [
@@ -267,6 +269,14 @@ class Type extends FieldType
     public function isSearchable()
     {
         return true;
+    }
+
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezinteger.name', 'ibexa_fieldtypes')->setDesc('Integer'),
+        ];
     }
 }
 

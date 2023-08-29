@@ -10,13 +10,15 @@ use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Core\FieldType\BinaryBase\Type as BinaryBaseType;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The TextLine field type.
  *
  * This field type represents a simple string.
  */
-class Type extends BinaryBaseType
+class Type extends BinaryBaseType implements TranslationContainerInterface
 {
     /**
      * Returns the field type identifier for this field type.
@@ -109,6 +111,13 @@ class Type extends BinaryBaseType
             : 0);
 
         return $result;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezbinaryfile.name', 'ibexa_fieldtypes')->setDesc('File'),
+        ];
     }
 }
 

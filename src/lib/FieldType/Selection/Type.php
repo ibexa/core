@@ -12,13 +12,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The Selection field type.
  *
  * This field type represents a simple string.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     /**
      * The setting keys which are available on this field type.
@@ -307,6 +309,14 @@ class Type extends FieldType
     public function isSearchable()
     {
         return true;
+    }
+
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezselection.name', 'ibexa_fieldtypes')->setDesc('Selection'),
+        ];
     }
 }
 

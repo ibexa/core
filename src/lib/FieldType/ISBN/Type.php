@@ -12,13 +12,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The ISBN field type.
  *
  * This field type represents a simple string.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     public const ISBN13_PREFIX_LENGTH = 3;
     public const ISBN13_CHECK_LENGTH = 1;
@@ -343,6 +345,14 @@ class Type extends FieldType
         }
 
         return true;
+    }
+
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezisbn.name', 'ibexa_fieldtypes')->setDesc('ISBN'),
+        ];
     }
 }
 

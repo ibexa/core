@@ -13,13 +13,15 @@ use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator\EmailAddressValidator;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The EMailAddress field type.
  *
  * This field type represents an email address.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     protected $validatorConfigurationSchema = [
         'EmailAddressValidator' => [],
@@ -204,6 +206,13 @@ class Type extends FieldType
     public function isSearchable()
     {
         return true;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezemail.name', 'ibexa_fieldtypes')->setDesc('Email address'),
+        ];
     }
 }
 
