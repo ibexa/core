@@ -25,7 +25,7 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
     /** @var array<string, int> */
     protected $methodsToExtractFrom = ['setMessageTemplate' => -1];
 
-    protected string $defaultDomain = 'repository_exceptions';
+    protected string $defaultDomain = 'ibexa_repository_exceptions';
 
     private FileSourceFactory $fileSourceFactory;
 

@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\Base\Translatable;
+use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -75,7 +76,7 @@ class ExceptionListener implements EventSubscriberInterface
                 /** @Ignore */
                 $exception->getMessageTemplate(),
                 $exception->getParameters(),
-                'repository_exceptions'
+                'ibexa_repository_exceptions'
             );
         }
 

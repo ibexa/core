@@ -56,7 +56,7 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
             $ast
         );
 
-        $expectedMessage = new Message('Foo exception', 'repository_exceptions');
+        $expectedMessage = new Message('Foo exception', 'ibexa_repository_exceptions');
 
         self::assertTrue(
             $messageCatalogue->has($expectedMessage)

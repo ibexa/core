@@ -51,7 +51,7 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
     private $previousNode;
 
     /** @var string */
-    protected $defaultDomain = 'repository_exceptions';
+    protected $defaultDomain = 'ibexa_repository_exceptions';
 
     /**
      * Methods and "domain" parameter offset to extract from PHP code.
