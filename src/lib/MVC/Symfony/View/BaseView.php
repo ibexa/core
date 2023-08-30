@@ -12,7 +12,11 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 
 abstract class BaseView implements View
 {
-    /** @var string|\Closure */
+    /**
+     * @phpstan-var string|(\Closure(array<string, mixed>):string)
+     *
+     * @var string|\Closure
+     */
     protected $templateIdentifier;
 
     /** @var array */
@@ -34,6 +38,8 @@ abstract class BaseView implements View
     private $isCacheEnabled = true;
 
     /**
+     * @phpstan-param string|(\Closure(array<string, mixed>):string) $templateIdentifier
+     *
      * @param string|\Closure $templateIdentifier Valid path to the template. Can also be a closure.
      * @param string $viewType
      * @param array $parameters Hash of parameters to pass to the template/closure.
@@ -108,6 +114,8 @@ abstract class BaseView implements View
     }
 
     /**
+     * @phpstan-param string|(\Closure(array<string, mixed>):string) $templateIdentifier
+     *
      * @param string|\Closure $templateIdentifier
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
@@ -123,6 +131,8 @@ abstract class BaseView implements View
 
     /**
      * @return string|\Closure
+     *
+     * @phpstan-return string|(\Closure(array<string, mixed>):string)
      */
     public function getTemplateIdentifier()
     {

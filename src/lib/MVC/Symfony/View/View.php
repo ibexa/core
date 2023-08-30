@@ -31,6 +31,8 @@ interface View
      *
      * @param string|\Closure $templateIdentifier
      *
+     * @phpstan-param string|(\Closure(array<string, mixed>):string) $templateIdentifier
+     *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
     public function setTemplateIdentifier($templateIdentifier);
@@ -39,6 +41,8 @@ interface View
      * Returns the registered template identifier.
      *
      * @return string|\Closure
+     *
+     * @phpstan-return string|(\Closure(array<string, mixed>):string)
      */
     public function getTemplateIdentifier();
 
