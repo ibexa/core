@@ -267,7 +267,6 @@ class Type extends BaseType implements TranslationContainerInterface
         return false;
     }
 
-
     public static function getTranslationMessages(): array
     {
         return [

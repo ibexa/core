@@ -161,7 +161,6 @@ class Type extends FieldType implements TranslationContainerInterface
         return new Value($fieldValue->externalData);
     }
 
-
     public static function getTranslationMessages(): array
     {
         return [

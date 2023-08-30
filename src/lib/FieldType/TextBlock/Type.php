@@ -205,7 +205,6 @@ class Type extends FieldType implements TranslationContainerInterface
         return $validationErrors;
     }
 
-
     public static function getTranslationMessages(): array
     {
         return [

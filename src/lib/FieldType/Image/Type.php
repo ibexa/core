@@ -403,7 +403,6 @@ class Type extends FieldType implements TranslationContainerInterface
         return $hashValue1 === $hashValue2;
     }
 
-
     public static function getTranslationMessages(): array
     {
         return [

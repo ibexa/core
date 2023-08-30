@@ -491,7 +491,6 @@ class Type extends FieldType implements TranslationContainerInterface
         ], true);
     }
 
-
     public static function getTranslationMessages(): array
     {
         return [

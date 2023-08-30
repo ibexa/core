@@ -352,7 +352,6 @@ class Type extends FieldType implements TranslationContainerInterface
         return $relations;
     }
 
-
     public static function getTranslationMessages(): array
     {
         return [
