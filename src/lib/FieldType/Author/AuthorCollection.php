@@ -12,6 +12,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 /**
  * Author collection.
  * This collection can only hold {@link \Ibexa\Core\FieldType\Author\Author} objects.
+ *
+ * @extends \ArrayObject<int, \Ibexa\Core\FieldType\Author\Author>
  */
 class AuthorCollection extends ArrayObject
 {

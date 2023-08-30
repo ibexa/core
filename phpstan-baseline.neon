@@ -8861,11 +8861,6 @@ parameters:
 			path: src/lib/Event/UserService.php
 
 		-
-			message: "#^Class Ibexa\\\\Core\\\\FieldType\\\\Author\\\\AuthorCollection extends generic class ArrayObject but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/lib/FieldType/Author/AuthorCollection.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Author\\\\AuthorCollection\\:\\:removeAuthorsById\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/FieldType/Author/AuthorCollection.php
