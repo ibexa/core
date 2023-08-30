@@ -18,4 +18,4 @@ parameters:
     excludePaths:
         analyse:
             - tests/integration/Core/Repository/var
-            - tests/lib/Search/Legacy/_fixtures/full_dump.php
+            - */_fixtures/*.php
