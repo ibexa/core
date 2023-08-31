@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Repository\Helper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
@@ -35,9 +36,9 @@ class NameSchemaService extends NativeNameSchemaService
         array $settings = []
     ) {
         $this->settings = $settings + [
-            'limit' => 150,
-            'sequence' => '...',
-        ];
+                'limit' => 150,
+                'sequence' => '...',
+            ];
 
         parent::__construct(
             $fieldTypeRegistry,
@@ -113,7 +114,7 @@ class NameSchemaService extends NativeNameSchemaService
         return $names;
     }
 
-    protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes)
+    protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes): array
     {
         if (empty($fieldMap)) {
             return $content->fields;
@@ -145,7 +146,7 @@ class NameSchemaService extends NativeNameSchemaService
      *
      * @see \Ibexa\Core\Repository\Values\ContentType\FieldType::getName()
      */
-    protected function getFieldTitles(array $schemaIdentifiers, $contentType, array $fieldMap, $languageCode)
+    protected function getFieldTitles(array $schemaIdentifiers, $contentType, array $fieldMap, $languageCode): array
     {
         $fieldTitles = [];
 

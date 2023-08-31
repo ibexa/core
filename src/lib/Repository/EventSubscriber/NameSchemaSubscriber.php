@@ -66,7 +66,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         $contentType = $content->getContentType();
         $tokenValues = $this->processEvent(
             array_map(
-                static function (Language $language) {
+                static function (Language $language): string {
                     return $language->getLanguageCode();
                 },
                 $event->getContent()->getVersionInfo()->getLanguages()
