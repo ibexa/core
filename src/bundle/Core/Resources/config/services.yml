@@ -195,6 +195,12 @@ services:
         tags:
             - { name: request.param_converter, priority: '%ibexa.param_converter.location.priority%', converter: ez_location_converter }
 
+    Ibexa\Bundle\Core\Converter\LocationArgumentResolver:
+        autowire: true
+        autoconfigure: true
+        tags:
+            - { name: controller.argument_value_resolver, priority: '%ibexa.param_converter.location.priority%' }
+
     Ibexa\Bundle\Core\EventListener\ExceptionListener:
         class: Ibexa\Bundle\Core\EventListener\ExceptionListener
         arguments: ["@translator"]
@@ -361,5 +367,5 @@ services:
             $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
             $defaultConnection: '%doctrine.default_connection%'
             $entityManagers: '%doctrine.entity_managers%'
-            
+
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
