@@ -971,7 +971,7 @@ class UserHandlerTest extends TestCase
                     ]
                 ),
             ],
-            $handler->loadRoleAssignmentsByGroupId(42)// 42: Anonymous Users
+            $handler->loadRoleAssignmentsByGroupId(42)// 42: Anonymous users
         );
 
         $this->assertEquals(

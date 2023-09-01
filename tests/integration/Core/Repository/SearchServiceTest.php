@@ -362,7 +362,7 @@ class SearchServiceTest extends BaseTest
                     'filter' => new Criterion\Field(
                         'name',
                         Criterion\Operator::IN,
-                        ['Members', 'Anonymous Users']
+                        ['Members', 'Anonymous users']
                     ),
                     'sortClauses' => [new SortClause\ContentId()],
                 ],

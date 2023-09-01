@@ -126,6 +126,11 @@
         <target>The User does not have the '%function%' '%module%' permission with: %with%</target>
         <note>key: The User does not have the '%function%' '%module%' permission with: %with%</note>
       </trans-unit>
+      <trans-unit id="3b2e044f9c9821aef27834972d90f59f28b1a0b4" resname="Token '%tokenType%:%token%' expired on '%when%'">
+        <source>Token '%tokenType%:%token%' expired on '%when%'</source>
+        <target>Token '%tokenType%:%token%' expired on '%when%'</target>
+        <note>key: Token '%tokenType%:%token%' expired on '%when%'</note>
+      </trans-unit>
       <trans-unit id="27a77deaffe8551b169928675adc64ae8450937f" resname="User &quot;%login%&quot; already exists">
         <source>User "%login%" already exists</source>
         <target>User "%login%" already exists</target>

@@ -26,7 +26,7 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
             (new Message('role.policy.content.all_functions', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / All functions'),
             (new Message('role.policy.content.cleantrash', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content / Cleantrash'),
+                ->setDesc('Content / Clean trash'),
             (new Message('role.policy.content.create', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Create'),
             (new Message('role.policy.content.diff', self::TRANSLATION_DOMAIN))
@@ -38,7 +38,7 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
             (new Message('role.policy.content.manage_locations', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Manage locations'),
             (new Message('role.policy.content.pendinglist', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content / Pendinglist'),
+                ->setDesc('Content / Pending list'),
             (new Message('role.policy.content.publish', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Publish'),
             (new Message('role.policy.content.read', self::TRANSLATION_DOMAIN))
@@ -48,7 +48,7 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
             (new Message('role.policy.content.restore', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Restore'),
             (new Message('role.policy.content.reverserelatedlist', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content / Reverserelatedlist'),
+                ->setDesc('Content / Reverse related list'),
             (new Message('role.policy.content.translate', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Translate'),
             (new Message('role.policy.content.translations', self::TRANSLATION_DOMAIN))
@@ -56,11 +56,11 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
             (new Message('role.policy.content.unlock', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Unlock'),
             (new Message('role.policy.content.urltranslator', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content / Urltranslator'),
+                ->setDesc('Content / Url translator'),
             (new Message('role.policy.content.versionread', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content / Versionread'),
+                ->setDesc('Content / Version read'),
             (new Message('role.policy.content.versionremove', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content / Versionremove'),
+                ->setDesc('Content / Version remove'),
 
             (new Message('role.policy.class', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content Type'),
@@ -138,7 +138,7 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
             (new Message('role.policy.user.register', self::TRANSLATION_DOMAIN))
                 ->setDesc('User / Register'),
             (new Message('role.policy.user.selfedit', self::TRANSLATION_DOMAIN))
-                ->setDesc('User / Selfedit'),
+                ->setDesc('User / Self edit'),
 
             (new Message('role.policy.user', self::TRANSLATION_DOMAIN))
                 ->setDesc('User'),
