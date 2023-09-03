@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
@@ -49,6 +50,14 @@ final class RoutingExtensionTest extends IntegrationTestCase
                 'contentInfo' => $this->getExampleContentInfo($id),
             ]),
         ]);
+    }
+
+    protected function getExampleContentAware(int $id): ContentAwareInterface
+    {
+        $contentAware = $this->createMock(ContentAwareInterface::class);
+        $contentAware->method('getContent')->willReturn($this->getExampleContent($id));
+
+        return $contentAware;
     }
 
     protected function getExampleContentInfo(int $id): ContentInfo

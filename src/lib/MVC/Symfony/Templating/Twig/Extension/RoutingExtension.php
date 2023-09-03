@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGeneratorInterface;
@@ -124,6 +125,11 @@ class RoutingExtension extends AbstractExtension
             $routeName = UrlAliasRouter::URL_ALIAS_ROUTE_NAME;
             $parameters += [
                 'contentId' => $object->id,
+            ];
+        } elseif ($object instanceof ContentAwareInterface) {
+            $routeName = UrlAliasRouter::URL_ALIAS_ROUTE_NAME;
+            $parameters += [
+                'contentId' => $object->getContent()->getVersionInfo()->getContentInfo()->id,
             ];
         } elseif ($object instanceof RouteReference) {
             $routeName = $object->getRoute();
