@@ -6,10 +6,10 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Bundle\Core\Converter;
+namespace Ibexa\Tests\Bundle\Core\ControllerArgumentResolver;
 
 use Generator;
-use Ibexa\Bundle\Core\Converter\LocationArgumentResolver;
+use Ibexa\Bundle\Core\ControllerArgumentResolver\LocationArgumentResolver;
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -96,25 +96,42 @@ final class LocationArgumentResolverTest extends TestCase
      */
     public function provideDataForTestSupports(): iterable
     {
-        $argumentMetadata = $this->createMock(ArgumentMetadata::class);
+        $locationBasedArgumentMetadata = $this->createArgumentMetadata(Location::class);
 
         yield 'Supported - locationId passed to request query' => [
             true,
             $this->createRequest(true, false, 1),
-            $argumentMetadata,
+            $locationBasedArgumentMetadata,
+        ];
+
+        yield 'Not supported - type different than Ibexa\Contracts\Core\Repository\Values\Content\Location' => [
+            false,
+            $this->createRequest(true, false, 1),
+            $this->createArgumentMetadata('foo'),
         ];
 
         yield 'Not supported - locationId passed to request attributes' => [
             false,
             $this->createRequest(false, true, 1),
-            $argumentMetadata,
+            $locationBasedArgumentMetadata,
         ];
 
         yield 'Not supported - locationId passed to request attributes and query' => [
             false,
             $this->createRequest(true, true, 1),
-            $argumentMetadata,
+            $locationBasedArgumentMetadata,
         ];
+    }
+
+    private function createArgumentMetadata(string $type): ArgumentMetadata
+    {
+        $argumentMetadata = $this->createMock(ArgumentMetadata::class);
+        $argumentMetadata
+            ->expects(self::atLeastOnce())
+            ->method('getType')
+            ->willReturn($type);
+
+        return $argumentMetadata;
     }
 
     private function createRequest(

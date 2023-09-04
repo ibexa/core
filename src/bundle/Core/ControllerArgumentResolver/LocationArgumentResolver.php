@@ -6,10 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Bundle\Core\Converter;
+namespace Ibexa\Bundle\Core\ControllerArgumentResolver;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -30,7 +31,9 @@ final class LocationArgumentResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return !$request->attributes->has(self::PARAMETER_LOCATION_ID)
+        return
+            Location::class === $argument->getType()
+            && !$request->attributes->has(self::PARAMETER_LOCATION_ID)
             && $request->query->has(self::PARAMETER_LOCATION_ID);
     }
 
