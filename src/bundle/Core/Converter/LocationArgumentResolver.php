@@ -38,7 +38,7 @@ final class LocationArgumentResolver implements ArgumentValueResolverInterface
      * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Exception\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
