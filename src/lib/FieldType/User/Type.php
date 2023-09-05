@@ -18,6 +18,8 @@ use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 use LogicException;
 
 /**
@@ -25,7 +27,7 @@ use LogicException;
  *
  * This field type represents a simple string.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     public const PASSWORD_TTL_SETTING = 'PasswordTTL';
     public const PASSWORD_TTL_WARNING_SETTING = 'PasswordTTLWarning';
@@ -540,6 +542,13 @@ class Type extends FieldType
     private function isPasswordTTLEnabled(FieldDefinition $fieldDefinition): bool
     {
         return ($fieldDefinition->fieldSettings[self::PASSWORD_TTL_SETTING] ?? null) > 0;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezuser.name', 'ibexa_fieldtypes')->setDesc('User account'),
+        ];
     }
 }
 

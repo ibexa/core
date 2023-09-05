@@ -13,13 +13,15 @@ use Ibexa\Core\FieldType\Country\Exception\InvalidValue;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The Country field type.
  *
  * This field type represents a simple string.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     protected $settingsSchema = [
         'isMultiple' => [
@@ -263,6 +265,13 @@ class Type extends FieldType
         }
 
         return $validationErrors;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezcountry.name', 'ibexa_fieldtypes')->setDesc('Country'),
+        ];
     }
 }
 

@@ -12,6 +12,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * Author field type.
@@ -19,7 +21,7 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  * Field type representing a list of authors, consisting of author name, and
  * author email.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     /**
      * Flag which stands for setting Author FieldType empty by default.
@@ -246,6 +248,13 @@ class Type extends FieldType
         }
 
         return null;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezauthor.name', 'ibexa_fieldtypes')->setDesc('Authors'),
+        ];
     }
 }
 

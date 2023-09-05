@@ -14,8 +14,10 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     /**
      * Default value types.
@@ -324,6 +326,13 @@ class Type extends FieldType
         }
 
         return $fieldSettings;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezdatetime.name', 'ibexa_fieldtypes')->setDesc('Date and time'),
+        ];
     }
 }
 

@@ -31,7 +31,7 @@ class FieldTypesTranslationExtractor implements ExtractorInterface
             $catalogue->add(
                 new Message(
                     $fieldTypeIdentifier . '.name',
-                    'fieldtypes'
+                    'ibexa_fieldtypes'
                 )
             );
         }

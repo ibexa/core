@@ -13,11 +13,13 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The Image field type.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     protected $validatorConfigurationSchema = [
         'FileSizeValidator' => [
@@ -399,6 +401,13 @@ class Type extends FieldType
         unset($hashValue1['imageId'], $hashValue2['imageId']);
 
         return $hashValue1 === $hashValue2;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezimage.name', 'ibexa_fieldtypes')->setDesc('Image'),
+        ];
     }
 }
 

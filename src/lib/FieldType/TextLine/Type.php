@@ -13,13 +13,15 @@ use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator\StringLengthValidator;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The TextLine field type.
  *
  * This field type represents a simple string.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     protected $validatorConfigurationSchema = [
         'StringLengthValidator' => [
@@ -244,6 +246,13 @@ class Type extends FieldType
     public function isSearchable()
     {
         return true;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezstring.name', 'ibexa_fieldtypes')->setDesc('Text line'),
+        ];
     }
 }
 

@@ -12,13 +12,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The TextBlock field type.
  *
  * Represents a larger body of text, such as text areas.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     protected $settingsSchema = [
         'textRows' => [
@@ -201,6 +203,13 @@ class Type extends FieldType
         }
 
         return $validationErrors;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('eztext.name', 'ibexa_fieldtypes')->setDesc('Text block'),
+        ];
     }
 }
 

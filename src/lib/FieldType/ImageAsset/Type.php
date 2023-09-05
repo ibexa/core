@@ -20,8 +20,10 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     public const FIELD_TYPE_IDENTIFIER = 'ezimageasset';
 
@@ -286,6 +288,13 @@ class Type extends FieldType
     public function isSearchable(): bool
     {
         return true;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezimageasset.name', 'ibexa_fieldtypes')->setDesc('Image Asset'),
+        ];
     }
 }
 

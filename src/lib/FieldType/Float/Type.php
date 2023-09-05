@@ -12,13 +12,15 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * Float field types.
  *
  * Represents floats.
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     protected $validatorConfigurationSchema = [
         'FloatValueValidator' => [
@@ -262,6 +264,13 @@ class Type extends FieldType
     public function isSearchable(): bool
     {
         return true;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezfloat.name', 'ibexa_fieldtypes')->setDesc('Float'),
+        ];
     }
 }
 

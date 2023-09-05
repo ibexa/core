@@ -124,8 +124,8 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
             ->method('trans')
             ->will(
                 $this->returnValueMap([
-                    [self::FIRST_GROUP_ID, [], 'ezplatform_fields_groups', null, self::FIRST_GROUP_NAME],
-                    [self::SECOND_GROUP_ID, [], 'ezplatform_fields_groups', null, self::SECOND_GROUP_NAME],
+                    [self::FIRST_GROUP_ID, [], 'ibexa_fields_groups', null, self::FIRST_GROUP_NAME],
+                    [self::SECOND_GROUP_ID, [], 'ibexa_fields_groups', null, self::SECOND_GROUP_NAME],
                 ])
             );
     }

@@ -17,6 +17,8 @@ use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
+use JMS\TranslationBundle\Model\Message;
+use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The Relation field type.
@@ -26,7 +28,7 @@ use Ibexa\Core\Repository\Validator\TargetContentValidatorInterface;
  * hash format ({@see fromhash()}, {@see toHash()}):
  * array( 'destinationContentId' => (int)$destinationContentId );
  */
-class Type extends FieldType
+class Type extends FieldType implements TranslationContainerInterface
 {
     public const SELECTION_BROWSE = 0;
     public const SELECTION_DROPDOWN = 1;
@@ -348,6 +350,14 @@ class Type extends FieldType
         }
 
         return $relations;
+    }
+
+    public static function getTranslationMessages(): array
+    {
+        return [
+            Message::create('ezobjectrelation.name', 'ibexa_fieldtypes')
+                ->setDesc('Content relation (single)'),
+        ];
     }
 }
 
