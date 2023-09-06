@@ -4161,16 +4161,6 @@ parameters:
 			path: src/bundle/Debug/Collector/PersistenceCacheCollector.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Collector\\\\PersistenceCacheCollector\\:\\:getHandlersCount\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Debug/Collector/PersistenceCacheCollector.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Collector\\\\PersistenceCacheCollector\\:\\:getHandlersCount\\(\\) should return array but returns float\\|int\\.$#"
-			count: 1
-			path: src/bundle/Debug/Collector/PersistenceCacheCollector.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Collector\\\\SiteAccessCollector\\:\\:collect\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Debug/Collector/SiteAccessCollector.php
