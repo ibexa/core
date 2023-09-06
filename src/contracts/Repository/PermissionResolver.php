@@ -55,11 +55,11 @@ interface PermissionResolver
      * Indicates if the current user is allowed to perform an action given by the function on the given
      * objects.
      *
-     * Example: canUser( 'content', 'edit', $content, $location );
+     * Example: canUser( 'content', 'edit', $content, [$location] );
      *          This will check edit permission on content given the specific location, if skipped if will check on all
      *          locations.
      *
-     * Example2: canUser( 'section', 'assign', $content, $section );
+     * Example2: canUser( 'section', 'assign', $content, [$section] );
      *           Check if user has access to assign $content to $section.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
