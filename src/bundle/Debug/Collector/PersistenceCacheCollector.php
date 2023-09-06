@@ -134,13 +134,11 @@ class PersistenceCacheCollector extends DataCollector
     }
 
     /**
-     * Returns un cached handlers being loaded.
-     *
-     * @return array
+     * Returns uncached handlers being loaded.
      */
-    public function getHandlersCount()
+    public function getHandlersCount(): int
     {
-        return array_sum($this->data['handlers']);
+        return (int)array_sum($this->data['handlers']);
     }
 
     public function reset(): void
