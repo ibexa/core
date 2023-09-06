@@ -117,7 +117,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         ?array $fieldMap = null
     ): array {
         foreach ($languages as $languageCode) {
-            $tokenValues[$languageCode] = [];
+            $tokenValues[$languageCode] ?? $tokenValues[$languageCode] = [];
             foreach ($identifiers as $identifier) {
                 $fieldDefinition = $contentType->getFieldDefinition($identifier);
                 if (null === $fieldDefinition) {
