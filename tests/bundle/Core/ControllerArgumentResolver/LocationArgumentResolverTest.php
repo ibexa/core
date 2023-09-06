@@ -127,7 +127,6 @@ final class LocationArgumentResolverTest extends TestCase
     {
         $argumentMetadata = $this->createMock(ArgumentMetadata::class);
         $argumentMetadata
-            ->expects(self::atLeastOnce())
             ->method('getType')
             ->willReturn($type);
 
