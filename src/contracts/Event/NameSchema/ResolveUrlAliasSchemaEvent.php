@@ -14,6 +14,9 @@ final class ResolveUrlAliasSchemaEvent extends AbstractSchemaEvent implements Co
 {
     protected Content $content;
 
+    /**
+     * @param array<string, array<string, string>> $schemaIdentifiers
+     */
     public function __construct(
         array $schemaIdentifiers,
         Content $content

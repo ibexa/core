@@ -113,6 +113,13 @@ class NameSchemaService extends NativeNameSchemaService
         return $names;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param array<int|string, array<string, Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<string> $languageCodes
+     *
+     * @return array<string>
+     */
     protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes): array
     {
         if (empty($fieldMap)) {
@@ -134,12 +141,12 @@ class NameSchemaService extends NativeNameSchemaService
      * Fetches the list of available Field identifiers in the token and returns
      * an array of their current title value.
      *
-     * @param string[] $schemaIdentifiers
+     * @param array<string, array<string, string>> $schemaIdentifiers
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type|\Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param array $fieldMap
-     * @param string $languageCode
+     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
+     * @param array<string> $languageCode
      *
-     * @return string[] Key is the field identifier, value is the title value
+     * @return array<string> Key is the field identifier, value is the title value
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      *

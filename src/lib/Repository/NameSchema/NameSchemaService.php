@@ -103,6 +103,7 @@ class NameSchemaService implements NameSchemaServiceInterface
         array $languageCodes = [],
         ContentType $contentType = null
     ): array {
+        $contentType ??= $content->getContentType();
         $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
@@ -270,7 +271,9 @@ class NameSchemaService implements NameSchemaServiceInterface
     }
 
     /**
-     * @param array $tokenValues
+     * @param array<string, array<string, string>> $tokenValues
+     *
+     * @return array<string, string>
      */
     public function buildNames(array $tokenValues, string $nameSchema): array
     {

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\EventSubscriber;
 
-use Ibexa\Contracts\Core\Event\NameSchema\AbstractNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\AbstractSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
@@ -48,45 +47,6 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
 
     public function onResolveNameSchema(ResolveNameSchemaEvent $event): void
     {
-        $this->processNameSchemaEvent($event);
-    }
-
-    public function onResolveContentNameSchema(ResolveContentNameSchemaEvent $event): void
-    {
-        $this->processNameSchemaEvent($event);
-    }
-
-    public function onResolveUrlAliasSchema(ResolveUrlAliasSchemaEvent $event): void
-    {
-        if (!$this->isValid($event)) {
-            return;
-        }
-
-        $content = $event->getContent();
-        $contentType = $content->getContentType();
-        $tokenValues = $this->processEvent(
-            array_map(
-                static function (Language $language): string {
-                    return $language->getLanguageCode();
-                },
-                $event->getContent()->getVersionInfo()->getLanguages()
-            ),
-            $event->getSchemaIdentifiers()['field'],
-            $contentType,
-            $content,
-            $event->getTokenValues()
-        );
-
-        $event->setTokenValues($tokenValues);
-    }
-
-    public function isValid(AbstractSchemaEvent $event): bool
-    {
-        return array_key_exists('field', $event->getSchemaIdentifiers());
-    }
-
-    private function processNameSchemaEvent(AbstractNameSchemaEvent $event): void
-    {
         if (!$this->isValid($event)) {
             return;
         }
@@ -103,10 +63,67 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         $event->setTokenValues($tokenValues);
     }
 
+    public function onResolveContentNameSchema(ResolveContentNameSchemaEvent $event): void
+    {
+        if (!$this->isValid($event)) {
+            return;
+        }
+
+        $languageList = array_map(
+            static fn (Language $language): string => $language->getLanguageCode(),
+            (array)$event->getContent()->getVersionInfo()->getLanguages()
+        );
+
+        $tokenValues = $this->processEvent(
+            $languageList,
+            $event->getSchemaIdentifiers()['field'],
+            $event->getContentType(),
+            $event->getContent(),
+            $event->getTokenValues(),
+            $event->getFieldMap()
+        );
+
+        $event->setTokenValues($tokenValues);
+    }
+
+    public function onResolveUrlAliasSchema(ResolveUrlAliasSchemaEvent $event): void
+    {
+        if (!$this->isValid($event)) {
+            return;
+        }
+
+        $languageList = array_map(
+            static fn (Language $language): string => $language->getLanguageCode(),
+            (array)$event->getContent()->getVersionInfo()->getLanguages()
+        );
+
+        $content = $event->getContent();
+        $contentType = $content->getContentType();
+        $tokenValues = $this->processEvent(
+            $languageList,
+            $event->getSchemaIdentifiers()['field'],
+            $contentType,
+            $content,
+            $event->getTokenValues()
+        );
+
+        $event->setTokenValues($tokenValues);
+    }
+
+    public function isValid(AbstractSchemaEvent $event): bool
+    {
+        return array_key_exists('field', $event->getSchemaIdentifiers());
+    }
+
     /**
      * @param array<string> $languages
-     * @param array<string<array<string>> $identifiers
-     * @param array<string<array<string>> $tokenValues
+     * @param array<string, string> $identifiers
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|null $content
+     * @param array<string, array<string, string>> $tokenValues
+     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>> $fieldMap
+     *
+     * @return array<string, array<string, string>>
      */
     private function processEvent(
         array $languages,
@@ -114,7 +131,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         ContentType $contentType,
         ?Content $content,
         array $tokenValues,
-        ?array $fieldMap = null
+        array $fieldMap = []
     ): array {
         foreach ($languages as $languageCode) {
             $tokenValues[$languageCode] ?? $tokenValues[$languageCode] = [];
@@ -123,19 +140,22 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
                 if (null === $fieldDefinition) {
                     continue;
                 }
+
                 $persistenceFieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldTypeIdentifier);
 
-                $fieldValue = $fieldMap
-                    ? $fieldMap[$identifier][$languageCode] ?? ''
-                    : $content->getFieldValue($identifier, $languageCode);
+                if ($content === null && !$fieldMap) {
+                    continue;
+                }
 
-                $fieldValue = $persistenceFieldType->getName(
-                    $fieldValue,
+                $field = $fieldMap ? $fieldMap[$identifier][$languageCode] ?? null : $content->getFieldValue($identifier, $languageCode);
+
+                $field = $field ? $persistenceFieldType->getName(
+                    $field,
                     $fieldDefinition,
                     $languageCode
-                );
+                ) : '';
 
-                $tokenValues[$languageCode][$identifier] = $fieldValue;
+                $tokenValues[$languageCode][$identifier] = $field;
             }
         }
 

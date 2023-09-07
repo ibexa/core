@@ -15,6 +15,13 @@ final class ResolveContentNameSchemaEvent extends AbstractNameSchemaEvent implem
 {
     private Content $content;
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param array<string, array<string, string>> $schemaIdentifiers
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>>  $fieldMap
+     * @param array<string> $languageCodes
+     */
     public function __construct(
         Content $content,
         array $schemaIdentifiers,

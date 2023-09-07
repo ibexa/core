@@ -12,27 +12,39 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractSchemaEvent extends Event
 {
-    /** @var array<string, array> */
+    /** @var array<string, array<string, string>> */
     private array $schemaIdentifiers;
 
-    /** @var array<string, array<string>> */
+    /** @var array<string, array<string, string>> */
     private array $tokenValues = [];
 
+    /**
+     * @param array<string, array<string, string>> $schemaIdentifiers
+     */
     public function __construct(array $schemaIdentifiers)
     {
         $this->schemaIdentifiers = $schemaIdentifiers;
     }
 
+    /**
+     * @return array<string, array<string, string>>
+     */
     final public function getTokenValues(): array
     {
         return $this->tokenValues;
     }
 
+    /**
+     * @param array<string, array<string, string>> $names
+     */
     final public function setTokenValues(array $names): void
     {
         $this->tokenValues = $names;
     }
 
+    /**
+     * @return array<string, array<string, string>>
+     */
     public function getSchemaIdentifiers(): array
     {
         return $this->schemaIdentifiers;

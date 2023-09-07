@@ -21,13 +21,16 @@ interface NameSchemaServiceInterface
     /**
      * @return array<string, string> key value map of names for a language code
      */
-    public function resolveUrlAliasSchema(Content $content, ContentType $contentType = null): array;
+    public function resolveUrlAliasSchema(
+        Content $content,
+        ContentType $contentType = null
+    ): array;
 
     /**
-     * @param array<string, array<string, string>> $fieldMap
+     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>> $fieldMap
      * @param array<string> $languageCodes
      *
-     * @return array
+     * @return array<string, string>
      */
     public function resolveContentNameSchema(
         Content $content,
@@ -39,10 +42,11 @@ interface NameSchemaServiceInterface
     /**
      * Returns the real name for a content name pattern.
      *
-     * @param array<string, array<string, string>> $fieldMap
+     * @param array<string, array<string, Ibexa\Contracts\Core\FieldType\FieldType|Ibexa\Contracts\Core\Repository
+     * \NameSchema\Ibexa\Contracts\Core\FieldType\FieldType>>  $fieldMap
      * @param array<string> $languageCodes
      *
-     * @return array<string>
+     * @return array<string, string>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
