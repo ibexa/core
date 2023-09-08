@@ -53,11 +53,9 @@ class NameSchemaService extends NativeNameSchemaService
     {
         $contentType = $contentType ?? $content->getContentType();
 
-        return $this->resolveNameSchema(
-            empty($contentType->urlAliasSchema) ? $contentType->nameSchema : $contentType->urlAliasSchema,
-            $contentType,
-            $content->fields,
-            $content->versionInfo->languageCodes
+        return $this->resolveUrlAliasSchema(
+            $content,
+            $contentType
         );
     }
 
@@ -115,22 +113,18 @@ class NameSchemaService extends NativeNameSchemaService
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param array<int|string, array<string, Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
      * @param array<string> $languageCodes
      *
-     * @return array<string>
+     * @return array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>
      */
     protected function mergeFieldMap(Content $content, array $fieldMap, array $languageCodes): array
     {
-        if (empty($fieldMap)) {
-            return $content->fields;
-        }
-
         $mergedFieldMap = [];
 
         foreach ($content->fields as $fieldIdentifier => $fieldLanguageMap) {
             foreach ($languageCodes as $languageCode) {
-                $mergedFieldMap[$fieldIdentifier][$languageCode] = $fieldMap[$fieldIdentifier][$languageCode] ?? $fieldLanguageMap[$languageCode];
+                $mergedFieldMap[$fieldIdentifier][$languageCode] = $fieldMap[$fieldIdentifier][$languageCode];
             }
         }
 
@@ -141,10 +135,10 @@ class NameSchemaService extends NativeNameSchemaService
      * Fetches the list of available Field identifiers in the token and returns
      * an array of their current title value.
      *
-     * @param array<string, array<string, string>> $schemaIdentifiers
+     * @param array<string> $schemaIdentifiers
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type|\Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
-     * @param array<string> $languageCode
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
+     * @param string $languageCode
      *
      * @return array<string> Key is the field identifier, value is the title value
      *

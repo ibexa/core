@@ -121,7 +121,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|null $content
      * @param array<string, array<string, string>> $tokenValues
-     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>> $fieldMap
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      *
      * @return array<string, array<string, string>>
      */
@@ -147,7 +147,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
                     continue;
                 }
 
-                $field = $fieldMap ? $fieldMap[$identifier][$languageCode] ?? null : $content->getFieldValue($identifier, $languageCode);
+                $field = $fieldMap ? $fieldMap[$identifier][$languageCode] ?? '' : $content->getFieldValue($identifier, $languageCode);
 
                 $field = $field ? $persistenceFieldType->getName(
                     $field,

@@ -27,7 +27,7 @@ interface NameSchemaServiceInterface
     ): array;
 
     /**
-     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>> $fieldMap
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      * @param array<string> $languageCodes
      *
      * @return array<string, string>
@@ -42,8 +42,7 @@ interface NameSchemaServiceInterface
     /**
      * Returns the real name for a content name pattern.
      *
-     * @param array<string, array<string, Ibexa\Contracts\Core\FieldType\FieldType|Ibexa\Contracts\Core\Repository
-     * \NameSchema\Ibexa\Contracts\Core\FieldType\FieldType>>  $fieldMap
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
      * @param array<string> $languageCodes
      *
      * @return array<string, string>

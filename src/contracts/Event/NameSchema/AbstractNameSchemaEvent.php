@@ -14,7 +14,7 @@ abstract class AbstractNameSchemaEvent extends AbstractSchemaEvent
 {
     private ContentType $contentType;
 
-    /** @var array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>> */
+    /** @var array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> */
     private array $fieldMap;
 
     /** @var array<string> */
@@ -22,7 +22,7 @@ abstract class AbstractNameSchemaEvent extends AbstractSchemaEvent
 
     /**
      * @param array<string, array<string, string>> $schemaIdentifiers
-     * @param array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>> $fieldMap
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      * @param array<string> $languageCodes
      */
     public function __construct(
@@ -42,7 +42,7 @@ abstract class AbstractNameSchemaEvent extends AbstractSchemaEvent
         return $this->contentType;
     }
 
-    /** @return array<string, array<string, \Ibexa\Contracts\Core\FieldType\FieldType>> */
+    /** @return array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> */
     public function getFieldMap(): array
     {
         return $this->fieldMap;
