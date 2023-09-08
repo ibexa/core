@@ -5036,31 +5036,6 @@ parameters:
 			path: src/contracts/Container/Encore/ConfigurationDumper.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Event\\\\ResolveUrlAliasSchemaEvent\\:\\:__construct\\(\\) has parameter \\$schemaIdentifiers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Event/ResolveUrlAliasSchemaEvent.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Event\\\\ResolveUrlAliasSchemaEvent\\:\\:getSchemaIdentifiers\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Event/ResolveUrlAliasSchemaEvent.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Event\\\\ResolveUrlAliasSchemaEvent\\:\\:getTokenValues\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Event/ResolveUrlAliasSchemaEvent.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Event\\\\ResolveUrlAliasSchemaEvent\\:\\:setTokenValues\\(\\) has parameter \\$names with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Event/ResolveUrlAliasSchemaEvent.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Event\\\\ResolveUrlAliasSchemaEvent\\:\\:\\$schemaIdentifiers type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Event/ResolveUrlAliasSchemaEvent.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\BinaryBase\\\\PathGenerator\\:\\:getStoragePathForField\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/FieldType/BinaryBase/PathGenerator.php
@@ -7014,11 +6989,6 @@ parameters:
 			message: "#^PHPDoc tag @param for parameter \\$parentLocationId with type mixed is not subtype of native type int\\.$#"
 			count: 1
 			path: src/contracts/Repository/LocationService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface\\:\\:resolveNameSchema\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/NameSchema/NameSchemaServiceInterface.php
 
 		-
 			message: "#^PHPDoc tag @param for parameter \\$objectStateGroupId with type mixed is not subtype of native type int\\.$#"
@@ -20246,16 +20216,6 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: "#^Parameter \\#2 \\$fieldMap of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface\\:\\:resolveNameSchema\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<int\\|string, array\\<string, Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\>\\> given\\.$#"
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
-			message: "#^Parameter \\#3 \\$fieldMap of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface\\:\\:resolve\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<int\\|string, array\\<string, Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\>\\> given\\.$#"
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
 			message: "#^Parameter \\#3 \\$prioritizedLanguages of method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildContentDomainObjectFromPersistence\\(\\) expects array\\<string\\>, array\\<string\\>\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/ContentService.php
@@ -20334,16 +20294,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\ContentTypeService\\:\\:\\$settings type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/ContentTypeService.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldType\\:\\:getName\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value, Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\|null given\\.$#"
-			count: 1
-			path: src/lib/Repository/EventSubscriber/NameSchemaSubscriber.php
-
-		-
-			message: "#^Parameter \\#3 \\$fieldMap of method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:resolve\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\> given\\.$#"
-			count: 1
-			path: src/lib/Repository/Helper/NameSchemaService.php
 
 		-
 			message: "#^Argument of an invalid type array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation supplied for foreach, only iterables are supported\\.$#"
@@ -20646,42 +20596,12 @@ parameters:
 			path: src/lib/Repository/Mapper/RoleDomainMapper.php
 
 		-
-			message: "#^Cannot access offset mixed on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
-			message: "#^Cannot access property \\$fieldTypeIdentifier on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:extractTokens\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/NameSchema/NameSchemaService.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:getIdentifiers\\(\\) should return array\\<string\\> but returns array\\<int\\<0, max\\>, string\\|false\\>\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:mergeFieldMap\\(\\) has parameter \\$fieldMap with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:mergeFieldMap\\(\\) has parameter \\$languageCodes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:mergeFieldMap\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:resolveNameSchema\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/NameSchema/NameSchemaService.php
 
@@ -20702,16 +20622,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:tokenParts\\(\\) should return array but returns array\\<int, string\\>\\|false\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldType\\:\\:getName\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value, string given\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/NameSchemaService.php
-
-		-
-			message: "#^Parameter \\#2 \\$fieldDefinition of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldType\\:\\:getName\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/NameSchema/NameSchemaService.php
 
@@ -58209,41 +58119,6 @@ parameters:
 			message: "#^Cannot access property \\$locations on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
 			count: 2
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceTest\\:\\:getDataForTestResolve\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/NameSchema/NameSchemaServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceTest\\:\\:getDataForTestResolveNameSchema\\(\\) return type has no value type specified in iterable type iterable\\.$#"
-			count: 1
-			path: tests/lib/Repository/NameSchema/NameSchemaServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceTest\\:\\:getEventDispatcherMock\\(\\) has parameter \\$tokenValues with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/NameSchema/NameSchemaServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceTest\\:\\:testResolve\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/NameSchema/NameSchemaServiceTest.php
-
-		-
-			message: "#^PHPDoc tag @return contains unresolvable type\\.$#"
-			count: 1
-			path: tests/lib/Repository/NameSchema/NameSchemaServiceTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$content of method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceTest\\:\\:buildNameSchemaService\\(\\) expects Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content given\\.$#"
-			count: 4
-			path: tests/lib/Repository/NameSchema/NameSchemaServiceTest.php
-
-		-
-			message: "#^Parameter \\#3 \\$fieldMap of method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaService\\:\\:resolve\\(\\) expects array\\<string, array\\<string, string\\>\\>, array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\> given\\.$#"
-			count: 1
-			path: tests/lib/Repository/NameSchema/NameSchemaServiceTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\PHPUnitConstraint\\\\AllValidationErrorsOccur\\:\\:extractTranslatable\\(\\) has parameter \\$fieldErrors with no value type specified in iterable type array\\.$#"
