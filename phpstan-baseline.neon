@@ -20296,6 +20296,16 @@ parameters:
 			path: src/lib/Repository/ContentTypeService.php
 
 		-
+			message: "#^Cannot access property \\$fieldTypeIdentifier on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null\\.$#"
+			count: 1
+			path: src/lib/Repository/Helper/NameSchemaService.php
+
+		-
+			message: "#^Parameter \\#2 \\$fieldDefinition of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldType\\:\\:getName\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null given\\.$#"
+			count: 1
+			path: src/lib/Repository/Helper/NameSchemaService.php
+
+		-
 			message: "#^Argument of an invalid type array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Repository/Helper/RelationProcessor.php
