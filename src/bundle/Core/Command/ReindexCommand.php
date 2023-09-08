@@ -145,7 +145,6 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
                 InputOption::VALUE_OPTIONAL,
                 'Number of child processes to run in parallel for iterations, if set to "auto" it will set to number of CPU cores -1, set to "1" or "0" to disable',
                 'auto'
-
             )->addOption(
                 'content-type',
                 null,

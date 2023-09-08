@@ -145,7 +145,8 @@ final class IndexerGateway implements SPIIndexerGateway
         } while (!empty($contentId));
     }
 
-    public function getContentWithContentTypeIdentifier(string $contentTypeIdentifier, int $iterationCount): Generator{
+    public function getContentWithContentTypeIdentifier(string $contentTypeIdentifier, int $iterationCount): Generator
+    {
         $query = $this->buildQueryForContentWithContentTypeIdentifier($contentTypeIdentifier);
 
         yield from $this->fetchIteration($query->execute(), $iterationCount);
@@ -171,7 +172,6 @@ final class IndexerGateway implements SPIIndexerGateway
             ->setParameter('status', ContentInfo::STATUS_PUBLISHED, ParameterType::INTEGER)
             ->setParameter('identifier', $contentTypeIdentifier, ParameterType::STRING);
     }
-
 }
 
 class_alias(IndexerGateway::class, 'eZ\Publish\Core\Search\Legacy\Content\IndexerGateway');

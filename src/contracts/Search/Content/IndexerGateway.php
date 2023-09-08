@@ -63,7 +63,6 @@ interface IndexerGateway
      * @throws \Doctrine\DBAL\Exception
      */
     public function countContentWithContentTypeIdentifier(string $contentTypeIdentifier): int;
-
 }
 
 class_alias(IndexerGateway::class, 'eZ\Publish\SPI\Search\Content\IndexerGateway');
