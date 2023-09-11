@@ -20641,11 +20641,6 @@ parameters:
 			path: src/lib/Repository/NameSchema/NameSchemaService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\NameSchema\\\\SchemaIdentifierExtractor\\:\\:extract\\(\\) should return array\\<string, array\\<string, string\\>\\> but returns array\\<string, array\\<int, string\\>\\>\\.$#"
-			count: 1
-			path: src/lib/Repository/NameSchema/SchemaIdentifierExtractor.php
-
-		-
 			message: "#^Parameter \\#1 \\$module of class Ibexa\\\\Core\\\\Base\\\\Exceptions\\\\UnauthorizedException constructor expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
 			count: 1
 			path: src/lib/Repository/NotificationService.php
