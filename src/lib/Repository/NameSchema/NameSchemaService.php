@@ -104,7 +104,7 @@ class NameSchemaService implements NameSchemaServiceInterface
         ContentType $contentType = null
     ): array {
         $contentType ??= $content->getContentType();
-        $schemaName = $contentType->urlAliasSchema ?: $contentType->nameSchema;
+        $schemaName = $contentType->nameSchema;
         $schemaIdentifiers = $this->schemaIdentifierExtractor->extract($schemaName);
 
         $event = $this->eventDispatcher->dispatch(
