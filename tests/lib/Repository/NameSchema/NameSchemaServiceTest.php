@@ -64,7 +64,12 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @return iterable<array<string, array<string, string>>, array<string>, array<string, string>>
+     * @return iterable<string, array{
+     *  0: array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>,
+     *  1: array<string, array<string, string>>,
+     *  2: array<string>,
+     *  3: array<string, string>
+     * }>
      */
     public static function getDataForTestResolveNameSchema(): iterable
     {
@@ -102,7 +107,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     /**
      * @dataProvider getDataForTestResolveNameSchema
      *
-     * @param array<string, array<string, string>> $fieldMap A map of Field Definition Identifier and Language Code to Field Value
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      * @param array<string, array<string, string>> $tokenValues
      * @param array<string> $languageCodes
      * @param array<string, string> $expectedNames
@@ -140,14 +145,28 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     /**
      * Data provider for the testResolve method.
      *
+     * @return array<array{
+     *  0: array<string, array<string>>,
+     *  1: string,
+     *  2:  array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>,
+     *  3: array<string, string>,
+     *  4: array<string, array<string, string>>,
+     *  5?: array{limit?: int, sequence?: string}
+     * }>
+     *
      * @see testResolve
      */
     public static function getDataForTestResolve(): array
     {
         return [
             [
-                ['text1'],
+                ['field' => ['text1']],
                 '<text1>',
+                [
+                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                'text3' => ['eng-GB' => new TextLineValue('three')],
+],
                 [
                     'eng-GB' => 'one',
                     'cro-HR' => 'jedan',
@@ -158,8 +177,13 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ],
             ],
             [
-                ['text2'],
+                ['field' => ['text2']],
                 '<text2>',
+                [
+                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                'text3' => ['eng-GB' => new TextLineValue('three')],
+            ],
                 [
                     'eng-GB' => 'two',
                     'cro-HR' => 'dva',
@@ -170,8 +194,13 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 ],
             ],
             [
-                ['text1', 'text2'],
+                ['field' => ['text2', 'text2']],
                 'Hello, <text1> and <text2> and then goodbye and hello again',
+                [
+                'text1' => ['cro-HR' => new TextLineValue('jedan'), 'eng-GB' => new TextLineValue('one')],
+                'text2' => ['cro-HR' => new TextLineValue('Dva'), 'eng-GB' => new TextLineValue('two')],
+                'text3' => ['eng-GB' => new TextLineValue('three')],
+            ],
                 [
                     'eng-GB' => 'Hello, one and two and then goodbye...',
                     'cro-HR' => 'Hello, jedan and dva and then goodb...',
@@ -191,14 +220,16 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     /**
      * @dataProvider getDataForTestResolve
      *
-     * @param string[] $schemaIdentifiers
-     * @param string[] $languageFieldValues field value translations
-     * @param string[] $fieldTitles [language => [field_identifier => title]]
-     * @param array $settings NameSchemaService settings
+     * @param array<string, array<string>> $schemaIdentifiers
+     * @param array<string> $languageFieldValues field value translations
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<string, array<string, string>> $fieldTitles [language => [field_identifier => title]]
+     * @param array{limit?: int, sequence?: string} $settings NameSchemaService settings
      */
     public function testResolve(
         array $schemaIdentifiers,
         string $nameSchema,
+        array $fieldMap,
         array $languageFieldValues,
         array $fieldTitles,
         array $settings = []
@@ -209,7 +240,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         $event = new ResolveNameSchemaEvent(
             $schemaIdentifiers,
             $contentType,
-            $content->fields,
+            $fieldMap,
             $content->versionInfo->languageCodes
         );
 
@@ -223,7 +254,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         $result = $nameSchemaService->resolveNameSchema(
             $nameSchema,
             $contentType,
-            $content->fields,
+            $fieldMap,
             $content->versionInfo->languageCodes
         );
 
@@ -323,9 +354,6 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         );
     }
 
-    /**
-     * @param array<string, array<string, string>> $schemaIdentifiers
-     */
     protected function getEventDispatcherMock(
         AbstractSchemaEvent $event
     ): EventDispatcherInterface {

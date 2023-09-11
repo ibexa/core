@@ -17,7 +17,7 @@ final class ResolveContentNameSchemaEvent extends AbstractNameSchemaEvent implem
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param array<string, array<string, string>> $schemaIdentifiers
+     * @param array<string, array<string>> $schemaIdentifiers
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>  $fieldMap
      * @param array<string> $languageCodes

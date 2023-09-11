@@ -21,7 +21,7 @@ abstract class AbstractNameSchemaEvent extends AbstractSchemaEvent
     private array $languageCodes;
 
     /**
-     * @param array<string, array<string, string>> $schemaIdentifiers
+     * @param array<string, array<int, string>> $schemaIdentifiers
      * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      * @param array<string> $languageCodes
      */

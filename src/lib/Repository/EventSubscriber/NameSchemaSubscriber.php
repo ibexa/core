@@ -117,7 +117,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
 
     /**
      * @param array<string> $languages
-     * @param array<string, string> $identifiers
+     * @param array<int, string> $identifiers
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|null $content
      * @param array<string, array<string, string>> $tokenValues
