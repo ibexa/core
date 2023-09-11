@@ -11,6 +11,10 @@ use DateTime;
 use const DIRECTORY_SEPARATOR;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Common\IncrementalIndexer;
@@ -55,6 +59,9 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
     private $locationHandler;
 
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    private $contentService;
+
     public function __construct(
         $searchIndexer,
         Handler $locationHandler,
@@ -64,6 +71,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         string $env,
         bool $isDebug,
         string $projectDir,
+        ContentService $contentService,
         string $phpPath = null
     ) {
         $this->gateway = $gateway;
@@ -75,7 +83,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         $this->env = $env;
         $this->isDebug = $isDebug;
         $this->projectDir = $projectDir;
-        $this->phpPath = $phpPath;
+        $this->contentService = $contentService;
 
         parent::__construct();
     }
@@ -262,8 +270,14 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
             $generator = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
             $purge = false;
         } elseif ($contentType = $input->getOption('content-type')) {
-            $count = $this->gateway->countContentWithContentTypeIdentifier($contentType);
-            $generator = $this->gateway->getContentWithContentTypeIdentifier($contentType, $iterationCount);
+            $filter = new Filter();
+            $filter
+                ->withCriterion(
+                    new Query\Criterion\ContentTypeIdentifier($contentType)
+                );
+            $contentList = $this->contentService->find($filter);
+            $count = $contentList->getTotalCount();
+            $generator = $this->fetchIterationFromContentList($contentList, $iterationCount);
             $purge = false;
         } else {
             $count = $this->gateway->countAllContent();
@@ -462,6 +476,27 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     public function getDeprecatedAliases(): array
     {
         return ['ezplatform:reindex'];
+    }
+
+    private function fetchIterationFromContentList(ContentList $contentList, int $iterationCount): Generator
+    {
+        $iterator = $contentList->getIterator();
+        do {
+            $contentIds = [];
+            for ($i = 0; $i < $iterationCount; ++$i) {
+                $content = $iterator->current();
+                if ($content) {
+                    $contentIds[] = $content->id;
+                } elseif (empty($contentIds)) {
+                    return;
+                } else {
+                    break;
+                }
+                $iterator->next();
+            }
+
+            yield $contentIds;
+        } while (!empty($content));
     }
 }
 

@@ -51,18 +51,6 @@ interface IndexerGateway
      * @throws \Doctrine\DBAL\Exception
      */
     public function countAllContent(): int;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     *
-     * @return iterable<int> list of Content IDs for each iteration
-     */
-    public function getContentWithContentTypeIdentifier(string $contentTypeIdentifier, int $iterationCount): iterable;
-
-    /**
-     * @throws \Doctrine\DBAL\Exception
-     */
-    public function countContentWithContentTypeIdentifier(string $contentTypeIdentifier): int;
 }
 
 class_alias(IndexerGateway::class, 'eZ\Publish\SPI\Search\Content\IndexerGateway');
