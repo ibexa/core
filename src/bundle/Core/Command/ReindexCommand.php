@@ -6,13 +6,14 @@
  */
 namespace Ibexa\Bundle\Core\Command;
 
+use ArrayIterator;
 use function count;
 use DateTime;
 use const DIRECTORY_SEPARATOR;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
@@ -84,6 +85,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         $this->isDebug = $isDebug;
         $this->projectDir = $projectDir;
         $this->contentService = $contentService;
+        $this->phpPath = $phpPath;
 
         parent::__construct();
     }
@@ -275,9 +277,12 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
                 ->withCriterion(
                     new Query\Criterion\ContentTypeIdentifier($contentType)
                 );
+            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentList $contentList */
             $contentList = $this->contentService->find($filter);
             $count = $contentList->getTotalCount();
-            $generator = $this->fetchIterationFromContentList($contentList, $iterationCount);
+            /** @var ArrayIterator<int, Content> $contentListIterator */
+            $contentListIterator = $contentList->getIterator();
+            $generator = $this->fetchIterationFromContentListIterator($contentListIterator, $iterationCount);
             $purge = false;
         } else {
             $count = $this->gateway->countAllContent();
@@ -478,13 +483,18 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         return ['ezplatform:reindex'];
     }
 
-    private function fetchIterationFromContentList(ContentList $contentList, int $iterationCount): Generator
+    /**
+     * @param ArrayIterator<int, Content> $contentListIterator
+     * @param int $iterationCount
+     *
+     * @return \Generator
+     */
+    private function fetchIterationFromContentListIterator(ArrayIterator $contentListIterator, int $iterationCount): Generator
     {
-        $iterator = $contentList->getIterator();
         do {
             $contentIds = [];
             for ($i = 0; $i < $iterationCount; ++$i) {
-                $content = $iterator->current();
+                $content = $contentListIterator->current();
                 if ($content) {
                     $contentIds[] = $content->id;
                 } elseif (empty($contentIds)) {
@@ -492,7 +502,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
                 } else {
                     break;
                 }
-                $iterator->next();
+                $contentListIterator->next();
             }
 
             yield $contentIds;
