@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Bundle\Core\Command;
 
-use ArrayIterator;
 use function count;
 use DateTime;
 use const DIRECTORY_SEPARATOR;
@@ -30,6 +29,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Traversable;
 
 class ReindexCommand extends Command implements BackwardCompatibleCommand
 {
@@ -280,7 +280,6 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentList $contentList */
             $contentList = $this->contentService->find($filter);
             $count = $contentList->getTotalCount();
-            /** @var ArrayIterator<int, Content> $contentListIterator */
             $contentListIterator = $contentList->getIterator();
             $generator = $this->fetchIterationFromContentListIterator($contentListIterator, $iterationCount);
             $purge = false;
@@ -484,29 +483,23 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
-     * @param ArrayIterator<int, Content> $contentListIterator
+     * @param Traversable<Content> $contentListIterator
      * @param int $iterationCount
      *
      * @return \Generator
      */
-    private function fetchIterationFromContentListIterator(ArrayIterator $contentListIterator, int $iterationCount): Generator
+    private function fetchIterationFromContentListIterator(Traversable $contentListIterator, int $iterationCount): Generator
     {
-        do {
-            $contentIds = [];
-            for ($i = 0; $i < $iterationCount; ++$i) {
-                $content = $contentListIterator->current();
-                if ($content) {
-                    $contentIds[] = $content->id;
-                } elseif (empty($contentIds)) {
-                    return;
-                } else {
-                    break;
-                }
-                $contentListIterator->next();
+        $i = 0;
+        $contentIds = [];
+        foreach ($contentListIterator as $content) {
+            $contentIds[] = $content->id;
+            if ($iterationCount <= $i) {
+                break;
             }
-
-            yield $contentIds;
-        } while (!empty($content));
+            ++$i;
+        }
+        yield $contentIds;
     }
 }
 
