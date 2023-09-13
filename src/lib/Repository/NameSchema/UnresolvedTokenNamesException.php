@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\NameSchema;
 
-use LogicException;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 
-final class UnresolvedTokenNamesException extends LogicException
+final class UnresolvedTokenNamesException extends InvalidArgumentException
 {
 }
