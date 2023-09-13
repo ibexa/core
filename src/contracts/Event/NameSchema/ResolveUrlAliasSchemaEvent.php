@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 final class ResolveUrlAliasSchemaEvent extends AbstractSchemaEvent implements ContentAwareEventInterface
 {
-    protected Content $content;
+    private Content $content;
 
     /**
      * @param array<string, array<int, string>> $schemaIdentifiers
