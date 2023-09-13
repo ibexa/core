@@ -113,8 +113,6 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
     /**
      * @param array<string> $languages
      * @param array<int, string> $identifiers
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|null $content
      * @param array<string, array<string, string>> $tokenValues
      * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
      *
@@ -129,29 +127,58 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         array $fieldMap = []
     ): array {
         foreach ($languages as $languageCode) {
-            $tokenValues[$languageCode] ?? $tokenValues[$languageCode] = [];
-            foreach ($identifiers as $identifier) {
-                $fieldDefinition = $contentType->getFieldDefinition($identifier);
-                if (null === $fieldDefinition) {
-                    continue;
-                }
-
-                $persistenceFieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldTypeIdentifier);
-
-                if ($content === null && empty($fieldMap)) {
-                    continue;
-                }
-
-                $field = $fieldMap ? $fieldMap[$identifier][$languageCode] ?? '' : $content->getFieldValue($identifier, $languageCode);
-
-                $field = $field ? $persistenceFieldType->getName(
-                    $field,
-                    $fieldDefinition,
+            $tokenValues[$languageCode] = $content !== null || !empty($fieldMap)
+                ? $this->getValues(
+                    $identifiers,
+                    $contentType,
+                    $content,
+                    $fieldMap,
                     $languageCode
-                ) : '';
+                )
+                : [];
+        }
 
-                $tokenValues[$languageCode][$identifier] = $field;
+        return $tokenValues;
+    }
+
+    /**
+     * @param array<int, string> $identifiers
+     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     *
+     * @return array<string, string>
+     */
+    private function getValues(
+        array $identifiers,
+        ContentType $contentType,
+        ?Content $content,
+        array $fieldMap,
+        string $languageCode
+    ): array {
+        $tokenValues = [];
+        foreach ($identifiers as $identifier) {
+            $fieldDefinition = $contentType->getFieldDefinition($identifier);
+            if (null === $fieldDefinition) {
+                continue;
             }
+
+            $persistenceFieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldTypeIdentifier);
+
+            if ($content === null && empty($fieldMap)) {
+                continue;
+            }
+
+            $field = $fieldMap ? $fieldMap[$identifier][$languageCode] ?? '' : $content->getFieldValue(
+                $identifier,
+                $languageCode
+            );
+
+            $field = $field ? $persistenceFieldType->getName(
+                $field,
+                $fieldDefinition,
+                $languageCode
+            ) : '';
+
+            $tokenValues[$identifier] = $field;
         }
 
         return $tokenValues;

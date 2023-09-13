@@ -278,7 +278,7 @@ class NameSchemaService implements NameSchemaServiceInterface
     public function buildNames(array $tokenValues, string $nameSchema): array
     {
         if (empty($tokenValues)) {
-            throw new UnresolvedTokenNamesException();
+            throw new UnresolvedTokenNamesException('$tokenValues', 'is Empty');
         }
 
         [$filteredNameSchema, $groupLookupTable] = $this->filterNameSchema($nameSchema);
