@@ -286,12 +286,16 @@ class NameSchemaService implements NameSchemaServiceInterface
 
         $names = [];
         foreach ($tokenValues as $languageCode => $tokenValue) {
-            $name = $filteredNameSchema;
-            foreach ($tokens as $token) {
-                $string = $this->resolveToken($token, $tokenValue, $groupLookupTable);
-                $name = str_replace($token, $string, $name);
-            }
-            $names[$languageCode] = $this->validateNameLength($name);
+            $names[$languageCode] = $this->validateNameLength(
+                str_replace(
+                    $tokens,
+                    array_map(
+                        fn (string $token): string => $this->resolveToken($token, $tokenValue, $groupLookupTable),
+                        $tokens
+                    ),
+                    $filteredNameSchema
+                )
+            );
         }
 
         return $names;
