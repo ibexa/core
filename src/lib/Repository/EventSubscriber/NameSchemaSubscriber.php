@@ -163,10 +163,6 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
 
             $persistenceFieldType = $this->fieldTypeRegistry->getFieldType($fieldDefinition->fieldTypeIdentifier);
 
-            if ($content === null && empty($fieldMap)) {
-                continue;
-            }
-
             if (!empty($fieldMap)) {
                 $fieldValue = $fieldMap[$identifier][$languageCode] ?? null;
             } else {
