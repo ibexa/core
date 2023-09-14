@@ -167,18 +167,17 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
                 continue;
             }
 
-            $field = $fieldMap ? $fieldMap[$identifier][$languageCode] ?? '' : $content->getFieldValue(
-                $identifier,
-                $languageCode
-            );
+            if (!empty($fieldMap)) {
+                $fieldValue = $fieldMap[$identifier][$languageCode] ?? null;
+            } else {
+                $fieldValue = $content !== null ? $content->getFieldValue($identifier, $languageCode) : null;
+            }
 
-            $field = $field ? $persistenceFieldType->getName(
-                $field,
+            $tokenValues[$identifier] = $fieldValue !== null ? $persistenceFieldType->getName(
+                $fieldValue,
                 $fieldDefinition,
                 $languageCode
             ) : '';
-
-            $tokenValues[$identifier] = $field;
         }
 
         return $tokenValues;
