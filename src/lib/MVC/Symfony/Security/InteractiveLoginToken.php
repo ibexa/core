@@ -46,6 +46,11 @@ class InteractiveLoginToken extends UsernamePasswordToken
     public function isAuthenticated(): bool
     {
         if (PostAuthenticationGuardToken::class === $this->originalTokenType) {
+            /**
+             * This token is meant to be used after authentication success, so it is always authenticated
+             *
+             * @see https://github.com/symfony/security-guard/blob/72c53142533462fc6fda4a429c2a21c2b944a8cc/Token/PostAuthenticationGuardToken.php#L50-L51
+             */
             return true;
         }
 
