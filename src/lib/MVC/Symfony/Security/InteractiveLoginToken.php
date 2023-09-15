@@ -7,6 +7,7 @@
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 
 /**
  * This token is used when a user has been matched by a foreign user provider.
@@ -40,6 +41,15 @@ class InteractiveLoginToken extends UsernamePasswordToken
     {
         [$this->originalTokenType, $parentStr] = $serialized;
         parent::__unserialize($parentStr);
+    }
+
+    public function isAuthenticated(): bool
+    {
+        if (PostAuthenticationGuardToken::class === $this->originalTokenType) {
+            return true;
+        }
+
+        return parent::isAuthenticated();
     }
 }
 
