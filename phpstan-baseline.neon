@@ -7071,11 +7071,6 @@ parameters:
 			path: src/contracts/Repository/Validator/ContentValidator.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Validator\\\\ContentValidator\\:\\:validate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Validator/ContentValidator.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Bookmark\\\\BookmarkList implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/contracts/Repository/Values/Bookmark/BookmarkList.php
@@ -7497,11 +7492,6 @@ parameters:
 
 		-
 			message: "#^Interface Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinitionCollection extends generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/ContentType/FieldDefinitionCollection.php
-
-		-
-			message: "#^Interface Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinitionCollection extends generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/contracts/Repository/Values/ContentType/FieldDefinitionCollection.php
 
@@ -21406,11 +21396,6 @@ parameters:
 			path: src/lib/Repository/Strategy/ContentValidator/ContentValidatorStrategy.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Strategy\\\\ContentValidator\\\\ContentValidatorStrategy\\:\\:validate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Strategy/ContentValidator/ContentValidatorStrategy.php
-
-		-
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Strategy\\\\ContentValidator\\\\ContentValidatorStrategy\\:\\:\\$contentValidators \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Validator\\\\ContentValidator\\>\\) does not accept iterable\\.$#"
 			count: 1
 			path: src/lib/Repository/Strategy/ContentValidator/ContentValidatorStrategy.php
@@ -21671,22 +21656,12 @@ parameters:
 			path: src/lib/Repository/Validator/ContentCreateStructValidator.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Validator\\\\ContentCreateStructValidator\\:\\:validate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Validator/ContentCreateStructValidator.php
-
-		-
 			message: "#^Cannot access property \\$value on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\|null\\.$#"
 			count: 2
 			path: src/lib/Repository/Validator/ContentUpdateStructValidator.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Validator\\\\ContentUpdateStructValidator\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Validator/ContentUpdateStructValidator.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Validator\\\\ContentUpdateStructValidator\\:\\:validate\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Validator/ContentUpdateStructValidator.php
 
@@ -21719,16 +21694,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Validator\\\\UserPasswordValidator\\:\\:\\$constraints type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Validator/UserPasswordValidator.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Validator\\\\VersionValidator\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Validator/VersionValidator.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Validator\\\\VersionValidator\\:\\:validate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Validator/VersionValidator.php
 
 		-
 			message: "#^Call to method getValue\\(\\) on an unknown class eZ\\\\Publish\\\\API\\\\Repository\\\\Values\\\\Content\\\\Field\\.$#"
@@ -56727,11 +56692,6 @@ parameters:
 
 		-
 			message: "#^Method class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:87\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
-
-		-
-			message: "#^Method class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:87\\:\\:validate\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
 

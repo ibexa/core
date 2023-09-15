@@ -21,7 +21,15 @@ interface ContentValidator
      * @param string[]|null $fieldIdentifiers List of field identifiers for partial validation or null for
      *                      case of full validation. Empty identifiers array is equal to no validation.
      *
-     * @return array Grouped validation errors by field definition and language code, in format:
+     * @phpstan-return array<
+     *     int|string,
+     *     array<
+     *         string,
+     *         \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *     >
+     * >
+     *
+     * @return array Grouped validation errors by field definition ID and language code, in format:
      *           $returnValue[string|int $fieldDefinitionId][string $languageCode] = $fieldErrors;
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException

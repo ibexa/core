@@ -35,6 +35,12 @@ final class VersionValidator implements ContentValidator
         return $object instanceof VersionInfo;
     }
 
+    /**
+     * @phpstan-param array{
+     *     content?: \Ibexa\Contracts\Core\Repository\Values\Content\Content,
+     *     translations?: string[],
+     * } $context
+     */
     public function validate(
         ValueObject $object,
         array $context = [],
