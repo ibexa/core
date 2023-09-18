@@ -25,10 +25,10 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      * Example:
      * <code>
      *  $fieldErrors = $exception->getFieldErrors();
-     *  $fieldErrors["43"]["eng-GB"]->getTranslatableMessage();
+     *  $fieldErrors[43]["eng-GB"]->getTranslatableMessage();
      * </code>
      *
-     * @var array<array-key, array<string, \Ibexa\Core\FieldType\ValidationError>>
+     * @var array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
      */
     protected $errors;
 
@@ -40,7 +40,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * Also sets the given $fieldErrors to the internal property, retrievable by getFieldErrors()
      *
-     * @param array<array-key, array<string, \Ibexa\Core\FieldType\ValidationError>> $errors
+     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
      */
     public function __construct(array $errors)
     {
@@ -52,7 +52,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     /**
      * Generates: Content fields did not validate exception with additional information on affected fields.
      *
-     * @param array<array-key, array<string, \Ibexa\Core\FieldType\ValidationError>> $errors
+     * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
      */
     public static function createNewWithMultiline(array $errors, ?string $contentName = null): self
     {
@@ -72,7 +72,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
     /**
      * Returns an array of field validation error messages.
      *
-     * @return array<array-key, array<string, \Ibexa\Core\FieldType\ValidationError>>
+     * @return array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
      */
     public function getFieldErrors()
     {
@@ -89,11 +89,17 @@ class ContentFieldValidationException extends APIContentFieldValidationException
             $validationErrors[] = sprintf('Limit: %d of validation errors has been exceeded.', $maxMessagesNumber);
         }
 
+        /** @var callable(string|\Ibexa\Contracts\Core\Repository\Values\Translation): string $convertToString */
+        $convertToString = function ($error): string {
+            return (string)$error;
+        };
+        $validationErrors = array_map($convertToString, $validationErrors);
+
         return "\n- " . implode("\n- ", $validationErrors);
     }
 
     /**
-     * @return array<\Ibexa\Core\FieldType\ValidationError>
+     * @return array<\Ibexa\Contracts\Core\Repository\Values\Translation>
      */
     private function collectValidationErrors(): array
     {
