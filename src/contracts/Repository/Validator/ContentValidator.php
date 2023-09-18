@@ -30,7 +30,7 @@ interface ContentValidator
      * >
      *
      * @return array Grouped validation errors by field definition ID and language code, in format:
-     *           $returnValue[string|int $fieldDefinitionId][string $languageCode] = $fieldErrors;
+     *           $returnValue[int $fieldDefinitionId][string $languageCode] = $fieldErrors;
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
