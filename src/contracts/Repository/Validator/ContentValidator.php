@@ -22,7 +22,7 @@ interface ContentValidator
      *                      case of full validation. Empty identifiers array is equal to no validation.
      *
      * @phpstan-return array<
-     *     int|string,
+     *     int,
      *     array<
      *         string,
      *         \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]
