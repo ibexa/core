@@ -6,8 +6,8 @@
  */
 namespace Ibexa\Core\MVC\Symfony\Security;
 
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 
 /**
  * This token is used when a user has been matched by a foreign user provider.
@@ -15,43 +15,70 @@ use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
  */
 class InteractiveLoginToken extends UsernamePasswordToken
 {
-    /** @var string */
-    private $originalTokenType;
+    private ?TokenInterface $originalToken = null;
+
+    private string $originalTokenType;
 
     public function __construct(UserInterface $user, $originalTokenType, $credentials, $providerKey, array $roles = [])
     {
         parent::__construct($user, $credentials, $providerKey, $roles);
+
         $this->originalTokenType = $originalTokenType;
     }
 
-    /**
-     * @return string
-     */
-    public function getOriginalTokenType()
+    public function getOriginalTokenType(): string
     {
         return $this->originalTokenType;
     }
 
+    /**
+     * @return array{
+     *     0: string,
+     *     1: mixed,
+     *     2: null|\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     * } $data
+     */
     public function __serialize(): array
     {
-        return [$this->originalTokenType, parent::__serialize()];
+        return [
+            $this->originalTokenType,
+            parent::__serialize(),
+            $this->originalToken,
+        ];
     }
 
-    public function __unserialize($serialized): void
+    /**
+     * @param array{
+     *     0: string,
+     *     1: mixed,
+     *     2?: \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     * } $data
+     */
+    public function __unserialize(array $data): void
     {
-        [$this->originalTokenType, $parentStr] = $serialized;
-        parent::__unserialize($parentStr);
+        if (count($data) < 3) {
+            [$this->originalTokenType, $parentData] = $data;
+        } else {
+            [$this->originalTokenType, $parentData, $this->originalToken] = $data;
+        }
+
+        parent::__unserialize($parentData);
+    }
+
+    public function setToken(TokenInterface $token): void
+    {
+        $this->originalToken = $token;
+    }
+
+    public function getOriginalToken(): TokenInterface
+    {
+        return $this->originalToken;
     }
 
     public function isAuthenticated(): bool
     {
-        if (PostAuthenticationGuardToken::class === $this->originalTokenType) {
-            /**
-             * This token is meant to be used after authentication success, so it is always authenticated
-             *
-             * @see https://github.com/symfony/security-guard/blob/72c53142533462fc6fda4a429c2a21c2b944a8cc/Token/PostAuthenticationGuardToken.php#L50-L51
-             */
-            return true;
+        if ($this->originalToken instanceof TokenInterface) {
+            return $this->originalToken->isAuthenticated();
         }
 
         return parent::isAuthenticated();
