@@ -136,7 +136,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
                     $languageCode
                 )
                 : [];
-            $tokenValues[$languageCode] = array_merge($tokenValues[$languageCode], $values);
+            $tokenValues[$languageCode] = array_merge($tokenValues[$languageCode] ?? [], $values);
         }
 
         return $tokenValues;
