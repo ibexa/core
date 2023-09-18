@@ -33,9 +33,9 @@ class InteractiveLoginToken extends UsernamePasswordToken
 
     /**
      * @return array{
-     *     0: string,
-     *     1: mixed,
-     *     2: null|\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     *     string,
+     *     mixed,
+     *     null|\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
      * } $data
      */
     public function __serialize(): array
