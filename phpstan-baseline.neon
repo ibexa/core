@@ -8106,11 +8106,6 @@ parameters:
 			path: src/lib/Base/Exceptions/ContentFieldValidationException.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function implode expects array\\<string\\>, array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\|string\\> given\\.$#"
-			count: 1
-			path: src/lib/Base/Exceptions/ContentFieldValidationException.php
-
-		-
 			message: "#^Property Ibexa\\\\Core\\\\Base\\\\Exceptions\\\\ContentFieldValidationException\\:\\:\\$messageTemplate has no type specified\\.$#"
 			count: 1
 			path: src/lib/Base/Exceptions/ContentFieldValidationException.php
@@ -20206,6 +20201,11 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
+			message: "#^Parameter \\#5 \\$fieldDefinitionId of method Ibexa\\\\Core\\\\Repository\\\\Helper\\\\RelationProcessor\\:\\:appendFieldRelations\\(\\) expects string, int given\\.$#"
+			count: 2
+			path: src/lib/Repository/ContentService.php
+
+		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\MetadataUpdateStruct\\:\\:\\$publicationDate \\(int\\) does not accept int\\|null\\.$#"
 			count: 1
 			path: src/lib/Repository/ContentService.php
@@ -21602,11 +21602,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$contentType of method Ibexa\\\\Core\\\\Repository\\\\UserService\\:\\:getUserFieldDefinition\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentType, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentType\\|null given\\.$#"
-			count: 1
-			path: src/lib/Repository/UserService.php
-
-		-
-			message: "#^Parameter \\#1 \\$errors of static method Ibexa\\\\Core\\\\Base\\\\Exceptions\\\\ContentFieldValidationException\\:\\:createNewWithMultiline\\(\\) expects array\\<array\\<string, Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>, array\\<int\\|string, array\\<string, array\\<Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\> given\\.$#"
 			count: 1
 			path: src/lib/Repository/UserService.php
 
