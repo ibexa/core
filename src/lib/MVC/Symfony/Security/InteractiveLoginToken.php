@@ -51,7 +51,7 @@ class InteractiveLoginToken extends UsernamePasswordToken
      * @param array{
      *     0: string,
      *     1: mixed,
-     *     2: \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     *     2: null|\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
      * } $data
      */
     public function __unserialize(array $data): void
