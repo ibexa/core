@@ -90,7 +90,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
         }
 
         /** @var callable(string|\Ibexa\Contracts\Core\Repository\Values\Translation): string $convertToString */
-        $convertToString = function ($error): string {
+        $convertToString = static function ($error): string {
             return (string)$error;
         };
         $validationErrors = array_map($convertToString, $validationErrors);
