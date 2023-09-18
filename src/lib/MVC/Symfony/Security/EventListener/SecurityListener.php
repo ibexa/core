@@ -139,7 +139,7 @@ class SecurityListener implements EventSubscriberInterface
             $providerKey,
             $token->getRoleNames()
         );
-        $interactiveToken->setToken($token);
+        $interactiveToken->setOriginalToken($token);
         $interactiveToken->setAttributes($token->getAttributes());
         $this->tokenStorage->setToken($interactiveToken);
     }

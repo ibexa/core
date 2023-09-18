@@ -65,7 +65,7 @@ class InteractiveLoginToken extends UsernamePasswordToken
         parent::__unserialize($parentData);
     }
 
-    public function setToken(TokenInterface $token): void
+    public function setOriginalToken(TokenInterface $token): void
     {
         $this->originalToken = $token;
     }
