@@ -51,7 +51,7 @@ class InteractiveLoginToken extends UsernamePasswordToken
      * @param array{
      *     0: string,
      *     1: mixed,
-     *     2?: \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     *     2: \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
      * } $data
      */
     public function __unserialize(array $data): void
@@ -70,7 +70,7 @@ class InteractiveLoginToken extends UsernamePasswordToken
         $this->originalToken = $token;
     }
 
-    public function getOriginalToken(): TokenInterface
+    public function getOriginalToken(): ?TokenInterface
     {
         return $this->originalToken;
     }

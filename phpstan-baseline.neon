@@ -12656,11 +12656,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Security/InteractiveLoginToken.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\InteractiveLoginToken\\:\\:__unserialize\\(\\) has parameter \\$serialized with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/InteractiveLoginToken.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\User\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/User.php
@@ -63504,4 +63499,3 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Specification\\\\Content\\\\ContentTypeSpecificationTest\\:\\:providerForIsSatisfiedBy\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Specification/Content/ContentTypeSpecificationTest.php
-
