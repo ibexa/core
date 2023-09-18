@@ -127,7 +127,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
         array $fieldMap = []
     ): array {
         foreach ($languages as $languageCode) {
-            $tokenValues[$languageCode] = $content !== null || !empty($fieldMap)
+            $values = $content !== null || !empty($fieldMap)
                 ? $this->getValues(
                     $identifiers,
                     $contentType,
@@ -136,6 +136,7 @@ final class NameSchemaSubscriber implements EventSubscriberInterface
                     $languageCode
                 )
                 : [];
+            $tokenValues[$languageCode] = array_merge($tokenValues[$languageCode], $values);
         }
 
         return $tokenValues;
