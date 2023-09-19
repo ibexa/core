@@ -49,17 +49,17 @@ class InteractiveLoginToken extends UsernamePasswordToken
 
     /**
      * @param array{
-     *     0: string,
-     *     1: mixed,
-     *     2: null|\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     *     string,
+     *     mixed,
+     *     2?: \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
      * } $data
      */
     public function __unserialize(array $data): void
     {
-        if (count($data) < 3) {
-            [$this->originalTokenType, $parentData] = $data;
-        } else {
+        if (isset($data[2])) {
             [$this->originalTokenType, $parentData, $this->originalToken] = $data;
+        } else {
+            [$this->originalTokenType, $parentData] = $data;
         }
 
         parent::__unserialize($parentData);
