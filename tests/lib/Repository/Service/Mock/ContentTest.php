@@ -1406,7 +1406,7 @@ class ContentTest extends BaseServiceMockTest
             $languageCodes
         );
         $nameSchemaServiceMock->expects(self::once())
-            ->method('resolve')
+            ->method('resolveNameSchema')
             ->with(
                 self::equalTo($contentType->nameSchema),
                 self::equalTo($contentType),
@@ -3462,7 +3462,7 @@ class ContentTest extends BaseServiceMockTest
             $languageCodes
         );
         $nameSchemaServiceMock->expects($this->once())
-            ->method('resolveNameSchema')
+            ->method('resolveContentNameSchema')
             ->with(
                 $this->equalTo($content),
                 $this->equalTo($values),

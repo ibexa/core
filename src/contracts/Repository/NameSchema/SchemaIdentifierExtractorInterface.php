@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Repository\NameSchema;
 interface SchemaIdentifierExtractorInterface
 {
     /**
-     * @return array<string, array<string, string>>
+     * @return array<string, array<int, string>>
      */
     public function extract(string $schemaString): array;
 }

@@ -94,6 +94,15 @@ final class SchemaIdentifierExtractorTest extends TestCase
                 'attribute' => ['mouse_type', 'mouse_weight'],
             ],
         ];
+
+        $schemaString = '<abc|(<xyz> <name>)><abc|(<attribute:color> <attribute:color>)>';
+        yield $schemaString => [
+            $schemaString,
+            [
+                'field' => ['abc', 'xyz', 'name'],
+                'attribute' => ['color'],
+            ],
+        ];
     }
 
     protected function setUp(): void

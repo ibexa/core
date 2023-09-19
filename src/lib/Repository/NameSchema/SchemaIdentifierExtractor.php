@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\NameSchema\SchemaIdentifierExtractorInterfac
 final class SchemaIdentifierExtractor implements SchemaIdentifierExtractorInterface
 {
     /**
-     * @return array<string, array<string, string>>
+     * @return array<string, array<int, string>>
      *
      * @example
      *  $extractor = new SchemaIdentifierExtractor();
