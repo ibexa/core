@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\MVC\Symfony\Security;
 
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
@@ -14,32 +15,73 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class InteractiveLoginToken extends UsernamePasswordToken
 {
-    /** @var string */
-    private $originalTokenType;
+    private ?TokenInterface $originalToken = null;
+
+    private string $originalTokenType;
 
     public function __construct(UserInterface $user, $originalTokenType, $credentials, $providerKey, array $roles = [])
     {
         parent::__construct($user, $credentials, $providerKey, $roles);
+
         $this->originalTokenType = $originalTokenType;
     }
 
-    /**
-     * @return string
-     */
-    public function getOriginalTokenType()
+    public function getOriginalTokenType(): string
     {
         return $this->originalTokenType;
     }
 
+    /**
+     * @return array{
+     *     string,
+     *     mixed,
+     *     null|\Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     * } $data
+     */
     public function __serialize(): array
     {
-        return [$this->originalTokenType, parent::__serialize()];
+        return [
+            $this->originalTokenType,
+            parent::__serialize(),
+            $this->originalToken,
+        ];
     }
 
-    public function __unserialize($serialized): void
+    /**
+     * @param array{
+     *     string,
+     *     mixed,
+     *     2?: \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
+     * } $data
+     */
+    public function __unserialize(array $data): void
     {
-        [$this->originalTokenType, $parentStr] = $serialized;
-        parent::__unserialize($parentStr);
+        if (isset($data[2])) {
+            [$this->originalTokenType, $parentData, $this->originalToken] = $data;
+        } else {
+            [$this->originalTokenType, $parentData] = $data;
+        }
+
+        parent::__unserialize($parentData);
+    }
+
+    public function setOriginalToken(TokenInterface $token): void
+    {
+        $this->originalToken = $token;
+    }
+
+    public function getOriginalToken(): ?TokenInterface
+    {
+        return $this->originalToken;
+    }
+
+    public function isAuthenticated(): bool
+    {
+        if (null !== $this->originalToken) {
+            return $this->originalToken->isAuthenticated();
+        }
+
+        return parent::isAuthenticated();
     }
 }
 
