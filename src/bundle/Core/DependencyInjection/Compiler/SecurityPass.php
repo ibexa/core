@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\AnonymousAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler;
+use Ibexa\Core\MVC\Symfony\Security\Authentication\GuardRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RememberMeRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
@@ -32,6 +33,7 @@ class SecurityPass implements CompilerPassInterface
     {
         if (!($container->hasDefinition('security.authentication.provider.dao') &&
               $container->hasDefinition('security.authentication.provider.rememberme') &&
+              $container->hasDefinition('security.authentication.provider.guard') &&
               $container->hasDefinition('security.authentication.provider.anonymous'))) {
             return;
         }
@@ -69,6 +71,13 @@ class SecurityPass implements CompilerPassInterface
         $rememberMeAuthenticationProviderDef = $container->findDefinition('security.authentication.provider.rememberme');
         $rememberMeAuthenticationProviderDef->setClass(RememberMeRepositoryAuthenticationProvider::class);
         $rememberMeAuthenticationProviderDef->addMethodCall(
+            'setPermissionResolver',
+            [$permissionResolverRef]
+        );
+
+        $guardAuthenticationProviderDef = $container->findDefinition('security.authentication.provider.guard');
+        $guardAuthenticationProviderDef->setClass(GuardRepositoryAuthenticationProvider::class);
+        $guardAuthenticationProviderDef->addMethodCall(
             'setPermissionResolver',
             [$permissionResolverRef]
         );
