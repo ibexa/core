@@ -42,6 +42,7 @@ services:
             $env: '%kernel.environment%'
             $projectDir: '%kernel.project_dir%'
             $isDebug: '%kernel.debug%'
+            $contentService: '@Ibexa\Contracts\Core\Repository\ContentService'
         tags:
             - { name: console.command }
 

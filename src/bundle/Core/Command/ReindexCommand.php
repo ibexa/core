@@ -11,6 +11,10 @@ use DateTime;
 use const DIRECTORY_SEPARATOR;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
+use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Common\IncrementalIndexer;
@@ -55,6 +59,8 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
     private $locationHandler;
 
+    private APIContentService $contentService;
+
     public function __construct(
         $searchIndexer,
         Handler $locationHandler,
@@ -64,6 +70,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         string $env,
         bool $isDebug,
         string $projectDir,
+        APIContentService $contentService,
         string $phpPath = null
     ) {
         $this->gateway = $gateway;
@@ -75,6 +82,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         $this->env = $env;
         $this->isDebug = $isDebug;
         $this->projectDir = $projectDir;
+        $this->contentService = $contentService;
         $this->phpPath = $phpPath;
 
         parent::__construct();
@@ -128,23 +136,28 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
                 'since',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Refresh changes since a time provided in any format understood by DateTime. Implies "no-purge", cannot be combined with "content-ids" or "subtree"'
+                'Refresh changes since a time provided in any format understood by DateTime. Implies "no-purge", cannot be combined with "content-ids", "subtree", or "content-type"'
             )->addOption(
                 'content-ids',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Comma-separated list of content ID\'s to refresh (deleted/updated/added). Implies "no-purge", cannot be combined with "since" or "subtree"'
+                'Comma-separated list of content ID\'s to refresh (deleted/updated/added). Implies "no-purge", cannot be combined with "since", "subtree", or "content-type"'
             )->addOption(
                 'subtree',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Location ID whose subtree will be indexed (including the Location itself). Implies "no-purge", cannot be combined with "since" or "content-ids"'
+                'Location ID whose subtree will be indexed (including the Location itself). Implies "no-purge", cannot be combined with "since", "content-ids", or "content-type"'
             )->addOption(
                 'processes',
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Number of child processes to run in parallel for iterations, if set to "auto" it will set to number of CPU cores -1, set to "1" or "0" to disable',
                 'auto'
+            )->addOption(
+                'content-type',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Content type identifier to refresh (deleted/updated/added). Implies "no-purge", cannot be combined with "since", "subtree", or "content-ids"'
             )->setHelp(
                 <<<EOT
                     The command <info>%command.name%</info> indexes the current configured database in the configured search engine index.
@@ -255,6 +268,17 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
             $location = $this->locationHandler->load($locationId);
             $count = $this->gateway->countContentInSubtree($location->pathString);
             $generator = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
+            $purge = false;
+        } elseif ($contentType = $input->getOption('content-type')) {
+            $filter = new Filter();
+            $filter
+                ->withCriterion(
+                    new Query\Criterion\ContentTypeIdentifier($contentType)
+                );
+
+            $contentList = $this->contentService->find($filter);
+            $count = $contentList->getTotalCount();
+            $generator = $this->fetchIterationFromContentList($contentList, $iterationCount);
             $purge = false;
         } else {
             $count = $this->gateway->countAllContent();
@@ -453,6 +477,20 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     public function getDeprecatedAliases(): array
     {
         return ['ezplatform:reindex'];
+    }
+
+    private function fetchIterationFromContentList(ContentList $contentList, int $iterationCount): Generator
+    {
+        $i = 1;
+        $contentIds = [];
+        foreach ($contentList as $content) {
+            $contentIds[] = $content->id;
+            if ($iterationCount <= $i) {
+                break;
+            }
+            ++$i;
+        }
+        yield $contentIds;
     }
 }
 
