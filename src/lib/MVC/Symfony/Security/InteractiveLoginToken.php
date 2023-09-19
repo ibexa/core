@@ -77,7 +77,7 @@ class InteractiveLoginToken extends UsernamePasswordToken
 
     public function isAuthenticated(): bool
     {
-        if ($this->originalToken instanceof TokenInterface) {
+        if (null !== $this->originalToken) {
             return $this->originalToken->isAuthenticated();
         }
 
