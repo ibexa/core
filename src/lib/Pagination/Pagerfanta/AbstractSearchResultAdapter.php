@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SpellcheckResult;
 use Pagerfanta\Adapter\AdapterInterface;
 
 abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchResultAdapter
@@ -40,6 +41,8 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
     /** @var int|null */
     private $totalCount;
 
+    private ?SpellcheckResult $spellcheck = null;
+
     public function __construct(Query $query, SearchService $searchService, array $languageFilter = [])
     {
         $this->query = $query;
@@ -60,9 +63,10 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
 
         $countQuery = clone $this->query;
         $countQuery->limit = 0;
-        // Skip facets/aggregations computing
+        // Skip facets/aggregations & spellcheck computing
         $countQuery->facetBuilders = [];
         $countQuery->aggregations = [];
+        $countQuery->spellcheck = null;
 
         $searchResults = $this->executeQuery(
             $this->searchService,
@@ -98,6 +102,7 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
         $this->time = $searchResult->time;
         $this->timedOut = $searchResult->timedOut;
         $this->maxScore = $searchResult->maxScore;
+        $this->spellcheck = $searchResult->getSpellcheck();
 
         // Set count for further use if returned by search engine despite !performCount (Solr, ES)
         if (!isset($this->totalCount) && isset($searchResult->totalCount)) {
@@ -113,6 +118,7 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
             $aggregationQuery = clone $this->query;
             $aggregationQuery->offset = 0;
             $aggregationQuery->limit = 0;
+            $aggregationQuery->spellcheck = null;
 
             $searchResults = $this->executeQuery(
                 $this->searchService,
@@ -124,6 +130,26 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
         }
 
         return $this->aggregations;
+    }
+
+    public function getSpellcheck(): ?SpellcheckResult
+    {
+        if ($this->spellcheck === null) {
+            $spellcheckQuery = clone $this->query;
+            $spellcheckQuery->offset = 0;
+            $spellcheckQuery->limit = 0;
+            $spellcheckQuery->aggregations = [];
+
+            $searchResults = $this->executeQuery(
+                $this->searchService,
+                $spellcheckQuery,
+                $this->languageFilter
+            );
+
+            $this->spellcheck = $searchResults->spellcheck;
+        }
+
+        return $this->spellcheck;
     }
 
     public function getTime(): ?float

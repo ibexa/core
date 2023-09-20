@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use function count;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -4656,6 +4657,44 @@ class SearchServiceTest extends BaseTest
         $query = new LocationQuery(['query' => $criterion]);
 
         $this->assertFulltextSearchForTranslations(self::FIND_LOCATION_METHOD, $query);
+    }
+
+    public function testSpellcheckWithIncorrectQuery(): void
+    {
+        $searchService = $this->getRepository()->getSearchService();
+
+        if (!$searchService->supports(SearchService::CAPABILITY_SPELLCHECK)) {
+            self::markTestSkipped("Search engine doesn't support spellchecking");
+        }
+
+        $query = new Query();
+        // Search phrase with typo: "Ibexa Platfomr" instead of "Ibexa Platform":
+        $query->spellcheck = new Query\Spellcheck('Ibexa Platfomr');
+
+        $results = $searchService->findContent($query);
+
+        self::assertNotNull($results->spellcheck);
+        self::assertTrue($results->spellcheck->isIncorrect());
+        self::assertEquals('Ibexa Platform', $results->spellcheck->getQuery());
+    }
+
+    public function testSpellcheckWithCorrectQuery(): void
+    {
+        $searchService = $this->getRepository()->getSearchService();
+
+        if (!$searchService->supports(SearchService::CAPABILITY_SPELLCHECK)) {
+            self::markTestSkipped("Search engine doesn't support spellchecking");
+        }
+
+        $query = new Query();
+        // Search phrase without typo
+        $query->spellcheck = new Query\Spellcheck('Ibexa Platform');
+
+        $results = $searchService->findContent($query);
+
+        self::assertNotNull($results->spellcheck);
+        self::assertFalse($results->spellcheck->isIncorrect());
+        self::assertEquals('Ibexa Platform', $results->spellcheck->getQuery());
     }
 
     /**

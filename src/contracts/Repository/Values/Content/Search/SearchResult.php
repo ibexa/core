@@ -44,8 +44,12 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
      * criterions the wrong spelled value is replaced by a corrected one (TBD).
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     *
+     * @deprecated since Ibexa 4.6.0, to be removed in Ibexa 5.0.0.
      */
     public $spellSuggestion;
+
+    public ?SpellcheckResult $spellcheck = null;
 
     /**
      * The duration of the search processing in ms.
@@ -69,7 +73,10 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
     public $maxScore;
 
     /**
-     * The total number of searchHits.
+     * The total number of searchHits.    public function getSpellSuggestion(): ?SpellcheckResult.
+    {
+        return $this->spellSuggestion;
+    }
      *
      * `null` if Query->performCount was set to false and search engine avoids search lookup.
      *
@@ -84,6 +91,11 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
         }
 
         parent::__construct($properties);
+    }
+
+    public function getSpellcheck(): ?SpellcheckResult
+    {
+        return $this->spellcheck;
     }
 
     public function getAggregations(): ?AggregationResultCollection
