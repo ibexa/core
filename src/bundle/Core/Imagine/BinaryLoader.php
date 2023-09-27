@@ -33,6 +33,11 @@ class BinaryLoader implements LoaderInterface
         $this->mimeTypes = $mimeTypes;
     }
 
+    /**
+     * @param string $path
+     *
+     * @return \Liip\ImagineBundle\Binary\BinaryInterface
+     */
     public function find($path)
     {
         try {

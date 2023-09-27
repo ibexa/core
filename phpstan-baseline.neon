@@ -19031,11 +19031,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Token/Gateway/TokenType/Gateway.php
 
 		-
-			message: "#^Parameter \\#1 \\$typeId of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Token\\\\Gateway\\\\Token\\\\Gateway\\:\\:deleteExpired\\(\\) expects int\\|null, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Token\\\\TokenType\\|null given\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Token/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Token\\\\Mapper\\:\\:mapToken\\(\\) has parameter \\$tokenRow with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Token/Mapper.php
