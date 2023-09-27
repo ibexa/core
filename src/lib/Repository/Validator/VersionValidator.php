@@ -35,6 +35,12 @@ final class VersionValidator implements ContentValidator
         return $object instanceof VersionInfo;
     }
 
+    /**
+     * @phpstan-param array{
+     *     content?: \Ibexa\Contracts\Core\Repository\Values\Content\Content,
+     *     translations?: string[],
+     * } $context
+     */
     public function validate(
         ValueObject $object,
         array $context = [],
@@ -73,7 +79,7 @@ final class VersionValidator implements ContentValidator
 
                 if ($fieldType->isEmptyValue($fieldValue)) {
                     if ($fieldDefinition->isRequired) {
-                        $allFieldErrors[$fieldDefinition->identifier][$languageCode] = new ValidationError(
+                        $allFieldErrors[$fieldDefinition->id][$languageCode] = new ValidationError(
                             "Value for required field definition '%identifier%' with language '%languageCode%' is empty",
                             null,
                             ['%identifier%' => $fieldDefinition->identifier, '%languageCode%' => $languageCode],
@@ -86,7 +92,7 @@ final class VersionValidator implements ContentValidator
                         $fieldValue
                     );
                     if (!empty($fieldErrors)) {
-                        $allFieldErrors[$fieldDefinition->identifier][$languageCode] = $fieldErrors;
+                        $allFieldErrors[$fieldDefinition->id][$languageCode] = $fieldErrors;
                     }
                 }
             }

@@ -13,6 +13,9 @@ use Closure;
 use Countable;
 use IteratorAggregate;
 
+/**
+ * @phpstan-extends \IteratorAggregate<\Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition>
+ */
 interface FieldDefinitionCollection extends Countable, IteratorAggregate, ArrayAccess
 {
     /**

@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @property-read array $fieldSettings calls getFieldSettings()
  * @property-read array $validatorConfiguration calls getValidatorConfiguration()
- * @property-read mixed $id the id of the field definition
+ * @property-read int $id the id of the field definition
  * @property-read string $identifier the identifier of the field definition
  * @property-read string $fieldGroup the field group name
  * @property-read int $position the position of the field definition in the content type
@@ -35,7 +35,7 @@ abstract class FieldDefinition extends ValueObject implements MultiLanguageName,
     /**
      * the unique id of this field definition.
      *
-     * @var mixed
+     * @var int
      */
     protected $id;
 
