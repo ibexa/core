@@ -31,7 +31,7 @@ final class ConfigurationDumper
     }
 
     /**
-     * @param array<string, array<string, array{?'deprecated': bool, ?'alternative': string}>> $webpackConfigNames
+     * @phpstam-param array<string, array<string, array{?'deprecated': bool, ?'alternative': string}>> $webpackConfigNames
      *
      * @throws \JsonException
      */
