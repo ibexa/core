@@ -30,8 +30,8 @@ interface LocationService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user does not have read access to the whole source subtree
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the target location is a sub location of the given location
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $subtree - the subtree denoted by the location to copy
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $targetParentLocation - the target parent location for the copy operation
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $subtree the subtree denoted by the location to copy
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $targetParentLocation the target parent location for the copy operation
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location The newly created location of the copied subtree
      */
