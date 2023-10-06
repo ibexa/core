@@ -96,6 +96,9 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         }
 
         $installer->setOutput($output);
+        if ($input->isInteractive()) {
+            $installer->setInput($input);
+        }
 
         $installer->importSchema();
         $installer->importData();

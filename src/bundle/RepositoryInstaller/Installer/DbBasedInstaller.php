@@ -8,6 +8,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DbBasedInstaller
@@ -17,6 +18,8 @@ class DbBasedInstaller
 
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     protected $output;
+
+    protected ?InputInterface $input = null;
 
     /** @var string */
     protected $baseDataDir;
@@ -34,6 +37,11 @@ class DbBasedInstaller
     public function setOutput($output)
     {
         $this->output = $output;
+    }
+
+    public function setInput(InputInterface $input): void
+    {
+        $this->input = $input;
     }
 
     /**
