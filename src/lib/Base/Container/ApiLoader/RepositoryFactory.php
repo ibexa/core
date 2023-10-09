@@ -121,7 +121,7 @@ class RepositoryFactory implements ContainerAwareInterface
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param string $serviceName
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @return mixed
      */

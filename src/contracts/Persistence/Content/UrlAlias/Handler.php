@@ -204,7 +204,7 @@ interface Handler
      *
      * @param int $locationId
      *
-     * @throws \Ibexa\Core\Base\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     public function repairBrokenUrlAliasesForLocation(int $locationId);
 }
