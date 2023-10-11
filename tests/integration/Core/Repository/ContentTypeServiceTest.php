@@ -600,6 +600,40 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $this->fail('Content type group not deleted.');
     }
 
+    public function testDeleteContentTypeGroupWithOrphanedContentTypeDrafts(): void
+    {
+        $this->expectException(NotFoundException::class);
+
+        $repository = $this->getRepository();
+
+        /* BEGIN: Use Case */
+        $contentTypeService = $repository->getContentTypeService();
+
+        $groupCreate = $contentTypeService->newContentTypeGroupCreateStruct(
+            'new-group'
+        );
+        $contentTypeService->createContentTypeGroup($groupCreate);
+
+        $group = $contentTypeService->loadContentTypeGroupByIdentifier('new-group');
+        for ($i = 0; $i < 3; ++$i) {
+            $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('content_type_draft_' . $i);
+            $contentTypeCreateStruct->mainLanguageCode = 'eng-GB';
+            $contentTypeCreateStruct->names = [
+                'eng-GB' => 'content_type_draft_' . $i,
+            ];
+
+            $contentTypeService->createContentType($contentTypeCreateStruct, [$group]);
+        }
+
+        $contentTypeService->deleteContentTypeGroup($group);
+        /* END: Use Case */
+
+        // loadContentTypeGroup should throw NotFoundException
+        $contentTypeService->loadContentTypeGroup($group->id);
+
+        $this->fail('Content type group not deleted.');
+    }
+
     /**
      * Test for the newContentTypeCreateStruct() method.
      *
