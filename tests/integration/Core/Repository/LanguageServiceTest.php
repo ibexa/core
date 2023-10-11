@@ -128,7 +128,7 @@ class LanguageServiceTest extends BaseTest
     public function testCreateLanguageThrowsInvalidArgumentException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'languageCreateStruct\' is invalid: language with the specified language code already exists');
+        $this->expectExceptionMessage('Argument \'languageCreateStruct\' is invalid: language with the "nor-NO" language code already exists');
 
         $repository = $this->getRepository();
 
