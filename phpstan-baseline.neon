@@ -61966,11 +61966,6 @@ parameters:
 			path: tests/lib/Repository/Values/ContentType/FieldDefinitionCollectionTest.php
 
 		-
-			message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertContainsEquals\\(\\) with Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\SortClause\\\\Location\\\\Priority and array\\{\\} will always evaluate to false\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Filter/FilterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\FilterTest\\:\\:getComplexFilterTestData\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
