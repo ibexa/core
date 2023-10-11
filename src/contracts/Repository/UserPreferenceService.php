@@ -24,7 +24,7 @@ interface UserPreferenceService
      * @param \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct[] $userPreferenceSetStructs
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to set user preference
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException If the $userPreferenceSetStruct is invalid
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the $userPreferenceSetStruct is invalid
      */
     public function setUserPreference(array $userPreferenceSetStructs): void;
 
