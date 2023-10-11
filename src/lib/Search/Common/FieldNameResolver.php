@@ -263,6 +263,12 @@ class FieldNameResolver
         $indexDefinition = $indexFieldType->getIndexDefinition();
 
         // Should only happen by mistake, so let's throw if it does
+        if ($name === null) {
+            throw new RuntimeException(
+                "Undefined default sort or match field in '{$fieldTypeIdentifier}' Field Type's index definition"
+            );
+        }
+
         if (!isset($indexDefinition[$name])) {
             throw new RuntimeException(
                 "Could not find Field '{$name}' in '{$fieldTypeIdentifier}' Field Type's index definition"
