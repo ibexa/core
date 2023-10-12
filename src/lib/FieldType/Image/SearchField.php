@@ -18,6 +18,9 @@ class SearchField implements Indexable
 {
     public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
     {
+        $width = $field->value->data['width'] ?? null;
+        $height = $field->value->data['height'] ?? null;
+
         return [
             new Search\Field(
                 'filename',
@@ -39,6 +42,21 @@ class SearchField implements Indexable
                 $field->value->data['mime'] ?? null,
                 new Search\FieldType\StringField()
             ),
+            new Search\Field(
+                'width',
+                $width,
+                new Search\FieldType\IntegerField()
+            ),
+            new Search\Field(
+                'height',
+                $height,
+                new Search\FieldType\IntegerField()
+            ),
+            new Search\Field(
+                'orientation',
+                $this->getOrientation($width, $height),
+                new Search\FieldType\StringField()
+            ),
         ];
     }
 
@@ -49,6 +67,9 @@ class SearchField implements Indexable
             'alternative_text' => new Search\FieldType\StringField(),
             'file_size' => new Search\FieldType\IntegerField(),
             'mime_type' => new Search\FieldType\StringField(),
+            'width' => new Search\FieldType\IntegerField(),
+            'height' => new Search\FieldType\IntegerField(),
+            'orientation' => new Search\FieldType\StringField(),
         ];
     }
 
@@ -78,6 +99,23 @@ class SearchField implements Indexable
     public function getDefaultSortField()
     {
         return $this->getDefaultMatchField();
+    }
+
+    private function getOrientation(
+        ?int $width,
+        ?int $height
+    ): ?string {
+        if (null === $width || null === $height) {
+            return null;
+        }
+
+        if ($width === $height) {
+            return Orientation::SQUARE;
+        }
+
+        return $width > $height
+            ? Orientation::LANDSCAPE
+            : Orientation::PORTRAIT;
     }
 }
 
