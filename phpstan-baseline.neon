@@ -10371,16 +10371,6 @@ parameters:
 			path: src/lib/FieldType/Time/Value.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Unindexed\\:\\:getDefaultMatchField\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/lib/FieldType/Unindexed.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Unindexed\\:\\:getDefaultSortField\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/lib/FieldType/Unindexed.php
-
-		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$text\\.$#"
 			count: 1
 			path: src/lib/FieldType/Url/Type.php
