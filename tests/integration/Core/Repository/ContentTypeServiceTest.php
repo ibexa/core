@@ -602,11 +602,8 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
     public function testDeleteContentTypeGroupWithOrphanedContentTypeDrafts(): void
     {
-        $this->expectException(NotFoundException::class);
-
         $repository = $this->getRepository();
 
-        /* BEGIN: Use Case */
         $contentTypeService = $repository->getContentTypeService();
 
         $groupCreate = $contentTypeService->newContentTypeGroupCreateStruct(
@@ -626,12 +623,11 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         }
 
         $contentTypeService->deleteContentTypeGroup($group);
-        /* END: Use Case */
 
         // loadContentTypeGroup should throw NotFoundException
-        $contentTypeService->loadContentTypeGroup($group->id);
+        $this->expectException(NotFoundException::class);
 
-        $this->fail('Content type group not deleted.');
+        $contentTypeService->loadContentTypeGroup($group->id);
     }
 
     /**
