@@ -11,7 +11,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 
 /**
- * Indexable definition for string field type.
+ * Empty implementation of \Ibexa\Contracts\Core\FieldType\Indexable.
+ *
+ * Used when field type doesn't contribute to search index.
  */
 class Unindexed implements Indexable
 {
@@ -31,8 +33,6 @@ class Unindexed implements Indexable
      * As field types can index multiple fields (see MapLocation field type's
      * implementation of this interface), this method is used to define default
      * field for matching. Default field is typically used by Field criterion.
-     *
-     * @return string
      */
     public function getDefaultMatchField()
     {
@@ -45,8 +45,6 @@ class Unindexed implements Indexable
      * As field types can index multiple fields (see MapLocation field type's
      * implementation of this interface), this method is used to define default
      * field for sorting. Default field is typically used by Field sort clause.
-     *
-     * @return string
      */
     public function getDefaultSortField()
     {
