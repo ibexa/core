@@ -5006,11 +5006,6 @@ parameters:
 			path: src/contracts/Container/Encore/ConfigurationDumper.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Container\\\\Encore\\\\ConfigurationDumper\\:\\:dumpCustomConfiguration\\(\\) has parameter \\$webpackConfigNames with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Container\\\\Encore\\\\ConfigurationDumper\\:\\:locateConfigurationFiles\\(\\) has parameter \\$bundlesMetadata with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Container/Encore/ConfigurationDumper.php
@@ -5022,11 +5017,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Container\\\\Encore\\\\ConfigurationDumper\\:\\:locateConfigurationFiles\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Container/Encore/ConfigurationDumper.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(array\\<string, array\\<string, array\\{\\?'deprecated'\\: bool, \\?'alternative'\\: string\\}\\>\\> \\$webpackConfigNames\\)\\: Unexpected token \"\\:\", expected '\\}' at offset 65$#"
 			count: 1
 			path: src/contracts/Container/Encore/ConfigurationDumper.php
 
