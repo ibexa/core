@@ -62,6 +62,18 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
         return $this->getEntry($key) !== null;
     }
 
+    /**
+     * Returns available keys (terms).
+     *
+     * @return iterable<object|string|int>
+     */
+    public function getKeys(): iterable
+    {
+        foreach ($this->entries as $entry) {
+            yield $entry->getKey();
+        }
+    }
+
     public function count(): int
     {
         return count($this->entries);
