@@ -15157,12 +15157,12 @@ parameters:
 
 		-
 			message: "#^Cannot access offset int\\|string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 3
+			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
 			message: "#^Cannot access offset string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 4
+			count: 2
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
@@ -20397,11 +20397,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$mainLanguageCode\\.$#"
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
-			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\>\\.$#"
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
@@ -58393,11 +58388,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface\\:\\:expects\\(\\)\\.$#"
 			count: 3
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: "#^Cannot access offset mixed on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\.$#"
-			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
