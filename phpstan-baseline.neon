@@ -11551,31 +11551,6 @@ parameters:
 			path: src/lib/MVC/Symfony/ConfigDumperInterface.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController\\:\\:previewContentAction\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController\\:\\:previewContentAction\\(\\) has parameter \\$contentId with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController\\:\\:previewContentAction\\(\\) has parameter \\$language with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController\\:\\:previewContentAction\\(\\) has parameter \\$siteAccessName with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController\\:\\:previewContentAction\\(\\) has parameter \\$versionNo with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\QueryController\\:\\:runPagingQuery\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Controller/Content/QueryController.php
