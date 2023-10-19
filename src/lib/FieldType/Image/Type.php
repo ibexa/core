@@ -409,6 +409,11 @@ class Type extends FieldType implements TranslationContainerInterface
             Message::create('ezimage.name', 'ibexa_fieldtypes')->setDesc('Image'),
         ];
     }
+
+    public function isSearchable(): bool
+    {
+        return true;
+    }
 }
 
 class_alias(Type::class, 'eZ\Publish\Core\FieldType\Image\Type');
