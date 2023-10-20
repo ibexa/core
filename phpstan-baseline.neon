@@ -46506,36 +46506,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Component/Serializer/Stubs/SerializerStub.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Controller\\\\Content\\\\PreviewControllerTest\\:\\:testPreview\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/Controller/Content/PreviewControllerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Controller\\\\Content\\\\PreviewControllerTest\\:\\:testPreviewCanUserFail\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/Controller/Content/PreviewControllerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Controller\\\\Content\\\\PreviewControllerTest\\:\\:testPreviewDefaultSiteaccess\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/Controller/Content/PreviewControllerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Controller\\\\Content\\\\PreviewControllerTest\\:\\:testPreviewUnauthorized\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/Controller/Content/PreviewControllerTest.php
-
-		-
-			message: "#^Parameter \\#7 \\$controllerChecker of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\PreviewController constructor expects Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\View\\\\CustomLocationControllerChecker, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authorization\\\\AuthorizationCheckerInterface given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/Controller/Content/PreviewControllerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Controller\\\\Content\\\\PreviewControllerTest\\:\\:\\$controllerChecker \\(PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authorization\\\\AuthorizationCheckerInterface\\) does not accept Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\View\\\\CustomLocationControllerChecker&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/Controller/Content/PreviewControllerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\ControllerTest\\:\\:testRender\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Controller/ControllerTest.php
