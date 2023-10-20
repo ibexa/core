@@ -38821,6 +38821,11 @@ parameters:
 			path: tests/integration/Core/Repository/TrashServiceTest.php
 
 		-
+			message: "#^Cannot call method getRemovedLocationContentIdMap\\(\\) on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\TrashItem\\|null\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/TrashServiceTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\TrashServiceTest\\:\\:assertAliasNotExists\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/TrashServiceTest.php
@@ -38972,7 +38977,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$locationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:loadLocation\\(\\) expects int, int\\|null given\\.$#"
-			count: 5
+			count: 6
 			path: tests/integration/Core/Repository/TrashServiceTest.php
 
 		-

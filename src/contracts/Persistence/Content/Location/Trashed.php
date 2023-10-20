@@ -19,6 +19,9 @@ class Trashed extends Location
      * @var mixed Trashed timestamp.
      */
     public $trashed;
+
+    /** @var array<int, int> Location ID to a Content ID map of removed items */
+    public array $removedLocationContentIdMap = [];
 }
 
 class_alias(Trashed::class, 'eZ\Publish\SPI\Persistence\Content\Location\Trashed');
