@@ -4,21 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller\Controller\Content;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Helper\ContentPreviewHelper;
 use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController;
-use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
-use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,28 +25,31 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class PreviewControllerTest extends TestCase
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController
+ */
+final class PreviewControllerTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    protected $contentService;
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject */
+    protected ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    protected $locationService;
+    /** @var \Ibexa\Contracts\Core\Repository\LocationService&\PHPUnit\Framework\MockObject\MockObject */
+    protected LocationService $locationService;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $httpKernel;
+    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface&\PHPUnit\Framework\MockObject\MockObject */
+    protected HttpKernelInterface $httpKernel;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $previewHelper;
+    /** @var \Ibexa\Core\Helper\ContentPreviewHelper&\PHPUnit\Framework\MockObject\MockObject */
+    protected ContentPreviewHelper $previewHelper;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $authorizationChecker;
+    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    protected AuthorizationCheckerInterface $authorizationChecker;
 
-    /** @var \Ibexa\Core\Helper\PreviewLocationProvider|\PHPUnit\Framework\MockObject\MockObject */
-    protected $locationProvider;
+    /** @var \Ibexa\Core\Helper\PreviewLocationProvider&\PHPUnit\Framework\MockObject\MockObject */
+    protected PreviewLocationProvider $locationProvider;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $controllerChecker;
+    /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker&\PHPUnit\Framework\MockObject\MockObject */
+    protected CustomLocationControllerChecker $controllerChecker;
 
     protected function setUp(): void
     {
@@ -75,315 +77,233 @@ class PreviewControllerTest extends TestCase
         );
     }
 
-    public function testPreviewUnauthorized()
-    {
-        $this->expectException(AccessDeniedException::class);
-
-        $controller = $this->getPreviewController();
-        $contentId = 123;
-        $lang = 'eng-GB';
-        $versionNo = 3;
-        $this->contentService
-            ->expects($this->once())
-            ->method('loadContent')
-            ->with($contentId, [$lang], $versionNo)
-            ->will($this->throwException(new UnauthorizedException('foo', 'bar')));
-        $controller->previewContentAction(new Request(), $contentId, $versionNo, $lang, 'test');
-    }
-
-    public function testPreviewCanUserFail()
-    {
-        $this->expectException(AccessDeniedException::class);
-
-        $controller = $this->getPreviewController();
-        $contentId = 123;
-        $lang = 'eng-GB';
-        $versionNo = 3;
-        $content = $this->createMock(Content::class);
-        $contentInfo = $this->getMockBuilder(ContentInfo::class)
-            ->setConstructorArgs([['id' => $contentId]])
-            ->getMockForAbstractClass();
-
-        $this->locationProvider
-            ->expects($this->once())
-            ->method('loadMainLocationByContent')
-            ->with($content)
-            ->will($this->returnValue($this->createMock(Location::class)));
-        $this->contentService
-            ->expects($this->once())
-            ->method('loadContent')
-            ->with($contentId, [$lang], $versionNo)
-            ->will($this->returnValue($content));
-        $this->authorizationChecker
-            ->expects($this->once())
-            ->method('isGranted')
-            ->with($this->equalTo(new AuthorizationAttribute('content', 'versionread', ['valueObject' => $content])))
-            ->will($this->returnValue(false));
-
-        $controller->previewContentAction(new Request(), $contentId, $versionNo, $lang, 'test');
-    }
-
-    public function testPreview()
-    {
-        $contentId = 123;
-        $lang = 'eng-GB';
-        $versionNo = 3;
-        $locationId = 456;
-        $content = $this->createMock(Content::class);
-        $location = $this->getMockBuilder(Location::class)
-            ->setConstructorArgs([['id' => $locationId]])
-            ->getMockForAbstractClass();
-
-        // Repository expectations
-        $this->locationProvider
-            ->expects($this->once())
-            ->method('loadMainLocationByContent')
-            ->with($content)
-            ->will($this->returnValue($location));
-        $this->contentService
-            ->expects($this->once())
-            ->method('loadContent')
-            ->with($contentId, [$lang], $versionNo)
-            ->will($this->returnValue($content));
-        $this->authorizationChecker
-            ->expects($this->once())
-            ->method('isGranted')
-            ->with($this->equalTo(new AuthorizationAttribute('content', 'versionread', ['valueObject' => $content])))
-            ->will($this->returnValue(true));
-
-        $previewSiteAccessName = 'test';
-        $previewSiteAccess = new SiteAccess($previewSiteAccessName, 'preview');
-        $previousSiteAccessName = 'foo';
-        $previousSiteAccess = new SiteAccess($previousSiteAccessName);
-        $request = $this->getMockBuilder(Request::class)
-            ->setMethods(['duplicate'])
-            ->getMock();
-
-        // PreviewHelper expectations
-        $this->previewHelper
-            ->expects($this->exactly(2))
-            ->method('setPreviewActive')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        [true, null],
-                        [false, null],
-                    ]
-                )
-            );
-        $this->previewHelper
-            ->expects($this->once())
-            ->method('setPreviewedContent')
-            ->with($content);
-        $this->previewHelper
-            ->expects($this->once())
-            ->method('setPreviewedLocation')
-            ->with($location);
-        $this->previewHelper
-            ->expects($this->once())
-            ->method('getOriginalSiteAccess')
-            ->will($this->returnValue($previousSiteAccess));
-        $this->previewHelper
-            ->expects($this->once())
-            ->method('changeConfigScope')
-            ->with($previewSiteAccessName)
-            ->will($this->returnValue($previewSiteAccess));
-        $this->previewHelper
-            ->expects($this->once())
-            ->method('restoreConfigScope');
-
-        // Request expectations
-        $duplicatedRequest = $this->getDuplicatedRequest($location, $content, $previewSiteAccess);
-        $request
-            ->expects($this->once())
-            ->method('duplicate')
-            ->will($this->returnValue($duplicatedRequest));
-
-        // Kernel expectations
-        $expectedResponse = new Response();
-        $this->httpKernel
-            ->expects($this->once())
-            ->method('handle')
-            ->with($duplicatedRequest, HttpKernelInterface::SUB_REQUEST)
-            ->will($this->returnValue($expectedResponse));
-
-        $controller = $this->getPreviewController();
-        $this->assertSame(
-            $expectedResponse,
-            $controller->previewContentAction($request, $contentId, $versionNo, $lang, $previewSiteAccessName)
-        );
-    }
-
-    public function testPreviewDefaultSiteaccess()
-    {
-        $contentId = 123;
-        $lang = 'eng-GB';
-        $versionNo = 3;
-        $locationId = 456;
-        $content = $this->createMock(Content::class);
-        $location = $this->getMockBuilder(Location::class)
-            ->setConstructorArgs([['id' => $locationId]])
-            ->getMockForAbstractClass();
-
-        // Repository expectations
-        $this->locationProvider
-            ->expects($this->once())
-            ->method('loadMainLocationByContent')
-            ->with($content)
-            ->will($this->returnValue($location));
-        $this->contentService
-            ->expects($this->once())
-            ->method('loadContent')
-            ->with($contentId, [$lang], $versionNo)
-            ->will($this->returnValue($content));
-        $this->authorizationChecker
-            ->expects($this->once())
-            ->method('isGranted')
-            ->with($this->equalTo(new AuthorizationAttribute('content', 'versionread', ['valueObject' => $content])))
-            ->will($this->returnValue(true));
-
-        $previousSiteAccessName = 'foo';
-        $previousSiteAccess = new SiteAccess($previousSiteAccessName);
-        $request = $this->getMockBuilder(Request::class)
-            ->setMethods(['duplicate'])
-            ->getMock();
-
-        $this->previewHelper
-            ->expects($this->once())
-            ->method('getOriginalSiteAccess')
-            ->will($this->returnValue($previousSiteAccess));
-        $this->previewHelper
-            ->expects($this->once())
-            ->method('restoreConfigScope');
-
-        // Request expectations
-        $duplicatedRequest = $this->getDuplicatedRequest($location, $content, $previousSiteAccess);
-        $request
-            ->expects($this->once())
-            ->method('duplicate')
-            ->will($this->returnValue($duplicatedRequest));
-
-        // Kernel expectations
-        $expectedResponse = new Response();
-        $this->httpKernel
-            ->expects($this->once())
-            ->method('handle')
-            ->with($duplicatedRequest, HttpKernelInterface::SUB_REQUEST)
-            ->will($this->returnValue($expectedResponse));
-
-        $controller = $this->getPreviewController();
-        $this->assertSame(
-            $expectedResponse,
-            $controller->previewContentAction($request, $contentId, $versionNo, $lang)
-        );
-    }
-
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
-    public function testPreviewWithLocationId(): void
+    public function testPreviewUnauthorized(): void
     {
+        $this->expectException(AccessDeniedException::class);
+
+        $controller = $this->getPreviewController();
         $contentId = 123;
         $lang = 'eng-GB';
         $versionNo = 3;
-        $locationId = 456;
-        $content = $this->createMock(Content::class);
-        $location = $this->getMockBuilder(Location::class)
-            ->setConstructorArgs([['id' => $locationId]])
-            ->getMockForAbstractClass();
-
         $this->contentService
             ->expects(self::once())
             ->method('loadContent')
             ->with($contentId, [$lang], $versionNo)
+            ->willThrowException(new UnauthorizedException('foo', 'bar'))
+        ;
+
+        $controller->previewContentAction(new Request(), $contentId, $versionNo, $lang, 'test');
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testPreviewCanUserFail(): void
+    {
+        $controller = $this->getPreviewController();
+        $contentId = 123;
+        $lang = 'eng-GB';
+        $versionNo = 3;
+        $content = $this->createMock(Content::class);
+
+        $location = $this->createMock(Location::class);
+        $this->locationProvider
+            ->method('loadMainLocationByContent')
+            ->with($content)
+            ->willReturn($location)
+        ;
+        $this->contentService
+            ->method('loadContent')
+            ->with($contentId, [$lang], $versionNo)
+            ->willReturn($content)
+        ;
+
+        $this->authorizationChecker->method('isGranted')->willReturn(false);
+
+        $this->expectException(AccessDeniedException::class);
+
+        $controller->previewContentAction(new Request(), $contentId, $versionNo, $lang, 'test');
+    }
+
+    /**
+     * @return iterable<string, array{SiteAccess|null, int, string, int, int|null}>
+     */
+    public static function getDataForTestPreview(): iterable
+    {
+        yield 'with different SiteAccess, main Location' => [
+            new SiteAccess('test', 'preview'),
+            123, // contentId
+            'eng-GB',
+            3, // versionNo
+            null, // secondary Location Id
+        ];
+
+        yield 'with default SiteAccess, main Location' => [
+            null,
+            234, // contentId
+            'ger-DE',
+            1, // versionNo
+            null, // secondary Location Id
+        ];
+
+        yield 'with different SiteAccess, secondary Location' => [
+            new SiteAccess('test', 'preview'),
+            567, // contentId
+            'eng-GB',
+            11, // versionNo
+            220, // secondary Location Id
+        ];
+
+        yield 'with default SiteAccess, secondary Location' => [
+            null,
+            234, // contentId
+            'ger-DE',
+            1, // versionNo
+            221, // secondary Location Id
+        ];
+    }
+
+    /**
+     * @dataProvider getDataForTestPreview
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testPreview(
+        ?SiteAccess $previewSiteAccess,
+        int $contentId,
+        string $language,
+        int $versionNo,
+        ?int $locationId
+    ): void {
+        $content = $this->createMock(Content::class);
+        $location = $this->getMockBuilder(Location::class)
+             ->setConstructorArgs([['id' => $locationId ?? 456]])
+             ->getMockForAbstractClass();
+
+        if (null === $locationId) {
+            $this->locationProvider->method('loadMainLocationByContent')->with($content)->willReturn($location);
+        } else {
+            $this->locationService->method('loadLocation')->with($locationId)->willReturn($location);
+        }
+
+        $this->contentService
+            ->method('loadContent')
+            ->with($contentId, [$language], $versionNo)
             ->willReturn($content);
 
-        $this->locationService
-            ->expects(self::once())
-            ->method('loadLocation')
-            ->with($locationId)
-            ->willReturn($location);
+        $this->authorizationChecker->method('isGranted')->willReturn(true);
 
-        $this->authorizationChecker
-            ->expects(self::once())
-            ->method('isGranted')
-            ->with(new AuthorizationAttribute('content', 'versionread', ['valueObject' => $content]))
-            ->willReturn(true);
+        $originalSiteAccess = new SiteAccess('foo');
 
-        $previousSiteAccessName = 'foo';
-        $previousSiteAccess = new SiteAccess($previousSiteAccessName);
-        $request = $this->getMockBuilder(Request::class)
-            ->onlyMethods(['duplicate'])
-            ->getMock();
+        $request = new Request();
+        $request->attributes->set('semanticPathinfo', '/foo/bar');
 
-        $this->previewHelper
-            ->expects(self::once())
-            ->method('getOriginalSiteAccess')
-            ->willReturn($previousSiteAccess);
+        $this->configurePreviewHelper(
+            $content,
+            $location,
+            $originalSiteAccess,
+            $previewSiteAccess
+        );
 
-        $this->previewHelper
-            ->expects(self::once())
-            ->method('restoreConfigScope');
+        $forwardRequestParameters = $this->getExpectedForwardRequestParameters(
+            $location,
+            $content,
+            $previewSiteAccess ?? $originalSiteAccess,
+            $language
+        );
 
-        $duplicatedRequest = $this->getDuplicatedRequest($location, $content, $previousSiteAccess);
-        $request
-            ->expects(self::once())
-            ->method('duplicate')
-            ->willReturn($duplicatedRequest);
-
-        $expectedResponse = new Response();
+        // the actual assertion happens here, checking if the forward request params are correct
         $this->httpKernel
-            ->expects(self::once())
             ->method('handle')
-            ->with($duplicatedRequest, HttpKernelInterface::SUB_REQUEST)
-            ->willReturn($expectedResponse);
+            ->with($request->duplicate(null, null, $forwardRequestParameters), HttpKernelInterface::SUB_REQUEST)
+            ->willReturn($this->createMock(Response::class))
+        ;
 
         $controller = $this->getPreviewController();
-
-        self::assertSame(
-            $expectedResponse,
-            $controller->previewContentAction(
-                $request,
-                $contentId,
-                $versionNo,
-                $lang,
-                null,
-                $locationId
-            )
+        $controller->previewContentAction(
+            $request,
+            $contentId,
+            $versionNo,
+            $language,
+            $previewSiteAccess !== null ? $previewSiteAccess->name : null,
+            $locationId
         );
     }
 
     /**
-     * @param $location
-     * @param $content
-     * @param $previewSiteAccess
-     *
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return array<string, mixed>
      */
-    protected function getDuplicatedRequest(Location $location, Content $content, SiteAccess $previewSiteAccess)
-    {
-        $duplicatedRequest = new Request();
-        $duplicatedRequest->attributes->add(
-            [
-                '_controller' => 'ibexa_content::viewAction',
+    private function getExpectedForwardRequestParameters(
+        Location $location,
+        Content $content,
+        SiteAccess $previewSiteAccess,
+        string $language
+    ): array {
+        return [
+            '_controller' => 'ibexa_content::viewAction',
+            '_route' => 'ibexa.content.view',
+            '_route_params' => [
                 'contentId' => $content->id,
+                'locationId' => $location->id,
+            ],
+            'location' => $location,
+            'content' => $content,
+            'viewType' => 'full',
+            'layout' => true,
+            'params' => [
+                'content' => $content,
                 'location' => $location,
-                'viewType' => ViewManagerInterface::VIEW_TYPE_FULL,
-                'layout' => true,
-                'semanticPathinfo' => '/foo/bar',
-                'params' => [
-                    'content' => $content,
-                    'location' => $location,
-                    'isPreview' => true,
-                    'siteaccess' => $previewSiteAccess,
-                ],
-            ]
-        );
+                'isPreview' => true,
+                'language' => $language,
+            ],
+            'siteaccess' => $previewSiteAccess,
+            'semanticPathinfo' => '/foo/bar',
+        ];
+    }
 
-        return $duplicatedRequest;
+    private function configurePreviewHelper(
+        Content $content,
+        Location $location,
+        SiteAccess $originalSiteAccess,
+        ?SiteAccess $previewSiteAccess = null
+    ): void {
+        $this->previewHelper
+            ->expects(self::exactly(2))
+            ->method('setPreviewActive')
+            ->withConsecutive([true], [false])
+        ;
+
+        $this->previewHelper
+            ->expects(self::once())
+            ->method('setPreviewedContent')
+            ->with($content)
+        ;
+        $this->previewHelper
+            ->expects(self::once())
+            ->method('setPreviewedLocation')
+            ->with($location)
+        ;
+        $this->previewHelper
+            ->expects(self::once())
+            ->method('getOriginalSiteAccess')
+            ->willReturn($originalSiteAccess)
+        ;
+
+        if ($previewSiteAccess !== null) {
+            $this->previewHelper
+                ->expects(self::once())
+                ->method('changeConfigScope')
+                ->with($previewSiteAccess->name)
+                ->willReturn($previewSiteAccess)
+            ;
+        }
+
+        $this->previewHelper
+            ->expects(self::once())
+            ->method('restoreConfigScope')
+        ;
     }
 }
-
-class_alias(PreviewControllerTest::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Tests\Controller\Content\PreviewControllerTest');
