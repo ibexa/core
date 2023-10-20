@@ -129,7 +129,7 @@ final class PreviewControllerTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{SiteAccess|null, int, string, int, int|null}>
+     * @return iterable<string, array{SiteAccess|null, int, string, int, int|null, string|null}>
      */
     public static function getDataForTestPreview(): iterable
     {
@@ -139,6 +139,7 @@ final class PreviewControllerTest extends TestCase
             'eng-GB',
             3, // versionNo
             null, // secondary Location Id
+            null,
         ];
 
         yield 'with default SiteAccess, main Location' => [
@@ -147,6 +148,7 @@ final class PreviewControllerTest extends TestCase
             'ger-DE',
             1, // versionNo
             null, // secondary Location Id
+            null,
         ];
 
         yield 'with different SiteAccess, secondary Location' => [
@@ -155,6 +157,7 @@ final class PreviewControllerTest extends TestCase
             'eng-GB',
             11, // versionNo
             220, // secondary Location Id
+            null,
         ];
 
         yield 'with default SiteAccess, secondary Location' => [
@@ -163,6 +166,16 @@ final class PreviewControllerTest extends TestCase
             'ger-DE',
             1, // versionNo
             221, // secondary Location Id
+            null,
+        ];
+
+        yield 'with different SiteAccess and different viewType' => [
+            new SiteAccess('test', 'preview'),
+            789, // contentId
+            'eng-GB',
+            9, // versionNo
+            null,
+            'foo_view_type',
         ];
     }
 
@@ -176,7 +189,8 @@ final class PreviewControllerTest extends TestCase
         int $contentId,
         string $language,
         int $versionNo,
-        ?int $locationId
+        ?int $locationId,
+        ?string $viewType = null
     ): void {
         $content = $this->createMock(Content::class);
         $location = $this->getMockBuilder(Location::class)
@@ -200,6 +214,9 @@ final class PreviewControllerTest extends TestCase
 
         $request = new Request();
         $request->attributes->set('semanticPathinfo', '/foo/bar');
+        if (null !== $viewType) {
+            $request->query->set('viewType', $viewType);
+        }
 
         $this->configurePreviewHelper(
             $content,
@@ -212,7 +229,8 @@ final class PreviewControllerTest extends TestCase
             $location,
             $content,
             $previewSiteAccess ?? $originalSiteAccess,
-            $language
+            $language,
+            $viewType
         );
 
         // the actual assertion happens here, checking if the forward request params are correct
@@ -240,7 +258,8 @@ final class PreviewControllerTest extends TestCase
         Location $location,
         Content $content,
         SiteAccess $previewSiteAccess,
-        string $language
+        string $language,
+        ?string $viewType
     ): array {
         return [
             '_controller' => 'ibexa_content::viewAction',
@@ -251,7 +270,7 @@ final class PreviewControllerTest extends TestCase
             ],
             'location' => $location,
             'content' => $content,
-            'viewType' => 'full',
+            'viewType' => $viewType ?? 'full',
             'layout' => true,
             'params' => [
                 'content' => $content,
