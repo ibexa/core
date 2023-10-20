@@ -24,7 +24,7 @@ interface Handler
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Query criterion is not applicable to its target
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param array $languageFilter - a map of language related filters specifying languages query will be performed on.
+     * @param array $languageFilter a map of language related filters specifying languages query will be performed on.
      *        Also used to define which field languages are loaded for the returned content.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
@@ -41,7 +41,7 @@ interface Handler
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than than one result matching the criterions
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter
-     * @param array $languageFilter - a map of language related filters specifying languages query will be performed on.
+     * @param array $languageFilter a map of language related filters specifying languages query will be performed on.
      *        Also used to define which field languages are loaded for the returned content.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
@@ -54,7 +54,7 @@ interface Handler
      * Finds locations for the given $query.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
-     * @param array $languageFilter - a map of language related filters specifying languages query will be performed on.
+     * @param array $languageFilter a map of language related filters specifying languages query will be performed on.
      *        Also used to define which field languages are loaded for the returned content.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
