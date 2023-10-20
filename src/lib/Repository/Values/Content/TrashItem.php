@@ -32,6 +32,9 @@ class TrashItem extends APITrashItem
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
     protected $parentLocation;
 
+    /** @var array<int, int> */
+    protected array $removedLocationContentIdMap = [];
+
     /**
      * Returns the content info of the content object of this trash item.
      *
@@ -45,6 +48,14 @@ class TrashItem extends APITrashItem
     public function getParentLocation(): ?Location
     {
         return $this->parentLocation;
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    public function getRemovedLocationContentIdMap(): array
+    {
+        return $this->removedLocationContentIdMap;
     }
 
     /**
