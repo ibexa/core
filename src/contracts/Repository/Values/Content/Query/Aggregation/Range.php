@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 final class Range extends ValueObject
 {
+    public const INF = null;
+
     /**
      * Beginning of the range (included).
      *
