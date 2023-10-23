@@ -78,6 +78,11 @@ final class Range extends ValueObject
         );
     }
 
+    public function equalsTo(Range $value): bool
+    {
+        return $this->from === $value->from && $this->to === $value->to;
+    }
+
     private function getRangeValueAsString($value): string
     {
         if ($value === null) {
