@@ -297,6 +297,11 @@ class ContentTypeService implements ContentTypeServiceInterface
 
         $this->repository->beginTransaction();
         try {
+            $contentTypesDrafts = $this->contentTypeHandler->loadContentTypes($contentTypeGroup->id, SPIContentType::STATUS_DRAFT);
+            foreach ($contentTypesDrafts as $contentTypeDraft) {
+                $this->contentTypeHandler->delete($contentTypeDraft->id, SPIContentType::STATUS_DRAFT);
+            }
+
             $this->contentTypeHandler->deleteGroup(
                 $loadedContentTypeGroup->id
             );
