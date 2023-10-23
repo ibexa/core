@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 
 /**
@@ -341,6 +342,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
                     'width' => null,
                     'height' => null,
                     'additionalData' => [],
+                    'mime' => null,
                 ],
             ],
             [
@@ -354,6 +356,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
                         'uri' => "/$path",
                         'width' => 123,
                         'height' => 456,
+                        'mime' => 'image/png',
                     ]
                 ),
                 [
@@ -368,6 +371,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
                     'width' => 123,
                     'height' => 456,
                     'additionalData' => [],
+                    'mime' => 'image/png',
                 ],
             ],
         ];
@@ -571,6 +575,15 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             $updatedAlternativeText,
             $content->getFieldValue('image')->alternativeText
         );
+    }
+
+    protected function checkSearchEngineSupport(): void
+    {
+        if ($this->getSetupFactory() instanceof Legacy) {
+            $this->markTestSkipped(
+                "'ezimage' field type is not searchable with Legacy Search Engine"
+            );
+        }
     }
 
     protected function getValidSearchValueOne()
