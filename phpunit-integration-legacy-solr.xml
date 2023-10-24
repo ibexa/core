@@ -18,7 +18,8 @@
         <env name="CORES_SETUP" value="dedicated" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
         <ini name="error_reporting" value="-1" />
-        <env name="KERNEL_CLASS" value="Ibexa\Contracts\Core\Test\IbexaTestKernel"/>
+        <env name="KERNEL_CLASS" value="Ibexa\Tests\Integration\Solr\IbexaTestKernel"/>
+        <env name="SEARCH_ENGINE" value="solr"/>
     </php>
     <testsuites>
         <!-- Search service is used all over the place, so we must run entire integration test suite -->
