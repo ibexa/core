@@ -191,7 +191,8 @@ services:
     Ibexa\Bundle\Core\Converter\LocationParamConverter:
         class: Ibexa\Bundle\Core\Converter\LocationParamConverter
         arguments:
-            - '@ibexa.siteaccessaware.service.location'
+            $locationService: '@ibexa.siteaccessaware.service.location'
+            $contentPreviewHelper: '@Ibexa\Core\Helper\ContentPreviewHelper'
         tags:
             - { name: request.param_converter, priority: '%ibexa.param_converter.location.priority%', converter: ez_location_converter }
 
