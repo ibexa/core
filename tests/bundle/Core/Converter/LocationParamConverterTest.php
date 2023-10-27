@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Core\Converter;
 use Ibexa\Bundle\Core\Converter\LocationParamConverter;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Helper\ContentPreviewHelper;
 use Symfony\Component\HttpFoundation\Request;
 
 class LocationParamConverterTest extends AbstractParamConverterTest
@@ -25,8 +26,9 @@ class LocationParamConverterTest extends AbstractParamConverterTest
     protected function setUp(): void
     {
         $this->locationServiceMock = $this->createMock(LocationService::class);
+        $contentPreviewHelper = $this->createMock(ContentPreviewHelper::class);
 
-        $this->converter = new LocationParamConverter($this->locationServiceMock);
+        $this->converter = new LocationParamConverter($this->locationServiceMock, $contentPreviewHelper);
     }
 
     public function testSupports()
