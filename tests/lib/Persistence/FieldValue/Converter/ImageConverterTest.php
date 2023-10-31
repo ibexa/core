@@ -74,13 +74,13 @@ final class ImageConverterTest extends TestCase
                 'fieldTypeConstraints' => new FieldTypeConstraints([
                     'validators' => [
                         'FileSizeValidator' => [
-                            'maxFileSize' => 1024,
+                            'maxFileSize' => 1024.0,
                         ],
                     ],
                 ]),
             ]),
             new StorageFieldDefinition([
-                'dataInt1' => 1024,
+                'dataInt1' => 1048576,
                 'dataInt2' => 0,
             ]),
         ];
@@ -165,7 +165,7 @@ final class ImageConverterTest extends TestCase
                 'fieldTypeConstraints' => new FieldTypeConstraints([
                     'validators' => [
                         'FileSizeValidator' => [
-                            'maxFileSize' => 1024,
+                            'maxFileSize' => 1.0,
                         ],
                         'AlternativeTextValidator' => [
                             'required' => true,
