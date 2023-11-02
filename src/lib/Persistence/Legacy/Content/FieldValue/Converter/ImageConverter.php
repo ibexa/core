@@ -187,6 +187,7 @@ EOT;
             ? $validators['FileSizeValidator']['maxFileSize'] * 1024
             : 0;
         $storageDef->dataInt2 = (int)($validators['AlternativeTextValidator']['required'] ?? 0);
+        $storageDef->dataText1 = 'KB';
     }
 
     public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void

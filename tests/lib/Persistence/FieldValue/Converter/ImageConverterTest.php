@@ -66,6 +66,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataInt1' => 0,
                 'dataInt2' => 0,
+                'dataText1' => 'KB',
             ]),
         ];
 
@@ -82,6 +83,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataInt1' => 1048576,
                 'dataInt2' => 0,
+                'dataText1' => 'KB',
             ]),
         ];
 
@@ -98,6 +100,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataInt1' => 0,
                 'dataInt2' => 1,
+                'dataText1' => 'KB',
             ]),
         ];
 
@@ -114,6 +117,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataInt1' => 0,
                 'dataInt2' => 0,
+                'dataText1' => 'KB',
             ]),
         ];
     }
