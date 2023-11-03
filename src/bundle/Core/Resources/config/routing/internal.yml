@@ -37,7 +37,7 @@ ibexa.content.download:
 
 ibexa.content.download.field_id:
     path: /content/download/{contentId}/{fieldId}
-    defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController:redirectToContentDownloadAction }
+    defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:downloadBinaryFileByIdAction }
     requirements:
         contentId: '\d+'
         fieldId: '\d+'
