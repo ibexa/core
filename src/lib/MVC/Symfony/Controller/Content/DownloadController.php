@@ -8,12 +8,13 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -36,18 +37,51 @@ class DownloadController extends Controller
     }
 
     /**
-     * @param mixed $contentId ID of a valid Content
-     * @param string $fieldIdentifier Field Definition identifier of the Field the file must be downloaded from
-     * @param string $filename
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * Download binary file identified by field ID.
      *
-     * @return \Ibexa\Bundle\IO\BinaryStreamResponse
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field $fieldId can't be found, or the translation can't be found.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content is trashed, or can't be found.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
      */
-    public function downloadBinaryFileAction($contentId, $fieldIdentifier, $filename, Request $request)
+    public function downloadBinaryFileByIdAction(Request $request, int $contentId, int $fieldId): BinaryStreamResponse
+    {
+        $content = $this->contentService->loadContent($contentId);
+        try {
+            $field = $this->findFieldInContent($fieldId, $content);
+        } catch (InvalidArgumentException $e) {
+            throw new NotFoundException('File', $fieldId);
+        }
+
+        return $this->downloadBinaryFileAction($contentId, $field->fieldDefIdentifier, $field->value->fileName, $request);
+    }
+
+    /**
+     * Finds the field with id $fieldId in $content.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field $fieldId can't be found, or the translation can't be found.
+     */
+    protected function findFieldInContent(int $fieldId, Content $content): Field
+    {
+        foreach ($content->getFields() as $field) {
+            if ($field->getId() === $fieldId) {
+                return $field;
+            }
+        }
+
+        throw new InvalidArgumentException(
+            '$fieldId',
+            "Field with id $fieldId not found in Content with id {$content->id}"
+        );
+    }
+
+    /**
+     * Download binary file identified by field identifier.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the field can't be found, or the translation can't be found.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content is trashed, or can't be found.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions.
+     */
+    public function downloadBinaryFileAction(int $contentId, string $fieldIdentifier, string $filename, Request $request): BinaryStreamResponse
     {
         if ($request->query->has('version')) {
             $version = (int) $request->query->get('version');
@@ -70,14 +104,15 @@ class DownloadController extends Controller
         );
         if (!$field instanceof Field) {
             throw new InvalidArgumentException(
-                "'{$fieldIdentifier}' Field does not exist in Content item {$content->contentInfo->id} '{$content->contentInfo->name}'"
+                '$fieldIdentifier',
+                "'{$fieldIdentifier}' field not present on content #{$content->contentInfo->id} '{$content->contentInfo->name}'"
             );
         }
 
         $response = new BinaryStreamResponse($this->ioService->loadBinaryFile($field->value->id), $this->ioService);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $filename,
+            $field->value->fileName,
             bin2hex(random_bytes(8))
         );
 
