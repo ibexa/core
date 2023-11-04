@@ -73,10 +73,7 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
     public $maxScore;
 
     /**
-     * The total number of searchHits.    public function getSpellSuggestion(): ?SpellcheckResult.
-    {
-        return $this->spellSuggestion;
-    }
+     * The total number of searchHits.
      *
      * `null` if Query->performCount was set to false and search engine avoids search lookup.
      *
