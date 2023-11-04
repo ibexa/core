@@ -12,7 +12,6 @@ use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
-use eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\DateRangeAggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
 
 final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
