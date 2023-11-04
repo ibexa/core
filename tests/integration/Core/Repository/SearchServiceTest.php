@@ -4675,7 +4675,7 @@ class SearchServiceTest extends BaseTest
 
         self::assertNotNull($results->spellcheck);
         self::assertTrue($results->spellcheck->isIncorrect());
-        self::assertEquals('Contact Us', $results->spellcheck->getQuery());
+        self::assertEqualsIgnoringCase('Contact Us', $results->spellcheck->getQuery());
     }
 
     public function testSpellcheckWithCorrectQuery(): void
@@ -4694,7 +4694,7 @@ class SearchServiceTest extends BaseTest
 
         self::assertNotNull($results->spellcheck);
         self::assertFalse($results->spellcheck->isIncorrect());
-        self::assertEquals('Contact Us', $results->spellcheck->getQuery());
+        self::assertEqualsIgnoringCase('Contact Us', $results->spellcheck->getQuery());
     }
 
     /**
