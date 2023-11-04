@@ -4668,14 +4668,14 @@ class SearchServiceTest extends BaseTest
         }
 
         $query = new Query();
-        // Search phrase with typo: "Ibexa Platfomr" instead of "Ibexa Platform":
-        $query->spellcheck = new Query\Spellcheck('Ibexa Platfomr');
+        // Search phrase with typo: "Contatc Us" instead of "Contact Us":
+        $query->spellcheck = new Query\Spellcheck('Contatc Us');
 
         $results = $searchService->findContent($query);
 
         self::assertNotNull($results->spellcheck);
         self::assertTrue($results->spellcheck->isIncorrect());
-        self::assertEquals('Ibexa Platform', $results->spellcheck->getQuery());
+        self::assertEquals('Contact Us', $results->spellcheck->getQuery());
     }
 
     public function testSpellcheckWithCorrectQuery(): void
@@ -4688,13 +4688,13 @@ class SearchServiceTest extends BaseTest
 
         $query = new Query();
         // Search phrase without typo
-        $query->spellcheck = new Query\Spellcheck('Ibexa Platform');
+        $query->spellcheck = new Query\Spellcheck('Contact Us');
 
         $results = $searchService->findContent($query);
 
         self::assertNotNull($results->spellcheck);
         self::assertFalse($results->spellcheck->isIncorrect());
-        self::assertEquals('Ibexa Platform', $results->spellcheck->getQuery());
+        self::assertEquals('Contact Us', $results->spellcheck->getQuery());
     }
 
     /**
