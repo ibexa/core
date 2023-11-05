@@ -4688,13 +4688,13 @@ class SearchServiceTest extends BaseTest
 
         $query = new Query();
         // Search phrase without typo
-        $query->spellcheck = new Query\Spellcheck('Contact Us');
+        $query->spellcheck = new Query\Spellcheck('Ibexa Platform');
 
         $results = $searchService->findContent($query);
 
         self::assertNotNull($results->spellcheck);
         self::assertFalse($results->spellcheck->isIncorrect());
-        self::assertEqualsIgnoringCase('Contact Us', $results->spellcheck->getQuery());
+        self::assertEqualsIgnoringCase('Ibexa Platform', $results->spellcheck->getQuery());
     }
 
     /**
