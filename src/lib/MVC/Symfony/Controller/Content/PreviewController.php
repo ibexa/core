@@ -22,6 +22,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
 use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -77,12 +78,12 @@ class PreviewController
      */
     public function previewContentAction(
         Request $request,
-        $contentId,
-        $versionNo,
-        $language,
-        $siteAccessName = null,
+        int $contentId,
+        int $versionNo,
+        string $language,
+        ?string $siteAccessName = null,
         ?int $locationId = null
-    ) {
+    ): Response {
         $this->previewHelper->setPreviewActive(true);
 
         try {
@@ -112,8 +113,9 @@ class PreviewController
         }
 
         try {
+            $viewType = $request->query->get('viewType', ViewManagerInterface::VIEW_TYPE_FULL);
             $response = $this->kernel->handle(
-                $this->getForwardRequest($location, $content, $siteAccess, $request, $language),
+                $this->getForwardRequest($location, $content, $siteAccess, $request, $language, $viewType),
                 HttpKernelInterface::SUB_REQUEST,
                 false
             );
@@ -140,17 +142,15 @@ EOF;
 
     /**
      * Returns the Request object that will be forwarded to the kernel for previewing the content.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $previewSiteAccess
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string $language
-     *
-     * @return \Symfony\Component\HttpFoundation\Request
      */
-    protected function getForwardRequest(Location $location, Content $content, SiteAccess $previewSiteAccess, Request $request, $language)
-    {
+    protected function getForwardRequest(
+        Location $location,
+        Content $content,
+        SiteAccess $previewSiteAccess,
+        Request $request,
+        string $language,
+        string $viewType = ViewManagerInterface::VIEW_TYPE_FULL
+    ): Request {
         $forwardRequestParameters = [
             '_controller' => UrlAliasRouter::VIEW_ACTION,
             // specify a route for RouteReference generator
@@ -161,7 +161,7 @@ EOF;
             ],
             'location' => $location,
             'content' => $content,
-            'viewType' => ViewManagerInterface::VIEW_TYPE_FULL,
+            'viewType' => $viewType,
             'layout' => true,
             'params' => [
                 'content' => $content,
