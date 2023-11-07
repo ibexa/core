@@ -10,6 +10,8 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\Image\Orientation;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\TextLine\Value as TextValue;
@@ -340,6 +342,42 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
     private function loadContentTypeImage(): ContentType
     {
-        return self::getContentTypeService()->loadContentTypeByIdentifier(self::IMAGE_CONTENT_TYPE);
+        $imageContentType = self::getContentTypeService()->loadContentTypeByIdentifier(self::IMAGE_CONTENT_TYPE);
+
+        $this->ensureImageFieldTypeIsSearchable($imageContentType);
+
+        return $imageContentType;
+    }
+
+    private function ensureImageFieldTypeIsSearchable(ContentType $contentType): void
+    {
+        $fieldDefinition = $contentType->getFieldDefinition(self::IMAGE_FIELD_DEF_IDENTIFIER);
+        if (
+            null === $fieldDefinition
+            || $fieldDefinition->isSearchable
+        ) {
+            return;
+        }
+
+        $this->setFieldTypeAsSearchable(
+            self::getContentTypeService()->createContentTypeDraft($contentType),
+            $fieldDefinition
+        );
+    }
+
+    private function setFieldTypeAsSearchable(
+        ContentTypeDraft $contentTypeDraft,
+        FieldDefinition $fieldDefinition
+    ): void {
+        $contentTypeService = self::getContentTypeService();
+        $fieldDefinitionUpdateStruct = $contentTypeService->newFieldDefinitionUpdateStruct();
+        $fieldDefinitionUpdateStruct->isSearchable = true;
+
+        $contentTypeService = self::getContentTypeService();
+        $contentTypeService->updateFieldDefinition(
+            $contentTypeDraft,
+            $fieldDefinition,
+            $fieldDefinitionUpdateStruct
+        );
     }
 }
