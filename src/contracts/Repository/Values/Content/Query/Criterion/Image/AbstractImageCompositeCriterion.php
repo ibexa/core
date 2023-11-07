@@ -75,10 +75,7 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
 
         $notSupportedCriteria = array_diff(
             array_keys($data),
-            array_merge(
-                $supportedCriteria,
-                ['fieldDefIdentifier']
-            )
+            $supportedCriteria
         );
 
         if (!empty($notSupportedCriteria)) {
