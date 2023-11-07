@@ -18,7 +18,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
  */
 final class IsPreview implements ViewMatcherInterface
 {
-    private bool $isPreview;
+    private bool $isPreview = true;
 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
