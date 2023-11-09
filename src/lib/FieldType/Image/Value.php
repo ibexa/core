@@ -93,8 +93,7 @@ class Value extends BaseValue
     /** @var string[] */
     public $additionalData = [];
 
-    /** @var string|null */
-    public $mime;
+    public ?string $mime = null;
 
     /**
      * Construct a new Value object.
