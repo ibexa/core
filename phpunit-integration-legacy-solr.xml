@@ -20,6 +20,7 @@
         <ini name="error_reporting" value="-1" />
         <env name="KERNEL_CLASS" value="Ibexa\Contracts\Solr\Test\IbexaSolrTestKernel"/>
         <env name="SEARCH_ENGINE" value="solr"/>
+        <env name="DATABASE_URL" value="sqlite://:memory:" />
     </php>
     <testsuites>
         <!-- Search service is used all over the place, so we must run entire integration test suite -->
