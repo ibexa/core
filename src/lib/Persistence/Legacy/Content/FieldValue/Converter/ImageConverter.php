@@ -137,7 +137,7 @@ EOT;
             htmlspecialchars($imageData['mime']), // mime_type
             htmlspecialchars($imageData['width']), // width
             htmlspecialchars($imageData['height']), // height
-            htmlspecialchars($imageData['alternativeText']), // alternative_text
+            htmlspecialchars($imageData['alternativeText'] ?? ''), // alternative_text
             htmlspecialchars(1293033771), // alias_key, fixed for the original image
             htmlspecialchars($timestamp), // timestamp
             // <original>

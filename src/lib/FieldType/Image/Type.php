@@ -323,6 +323,7 @@ class Type extends FieldType implements TranslationContainerInterface
             'width' => $value->width,
             'height' => $value->height,
             'additionalData' => $value->additionalData,
+            'mime' => $value->mime,
         ];
     }
 
@@ -387,6 +388,7 @@ class Type extends FieldType implements TranslationContainerInterface
                     ? $fieldValue->data['height']
                     : null),
                 'additionalData' => $fieldValue->data['additionalData'] ?? [],
+                'mime' => $fieldValue->data['mime'] ?? null,
             ]
         );
 
@@ -408,6 +410,11 @@ class Type extends FieldType implements TranslationContainerInterface
         return [
             Message::create('ezimage.name', 'ibexa_fieldtypes')->setDesc('Image'),
         ];
+    }
+
+    public function isSearchable(): bool
+    {
+        return true;
     }
 }
 

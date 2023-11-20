@@ -192,7 +192,7 @@ jobs:
                 image: redis
                 ports:
                     - 6379:6379
-                options: 
+                options:
                     --memory=60m
             solr:
                 image: ghcr.io/ibexa/core/solr
@@ -210,7 +210,7 @@ jobs:
                     - '7.4'
                     - '8.0'
                     - '8.1'
-        steps:   
+        steps:
             - uses: actions/checkout@v2
               with:
                   fetch-depth: 0
@@ -220,10 +220,10 @@ jobs:
               with:
                   php-version: ${{ matrix.php }}
                   coverage: none
-            
+
             - name: Add solr dependency
               run: |
-                VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
+                VERSION="dev-ibx-6620-added-image-criterion-visitors-for-ci as 4.6.x-dev"
                 composer require --no-update "ibexa/solr:$VERSION"
 
             - uses: "ramsey/composer-install@v1"
