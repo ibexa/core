@@ -112,8 +112,8 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         return [
             'FileSizeValidator' => [
                 'maxFileSize' => [
-                    'type' => 'float',
-                    'default' => false,
+                    'type' => 'numeric',
+                    'default' => null,
                 ],
             ],
             'AlternativeTextValidator' => [
