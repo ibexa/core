@@ -481,16 +481,17 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
 
     private function fetchIterationFromContentList(ContentList $contentList, int $iterationCount): Generator
     {
-        $i = 1;
-        $contentIds = [];
-        foreach ($contentList as $content) {
-            $contentIds[] = $content->id;
-            if ($iterationCount <= $i) {
-                break;
+        $contentListIterator = $contentList->getIterator();
+
+        while ($contentListIterator->valid()) {
+            $contentIds = [];
+            for ($i = 0; $i < $iterationCount; ++$i) {
+                $contentIds[] = $contentListIterator->current()->id;
+                $contentListIterator->next();
             }
-            ++$i;
+
+            yield $contentIds;
         }
-        yield $contentIds;
     }
 }
 
