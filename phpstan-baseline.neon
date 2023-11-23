@@ -319,7 +319,18 @@ parameters:
 			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:\\$phpPath \\(string\\) does not accept string\\|null\\.$#"
 			count: 2
 			path: src/bundle/Core/Command/ReindexCommand.php
-
+		-
+			message: "#^Call to an undefined method iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\&Traversable\\:\\:valid\\(\\)\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/ReindexCommand.php
+		-
+			message: "#^Call to an undefined method iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\&Traversable\\:\\:current\\(\\)\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/ReindexCommand.php
+		-
+			message: "#^Call to an undefined method iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\&Traversable\\:\\:next\\(\\)\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/ReindexCommand.php
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$fields\\.$#"
 			count: 1
