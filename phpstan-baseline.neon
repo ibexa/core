@@ -6221,11 +6221,6 @@ parameters:
 			path: src/contracts/Repository/Events/Trash/BeforeRecoverEvent.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Events\\\\Trash\\\\BeforeTrashEvent\\:\\:getResult\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\TrashItem but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\TrashItem\\|null\\.$#"
-			count: 1
-			path: src/contracts/Repository/Events/Trash/BeforeTrashEvent.php
-
-		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Events\\\\Trash\\\\RecoverEvent\\:\\:\\$newParentLocation \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|null\\.$#"
 			count: 1
 			path: src/contracts/Repository/Events/Trash/RecoverEvent.php
