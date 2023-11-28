@@ -9,6 +9,7 @@ services:
         arguments:
             - '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
             - '@ibexa.spi.persistence.legacy.language.handler'
+            - '@ibexa.spi.persistence.legacy.content_type.handler'
 
     Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase

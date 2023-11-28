@@ -14,6 +14,8 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
@@ -39,16 +41,22 @@ class Mapper
      */
     protected $languageHandler;
 
+    private ContentTypeHandler $contentTypeHandler;
+
     /**
      * Creates a new mapper.
      *
      * @param \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry $converterRegistry
      * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler
      */
-    public function __construct(Registry $converterRegistry, LanguageHandler $languageHandler)
-    {
+    public function __construct(
+        Registry $converterRegistry,
+        LanguageHandler $languageHandler,
+        ContentTypeHandler $contentTypeHandler
+    ) {
         $this->converterRegistry = $converterRegistry;
         $this->languageHandler = $languageHandler;
+        $this->contentTypeHandler = $contentTypeHandler;
     }
 
     /**
@@ -191,14 +199,22 @@ class Mapper
         $contentInfos = [];
         $versionInfos = [];
         $fields = [];
+        $fieldDefinitions = [];
 
         foreach ($rows as $row) {
             $contentId = (int)$row["{$prefix}id"];
+            $contentTypeId = (int)$row["{$prefix}contentclass_id"];
             if (!isset($contentInfos[$contentId])) {
                 $contentInfos[$contentId] = $this->extractContentInfoFromRow($row, $prefix);
             }
             if (!isset($versionInfos[$contentId])) {
                 $versionInfos[$contentId] = [];
+            }
+            if (!isset($fieldDefinitions[$contentId])) {
+                $contentType = $this->contentTypeHandler->load($contentTypeId);
+                foreach ($contentType->fieldDefinitions as $fieldDefinition) {
+                    $fieldDefinitions[$contentId][$fieldDefinition->id] = $fieldDefinition;
+                }
             }
 
             $versionId = (int)$row['ezcontentobject_version_id'];
@@ -207,8 +223,10 @@ class Mapper
             }
 
             $fieldId = (int)$row['ezcontentobject_attribute_id'];
-            if (!isset($fields[$contentId][$versionId][$fieldId])) {
+            $fieldDefinitionId = (int)$row["ezcontentobject_attribute_contentclassattribute_id"];
+            if (!isset($fields[$contentId][$versionId][$fieldId]) && isset($fieldDefinitions[$contentId][$fieldDefinitionId])) {
                 $fields[$contentId][$versionId][$fieldId] = $this->extractFieldFromRow($row);
+                unset($fieldDefinitions[$contentId][$fieldDefinitionId]);
             }
         }
 
@@ -227,6 +245,15 @@ class Mapper
                 $content->versionInfo->names = $names;
                 $content->versionInfo->contentInfo = $contentInfo;
                 $content->fields = array_values($fields[$contentId][$versionId]);
+
+                foreach ($fieldDefinitions[$contentId] as $fieldDefinition) {
+                    $languageCode = $this->determineEmptyFieldLanguageCode($content);
+                    $content->fields[] = $this->createEmptyField(
+                        $fieldDefinition,
+                        $languageCode
+                    );
+                }
+
                 $results[] = $content;
             }
         }
@@ -577,6 +604,26 @@ class Mapper
         $relation->type = $struct->type;
 
         return $relation;
+    }
+
+    private function createEmptyField(FieldDefinition $fieldDefinition, string $languageCode): Field
+    {
+        $field = new Field();
+        $field->fieldDefinitionId = $fieldDefinition->id;
+        $field->type = $fieldDefinition->fieldType;
+        $field->value = $fieldDefinition->defaultValue;
+        $field->languageCode = $languageCode;
+
+        return $field;
+    }
+
+    private function determineEmptyFieldLanguageCode(Content $content): string
+    {
+        foreach ($content->fields as $field) {
+            return $field->languageCode;
+        }
+
+        return $content->versionInfo->initialLanguageCode;;
     }
 }
 
