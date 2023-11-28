@@ -23,21 +23,14 @@ final class DoctrineDatabase extends Handler
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway */
     protected $contentTypeGateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater */
-    protected $contentUpdater;
-
-    public function __construct(Gateway $contentTypeGateway, ContentUpdater $contentUpdater)
+    public function __construct(Gateway $contentTypeGateway)
     {
         $this->contentTypeGateway = $contentTypeGateway;
-        $this->contentUpdater = $contentUpdater;
     }
 
     public function updateContentObjects(Type $fromType, Type $toType): void
     {
-        $this->contentUpdater->applyUpdates(
-            $fromType->id,
-            $this->contentUpdater->determineActions($fromType, $toType)
-        );
+        // Do nothing, content objects are no longer updated
     }
 
     public function deleteOldType(Type $fromType): void

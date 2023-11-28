@@ -140,7 +140,7 @@ class MapperTest extends LanguageAwareTestCase
         $field->type = 'some-type';
         $field->value = new FieldValue();
 
-        $mapper = new Mapper($reg, $this->getLanguageHandler());
+        $mapper = new Mapper($reg, $this->getLanguageHandler(), $this->getContentTypeHandler());
         $res = $mapper->convertToStorageValue($field);
 
         $this->assertInstanceOf(
@@ -178,7 +178,7 @@ class MapperTest extends LanguageAwareTestCase
             ]
         );
 
-        $mapper = new Mapper($reg, $this->getLanguageHandler());
+        $mapper = new Mapper($reg, $this->getLanguageHandler(), $this->getContentTypeHandler());
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
         $this->assertEquals(
@@ -206,7 +206,7 @@ class MapperTest extends LanguageAwareTestCase
         $rowsFixture = $this->getMultipleVersionsExtractFixture();
         $nameRowsFixture = $this->getMultipleVersionsNamesExtractFixture();
 
-        $mapper = new Mapper($reg, $this->getLanguageHandler());
+        $mapper = new Mapper($reg, $this->getLanguageHandler(), $this->getContentTypeHandler());
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
         $this->assertCount(
@@ -351,7 +351,8 @@ class MapperTest extends LanguageAwareTestCase
         $contentInfoReference = $this->getContentExtractReference()->versionInfo->contentInfo;
         $mapper = new Mapper(
             $this->getValueConverterRegistryMock(),
-            $this->getLanguageHandler()
+            $this->getLanguageHandler(),
+            $this->getContentTypeHandler()
         );
         self::assertEquals($contentInfoReference, $mapper->extractContentInfoFromRow($fixtures, $prefix));
     }
@@ -508,7 +509,8 @@ class MapperTest extends LanguageAwareTestCase
     {
         return new Mapper(
             $this->getValueConverterRegistryMock(),
-            $this->getLanguageHandler()
+            $this->getLanguageHandler(),
+            $this->getContentTypeHandler()
         );
     }
 
@@ -602,6 +604,18 @@ class MapperTest extends LanguageAwareTestCase
         }
 
         return $this->languageHandler;
+    }
+
+    protected function getContentTypeHandler(): Content\Type\Handler
+    {
+        $mock = $this->createMock(Content\Type\Handler::class);
+        $mock
+            ->method('load')
+            ->willReturn(
+                $this->createMock(Content\Type::class)
+            );
+
+        return $mock;
     }
 }
 
