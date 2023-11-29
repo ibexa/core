@@ -39,7 +39,6 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
         arguments:
             - '@ibexa.persistence.legacy.content_type.gateway'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater'
 
     ibexa.persistence.legacy.content_type.update_handler:
         alias: Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
