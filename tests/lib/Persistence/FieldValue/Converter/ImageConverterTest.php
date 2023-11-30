@@ -64,7 +64,7 @@ final class ImageConverterTest extends TestCase
                 ]),
             ]),
             new StorageFieldDefinition([
-                'dataInt1' => 0,
+                'dataFloat1' => 0.0,
                 'dataInt2' => 0,
                 'dataText1' => 'KB',
             ]),
@@ -81,7 +81,7 @@ final class ImageConverterTest extends TestCase
                 ]),
             ]),
             new StorageFieldDefinition([
-                'dataInt1' => 1048576,
+                'dataFloat1' => 1048576.0,
                 'dataInt2' => 0,
                 'dataText1' => 'KB',
             ]),
@@ -98,7 +98,7 @@ final class ImageConverterTest extends TestCase
                 ]),
             ]),
             new StorageFieldDefinition([
-                'dataInt1' => 0,
+                'dataFloat1' => 0.0,
                 'dataInt2' => 1,
                 'dataText1' => 'KB',
             ]),
@@ -115,7 +115,7 @@ final class ImageConverterTest extends TestCase
                 ]),
             ]),
             new StorageFieldDefinition([
-                'dataInt1' => 0,
+                'dataFloat1' => 0.0,
                 'dataInt2' => 0,
                 'dataText1' => 'KB',
             ]),
@@ -143,7 +143,7 @@ final class ImageConverterTest extends TestCase
     {
         yield [
             new StorageFieldDefinition([
-                'dataInt1' => 0,
+                'dataFloat1' => 0.0,
                 'dataInt2' => 0,
             ]),
             new FieldDefinition([
@@ -162,7 +162,7 @@ final class ImageConverterTest extends TestCase
 
         yield [
             new StorageFieldDefinition([
-                'dataInt1' => 1024,
+                'dataFloat1' => 1024.0,
                 'dataInt2' => 1,
             ]),
             new FieldDefinition([

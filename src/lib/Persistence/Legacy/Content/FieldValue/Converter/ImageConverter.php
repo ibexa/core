@@ -183,7 +183,7 @@ EOT;
     {
         $validators = $fieldDef->fieldTypeConstraints->validators;
 
-        $storageDef->dataInt1 = isset($validators['FileSizeValidator']['maxFileSize'])
+        $storageDef->dataFloat1 = isset($validators['FileSizeValidator']['maxFileSize'])
             ? $validators['FileSizeValidator']['maxFileSize'] * 1024
             : 0;
         $storageDef->dataInt2 = (int)($validators['AlternativeTextValidator']['required'] ?? 0);
@@ -196,7 +196,7 @@ EOT;
             [
                 'validators' => [
                     'FileSizeValidator' => [
-                        'maxFileSize' => $storageDef->dataInt1 !== 0 ? $storageDef->dataInt1 / 1024 : null,
+                        'maxFileSize' => $storageDef->dataFloat1 !== 0 ? $storageDef->dataFloat1 / 1024 : null,
                     ],
                     'AlternativeTextValidator' => [
                         'required' => (bool)$storageDef->dataInt2,
