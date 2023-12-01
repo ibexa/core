@@ -66,7 +66,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataFloat1' => 0.0,
                 'dataInt2' => 0,
-                'dataText1' => 'KB',
+                'dataText1' => 'MB',
             ]),
         ];
 
@@ -75,15 +75,15 @@ final class ImageConverterTest extends TestCase
                 'fieldTypeConstraints' => new FieldTypeConstraints([
                     'validators' => [
                         'FileSizeValidator' => [
-                            'maxFileSize' => 1024.0,
+                            'maxFileSize' => 1.0,
                         ],
                     ],
                 ]),
             ]),
             new StorageFieldDefinition([
-                'dataFloat1' => 1048576.0,
+                'dataFloat1' => 1.0,
                 'dataInt2' => 0,
-                'dataText1' => 'KB',
+                'dataText1' => 'MB',
             ]),
         ];
 
@@ -100,7 +100,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataFloat1' => 0.0,
                 'dataInt2' => 1,
-                'dataText1' => 'KB',
+                'dataText1' => 'MB',
             ]),
         ];
 
@@ -117,7 +117,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataFloat1' => 0.0,
                 'dataInt2' => 0,
-                'dataText1' => 'KB',
+                'dataText1' => 'MB',
             ]),
         ];
     }
@@ -162,7 +162,7 @@ final class ImageConverterTest extends TestCase
 
         yield [
             new StorageFieldDefinition([
-                'dataFloat1' => 1024.0,
+                'dataFloat1' => 1.0,
                 'dataInt2' => 1,
             ]),
             new FieldDefinition([
