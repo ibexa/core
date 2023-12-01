@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\FieldType\Validator;
 
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
@@ -45,7 +46,7 @@ class FileExtensionBlackListValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validate(BaseValue $value)
+    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
     {
         if (
             pathinfo($value->fileName, PATHINFO_BASENAME) !== $value->fileName ||

@@ -7,6 +7,7 @@
 namespace Ibexa\Core\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException as PropertyNotFound;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
 /**
  * Base field type validator validator.
@@ -98,7 +99,7 @@ abstract class Validator
      *
      * @return bool
      */
-    abstract public function validate(Value $value);
+    abstract public function validate(Value $value, ?FieldDefinition $fieldDefinition = null);
 
     /**
      * Returns array of messages on performed validations.
