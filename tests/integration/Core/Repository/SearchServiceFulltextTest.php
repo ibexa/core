@@ -166,6 +166,10 @@ class SearchServiceFulltextTest extends BaseTest
                 [[1, 5, 6, 7, 11, 12, 13, 15]],
             ],
             [
+                '*row*',
+                [[2,5,8,9,11,12,14,15]],
+            ],
+            [
                 '+qui* +fox',
                 [6, [11, 13], 15],
             ],
