@@ -146,10 +146,9 @@ class FullText extends CriterionHandler
      */
     protected function getWordExpression(QueryBuilder $query, string $token): string
     {
-        if ($this->configuration['enableWildcards'] && str_contains($token, '*')) {
-            $hasLeadingWildcard = str_starts_with($token, '*');
-            $hasTrailingWildcard = str_ends_with($token, '*');
-
+        $hasLeadingWildcard = str_starts_with($token, '*');
+        $hasTrailingWildcard = str_ends_with($token, '*');
+        if ($this->configuration['enableWildcards'] && ($hasLeadingWildcard || $hasTrailingWildcard)) {
             $token = $hasLeadingWildcard ? substr($token, 1) : $token;
             $token = $hasTrailingWildcard ? substr($token, 0, -1) : $token;
 
