@@ -77,7 +77,12 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      */
     public function getSettingsSchema()
     {
-        return [];
+        return [
+            'mimeTypes' => [
+                'type' => 'choice',
+                'default' => [],
+            ],
+        ];
     }
 
     /**
@@ -87,7 +92,12 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      */
     public function getValidFieldSettings()
     {
-        return [];
+        return [
+            'mimeTypes' => [
+                'image/jpeg',
+                'image/png',
+            ],
+        ];
     }
 
     /**
@@ -231,7 +241,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * Get update field externals data.
      *
-     * @return array
+     * @return \Ibexa\Core\FieldType\Image\Value
      */
     public function getValidUpdateFieldData()
     {

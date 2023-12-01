@@ -21,6 +21,12 @@ use Ibexa\Core\FieldType\Validator\ImageValidator;
  */
 class ImageTest extends FieldTypeTest
 {
+    private const MIME_TYPES = [
+        'image/png',
+        'image/jpeg',
+        'image/gif',
+    ];
+
     protected $blackListedExtensions = [
         'php',
         'php3',
@@ -61,10 +67,13 @@ class ImageTest extends FieldTypeTest
      */
     protected function createFieldTypeUnderTest()
     {
-        $fieldType = new ImageType([
-            $this->getBlackListValidatorMock(),
-            $this->getImageValidatorMock(),
-        ]);
+        $fieldType = new ImageType(
+            self::MIME_TYPES,
+            [
+                $this->getBlackListValidatorMock(),
+                $this->getImageValidatorMock(),
+            ]
+        );
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 
         return $fieldType;
@@ -132,7 +141,12 @@ class ImageTest extends FieldTypeTest
      */
     protected function getSettingsSchemaExpectation()
     {
-        return [];
+        return [
+            'mimeTypes' => [
+                'type' => 'choice',
+                'default' => [],
+            ],
+        ];
     }
 
     /**
@@ -853,6 +867,36 @@ class ImageTest extends FieldTypeTest
                         null,
                         [],
                         'alternativeText'
+                    ),
+                ],
+            ],
+            'Image with not allowed mime type' => [
+                [
+                    'fieldSettings' => [
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/gif',
+                        ],
+                    ],
+                ],
+                new ImageValue(
+                    [
+                        'id' => $this->getImageInputPath(),
+                        'fileName' => basename($this->getImageInputPath()),
+                        'fileSize' => filesize($this->getImageInputPath()),
+                        'alternativeText' => '',
+                        'uri' => '',
+                    ]
+                ),
+                [
+                    new ValidationError(
+                        'The mime type of the file is invalid (%mimeType%). Allowed mime types are %mimeTypes%.',
+                        null,
+                        [
+                            '%mimeType%' => 'image/jpeg',
+                            '%mimeTypes%' => 'image/png, image/gif',
+                        ],
+                        'id'
                     ),
                 ],
             ],

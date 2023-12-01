@@ -18,6 +18,13 @@ use PHPUnit\Framework\TestCase;
 
 final class ImageConverterTest extends TestCase
 {
+    private const MIME_TYPES = [
+        'image/png',
+        'image/jpeg',
+    ];
+
+    private const MIME_TYPES_STORAGE_VALUE = '["image\/png","image\/jpeg"]';
+
     /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
     private $imageConverter;
 
@@ -57,7 +64,7 @@ final class ImageConverterTest extends TestCase
 
     public function dataProviderForTestToStorageFieldDefinition(): iterable
     {
-        yield [
+        yield 'No validators' => [
             new FieldDefinition([
                 'fieldTypeConstraints' => new FieldTypeConstraints([
                     'validators' => [],
@@ -67,10 +74,11 @@ final class ImageConverterTest extends TestCase
                 'dataFloat1' => 0.0,
                 'dataInt2' => 0,
                 'dataText1' => 'MB',
+                'dataText5' => '[]',
             ]),
         ];
 
-        yield [
+        yield 'FileSizeValidator' => [
             new FieldDefinition([
                 'fieldTypeConstraints' => new FieldTypeConstraints([
                     'validators' => [
@@ -84,10 +92,11 @@ final class ImageConverterTest extends TestCase
                 'dataFloat1' => 1.0,
                 'dataInt2' => 0,
                 'dataText1' => 'MB',
+                'dataText5' => '[]',
             ]),
         ];
 
-        yield [
+        yield 'AlternativeTextValidator - required' => [
             new FieldDefinition([
                 'fieldTypeConstraints' => new FieldTypeConstraints([
                     'validators' => [
@@ -101,10 +110,11 @@ final class ImageConverterTest extends TestCase
                 'dataFloat1' => 0.0,
                 'dataInt2' => 1,
                 'dataText1' => 'MB',
+                'dataText5' => '[]',
             ]),
         ];
 
-        yield [
+        yield 'AlternativeTextValidator - not required' => [
             new FieldDefinition([
                 'fieldTypeConstraints' => new FieldTypeConstraints([
                     'validators' => [
@@ -118,6 +128,23 @@ final class ImageConverterTest extends TestCase
                 'dataFloat1' => 0.0,
                 'dataInt2' => 0,
                 'dataText1' => 'MB',
+                'dataText5' => '[]',
+            ]),
+        ];
+
+        yield 'mimeTypes' => [
+            new FieldDefinition([
+                'fieldTypeConstraints' => new FieldTypeConstraints([
+                    'fieldSettings' => [
+                        'mimeTypes' => self::MIME_TYPES,
+                    ],
+                ]),
+            ]),
+            new StorageFieldDefinition([
+                'dataFloat1' => 0.0,
+                'dataInt2' => 0,
+                'dataText1' => 'MB',
+                'dataText5' => self::MIME_TYPES_STORAGE_VALUE,
             ]),
         ];
     }
@@ -145,6 +172,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataFloat1' => 0.0,
                 'dataInt2' => 0,
+                'dataText5' => [],
             ]),
             new FieldDefinition([
                 'fieldTypeConstraints' => new FieldTypeConstraints([
@@ -156,6 +184,9 @@ final class ImageConverterTest extends TestCase
                             'required' => false,
                         ],
                     ],
+                    'fieldSettings' => [
+                        'mimeTypes' => [],
+                    ],
                 ]),
             ]),
         ];
@@ -164,6 +195,7 @@ final class ImageConverterTest extends TestCase
             new StorageFieldDefinition([
                 'dataFloat1' => 1.0,
                 'dataInt2' => 1,
+                'dataText5' => self::MIME_TYPES_STORAGE_VALUE,
             ]),
             new FieldDefinition([
                 'fieldTypeConstraints' => new FieldTypeConstraints([
@@ -174,6 +206,9 @@ final class ImageConverterTest extends TestCase
                         'AlternativeTextValidator' => [
                             'required' => true,
                         ],
+                    ],
+                    'fieldSettings' => [
+                        'mimeTypes' => self::MIME_TYPES,
                     ],
                 ]),
             ]),
