@@ -101,6 +101,10 @@ class ContentExtension extends AbstractExtension
                 ]
             ),
             new TwigFunction(
+                'ibexa_has_field',
+                [$this, 'hasField']
+            ),
+            new TwigFunction(
                 'ibexa_field_is_empty',
                 [$this, 'isFieldEmpty']
             ),
@@ -241,6 +245,11 @@ class ContentExtension extends AbstractExtension
         }
 
         throw new InvalidArgumentType('$content', 'Content|ContentInfo', $content);
+    }
+
+    public function hasField(Content $content, string $fieldDefIdentifier): bool
+    {
+        return $content->getContentType()->hasFieldDefinition($fieldDefIdentifier);
     }
 
     /**

@@ -32,7 +32,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
     private $fieldHelperMock;
 
-    /** @var \Ibexa\Core\Repository\Values\ContentType\FieldDefinition[] */
+    /** @var array<int, \Ibexa\Core\Repository\Values\ContentType\FieldDefinition[]> */
     private $fieldDefinitions = [];
 
     /** @var int[] */
@@ -115,6 +115,9 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
                         ),
                     ]
                 ),
+                'contentType' => new ContentType([
+                    'fieldDefinitions' => new FieldDefinitionCollection($this->fieldDefinitions[$contentTypeId] ?? []),
+                ]),
             ]
         );
 

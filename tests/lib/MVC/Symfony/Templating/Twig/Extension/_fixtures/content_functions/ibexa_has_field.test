@@ -1,0 +1,23 @@
+--TEST--
+"ibexa_has_field" function
+--TEMPLATE--
+{{ ibexa_has_field(content, 'existing') ? 'YES' : 'NO' }}
+{{ ibexa_has_field(content, 'non-existing') ? 'YES' : 'NO' }}
+
+--DATA--
+return [
+    'content' => $this->getContent(
+         'test_content',
+         [
+            'ezstring' => [
+                 'id' => 125,
+                 'fieldDefIdentifier' => 'existing',
+                 'value' => 'value',
+                 'languageCode' => 'eng-GB',
+            ],
+         ]
+     ),
+];
+--EXPECT--
+YES
+NO

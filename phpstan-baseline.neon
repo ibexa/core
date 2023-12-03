@@ -48911,11 +48911,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Templating/RenderLocationStrategyTest.php
 
 		-
-			message: "#^Cannot access offset mixed on Ibexa\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtensionTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtensionTest\\:\\:getConfigResolverMock\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtensionTest.php
@@ -48937,11 +48932,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtensionTest\\:\\:getField\\(\\) has parameter \\$isEmpty with no type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtensionTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$fieldDefinitions of class Ibexa\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinitionCollection constructor expects iterable, Ibexa\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition given\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtensionTest.php
 
