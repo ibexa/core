@@ -305,6 +305,7 @@ services:
 
     Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserExtension:
         arguments:
-            '$permissionResolver': '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+            $userService: '@Ibexa\Contracts\Core\Repository\UserService'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
         tags:
             - { name: twig.extension }
