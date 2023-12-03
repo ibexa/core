@@ -1,0 +1,13 @@
+--TEST--
+"ibexa_is_current_user" function
+--TEMPLATE--
+{{ ibexa_is_current_user(user_foo) ? 'YES' : 'NO' }}
+{{ ibexa_is_current_user(user_bar) ? 'YES' : 'NO' }}
+--DATA--
+return [
+    'user_foo' => $this->getUser(10, true),
+    'user_bar' => $this->getUser(11, false),
+];
+--EXPECT--
+YES
+NO

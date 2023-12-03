@@ -302,3 +302,9 @@ services:
             $twigVariableProviders: !tagged ezplatform.view.variable_provider
 
     Ibexa\Core\MVC\Symfony\View\VariableProviderRegistry: '@Ibexa\Core\MVC\Symfony\View\GenericVariableProviderRegistry'
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserExtension:
+        arguments:
+            '$permissionResolver': '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+        tags:
+            - { name: twig.extension }
