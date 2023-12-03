@@ -13,6 +13,7 @@ services:
             - '@ibexa.api.repository'
             - '@Ibexa\Core\Helper\TranslationHelper'
             - '@Ibexa\Core\Helper\FieldHelper'
+            - '@Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList'
             - "@?logger"
         tags:
             - {name: twig.extension}
