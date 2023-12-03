@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Helper\FieldHelper;
+use Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList;
 use Ibexa\Core\Helper\TranslationHelper;
 use Psr\Log\LoggerInterface;
 use Twig\Extension\AbstractExtension;
@@ -33,6 +34,8 @@ class ContentExtension extends AbstractExtension
     /** @var \Ibexa\Core\Helper\FieldHelper */
     protected $fieldHelper;
 
+    private FieldsGroupsList $fieldsGroupsList;
+
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
@@ -40,11 +43,13 @@ class ContentExtension extends AbstractExtension
         Repository $repository,
         TranslationHelper $translationHelper,
         FieldHelper $fieldHelper,
+        FieldsGroupsList $fieldsGroupsList,
         LoggerInterface $logger = null
     ) {
         $this->repository = $repository;
         $this->translationHelper = $translationHelper;
         $this->fieldHelper = $fieldHelper;
+        $this->fieldsGroupsList = $fieldsGroupsList;
         $this->logger = $logger;
     }
 
@@ -131,6 +136,10 @@ class ContentExtension extends AbstractExtension
             new TwigFunction(
                 'ibexa_field_description',
                 [$this, 'getTranslatedFieldDefinitionDescription']
+            ),
+            new TwigFunction(
+                'ibexa_field_group_name',
+                [$this, 'getFieldGroupName']
             ),
             new TwigFunction(
                 'ez_content_field_identifier_first_filled_image',
@@ -250,6 +259,11 @@ class ContentExtension extends AbstractExtension
     public function hasField(Content $content, string $fieldDefIdentifier): bool
     {
         return $content->getContentType()->hasFieldDefinition($fieldDefIdentifier);
+    }
+
+    public function getFieldGroupName(string $identifier): ?string
+    {
+        return $this->fieldsGroupsList->getGroups()[$identifier] ?? null;
     }
 
     /**
