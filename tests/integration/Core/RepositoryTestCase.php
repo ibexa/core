@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core;
 
-use eZ\Publish\API\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use InvalidArgumentException;
 
@@ -31,7 +31,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     /**
      * @param array<string, string> $names
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function createFolder(array $names, int $parentLocationId = self::CONTENT_TREE_ROOT_ID): Content
     {
@@ -44,7 +44,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     /**
      * @param array<string, string> $names
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function createFolderDraft(array $names, int $parentLocationId = self::CONTENT_TREE_ROOT_ID): Content
     {

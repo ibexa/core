@@ -8,8 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
-use eZ\Publish\Core\Base\Container\Compiler\Search\AggregateFieldValueMapperPass;
-use eZ\Publish\SPI\Search\FieldType\BooleanField;
+use Ibexa\Contracts\Core\Search\FieldType\BooleanField;
+use Ibexa\Core\Base\Container\Compiler\Search\AggregateFieldValueMapperPass;
+use Ibexa\Core\Search\Common\FieldValueMapper\Aggregate;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -20,7 +21,7 @@ final class AggregateFieldValueMapperPassTest extends AbstractCompilerPassTestCa
     protected function setUp(): void
     {
         parent::setUp();
-        $this->setDefinition(AggregateFieldValueMapperPass::SERVICE_ID, new Definition());
+        $this->setDefinition(Aggregate::class, new Definition());
     }
 
     protected function registerCompilerPass(ContainerBuilder $container): void
@@ -41,7 +42,7 @@ final class AggregateFieldValueMapperPassTest extends AbstractCompilerPassTestCa
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            AggregateFieldValueMapperPass::SERVICE_ID,
+            Aggregate::class,
             'addMapper',
             [new Reference($fieldValueMapperServiceId), BooleanField::class]
         );

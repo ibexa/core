@@ -1,0 +1,148 @@
+imports:
+    - { resource: limitations/language.yml }
+
+parameters:
+    ibexa.api.role.policy_map: {}
+
+services:
+    ## Implemented Limitations
+    Ibexa\Core\Limitation\ContentTypeLimitationType:
+        class: Ibexa\Core\Limitation\ContentTypeLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Class}
+
+    Ibexa\Core\Limitation\LanguageLimitationType:
+        class: Ibexa\Core\Limitation\LanguageLimitationType
+        arguments:
+            $persistenceLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $persistenceContentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            $versionTargetEvaluators: !tagged ibexa.permissions.limitation_type.language_target_evaluator.version
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Language}
+
+    Ibexa\Core\Limitation\LocationLimitationType:
+        class: Ibexa\Core\Limitation\LocationLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Node}
+
+    Ibexa\Core\Limitation\OwnerLimitationType:
+        class: Ibexa\Core\Limitation\OwnerLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Owner}
+
+    Ibexa\Core\Limitation\ParentContentTypeLimitationType:
+        class: Ibexa\Core\Limitation\ParentContentTypeLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: ParentClass}
+
+    Ibexa\Core\Limitation\ParentDepthLimitationType:
+        class: Ibexa\Core\Limitation\ParentDepthLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: ParentDepth}
+
+    Ibexa\Core\Limitation\ParentOwnerLimitationType:
+        class: Ibexa\Core\Limitation\ParentOwnerLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: ParentOwner}
+
+    Ibexa\Core\Limitation\ParentUserGroupLimitationType:
+        class: Ibexa\Core\Limitation\ParentUserGroupLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: ParentGroup}
+
+    Ibexa\Core\Limitation\SectionLimitationType:
+        class: Ibexa\Core\Limitation\SectionLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Section}
+
+    Ibexa\Core\Limitation\NewSectionLimitationType:
+        class: Ibexa\Core\Limitation\NewSectionLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: NewSection}
+
+    Ibexa\Core\Limitation\SiteAccessLimitationType:
+        class: Ibexa\Core\Limitation\SiteAccessLimitationType
+        arguments: ['@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: SiteAccess}
+
+    Ibexa\Core\Limitation\ObjectStateLimitationType:
+        class: Ibexa\Core\Limitation\ObjectStateLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: State}
+
+    Ibexa\Core\Limitation\NewObjectStateLimitationType:
+        class: Ibexa\Core\Limitation\NewObjectStateLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: NewState}
+
+    Ibexa\Core\Limitation\SubtreeLimitationType:
+        class: Ibexa\Core\Limitation\SubtreeLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Subtree}
+
+    Ibexa\Core\Limitation\UserGroupLimitationType:
+        class: Ibexa\Core\Limitation\UserGroupLimitationType
+        arguments: ['@ibexa.api.persistence_handler']
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Group}
+
+    Ibexa\Core\Limitation\StatusLimitationType:
+        class: Ibexa\Core\Limitation\StatusLimitationType
+        tags:
+            - {name: ibexa.permissions.limitation_type, alias: Status}
+
+    Ibexa\Core\Limitation\ChangeOwnerLimitationType:
+        arguments:
+            $persistence: '@ibexa.api.persistence_handler'
+        tags:
+            - { name: ibexa.permissions.limitation_type, alias: ChangeOwner }
+
+    ## Non implemented Limitations
+    # Configured to use "blocking" limitation (as they are not implemented) to avoid LimitationNotFoundException
+
+    # ezjscore limitations, not applicable by API/Platform stack, users are adviced to use Symfony for ajax controllers
+    ibexa.api.role.limitation_type.function_list:
+        class: Ibexa\Core\Limitation\BlockingLimitationType
+        arguments: ['FunctionList']
+        tags: [{name: ibexa.permissions.limitation_type, alias: FunctionList}]
+
+    # Misc limitations used by ezcomments, not applicable to Platform replacement: EzCommentsBundle
+    ibexa.api.role.limitation_type.ezcomments.content_section:
+        class: Ibexa\Core\Limitation\BlockingLimitationType
+        arguments: ['ContentSection']
+        tags: [{name: ibexa.permissions.limitation_type, alias: ContentSection}]
+
+    ibexa.api.role.limitation_type.ezcomments.comment_creator:
+        class: Ibexa\Core\Limitation\BlockingLimitationType
+        arguments: ['CommentCreator']
+        tags: [{name: ibexa.permissions.limitation_type, alias: CommentCreator}]
+
+    ibexa.api.role.limitation_type.ezcomments.anti_spam:
+        class: Ibexa\Core\Limitation\BlockingLimitationType
+        arguments: ['AntiSpam']
+        tags: [{name: ibexa.permissions.limitation_type, alias: AntiSpam}]
+
+    Ibexa\Core\Limitation\MemberOfLimitationType:
+        arguments:
+            $persistence: '@ibexa.api.persistence_handler'
+        tags:
+            - { name: ibexa.permissions.limitation_type, alias: MemberOf }
+
+    Ibexa\Core\Limitation\RoleLimitationType:
+        arguments:
+            $persistence: '@ibexa.api.persistence_handler'
+        tags:
+            - { name: ibexa.permissions.limitation_type, alias: Role }

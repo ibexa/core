@@ -8,18 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Validator;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\SPI\Persistence\Content;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Repository\Validator\TargetContentValidator;
 use PHPUnit\Framework\TestCase;
 
 final class TargetContentValidatorTest extends TestCase
 {
-    /** @var \eZ\Publish\SPI\Persistence\Content\Handler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit_Framework_MockObject_MockObject */
     private $contentHandler;
 
-    /** @var \eZ\Publish\SPI\Persistence\Content\Type\Handler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit_Framework_MockObject_MockObject */
     private $contentTypeHandler;
 
     /** @var \Ibexa\Core\Repository\Validator\TargetContentValidator */

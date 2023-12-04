@@ -8,21 +8,21 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Limitation;
 
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
-use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserRoleLimitation;
+use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
 
-class RoleLimitationTest extends BaseLimitationIntegrationTest
+final class RoleLimitationTest extends BaseLimitationIntegrationTest
 {
     private const USERS_GROUP_ID = 4;
 
     public function userPermissionLimitationProvider(): array
     {
-        $allowEditorLimitation = new RoleLimitation();
+        $allowEditorLimitation = new UserRoleLimitation();
         $roleService = $this->getRepository()->getRoleService();
         $allowEditorLimitation->limitationValues[] = $roleService->loadRoleByIdentifier('Editor')->id;
 
-        $allowAdministratorLimitation = new RoleLimitation();
+        $allowAdministratorLimitation = new UserRoleLimitation();
         $allowAdministratorLimitation->limitationValues[] = $roleService->loadRoleByIdentifier('Administrator')->id;
 
         return [

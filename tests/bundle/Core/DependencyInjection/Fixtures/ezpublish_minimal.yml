@@ -1,0 +1,30 @@
+siteaccess:
+    default_siteaccess: ibexa_demo_site
+    list:
+        - ibexa_demo_site
+        - fre
+        - ibexa_demo_site_admin
+    groups:
+        ibexa_demo_group:
+            - ibexa_demo_site
+            - fre
+            - ibexa_demo_site_admin
+        ibexa_demo_frontend_group:
+            - ibexa_demo_site
+            - fre
+        empty_group: []
+    match:
+        URIElement: 1
+        Map\URI:
+            the_front: ibexa_demo_site
+            the_back: ibexa_demo_site_admin
+
+imagemagick:
+    enabled: false
+
+http_cache:
+    purge_type: local
+
+router:
+    default_router:
+        non_siteaccess_aware_routes: ['foo_route', 'my_prefix_']
