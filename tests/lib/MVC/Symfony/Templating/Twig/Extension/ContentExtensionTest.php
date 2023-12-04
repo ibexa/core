@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Helper\FieldHelper;
+use Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension;
 use Ibexa\Core\Repository\Values\Content\Content;
@@ -32,7 +33,7 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
     private $fieldHelperMock;
 
-    /** @var \Ibexa\Core\Repository\Values\ContentType\FieldDefinition[] */
+    /** @var array<int, \Ibexa\Core\Repository\Values\ContentType\FieldDefinition[]> */
     private $fieldDefinitions = [];
 
     /** @var int[] */
@@ -52,7 +53,8 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
                     [],
                     $this->createMock(LoggerInterface::class)
                 ),
-                $this->fieldHelperMock
+                $this->fieldHelperMock,
+                $this->getFieldsGroupsListMock()
             ),
         ];
     }
@@ -115,6 +117,9 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
                         ),
                     ]
                 ),
+                'contentType' => new ContentType([
+                    'fieldDefinitions' => new FieldDefinitionCollection($this->fieldDefinitions[$contentTypeId] ?? []),
+                ]),
             ]
         );
 
@@ -141,6 +146,16 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
             );
 
         return $mock;
+    }
+
+    private function getFieldsGroupsListMock(): FieldsGroupsList
+    {
+        $fieldsGroupsList = $this->createMock(FieldsGroupsList::class);
+        $fieldsGroupsList->method('getGroups')->willReturn([
+            'content' => 'Content',
+        ]);
+
+        return $fieldsGroupsList;
     }
 
     protected function getField($isEmpty)
