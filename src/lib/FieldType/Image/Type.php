@@ -243,7 +243,7 @@ class Type extends FieldType implements TranslationContainerInterface
                 && !empty(array_diff($value, $this->mimeTypes))
             ) {
                 $validationErrors[] = new ValidationError(
-                    "Setting '%setting%' contains not supported mime types",
+                    "Setting '%setting%' contains unsupported mime types",
                     null,
                     [
                         '%setting%' => $name,
