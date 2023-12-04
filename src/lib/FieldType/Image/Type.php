@@ -137,7 +137,7 @@ class Type extends FieldType implements TranslationContainerInterface
         if (isset($value->fileSize) && ((!is_int($value->fileSize) && !is_float($value->fileSize)) || $value->fileSize < 0)) {
             throw new InvalidArgumentType(
                 '$value->fileSize',
-                'int|float',
+                'numeric',
                 $value->fileSize
             );
         }
