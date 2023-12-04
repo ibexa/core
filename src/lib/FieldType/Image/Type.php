@@ -36,7 +36,13 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var array<string, array<array<mixed>|scalar>> */
+    /** @var array{
+     *     mimeTypes: array{
+     *         type: string,
+     *         default: array{},
+     *     }
+     * }
+     */
     protected $settingsSchema = [
         'mimeTypes' => [
             'type' => 'choice',
