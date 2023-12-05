@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
@@ -91,11 +92,9 @@ class Query extends ValueObject
     public $limit = 25;
 
     /**
-     * If true spellcheck suggestions are returned.
-     *
-     * @var bool
+     * Spellcheck suggestions are returned.
      */
-    public $spellcheck;
+    public ?Spellcheck $spellcheck = null;
 
     /**
      * If true, search engine should perform count even if that means extra lookup.
