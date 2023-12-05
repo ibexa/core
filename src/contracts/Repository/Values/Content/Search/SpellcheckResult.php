@@ -16,7 +16,7 @@ final class SpellcheckResult
     private ?string $query;
 
     /**
-     * Flag indicating that corrections has been applied to input query.
+     * Flag indicating that corrections have been applied to input query.
      */
     private bool $incorrect;
 
