@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
+use stdClass;
 
 /**
  * Integration test for use field type.
@@ -42,7 +43,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return array
      */
-    protected function getFixtureData()
+    protected function getFixtureData(): array
     {
         return [
             'create' => [
@@ -65,7 +66,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezimage';
     }
@@ -91,9 +92,11 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * Get a valid $fieldSettings value.
      *
-     * @return mixed
+     * @return array{
+     *     mimeTypes: array<string>,
+     * }
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'mimeTypes' => [
@@ -106,9 +109,11 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * Get $fieldSettings value not accepted by the field type.
      *
-     * @return mixed
+     * @return array{
+     *       somethingUnknown: int,
+     *   }
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -118,9 +123,22 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * Get expected validator schema.
      *
-     * @return array
+     * @return array{
+     *     FileSizeValidator: array{
+     *          maxFileSize: array{
+     *              type: string,
+     *              default: null,
+     *          }
+     *     },
+     *     AlternativeTextValidator: array{
+     *          required: array{
+     *              type: string,
+     *              default: bool,
+     *          }
+     *     },
+     * }
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [
             'FileSizeValidator' => [
@@ -141,9 +159,16 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * Get a valid $validatorConfiguration.
      *
-     * @return mixed
+     * @return array{
+     *     FileSizeValidator: array{
+     *          maxFileSize: numeric,
+     *     },
+     *     AlternativeTextValidator: array{
+     *          required: bool,
+     *     },
+     * }
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [
             'FileSizeValidator' => [
@@ -158,23 +183,25 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * Get $validatorConfiguration not accepted by the field type.
      *
-     * @return mixed
+     * @return array{
+     *     StringLengthValidator: array{
+     *          minStringLength: \stdClass,
+     *     },
+     * }
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'StringLengthValidator' => [
-                'minStringLength' => new \stdClass(),
+                'minStringLength' => new stdClass(),
             ],
         ];
     }
 
     /**
      * Get initial field data for valid object creation.
-     *
-     * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): ImageValue
     {
         $fixtureData = $this->getFixtureData();
 
@@ -186,7 +213,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'My icy flower at night';
     }
@@ -226,7 +253,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         self::$loadedImagePath = $field->value->id;
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             // will fail because the provided file doesn't exist, and fileSize/fileName won't be set
@@ -243,24 +270,15 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
 
     /**
      * Get update field externals data.
-     *
-     * @return \Ibexa\Core\FieldType\Image\Value
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): ImageValue
     {
         $fixtureData = $this->getFixtureData();
 
         return new ImageValue($fixtureData['update']);
     }
 
-    /**
-     * Get externals updated field data values.
-     *
-     * This is a PHPUnit data provider
-     *
-     * @return array
-     */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             ImageValue::class,
@@ -289,7 +307,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         );
     }
 
-    public function provideInvalidUpdateFieldData()
+    public function provideInvalidUpdateFieldData(): array
     {
         return $this->provideInvalidCreationFieldData();
     }
@@ -299,10 +317,8 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         $this->assertFieldDataLoadedCorrect($field);
 
@@ -332,7 +348,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -397,7 +413,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         $fixture = $this->getFixtureData();
 
@@ -409,7 +425,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         ];
     }
 
-    public function testInherentCopyForNewLanguage()
+    public function testInherentCopyForNewLanguage(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -459,14 +475,24 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         }
     }
 
-    public function providerForTestIsEmptyValue()
+    /**
+     * @return array<array{
+     *     \Ibexa\Core\FieldType\Image\Value
+     * }>
+     */
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new ImageValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    /**
+     * @return array<array{
+     *     \Ibexa\Core\FieldType\Image\Value
+     * }>
+     */
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -478,7 +504,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     /**
      * Covers EZP-23080.
      */
-    public function testUpdatingImageMetadataOnlyWorks()
+    public function testUpdatingImageMetadataOnlyWorks(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -599,7 +625,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         }
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): ImageValue
     {
         return new ImageValue(
             [
@@ -611,7 +637,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         );
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): ImageValue
     {
         return new ImageValue(
             [
@@ -623,22 +649,31 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         );
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         $value = $this->getValidSearchValueOne();
 
-        // ensure case-insensitivity
+        /**
+         * ensure case-insensitivity.
+         *
+         * @phpstan-ignore-next-line
+         */
         return strtoupper($value->fileName);
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         $value = $this->getValidSearchValueTwo();
-        // ensure case-insensitivity
+
+        /**
+         * ensure case-insensitivity.
+         *
+         * @phpstan-ignore-next-line
+         */
         return strtoupper($value->fileName);
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected function getAdditionallyIndexedFieldData(): array
     {
         return [
             [
