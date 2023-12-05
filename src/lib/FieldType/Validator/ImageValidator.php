@@ -51,7 +51,8 @@ class ImageValidator extends Validator
     {
         // silence `getimagesize` error as extension-wise valid image files might produce it anyway
         // note that file extension checking is done using other validation which should be called before this one
-        if (!$imageData = @getimagesize($filePath)) {
+        $imageData = @getimagesize($filePath);
+        if (false === $imageData) {
             $this->errors[] = new ValidationError(
                 'A valid image file is required.',
                 null,

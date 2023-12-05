@@ -36,7 +36,8 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var array{
+    /**
+     * @var array{
      *     mimeTypes: array{
      *         type: string,
      *         default: array{},

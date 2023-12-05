@@ -30626,11 +30626,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getSettingsSchema\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getStoragePrefix\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php

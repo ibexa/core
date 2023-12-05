@@ -210,7 +210,7 @@ EOT;
     }
 
     /**
-     * @return array<string>
+     * @return array<string, string>
      *
      * @throws \JsonException
      */

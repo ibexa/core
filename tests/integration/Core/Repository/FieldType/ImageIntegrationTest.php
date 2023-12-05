@@ -71,11 +71,14 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
-     * Get expected settings schema.
-     *
-     * @return array
+     * @return array{
+     *      mimeTypes: array{
+     *          type: string,
+     *          default: array{},
+     *      }
+     *  }
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'mimeTypes' => [
