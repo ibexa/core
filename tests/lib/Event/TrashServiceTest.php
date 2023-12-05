@@ -218,6 +218,41 @@ class TrashServiceTest extends AbstractServiceTest
         ]);
     }
 
+    public function testTrashStopPropagationInBeforeEventsSetsNullResult(): void
+    {
+        $traceableEventDispatcher = $this->getEventDispatcher(
+            BeforeTrashEvent::class,
+            TrashEvent::class
+        );
+
+        $parameters = [
+            $this->createMock(Location::class),
+        ];
+
+        $innerServiceMock = $this->createMock(TrashServiceInterface::class);
+        $innerServiceMock->expects(self::never())->method('trash');
+
+        $traceableEventDispatcher->addListener(BeforeTrashEvent::class, static function (BeforeTrashEvent $event) {
+            $event->setResult(null);
+            $event->stopPropagation();
+        }, 10);
+
+        $service = new TrashService($innerServiceMock, $traceableEventDispatcher);
+        $result = $service->trash(...$parameters);
+
+        $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
+        $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
+
+        self::assertNull($result);
+        self::assertSame($calledListeners, [
+            [BeforeTrashEvent::class, 10],
+        ]);
+        self::assertSame($notCalledListeners, [
+            [BeforeTrashEvent::class, 0],
+            [TrashEvent::class, 0],
+        ]);
+    }
+
     public function testRecoverEvents()
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
