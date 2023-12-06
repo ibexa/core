@@ -34,7 +34,7 @@ final class BeforeTrashEvent extends BeforeEvent
         return $this->location;
     }
 
-    public function getResult(): TrashItem
+    public function getResult(): ?TrashItem
     {
         if (!$this->isResultSet()) {
             throw new UnexpectedValueException(sprintf('Return value is not set or not of type %s (or null). Check isResultSet() or set it using setResult() before you call the getter.', TrashItem::class));
