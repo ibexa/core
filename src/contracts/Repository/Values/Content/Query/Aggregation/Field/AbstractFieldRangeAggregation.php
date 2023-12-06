@@ -10,8 +10,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\AbstractRangeAggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\FieldAggregation;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface;
-use Traversable;
 
 abstract class AbstractFieldRangeAggregation extends AbstractRangeAggregation implements FieldAggregation
 {
@@ -27,20 +25,6 @@ abstract class AbstractFieldRangeAggregation extends AbstractRangeAggregation im
 
         $this->contentTypeIdentifier = $contentTypeIdentifier;
         $this->fieldDefinitionIdentifier = $fieldDefinitionIdentifier;
-    }
-
-    public static function fromGenerator(
-        string $name,
-        string $contentTypeIdentifier,
-        string $fieldDefinitionIdentifier,
-        RangesGeneratorInterface $generator
-    ): self {
-        $ranges = $generator->generate();
-        if ($ranges instanceof Traversable) {
-            $ranges = iterator_to_array($ranges);
-        }
-
-        return new static($name, $contentTypeIdentifier, $fieldDefinitionIdentifier, $ranges);
     }
 }
 

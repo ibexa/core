@@ -90,7 +90,7 @@ final class IntegerStepRangesGenerator implements RangesGeneratorInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
+     * @return \Generator<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range>
      */
     public function generate(): Generator
     {
