@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges;
 
+use Generator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range;
 
 final class IntegerStepRangesGenerator implements RangesGeneratorInterface
@@ -69,9 +70,11 @@ final class IntegerStepRangesGenerator implements RangesGeneratorInterface
         return $this->isLeftOpen;
     }
 
-    public function setLeftOpen(bool $isLeftOpen): void
+    public function setLeftOpen(bool $isLeftOpen): self
     {
         $this->isLeftOpen = $isLeftOpen;
+
+        return $this;
     }
 
     public function isRightOpen(): bool
@@ -89,8 +92,14 @@ final class IntegerStepRangesGenerator implements RangesGeneratorInterface
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range[]
      */
-    public function generate(): \Generator
+    public function generate(): Generator
     {
+        if ($this->start === $this->end && $this->isLeftOpen && $this->isRightOpen) {
+            yield new Range(Range::INF, Range::INF);
+
+            return;
+        }
+
         if ($this->isLeftOpen) {
             yield Range::ofInt(Range::INF, $this->start);
         }

@@ -69,9 +69,11 @@ final class FloatStepRangesGenerator implements RangesGeneratorInterface
         return $this->isLeftOpen;
     }
 
-    public function setLeftOpen(bool $isLeftOpen): void
+    public function setLeftOpen(bool $isLeftOpen): self
     {
         $this->isLeftOpen = $isLeftOpen;
+
+        return $this;
     }
 
     public function isRightOpen(): bool
@@ -91,6 +93,12 @@ final class FloatStepRangesGenerator implements RangesGeneratorInterface
      */
     public function generate(): array
     {
+        if ($this->start === $this->end && $this->isLeftOpen && $this->isRightOpen) {
+            return [
+                new Range(Range::INF, Range::INF),
+            ];
+        }
+
         $ranges = [];
 
         if ($this->isLeftOpen) {

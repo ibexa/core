@@ -26,7 +26,6 @@ final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
 
     private bool $isRightOpen = true;
 
-
     public function __construct(DateTimeInterface $start, DateTimeInterface $end)
     {
         $this->start = $start;
@@ -97,6 +96,12 @@ final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
      */
     public function generate(): array
     {
+        if ($this->start == $this->end && $this->isLeftOpen && $this->isRightOpen) {
+            return [
+                new Range(Range::INF, Range::INF),
+            ];
+        }
+
         $ranges = [];
 
         if ($this->isLeftOpen) {
@@ -109,7 +114,7 @@ final class DateTimeStepRangesGenerator implements RangesGeneratorInterface
             $current = DateTimeImmutable::createFromMutable($current);
         }
 
-        while ($current <= $this->end) {
+        while ($current < $this->end) {
             $next = $current->add($this->step);
             $ranges[] = Range::ofDateTime($current, $next);
             $current = $next;
