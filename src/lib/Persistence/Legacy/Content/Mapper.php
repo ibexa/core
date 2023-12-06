@@ -190,10 +190,13 @@ class Mapper
     public function extractContentFromRows(array $rows, array $nameRows, $prefix = 'ezcontentobject_')
     {
         $versionedNameData = [];
+        $languageCodes = [];
+
         foreach ($nameRows as $row) {
-            $contentId = (int)$row['ezcontentobject_name_contentobject_id'];
-            $versionNo = (int)$row['ezcontentobject_name_content_version'];
-            $versionedNameData[$contentId][$versionNo][$row['ezcontentobject_name_content_translation']] = $row['ezcontentobject_name_name'];
+            $contentId = (int)$row["{$prefix}name_contentobject_id"];
+            $versionNo = (int)$row["{$prefix}name_content_version"];
+            $versionedNameData[$contentId][$versionNo][$row["{$prefix}name_content_translation"]] = $row["{$prefix}name_name"];
+            $languageCodes[] = $row["{$prefix}name_content_translation"];
         }
 
         $contentInfos = [];
@@ -210,23 +213,27 @@ class Mapper
             if (!isset($versionInfos[$contentId])) {
                 $versionInfos[$contentId] = [];
             }
+
             if (!isset($fieldDefinitions[$contentId])) {
                 $contentType = $this->contentTypeHandler->load($contentTypeId);
                 foreach ($contentType->fieldDefinitions as $fieldDefinition) {
-                    $fieldDefinitions[$contentId][$fieldDefinition->id] = $fieldDefinition;
+                    foreach ($languageCodes as $languageCode) {
+                        $fieldDefinitions[$contentId][$languageCode][$fieldDefinition->id] = $fieldDefinition;
+                    }
                 }
             }
 
-            $versionId = (int)$row['ezcontentobject_version_id'];
+            $versionId = (int)$row["{$prefix}version_id"];
             if (!isset($versionInfos[$contentId][$versionId])) {
                 $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow($row);
             }
 
-            $fieldId = (int)$row['ezcontentobject_attribute_id'];
-            $fieldDefinitionId = (int)$row["ezcontentobject_attribute_contentclassattribute_id"];
-            if (!isset($fields[$contentId][$versionId][$fieldId]) && isset($fieldDefinitions[$contentId][$fieldDefinitionId])) {
+            $fieldId = (int)$row["{$prefix}attribute_id"];
+            $fieldDefinitionId = (int)$row["{$prefix}attribute_contentclassattribute_id"];
+            $languageCode = $row["{$prefix}attribute_language_code"];
+            if (!isset($fields[$contentId][$versionId][$fieldId]) && isset($fieldDefinitions[$contentId][$languageCode][$fieldDefinitionId])) {
                 $fields[$contentId][$versionId][$fieldId] = $this->extractFieldFromRow($row);
-                unset($fieldDefinitions[$contentId][$fieldDefinitionId]);
+                unset($fieldDefinitions[$contentId][$languageCode][$fieldDefinitionId]);
             }
         }
 
@@ -246,12 +253,13 @@ class Mapper
                 $content->versionInfo->contentInfo = $contentInfo;
                 $content->fields = array_values($fields[$contentId][$versionId]);
 
-                foreach ($fieldDefinitions[$contentId] as $fieldDefinition) {
-                    $languageCode = $this->determineEmptyFieldLanguageCode($content);
-                    $content->fields[] = $this->createEmptyField(
-                        $fieldDefinition,
-                        $languageCode
-                    );
+                foreach ($fieldDefinitions[$contentId] as $languageCode => $fieldDefinitions) {
+                    foreach ($fieldDefinitions as $fieldDefinition) {
+                        $content->fields[] = $this->createEmptyField(
+                            $fieldDefinition,
+                            $languageCode
+                        );
+                    }
                 }
 
                 $results[] = $content;
@@ -615,15 +623,6 @@ class Mapper
         $field->languageCode = $languageCode;
 
         return $field;
-    }
-
-    private function determineEmptyFieldLanguageCode(Content $content): string
-    {
-        foreach ($content->fields as $field) {
-            return $field->languageCode;
-        }
-
-        return $content->versionInfo->initialLanguageCode;;
     }
 }
 
