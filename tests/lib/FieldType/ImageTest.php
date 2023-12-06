@@ -112,7 +112,7 @@ class ImageTest extends FieldTypeTest
         return [
             'FileSizeValidator' => [
                 'maxFileSize' => [
-                    'type' => 'int',
+                    'type' => 'numeric',
                     'default' => null,
                 ],
             ],
@@ -561,7 +561,7 @@ class ImageTest extends FieldTypeTest
                 [
                     'validatorConfiguration' => [
                         'FileSizeValidator' => [
-                            'maxFileSize' => 1,
+                            'maxFileSize' => 1.0,
                         ],
                     ],
                 ],

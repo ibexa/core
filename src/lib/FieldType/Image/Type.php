@@ -24,7 +24,7 @@ class Type extends FieldType implements TranslationContainerInterface
     protected $validatorConfigurationSchema = [
         'FileSizeValidator' => [
             'maxFileSize' => [
-                'type' => 'int',
+                'type' => 'numeric',
                 'default' => null,
             ],
         ],
@@ -134,11 +134,11 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        if (isset($value->fileSize) && (!is_int($value->fileSize) || $value->fileSize < 0)) {
+        if (isset($value->fileSize) && ((!is_int($value->fileSize) && !is_float($value->fileSize)) || $value->fileSize < 0)) {
             throw new InvalidArgumentType(
                 '$value->fileSize',
-                'int',
-                $value->alternativeText
+                'numeric',
+                $value->fileSize
             );
         }
 
@@ -233,14 +233,14 @@ class Type extends FieldType implements TranslationContainerInterface
                         );
                         break;
                     }
-                    if (!is_int($parameters['maxFileSize']) && $parameters['maxFileSize'] !== null) {
+                    if (!is_numeric($parameters['maxFileSize']) && $parameters['maxFileSize'] !== null) {
                         $validationErrors[] = new ValidationError(
                             'Validator %validator% expects parameter %parameter% to be of %type%.',
                             null,
                             [
                                 '%validator%' => $validatorIdentifier,
                                 '%parameter%' => 'maxFileSize',
-                                '%type%' => 'integer',
+                                '%type%' => 'numeric',
                             ],
                             "[$validatorIdentifier][maxFileSize]"
                         );

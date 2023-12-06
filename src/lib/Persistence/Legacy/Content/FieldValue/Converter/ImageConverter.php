@@ -183,8 +183,9 @@ EOT;
     {
         $validators = $fieldDef->fieldTypeConstraints->validators;
 
-        $storageDef->dataInt1 = $validators['FileSizeValidator']['maxFileSize'] ?? 0;
+        $storageDef->dataFloat1 = $validators['FileSizeValidator']['maxFileSize'] ?? 0.0;
         $storageDef->dataInt2 = (int)($validators['AlternativeTextValidator']['required'] ?? 0);
+        $storageDef->dataText1 = 'MB';
     }
 
     public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
@@ -193,7 +194,7 @@ EOT;
             [
                 'validators' => [
                     'FileSizeValidator' => [
-                        'maxFileSize' => $storageDef->dataInt1 !== 0 ? $storageDef->dataInt1 : null,
+                        'maxFileSize' => $storageDef->dataFloat1 !== 0.0 ? $storageDef->dataFloat1 : null,
                     ],
                     'AlternativeTextValidator' => [
                         'required' => (bool)$storageDef->dataInt2,
