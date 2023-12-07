@@ -9,6 +9,7 @@ on:
                 description: "Push new image even when tests fail"
     schedule:
         - cron: "45 21 3 * *"
+    pull_request: ~
 
 env:
   IMAGE_NAME: ghcr.io/ibexa/core/solr
@@ -69,6 +70,8 @@ jobs:
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Push image
-              run: docker push "$IMAGE_NAME"
+            - name: Debug
+              run: echo "I'm running!"
+            # - name: Push image
+            #   run: docker push "$IMAGE_NAME"
 
