@@ -16,8 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class Php82HideDeprecationsErrorHandlerTest extends TestCase
 {
-    /** @var int */
-    private $originalErrorReporting;
+    private int $originalErrorReporting;
 
     protected function setUp(): void
     {
