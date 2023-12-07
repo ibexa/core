@@ -8,18 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPathGenerator;
 
-use eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\FilterConfiguration;
-use eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator;
+use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
+use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 use Ibexa\Bundle\Core\Imagine\VariationPathGenerator\WebpFormatVariationPathGenerator;
 use PHPUnit\Framework\TestCase;
 
 final class WebpFormatVariationPathGeneratorTest extends TestCase
 {
-    /** @var \eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    private $innerVariationPathGenerator;
+    /** @var \Ibexa\Bundle\Core\Imagine\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
+    private VariationPathGenerator $innerVariationPathGenerator;
 
-    /** @var \eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\FilterConfiguration|\PHPUnit\Framework\MockObject\MockObject */
-    private $filterConfiguration;
+    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration|\PHPUnit\Framework\MockObject\MockObject */
+    private FilterConfiguration $filterConfiguration;
 
     protected function setUp(): void
     {

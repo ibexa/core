@@ -1,0 +1,48 @@
+services:
+    Ibexa\Contracts\Core\Persistence\Content\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\Handler
+        factory: ['@ibexa.api.persistence_handler', contentHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\Type\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+        factory: ['@ibexa.api.persistence_handler', contentTypeHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\Language\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+        factory: ['@ibexa.api.persistence_handler', contentLanguageHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\Location\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\Location\Handler
+        factory: ['@ibexa.api.persistence_handler', locationHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler
+        factory: ['@ibexa.api.persistence_handler', objectStateHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\Section\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\Section\Handler
+        factory: ['@ibexa.api.persistence_handler', sectionHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler
+        factory: ['@ibexa.api.persistence_handler', trashHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler
+        factory: ['@ibexa.api.persistence_handler', urlAliasHandler]
+
+    Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler
+        factory: ['@ibexa.api.persistence_handler', urlWildcardHandler]
+
+    Ibexa\Contracts\Core\Persistence\User\Handler:
+        class: Ibexa\Contracts\Core\Persistence\User\Handler
+        factory: ['@ibexa.api.persistence_handler', userHandler]
+
+    Ibexa\Contracts\Core\Persistence\Bookmark\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Bookmark\Handler
+        factory: ['@ibexa.api.persistence_handler', bookmarkHandler]
+
+    Ibexa\Contracts\Core\Persistence\UserPreference\Handler:
+        class: Ibexa\Contracts\Core\Persistence\UserPreference\Handler
+        factory: ['@ibexa.api.persistence_handler', userPreferenceHandler]

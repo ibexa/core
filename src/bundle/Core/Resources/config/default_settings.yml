@@ -1,0 +1,273 @@
+parameters:
+    # Kernel related params
+    webroot_dir: "%kernel.project_dir%/public"
+
+    ibexa.trusted_header_client_ip_name: ~
+
+    ###
+    # ibexa.site_access.config namespace, default scope
+    ###
+
+    # Content/Location view
+    ibexa.site_access.config.default.location_view: {}
+    ibexa.site_access.config.default.content_view: {}
+    ibexa.site_access.config.default.block_view: {}
+
+    # Default Twig variables
+    ibexa.site_access.config.default.twig_variables: {}
+
+    # Default view templates
+    ibexa.default_view_templates.content.full: '@@IbexaCore/default/content/full.html.twig'
+    ibexa.default_view_templates.content.line: '@@IbexaCore/default/content/line.html.twig'
+    ibexa.default_view_templates.content.text_linked: '@@IbexaCore/default/content/text_linked.html.twig'
+    ibexa.default_view_templates.content.embed: '@@IbexaCore/default/content/embed.html.twig'
+    ibexa.default_view_templates.content.embed_inline: '@@IbexaCore/default/content/embed_inline.html.twig'
+    ibexa.default_view_templates.content.embed_image: '@@IbexaCore/default/content/embed_image.html.twig'
+    ibexa.default_view_templates.content.asset_image: '@@IbexaCore/default/content/asset_image.html.twig'
+    ibexa.default_view_templates.block: '@@IbexaCore/default/block/block.html.twig'
+
+    # Default templates
+    ibexa.default_templates.pagelayout: '@@IbexaCore/pagelayout.html.twig'
+    ibexa.default_templates.field_templates: '@@IbexaCore/content_fields.html.twig'
+    ibexa.default_templates.fielddefinition_settings_templates: '@@IbexaCore/fielddefinition_settings.html.twig'
+
+    # Image Asset mappings
+    ibexa.site_access.config.default.fieldtypes.ezimageasset.mappings:
+        content_type_identifier: image
+        content_field_identifier: image
+        name_field_identifier: name
+        parent_location_id: 51
+
+    ibexa.site_access.config.default.pagelayout: '%ibexa.default_templates.pagelayout%'
+    ibexa.site_access.config.default.page_layout: '%ibexa.default_templates.pagelayout%'
+
+    # List of content type identifiers to display as image when embedded
+    ibexa.content_view.image_embed_content_types_identifiers: ['image']
+
+    ibexa.site_access.config.default.content_view_defaults:
+        full:
+            default:
+                template: '%ibexa.default_view_templates.content.full%'
+                match: []
+        line:
+            default:
+                template: '%ibexa.default_view_templates.content.line%'
+                match: []
+        text_linked:
+            default:
+                template: '%ibexa.default_view_templates.content.text_linked%'
+                match: []
+        embed:
+            image:
+                template: '%ibexa.default_view_templates.content.embed_image%'
+                match:
+                    Identifier\ContentType: '%ibexa.content_view.image_embed_content_types_identifiers%'
+            default:
+                template: '%ibexa.default_view_templates.content.embed%'
+                match: []
+        embed-inline:
+            default:
+                template: '%ibexa.default_view_templates.content.embed_inline%'
+                match: []
+        asset_image:
+            default:
+                template: '%ibexa.default_view_templates.content.asset_image%'
+                match: []
+
+    ibexa.site_access.config.default.block_view_defaults:
+        block:
+            default:
+                template: '%ibexa.default_view_templates.block%'
+                match: []
+
+    # Common settings
+    ibexa.repositories: {}
+    ibexa.site_access.config.default.repository: ~
+    ibexa.session_name.default: "eZSESSID{siteaccess_hash}"
+    ibexa.site_access.config.default.session_name: '%ibexa.session_name.default%'    # Using "{siteaccess_hash}" in session name makes it unique per siteaccess
+    ibexa.site_access.config.default.session: { name: '%ibexa.session_name.default%' } # Session options that will override options from framework
+    ibexa.site_access.config.default.url_alias_router: true                       # Use UrlAliasRouter by default
+    ibexa.site_access.config.default.index_page: ~                    # The page to show when accessing IndexPage (/)
+    ibexa.site_access.config.default.default_page: ~                  # The default page to show, e.g. after user login this will be used for default redirection
+    ibexa.site_access.config.default.languages: []
+    ibexa.site_access.config.default.translation_siteaccesses: []
+    ibexa.site_access.config.default.related_siteaccesses: []
+    ibexa.site_access.config.default.cache_service_name: "cache.app"       # The cache pool serive name to use for a siteaccess / siteaccess-group
+    ibexa.site_access.config.default.var_dir: "var"                   # The root directory where all log files, cache files and other stored files are created
+    ibexa.site_access.config.default.storage_dir: "storage"           # Where to place new files for storage, it's relative to var directory
+    ibexa.site_access.config.default.binary_dir: "original"
+    ibexa.site_access.config.default.anonymous_user_id: 10            # The ID of the user to be used for everyone who is not logged in
+    ibexa.site_access.config.default.user_content_type_identifier: ['user']
+    ibexa.site_access.config.default.api_keys: { google_maps: ~ }     # Google Maps APIs v3 key (https://developers.google.com/maps/documentation/javascript/get-api-key)
+
+    # IO
+    ibexa.site_access.config.default.io.metadata_handler: "default"
+    ibexa.site_access.config.default.io.binarydata_handler: "default"
+    ibexa.site_access.config.default.io.url_prefix: "$var_dir$/$storage_dir$"
+    ibexa.site_access.config.default.io.legacy_url_prefix: "$var_dir$/$storage_dir$"
+    ibexa.site_access.config.default.io.root_dir: "%webroot_dir%/$var_dir$/$storage_dir$"
+    ibexa.site_access.config.default.io.permissions.files: 0644
+    ibexa.site_access.config.default.io.permissions.directories: 0755
+    # Blacklist against storing certain file types, validation will be refused for these
+    ibexa.site_access.config.default.io.file_storage.file_type_blacklist:
+        - php
+        - php3
+        - php4
+        - php5
+        - phps
+        - phar
+        - phpt
+        - pht
+        - phtml
+        - pgif
+        - hta
+        - htm
+        - html
+        - xhtm
+        - xhtml
+        - jar
+        - js
+        - jse
+        - svg
+        - swf
+
+    # Content settings
+    ibexa.site_access.config.default.content.view_cache: true         # Whether to use content view cache or not (Etag/Last-Modified based)
+    ibexa.site_access.config.default.content.ttl_cache: true          # Whether to use TTL Cache for content (i.e. Max-Age response header)
+    ibexa.site_access.config.default.content.default_ttl: 60          # Default TTL cache value for content
+    ibexa.site_access.config.default.content.tree_root.location_id: 2 # Root locationId for routing and link generation. Useful for multisite apps with one repository.
+    ibexa.site_access.config.default.content.tree_root.excluded_uri_prefixes: [] # URI prefixes that are allowed to be outside the content tree
+    ibexa.site_access.config.default.content.field_groups.list: ['content', 'metadata']
+    ibexa.site_access.config.default.content.field_groups.default: 'content'
+
+    # URL Wilcards
+    ibexa.site_access.config.default.url_wildcards.enabled: '%ibexa.url_wildcards.enabled%'
+
+    # FieldType settings
+
+    # Cache settings
+    # Server(s) URL(s) that will be used for purging HTTP cache with BAN requests.
+    ibexa.site_access.config.default.http_cache.purge_servers: []
+
+    # Treemenu settings (admin interface)
+    ibexa.site_access.config.default.treemenu.http_cache: true        # Whether to use HttpCache or not for admin tree menu
+    ibexa.site_access.config.default.treemenu.ttl_cache: 86400        # If HttpCache is used, cache time to live in seconds
+
+    # Templates to use while rendering fields
+    ibexa.site_access.config.default.field_templates:
+        - {template: '%ibexa.default_templates.field_templates%', priority: 0}
+
+    # Templates for Field edition. Follows the same structure than for field_templates
+    ibexa.site_access.config.default.field_edit_templates: []
+
+    # Templates to use while rendering field definition settings
+    ibexa.site_access.config.default.fielddefinition_settings_templates:
+        - {template: '%ibexa.default_templates.fielddefinition_settings_templates%', priority: 0}
+
+    # Templates for FieldDefinition edition. Follows the same structure than for field_templates
+    ibexa.site_access.config.default.fielddefinition_edit_templates: []
+
+    # Security settings
+    ibexa.site_access.config.default.security.login_template: "@@IbexaCore/Security/login.html.twig"
+    ibexa.site_access.config.default.security.base_layout: "%ibexa.site_access.config.default.page_layout%"
+
+    # Image settings
+    ibexa.site_access.config.default.image.temporary_dir: imagetmp
+    ibexa.site_access.config.default.image.published_images_dir: images
+    ibexa.site_access.config.default.image.versioned_images_dir: images-versioned
+
+    ibexa.site_access.config.default.variation_handler_identifier: alias
+    ibexa.site_access.config.default.image_variations:
+        original:
+        reference:
+            reference: ~
+            filters:
+                geometry/scaledownonly: [600, 600]
+        small:
+            reference: reference
+            filters:
+                geometry/scaledownonly: [100, 100]
+        tiny:
+            reference: reference
+            filters:
+                geometry/scaledownonly: [30, 30]
+        medium:
+            reference: reference
+            filters:
+                geometry/scaledownonly: [200, 200]
+        large:
+            reference: reference
+            filters:
+                geometry/scaledownonly: [300, 300]
+
+    # ImageMagick
+    # TODO: Deprecated. Move this to ezpublish_legacy.
+    ibexa.image.imagemagick.enabled: false
+    ibexa.image.imagemagick.executable_path:
+    ibexa.image.imagemagick.executable: convert
+    ibexa.site_access.config.default.imagemagick.pre_parameters:
+    ibexa.site_access.config.default.imagemagick.post_parameters:
+    ibexa.image.imagemagick.filters:
+        geometry/scale: "-geometry {1}x{2}"
+        geometry/scalewidth: "-geometry {1}"
+        geometry/scaleheight: "-geometry x{1}"
+        geometry/scaledownonly: "-geometry {1}x{2}>"
+        geometry/scalewidthdownonly: "-geometry {1}>"
+        geometry/scaleheightdownonly: "-geometry x{1}>"
+        geometry/scaleexact: "-geometry {1}x{2}!"
+        geometry/scalepercent: "-geometry {1}x{2}%"
+        geometry/crop: "-crop {1}x{2}+{3}+{4}"
+        filter/noise: "-noise {1}"
+        filter/swirl: "-swirl {1}"
+        colorspace/gray: "-colorspace GRAY"
+        colorspace/transparent: "-colorspace Transparent"
+        colorspace: "-colorspace {1}"
+        border: "-border {1}x{2}"
+        border/color: "-bordercolor rgb({1},{2},{3})"
+        border/width: "-borderwidth {1}"
+        flatten: "-flatten"
+        resize: "-resize {1}"
+        optimize: "-strip"
+
+    ibexa.site_access.config.default.image_host: ''
+
+    ibexa.site_access.config.default.url_handler.http.options:
+        timeout: 10
+        connection_timeout: 5
+        batch_size: 25
+        ignore_certificate: false
+    ibexa.site_access.config.default.url_handler.https.options:
+        timeout: 10
+        connection_timeout: 5
+        batch_size: 25
+        ignore_certificate: false
+    ibexa.site_access.config.default.url_handler.mailto.options: {}
+
+    ###
+    # Internal settings
+    ###
+    ibexa.site_access.list: []
+    ibexa.site_access.groups: {}
+    ibexa.site_access.groups_by_site_access: {}
+    ibexa.site_access.default: ~
+    # SiteAccesses relation map. 2 dimensions array.
+    # First dimension is indexed by repository identifier.
+    # Second dimension is indexed by root location Id.
+    ibexa.site_access.relation_map: {}
+    # SiteAccesses, indexed by language.
+    ibexa.site_access.by_language: {}
+
+    ##
+    # Siteaccess aware Entity Manager
+    ##
+    ibexa.orm.entity_mappings: []
+
+    # fallback for existing project configuration, should be overridden
+    dfs_nfs_path: '%ibexa.io.dir.storage%'
+
+    ibexa.io.nfs.adapter.config:
+        root: '%dfs_nfs_path%'
+        path: '$var_dir$/$storage_dir$/'
+        writeFlags: ~
+        linkHandling: ~
+        permissions: [ ]

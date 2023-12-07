@@ -11,12 +11,12 @@ namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
- * @covers \eZ\Publish\API\Repository\ContentService
+ * @covers \Ibexa\Contracts\Core\Repository\ContentService
  */
 final class LoadVersionInfoTest extends RepositoryTestCase
 {
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testLoadVersionInfoListByContentInfo(): void
     {

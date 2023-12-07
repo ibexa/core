@@ -8,7 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class is used to perform a URLWildcard query.
@@ -17,41 +18,33 @@ class URLWildcardQuery extends ValueObject
 {
     /**
      * The Query filter.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\Criterion
      */
-    public $filter;
+    public Criterion $filter;
 
     /**
      * Query sorting clauses.
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query\SortClause[]
      */
-    public $sortClauses = [];
+    public array $sortClauses = [];
 
     /**
      * Query offset.
      *
      * Sets the offset for search hits, used for paging the results.
-     *
-     * @var int
      */
-    public $offset = 0;
+    public int $offset = 0;
 
     /**
      * Query limit.
      *
      * Limit for number of search hits to return.
      * If value is `0`, search query will not return any search hits, useful for doing a count.
-     *
-     * @var int
      */
-    public $limit = 25;
+    public int $limit = 25;
 
     /**
      * If true, search engine should perform count even if that means extra lookup.
-     *
-     * @var bool
      */
-    public $performCount = true;
+    public bool $performCount = true;
 }

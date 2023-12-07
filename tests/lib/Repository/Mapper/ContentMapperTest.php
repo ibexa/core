@@ -8,34 +8,33 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Mapper;
 
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\VersionInfo as APIVersionInfo;
-use eZ\Publish\Core\FieldType\FieldTypeRegistry;
-use eZ\Publish\Core\FieldType\TextLine;
-use eZ\Publish\Core\Persistence\Cache\ContentLanguageHandler;
-use eZ\Publish\Core\Repository\Mapper\ContentMapper;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\Values\Content\VersionInfo;
-use eZ\Publish\Core\Repository\Values\ContentType\ContentType;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition;
-use eZ\Publish\Core\Repository\Values\ContentType\FieldDefinitionCollection;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\FieldType\TextLine;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
+use Ibexa\Core\Repository\Mapper\ContentMapper;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use PHPUnit\Framework\TestCase;
 
 final class ContentMapperTest extends TestCase
 {
-    /** @var \eZ\Publish\Core\Persistence\Legacy\Content\Language\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentLanguageHandler;
+    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler&\PHPUnit\Framework\MockObject\MockObject */
+    private Handler $contentLanguageHandler;
 
-    /** @var \eZ\Publish\Core\FieldType\FieldTypeRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    private $fieldTypeRegistry;
+    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry&\PHPUnit\Framework\MockObject\MockObject */
+    private FieldTypeRegistry $fieldTypeRegistry;
 
-    /** @var \eZ\Publish\Core\Repository\Mapper\ContentMapper */
-    private $contentMapper;
+    private ContentMapper $contentMapper;
 
     protected function setUp(): void
     {
-        $this->contentLanguageHandler = $this->createMock(ContentLanguageHandler::class);
+        $this->contentLanguageHandler = $this->createMock(Handler::class);
         $this->fieldTypeRegistry = $this->createMock(FieldTypeRegistry::class);
 
         $this->contentMapper = new ContentMapper(
@@ -45,9 +44,9 @@ final class ContentMapperTest extends TestCase
     }
 
     /**
-     * @covers \eZ\Publish\Core\Repository\ContentService::updateContent
+     * @covers \Ibexa\Core\Repository\ContentService::updateContent
      *
-     * @throws \eZ\Publish\Core\Base\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
     public function testUpdateContentGetsProperFieldsToUpdate(): void
     {

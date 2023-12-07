@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+    _instanceof:
+        Ibexa\Core\Limitation\LanguageLimitation\VersionTargetEvaluator:
+            tags:
+                - { name: ibexa.permissions.limitation_type.language_target_evaluator.version }
+
+    Ibexa\Core\Limitation\LanguageLimitation\:
+        resource: '../../../Limitation/LanguageLimitation/*'

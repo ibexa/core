@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
 use DateTime;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use eZ\Publish\Core\Repository\Values\Content\ContentUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
- * @covers \eZ\Publish\API\Repository\ContentService
+ * @covers \Ibexa\Contracts\Core\Repository\ContentService
  */
 final class CopyNonTranslatableFieldsFromPublishedVersionTest extends RepositoryTestCase
 {
@@ -24,7 +24,7 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     private const TEXT_LINE_FIELD_TYPE_IDENTIFIER = 'ezstring';
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testCopyNonTranslatableFieldsFromPublishedVersionToDraft(): void
     {

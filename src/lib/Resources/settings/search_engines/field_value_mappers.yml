@@ -1,0 +1,75 @@
+services:
+    Ibexa\Core\Search\Common\FieldValueMapper\BooleanMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\BooleanMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\BooleanField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\DateMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\DateMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\DateField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\DocumentMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\DocumentMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\DocumentField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\GeoLocationMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\GeoLocationMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\GeoLocationField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\FloatMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\FloatMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\FloatField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\IdentifierMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\IdentifierMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\IdentifierField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\MultipleIntegerMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\MultipleIntegerMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\MultipleIntegerField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\IntegerMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\IntegerMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\IntegerField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\MultipleBooleanMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\MultipleBooleanMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\MultipleBooleanField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\MultipleIdentifierMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\MultipleIdentifierMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\MultipleIdentifierField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\MultipleStringMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\MultipleStringMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\MultipleStringField }
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\TextField }
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\FullTextField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\PriceMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\PriceMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\PriceField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\StringMapper:
+        class: Ibexa\Core\Search\Common\FieldValueMapper\StringMapper
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\StringField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper:
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\RemoteIdentifierField }
+
+    Ibexa\Core\Search\Common\FieldValueMapper\MultipleRemoteIdentifierMapper:
+        tags:
+            - { name: ibexa.search.common.field_value.mapper, maps: Ibexa\Contracts\Core\Search\FieldType\MultipleRemoteIdentifierField }

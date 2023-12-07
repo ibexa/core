@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        public: false
+        autoconfigure: true
+        autowire: true
+
+    Ibexa\Core\Token\RandomBytesGenerator: ~
+
+    Ibexa\Core\Token\WebSafeGenerator:
+        arguments:
+            $tokenGenerator: '@Ibexa\Core\Token\RandomBytesGenerator'
+
+    Ibexa\Contracts\Core\Token\TokenGeneratorInterface:
+        alias: Ibexa\Core\Token\WebSafeGenerator

@@ -1,0 +1,30 @@
+services:
+    Ibexa\Contracts\Core\Repository\Repository: '@ibexa.api.repository'
+
+    Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface: '@ibexa.config.resolver'
+
+    Ibexa\Contracts\Core\Repository\BookmarkService: '@ibexa.api.service.bookmark'
+    Ibexa\Contracts\Core\Repository\ContentService: '@ibexa.api.service.content'
+    Ibexa\Contracts\Core\Repository\ContentTypeService: '@ibexa.api.service.content_type'
+    Ibexa\Contracts\Core\Repository\FieldTypeService: '@ibexa.api.service.field_type'
+    Ibexa\Contracts\Core\Repository\LanguageService: '@ibexa.api.service.language'
+    Ibexa\Contracts\Core\Repository\LocationService: '@ibexa.api.service.location'
+    Ibexa\Contracts\Core\Repository\NotificationService: '@ibexa.api.service.notification'
+    Ibexa\Contracts\Core\Repository\ObjectStateService: '@ibexa.api.service.object_state'
+    Ibexa\Contracts\Core\Repository\RoleService: '@ibexa.api.service.role'
+    Ibexa\Contracts\Core\Repository\SearchService: '@ibexa.api.service.search'
+    Ibexa\Contracts\Core\Repository\SectionService: '@ibexa.api.service.section'
+    Ibexa\Contracts\Core\Repository\UserPreferenceService: '@ibexa.api.service.user_preference'
+    Ibexa\Contracts\Core\Repository\UserService: '@ibexa.api.service.user'
+    Ibexa\Contracts\Core\Repository\URLService: '@ibexa.api.service.url'
+    Ibexa\Contracts\Core\Repository\URLWildcardService: '@ibexa.api.service.url_wildcard'
+    Ibexa\Contracts\Core\Repository\URLAliasService: '@ibexa.api.service.url_alias'
+    Ibexa\Contracts\Core\Repository\TrashService: '@ibexa.api.service.trash'
+    Ibexa\Contracts\Core\Repository\SettingService: '@Ibexa\Core\Event\SettingService'
+    Ibexa\Contracts\Core\Repository\TokenService: '@Ibexa\Core\Event\TokenService'
+
+    Ibexa\Contracts\Core\Repository\PermissionService: '@Ibexa\Core\Repository\Permission\CachedPermissionService'
+    Ibexa\Contracts\Core\Repository\PermissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionService'
+    Ibexa\Contracts\Core\Repository\PermissionCriterionResolver: '@Ibexa\Core\Repository\Permission\PermissionCriterionResolver'
+
+    Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList: '@Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList'

@@ -1,0 +1,102 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Core\Event\Repository:
+        arguments:
+            $repository: '@Ibexa\Core\Repository\Repository'
+            $bookmarkService: '@Ibexa\Core\Event\BookmarkService'
+            $contentService: '@Ibexa\Core\Event\ContentService'
+            $contentTypeService: '@Ibexa\Core\Event\ContentTypeService'
+            $fieldTypeService: '@Ibexa\Core\Event\FieldTypeService'
+            $languageService: '@Ibexa\Core\Event\LanguageService'
+            $locationService: '@Ibexa\Core\Event\LocationService'
+            $notificationService: '@Ibexa\Core\Event\NotificationService'
+            $objectStateService: '@Ibexa\Core\Event\ObjectStateService'
+            $roleService: '@Ibexa\Core\Event\RoleService'
+            $searchService: '@Ibexa\Core\Event\SearchService'
+            $sectionService: '@Ibexa\Core\Event\SectionService'
+            $trashService: '@Ibexa\Core\Event\TrashService'
+            $urlAliasService: '@Ibexa\Core\Event\URLAliasService'
+            $urlService: '@Ibexa\Core\Event\URLService'
+            $urlWildcardService: '@Ibexa\Core\Event\URLWildcardService'
+            $userPreferenceService: '@Ibexa\Core\Event\UserPreferenceService'
+            $userService: '@Ibexa\Core\Event\UserService'
+
+    Ibexa\Core\Event\BookmarkService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\BookmarkService'
+
+    Ibexa\Core\Event\ContentService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\ContentService'
+
+    Ibexa\Core\Event\ContentTypeService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\ContentTypeService'
+
+    Ibexa\Core\Event\FieldTypeService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\FieldTypeService'
+
+    Ibexa\Core\Event\LanguageService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\LanguageService'
+
+    Ibexa\Core\Event\LocationService:
+        arguments:
+            $innerService: '@ibexa.api.service.inner_location'
+
+    Ibexa\Core\Event\NotificationService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\NotificationService'
+
+    Ibexa\Core\Event\ObjectStateService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\ObjectStateService'
+
+    Ibexa\Core\Event\RoleService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\RoleService'
+
+    Ibexa\Core\Event\SearchService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\SearchService'
+
+    Ibexa\Core\Event\SectionService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\SectionService'
+
+    Ibexa\Core\Event\TrashService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\TrashService'
+
+    Ibexa\Core\Event\URLAliasService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\URLAliasService'
+
+    Ibexa\Core\Event\URLService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\URLService'
+
+    Ibexa\Core\Event\URLWildcardService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\URLWildcardService'
+
+    Ibexa\Core\Event\UserPreferenceService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\UserPreferenceService'
+
+    Ibexa\Core\Event\UserService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\UserService'
+
+    Ibexa\Core\Event\SettingService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\SettingService'
+
+    Ibexa\Core\Event\TokenService:
+        arguments:
+            $innerService: '@Ibexa\Core\Repository\TokenService'

@@ -1,0 +1,57 @@
+imports:
+    - {resource: storage_engines/legacy/bookmark.yml}
+    - {resource: storage_engines/legacy/content.yml}
+    - {resource: storage_engines/legacy/content_type.yml}
+    - {resource: storage_engines/legacy/external_storage_gateways.yml}
+    - {resource: storage_engines/legacy/field_value_converters.yml}
+    - {resource: storage_engines/legacy/language.yml}
+    - {resource: storage_engines/legacy/location.yml}
+    - {resource: storage_engines/legacy/object_state.yml}
+    - {resource: storage_engines/legacy/filter.yaml}
+    - {resource: storage_engines/legacy/section.yml}
+    - {resource: storage_engines/legacy/shared_gateway.yaml}
+    - {resource: storage_engines/legacy/trash.yml}
+    - {resource: storage_engines/legacy/url_alias.yml}
+    - {resource: storage_engines/legacy/url_wildcard.yml}
+    - {resource: storage_engines/legacy/url.yml}
+    - {resource: storage_engines/legacy/url_criterion_handlers.yml}
+    - {resource: storage_engines/legacy/url_wildcard_criterion_handlers.yml}
+    - {resource: storage_engines/legacy/user.yml}
+    - {resource: storage_engines/legacy/notification.yml}
+    - {resource: storage_engines/legacy/user_preference.yml}
+    - {resource: storage_engines/legacy/setting.yml}
+    - {resource: storage_engines/legacy/token.yml}
+
+services:
+    Ibexa\Core\Persistence\Legacy\Handler:
+        class: Ibexa\Core\Persistence\Legacy\Handler
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Handler'
+            - '@ibexa.spi.persistence.legacy.content_type.handler'
+            - '@ibexa.spi.persistence.legacy.language.handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Location\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Section\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\TransactionHandler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Location\Trash\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\User\Handler'
+            - '@Ibexa\Core\Persistence\Legacy\URL\Handler'
+            - '@ibexa.spi.persistence.legacy.bookmark.handler'
+            - '@ibexa.spi.persistence.legacy.notification.handler'
+            - '@ibexa.spi.persistence.legacy.user_preference.handler'
+            - '@Ibexa\Core\Persistence\Legacy\Setting\Handler'
+        tags:
+            - {name: ibexa.storage, alias: legacy}
+        lazy: true
+        public: true # @todo should be private
+
+    ibexa.api.storage_engine.legacy.connection: '@ibexa.persistence.connection'
+
+    Ibexa\Core\Persistence\Legacy\TransactionHandler:
+        class: Ibexa\Core\Persistence\Legacy\TransactionHandler
+        arguments:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+            $contentTypeHandler: '@Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler'
+            $languageHandler: '@Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler'
