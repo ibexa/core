@@ -68,11 +68,11 @@ class ImageTest extends FieldTypeTest
     protected function createFieldTypeUnderTest()
     {
         $fieldType = new ImageType(
-            self::MIME_TYPES,
             [
                 $this->getBlackListValidatorMock(),
                 $this->getImageValidatorMock(),
-            ]
+            ],
+            self::MIME_TYPES
         );
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
 

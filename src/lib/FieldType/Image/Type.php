@@ -51,22 +51,22 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var array<string> */
-    private array $mimeTypes;
-
     /** @var \Ibexa\Core\FieldType\Validator[] */
     private $validators;
 
+    /** @var array<string> */
+    private array $mimeTypes;
+
     /**
-     * @param array<string> $mimeTypes
      * @param array<\Ibexa\Core\FieldType\Validator> $validators
+     * @param array<string> $mimeTypes
      */
     public function __construct(
-        array $mimeTypes,
-        array $validators
+        array $validators,
+        array $mimeTypes = []
     ) {
-        $this->mimeTypes = $mimeTypes;
         $this->validators = $validators;
+        $this->mimeTypes = $mimeTypes;
     }
 
     /**
@@ -247,6 +247,7 @@ class Type extends FieldType implements TranslationContainerInterface
 
             if (
                 $name === 'mimeTypes'
+                && !empty($this->mimeTypes)
                 && !empty(array_diff($value, $this->mimeTypes))
             ) {
                 $validationErrors[] = new ValidationError(
