@@ -15586,6 +15586,11 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
 
 		-
+			message: "#^Cannot call method addAttribute\\(\\) on SimpleXMLElement\\|null\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
+
+		-
 			message: "#^Cannot call method getAttribute\\(\\) on DOMElement\\|null\\.$#"
 			count: 6
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
@@ -20167,11 +20172,6 @@ parameters:
 
 		-
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\ContentService\\:\\:\\$settings type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/lib/Repository/ContentService.php
 

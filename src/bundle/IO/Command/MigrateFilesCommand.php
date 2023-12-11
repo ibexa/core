@@ -127,7 +127,7 @@ EOT
         }
 
         $output->writeln([
-            "Migrating from '$fromHandlers[0],$fromHandlers[1]' to '$toHandlers[0],$toHandlers[1]'",
+            "Migrating from '{$fromHandlers[0]},{$fromHandlers[1]}' to '{$toHandlers[0]},{$toHandlers[1]}'",
             '',
         ]);
 
