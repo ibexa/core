@@ -1,8 +1,0 @@
---TEST--
-"ibexa_get_current_user" function
---TEMPLATE--
-{{ ibexa_get_current_user().getUserId() }}
---DATA--
-return [];
---EXPECT--
-10
