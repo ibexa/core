@@ -71,6 +71,69 @@ final class RangeTest extends TestCase
         $this->assertEquals(new Range($a, $b), Range::ofDateTime($a, $b));
         $this->assertEquals(new Range($a, null), Range::ofDateTime($a, null));
     }
+
+    /**
+     * @dataProvider dataProviderForEqualsTo
+     */
+    public function testEqualsTo(Range $rangeA, Range $rangeB, bool $expectedResult): void
+    {
+        self::assertEquals($expectedResult, $rangeA->equalsTo($rangeB));
+        self::assertEquals($expectedResult, $rangeB->equalsTo($rangeA));
+    }
+
+    /**
+     * @return iterable<string, array{Range, Range, bool}>
+     */
+    public function dataProviderForEqualsTo(): iterable
+    {
+        yield 'int (true)' => [
+            Range::ofInt(1, 10),
+            Range::ofInt(1, 10),
+            true,
+        ];
+
+        yield 'int (false)' => [
+            Range::ofInt(1, 10),
+            Range::ofInt(1, 100),
+            false,
+        ];
+
+        yield 'float (true)' => [
+            Range::ofFloat(1.0, 10.0),
+            Range::ofFloat(1.0, 10.0),
+            true,
+        ];
+
+        yield 'float (false)' => [
+            Range::ofFloat(1.0, 10.0),
+            Range::ofFloat(1.0, 100.0),
+            false,
+        ];
+
+        yield 'data & time (true)' => [
+            Range::ofDateTime(
+                new DateTimeImmutable('2023-01-01 00:00:00'),
+                new DateTimeImmutable('2023-12-01 00:00:00')
+            ),
+            Range::ofDateTime(
+                new DateTimeImmutable('2023-01-01 00:00:00'),
+                new DateTimeImmutable('2023-12-01 00:00:00')
+            ),
+            true,
+        ];
+
+        yield 'data & time (false)' => [
+            Range::ofDateTime(
+                new DateTimeImmutable('2023-01-01 00:00:00'),
+                new DateTimeImmutable('2023-12-01 00:00:00')
+            ),
+            Range::ofDateTime(
+                new DateTimeImmutable('2024-01-01 00:00:00'),
+                new DateTimeImmutable('2024-12-01 00:00:00')
+            ),
+            false,
+        ];
+    }
 }
 
 class_alias(RangeTest::class, 'eZ\Publish\API\Repository\Tests\Values\Content\Query\Aggregation\RangeTest');

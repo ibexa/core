@@ -106,7 +106,7 @@ final class FloatStepRangesGenerator implements RangesGeneratorInterface
         }
 
         $values = range($this->start, $this->end, $this->step);
-        for ($i = 1; $i < count($values); ++$i) {
+        for ($i = 1, $count = count($values); $i < $count; ++$i) {
             $ranges[] = Range::ofFloat($values[$i - 1], $values[$i]);
         }
 
