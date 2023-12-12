@@ -16,19 +16,22 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 abstract class AbstractImageRangeCriterion extends Criterion
 {
     /**
+     * @param numeric $minValue
+     * @param numeric|null $maxValue
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function __construct(
         string $fieldDefIdentifier,
-        int $minValue = 0,
-        ?int $maxValue = null
+        $minValue = 0,
+        $maxValue = null
     ) {
         $this->validate($minValue, $maxValue);
 
         $value[] = $minValue;
         $operator = Operator::GTE;
 
-        if ($maxValue >= 1) {
+        if ($maxValue > 0) {
             $operator = Operator::BETWEEN;
             $value[] = $maxValue;
         }
@@ -57,12 +60,13 @@ abstract class AbstractImageRangeCriterion extends Criterion
     }
 
     /**
+     * @param numeric $minValue
+     * @param numeric|null $maxValue
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function validate(
-        int $minValue,
-        ?int $maxValue
-    ): void {
+    protected function validate($minValue, $maxValue): void
+    {
         if ($minValue < 0) {
             throw new InvalidArgumentException(
                 '$minValue',
@@ -72,11 +76,11 @@ abstract class AbstractImageRangeCriterion extends Criterion
 
         if (
             null !== $maxValue
-            && $maxValue < 1
+            && $maxValue <= 0
         ) {
             throw new InvalidArgumentException(
                 '$maxValue',
-                'Value should be grater or equal 1'
+                'Value should be grater than 0'
             );
         }
 
