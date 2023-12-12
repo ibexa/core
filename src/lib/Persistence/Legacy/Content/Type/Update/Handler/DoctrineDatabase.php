@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
-use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler;
 

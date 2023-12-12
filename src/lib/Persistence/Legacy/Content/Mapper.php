@@ -253,6 +253,7 @@ class Mapper
                 $content->versionInfo->contentInfo = $contentInfo;
                 $content->fields = array_values($fields[$contentId][$versionId]);
 
+                /** @var string $languageCode */
                 foreach ($fieldDefinitions[$contentId][$versionId] as $languageCode => $versionFieldDefinitions) {
                     foreach ($versionFieldDefinitions as $fieldDefinition) {
                         $content->fields[] = $this->createEmptyField(

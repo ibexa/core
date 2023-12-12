@@ -6,8 +6,6 @@
  */
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\MockType;
 use function count;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -158,33 +156,17 @@ class MapperTest extends LanguageAwareTestCase
 
         $contentType = $this->getContentTypeFromRows($rowsFixture);
 
-        /** @var MockObject $contentTypeHandlerMock */
         $contentTypeHandlerMock = $this->getContentTypeHandler();
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
-        $convMock = $this->createMock(Converter::class);
-        $convMock->expects($this->exactly(count($rowsFixture)))
-            ->method('toFieldValue')
-            ->with(
-                $this->isInstanceOf(
-                    StorageFieldValue::class
-                )
-            )->will(
-                $this->returnValue(
-                    new FieldValue()
-                )
-            );
-
-        $reg = new Registry(
-            [
-                'ezauthor' => $convMock,
-                'ezstring' => $convMock,
-                'ezboolean' => $convMock,
-                'ezimage' => $convMock,
-                'ezdatetime' => $convMock,
-                'ezkeyword' => $convMock,
-            ]
-        );
+        $reg = $this->getFieldRegistry([
+            'ezauthor',
+            'ezstring',
+            'ezboolean',
+            'ezimage',
+            'ezdatetime',
+            'ezkeyword',
+        ], count($rowsFixture));
 
         $mapper = new Mapper($reg, $this->getLanguageHandler(), $contentTypeHandlerMock);
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
@@ -197,26 +179,102 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
+    public function testExtractContentFromRowsWithNewFieldDefinitions(): void
+    {
+        $rowsFixture = $this->getContentExtractFixture();
+        $nameRowsFixture = $this->getNamesExtractFixture();
+
+        $contentType = $this->getContentTypeFromRows($rowsFixture);
+        $contentType->fieldDefinitions[] = new Content\Type\FieldDefinition([
+            'fieldType' => 'eznumber',
+        ]);
+
+        $contentTypeHandlerMock = $this->getContentTypeHandler();
+        $contentTypeHandlerMock->method('load')->willReturn($contentType);
+
+        $reg = $this->getFieldRegistry([
+            'ezauthor',
+            'ezstring',
+            'ezboolean',
+            'ezimage',
+            'ezdatetime',
+            'ezkeyword',
+            'eznumber',
+        ], count($rowsFixture));
+
+        $mapper = new Mapper($reg, $this->getLanguageHandler(), $contentTypeHandlerMock);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+
+        $expectedContent = $this->getContentExtractReference();
+        $expectedContent->fields[] = new Field([
+            'type' => 'eznumber',
+            'languageCode' => 'eng-GB',
+            'value' => new FieldValue(),
+        ]);
+        $expectedContent->fields[] = new Field([
+            'type' => 'eznumber',
+            'languageCode' => 'eng-US',
+            'value' => new FieldValue(),
+        ]);
+
+        $this->assertEquals(
+            [
+                $expectedContent,
+            ],
+            $result
+        );
+    }
+
+    public function testExtractContentFromRowsWithRemovedFieldDefinitions(): void
+    {
+        $rowsFixture = $this->getContentExtractFixture();
+        $nameRowsFixture = $this->getNamesExtractFixture();
+
+        $contentType = $this->getContentTypeFromRows($rowsFixture);
+        $contentType->fieldDefinitions = array_filter($contentType->fieldDefinitions, static function (Content\Type\FieldDefinition $fieldDefinition) {
+            // ref. fixtures, ezauthor
+            return $fieldDefinition->id !== 185;
+        });
+
+        $contentTypeHandlerMock = $this->getContentTypeHandler();
+        $contentTypeHandlerMock->method('load')->willReturn($contentType);
+
+        $reg = $this->getFieldRegistry([
+            'ezstring',
+            'ezboolean',
+            'ezimage',
+            'ezdatetime',
+            'ezkeyword',
+        ], count($rowsFixture) - 1);
+
+        $mapper = new Mapper($reg, $this->getLanguageHandler(), $contentTypeHandlerMock);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+
+        $expectedContent = $this->getContentExtractReference();
+        $expectedContent->fields = array_values(array_filter($expectedContent->fields, static function (Field $field) {
+            return $field->fieldDefinitionId !== 185;
+        }));
+
+        $this->assertEquals(
+            [
+                $expectedContent,
+            ],
+            $result
+        );
+    }
+
     public function testExtractContentFromRowsMultipleVersions()
     {
-        $convMock = $this->createMock(Converter::class);
-        $convMock->expects($this->any())
-            ->method('toFieldValue')
-            ->will($this->returnValue(new FieldValue()));
-
-        $reg = new Registry(
-            [
-                'ezstring' => $convMock,
-                'ezdatetime' => $convMock,
-            ]
-        );
+        $reg = $this->getFieldRegistry([
+            'ezstring',
+            'ezdatetime',
+        ]);
 
         $rowsFixture = $this->getMultipleVersionsExtractFixture();
         $nameRowsFixture = $this->getMultipleVersionsNamesExtractFixture();
 
         $contentType = $this->getContentTypeFromRows($rowsFixture);
 
-        /** @var MockObject $contentTypeHandlerMock */
         $contentTypeHandlerMock = $this->getContentTypeHandler();
         $contentTypeHandlerMock->method('load')->willReturn($contentType);
 
@@ -245,6 +303,30 @@ class MapperTest extends LanguageAwareTestCase
             2,
             $result[1]->versionInfo->versionNo
         );
+    }
+
+    /**
+     * @param string[] $fields
+     */
+    private function getFieldRegistry(
+        array $fields = [],
+        int $expectedConverterCalls = null
+    ): Registry {
+        $convMock = $this->createMock(Converter::class);
+        $convMock->expects(
+            $expectedConverterCalls === null
+            ? $this->any()
+            : $this->exactly($expectedConverterCalls)
+        )
+            ->method('toFieldValue')
+            ->will($this->returnValue(new FieldValue()));
+
+        $converters = [];
+        foreach ($fields as $field) {
+            $converters[$field] = $convMock;
+        }
+
+        return new Registry($converters);
     }
 
     public function testCreateCreateStructFromContent()
@@ -620,11 +702,17 @@ class MapperTest extends LanguageAwareTestCase
         return $this->languageHandler;
     }
 
-    protected function getContentTypeHandler(): Content\Type\Handler
+    /**
+     * @return Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected function getContentTypeHandler()
     {
         return $this->createMock(Content\Type\Handler::class);
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $rows
+     */
     protected function getContentTypeFromRows(array $rows): Content\Type
     {
         $contentType = new Content\Type();

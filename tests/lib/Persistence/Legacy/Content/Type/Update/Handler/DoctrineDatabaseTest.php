@@ -109,10 +109,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     protected function getUpdateHandler()
     {
-        return new DoctrineDatabase(
-            $this->getGatewayMock(),
-            $this->getContentUpdaterMock()
-        );
+        return new DoctrineDatabase($this->getGatewayMock());
     }
 
     /**
