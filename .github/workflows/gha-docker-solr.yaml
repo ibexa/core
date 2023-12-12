@@ -56,7 +56,7 @@ jobs:
                   dependency-versions: "highest"
 
             - name: Run integration test suite
-              run: composer test-integration-solr
+              run: composer test-integration-solr1
               continue-on-error: ${{ inputs.force != '' }}
               env:
                     CUSTOM_CACHE_POOL: singleredis
