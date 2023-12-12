@@ -59,6 +59,18 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
         return $this->getEntry($key) !== null;
     }
 
+    /**
+     * Return available keys (ranges).
+     *
+     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range>
+     */
+    public function getKeys(): iterable
+    {
+        foreach ($this->entries as $entry) {
+            yield $entry->getKey();
+        }
+    }
+
     public function count(): int
     {
         return count($this->entries);

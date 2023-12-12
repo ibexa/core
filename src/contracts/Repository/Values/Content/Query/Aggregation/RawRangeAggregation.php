@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface;
+use Traversable;
+
 final class RawRangeAggregation extends AbstractRangeAggregation implements RawAggregation
 {
     /** @var string */
@@ -23,6 +26,19 @@ final class RawRangeAggregation extends AbstractRangeAggregation implements RawA
     public function getFieldName(): string
     {
         return $this->fieldName;
+    }
+
+    public static function fromGenerator(
+        string $name,
+        string $fieldName,
+        RangesGeneratorInterface $generator
+    ): self {
+        $ranges = $generator->generate();
+        if ($ranges instanceof Traversable) {
+            $ranges = iterator_to_array($ranges);
+        }
+
+        return new self($name, $fieldName, $ranges);
     }
 }
 

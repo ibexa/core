@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 final class Range extends ValueObject
 {
+    public const INF = null;
+
     /**
      * Beginning of the range (included).
      *
@@ -27,12 +29,15 @@ final class Range extends ValueObject
      */
     private $to;
 
-    public function __construct($from, $to)
+    private ?string $label;
+
+    public function __construct($from, $to, ?string $label = null)
     {
         parent::__construct();
 
         $this->from = $from;
         $this->to = $to;
+        $this->label = $label;
     }
 
     public function getFrom()
@@ -45,13 +50,37 @@ final class Range extends ValueObject
         return $this->to;
     }
 
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): void
+    {
+        $this->label = $label;
+    }
+
     public function __toString(): string
     {
+        if ($this->label !== null) {
+            return sprintf(
+                '%s:[%s;%s)',
+                $this->label,
+                $this->getRangeValueAsString($this->from),
+                $this->getRangeValueAsString($this->to)
+            );
+        }
+
         return sprintf(
             '[%s;%s)',
             $this->getRangeValueAsString($this->from),
             $this->getRangeValueAsString($this->to)
         );
+    }
+
+    public function equalsTo(Range $value): bool
+    {
+        return $this->from == $value->from && $this->to == $value->to;
     }
 
     private function getRangeValueAsString($value): string
