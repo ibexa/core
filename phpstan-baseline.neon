@@ -7151,11 +7151,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Query/Criterion.php
 
 		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:\\$value \\(array\\<int\\|string\\>\\|bool\\|int\\|string\\) does not accept array\\<bool\\|int\\|string\\>\\|bool\\|int\\|string\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion.php
-
-		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:\\$valueData \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Value\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Value\\|null\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion.php
@@ -7239,11 +7234,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\LogicalOperator\\:\\:getSpecifications\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion/LogicalOperator.php
-
-		-
-			message: "#^Parameter \\#3 \\$value of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:__construct\\(\\) expects array\\<int\\|string\\>\\|bool\\|int\\|string, array\\<float\\>\\|float given\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/MapLocationDistance.php
 
 		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\MapLocationDistance\\:\\:\\$boost type has no value type specified in iterable type array\\.$#"
@@ -18486,52 +18476,52 @@ parameters:
 			path: src/lib/Persistence/Legacy/Exception/TypeGroupNotFound.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Content/ContentIdQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Content/Section/IdQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\|string\\)\\: mixed\\)\\|null, Closure\\(string\\)\\: array\\<int, int\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(bool\\|float\\|int\\|string\\)\\: mixed\\)\\|null, Closure\\(string\\)\\: array\\<int, int\\> given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/AncestorQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/AncestorQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$criterionValue of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Filter\\\\Doctrine\\\\FilteringQueryBuilder\\:\\:buildOperatorBasedCriterionConstraint\\(\\) expects array, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$criterionValue of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Filter\\\\Doctrine\\\\FilteringQueryBuilder\\:\\:buildOperatorBasedCriterionConstraint\\(\\) expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/DepthQueryBuilder.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/IsMainLocationQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$criterionValue of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Filter\\\\Doctrine\\\\FilteringQueryBuilder\\:\\:buildOperatorBasedCriterionConstraint\\(\\) expects array, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$criterionValue of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Filter\\\\Doctrine\\\\FilteringQueryBuilder\\:\\:buildOperatorBasedCriterionConstraint\\(\\) expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/PriorityQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(int\\|string\\)\\: mixed\\)\\|null, Closure\\(string\\)\\: string given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function array_map expects \\(callable\\(bool\\|float\\|int\\|string\\)\\: mixed\\)\\|null, Closure\\(string\\)\\: string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/SubtreeQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/SubtreeQueryBuilder.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 2
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/VisibilityQueryBuilder.php
 
@@ -18541,7 +18531,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/VisibilityQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$visibleFlag of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Filter\\\\CriterionQueryBuilder\\\\Location\\\\VisibilityQueryBuilder\\:\\:getVisibilityColumnsExpressions\\(\\) expects int, int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$visibleFlag of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Filter\\\\CriterionQueryBuilder\\\\Location\\\\VisibilityQueryBuilder\\:\\:getVisibilityColumnsExpressions\\(\\) expects int, bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/VisibilityQueryBuilder.php
 
@@ -18566,22 +18556,22 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/LogicalOrQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/User/IsUserBasedQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/User/IsUserEnabledQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Filter\\\\CriterionQueryBuilder\\\\User\\\\BaseUserCriterionQueryBuilder\\:\\:transformCriterionValueForLikeExpression\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$value of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Filter\\\\CriterionQueryBuilder\\\\User\\\\BaseUserCriterionQueryBuilder\\:\\:transformCriterionValueForLikeExpression\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/User/UserEmailQueryBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Filter\\\\CriterionQueryBuilder\\\\User\\\\BaseUserCriterionQueryBuilder\\:\\:transformCriterionValueForLikeExpression\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$value of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Filter\\\\CriterionQueryBuilder\\\\User\\\\BaseUserCriterionQueryBuilder\\:\\:transformCriterionValueForLikeExpression\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/User/UserLoginQueryBuilder.php
 
@@ -22116,7 +22106,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/ContentTypeId.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int\\|string\\>\\|bool\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
+			message: "#^Argument of an invalid type array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/ContentTypeIdentifier.php
 
@@ -22126,7 +22116,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/ContentTypeIdentifier.php
 
 		-
-			message: "#^Parameter \\#1 \\$identifier of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Handler\\:\\:loadByIdentifier\\(\\) expects string, int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$identifier of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Handler\\:\\:loadByIdentifier\\(\\) expects string, bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/ContentTypeIdentifier.php
 
@@ -22176,7 +22166,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldBase.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldEmpty.php
 
@@ -22231,12 +22221,12 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Converter.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 1 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
@@ -22261,12 +22251,12 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:lowerCase\\(\\) expects string, int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:lowerCase\\(\\) expects string, bool\\|float\\|int\\|string given\\.$#"
 			count: 2
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:prepareLikeString\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:prepareLikeString\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 2
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
@@ -22276,7 +22266,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
@@ -22286,12 +22276,12 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:prepareLikeString\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:prepareLikeString\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 2
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler/Collection.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:lowerCase\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FieldValue\\\\Handler\\:\\:lowerCase\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/Handler/Simple.php
 
@@ -22331,7 +22321,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
 
 		-
-			message: "#^Parameter \\#2 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FullText\\:\\:getWordIdSubquery\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$string of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FullText\\:\\:getWordIdSubquery\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
 
@@ -22346,7 +22336,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/IsUserBased.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/IsUserBased.php
 
@@ -22356,7 +22346,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/IsUserEnabled.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/IsUserEnabled.php
 
@@ -22376,7 +22366,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
 
 		-
-			message: "#^Parameter \\#1 \\$languageCodes of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Language\\\\MaskGenerator\\:\\:generateLanguageMaskFromLanguageCodes\\(\\) expects array\\<string\\>, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$languageCodes of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Language\\\\MaskGenerator\\:\\:generateLanguageMaskFromLanguageCodes\\(\\) expects array\\<string\\>, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
 
@@ -22411,12 +22401,12 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LogicalOr.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 2
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/MapLocationDistance.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 1 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 2
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/MapLocationDistance.php
 
@@ -22461,7 +22451,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/MapLocationDistance.php
 
 		-
-			message: "#^Parameter \\#3 \\$distance of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\MapLocationDistance\\:\\:getBoundingConstraints\\(\\) expects float, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#3 \\$distance of method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\MapLocationDistance\\:\\:getBoundingConstraints\\(\\) expects float, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/MapLocationDistance.php
 
@@ -22506,7 +22496,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/UserEmail.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Persistence\\\\TransformationProcessor\\:\\:transformByGroup\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Persistence\\\\TransformationProcessor\\:\\:transformByGroup\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/UserEmail.php
 
@@ -22521,7 +22511,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/UserLogin.php
 
 		-
-			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Persistence\\\\TransformationProcessor\\:\\:transformByGroup\\(\\) expects string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Persistence\\\\TransformationProcessor\\:\\:transformByGroup\\(\\) expects string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/UserLogin.php
 
@@ -22691,7 +22681,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int\\|string\\>\\|bool\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
+			message: "#^Argument of an invalid type array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
 
@@ -22699,7 +22689,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Gateway\\\\CriterionHandler\\\\Ancestor\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
-
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Gateway\\\\CriterionHandler\\\\LocationId\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
@@ -22716,7 +22705,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/ParentLocationId.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int\\|string\\>\\|bool\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
+			message: "#^Argument of an invalid type array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/PermissionSubtree.php
 
@@ -22726,7 +22715,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/PermissionSubtree.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int\\|string\\>\\|bool\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
+			message: "#^Argument of an invalid type array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Subtree.php
 
@@ -22736,7 +22725,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Subtree.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Visibility.php
 
@@ -22946,7 +22935,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int\\|string\\>\\|bool\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
+			message: "#^Argument of an invalid type array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Ancestor.php
 
@@ -22956,12 +22945,12 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Ancestor.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Depth.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 1 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Depth.php
 
@@ -22976,17 +22965,17 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Depth.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Depth.php
 
 		-
-			message: "#^Parameter \\#2 \\$y of method Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\ExpressionBuilder\\:\\:in\\(\\) expects array\\<string\\>\\|string, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#2 \\$y of method Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\ExpressionBuilder\\:\\:in\\(\\) expects array\\<string\\>\\|string, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Depth.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 2
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/IsMainLocation.php
 
@@ -22996,12 +22985,12 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/IsMainLocation.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Priority.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 1 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Priority.php
 
@@ -23016,7 +23005,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Priority.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<int\\|string\\>\\|bool\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function reset expects array\\|object, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/Priority.php
 
@@ -23036,7 +23025,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/ParentLocationId.php
 
 		-
-			message: "#^Argument of an invalid type array\\<int\\|string\\>\\|bool\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
+			message: "#^Argument of an invalid type array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Subtree.php
 
@@ -23046,7 +23035,7 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Subtree.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 2
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Visibility.php
 
@@ -37086,7 +37075,7 @@ parameters:
 			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\<int\\|string\\>\\|bool\\|int\\|string\\.$#"
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
 
@@ -37101,7 +37090,7 @@ parameters:
 			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
 
 		-
-			message: "#^Part \\$criterion\\-\\>value \\(array\\<int\\|string\\>\\|bool\\|int\\|string\\) of encapsed string cannot be cast to string\\.$#"
+			message: "#^Part \\$criterion\\-\\>value \\(array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\) of encapsed string cannot be cast to string\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
 

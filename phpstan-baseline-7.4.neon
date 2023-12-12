@@ -376,12 +376,12 @@ parameters:
 			path: src/lib/Search/Common/FieldNameResolver.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function trim expects string, int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$str of function trim expects string, bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function trim expects string, int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$str of function trim expects string, bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Ancestor.php
 
