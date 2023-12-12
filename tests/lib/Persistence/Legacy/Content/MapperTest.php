@@ -6,6 +6,8 @@
  */
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\MockType;
 use function count;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -154,6 +156,12 @@ class MapperTest extends LanguageAwareTestCase
         $rowsFixture = $this->getContentExtractFixture();
         $nameRowsFixture = $this->getNamesExtractFixture();
 
+        $contentType = $this->getContentTypeFromRows($rowsFixture);
+
+        /** @var MockObject $contentTypeHandlerMock */
+        $contentTypeHandlerMock = $this->getContentTypeHandler();
+        $contentTypeHandlerMock->method('load')->willReturn($contentType);
+
         $convMock = $this->createMock(Converter::class);
         $convMock->expects($this->exactly(count($rowsFixture)))
             ->method('toFieldValue')
@@ -178,7 +186,7 @@ class MapperTest extends LanguageAwareTestCase
             ]
         );
 
-        $mapper = new Mapper($reg, $this->getLanguageHandler(), $this->getContentTypeHandler());
+        $mapper = new Mapper($reg, $this->getLanguageHandler(), $contentTypeHandlerMock);
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
         $this->assertEquals(
@@ -206,7 +214,13 @@ class MapperTest extends LanguageAwareTestCase
         $rowsFixture = $this->getMultipleVersionsExtractFixture();
         $nameRowsFixture = $this->getMultipleVersionsNamesExtractFixture();
 
-        $mapper = new Mapper($reg, $this->getLanguageHandler(), $this->getContentTypeHandler());
+        $contentType = $this->getContentTypeFromRows($rowsFixture);
+
+        /** @var MockObject $contentTypeHandlerMock */
+        $contentTypeHandlerMock = $this->getContentTypeHandler();
+        $contentTypeHandlerMock->method('load')->willReturn($contentType);
+
+        $mapper = new Mapper($reg, $this->getLanguageHandler(), $contentTypeHandlerMock);
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
         $this->assertCount(
@@ -608,14 +622,31 @@ class MapperTest extends LanguageAwareTestCase
 
     protected function getContentTypeHandler(): Content\Type\Handler
     {
-        $mock = $this->createMock(Content\Type\Handler::class);
-        $mock
-            ->method('load')
-            ->willReturn(
-                $this->createMock(Content\Type::class)
-            );
+        return $this->createMock(Content\Type\Handler::class);
+    }
 
-        return $mock;
+    protected function getContentTypeFromRows(array $rows): Content\Type
+    {
+        $contentType = new Content\Type();
+        $fieldDefinitions = [];
+
+        foreach ($rows as $row) {
+            $fieldDefinitionId = $row['ezcontentobject_attribute_contentclassattribute_id'];
+            $fieldType = $row['ezcontentobject_attribute_data_type_string'];
+
+            if (isset($fieldDefinitions[$fieldDefinitionId])) {
+                continue;
+            }
+
+            $fieldDefinitions[$fieldDefinitionId] = new Content\Type\FieldDefinition([
+                'id' => $fieldDefinitionId,
+                'fieldType' => $fieldType,
+            ]);
+        }
+
+        $contentType->fieldDefinitions = array_values($fieldDefinitions);
+
+        return $contentType;
     }
 }
 

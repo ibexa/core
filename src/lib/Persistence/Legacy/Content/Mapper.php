@@ -206,6 +206,7 @@ class Mapper
 
         foreach ($rows as $row) {
             $contentId = (int)$row["{$prefix}id"];
+            $versionId = (int)$row["{$prefix}version_id"];
             $contentTypeId = (int)$row["{$prefix}contentclass_id"];
             if (!isset($contentInfos[$contentId])) {
                 $contentInfos[$contentId] = $this->extractContentInfoFromRow($row, $prefix);
@@ -214,16 +215,15 @@ class Mapper
                 $versionInfos[$contentId] = [];
             }
 
-            if (!isset($fieldDefinitions[$contentId])) {
+            if (!isset($fieldDefinitions[$contentId][$versionId])) {
                 $contentType = $this->contentTypeHandler->load($contentTypeId);
                 foreach ($contentType->fieldDefinitions as $fieldDefinition) {
                     foreach ($languageCodes as $languageCode) {
-                        $fieldDefinitions[$contentId][$languageCode][$fieldDefinition->id] = $fieldDefinition;
+                        $fieldDefinitions[$contentId][$versionId][$languageCode][$fieldDefinition->id] = $fieldDefinition;
                     }
                 }
             }
 
-            $versionId = (int)$row["{$prefix}version_id"];
             if (!isset($versionInfos[$contentId][$versionId])) {
                 $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow($row);
             }
@@ -231,9 +231,9 @@ class Mapper
             $fieldId = (int)$row["{$prefix}attribute_id"];
             $fieldDefinitionId = (int)$row["{$prefix}attribute_contentclassattribute_id"];
             $languageCode = $row["{$prefix}attribute_language_code"];
-            if (!isset($fields[$contentId][$versionId][$fieldId]) && isset($fieldDefinitions[$contentId][$languageCode][$fieldDefinitionId])) {
+            if (!isset($fields[$contentId][$versionId][$fieldId]) && isset($fieldDefinitions[$contentId][$versionId][$languageCode][$fieldDefinitionId])) {
                 $fields[$contentId][$versionId][$fieldId] = $this->extractFieldFromRow($row);
-                unset($fieldDefinitions[$contentId][$languageCode][$fieldDefinitionId]);
+                unset($fieldDefinitions[$contentId][$versionId][$languageCode][$fieldDefinitionId]);
             }
         }
 
@@ -253,8 +253,8 @@ class Mapper
                 $content->versionInfo->contentInfo = $contentInfo;
                 $content->fields = array_values($fields[$contentId][$versionId]);
 
-                foreach ($fieldDefinitions[$contentId] as $languageCode => $fieldDefinitions) {
-                    foreach ($fieldDefinitions as $fieldDefinition) {
+                foreach ($fieldDefinitions[$contentId][$versionId] as $languageCode => $versionFieldDefinitions) {
+                    foreach ($versionFieldDefinitions as $fieldDefinition) {
                         $content->fields[] = $this->createEmptyField(
                             $fieldDefinition,
                             $languageCode
