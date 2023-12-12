@@ -8861,16 +8861,6 @@ parameters:
 			path: src/lib/FieldType/Author/Value.php
 
 		-
-			message: "#^Cannot access offset 'fileSize' on array\\|void\\.$#"
-			count: 1
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
-
-		-
-			message: "#^Cannot access offset 'id' on array\\|void\\.$#"
-			count: 4
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
-
-		-
 			message: "#^Class Ibexa\\\\Core\\\\FieldType\\\\BinaryBase\\\\BinaryBaseStorage extends generic class Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\GatewayBasedStorage but does not specify its types\\: T$#"
 			count: 1
 			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
@@ -15586,11 +15576,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
 
 		-
-			message: "#^Cannot call method addAttribute\\(\\) on SimpleXMLElement\\|null\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
-
-		-
 			message: "#^Cannot call method getAttribute\\(\\) on DOMElement\\|null\\.$#"
 			count: 6
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
@@ -18899,11 +18884,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Setting\\\\Gateway\\\\ExceptionConversion\\:\\:loadSettingById\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Setting/Gateway/ExceptionConversion.php
-
-		-
-			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/SharedGateway/DatabasePlatform/SqliteGateway.php
 
 		-
 			message: "#^Argument of an invalid type array\\<Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\SharedGateway\\\\Gateway\\>\\|iterable supplied for foreach, only iterables are supported\\.$#"
@@ -29377,7 +29357,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$fieldDefinition of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentTypeService\\:\\:removeFieldDefinition\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null given\\.$#"
-			count: 7
+			count: 6
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
 
 		-
