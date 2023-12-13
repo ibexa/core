@@ -8861,16 +8861,6 @@ parameters:
 			path: src/lib/FieldType/Author/Value.php
 
 		-
-			message: "#^Cannot access offset 'fileSize' on array\\|void\\.$#"
-			count: 1
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
-
-		-
-			message: "#^Cannot access offset 'id' on array\\|void\\.$#"
-			count: 4
-			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
-
-		-
 			message: "#^Class Ibexa\\\\Core\\\\FieldType\\\\BinaryBase\\\\BinaryBaseStorage extends generic class Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\GatewayBasedStorage but does not specify its types\\: T$#"
 			count: 1
 			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage.php
@@ -15582,11 +15572,6 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$nodeValue on DOMNode\\|null\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
-
-		-
-			message: "#^Cannot call method addAttribute\\(\\) on SimpleXMLElement\\|null\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
 
