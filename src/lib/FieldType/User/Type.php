@@ -29,6 +29,8 @@ use LogicException;
  */
 class Type extends FieldType implements TranslationContainerInterface
 {
+    public const FIELD_TYPE_IDENTIFIER = 'ezuser';
+
     public const PASSWORD_TTL_SETTING = 'PasswordTTL';
     public const PASSWORD_TTL_WARNING_SETTING = 'PasswordTTLWarning';
     public const REQUIRE_UNIQUE_EMAIL = 'RequireUniqueEmail';
@@ -114,7 +116,7 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function getFieldTypeIdentifier()
     {
-        return 'ezuser';
+        return self::FIELD_TYPE_IDENTIFIER;
     }
 
     /**
