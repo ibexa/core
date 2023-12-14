@@ -36,15 +36,37 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
+    /**
+     * @var array{
+     *     mimeTypes: array{
+     *         type: string,
+     *         default: array{},
+     *     }
+     * }
+     */
+    protected $settingsSchema = [
+        'mimeTypes' => [
+            'type' => 'choice',
+            'default' => [],
+        ],
+    ];
+
     /** @var \Ibexa\Core\FieldType\Validator[] */
     private $validators;
 
+    /** @var array<string> */
+    private array $mimeTypes;
+
     /**
-     * @param \Ibexa\Core\FieldType\Validator[] $validators
+     * @param array<\Ibexa\Core\FieldType\Validator> $validators
+     * @param array<string> $mimeTypes
      */
-    public function __construct(array $validators)
-    {
+    public function __construct(
+        array $validators,
+        array $mimeTypes = []
+    ) {
         $this->validators = $validators;
+        $this->mimeTypes = $mimeTypes;
     }
 
     /**
@@ -166,7 +188,7 @@ class Type extends FieldType implements TranslationContainerInterface
         }
 
         foreach ($this->validators as $externalValidator) {
-            if (!$externalValidator->validate($fieldValue)) {
+            if (!$externalValidator->validate($fieldValue, $fieldDefinition)) {
                 $errors = array_merge($errors, $externalValidator->getMessage());
             }
         }
@@ -205,6 +227,41 @@ class Type extends FieldType implements TranslationContainerInterface
         }
 
         return $errors;
+    }
+
+    public function validateFieldSettings($fieldSettings): array
+    {
+        $validationErrors = [];
+
+        foreach ($fieldSettings as $name => $value) {
+            if (!isset($this->settingsSchema[$name])) {
+                $validationErrors[] = new ValidationError(
+                    "Setting '%setting%' is unknown",
+                    null,
+                    [
+                        '%setting%' => $name,
+                    ],
+                    "[$name]"
+                );
+            }
+
+            if (
+                $name === 'mimeTypes'
+                && !empty($this->mimeTypes)
+                && !empty(array_diff($value, $this->mimeTypes))
+            ) {
+                $validationErrors[] = new ValidationError(
+                    "Setting '%setting%' contains unsupported mime types",
+                    null,
+                    [
+                        '%setting%' => $name,
+                    ],
+                    "[$name]"
+                );
+            }
+        }
+
+        return $validationErrors;
     }
 
     /**

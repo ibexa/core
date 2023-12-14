@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\FieldType\Validator;
 
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -85,7 +86,7 @@ class IntegerValueValidator extends Validator
      *
      * @return bool
      */
-    public function validate(BaseValue $value)
+    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
     {
         $isValid = true;
 

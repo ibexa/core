@@ -10731,11 +10731,6 @@ parameters:
 			path: src/lib/FieldType/Validator/FloatValueValidator.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Validator\\\\ImageValidator\\:\\:innerValidate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/Validator/ImageValidator.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Validator\\\\ImageValidator\\:\\:innerValidate\\(\\) has parameter \\$filePath with no type specified\\.$#"
 			count: 1
 			path: src/lib/FieldType/Validator/ImageValidator.php
@@ -30586,21 +30581,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:assertCopiedFieldDataLoadedCorrectly\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:assertUpdatedFieldDataLoadedCorrect\\(\\) should return array but return statement is missing\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getAdditionallyIndexedFieldData\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
@@ -30611,27 +30591,7 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getSettingsSchema\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getStoragePrefix\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getValidUpdateFieldData\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getValidUpdateFieldData\\(\\) should return array but returns Ibexa\\\\Core\\\\FieldType\\\\Image\\\\Value\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:getValidatorSchema\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
 
@@ -30656,33 +30616,8 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:providerForTestIsEmptyValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:providerForTestIsNotEmptyValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:publishNewImage\\(\\) has parameter \\$parentLocationIDs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:testInherentCopyForNewLanguage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:testUpdatingImageMetadataOnlyWorks\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$newImageValue of method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\ImageIntegrationTest\\:\\:updateImage\\(\\) expects Ibexa\\\\Core\\\\FieldType\\\\Image\\\\Value, array given\\.$#"
-			count: 2
 			path: tests/integration/Core/Repository/FieldType/ImageIntegrationTest.php
 
 		-
