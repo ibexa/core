@@ -80,6 +80,32 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
     }
 
     /**
+     * @dataProvider provideDataForTestCriterionExtendedSyntax
+     *
+     * @param array<string> $expectedContentItemTitles
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     */
+    public function testCriterionExtendedSyntax(
+        Criterion $criterion,
+        ?string $languageCode,
+        array $expectedContentItemTitles,
+        int $expectedCount
+    ): void {
+        if (getenv('SEARCH_ENGINE') === 'legacy') {
+            self::markTestSkipped('Extended syntax are not supported in Legacy Search Engine');
+        }
+
+        $this->assertResult(
+            $criterion,
+            $languageCode,
+            $expectedContentItemTitles,
+            $expectedCount
+        );
+    }
+
+    /**
      * @dataProvider provideDataForTestCriterion
      *
      * @param array<string> $expectedContentItemTitles
@@ -93,29 +119,11 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         array $expectedContentItemTitles,
         int $expectedCount
     ): void {
-        $result = self::getSearchService()->findContent(
-            $this->createQuery($criterion),
-            $this->getLanguageFilter($languageCode)
-        );
-
-        self::assertEquals(
+        $this->assertResult(
+            $criterion,
+            $languageCode,
             $expectedContentItemTitles,
-            array_map(
-                static function (SearchHit $searchHit) use ($languageCode): ?string {
-                    $content = $searchHit->valueObject;
-                    if ($content instanceof Content) {
-                        return $content->getName($languageCode);
-                    }
-
-                    return null;
-                },
-                $result->searchHits
-            )
-        );
-
-        self::assertSame(
-            $expectedCount,
-            $result->totalCount
+            $expectedCount
         );
     }
 
@@ -211,6 +219,64 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         ];
     }
 
+    /**
+     * @return iterable<array{
+     *     \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion,
+     *     ?string,
+     *     array<string>,
+     *     int,
+     * }>
+     */
+    public function provideDataForTestCriterionExtendedSyntax(): iterable
+    {
+        yield 'No content items found with "car" and "truck" in name' => [
+            $this->createContentNameCriterion('car AND truck'),
+            self::LANGUAGE_CODE_ENG,
+            [],
+            0,
+        ];
+
+        yield 'Return content items in default language (English) that contain "car" or starts with "sports" in name' => [
+            $this->createContentNameCriterion('*car* OR SPORTS*'),
+            null,
+            [
+                self::CAR_ENG,
+                self::SPORTS_CAR_ENG,
+            ],
+            2,
+        ];
+
+        yield 'Return content items in German that contain "sport and wagen" in name' => [
+            $this->createContentNameCriterion('*SPORT* AND *wagen*'),
+            self::LANGUAGE_CODE_GER,
+            [
+                self::SPORTS_CAR_GER,
+            ],
+            1,
+        ];
+
+        yield 'Return content items in German that contain "sport or last" in name' => [
+            $this->createContentNameCriterion('*sport* OR *last*'),
+            self::LANGUAGE_CODE_GER,
+            [
+                self::SPORTS_CAR_GER,
+                self::TRUCK_GER,
+            ],
+            2,
+        ];
+
+        yield 'Return content items in German that contain "auto" or ends with "wagen" in name' => [
+            $this->createContentNameCriterion('auto OR *wagen'),
+            self::LANGUAGE_CODE_GER,
+            [
+                self::CAR_GER,
+                self::SPORTS_CAR_GER,
+                self::TRUCK_GER,
+            ],
+            3,
+        ];
+    }
+
     private function createTestContentItems(): void
     {
         foreach (self::CONTENT_ITEMS_MAP as $contentItem) {
@@ -272,6 +338,45 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
     private function createContentNameCriterion(string $value): Criterion
     {
         return new Criterion\ContentNameCriterion($value);
+    }
+
+    /**
+     * @param array<string> $expectedContentItemTitles
+
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     */
+    private function assertResult(
+        Criterion $criterion,
+        ?string $languageCode,
+        array $expectedContentItemTitles,
+        int $expectedCount
+    ): void {
+        $result = self::getSearchService()->findContent(
+            $this->createQuery($criterion),
+            $this->getLanguageFilter($languageCode)
+        );
+
+        self::assertEquals(
+            $expectedContentItemTitles,
+            array_map(
+                static function (SearchHit $searchHit) use ($languageCode): ?string {
+                    $content = $searchHit->valueObject;
+                    if ($content instanceof Content) {
+                        return $content->getName($languageCode);
+                    }
+
+                    return null;
+                },
+                $result->searchHits
+            )
+        );
+
+        self::assertSame(
+            $expectedCount,
+            $result->totalCount
+        );
     }
 
     /**
