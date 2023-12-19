@@ -12,6 +12,7 @@ use const DIRECTORY_SEPARATOR;
 use Generator;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -83,7 +84,6 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         $this->isDebug = $isDebug;
         $this->projectDir = $projectDir;
         $this->contentService = $contentService;
-        $this->phpPath = $phpPath;
 
         parent::__construct();
     }
@@ -481,6 +481,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
 
     private function fetchIterationFromContentList(ContentList $contentList, int $iterationCount): Generator
     {
+        /** @var \ArrayIterator<int, Content> $contentListIterator */
         $contentListIterator = $contentList->getIterator();
 
         while ($contentListIterator->valid()) {
