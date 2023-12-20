@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Spec
 
 final class ContentName extends Criterion
 {
-    public function __construct($value)
+    public function __construct(string $value)
     {
         parent::__construct(null, Operator::LIKE, $value);
     }
