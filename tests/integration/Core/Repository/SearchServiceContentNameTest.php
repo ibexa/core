@@ -337,7 +337,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
 
     private function createContentNameCriterion(string $value): Criterion
     {
-        return new Criterion\ContentNameCriterion($value);
+        return new Criterion\ContentName($value);
     }
 
     /**

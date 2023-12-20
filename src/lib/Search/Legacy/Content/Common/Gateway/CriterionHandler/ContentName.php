@@ -33,7 +33,7 @@ final class ContentName extends CriterionHandler
 
     public function accept(Criterion $criterion): bool
     {
-        return $criterion instanceof Criterion\ContentNameCriterion
+        return $criterion instanceof Criterion\ContentName
             && $criterion->operator === Criterion\Operator::LIKE;
     }
 

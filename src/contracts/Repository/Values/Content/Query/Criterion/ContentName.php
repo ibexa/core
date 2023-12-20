@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 
-final class ContentNameCriterion extends Criterion
+final class ContentName extends Criterion
 {
     public function __construct($value)
     {
