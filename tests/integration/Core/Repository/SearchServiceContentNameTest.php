@@ -236,7 +236,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
             0,
         ];
 
-        yield 'Return content items in default language (English) that contain "car" or starts with "sports" in name' => [
+        yield 'Return content items in default language (English) that contain "car" or start with "sports" in name' => [
             $this->createContentNameCriterion('*car* OR SPORTS*'),
             null,
             [
