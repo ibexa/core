@@ -17,8 +17,8 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 final class ContentName extends CriterionHandler
 {
-    private const EZCONTENTOBJECT_NAME_ALIAS = 'ezc_n';
-    private const EZCONTENTOBJECT_ALIAS = 'c';
+    private const CONTENTOBJECT_NAME_ALIAS = 'ezc_n';
+    private const CONTENTOBJECT_ALIAS = 'c';
 
     private TransformationProcessor $transformationProcessor;
 
@@ -53,16 +53,16 @@ final class ContentName extends CriterionHandler
         $subQuery
             ->select('contentobject_id')
             ->distinct()
-            ->from('ezcontentobject_name', self::EZCONTENTOBJECT_NAME_ALIAS)
+            ->from('ezcontentobject_name', self::CONTENTOBJECT_NAME_ALIAS)
             ->innerJoin(
-                self::EZCONTENTOBJECT_NAME_ALIAS,
+                self::CONTENTOBJECT_NAME_ALIAS,
                 'ezcontentobject',
-                self::EZCONTENTOBJECT_ALIAS,
+                self::CONTENTOBJECT_ALIAS,
                 $this->getInnerJoinCondition()
             )
             ->andWhere(
                 $queryBuilder->expr()->like(
-                    $this->toLowerCase(self::EZCONTENTOBJECT_NAME_ALIAS . '.name'),
+                    $this->toLowerCase(self::CONTENTOBJECT_NAME_ALIAS . '.name'),
                     $queryBuilder->createNamedParameter(
                         $this->prepareValue($criterion)
                     )
@@ -78,7 +78,7 @@ final class ContentName extends CriterionHandler
         }
 
         return $queryBuilder->expr()->in(
-            self::EZCONTENTOBJECT_ALIAS . '.id',
+            self::CONTENTOBJECT_ALIAS . '.id',
             $subQuery->getSQL()
         );
     }
@@ -87,10 +87,10 @@ final class ContentName extends CriterionHandler
     {
         return sprintf(
             '(%s = %s AND %s = %s)',
-            self::EZCONTENTOBJECT_NAME_ALIAS . '.contentobject_id',
-            self::EZCONTENTOBJECT_ALIAS . '.id',
-            self::EZCONTENTOBJECT_NAME_ALIAS . '.content_version',
-            self::EZCONTENTOBJECT_ALIAS . '.current_version',
+            self::CONTENTOBJECT_NAME_ALIAS . '.contentobject_id',
+            self::CONTENTOBJECT_ALIAS . '.id',
+            self::CONTENTOBJECT_NAME_ALIAS . '.content_version',
+            self::CONTENTOBJECT_ALIAS . '.current_version',
         );
     }
 
@@ -105,7 +105,7 @@ final class ContentName extends CriterionHandler
         $subQuery
             ->andWhere(
                 $queryBuilder->expr()->in(
-                    $this->toLowerCase(self::EZCONTENTOBJECT_NAME_ALIAS . '.content_translation'),
+                    $this->toLowerCase(self::CONTENTOBJECT_NAME_ALIAS . '.content_translation'),
                     $this->toLowerCase(
                         $queryBuilder->createNamedParameter(
                             $languages,
