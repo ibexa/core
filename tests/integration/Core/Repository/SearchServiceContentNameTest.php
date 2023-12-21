@@ -94,7 +94,7 @@ final class SearchServiceContentNameTest extends RepositorySearchTestCase
         int $expectedCount
     ): void {
         if (getenv('SEARCH_ENGINE') === 'legacy') {
-            self::markTestSkipped('Extended syntax are not supported in Legacy Search Engine');
+            self::markTestSkipped('Extended syntax is not supported in Legacy Search Engine');
         }
 
         $this->assertResult(
