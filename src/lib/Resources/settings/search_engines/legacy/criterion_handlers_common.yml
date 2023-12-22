@@ -73,6 +73,12 @@ services:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentName:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        tags:
+            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
+            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
+
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeGroupId:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeGroupId
@@ -339,11 +345,3 @@ services:
 
     ibexa.search.legacy.gateway.criterion_field_value_handler.default:
         alias: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Composite
-
-    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentName:
-        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
-        arguments:
-            $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
-        tags:
-            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
-            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
