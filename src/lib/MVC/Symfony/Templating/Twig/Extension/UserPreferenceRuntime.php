@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -23,22 +22,28 @@ final class UserPreferenceRuntime implements RuntimeExtensionInterface
         $this->userPreferenceService = $userPreferenceService;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     public function getUserPreferenceValue(string $identifier, string $default): string
     {
         try {
             return $this->userPreferenceService->getUserPreference($identifier)->value;
-        } catch (NotFoundException|UnauthorizedException $e) {
+        } catch (NotFoundException $e) {
             return $default;
         }
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     public function hasUserPreference(string $identifier): bool
     {
         try {
             $this->userPreferenceService->getUserPreference($identifier);
 
             return true;
-        } catch (NotFoundException|UnauthorizedException $e) {
+        } catch (NotFoundException $e) {
             return false;
         }
     }
