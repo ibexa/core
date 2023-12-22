@@ -37,9 +37,10 @@ final class Flysystem implements FilePathNormalizerInterface
             ? (preg_match(self::HASH_PATTERN, $fileName) ? '' : bin2hex(random_bytes(6)) . '-')
             : '';
 
-        $filePath = $directory . \DIRECTORY_SEPARATOR . $hash . $fileName;
+        $filePath = $directory . \DIRECTORY_SEPARATOR . $hash;
+        $normalizedFileName = $this->pathNormalizer->normalizePath($fileName);
 
-        return $this->pathNormalizer->normalizePath($filePath);
+        return $filePath . $normalizedFileName;
     }
 }
 
