@@ -11,6 +11,9 @@ namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+/**
+ * @internal
+ */
 final class UserPreferenceExtension extends AbstractExtension
 {
     public function getFunctions(): array

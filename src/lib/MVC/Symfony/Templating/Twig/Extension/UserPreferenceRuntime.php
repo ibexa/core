@@ -12,6 +12,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Twig\Extension\RuntimeExtensionInterface;
 
+/**
+ * @internal
+ */
 final class UserPreferenceRuntime implements RuntimeExtensionInterface
 {
     private UserPreferenceService $userPreferenceService;
