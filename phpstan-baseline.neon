@@ -52716,17 +52716,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Location/TrashHandlerTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\TrashHandlerTest\\:\\:testDeleteTrashItemNoMoreLocations\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Location/TrashHandlerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\TrashHandlerTest\\:\\:testDeleteTrashItemStillHaveLocations\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Location/TrashHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\TrashHandlerTest\\:\\:testEmptyTrash\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Location/TrashHandlerTest.php
 
