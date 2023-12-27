@@ -24,6 +24,9 @@ class TrashItemDeleteResult extends ValueObject
      * @var bool
      */
     public $contentRemoved = false;
+
+    /** @var array<int> */
+    public $reverseRelationContentIds = [];
 }
 
 class_alias(TrashItemDeleteResult::class, 'eZ\Publish\API\Repository\Values\Content\Trash\TrashItemDeleteResult');
