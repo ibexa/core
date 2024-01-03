@@ -6428,7 +6428,7 @@ class ContentServiceTest extends BaseContentServiceTest
         // Create content type for testing
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('test_copy_translation');
         $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
-        $contentTypeCreateStruct->names = ['eng-US' => 'Test Content Type for Copy Translations'];
+        $contentTypeCreateStruct->names = ['eng-US' => 'Test Content type for Copy Translations'];
         $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
         $fieldDefinition->position = 1;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinition);

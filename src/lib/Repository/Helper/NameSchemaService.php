@@ -173,7 +173,7 @@ class NameSchemaService extends NativeNameSchemaService
             } elseif ($contentType instanceof ContentType) {
                 $fieldDefinition = $contentType->getFieldDefinition($fieldDefinitionIdentifier);
             } else {
-                throw new InvalidArgumentType('$contentType', 'API or SPI variant of a Content Type');
+                throw new InvalidArgumentType('$contentType', 'API or SPI variant of a Content type');
             }
             $fieldTypeService = $this->fieldTypeRegistry->getFieldType(
                 $fieldDefinition->fieldTypeIdentifier

@@ -134,7 +134,7 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * Retrieves the content type ID for the given $fieldDefinitionId.
+     * Retrieves the Content type ID for the given $fieldDefinitionId.
      *
      * @param int $fieldDefinitionId
      *
@@ -158,7 +158,7 @@ class DoctrineStorage extends Gateway
         if ($row === false) {
             throw new RuntimeException(
                 sprintf(
-                    'Content Type ID cannot be retrieved based on the Field definition ID "%s"',
+                    'Content type ID cannot be retrieved based on the Field definition ID "%s"',
                     $fieldDefinitionId
                 )
             );

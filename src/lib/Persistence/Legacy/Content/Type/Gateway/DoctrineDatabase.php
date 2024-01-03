@@ -418,7 +418,7 @@ final class DoctrineDatabase extends Gateway
     {
         $groups = $this->loadGroupData([$groupId]);
         if (empty($groups)) {
-            throw new NotFoundException('Content Type Group', $groupId);
+            throw new NotFoundException('Content type group', $groupId);
         }
         $group = $groups[0];
 

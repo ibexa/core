@@ -19,13 +19,13 @@ class ContentTypeGroupIdQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
 {
     public function getFilteringCriteriaQueryData(): iterable
     {
-        yield 'Content Type Group ID=1' => [
+        yield 'Content type Group ID=1' => [
             new ContentTypeGroupId(1),
             'content_type_group.id IN (:dcValue1)',
             ['dcValue1' => [1]],
         ];
 
-        yield 'Content Type Group ID IN (1, 2)' => [
+        yield 'Content type Group ID IN (1, 2)' => [
             new ContentTypeGroupId([1, 2]),
             'content_type_group.id IN (:dcValue1)',
             ['dcValue1' => [1, 2]],

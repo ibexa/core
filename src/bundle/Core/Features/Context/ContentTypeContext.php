@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
 use PHPUnit\Framework\Assert as Assertion;
 
 /**
- * Sentences for Content Types.
+ * Sentences for Content types.
  */
 class ContentTypeContext implements Context
 {
@@ -36,13 +36,13 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Given (that) a Content Type exists with identifier :identifier with fields:
-     * @Given (that) a Content Type exists with identifier :identifier in Group with identifier :groupIdentifier with fields:
+     * @Given (that) a Content type exists with identifier :identifier with fields:
+     * @Given (that) a Content type exists with identifier :identifier in Group with identifier :groupIdentifier with fields:
      *     |   Identifier   |     Type       |     Name      |
      *     |  title         |  ezstring      |  Title        |
      *     |  body          |  ezxml         |  Body         |
      *
-     * Makes sure a content type with $identifier and with the provided $fields definition.
+     * Makes sure a Content type with $identifier and with the provided $fields definition.
      */
     public function ensureContentTypeWithIndentifier(
         $identifier,
@@ -60,9 +60,9 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Given (that) a Content Type does not exist with identifier :identifier
+     * @Given (that) a Content type does not exist with identifier :identifier
      *
-     * Makes sure a content type with $identifier does not exist.
+     * Makes sure a Content type with $identifier does not exist.
      * If it exists deletes it.
      */
     public function ensureContentTypeDoesntExist($identifier)
@@ -74,48 +74,48 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * @Then Content Type (with identifier) :identifier exists
+     * @Then Content type (with identifier) :identifier exists
      *
-     * Verifies that a content type with $identifier exists.
+     * Verifies that a Content type with $identifier exists.
      */
     public function assertContentTypeExistsByIdentifier($identifier)
     {
         Assertion::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier),
-            "Couldn't find a Content Type with identifier '$identifier'."
+            "Couldn't find a Content type with identifier '$identifier'."
         );
     }
 
     /**
-     * @Then Content Type (with identifier) :identifier does not exist
+     * @Then Content type (with identifier) :identifier does not exist
      *
-     * Verifies that a content type with $identifier does not exist.
+     * Verifies that a Content type with $identifier does not exist.
      */
     public function assertContentTypeDoesntExistsByIdentifier($identifier)
     {
         Assertion::assertFalse(
             $this->checkContentTypeExistenceByIdentifier($identifier),
-            "Found a Content Type with identifier '$identifier'."
+            "Found a Content type with identifier '$identifier'."
         );
     }
 
     /**
-     * @Then Content Type (with identifier) :identifier exists in Group with identifier :groupIdentifier
+     * @Then Content type (with identifier) :identifier exists in Group with identifier :groupIdentifier
      *
-     * Verifies that a content type with $identifier exists in group with identifier $groupIdentifier.
+     * Verifies that a Content type with $identifier exists in group with identifier $groupIdentifier.
      */
     public function assertContentTypeExistsByIdentifierOnGroup($identifier, $groupIdentifier)
     {
         Assertion::assertTrue(
             $this->checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier),
-            "Couldn't find Content Type with identifier '$identifier' on '$groupIdentifier."
+            "Couldn't find Content type with identifier '$identifier' on '$groupIdentifier."
         );
     }
 
     /**
-     * Load and return a content type by its identifier.
+     * Load and return a Content type by its identifier.
      *
-     * @param  string  $identifier       content type identifier
+     * @param  string  $identifier       Content type identifier
      * @param  bool $throwIfNotFound  if true, throws an exception if it is not found.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup|null
@@ -137,12 +137,12 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * Creates a content type with $identifier on content type group with identifier $groupIdentifier and with the
+     * Creates a Content type with $identifier on Content type group with identifier $groupIdentifier and with the
      * given 'fields' definitions.
      *
-     * @param  string $groupIdentifier content type group identifier
-     * @param  string $identifier      content type identifier
-     * @param  array $fields           content type fields definitions
+     * @param  string $groupIdentifier Content type group identifier
+     * @param  string $identifier      Content type identifier
+     * @param  array $fields           Content type fields definitions
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
      */
@@ -217,7 +217,7 @@ class ContentTypeContext implements Context
     }
 
     /**
-     * Verifies that a content type with $identifier exists.
+     * Verifies that a Content type with $identifier exists.
      *
      * @param string $identifier
      *

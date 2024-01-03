@@ -1013,7 +1013,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateIdentifier()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'$contentTypeCreateStruct\' is invalid: Another Content Type with identifier \'folder\' exists');
+        $this->expectExceptionMessage('Argument \'$contentTypeCreateStruct\' is invalid: Another Content type with identifier \'folder\' exists');
 
         $repository = $this->getRepository();
 
@@ -1047,7 +1047,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateRemoteId()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Another Content Type with remoteId \'a3d405b81be900468eb153d774f4f0d2\' exists');
+        $this->expectExceptionMessage('Another Content type with remoteId \'a3d405b81be900468eb153d774f4f0d2\' exists');
 
         $repository = $this->getRepository();
 
@@ -1118,7 +1118,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testCreateContentTypeThrowsInvalidArgumentExceptionDuplicateContentTypeIdentifier()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Another Content Type with identifier \'blog-post\' exists');
+        $this->expectExceptionMessage('Another Content type with identifier \'blog-post\' exists');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -1214,7 +1214,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testCreateContentTypeThrowsInvalidArgumentExceptionGroupsEmpty()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'$contentTypeGroups\' is invalid: The argument must contain at least one Content Type group');
+        $this->expectExceptionMessage('Argument \'$contentTypeGroups\' is invalid: The argument must contain at least one Content type group');
 
         $repository = $this->getRepository();
 
@@ -1551,7 +1551,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testUpdateContentTypeDraftThrowsInvalidArgumentExceptionNoDraftForAuthenticatedUser()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'$contentTypeDraft\' is invalid: There is no Content Type draft assigned to the authenticated user');
+        $this->expectExceptionMessage('Argument \'$contentTypeDraft\' is invalid: There is no Content type draft assigned to the authenticated user');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -1755,7 +1755,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testAddFieldDefinitionThrowsBadStateExceptionNonRepeatableField()
     {
         $this->expectException(BadStateException::class);
-        $this->expectExceptionMessage('The Content Type already contains a Field definition of the singular Field Type \'ezuser\'');
+        $this->expectExceptionMessage('The Content type already contains a Field definition of the singular Field Type \'ezuser\'');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -1796,7 +1796,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testCreateContentThrowsContentTypeValidationException()
     {
         $this->expectException(ContentTypeValidationException::class);
-        $this->expectExceptionMessage('Field Type \'ezuser\' is singular and cannot be used more than once in a Content Type');
+        $this->expectExceptionMessage('Field Type \'ezuser\' is singular and cannot be used more than once in a Content type');
 
         $repository = $this->getRepository();
 
@@ -1850,7 +1850,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testAddFieldDefinitionThrowsBadStateExceptionContentInstances()
     {
         $this->expectException(BadStateException::class);
-        $this->expectExceptionMessage('A Field definition of the \'ezuser\' Field Type cannot be added because the Content Type already has Content items');
+        $this->expectExceptionMessage('A Field definition of the \'ezuser\' Field Type cannot be added because the Content type already has Content items');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2508,7 +2508,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testUpdateFieldDefinitionThrowsInvalidArgumentExceptionFieldIdentifierExists()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'$fieldDefinitionUpdateStruct\' is invalid: Another Field definition with identifier \'title\' exists in the Content Type');
+        $this->expectExceptionMessage('Argument \'$fieldDefinitionUpdateStruct\' is invalid: Another Field definition with identifier \'title\' exists in the Content type');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2540,7 +2540,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testUpdateFieldDefinitionThrowsInvalidArgumentExceptionForUndefinedField()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'$fieldDefinition\' is invalid: The given Field definition does not belong to the Content Type');
+        $this->expectExceptionMessage('Argument \'$fieldDefinition\' is invalid: The given Field definition does not belong to the Content type');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -2716,7 +2716,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     public function testPublishContentTypeDraftThrowsInvalidArgumentExceptionWithoutFields()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Argument \'$contentTypeDraft\' is invalid: The Content Type draft should have at least one Field definition');
+        $this->expectExceptionMessage('Argument \'$contentTypeDraft\' is invalid: The Content type draft should have at least one Field definition');
 
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -3563,7 +3563,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         }
         $this->fail(
             sprintf(
-                'Group with ID "%s" not assigned to Content Type.',
+                'Group with ID "%s" not assigned to Content type.',
                 $mediaGroup->id
             )
         );

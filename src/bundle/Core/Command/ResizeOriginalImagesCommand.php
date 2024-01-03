@@ -114,7 +114,7 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
             ->addArgument(
                 'contentTypeIdentifier',
                 InputArgument::REQUIRED,
-                'Identifier of a Content Type which has an ezimage Field Type.'
+                'Identifier of a Content type which has an ezimage Field Type.'
             )
             ->addOption(
                 'filter',
@@ -150,7 +150,7 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
         if (!$fieldType || $fieldType->fieldTypeIdentifier !== 'ezimage') {
             $output->writeln(
                 sprintf(
-                    "<error>Field Type with identifier '%s' in Content Type '%s' must be 'ezimage', you provided '%s'.</error>",
+                    "<error>Field Type with identifier '%s' in Content type '%s' must be 'ezimage', you provided '%s'.</error>",
                     $imageFieldIdentifier,
                     $contentType->identifier,
                     $fieldType ? $fieldType->fieldTypeIdentifier : ''

@@ -58,7 +58,7 @@ class ContentMapper
 
             if ($fieldDefinition === null) {
                 throw new ContentValidationException(
-                    "Field definition '%identifier%' does not exist in the given Content Type",
+                    "Field definition '%identifier%' does not exist in the given Content type",
                     ['%identifier%' => $field->fieldDefIdentifier]
                 );
             }
@@ -140,7 +140,7 @@ class ContentMapper
 
             if ($fieldDefinition === null) {
                 throw new ContentValidationException(
-                    "Field definition '%identifier%' does not exist in given Content Type",
+                    "Field definition '%identifier%' does not exist in given Content type",
                     ['%identifier%' => $field->fieldDefIdentifier]
                 );
             }
@@ -293,7 +293,7 @@ class ContentMapper
 
             if ($fieldDefinition === null) {
                 throw new ContentValidationException(
-                    "Field definition '%identifier%' does not exist in given Content Type",
+                    "Field definition '%identifier%' does not exist in given Content type",
                     ['%identifier%' => $updatedField->fieldDefIdentifier]
                 );
             }
@@ -331,7 +331,7 @@ class ContentMapper
 
             if ($fieldDefinition === null) {
                 throw new ContentValidationException(
-                    "Field definition '%identifier%' does not exist in the given Content Type",
+                    "Field definition '%identifier%' does not exist in the given Content type",
                     ['%identifier%' => $createdField->fieldDefIdentifier]
                 );
             }

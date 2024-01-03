@@ -63,15 +63,15 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
                 ->setDesc('Content / Version remove'),
 
             (new Message('role.policy.class', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content Type'),
+                ->setDesc('Content type'),
             (new Message('role.policy.class.all_functions', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content Type / All functions'),
+                ->setDesc('Content type / All functions'),
             (new Message('role.policy.class.create', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content Type / Create'),
+                ->setDesc('Content type / Create'),
             (new Message('role.policy.class.delete', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content Type / Delete'),
+                ->setDesc('Content type / Delete'),
             (new Message('role.policy.class.update', self::TRANSLATION_DOMAIN))
-                ->setDesc('Content Type / Update'),
+                ->setDesc('Content type / Update'),
 
             (new Message('role.policy.state', self::TRANSLATION_DOMAIN))
                 ->setDesc('State'),

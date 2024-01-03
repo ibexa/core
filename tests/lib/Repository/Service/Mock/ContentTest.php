@@ -2097,7 +2097,7 @@ class ContentTest extends BaseServiceMockTest
     public function testCreateContentThrowsContentValidationExceptionFieldDefinition($mainLanguageCode, $structFields)
     {
         $this->expectException(ContentValidationException::class);
-        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in the given Content Type');
+        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in the given Content type');
 
         $this->assertForCreateContentContentValidationException(
             $mainLanguageCode,
@@ -5098,7 +5098,7 @@ class ContentTest extends BaseServiceMockTest
     public function testUpdateContentThrowsContentValidationExceptionFieldDefinition($initialLanguageCode, $structFields)
     {
         $this->expectException(ContentValidationException::class);
-        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in given Content Type');
+        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in given Content type');
 
         $this->assertForUpdateContentContentValidationException(
             $initialLanguageCode,
@@ -5965,7 +5965,7 @@ class ContentTest extends BaseServiceMockTest
     /**
      * Reusable method for setting exceptions on buildContentDomainObject usage.
      *
-     * Plain usage as in when content type is loaded directly.
+     * Plain usage as in when Content type is loaded directly.
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content $spiContent
      * @param array $translations

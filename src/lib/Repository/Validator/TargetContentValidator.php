@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\ValidationError;
 
 /**
- * Validator for checking existence of content and its content type.
+ * Validator for checking existence of content and its Content type.
  *
  * @internal
  */
@@ -41,7 +41,7 @@ final class TargetContentValidator implements TargetContentValidatorInterface
 
             if (!empty($allowedContentTypes) && !in_array($contentType->identifier, $allowedContentTypes, true)) {
                 return new ValidationError(
-                    'Content Type %contentTypeIdentifier% is not a valid relation target',
+                    'Content type %contentTypeIdentifier% is not a valid relation target',
                     null,
                     [
                         '%contentTypeIdentifier%' => $contentType->identifier,

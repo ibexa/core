@@ -67,7 +67,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct('test_content_type');
         $createStruct->mainLanguageCode = $languageCode;
-        $createStruct->names = [$languageCode => 'Test Content Type'];
+        $createStruct->names = [$languageCode => 'Test Content type'];
         $createStruct->nameSchema = '<name>';
         $createStruct->urlAliasSchema = '<name>';
 
