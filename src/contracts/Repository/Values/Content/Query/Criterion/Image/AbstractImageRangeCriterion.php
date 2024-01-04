@@ -70,7 +70,7 @@ abstract class AbstractImageRangeCriterion extends Criterion
         if ($minValue < 0) {
             throw new InvalidArgumentException(
                 '$minValue',
-                'Value should be grater or equal 0'
+                'Value should be greater or equal 0'
             );
         }
 
@@ -80,7 +80,7 @@ abstract class AbstractImageRangeCriterion extends Criterion
         ) {
             throw new InvalidArgumentException(
                 '$maxValue',
-                'Value should be grater than 0'
+                'Value should be greater than 0'
             );
         }
 
@@ -90,7 +90,7 @@ abstract class AbstractImageRangeCriterion extends Criterion
         ) {
             throw new InvalidArgumentException(
                 '$minValue',
-                'Value should be grater than' . $maxValue
+                'Value should be greater than' . $maxValue
             );
         }
     }
