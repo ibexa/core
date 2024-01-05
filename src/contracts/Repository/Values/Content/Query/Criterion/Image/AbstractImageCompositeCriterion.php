@@ -16,8 +16,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
  * @template TImageCriteria of array
  *
  * @phpstan-type Range array{
- *      min?: int|null,
- *      max?: int|null,
+ *      min?: numeric|null,
+ *      max?: numeric|null,
  * }
  */
 abstract class AbstractImageCompositeCriterion extends CompositeCriterion
@@ -91,17 +91,21 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
     }
 
     /**
-     * @param array{min?: int|null} $data
+     * @param array{min?: numeric|null} $data
+     *
+     * @return numeric
      */
-    protected function getMinValue(array $data): int
+    protected function getMinValue(array $data)
     {
         return $data['min'] ?? 0;
     }
 
     /**
-     * @param array{max?: int|null} $data
+     * @param array{max?: numeric|null} $data
+     *
+     * @return numeric|null
      */
-    protected function getMaxValue(array $data): ?int
+    protected function getMaxValue(array $data)
     {
         return $data['max'] ?? null;
     }
