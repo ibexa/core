@@ -648,7 +648,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
             if (isset($config['repositories'])) {
                 $repositoryConnections[] = array_map(
-                    static function (array $repository): ?string {
+                    static function (array $repository): string {
                         return $repository['storage']['connection']
                             ?? 'default';
                     },
