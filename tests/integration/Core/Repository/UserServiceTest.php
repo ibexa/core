@@ -3287,7 +3287,7 @@ class UserServiceTest extends BaseTest
     }
 
     /**
-     * Creates the User Content Type with password constraints.
+     * Creates the User content type with password constraints.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
      */

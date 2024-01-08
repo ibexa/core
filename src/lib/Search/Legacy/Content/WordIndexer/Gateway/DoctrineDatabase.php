@@ -30,7 +30,7 @@ class DoctrineDatabase extends Gateway
     protected $connection;
 
     /**
-     * SPI Content Type Handler.
+     * SPI Content type Handler.
      *
      * Need this for being able to pick fields that are searchable.
      *

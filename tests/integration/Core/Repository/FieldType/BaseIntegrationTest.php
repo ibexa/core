@@ -321,7 +321,7 @@ abstract class BaseIntegrationTest extends BaseTest
         try {
             return $contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier);
         } catch (NotFoundException $e) {
-            // Move on to creating Content Type
+            // Move on to creating content type
         }
 
         $createStruct = $contentTypeService->newContentTypeCreateStruct(

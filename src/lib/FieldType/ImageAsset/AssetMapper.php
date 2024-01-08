@@ -154,7 +154,7 @@ class AssetMapper
     }
 
     /**
-     * Return identifier of the Content Type used as Assets.
+     * Return identifier of the content type used as Assets.
      */
     public function getContentTypeIdentifier(): string
     {

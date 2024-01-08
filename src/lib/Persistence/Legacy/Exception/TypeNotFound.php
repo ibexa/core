@@ -22,7 +22,7 @@ class TypeNotFound extends NotFoundException
     public function __construct($typeId, $status)
     {
         parent::__construct(
-            'Persistence Content type',
+            'Persistence content type',
             sprintf('ID: %s, Status: %s', $typeId, $status)
         );
     }

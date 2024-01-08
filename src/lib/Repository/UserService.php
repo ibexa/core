@@ -1130,7 +1130,7 @@ class UserService implements UserServiceInterface
      * @param string $email the email of the new user
      * @param string $password the plain password of the new user
      * @param string $mainLanguageCode the main language for the underlying content object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType Content Type for the underlying content object.
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType content type for the underlying content object.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct
      */

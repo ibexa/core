@@ -23,7 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 interface ContentTypeService
 {
     /**
-     * Create a Content Type Group object.
+     * Create a content type Group object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If a group with the same identifier already exists
@@ -35,7 +35,7 @@ interface ContentTypeService
     public function createContentTypeGroup(ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct): ContentTypeGroup;
 
     /**
-     * Get a Content Type Group object by id.
+     * Get a content type Group object by id.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group can not be found
      *
@@ -47,7 +47,7 @@ interface ContentTypeService
     public function loadContentTypeGroup(int $contentTypeGroupId, array $prioritizedLanguages = []): ContentTypeGroup;
 
     /**
-     * Get a Content Type Group object by identifier.
+     * Get a content type Group object by identifier.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group can not be found
      *
@@ -59,7 +59,7 @@ interface ContentTypeService
     public function loadContentTypeGroupByIdentifier(string $contentTypeGroupIdentifier, array $prioritizedLanguages = []): ContentTypeGroup;
 
     /**
-     * Get all Content Type Groups.
+     * Get all content type Groups.
      *
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
@@ -68,7 +68,7 @@ interface ContentTypeService
     public function loadContentTypeGroups(array $prioritizedLanguages = []): iterable;
 
     /**
-     * Update a Content Type Group object.
+     * Update a content type Group object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier (if set) already exists
@@ -79,7 +79,7 @@ interface ContentTypeService
     public function updateContentTypeGroup(ContentTypeGroup $contentTypeGroup, ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct): void;
 
     /**
-     * Delete a Content Type Group.
+     * Delete a content type Group.
      *
      * This method only deletes an content type group which has content types without any content instances
      *
@@ -91,7 +91,7 @@ interface ContentTypeService
     public function deleteContentTypeGroup(ContentTypeGroup $contentTypeGroup): void;
 
     /**
-     * Create a Content Type object.
+     * Create a content type object.
      *
      * The content type is created in the state STATUS_DRAFT.
      *
@@ -112,7 +112,7 @@ interface ContentTypeService
     public function createContentType(ContentTypeCreateStruct $contentTypeCreateStruct, array $contentTypeGroups): ContentTypeDraft;
 
     /**
-     * Get a Content Type object by id.
+     * Get a content type object by id.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If a content type with the given id and status DEFINED can not be found
      *
@@ -124,7 +124,7 @@ interface ContentTypeService
     public function loadContentType(int $contentTypeId, array $prioritizedLanguages = []): ContentType;
 
     /**
-     * Get a Content Type object by identifier.
+     * Get a content type object by identifier.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If content type with the given identifier and status DEFINED can not be found
      *
@@ -136,7 +136,7 @@ interface ContentTypeService
     public function loadContentTypeByIdentifier(string $identifier, array $prioritizedLanguages = []): ContentType;
 
     /**
-     * Get a Content Type object by id.
+     * Get a content type object by id.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If content type with the given remote id and status DEFINED can not be found
      *
@@ -148,7 +148,7 @@ interface ContentTypeService
     public function loadContentTypeByRemoteId(string $remoteId, array $prioritizedLanguages = []): ContentType;
 
     /**
-     * Get a Content Type object draft by id.
+     * Get a content type object draft by id.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content type draft owned by the current user can not be found
      *
@@ -160,7 +160,7 @@ interface ContentTypeService
     public function loadContentTypeDraft(int $contentTypeId, bool $ignoreOwnership = false): ContentTypeDraft;
 
     /**
-     * Bulk-load Content Type objects by ids.
+     * Bulk-load content type objects by ids.
      *
      * Note: it does not throw exceptions on load, just ignores erroneous items.
      *
@@ -174,7 +174,7 @@ interface ContentTypeService
     public function loadContentTypeList(array $contentTypeIds, array $prioritizedLanguages = []): iterable;
 
     /**
-     * Get Content Type objects which belong to the given content type group.
+     * Get content type objects which belong to the given content type group.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
@@ -199,7 +199,7 @@ interface ContentTypeService
     public function createContentTypeDraft(ContentType $contentType): ContentTypeDraft;
 
     /**
-     * Update a Content Type object.
+     * Update a content type object.
      *
      * Does not update fields (fieldDefinitions), use {@link updateFieldDefinition()} to update them.
      *
@@ -212,7 +212,7 @@ interface ContentTypeService
     public function updateContentTypeDraft(ContentTypeDraft $contentTypeDraft, ContentTypeUpdateStruct $contentTypeUpdateStruct): void;
 
     /**
-     * Delete a Content Type object.
+     * Delete a content type object.
      *
      * Deletes a content type if it has no instances. If content type in state STATUS_DRAFT is
      * given, only the draft content type will be deleted. Otherwise, if content type in state

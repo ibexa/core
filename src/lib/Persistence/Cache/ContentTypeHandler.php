@@ -560,7 +560,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
             $this->cacheIdentifierGenerator->generateTag(self::CONTENT_FIELDS_TYPE_IDENTIFIER, [$typeId]),
         ]);
 
-        // Clear Content Type Groups list cache
+        // Clear content type Groups list cache
         $contentType = $this->load($typeId);
         $this->cache->deleteItems(
             array_map(

@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\UpdateStruct as GroupUpd
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 
 /**
- * Content Type Gateway.
+ * Content type Gateway.
  *
  * @internal For internal use by Persistence Handlers.
  */
@@ -52,7 +52,7 @@ abstract class Gateway
     abstract public function loadAllGroupsData(): array;
 
     /**
-     * Load data for all Content Types of the given status, belonging to the given Group.
+     * Load data for all content types of the given status, belonging to the given Group.
      */
     abstract public function loadTypesDataForGroup(int $groupId, int $status): array;
 
@@ -62,14 +62,14 @@ abstract class Gateway
     abstract public function insertType(Type $type, ?int $typeId = null): int;
 
     /**
-     * Assign a Content Type of the given status (published, draft) to Content Type Group.
+     * Assign a content type of the given status (published, draft) to content type Group.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the given Group does not exist
      */
     abstract public function insertGroupAssignment(int $groupId, int $typeId, int $status): void;
 
     /**
-     * Delete a Group assignments for Content Type of the given status (published, draft).
+     * Delete a Group assignments for content type of the given status (published, draft).
      */
     abstract public function deleteGroupAssignment(int $groupId, int $typeId, int $status): void;
 
@@ -80,7 +80,7 @@ abstract class Gateway
     abstract public function loadFieldDefinition(int $id, int $status): array;
 
     /**
-     * Insert a Field Definition into Content Type.
+     * Insert a Field Definition into content type.
      */
     abstract public function insertFieldDefinition(
         int $typeId,
@@ -103,14 +103,14 @@ abstract class Gateway
     ): void;
 
     /**
-     * Update a Content Type based on the given SPI Persistence Type Value Object.
+     * Update a content type based on the given SPI Persistence Type Value Object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if at least one of the used languages does not exist
      */
     abstract public function updateType(int $typeId, int $status, Type $type): void;
 
     /**
-     * Bulk-load an array with data about the given Content Types.
+     * Bulk-load an array with data about the given content types.
      *
      * @param int[] $typeIds
      */
@@ -130,14 +130,14 @@ abstract class Gateway
     abstract public function countInstancesOfType(int $typeId): int;
 
     /**
-     * Permanently delete a Content Type of the given status.
+     * Permanently delete a content type of the given status.
      */
     abstract public function delete(int $typeId, int $status): void;
 
     abstract public function deleteFieldDefinitionsForType(int $typeId, int $status): void;
 
     /**
-     * Delete a Content Type.
+     * Delete a content type.
      *
      * Does not delete Field Definitions!
      */
@@ -146,7 +146,7 @@ abstract class Gateway
     abstract public function deleteGroupAssignmentsForType(int $typeId, int $status): void;
 
     /**
-     * Publish a Content Type including its Field Definitions.
+     * Publish a content type including its Field Definitions.
      */
     abstract public function publishTypeAndFields(
         int $typeId,

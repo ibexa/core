@@ -1613,7 +1613,7 @@ class ContentHandlerTest extends TestCase
     }
 
     /**
-     * Returns a Content Type gateway mock.
+     * Returns a content type gateway mock.
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
      */

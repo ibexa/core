@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 
 /**
- * Content Type Criterion visitor query builder base.
+ * Content type Criterion visitor query builder base.
  *
  * @internal for internal use by Repository Filtering
  */

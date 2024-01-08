@@ -34,7 +34,7 @@ class Handler implements BaseContentTypeHandler
     protected $mapper;
 
     /**
-     * Content Type update handler.
+     * Content type update handler.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
      */

@@ -22,7 +22,7 @@ use Psr\Log\NullLogger;
 class ContentTypeIdentifier extends CriterionHandler
 {
     /**
-     * Content Type handler.
+     * Content type handler.
      *
      * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */

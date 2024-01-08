@@ -20,7 +20,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 abstract class FieldBase extends CriterionHandler
 {
     /**
-     * Content Type handler.
+     * Content type handler.
      *
      * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */

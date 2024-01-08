@@ -33,7 +33,7 @@ final class ContentTypeQueryBuildersTest extends BaseCriterionVisitorQueryBuilde
             ['dcValue1' => [3]],
         ];
 
-        yield 'Content type Identifier=folder OR Content type ID IN (1, 2)' => [
+        yield 'Content type Identifier=folder OR content type ID IN (1, 2)' => [
             new Criterion\LogicalOr(
                 [
                     new Criterion\ContentTypeIdentifier('folder'),

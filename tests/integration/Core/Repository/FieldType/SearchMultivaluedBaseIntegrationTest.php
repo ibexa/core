@@ -123,7 +123,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
     }
 
     /**
-     * Proxy method for creating test Content type.
+     * Proxy method for creating test content type.
      *
      * Defaults to the testCreateContentType() in the base field type test,
      * override in the concrete test as needed.

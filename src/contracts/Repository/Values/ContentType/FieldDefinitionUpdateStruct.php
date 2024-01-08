@@ -18,7 +18,7 @@ class FieldDefinitionUpdateStruct extends ValueObject
     /**
      * If set the identifier of a field definition is changed to this value.
      *
-     * Needs to be unique within the context of the Content Type this is added to.
+     * Needs to be unique within the context of the content type this is added to.
      *
      * @var string
      */

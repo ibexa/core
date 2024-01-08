@@ -59,7 +59,7 @@ final class VersionBuilder
     }
 
     /**
-     * Set intent to create Content from unspecified (yet) Content type, any from the given list.
+     * Set intent to create Content from unspecified (yet) content type, any from the given list.
      *
      * @param int[] $contentTypeIds
      *
@@ -71,7 +71,7 @@ final class VersionBuilder
     {
         foreach ($contentTypeIds as $contentTypeId) {
             if (!\is_int($contentTypeId)) {
-                throw new InvalidArgumentException('$contentTypeIds', 'All Content type IDs must be integers');
+                throw new InvalidArgumentException('$contentTypeIds', 'All content type IDs must be integers');
             }
         }
 

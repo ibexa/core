@@ -22,7 +22,7 @@ class TypeGroupNotFound extends NotFoundException
     public function __construct($typeGroupId)
     {
         parent::__construct(
-            'Persistence Content type group',
+            'Persistence content type group',
             sprintf('ID: %s', $typeGroupId)
         );
     }

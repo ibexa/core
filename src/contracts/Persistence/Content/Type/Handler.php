@@ -42,7 +42,7 @@ interface Handler
     public function loadGroup($groupId);
 
     /**
-     * Return list of unique Content Type Groups, with group id as key.
+     * Return list of unique content type Groups, with group id as key.
      *
      * Missing items (NotFound) will be missing from the array and not cause an exception, it's up
      * to calling logic to determine if this should cause exception or not.
@@ -80,7 +80,7 @@ interface Handler
     public function loadContentTypes($groupId, $status = Type::STATUS_DEFINED);
 
     /**
-     * Return list of unique Content Types, with type id as key.
+     * Return list of unique content types, with type id as key.
      *
      * Missing items (NotFound) will be missing from the array and not cause an exception, it's up
      * to calling logic to determine if this should cause exception or not.
@@ -175,7 +175,7 @@ interface Handler
     /**
      * Copy a Type incl fields and group-relations from a given status to a new Type with status {@link Type::STATUS_DRAFT}.
      *
-     * New Content Type will have $userId as creator / modifier, created / modified should be updated, new remoteId created
+     * New content type will have $userId as creator / modifier, created / modified should be updated, new remoteId created
      * and identifier should be 'copy_of_<originalBaseIdentifier>_<newTypeId>' or another unique string.
      *
      * @param mixed $userId

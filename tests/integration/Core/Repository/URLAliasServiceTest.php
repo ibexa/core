@@ -1189,7 +1189,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Test that URL aliases are refreshed after changing URL alias schema Field name of a Content Type.
+     * Test that URL aliases are refreshed after changing URL alias schema Field name of a content type.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
@@ -1632,7 +1632,7 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
-     * Update Content Type URL alias schema pattern.
+     * Update content type URL alias schema pattern.
      *
      * @param string $contentTypeIdentifier
      * @param string $newUrlAliasSchema

@@ -1918,7 +1918,7 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the publishVersion() method, and that it creates limited archives.
      *
-     * @todo Adapt this when per content type archive limited is added on repository Content Type model.
+     * @todo Adapt this when per content type archive limited is added on repository content type model.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::publishVersion()
      * @depends testPublishVersionFromContentDraft
@@ -2170,7 +2170,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $contentService = $repository->getContentService();
         $locationService = $repository->getLocationService();
 
-        // create a Content Type which is not always available by default
+        // create a content type which is not always available by default
         $contentType = $this->createSimpleContentType(
             'test_t',
             self::ENG_GB,
@@ -6428,7 +6428,7 @@ class ContentServiceTest extends BaseContentServiceTest
         // Create content type for testing
         $contentTypeCreateStruct = $contentTypeService->newContentTypeCreateStruct('test_copy_translation');
         $contentTypeCreateStruct->mainLanguageCode = 'eng-US';
-        $contentTypeCreateStruct->names = ['eng-US' => 'Test Content type for Copy Translations'];
+        $contentTypeCreateStruct->names = ['eng-US' => 'Test content type for Copy Translations'];
         $fieldDefinition = $contentTypeService->newFieldDefinitionCreateStruct('name', 'ezstring');
         $fieldDefinition->position = 1;
         $contentTypeCreateStruct->addFieldDefinition($fieldDefinition);

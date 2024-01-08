@@ -27,7 +27,7 @@ class FieldDefinitionCreateStruct extends ValueObject
     /**
      * Readable string identifier of a field definition.
      *
-     * Needs to be unique within the context of the Content Type this is added to.
+     * Needs to be unique within the context of the content type this is added to.
      *
      * Required.
      *
