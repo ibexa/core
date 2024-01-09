@@ -40,7 +40,7 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
     public function __construct(array $errors)
     {
         $this->errors = $errors;
-        $this->setMessageTemplate('Content type Field definitions did not validate');
+        $this->setMessageTemplate('Content type field definitions did not validate');
         parent::__construct($this->getBaseTranslation());
     }
 

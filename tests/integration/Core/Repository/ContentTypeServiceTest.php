@@ -2631,7 +2631,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
     }
 
     /**
-     * Test that publishing content type Draft refreshes list of content types in content type Groups.
+     * Test that publishing content type Draft refreshes list of content types in content type groups.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentTypeService::publishContentTypeDraft
      */

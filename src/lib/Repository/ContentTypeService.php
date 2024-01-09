@@ -110,7 +110,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * Create a Content Type Group object.
+     * Create a content type group object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If a group with the same identifier already exists
@@ -217,7 +217,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * Update a Content Type Group object.
+     * Update a content type group object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier (if set) already exists
@@ -280,7 +280,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * Delete a Content Type Group.
+     * Delete a content type group.
      *
      * This method only deletes an content type group which has content types without any content instances
      *
@@ -638,7 +638,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * Create a Content Type object.
+     * Create a content type object.
      *
      * The content type is created in the state STATUS_DRAFT.
      *
@@ -892,7 +892,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * Get a Content Type object draft by id.
+     * Get a content type object draft by id.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If the content type draft owned by the current user can not be found
      *
@@ -1004,7 +1004,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * Update a Content Type object.
+     * Update a content type object.
      *
      * Does not update fields (fieldDefinitions), use {@link updateFieldDefinition()} to update them.
      *
@@ -1082,7 +1082,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * Delete a Content Type object.
+     * Delete a content type object.
      *
      * Deletes a content type if it has no instances. If content type in state STATUS_DRAFT is
      * given, only the draft content type will be deleted. Otherwise, if content type in state

@@ -153,7 +153,7 @@ class TransactionHandlerTest extends TestCase
     }
 
     /**
-     * Returns a mock object for the content type Handler.
+     * Returns a mock object for the content type handler.
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler|\PHPUnit\Framework\MockObject\MockObject
      */

@@ -62,7 +62,7 @@ abstract class Gateway
     abstract public function insertType(Type $type, ?int $typeId = null): int;
 
     /**
-     * Assign a content type of the given status (published, draft) to content type Group.
+     * Assign a content type of the given status (published, draft) to content type group.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the given Group does not exist
      */

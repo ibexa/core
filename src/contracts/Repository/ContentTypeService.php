@@ -23,7 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 interface ContentTypeService
 {
     /**
-     * Create a content type Group object.
+     * Create a content type group object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If a group with the same identifier already exists
@@ -35,7 +35,7 @@ interface ContentTypeService
     public function createContentTypeGroup(ContentTypeGroupCreateStruct $contentTypeGroupCreateStruct): ContentTypeGroup;
 
     /**
-     * Get a content type Group object by id.
+     * Get a content type group object by id.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group can not be found
      *
@@ -47,7 +47,7 @@ interface ContentTypeService
     public function loadContentTypeGroup(int $contentTypeGroupId, array $prioritizedLanguages = []): ContentTypeGroup;
 
     /**
-     * Get a content type Group object by identifier.
+     * Get a content type group object by identifier.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If group can not be found
      *
@@ -59,7 +59,7 @@ interface ContentTypeService
     public function loadContentTypeGroupByIdentifier(string $contentTypeGroupIdentifier, array $prioritizedLanguages = []): ContentTypeGroup;
 
     /**
-     * Get all content type Groups.
+     * Get all content type groups.
      *
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
@@ -68,7 +68,7 @@ interface ContentTypeService
     public function loadContentTypeGroups(array $prioritizedLanguages = []): iterable;
 
     /**
-     * Update a content type Group object.
+     * Update a content type group object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to create a content type group
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier (if set) already exists
@@ -79,7 +79,7 @@ interface ContentTypeService
     public function updateContentTypeGroup(ContentTypeGroup $contentTypeGroup, ContentTypeGroupUpdateStruct $contentTypeGroupUpdateStruct): void;
 
     /**
-     * Delete a content type Group.
+     * Delete a content type group.
      *
      * This method only deletes an content type group which has content types without any content instances
      *

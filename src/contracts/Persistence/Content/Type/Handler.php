@@ -42,7 +42,7 @@ interface Handler
     public function loadGroup($groupId);
 
     /**
-     * Return list of unique content type Groups, with group id as key.
+     * Return list of unique content type groups, with group id as key.
      *
      * Missing items (NotFound) will be missing from the array and not cause an exception, it's up
      * to calling logic to determine if this should cause exception or not.

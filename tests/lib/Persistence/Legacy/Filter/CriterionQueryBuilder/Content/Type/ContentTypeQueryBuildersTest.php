@@ -21,7 +21,7 @@ final class ContentTypeQueryBuildersTest extends BaseCriterionVisitorQueryBuilde
 {
     public function getFilteringCriteriaQueryData(): iterable
     {
-        yield 'Content type Identifier=article' => [
+        yield 'Content type identifier=article' => [
             new Criterion\ContentTypeIdentifier('article'),
             'content_type.identifier IN (:dcValue1)',
             ['dcValue1' => ['article']],
@@ -33,7 +33,7 @@ final class ContentTypeQueryBuildersTest extends BaseCriterionVisitorQueryBuilde
             ['dcValue1' => [3]],
         ];
 
-        yield 'Content type Identifier=folder OR content type ID IN (1, 2)' => [
+        yield 'Content type identifier=folder OR content type ID IN (1, 2)' => [
             new Criterion\LogicalOr(
                 [
                     new Criterion\ContentTypeIdentifier('folder'),

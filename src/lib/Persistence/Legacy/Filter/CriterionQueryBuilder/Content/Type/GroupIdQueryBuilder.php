@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 
 /**
- * Content type Group ID Criterion visitor query builder.
+ * Content type group ID Criterion visitor query builder.
  *
  * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeGroupId
  *
