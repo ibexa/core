@@ -29,7 +29,7 @@ use Ibexa\Core\Persistence\TransformationProcessor;
  * independently, they are designed to be used as a part of a Content object.
  *
  * Field types are primed and pre-configured with the Field Definitions found in
- * Content types.
+ * content types.
  */
 abstract class FieldType extends SPIFieldType implements Comparable
 {

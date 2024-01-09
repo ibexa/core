@@ -134,7 +134,7 @@ class DoctrineStorage extends Gateway
     }
 
     /**
-     * Retrieves the Content type ID for the given $fieldDefinitionId.
+     * Retrieves the content type ID for the given $fieldDefinitionId.
      *
      * @param int $fieldDefinitionId
      *

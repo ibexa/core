@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\ValidationError;
 
 /**
- * Validator for checking existence of content and its Content type.
+ * Validator for checking existence of content and its content type.
  *
  * @internal
  */
