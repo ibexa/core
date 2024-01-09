@@ -1028,7 +1028,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
                     ],
                     'output_dir' => __DIR__ . '/../Resources/translations/',
                     'output_format' => 'xlf',
-                    'excluded_dirs' => ['Behat', 'Tests', 'node_modules', 'Features'],
+                    'excluded_dirs' => ['Test', 'Features'],
                 ],
             ],
         ]);
