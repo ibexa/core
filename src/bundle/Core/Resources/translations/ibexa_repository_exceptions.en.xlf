@@ -58,7 +58,7 @@
       </trans-unit>
       <trans-unit id="8f64e46d8c92143a1a8fde9790a6a2423759a0ce" resname="Content type field definitions did not validate">
         <source>Content type field definitions did not validate</source>
-        <target state="new">Content type field definitions did not validate</target>
+        <target>Content type field definitions did not validate</target>
         <note>key: Content type field definitions did not validate</note>
       </trans-unit>
       <trans-unit id="dbf0b883e33a6e7c433ffa9a536fd214cda39b5c" resname="Could not find %classType% class '%className%'">
@@ -83,12 +83,12 @@
       </trans-unit>
       <trans-unit id="5dc8e460be7495d772cdb7bc4d4bd2913e480273" resname="Field definition '%identifier%' does not exist in given content type">
         <source>Field definition '%identifier%' does not exist in given content type</source>
-        <target state="new">Field definition '%identifier%' does not exist in given content type</target>
+        <target>Field definition '%identifier%' does not exist in given content type</target>
         <note>key: Field definition '%identifier%' does not exist in given content type</note>
       </trans-unit>
       <trans-unit id="1469ef88c3de1616907207891c1611a07459534a" resname="Field definition '%identifier%' does not exist in the given content type">
         <source>Field definition '%identifier%' does not exist in the given content type</source>
-        <target state="new">Field definition '%identifier%' does not exist in the given content type</target>
+        <target>Field definition '%identifier%' does not exist in the given content type</target>
         <note>key: Field definition '%identifier%' does not exist in the given content type</note>
       </trans-unit>
       <trans-unit id="c6f0fd742d6b8ce0686dc4e7a3a070efbf924204" resname="Invalid URL wildcards provided.">
