@@ -1,0 +1,10 @@
+--TEST--
+"ibexa_get_user_preference_value" function
+--TEMPLATE--
+{{ ibexa_get_user_preference_value('foo', 'default') }}
+{{ ibexa_get_user_preference_value('baz', 'default') }}
+--DATA--
+return [];
+--EXPECT--
+bar
+default

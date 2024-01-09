@@ -309,3 +309,11 @@ services:
             $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
         tags:
             - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserPreferenceExtension:
+        autowire: true
+        autoconfigure: true
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserPreferenceRuntime:
+        autowire: true
+        autoconfigure: true
