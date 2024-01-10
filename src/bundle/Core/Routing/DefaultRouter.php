@@ -64,7 +64,10 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
 
     public function matchRequest(Request $request)
     {
-        return $this->match($request->attributes->get('semanticPathinfo', $request->getPathInfo()));
+        $siteAccessRequest = $request->duplicate();
+        $siteAccessRequest->server->set('REQUEST_URI', $request->attributes->get('semanticPathinfo', $request->getPathInfo()));
+
+        return parent::matchRequest($siteAccessRequest);
     }
 
     public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
