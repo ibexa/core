@@ -9756,6 +9756,11 @@ parameters:
 			path: src/lib/FieldType/ImageAsset/Type.php
 
 		-
+			message: "#^Property Ibexa\\\\Core\\\\FieldType\\\\ImageAsset\\\\Type\\:\\:\\$contentTypeService is never read, only written\\.$#"
+			count: 1
+			path: src/lib/FieldType/ImageAsset/Type.php
+
+		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
 			count: 1
 			path: src/lib/FieldType/Integer/Type.php
@@ -22689,6 +22694,7 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Gateway\\\\CriterionHandler\\\\Ancestor\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
+
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Gateway\\\\CriterionHandler\\\\LocationId\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
