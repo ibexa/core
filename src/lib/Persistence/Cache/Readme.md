@@ -17,11 +17,11 @@ Handlers using `AbstractInMemoryHandler` / `AbstractInMemoryPersistenceHandler` 
    Note: It's not shared but per request/process. To keep risk of race condition negligible, it has own milliseconds ttl & item limits.
 
 There are abstract test classes for the respective abstract classes above, these are opinionated and enforce conventions to:
-
 - Avoid too much logic in cache logic _(e.g. warm-up logic)_, which can be a source of bugs.
 - Avoids having to write error-prone test cases for every method.
 
 _This ensures the cache layer is far less complex to maintain and evolve than what was the case in 1.x._
+
 
 ### Tags
 
@@ -42,7 +42,7 @@ It's worth noting that shared cache comes at a cost:
 - Latency per round trip
 - Memory use
 
-Because of that, _typically_ avoid introducing cache if:
+Because of that, *typically* avoid introducing cache if:
 - Lookup is per user => _it will consume a lot of memory and have very low hit ratio_
 - For drafts => _usually belongs to a single user and is short-lived_
 - Infrequently used lookups
@@ -58,7 +58,7 @@ Like cache, tags also comes at a cost:
 For those reasons, only introduce use a tag:
 - Mainly to represent an entity _(e.g. `c-<id>`)_
 - Only if it's represented on many different cache keys or if a key can have a lot of different variants.
-  - _Tip: Otherwise prefer to delete by cache key(s) when cache clear is needed, it will be faster and consume less memory._
+   - _Tip: Otherwise prefer to delete by cache key(s) when cache clear is needed, it will be faster and consume less memory._
 
 ### Possible future considerations
 
