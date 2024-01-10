@@ -1186,7 +1186,7 @@ class UserService implements UserServiceInterface
      * Instantiate a user group create class.
      *
      * @param string $mainLanguageCode The main language for the underlying content object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType 5.x the content type for the underlying content object. In 4.x it is ignored and taken from the configuration
+     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType 5.x the content type for the underlying content item. In 4.x it is ignored and taken from the configuration
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct
      */
