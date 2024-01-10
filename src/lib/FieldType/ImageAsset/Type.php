@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -64,6 +65,10 @@ class Type extends FieldType implements TranslationContainerInterface
      * @param \Ibexa\Core\FieldType\ImageAsset\Value $fieldValue The field value for which an action is performed
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
     public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
@@ -77,16 +82,17 @@ class Type extends FieldType implements TranslationContainerInterface
             (int)$fieldValue->destinationContentId
         );
 
-        if (!$this->assetMapper->isAsset($content)) {
-            $currentContentType = $this->contentTypeService->loadContentType(
-                (int)$content->contentInfo->contentTypeId
-            );
-
+        if ($this->assetMapper->isAsset($content)) {
+            $validationError = $this->validateMaxFileSize($content);
+            if (null !== $validationError) {
+                $errors[] = $validationError;
+            }
+        } else {
             $errors[] = new ValidationError(
                 'Content %type% is not a valid asset target',
                 null,
                 [
-                    '%type%' => $currentContentType->identifier,
+                    '%type%' => $content->getContentType()->identifier,
                 ],
                 'destinationContentId'
             );
@@ -295,6 +301,40 @@ class Type extends FieldType implements TranslationContainerInterface
         return [
             Message::create('ezimageasset.name', 'ibexa_fieldtypes')->setDesc('Image Asset'),
         ];
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    private function validateMaxFileSize(Content $content): ?ValidationError
+    {
+        $fileSize = $this->assetMapper
+            ->getAssetValue($content)
+            ->getFileSize();
+
+        $assetValidatorConfiguration = $this->assetMapper
+            ->getAssetFieldDefinition()
+            ->getValidatorConfiguration();
+
+        $maxFileSizeMB = $assetValidatorConfiguration['FileSizeValidator']['maxFileSize'];
+        $maxFileSizeKB = $maxFileSizeMB * 1024 * 1024;
+
+        if (
+            $maxFileSizeKB > 0
+            && $fileSize > $maxFileSizeKB
+        ) {
+            return new ValidationError(
+                'The file size cannot exceed %size% megabyte.',
+                'The file size cannot exceed %size% megabytes.',
+                [
+                    '%size%' => $maxFileSizeMB,
+                ],
+                'fileSize'
+            );
+        }
+
+        return null;
     }
 }
 
