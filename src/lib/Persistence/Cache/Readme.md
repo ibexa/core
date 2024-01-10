@@ -31,7 +31,7 @@ List of content tags that can be somewhat safely "semi-officially" used to clear
 - `lp-<id>`: Like the tag above but applied to all Content/Locations in the subtree of this ID, so it can be used by tree operations.
 - `cft-<type-id>`: Cache tag which refers to entries containing Field data. It's used on content type changes that affect all Content items of the type.
 
-_For further tags used for other internal use cases, see the \*Handlers for how they are used._
+_For further tags used for other internal use cases, see the *Handlers for how they are used._
 
 ## Guidelines for core development
 
@@ -48,6 +48,7 @@ Because of that, *typically* avoid introducing cache if:
 - Infrequently used lookups
 - Lookups that are fast against DB even under load _(see also notes in "Possible future plans")_
 
+
 ### Tags: When to use, when not to use
 
 Like cache, tags also comes at a cost:
@@ -58,7 +59,7 @@ Like cache, tags also comes at a cost:
 For those reasons, only introduce use a tag:
 - Mainly to represent an entity _(e.g. `c-<id>`)_
 - Only if it's represented on many different cache keys or if a key can have a lot of different variants.
-   - _Tip: Otherwise prefer to delete by cache key(s) when cache clear is needed, it will be faster and consume less memory._
+    - _Tip: Otherwise prefer to delete by cache key(s) when cache clear is needed, it will be faster and consume less memory._
 
 ### Possible future considerations
 
