@@ -12,7 +12,6 @@ use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
@@ -34,9 +33,6 @@ class ImageAssetTest extends FieldTypeTest
     /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
     private $contentServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentTypeServiceMock;
-
     /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
     private $assetMapperMock;
 
@@ -51,7 +47,6 @@ class ImageAssetTest extends FieldTypeTest
         parent::setUp();
 
         $this->contentServiceMock = $this->createMock(ContentService::class);
-        $this->contentTypeServiceMock = $this->createMock(ContentTypeService::class);
         $this->assetMapperMock = $this->createMock(ImageAsset\AssetMapper::class);
         $this->contentHandlerMock = $this->createMock(SPIContentHandler::class);
         $versionInfo = new VersionInfo([
@@ -96,7 +91,6 @@ class ImageAssetTest extends FieldTypeTest
     {
         return new ImageAsset\Type(
             $this->contentServiceMock,
-            $this->contentTypeServiceMock,
             $this->assetMapperMock,
             $this->contentHandlerMock
         );

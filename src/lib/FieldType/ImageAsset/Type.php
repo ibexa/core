@@ -11,7 +11,6 @@ namespace Ibexa\Core\FieldType\ImageAsset;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -31,29 +30,18 @@ class Type extends FieldType implements TranslationContainerInterface
     /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
-
     /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper */
     private $assetMapper;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
     private $handler;
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
-     * @param \Ibexa\Contracts\Core\Repository\ContentTypeService $contentTypeService
-     * @param \Ibexa\Core\FieldType\ImageAsset\AssetMapper $mapper
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Handler $handler
-     */
     public function __construct(
         ContentService $contentService,
-        ContentTypeService $contentTypeService,
         AssetMapper $mapper,
         SPIContentHandler $handler
     ) {
         $this->contentService = $contentService;
-        $this->contentTypeService = $contentTypeService;
         $this->assetMapper = $mapper;
         $this->handler = $handler;
     }

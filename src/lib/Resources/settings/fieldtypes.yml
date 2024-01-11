@@ -549,7 +549,6 @@ services:
         parent: Ibexa\Core\FieldType\FieldType
         arguments:
             - '@ibexa.api.service.content'
-            - '@ibexa.api.service.content_type'
             - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
             - '@Ibexa\Core\Persistence\Cache\ContentHandler'
         tags:

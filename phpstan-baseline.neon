@@ -9756,11 +9756,6 @@ parameters:
 			path: src/lib/FieldType/ImageAsset/Type.php
 
 		-
-			message: "#^Property Ibexa\\\\Core\\\\FieldType\\\\ImageAsset\\\\Type\\:\\:\\$contentTypeService is never read, only written\\.$#"
-			count: 1
-			path: src/lib/FieldType/ImageAsset/Type.php
-
-		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
 			count: 1
 			path: src/lib/FieldType/Integer/Type.php
