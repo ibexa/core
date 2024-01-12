@@ -70,20 +70,22 @@ class Type extends FieldType implements TranslationContainerInterface
             (int)$fieldValue->destinationContentId
         );
 
-        if ($this->assetMapper->isAsset($content)) {
-            $validationError = $this->validateMaxFileSize($content);
-            if (null !== $validationError) {
-                $errors[] = $validationError;
-            }
-        } else {
-            $errors[] = new ValidationError(
-                'Content %type% is not a valid asset target',
-                null,
-                [
-                    '%type%' => $content->getContentType()->identifier,
-                ],
-                'destinationContentId'
-            );
+        if (!$this->assetMapper->isAsset($content)) {
+            return [
+                new ValidationError(
+                    'Content %type% is not a valid asset target',
+                    null,
+                    [
+                        '%type%' => $content->getContentType()->identifier,
+                    ],
+                    'destinationContentId'
+                ),
+            ];
+        }
+
+        $validationError = $this->validateMaxFileSize($content);
+        if (null !== $validationError) {
+            $errors[] = $validationError;
         }
 
         return $errors;
