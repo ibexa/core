@@ -296,7 +296,7 @@ class ImageAssetTest extends FieldTypeTest
     public function testValidateValidNonEmptyAssetValue(
         int $fileSize,
         array $expectedValidationErrors
-    ) {
+    ): void {
         $destinationContentId = 7;
         $destinationContent = $this->createMock(Content::class);
 
