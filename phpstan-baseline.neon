@@ -43586,11 +43586,6 @@ parameters:
 			path: tests/lib/FieldType/ImageAssetTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\ImageAssetTest\\:\\:testValidateValidNonEmptyAssetValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/FieldType/ImageAssetTest.php
-
-		-
 			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\ImageTest\\:\\:\\$mimeTypeDetectorMock\\.$#"
 			count: 1
 			path: tests/lib/FieldType/ImageTest.php
