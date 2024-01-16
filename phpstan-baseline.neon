@@ -22689,6 +22689,7 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Gateway\\\\CriterionHandler\\\\Ancestor\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
+
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Gateway\\\\CriterionHandler\\\\LocationId\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
@@ -43581,11 +43582,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\ImageAssetTest\\:\\:testValidateNonAsset\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/FieldType/ImageAssetTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\ImageAssetTest\\:\\:testValidateValidNonEmptyAssetValue\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/FieldType/ImageAssetTest.php
 

@@ -12,13 +12,13 @@ use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -32,9 +32,6 @@ class ImageAssetTest extends FieldTypeTest
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
     private $contentServiceMock;
-
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentTypeServiceMock;
 
     /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper|\PHPUnit\Framework\MockObject\MockObject */
     private $assetMapperMock;
@@ -50,7 +47,6 @@ class ImageAssetTest extends FieldTypeTest
         parent::setUp();
 
         $this->contentServiceMock = $this->createMock(ContentService::class);
-        $this->contentTypeServiceMock = $this->createMock(ContentTypeService::class);
         $this->assetMapperMock = $this->createMock(ImageAsset\AssetMapper::class);
         $this->contentHandlerMock = $this->createMock(SPIContentHandler::class);
         $versionInfo = new VersionInfo([
@@ -95,7 +91,6 @@ class ImageAssetTest extends FieldTypeTest
     {
         return new ImageAsset\Type(
             $this->contentServiceMock,
-            $this->contentTypeServiceMock,
             $this->assetMapperMock,
             $this->contentHandlerMock
         );
@@ -241,23 +236,17 @@ class ImageAssetTest extends FieldTypeTest
     {
         $destinationContentId = 7;
         $destinationContent = $this->createMock(Content::class);
-        $invalidContentTypeId = 789;
         $invalidContentTypeIdentifier = 'article';
         $invalidContentType = $this->createMock(ContentType::class);
-
-        $destinationContentInfo = $this->createMock(ContentInfo::class);
-
-        $destinationContentInfo
+        $invalidContentType
             ->expects($this->once())
             ->method('__get')
-            ->with('contentTypeId')
-            ->willReturn($invalidContentTypeId);
+            ->with('identifier')
+            ->willReturn($invalidContentTypeIdentifier);
 
         $destinationContent
-            ->expects($this->once())
-            ->method('__get')
-            ->with('contentInfo')
-            ->willReturn($destinationContentInfo);
+            ->method('getContentType')
+            ->willReturn($invalidContentType);
 
         $this->contentServiceMock
             ->expects($this->once())
@@ -270,18 +259,6 @@ class ImageAssetTest extends FieldTypeTest
             ->method('isAsset')
             ->with($destinationContent)
             ->willReturn(false);
-
-        $this->contentTypeServiceMock
-            ->expects($this->once())
-            ->method('loadContentType')
-            ->with($invalidContentTypeId)
-            ->willReturn($invalidContentType);
-
-        $invalidContentType
-            ->expects($this->once())
-            ->method('__get')
-            ->with('identifier')
-            ->willReturn($invalidContentTypeIdentifier);
 
         $validationErrors = $this->doValidate([], new ImageAsset\Value($destinationContentId));
 
@@ -311,8 +288,15 @@ class ImageAssetTest extends FieldTypeTest
         ];
     }
 
-    public function testValidateValidNonEmptyAssetValue()
-    {
+    /**
+     * @dataProvider provideDataForTestValidateValidNonEmptyAssetValue
+     *
+     * @param array<\Ibexa\Core\FieldType\ValidationError> $expectedValidationErrors
+     */
+    public function testValidateValidNonEmptyAssetValue(
+        int $fileSize,
+        array $expectedValidationErrors
+    ): void {
         $destinationContentId = 7;
         $destinationContent = $this->createMock(Content::class);
 
@@ -328,10 +312,65 @@ class ImageAssetTest extends FieldTypeTest
             ->with($destinationContent)
             ->willReturn(true);
 
-        $validationErrors = $this->doValidate([], new ImageAsset\Value($destinationContentId));
+        $assetValueMock = $this->createMock(Value::class);
+        $assetValueMock
+            ->method('getFileSize')
+            ->willReturn($fileSize);
 
-        $this->assertIsArray($validationErrors);
-        $this->assertEmpty($validationErrors, "Got value:\n" . var_export($validationErrors, true));
+        $this->assetMapperMock
+            ->expects($this->once())
+            ->method('getAssetValue')
+            ->with($destinationContent)
+            ->willReturn($assetValueMock);
+
+        $fieldDefinitionMock = $this->createMock(FieldDefinition::class);
+        $fieldDefinitionMock
+            ->method('getValidatorConfiguration')
+            ->willReturn(
+                [
+                    'FileSizeValidator' => [
+                        'maxFileSize' => 1.4,
+                    ],
+                ]
+            );
+
+        $this->assetMapperMock
+            ->method('getAssetFieldDefinition')
+            ->willReturn($fieldDefinitionMock);
+
+        $validationErrors = $this->doValidate([], new ImageAsset\Value($destinationContentId));
+        $this->assertEquals(
+            $expectedValidationErrors,
+            $validationErrors
+        );
+    }
+
+    /**
+     * @return iterable<array{
+     *     int,
+     *     array<\Ibexa\Core\FieldType\ValidationError>,
+     * }>
+     */
+    public function provideDataForTestValidateValidNonEmptyAssetValue(): iterable
+    {
+        yield 'No validation errors' => [
+            123456,
+            [],
+        ];
+
+        yield 'Maximum file size exceeded' => [
+            12345678912356,
+            [
+                new ValidationError(
+                    'The file size cannot exceed %size% megabyte.',
+                    'The file size cannot exceed %size% megabytes.',
+                    [
+                        '%size%' => 1.4,
+                    ],
+                    'fileSize'
+                ),
+            ],
+        ];
     }
 
     /**
