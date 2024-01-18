@@ -10,29 +10,23 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image;
 
 final class FileSize extends AbstractImageRangeCriterion
 {
-    /**
-     * @param numeric $minFileSize
-     * @param numeric|null $maxFileSize
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     */
     public function __construct(
         string $fieldDefIdentifier,
-        $minFileSize = 0,
-        $maxFileSize = null
+        $minValue = 0,
+        $maxValue = null
     ) {
-        if ($minFileSize > 0) {
-            $minFileSize *= 1024 * 1024;
+        if ($minValue > 0) {
+            $minValue *= 1024 * 1024;
         }
 
-        if ($maxFileSize > 0) {
-            $maxFileSize *= 1024 * 1024;
+        if ($maxValue > 0) {
+            $maxValue *= 1024 * 1024;
         }
 
         parent::__construct(
             $fieldDefIdentifier,
-            $minFileSize,
-            $maxFileSize
+            $minValue,
+            $maxValue
         );
     }
 }

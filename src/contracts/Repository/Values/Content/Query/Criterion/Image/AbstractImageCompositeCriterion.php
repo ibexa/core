@@ -23,29 +23,29 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 abstract class AbstractImageCompositeCriterion extends CompositeCriterion
 {
     /**
-     * @phpstan-param TImageCriteria $data
+     * @phpstan-param TImageCriteria $imageCriteriaData
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function __construct(
         string $fieldDefIdentifier,
-        array $data
+        array $imageCriteriaData
     ) {
-        $this->validate($data, $this->getSupportedCriteria());
+        $this->validate($imageCriteriaData, $this->getSupportedCriteria());
 
         $criteria = new Criterion\LogicalAnd(
-            $this->buildCriteria($fieldDefIdentifier, $data)
+            $this->buildCriteria($fieldDefIdentifier, $imageCriteriaData)
         );
 
         parent::__construct($criteria);
     }
 
     /**
-     * @phpstan-param TImageCriteria $data
+     * @phpstan-param TImageCriteria $imageCriteriaData
      *
      * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
      */
-    abstract protected function buildCriteria(string $fieldDefIdentifier, array $data): array;
+    abstract protected function buildCriteria(string $fieldDefIdentifier, array $imageCriteriaData): array;
 
     /**
      * @return array<string>
@@ -53,17 +53,17 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
     abstract protected function getSupportedCriteria(): array;
 
     /**
-     * @phpstan-param TImageCriteria $data
+     * @phpstan-param TImageCriteria $imageCriteriaData
      *
      * @param array<string> $supportedCriteria
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     protected function validate(
-        array $data,
+        array $imageCriteriaData,
         array $supportedCriteria
     ): void {
-        if (empty($data)) {
+        if (empty($imageCriteriaData)) {
             throw new InvalidArgumentException(
                 '$data',
                 sprintf(
@@ -74,7 +74,7 @@ abstract class AbstractImageCompositeCriterion extends CompositeCriterion
         }
 
         $notSupportedCriteria = array_diff(
-            array_keys($data),
+            array_keys($imageCriteriaData),
             $supportedCriteria
         );
 

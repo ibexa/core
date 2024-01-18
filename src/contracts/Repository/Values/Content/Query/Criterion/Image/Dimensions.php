@@ -34,7 +34,7 @@ final class Dimensions extends AbstractImageCompositeCriterion
     }
 
     /**
-     * @phpstan-param ImageCriteria $data
+     * @phpstan-param ImageCriteria $imageCriteriaData
      *
      * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
      *
@@ -42,12 +42,12 @@ final class Dimensions extends AbstractImageCompositeCriterion
      */
     protected function buildCriteria(
         string $fieldDefIdentifier,
-        array $data
+        array $imageCriteriaData
     ): array {
         $criteria = [];
 
-        if (isset($data['width'])) {
-            $width = $data['width'];
+        if (isset($imageCriteriaData['width'])) {
+            $width = $imageCriteriaData['width'];
             $criteria[] = new Width(
                 $fieldDefIdentifier,
                 $this->getMinValue($width),
@@ -55,8 +55,8 @@ final class Dimensions extends AbstractImageCompositeCriterion
             );
         }
 
-        if (isset($data['height'])) {
-            $height = $data['height'];
+        if (isset($imageCriteriaData['height'])) {
+            $height = $imageCriteriaData['height'];
             $criteria[] = new Height(
                 $fieldDefIdentifier,
                 $this->getMinValue($height),
