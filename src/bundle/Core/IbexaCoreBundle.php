@@ -31,7 +31,6 @@ use Ibexa\Bundle\Core\DependencyInjection\Compiler\SlugConverterConfigurationPas
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\StorageConnectionPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\TranslationCollectorPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\URLHandlerPass;
-use Ibexa\Bundle\Core\DependencyInjection\Compiler\ViewMatcherRegistryPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ViewProvidersPass;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser as ConfigParser;
@@ -78,7 +77,6 @@ class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new PlaceholderProviderPass());
         $container->addCompilerPass(new NotificationRendererPass());
         $container->addCompilerPass(new ConsoleCacheWarmupPass());
-        $container->addCompilerPass(new ViewMatcherRegistryPass());
         $container->addCompilerPass(new SiteAccessMatcherRegistryPass());
         $container->addCompilerPass(new ConsoleCommandPass());
         $container->addCompilerPass(new LazyDoctrineRepositoriesPass(), PassConfig::TYPE_BEFORE_REMOVING);
