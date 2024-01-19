@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\AbstractImageCompositeCriterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\FileSize;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\Height;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\MimeType;
@@ -28,7 +28,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\Width;
  *
  * @template-extends \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Image\AbstractImageCompositeCriterion<ImageCriteria>
  */
-final class Image extends Criterion\Image\AbstractImageCompositeCriterion
+final class Image extends AbstractImageCompositeCriterion
 {
     public const IMAGE_SEARCH_CRITERIA = [
         'mimeTypes',
@@ -44,7 +44,7 @@ final class Image extends Criterion\Image\AbstractImageCompositeCriterion
     }
 
     /**
-     * @phpstan-param ImageCriteria $data
+     * @phpstan-param ImageCriteria $imageCriteriaData
      *
      * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion>
      *
@@ -52,19 +52,19 @@ final class Image extends Criterion\Image\AbstractImageCompositeCriterion
      */
     protected function buildCriteria(
         string $fieldDefIdentifier,
-        array $data
+        array $imageCriteriaData
     ): array {
         $criteria = [];
 
-        if (isset($data['mimeTypes'])) {
+        if (isset($imageCriteriaData['mimeTypes'])) {
             $criteria[] = new MimeType(
                 $fieldDefIdentifier,
-                $data['mimeTypes']
+                $imageCriteriaData['mimeTypes']
             );
         }
 
-        if (isset($data['size'])) {
-            $size = $data['size'];
+        if (isset($imageCriteriaData['size'])) {
+            $size = $imageCriteriaData['size'];
             $criteria[] = new FileSize(
                 $fieldDefIdentifier,
                 $this->getMinValue($size),
@@ -72,8 +72,8 @@ final class Image extends Criterion\Image\AbstractImageCompositeCriterion
             );
         }
 
-        if (isset($data['width'])) {
-            $width = $data['width'];
+        if (isset($imageCriteriaData['width'])) {
+            $width = $imageCriteriaData['width'];
             $criteria[] = new Width(
                 $fieldDefIdentifier,
                 $this->getMinValue($width),
@@ -81,8 +81,8 @@ final class Image extends Criterion\Image\AbstractImageCompositeCriterion
             );
         }
 
-        if (isset($data['height'])) {
-            $height = $data['height'];
+        if (isset($imageCriteriaData['height'])) {
+            $height = $imageCriteriaData['height'];
             $criteria[] = new Height(
                 $fieldDefIdentifier,
                 $this->getMinValue($height),
@@ -90,10 +90,10 @@ final class Image extends Criterion\Image\AbstractImageCompositeCriterion
             );
         }
 
-        if (isset($data['orientation'])) {
+        if (isset($imageCriteriaData['orientation'])) {
             $criteria[] = new Orientation(
                 $fieldDefIdentifier,
-                $data['orientation']
+                $imageCriteriaData['orientation']
             );
         }
 
