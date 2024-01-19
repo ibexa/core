@@ -8,12 +8,14 @@ namespace Ibexa\Bundle\Core\Matcher;
 
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
+use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 
 /**
  * A view matcher factory that also accepts services as matchers.
  *
  * If a service id is passed as the MatcherIdentifier, this service will be used for the matching.
- * Otherwise, it will fallback to the class name based matcher factory.
+ * If a view matcher service is registered with `identifier` attribute, that service will be used for matching. *
+ * Otherwise, it will fall back to the class name-based matcher factory.
  */
 final class ServiceAwareMatcherFactory extends ClassNameMatcherFactory
 {
@@ -33,18 +35,16 @@ final class ServiceAwareMatcherFactory extends ClassNameMatcherFactory
 
     /**
      * @param string $matcherIdentifier
-     *
-     * @return \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MatcherInterface
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    protected function getMatcher($matcherIdentifier)
+    protected function getMatcher($matcherIdentifier): ViewMatcherInterface
     {
         if (strpos($matcherIdentifier, '@') === 0) {
-            return $this->viewMatcherRegistry->getMatcher(substr($matcherIdentifier, 1));
+            $matcherIdentifier = substr($matcherIdentifier, 1);
         }
 
-        return parent::getMatcher($matcherIdentifier);
+        return $this->viewMatcherRegistry->hasMatcher($matcherIdentifier)
+            ? $this->viewMatcherRegistry->getMatcher($matcherIdentifier)
+            : parent::getMatcher($matcherIdentifier);
     }
 }
 

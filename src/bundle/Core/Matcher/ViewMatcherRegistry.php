@@ -47,6 +47,11 @@ final class ViewMatcherRegistry
 
         return $this->matchers[$matcherIdentifier];
     }
+
+    public function hasMatcher(string $matcherIdentifier): bool
+    {
+        return isset($this->matchers[$matcherIdentifier]);
+    }
 }
 
 class_alias(ViewMatcherRegistry::class, 'eZ\Bundle\EzPublishCoreBundle\Matcher\ViewMatcherRegistry');
