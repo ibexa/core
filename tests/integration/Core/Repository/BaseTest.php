@@ -841,7 +841,7 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * @param string $identifier Content Type identifier
+     * @param string $identifier content type identifier
      * @param string $mainTranslation main translation language code
      * @param array $fieldsToDefine a map of field definition identifiers to their field type identifiers
      * @param bool $alwaysAvailable default always available

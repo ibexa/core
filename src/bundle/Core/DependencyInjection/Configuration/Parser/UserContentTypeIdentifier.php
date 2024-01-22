@@ -36,7 +36,7 @@ final class UserContentTypeIdentifier extends AbstractParser
     {
         $nodeBuilder
             ->arrayNode('user_content_type_identifier')
-                ->info('User Content Type identifier configuration.')
+                ->info('User content type identifier configuration.')
                 ->example(['user', 'my_custom_user_identifier'])
                 ->requiresAtLeastOneElement()
                 ->prototype('scalar')->end()

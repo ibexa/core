@@ -395,9 +395,9 @@ class Repository implements RepositoryInterface
     }
 
     /**
-     * Get Content Type Service.
+     * Get content type Service.
      *
-     * Get service object to perform operations on Content Type objects and it's aggregate members.
+     * Get service object to perform operations on content type objects and it's aggregate members.
      * ( Group, Field & FieldCategory )
      *
      * @return \Ibexa\Contracts\Core\Repository\ContentTypeService

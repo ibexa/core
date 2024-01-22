@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
 /**
- * Test case for Content Type Updater.
+ * Test case for content type Updater.
  */
 class AddFieldTest extends TestCase
 {

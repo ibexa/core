@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
- * Content Type ID Criterion visitor query builder.
+ * Content type ID Criterion visitor query builder.
  *
  * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
  *

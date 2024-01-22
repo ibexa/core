@@ -26,9 +26,9 @@ use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
 use function sprintf;
 
 /**
- * Content Type gateway implementation using the Doctrine database.
+ * Content type gateway implementation using the Doctrine database.
  *
- * @internal Gateway implementation is considered internal. Use Persistence Content Type Handler instead.
+ * @internal Gateway implementation is considered internal. Use Persistence content type Handler instead.
  *
  * @see \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
  */
@@ -384,7 +384,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Get a map of Content Type storage column name to its value and parameter type.
+     * Get a map of content type storage column name to its value and parameter type.
      *
      * Key value of the map is represented as a two-elements array with column value and its type.
      */
@@ -418,7 +418,7 @@ final class DoctrineDatabase extends Gateway
     {
         $groups = $this->loadGroupData([$groupId]);
         if (empty($groups)) {
-            throw new NotFoundException('Content Type Group', $groupId);
+            throw new NotFoundException('Content type group', $groupId);
         }
         $group = $groups[0];
 
@@ -877,7 +877,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Delete entire name data for the given Content Type of the given status.
+     * Delete entire name data for the given content type of the given status.
      */
     private function deleteTypeNameData(int $typeId, int $typeStatus): void
     {

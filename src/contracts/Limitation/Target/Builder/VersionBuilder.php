@@ -71,7 +71,7 @@ final class VersionBuilder
     {
         foreach ($contentTypeIds as $contentTypeId) {
             if (!\is_int($contentTypeId)) {
-                throw new InvalidArgumentException('$contentTypeIds', 'All Content Type IDs must be integers');
+                throw new InvalidArgumentException('$contentTypeIds', 'All content type IDs must be integers');
             }
         }
 

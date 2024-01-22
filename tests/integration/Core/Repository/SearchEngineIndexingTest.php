@@ -1189,7 +1189,7 @@ class SearchEngineIndexingTest extends BaseTest
         $contentTypeStruct->mainLanguageCode = 'eng-GB';
         $contentTypeStruct->creatorId = 14;
         $contentTypeStruct->creationDate = new DateTime();
-        $contentTypeStruct->names = ['eng-GB' => 'Test Content Type'];
+        $contentTypeStruct->names = ['eng-GB' => 'Test content type'];
         $contentTypeStruct->addFieldDefinition($nameField);
 
         $contentTypeGroup = $contentTypeService->loadContentTypeGroupByIdentifier('Content');

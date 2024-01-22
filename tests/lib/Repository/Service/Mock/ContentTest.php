@@ -2097,7 +2097,7 @@ class ContentTest extends BaseServiceMockTest
     public function testCreateContentThrowsContentValidationExceptionFieldDefinition($mainLanguageCode, $structFields)
     {
         $this->expectException(ContentValidationException::class);
-        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in the given Content Type');
+        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in the given content type');
 
         $this->assertForCreateContentContentValidationException(
             $mainLanguageCode,
@@ -5098,7 +5098,7 @@ class ContentTest extends BaseServiceMockTest
     public function testUpdateContentThrowsContentValidationExceptionFieldDefinition($initialLanguageCode, $structFields)
     {
         $this->expectException(ContentValidationException::class);
-        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in given Content Type');
+        $this->expectExceptionMessage('Field definition \'identifier\' does not exist in given content type');
 
         $this->assertForUpdateContentContentValidationException(
             $initialLanguageCode,

@@ -41,7 +41,7 @@ final class TargetContentValidator implements TargetContentValidatorInterface
 
             if (!empty($allowedContentTypes) && !in_array($contentType->identifier, $allowedContentTypes, true)) {
                 return new ValidationError(
-                    'Content Type %contentTypeIdentifier% is not a valid relation target',
+                    'Content type %contentTypeIdentifier% is not a valid relation target',
                     null,
                     [
                         '%contentTypeIdentifier%' => $contentType->identifier,

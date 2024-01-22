@@ -18,17 +18,17 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 abstract class Handler
 {
     /**
-     * Update existing Content items from one version of a Content Type to another one.
+     * Update existing Content items from one version of a content type to another one.
      */
     abstract public function updateContentObjects(Type $fromType, Type $toType): void;
 
     /**
-     * Delete old version of a Content Type and all of its Field Definitions.
+     * Delete old version of a content type and all of its Field Definitions.
      */
     abstract public function deleteOldType(Type $fromType): void;
 
     /**
-     * Change Content Type status.
+     * Change content type status.
      */
     abstract public function publishNewType(Type $toType, int $newStatus): void;
 }

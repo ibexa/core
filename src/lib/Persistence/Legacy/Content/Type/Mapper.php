@@ -18,7 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 
 /**
- * Mapper for Content Type Handler.
+ * Mapper for content type Handler.
  *
  * Performs mapping of Type objects.
  */

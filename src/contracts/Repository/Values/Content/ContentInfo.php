@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * This class provides all version independent information of the Content object.
  *
  * @property-read int $id @deprecated Use {@see ContentInfo::getId} instead. The unique id of the Content object
- * @property-read int $contentTypeId The unique id of the Content Type object the Content object is an instance of
+ * @property-read int $contentTypeId The unique id of the content type item the Content object is an instance of
  * @property-read string $name the computed name (via name schema) in the main language of the Content object
  * @property-read int $sectionId the section to which the Content object is assigned
  * @property-read int $currentVersionNo Current Version number is the version number of the published version or the version number of a newly created draft (which is 1).
@@ -45,7 +45,7 @@ class ContentInfo extends ValueObject
     protected $id;
 
     /**
-     * The Content Type id of the Content object.
+     * The content type id of the Content object.
      *
      * @var int
      */

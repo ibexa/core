@@ -399,7 +399,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
     }
 
     /**
-     * Test cache invalidation when publishing Content Type.
+     * Test cache invalidation when publishing Content type.
      */
     public function testPublish()
     {

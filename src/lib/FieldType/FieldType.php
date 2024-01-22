@@ -24,12 +24,12 @@ use Ibexa\Core\Persistence\TransformationProcessor;
  * interfaces the field type implements support for. These individual
  * capabilities can also be checked via the supports*() methods.
  *
- * Field types are the base building blocks of Content Types, and serve as
+ * Field types are the base building blocks of content types, and serve as
  * data containers for Content objects. Therefore, while field types can be used
  * independently, they are designed to be used as a part of a Content object.
  *
  * Field types are primed and pre-configured with the Field Definitions found in
- * Content Types.
+ * content types.
  */
 abstract class FieldType extends SPIFieldType implements Comparable
 {

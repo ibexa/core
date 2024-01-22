@@ -34,7 +34,7 @@ class Handler implements BaseContentTypeHandler
     protected $mapper;
 
     /**
-     * Content Type update handler.
+     * Content type update handler.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
      */
@@ -377,7 +377,7 @@ class Handler implements BaseContentTypeHandler
         if (Type::STATUS_DEFINED === $status && $this->contentTypeGateway->countInstancesOfType($contentTypeId)) {
             throw new BadStateException(
                 '$contentTypeId',
-                'Content Type with the given ID still has Content items and cannot be deleted'
+                'Content type with the given ID still has Content items and cannot be deleted'
             );
         }
 

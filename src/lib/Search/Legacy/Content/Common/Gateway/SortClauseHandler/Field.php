@@ -29,7 +29,7 @@ class Field extends SortClauseHandler
     protected $languageHandler;
 
     /**
-     * Content Type handler.
+     * Content type handler.
      *
      * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */

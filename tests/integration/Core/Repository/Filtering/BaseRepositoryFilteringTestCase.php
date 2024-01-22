@@ -317,7 +317,7 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTest
     {
         $repository = $this->getRepository(false);
 
-        // Content Type Limitations
+        // Content type Limitations
         $contentTypeService = $repository->getContentTypeService();
         $articleType = $contentTypeService->loadContentTypeByIdentifier('article');
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');

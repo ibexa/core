@@ -88,7 +88,7 @@ EOT;
                 'user-content-type-identifier',
                 'ct',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Expire passwords of all users based on specific Content Type'
+                'Expire passwords of all users based on specific content type'
             )
             ->addOption(
                 'force',
@@ -107,7 +107,7 @@ EOT;
                 'password-ttl',
                 't',
                 InputOption::VALUE_REQUIRED,
-                'After how many days passwords expire. Set when Content Type needs to be updated.',
+                'After how many days passwords expire. Set when content type needs to be updated.',
                 self::DEFAULT_PASSWORD_TTL
             )
             ->setHelp(
@@ -271,7 +271,7 @@ EOT
         if (!empty($userContentTypeIdentifiers)) {
             $output->writeln(
                 sprintf(
-                    "<info>\tUser Content Type Identifier: %s</info>",
+                    "<info>\tUser content type Identifier: %s</info>",
                     implode(', ', $userContentTypeIdentifiers)
                 )
             );
@@ -337,7 +337,7 @@ EOT
         $fieldSettings = $userFieldDefinition->getFieldSettings();
 
         $output->writeln(sprintf(
-            '<info>Content Type "%s" needs to be updated:</info>',
+            '<info>Content type "%s" needs to be updated:</info>',
             $contentType->identifier
         ));
 
@@ -425,7 +425,7 @@ EOT
 
         if ($count !== 1) {
             throw new InvalidArgumentException(sprintf(
-                'Expected exactly 1 "%s" field type in "%s" Content Type, found %d',
+                'Expected exactly 1 "%s" field type in "%s" content type, found %d',
                 self::USER_FIELDTYPE_IDENTIFIER,
                 $contentType->identifier,
                 $count

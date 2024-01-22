@@ -101,7 +101,7 @@ EOT;
                 'excluded-content-types',
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Comma-separated list of Content Type identifiers whose versions should not be removed, for instance `article`.',
+                'Comma-separated list of content type identifiers whose versions should not be removed, for instance `article`.',
                 self::DEFAULT_EXCLUDED_CONTENT_TYPES
             )->setHelp(
                 <<<EOT

@@ -339,8 +339,8 @@ class FieldTypeContext implements Context
     }
 
     /**
-     * @Given a Content Type with an :fieldType field exists
-     * @Given a Content Type with an :fieldType with field definition name :name exists
+     * @Given a content type with an :fieldType field exists
+     * @Given a content type with an :fieldType with field definition name :name exists
      *
      * Creates a ContentType with only the desired FieldType.
      */
@@ -350,8 +350,8 @@ class FieldTypeContext implements Context
     }
 
     /**
-     * @Given a Content Type with a required :fieldType field exists
-     * @Given a Content Type with a required :fieldType with field definition name :name exists
+     * @Given a content type with a required :fieldType field exists
+     * @Given a content type with a required :fieldType with field definition name :name exists
      *
      * Creates a ContentType with only the desired FieldType.
      */
@@ -372,8 +372,8 @@ class FieldTypeContext implements Context
     }
 
     /**
-     * @Given a Content Type with an :fieldType field exists with Properties:
-     * @Given a Content Type with an :fieldType field with name :name exists with Properties:
+     * @Given a content type with an :fieldType field exists with Properties:
+     * @Given a content type with an :fieldType field with name :name exists with Properties:
      */
     public function createContentOfThisTypeWithProperties($fieldType, TableNode $properties, $name = null)
     {

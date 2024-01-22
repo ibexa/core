@@ -30,7 +30,7 @@ class DoctrineDatabase extends Gateway
     protected $connection;
 
     /**
-     * SPI Content Type Handler.
+     * Persistence content type handler.
      *
      * Need this for being able to pick fields that are searchable.
      *
