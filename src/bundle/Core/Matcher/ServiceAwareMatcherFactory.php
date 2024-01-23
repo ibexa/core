@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Bundle\Core\Matcher;
 
+use Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory;
 use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
@@ -19,11 +20,10 @@ use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
  */
 final class ServiceAwareMatcherFactory extends ClassNameMatcherFactory
 {
-    /** @var \Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry */
-    private $viewMatcherRegistry;
+    private ViewMatcherRegistryInterface $viewMatcherRegistry;
 
     public function __construct(
-        ViewMatcherRegistry $viewMatcherRegistry,
+        ViewMatcherRegistryInterface $viewMatcherRegistry,
         Repository $repository,
         $relativeNamespace = null,
         array $matchConfig = []

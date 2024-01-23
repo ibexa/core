@@ -29,6 +29,9 @@ services:
           - '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
           - "@?logger"
 
+    Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface:
+        alias: Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
+
     Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry:
         arguments:
             $matchers: !tagged_iterator { tag: 'ibexa.view.matcher', index_by: identifier }
@@ -42,7 +45,7 @@ services:
     ibexa.content_view.matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
         arguments:
-            - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
+            - '@Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface'
             - '@ibexa.api.repository'
             - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
@@ -63,7 +66,7 @@ services:
     ibexa.content_view.default_matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
         arguments:
-            - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
+            - '@Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface'
             - '@ibexa.api.repository'
             - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
@@ -84,9 +87,9 @@ services:
     ibexa.location_view.matcher_factory:
         class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
         arguments:
-            - '@Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry'
-            - '@ibexa.api.repository'
-            - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
+            $viewMatcherRegistry: '@Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface'
+            $repository: '@ibexa.api.repository'
+            $relativeNamespace: 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
 
     ibexa.location_view.matcher_factory.dynamically_configured:
         class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator

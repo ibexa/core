@@ -8,10 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Matcher;
 
+use Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 
-final class ViewMatcherRegistry
+/**
+ * @internal
+ */
+final class ViewMatcherRegistry implements ViewMatcherRegistryInterface
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] */
     private $matchers;
