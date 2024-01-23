@@ -8,21 +8,30 @@ namespace Ibexa\Tests\Bundle\Core\Matcher;
 
 use Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MatcherInterface;
+use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 use PHPUnit\Framework\TestCase;
 
-class ViewMatcherRegistryTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
+ */
+final class ViewMatcherRegistryTest extends TestCase
 {
     private const MATCHER_NAME = 'test_matcher';
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testGetMatcher(): void
     {
         $matcher = $this->getMatcherMock();
         $registry = new ViewMatcherRegistry([self::MATCHER_NAME => $matcher]);
 
-        $this->assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
+        self::assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testSetMatcher(): void
     {
         $matcher = $this->getMatcherMock();
@@ -30,18 +39,21 @@ class ViewMatcherRegistryTest extends TestCase
 
         $registry->setMatcher(self::MATCHER_NAME, $matcher);
 
-        $this->assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
+        self::assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
     public function testSetMatcherOverride(): void
     {
         $matcher = $this->getMatcherMock();
         $newMatcher = $this->getMatcherMock();
-        $registry = new ViewMatcherRegistry([self::MATCHER_NAME, $matcher]);
+        $registry = new ViewMatcherRegistry([self::MATCHER_NAME => $matcher]);
 
         $registry->setMatcher(self::MATCHER_NAME, $newMatcher);
 
-        $this->assertSame($newMatcher, $registry->getMatcher(self::MATCHER_NAME));
+        self::assertSame($newMatcher, $registry->getMatcher(self::MATCHER_NAME));
     }
 
     public function testGetMatcherNotFound(): void
@@ -52,9 +64,9 @@ class ViewMatcherRegistryTest extends TestCase
         $registry->getMatcher(self::MATCHER_NAME);
     }
 
-    protected function getMatcherMock(): MatcherInterface
+    protected function getMatcherMock(): ViewMatcherInterface
     {
-        return $this->createMock(MatcherInterface::class);
+        return $this->createMock(ViewMatcherInterface::class);
     }
 }
 
