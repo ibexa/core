@@ -17,11 +17,14 @@ final class ViewMatcherRegistry
     private $matchers;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] $matchers
+     * @param iterable<\Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface> $matchers
      */
-    public function __construct(array $matchers = [])
+    public function __construct(iterable $matchers = [])
     {
-        $this->matchers = $matchers;
+        $this->matchers = [];
+        foreach ($matchers as $identifier => $matcher) {
+            $this->matchers[$identifier] = $matcher;
+        }
     }
 
     public function setMatcher(string $matcherIdentifier, ViewMatcherInterface $matcher): void
