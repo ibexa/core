@@ -25,7 +25,7 @@ final class ServiceAwareMatcherFactory extends ClassNameMatcherFactory
     public function __construct(
         ViewMatcherRegistryInterface $viewMatcherRegistry,
         Repository $repository,
-        $relativeNamespace = null,
+        ?string $relativeNamespace = null,
         array $matchConfig = []
     ) {
         $this->viewMatcherRegistry = $viewMatcherRegistry;

@@ -36,10 +36,8 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
 
     /**
      * Namespace built-in matchers are relative to.
-     *
-     * @var string
      */
-    protected $matcherRelativeNamespace;
+    protected ?string $matcherRelativeNamespace;
 
     /**
      * Already matched value objects with their config hash.
@@ -49,7 +47,7 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
      */
     protected $alreadyMatched = [];
 
-    public function __construct(Repository $repository, $relativeNamespace = null, array $matchConfig = [])
+    public function __construct(Repository $repository, ?string $relativeNamespace = null, array $matchConfig = [])
     {
         $this->repository = $repository;
         $this->matcherRelativeNamespace = $relativeNamespace;
