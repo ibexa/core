@@ -18146,6 +18146,11 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
 
 		-
+			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(int\\)\\: bool\\)\\|null, Closure\\(mixed\\)\\: int given\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
+
+		-
 			message: "#^Variable \\$connection in PHPDoc tag @var does not match assigned variable \\$query\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Gateway/DoctrineDatabase.php
