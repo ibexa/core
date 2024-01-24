@@ -78,11 +78,16 @@ class ContentPreviewHelperTest extends TestCase
 
     public function testPreviewActive()
     {
+        $originalSiteAccess = new SiteAccess('foo', 'bar');
+        $this->previewHelper->setSiteAccess($originalSiteAccess);
+
         $this->assertFalse($this->previewHelper->isPreviewActive());
         $this->previewHelper->setPreviewActive(true);
         $this->assertTrue($this->previewHelper->isPreviewActive());
         $this->previewHelper->setPreviewActive(false);
         $this->assertFalse($this->previewHelper->isPreviewActive());
+
+        self::assertNotSame($originalSiteAccess, $this->previewHelper->getOriginalSiteAccess());
     }
 
     public function testPreviewedContent()

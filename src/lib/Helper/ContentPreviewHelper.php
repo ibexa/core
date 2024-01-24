@@ -98,6 +98,7 @@ class ContentPreviewHelper implements SiteAccessAware
     public function setPreviewActive($previewActive)
     {
         $this->previewActive = (bool)$previewActive;
+        $this->originalSiteAccess = clone $this->originalSiteAccess;
     }
 
     /**
