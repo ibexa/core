@@ -16,6 +16,7 @@ use ReflectionObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 
 class DefaultRouterTest extends TestCase
@@ -37,19 +38,22 @@ class DefaultRouterTest extends TestCase
         $this->requestContext = new RequestContext();
     }
 
+    /**
+     * @return class-string<\Ibexa\Bundle\Core\Routing\DefaultRouter>
+     */
     protected function getRouterClass()
     {
         return DefaultRouter::class;
     }
 
     /**
-     * @param array $mockedMethods
+     * @param array<string> $mockedMethods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Bundle\Core\Routing\DefaultRouter
+     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter
      */
     protected function generateRouter(array $mockedMethods = [])
     {
-        /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
+        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
         $router = $this
             ->getMockBuilder($this->getRouterClass())
             ->setConstructorArgs([$this->container, 'foo', [], $this->requestContext])
@@ -67,15 +71,21 @@ class DefaultRouterTest extends TestCase
         $request = Request::create($pathinfo);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
-        $router = $this->generateRouter(['match']);
-
+        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
+        $router = $this->generateRouter(['getMatcher']);
         $matchedParameters = ['_controller' => 'AcmeBundle:myAction'];
-        $router
-            ->expects($this->once())
+
+        $matcher = $this->createMock(UrlMatcherInterface::class);
+        $matcher->expects(self::once())
             ->method('match')
             ->with($semanticPathinfo)
-            ->will($this->returnValue($matchedParameters));
+            ->willReturn($matchedParameters);
+
+        $router
+            ->expects(self::once())
+            ->method('getMatcher')
+            ->willReturn($matcher);
+
         $this->assertSame($matchedParameters, $router->matchRequest($request));
     }
 
@@ -88,13 +98,20 @@ class DefaultRouterTest extends TestCase
 
         $this->configResolver->expects($this->never())->method('getParameter');
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
-        $router = $this->generateRouter(['match']);
-        $router
-            ->expects($this->once())
+        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
+        $router = $this->generateRouter(['getMatcher']);
+
+        $matcher = $this->createMock(UrlMatcherInterface::class);
+        $matcher->expects(self::once())
             ->method('match')
             ->with($pathinfo)
-            ->will($this->returnValue($matchedParameters));
+            ->willReturn($matchedParameters);
+
+        $router
+            ->expects(self::once())
+            ->method('getMatcher')
+            ->willReturn($matcher);
+
         $this->assertSame($matchedParameters, $router->matchRequest($request));
     }
 
@@ -105,17 +122,17 @@ class DefaultRouterTest extends TestCase
     {
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with(__METHOD__)
-            ->will($this->returnValue($url));
+            ->willReturn($url);
 
-        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter|\PHPUnit\Framework\MockObject\MockObject $router */
+        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter&\PHPUnit\Framework\MockObject\MockObject $router */
         $router = $this->generateRouter(['getGenerator']);
         $router
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getGenerator')
-            ->will($this->returnValue($generator));
+            ->willReturn($generator);
 
         $this->assertSame($url, $router->generate(__METHOD__));
     }
@@ -147,17 +164,17 @@ class DefaultRouterTest extends TestCase
         $nonSiteAccessAwareRoutes = ['_dontwantsiteaccess'];
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with($routeName)
-            ->will($this->returnValue($urlGenerated));
+            ->willReturn($urlGenerated);
 
-        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter|\PHPUnit\Framework\MockObject\MockObject $router */
+        /** @var \Ibexa\Bundle\Core\Routing\DefaultRouter&\PHPUnit\Framework\MockObject\MockObject $router */
         $router = $this->generateRouter(['getGenerator']);
         $router
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getGenerator')
-            ->will($this->returnValue($generator));
+            ->willReturn($generator);
 
         // If matcher is URILexer, we make it act as it's supposed to, prepending the siteaccess.
         if ($isMatcherLexer) {
@@ -165,10 +182,10 @@ class DefaultRouterTest extends TestCase
             // Route is siteaccess aware, we're expecting analyseLink() to be called
             if (!in_array($routeName, $nonSiteAccessAwareRoutes)) {
                 $matcher
-                    ->expects($this->once())
+                    ->expects(self::once())
                     ->method('analyseLink')
                     ->with($relevantUri)
-                    ->will($this->returnValue("/$saName$relevantUri"));
+                    ->willReturn("/$saName$relevantUri");
             } else {
                 // Non-siteaccess aware route, it's not supposed to be analysed
                 $matcher
@@ -235,27 +252,27 @@ class DefaultRouterTest extends TestCase
             ]
         );
         $versatileMatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRequest')
-            ->will($this->returnValue($simplifiedRequest));
+            ->willReturn($simplifiedRequest);
         $siteAccessRouter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('matchByName')
             ->with($siteAccessName)
-            ->will($this->returnValue(new SiteAccess($siteAccessName, 'foo', $versatileMatcher)));
+            ->willReturn(new SiteAccess($siteAccessName, 'foo', $versatileMatcher));
 
         $generator = $this->createMock(UrlGeneratorInterface::class);
         $generator
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('setContext')
-            ->with($this->isInstanceOf(RequestContext::class));
+            ->with(self::isInstanceOf(RequestContext::class));
         $generator
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('generate')
             ->with($routeName)
-            ->will($this->returnValue($urlGenerated));
+            ->willReturn($urlGenerated);
         $generator
-            ->expects($this->at(2))
+            ->expects(self::at(2))
             ->method('setContext')
             ->with($this->requestContext);
 
@@ -296,7 +313,7 @@ class DefaultRouterTest extends TestCase
      *
      * @see testGetContextBySimplifiedRequest
      *
-     * @return array
+     * @phpstan-return array<array{string}>
      */
     public function providerGetContextBySimplifiedRequest()
     {

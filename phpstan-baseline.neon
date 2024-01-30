@@ -26266,11 +26266,6 @@ parameters:
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\DefaultRouterTest\\:\\:generateRouter\\(\\) has parameter \\$mockedMethods with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\DefaultRouterTest\\:\\:getExpectedRequestContext\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
@@ -26281,22 +26276,12 @@ parameters:
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\DefaultRouterTest\\:\\:getRouterClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\DefaultRouterTest\\:\\:providerGenerateNoSiteAccess\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\DefaultRouterTest\\:\\:providerGenerateWithSiteAccess\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\DefaultRouterTest\\:\\:providerGetContextBySimplifiedRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
@@ -26343,11 +26328,6 @@ parameters:
 		-
 			message: "#^Offset 'scheme' does not exist on array\\{scheme\\?\\: string, host\\: string, port\\?\\: int\\<0, 65535\\>, user\\?\\: string, pass\\?\\: string, path\\?\\: string, query\\?\\: string, fragment\\?\\: string\\}\\.$#"
 			count: 2
-			path: tests/bundle/Core/Routing/DefaultRouterTest.php
-
-		-
-			message: "#^Unable to resolve the template type T in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\)$#"
-			count: 1
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
