@@ -21,6 +21,8 @@ ibexa.content.view:
 ibexa.version.preview:
     path: /content/versionview/{contentId}/{versionNo}/{language}/site_access/{siteAccessName}
     controller: ibexa.controller.content.preview:previewContentAction
+    defaults:
+        siteAccessName: null
     methods:  [GET]
 
 ibexa.content.preview.default:
