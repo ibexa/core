@@ -12,16 +12,28 @@ use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\IOException;
 use Ibexa\Core\IO\IOMetadataHandler;
+use League\Flysystem\CorruptedPathDetected;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
-class Flysystem implements IOMetadataHandler
+class Flysystem implements IOMetadataHandler, LoggerAwareInterface
 {
+    private LoggerInterface $logger;
+
     private FilesystemOperator $filesystem;
 
-    public function __construct(FilesystemOperator $filesystem)
+    public function __construct(FilesystemOperator $filesystem, ?LoggerInterface $logger = null)
     {
         $this->filesystem = $filesystem;
+        $this->logger = $logger ?? new NullLogger();
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -56,6 +68,13 @@ class Flysystem implements IOMetadataHandler
     {
         try {
             return $this->filesystem->fileExists($spiBinaryFileId);
+        } catch (CorruptedPathDetected $e) {
+            $this->logger->error(
+                sprintf('Binary file with ID="%s" does not exist: %s', $spiBinaryFileId, $e->getMessage()),
+                ['exception' => $e],
+            );
+
+            return false;
         } catch (FilesystemException $e) {
             throw new IOException(
                 "Unable to check if file '$spiBinaryFileId' exists: {$e->getMessage()}",
