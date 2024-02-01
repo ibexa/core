@@ -29,6 +29,8 @@ services:
         class: Ibexa\Core\IO\IOMetadataHandler\Flysystem
         arguments:
             - '@ibexa.core.io.flysystem.default_filesystem'
+        tags:
+            - { name: monolog.logger, channel: ibexa.core.io }
 
     # binarydata handlers
     Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler:

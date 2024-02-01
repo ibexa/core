@@ -6,11 +6,17 @@
  */
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Doctrine\DBAL\ParameterType;
+use DOMDocument;
+use DOMElement;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
+use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use stdClass;
 
 /**
@@ -781,6 +787,136 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     }
 
     /**
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testDeleteImageWithCorruptedName(): void
+    {
+        $ioService = $this->getSetupFactory()->getServiceContainer()->get(LegacyIOService::class);
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        self::assertInstanceOf(IOServiceInterface::class, $ioService);
+
+        $content = $this->publishNewImage(
+            __METHOD__,
+            new ImageValue(
+                [
+                    'inputUri' => __DIR__ . '/_fixtures/image.jpg',
+                    'fileName' => 'image.jpg',
+                    'fileSize' => filesize(__DIR__ . '/_fixtures/image.jpg'),
+                    'alternativeText' => 'Alternative',
+                ]
+            ),
+            [2]
+        );
+
+        $imageFieldDefinition = $content->getContentType()->getFieldDefinition('image');
+        self::assertNotNull($imageFieldDefinition);
+
+        // sanity check
+        $this->assertImageExists(true, $ioService, $content);
+
+        $record = $this->fetchXML(
+            $content->id,
+            $content->getVersionInfo()->versionNo,
+            $imageFieldDefinition->id
+        );
+
+        $document = $this->corruptImageFieldXML($record);
+
+        $this->updateXML(
+            $content->id,
+            $content->getVersionInfo()->versionNo,
+            $imageFieldDefinition->id,
+            $document
+        );
+
+        // reload content to get the field value with the corrupted path
+        $content = $contentService->loadContent($content->id);
+        $this->assertImageExists(false, $ioService, $content);
+
+        $contentService->deleteContent($content->getVersionInfo()->getContentInfo());
+
+        // Expect no League\Flysystem\CorruptedPathDetected thrown
+    }
+
+    /**
+     * @return array<string,mixed>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     * @throws \Doctrine\DBAL\Driver\Exception
+     */
+    private function fetchXML(int $contentId, int $versionNo, int $fieldDefinitionId): array
+    {
+        $connection = $this->getRawDatabaseConnection();
+
+        $query = $connection->createQueryBuilder();
+        $query
+            ->select('data_text')
+            ->from(Gateway::CONTENT_FIELD_TABLE)
+            ->andWhere('contentclassattribute_id = :contentclassattribute_id')
+            ->andWhere('version = :version')
+            ->andWhere('contentobject_id = :contentobject_id')
+            ->setParameter('contentclassattribute_id', $fieldDefinitionId, ParameterType::INTEGER)
+            ->setParameter('version', $versionNo, ParameterType::INTEGER)
+            ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
+
+        $result = $query->execute()->fetchAssociative();
+        self::assertNotFalse($result);
+
+        return $result;
+    }
+
+    /**
+     * @param array<string,mixed> $row
+     */
+    private function corruptImageFieldXML(array $row): DOMDocument
+    {
+        $corruptedChar = '­';
+
+        $document = new DOMDocument('1.0', 'utf-8');
+        $document->loadXML($row['data_text']);
+        $elements = $document->getElementsByTagName('ezimage');
+        $element = $elements->item(0);
+        self::assertInstanceOf(DOMElement::class, $element);
+        $element->setAttribute('filename', $element->getAttribute('filename') . $corruptedChar);
+        $element->setAttribute('url', $element->getAttribute('url') . $corruptedChar);
+
+        return $document;
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \ErrorException
+     */
+    private function updateXML(
+        int $contentId,
+        int $versionNo,
+        int $fieldDefinitionId,
+        DOMDocument $document
+    ): void {
+        $connection = $this->getRawDatabaseConnection();
+
+        $query = $connection->createQueryBuilder();
+        $query
+            ->update(Gateway::CONTENT_FIELD_TABLE)
+            ->set('data_text', ':data_text')
+            ->setParameter('data_text', $document->saveXML(), ParameterType::STRING)
+            ->andWhere('contentclassattribute_id = :contentclassattribute_id')
+            ->andWhere('version = :version')
+            ->andWhere('contentobject_id = :contentobject_id')
+            ->setParameter('contentclassattribute_id', $fieldDefinitionId, ParameterType::INTEGER)
+            ->setParameter('version', $versionNo, ParameterType::INTEGER)
+            ->setParameter('contentobject_id', $contentId, ParameterType::INTEGER);
+
+        $query->execute();
+    }
+
+    /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
@@ -840,6 +976,16 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     private function getImageURI(Content $content): string
     {
         return $content->getFieldValue('image')->uri;
+    }
+
+    private function assertImageExists(bool $expectExists, IOServiceInterface $ioService, Content $content): void
+    {
+        $imageField = $content->getField('image');
+        self::assertNotNull($imageField, 'Image field not found');
+
+        /** @var \Ibexa\Core\FieldType\Image\Value $imageFieldValue */
+        $imageFieldValue = $imageField->value;
+        self::assertSame($expectExists, $ioService->exists($imageFieldValue->id));
     }
 }
 

@@ -12,6 +12,7 @@ parameters:
             message: "#^Cannot call method (fetchOne|fetchColumn|fetchAllAssociative|fetchAssociative|fetchAllKeyValue)\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
             paths:
                 - src/*
+                - tests/*
     paths:
         - src
         - tests
