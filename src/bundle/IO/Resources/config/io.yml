@@ -102,18 +102,13 @@ services:
         arguments:
             - '@Ibexa\Core\IO\IOConfigProvider'
 
-    # Base service for flysystem metadata handler
-    ibexa.core.io.metadata_handler.flysystem:
-        abstract: true
-        class: Ibexa\Core\IO\IOMetadataHandler\Flysystem
-        arguments:
-            - ~
-
     # Default flysystem metadata handler
     ibexa.core.io.metadata_handler.flysystem.default:
         class: Ibexa\Core\IO\IOMetadataHandler\Flysystem
         arguments:
             - '@ibexa.core.io.flysystem.default_filesystem'
+        tags:
+            - { name: monolog.logger, channel: ibexa.core.io }
 
     # Base service for flysystem binarydata handler
     ibexa.core.io.binarydata_handler.flysystem:
