@@ -48,6 +48,13 @@ interface PermissionResolver
      *        which the information is returned, current user will be used if null
      *
      * @return bool|array if limitations are on this function an array of limitations is returned
+     *
+     * @phpstan-return bool|array<
+     *     array{
+     *         limitation: \Ibexa\Contracts\Core\Repository\Values\User\Limitation|null,
+     *         policies: array<\Ibexa\Contracts\Core\Repository\Values\User\Policy>
+     *     },
+     * >
      */
     public function hasAccess(string $module, string $function, ?UserReference $userReference = null);
 

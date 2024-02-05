@@ -6981,11 +6981,6 @@ parameters:
 			path: src/contracts/Repository/PermissionCriterionResolver.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\PermissionResolver\\:\\:hasAccess\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/PermissionResolver.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/SearchService.php
@@ -20576,11 +20571,6 @@ parameters:
 			path: src/lib/Repository/Permission/CachedPermissionService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\CachedPermissionService\\:\\:hasAccess\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Permission/CachedPermissionService.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\CachedPermissionService\\:\\:sudo\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Repository/Permission/CachedPermissionService.php
@@ -20632,11 +20622,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\PermissionResolver\\:\\:__construct\\(\\) has parameter \\$policyMap with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Permission/PermissionResolver.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\PermissionResolver\\:\\:hasAccess\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
@@ -34526,11 +34511,6 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
 			message: "#^Cannot call method getContentInfo\\(\\) on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|null\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/LocationServiceTest.php
@@ -44476,11 +44456,6 @@ parameters:
 			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
 
 		-
-			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 4
-			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\Url\\\\Gateway\\\\DoctrineStorageTest\\:\\:testGetIdUrlMap\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
@@ -51321,11 +51296,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/FieldValueConverterRegistryTest.php
 
 		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 5
-			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Gateway\\\\DoctrineDatabaseTest\\:\\:assertContentVersionAttributesLanguages\\(\\) has parameter \\$expectation with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
@@ -51927,11 +51897,6 @@ parameters:
 
 		-
 			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
 
@@ -54348,11 +54313,6 @@ parameters:
 		-
 			message: "#^Argument of an invalid type Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\UrlAlias supplied for foreach, only iterables are supported\\.$#"
 			count: 4
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
-
-		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
 
 		-
