@@ -5,7 +5,9 @@
 {% else %}
     {% if location is defined %}
         <h3><a href="{{ ibexa_path(location) }}">{{ content_name }}</a></h3>
-    {% else %}
+    {% elseif content.contentInfo.mainLocationId is not null %}
         <h3><a href="{{ ibexa_path(content) }}">{{ content_name }}</a></h3>
+    {% else %}
+        <h3>{{ content_name }}</h3>
     {% endif %}
 {% endif %}
