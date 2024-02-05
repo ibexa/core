@@ -8,20 +8,27 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Matcher;
 
+use Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface;
 
-final class ViewMatcherRegistry
+/**
+ * @internal
+ */
+final class ViewMatcherRegistry implements ViewMatcherRegistryInterface
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] */
     private $matchers;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface[] $matchers
+     * @param iterable<\Ibexa\Core\MVC\Symfony\Matcher\ViewMatcherInterface> $matchers
      */
-    public function __construct(array $matchers = [])
+    public function __construct(iterable $matchers = [])
     {
-        $this->matchers = $matchers;
+        $this->matchers = [];
+        foreach ($matchers as $identifier => $matcher) {
+            $this->matchers[$identifier] = $matcher;
+        }
     }
 
     public function setMatcher(string $matcherIdentifier, ViewMatcherInterface $matcher): void
@@ -43,6 +50,11 @@ final class ViewMatcherRegistry
         }
 
         return $this->matchers[$matcherIdentifier];
+    }
+
+    public function hasMatcher(string $matcherIdentifier): bool
+    {
+        return isset($this->matchers[$matcherIdentifier]);
     }
 }
 

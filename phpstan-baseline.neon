@@ -3826,16 +3826,6 @@ parameters:
 			path: src/bundle/Core/Matcher/ServiceAwareMatcherFactory.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Matcher\\\\ServiceAwareMatcherFactory\\:\\:__construct\\(\\) has parameter \\$relativeNamespace with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Matcher/ServiceAwareMatcherFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Matcher\\\\ServiceAwareMatcherFactory\\:\\:getMatcher\\(\\) should return Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ContentBased\\\\MatcherInterface but returns Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ViewMatcherInterface\\.$#"
-			count: 2
-			path: src/bundle/Core/Matcher/ServiceAwareMatcherFactory.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Routing\\\\DefaultRouter\\:\\:generate\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Routing/DefaultRouter.php
@@ -11887,11 +11877,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ClassNameMatcherFactory\\:\\:__construct\\(\\) has parameter \\$matchConfig with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Matcher/ClassNameMatcherFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ClassNameMatcherFactory\\:\\:__construct\\(\\) has parameter \\$relativeNamespace with no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Matcher/ClassNameMatcherFactory.php
 
@@ -26254,11 +26239,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Imagine\\\\VariationPurger\\\\LegacyStorageImageFileListTest\\:\\:testIterator\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/Imagine/VariationPurger/LegacyStorageImageFileListTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$matchers of class Ibexa\\\\Bundle\\\\Core\\\\Matcher\\\\ViewMatcherRegistry constructor expects array\\<Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ViewMatcherInterface\\>, array\\<int, Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ContentBased\\\\MatcherInterface\\|string\\> given\\.$#"
-			count: 1
-			path: tests/bundle/Core/Matcher/ViewMatcherRegistryTest.php
 
 		-
 			message: "#^Cannot access offset 'path' on array\\{scheme\\?\\: string, host\\?\\: string, port\\?\\: int\\<0, 65535\\>, user\\?\\: string, pass\\?\\: string, path\\?\\: string, query\\?\\: string, fragment\\?\\: string\\}\\|false\\.$#"
