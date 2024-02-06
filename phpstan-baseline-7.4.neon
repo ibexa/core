@@ -26,11 +26,6 @@ parameters:
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>&Traversable given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ExpireUserPasswordsCommand.php
-
-		-
 			message: "#^Parameter \\#1 \\$fp of function fclose expects resource, resource\\|false given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
