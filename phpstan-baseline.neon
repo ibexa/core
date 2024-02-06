@@ -256,11 +256,6 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Handler\\:\\:\\$pathString\\.$#"
-			count: 2
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
 			message: "#^Call to an undefined method Ibexa\\\\Core\\\\Search\\\\Common\\\\Indexer\\:\\:purge\\(\\)\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
@@ -268,11 +263,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Core\\\\Search\\\\Common\\\\Indexer\\:\\:updateSearchIndex\\(\\)\\.$#"
 			count: 2
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:__construct\\(\\) has parameter \\$searchIndexer with no type specified\\.$#"
-			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
 
 		-
@@ -319,6 +309,7 @@ parameters:
 			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:\\$phpPath \\(string\\) does not accept string\\|null\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
+
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$fields\\.$#"
 			count: 1
@@ -6930,11 +6921,6 @@ parameters:
 			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/ContentFilteringAdapter.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\ContentFilteringAdapter\\:\\:fetch\\(\\) should return Iterator but returns iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>&Traversable\\.$#"
-			count: 1
-			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/ContentFilteringAdapter.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\LocationFilteringAdapter\\:\\:__construct\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/LocationFilteringAdapter.php
@@ -7081,11 +7067,6 @@ parameters:
 
 		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/ContentList.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList\\:\\:__construct\\(\\) has parameter \\$contentItems with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/ContentList.php
 
@@ -34345,11 +34326,6 @@ parameters:
 			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
 
 		-
-			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>&Traversable\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
-
-		-
 			message: "#^Cannot use array destructuring on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
@@ -34732,11 +34708,6 @@ parameters:
 		-
 			message: "#^Cannot access property \\$id on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|null\\.$#"
 			count: 4
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
@@ -44690,11 +44661,6 @@ parameters:
 			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
 
 		-
-			message: "#^Cannot call method fetchAllAssociative\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 4
-			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\Url\\\\Gateway\\\\DoctrineStorageTest\\:\\:testGetIdUrlMap\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
@@ -51550,11 +51516,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/FieldValueConverterRegistryTest.php
 
 		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 5
-			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Gateway\\\\DoctrineDatabaseTest\\:\\:assertContentVersionAttributesLanguages\\(\\) has parameter \\$expectation with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabaseTest.php
@@ -52156,11 +52117,6 @@ parameters:
 
 		-
 			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
 
@@ -54577,11 +54533,6 @@ parameters:
 		-
 			message: "#^Argument of an invalid type Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\UrlAlias supplied for foreach, only iterables are supported\\.$#"
 			count: 4
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
-
-		-
-			message: "#^Cannot call method fetchColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
 
 		-
