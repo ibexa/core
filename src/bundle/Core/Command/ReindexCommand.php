@@ -10,12 +10,8 @@ use function count;
 use DateTime;
 use const DIRECTORY_SEPARATOR;
 use Generator;
+use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
-use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Common\IncrementalIndexer;
@@ -60,7 +56,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
     private $locationHandler;
 
-    private APIContentService $contentService;
+    private ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy;
 
     public function __construct(
         $searchIndexer,
@@ -71,7 +67,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         string $env,
         bool $isDebug,
         string $projectDir,
-        APIContentService $contentService,
+        ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy,
         string $phpPath = null
     ) {
         $this->gateway = $gateway;
@@ -83,7 +79,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         $this->env = $env;
         $this->isDebug = $isDebug;
         $this->projectDir = $projectDir;
-        $this->contentService = $contentService;
+        $this->contentIdListGeneratorStrategy = $contentIdListGeneratorStrategy;
 
         parent::__construct();
     }
@@ -264,22 +260,14 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
             $generator = $this->gateway->getContentSince(new DateTime($since), $iterationCount);
             $purge = false;
         } elseif ($locationId = (int) $input->getOption('subtree')) {
-            /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
             $location = $this->locationHandler->load($locationId);
             $count = $this->gateway->countContentInSubtree($location->pathString);
             $generator = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
             $purge = false;
-        } elseif ($contentType = $input->getOption('content-type')) {
-            $filter = new Filter();
-            $filter
-                ->withCriterion(
-                    new Query\Criterion\ContentTypeIdentifier($contentType)
-                );
-
-            $contentList = $this->contentService->find($filter);
-            $count = $contentList->getTotalCount();
-            $generator = $this->fetchIterationFromContentList($contentList, $iterationCount);
-            $purge = false;
+        } elseif (!empty($input->getOption('content-type'))) {
+            $count = $this->contentIdListGeneratorStrategy->getCount($input);
+            $generator = $this->contentIdListGeneratorStrategy->getGenerator($input, $iterationCount);
+            $purge = $this->contentIdListGeneratorStrategy->shouldPurgeIndex();
         } else {
             $count = $this->gateway->countAllContent();
             $generator = $this->gateway->getAllContent($iterationCount);
@@ -477,22 +465,6 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     public function getDeprecatedAliases(): array
     {
         return ['ezplatform:reindex'];
-    }
-
-    private function fetchIterationFromContentList(ContentList $contentList, int $iterationCount): Generator
-    {
-        /** @var \ArrayIterator<int, Content> $contentListIterator */
-        $contentListIterator = $contentList->getIterator();
-
-        while ($contentListIterator->valid()) {
-            $contentIds = [];
-            for ($i = 0; $i < $iterationCount; ++$i) {
-                $contentIds[] = $contentListIterator->current()->id;
-                $contentListIterator->next();
-            }
-
-            yield $contentIds;
-        }
     }
 }
 
