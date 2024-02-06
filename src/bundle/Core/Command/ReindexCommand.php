@@ -59,7 +59,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     private ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy;
 
     public function __construct(
-        $searchIndexer,
+        Indexer $searchIndexer,
         Handler $locationHandler,
         IndexerGateway $gateway,
         LoggerInterface $logger,
@@ -337,7 +337,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         int $processCount,
         bool $commit
     ): void {
-        /** @var \Symfony\Component\Process\Process[]|null[] */
+        /** @var \Symfony\Component\Process\Process[]|null[] $processes */
         $processes = array_fill(0, $processCount, null);
         do {
             /** @var \Symfony\Component\Process\Process $process */
