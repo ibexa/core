@@ -8,6 +8,7 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -21,6 +22,9 @@ use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttr
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
 use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -29,6 +33,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PreviewController
 {
+    use LoggerAwareTrait;
+
     public const PREVIEW_PARAMETER_NAME = 'isPreview';
     public const CONTENT_VIEW_ROUTE = 'ibexa.content.view';
 
@@ -53,6 +59,9 @@ class PreviewController
     /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker */
     private $controllerChecker;
 
+    /** @var bool */
+    private $debugMode;
+
     public function __construct(
         ContentService $contentService,
         LocationService $locationService,
@@ -60,7 +69,9 @@ class PreviewController
         ContentPreviewHelper $previewHelper,
         AuthorizationCheckerInterface $authorizationChecker,
         PreviewLocationProvider $locationProvider,
-        CustomLocationControllerChecker $controllerChecker
+        CustomLocationControllerChecker $controllerChecker,
+        bool $debugMode,
+        ?LoggerInterface $logger = null
     ) {
         $this->contentService = $contentService;
         $this->locationService = $locationService;
@@ -69,6 +80,8 @@ class PreviewController
         $this->authorizationChecker = $authorizationChecker;
         $this->locationProvider = $locationProvider;
         $this->controllerChecker = $controllerChecker;
+        $this->debugMode = $debugMode;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -120,17 +133,45 @@ class PreviewController
                 false
             );
         } catch (\Exception $e) {
-            if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
-                // @todo This should probably be an exception that embeds the original one
-                $message = <<<EOF
+            try {
+                if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
+                    // @todo This should probably be an exception that embeds the original one
+                    $message = <<<EOF
 <p>The view that rendered this location draft uses a custom controller, and resulted in a fatal error.</p>
 <p>Location View is deprecated, as it causes issues with preview, such as an empty location id when previewing the first version of a content.</p>
 EOF;
 
-                throw new Exception($message, 0, $e);
+                    throw new Exception($message, 0, $e);
+                }
+            } catch (\Exception $e2) {
+                $this->logger->warning('Unable to check if location uses a custom controller when loading the preview page', ['exception' => $e2]);
+                if ($this->debugMode) {
+                    throw $e2;
+                }
+            }
+            $message = '';
+
+            if ($e instanceof NotFoundException) {
+                $message .= 'Location not found or not available in requested language';
+                $this->logger->warning('Location not found or not available in requested language when loading the preview page', ['exception' => $e]);
+                if ($this->debugMode) {
+                    throw new Exception($message, 0, $e);
+                }
             } else {
+                $this->logger->warning('Unable to load the preview page', ['exception' => $e]);
+            }
+
+            if ($this->debugMode) {
                 throw $e;
             }
+
+            $message = <<<EOF
+<p>$message</p>
+<p>Unable to load the preview page</p>
+<p>See logs for more information</p>
+EOF;
+
+            return new Response($message);
         }
         $response->headers->addCacheControlDirective('no-cache', true);
         $response->setPrivate();
