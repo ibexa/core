@@ -117,6 +117,7 @@ class PreviewController
                 HttpKernelInterface::SUB_REQUEST,
                 false
             );
+            $response->headers->addCacheControlDirective('no-cache', true);
         } catch (\Exception $e) {
             if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
                 // @todo This should probably be an exception that embeds the original one
