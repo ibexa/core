@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 interface ContentIdListGeneratorStrategyInterface
 {
     /**
-     * @return \Generator<int, int[]>
+     * @return \Generator<int, array<int>>
      */
     public function getGenerator(InputInterface $input, int $iterationCount): Generator;
 
