@@ -1,0 +1,74 @@
+name: Build and publish Solr Docker image
+on:
+    workflow_dispatch:
+        inputs:
+            force:
+                default: false
+                required: false
+                type: boolean
+                description: "Push new image even when tests fail"
+    schedule:
+        - cron: "45 21 3 * *"
+
+env:
+  IMAGE_NAME: ghcr.io/ibexa/core/solr
+
+jobs:
+    build-and-publish:
+        runs-on: "ubuntu-20.04"
+        permissions:
+            packages: write
+        services:
+              redis:
+                  image: redis
+                  ports:
+                      - 6379:6379
+                  options: 
+                      --memory=60m
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Build Solr image
+              run: docker build -t "$IMAGE_NAME:latest" docker/solr
+
+            - name: Start Solr image
+              run: | 
+                docker run --health-cmd "solr status" \
+                --health-interval 10s --health-timeout 5s --health-retries 10 \
+                -d -p 8983:8983 "$IMAGE_NAME:latest"
+
+            - name: Setup PHP Action
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: 7.4
+                  coverage: none
+            
+            - name: Add solr dependency
+              run: |
+                VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
+                composer require --no-update "ibexa/solr:$VERSION"
+
+            - uses: "ramsey/composer-install@v2"
+              with:
+                  dependency-versions: "highest"
+
+            - name: Run integration test suite
+              run: composer test-integration-solr
+              continue-on-error: ${{ inputs.force != '' }}
+              env:
+                    CUSTOM_CACHE_POOL: singleredis
+                    CACHE_HOST: 127.0.0.1
+                    CORES_SETUP: single
+
+            - name: Log in to the Container registry
+              uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+              with:
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Push image
+              run: docker push "$IMAGE_NAME"
+
