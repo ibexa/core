@@ -37,22 +37,17 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
     public function getGenerator(InputInterface $input, int $iterationCount): Generator
     {
         $contentList = $this->getContentList($input->getOption('content-type'));
-        $contentListIterator = $contentList->getIterator();
-        do {
-            $contentIds = [];
-            for ($i = 0; $i < $iterationCount; ++$i) {
-                if (!$contentListIterator->valid()) {
-                    break;
-                }
-                $contentIds[] = $contentListIterator->current()->getVersionInfo()->getContentInfo()->getId();
-                $contentListIterator->next();
+        $contentIds = [];
+        foreach ($contentList as $content) {
+            $contentIds[] = $content->getVersionInfo()->getContentInfo()->getId();
+            if (count($contentIds) >= $iterationCount) {
+                yield $contentIds;
+                $contentIds = [];
             }
-            if (empty($contentIds)) {
-                break;
-            }
-
+        }
+        if (!empty($contentIds)) {
             yield $contentIds;
-        } while ($contentListIterator->valid());
+        }
     }
 
     public function shouldPurgeIndex(): bool
