@@ -271,11 +271,6 @@ parameters:
 			path: src/bundle/Core/Command/ReindexCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:getPhpProcess\\(\\) has parameter \\$contentIds with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:initialize\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
