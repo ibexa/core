@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Command\Indexer;
 
-use Generator;
+use Ibexa\Core\Search\Indexer\ContentIdBatchList;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -16,12 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 interface ContentIdListGeneratorStrategyInterface
 {
-    /**
-     * @return \Generator<int, array<int>>
-     */
-    public function getGenerator(InputInterface $input, int $iterationCount): Generator;
+    public function shouldPurgeIndex(InputInterface $input): bool;
 
-    public function getCount(InputInterface $input): int;
-
-    public function shouldPurgeIndex(): bool;
+    public function getBatchList(InputInterface $input, int $batchSize): ContentIdBatchList;
 }

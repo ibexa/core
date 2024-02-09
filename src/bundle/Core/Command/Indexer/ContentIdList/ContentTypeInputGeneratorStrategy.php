@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Core\Search\Indexer\ContentIdBatchList;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -23,9 +24,6 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
 {
     private ContentService $contentService;
 
-    /** @var array<string, \Ibexa\Contracts\Core\Repository\Values\Content\ContentList> */
-    private static array $inMemoryContentListCache = [];
-
     public function __construct(ContentService $contentService)
     {
         $this->contentService = $contentService;
@@ -34,13 +32,22 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    public function getGenerator(InputInterface $input, int $iterationCount): Generator
+    public function getBatchList(InputInterface $input, int $batchSize): ContentIdBatchList
     {
         $contentList = $this->getContentList($input->getOption('content-type'));
+
+        return new ContentIdBatchList(
+            $this->buildGenerator($contentList, $batchSize),
+            $contentList->getTotalCount(),
+        );
+    }
+
+    private function buildGenerator(ContentList $contentList, int $batchSize): Generator
+    {
         $contentIds = [];
         foreach ($contentList as $content) {
             $contentIds[] = $content->getVersionInfo()->getContentInfo()->getId();
-            if (count($contentIds) >= $iterationCount) {
+            if (count($contentIds) >= $batchSize) {
                 yield $contentIds;
                 $contentIds = [];
             }
@@ -50,7 +57,7 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
         }
     }
 
-    public function shouldPurgeIndex(): bool
+    public function shouldPurgeIndex(InputInterface $input): bool
     {
         return false;
     }
@@ -58,20 +65,8 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    public function getCount(InputInterface $input): int
-    {
-        return $this->getContentList($input->getOption('content-type'))->getTotalCount();
-    }
-
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     */
     private function getContentList(string $contentTypeIdentifier): ContentList
     {
-        if (isset(self::$inMemoryContentListCache[$contentTypeIdentifier])) {
-            return self::$inMemoryContentListCache[$contentTypeIdentifier];
-        }
-
         $filter = new Filter();
         $filter
             ->withCriterion(
@@ -79,8 +74,6 @@ final class ContentTypeInputGeneratorStrategy implements ContentIdListGeneratorS
             )
         ;
 
-        self::$inMemoryContentListCache[$contentTypeIdentifier] = $this->contentService->find($filter);
-
-        return self::$inMemoryContentListCache[$contentTypeIdentifier];
+        return $this->contentService->find($filter);
     }
 }

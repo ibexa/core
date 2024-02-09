@@ -9,7 +9,6 @@ namespace Ibexa\Bundle\Core\Command;
 use function count;
 use DateTime;
 use const DIRECTORY_SEPARATOR;
-use Generator;
 use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
@@ -257,20 +256,20 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
 
         if ($since = $input->getOption('since')) {
             $count = $this->gateway->countContentSince(new DateTime($since));
-            $generator = $this->gateway->getContentSince(new DateTime($since), $iterationCount);
+            $batchList = $this->gateway->getContentSince(new DateTime($since), $iterationCount);
             $purge = false;
         } elseif ($locationId = (int) $input->getOption('subtree')) {
             $location = $this->locationHandler->load($locationId);
             $count = $this->gateway->countContentInSubtree($location->pathString);
-            $generator = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
+            $batchList = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
             $purge = false;
         } elseif (!empty($input->getOption('content-type'))) {
-            $count = $this->contentIdListGeneratorStrategy->getCount($input);
-            $generator = $this->contentIdListGeneratorStrategy->getGenerator($input, $iterationCount);
-            $purge = $this->contentIdListGeneratorStrategy->shouldPurgeIndex();
+            $batchList = $this->contentIdListGeneratorStrategy->getBatchList($input, $iterationCount);
+            $count = $batchList->getCount();
+            $purge = $this->contentIdListGeneratorStrategy->shouldPurgeIndex($input);
         } else {
             $count = $this->gateway->countAllContent();
-            $generator = $this->gateway->getAllContent($iterationCount);
+            $batchList = $this->gateway->getAllContent($iterationCount);
             $purge = !$input->getOption('no-purge');
         }
 
@@ -306,13 +305,13 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         if ($processCount > 1) {
             $this->runParallelProcess(
                 $progress,
-                $generator,
+                $batchList,
                 (int)$processCount,
                 $commit
             );
         } else {
             // if we only have one process, or less iterations to warrant running several, we index it all inline
-            foreach ($generator as $contentIds) {
+            foreach ($batchList as $contentIds) {
                 $this->searchIndexer->updateSearchIndex($contentIds, $commit);
                 $progress->advance(1);
             }
@@ -329,14 +328,27 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
+     * @param iterable<int, array<int>> $results
+     *
+     * @return \Generator<int, array<int>>
+     */
+    private function buildGenerator(iterable $results): \Generator
+    {
+        yield from $results;
+    }
+
+    /**
+     * @param iterable<int, array<int>> $batchList
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     private function runParallelProcess(
         ProgressBar $progress,
-        Generator $generator,
+        iterable $batchList,
         int $processCount,
         bool $commit
     ): void {
+        $generator = $this->buildGenerator($batchList);
         /** @var \Symfony\Component\Process\Process[]|null[] $processes */
         $processes = array_fill(0, $processCount, null);
         do {
@@ -378,7 +390,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
-     * @param array $contentIds
+     * @param int[] $contentIds
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
