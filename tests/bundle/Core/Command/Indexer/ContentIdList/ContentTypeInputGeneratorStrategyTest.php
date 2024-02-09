@@ -26,10 +26,8 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
      * @dataProvider getDataForTestGetGenerator
      *
      * @param array<int, int[]> $expectedBatches
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    public function testGetGenerator(ContentList $contentList, int $iterationCount, array $expectedBatches): void
+    public function testGetGenerator(ContentList $contentList, int $batchSize, array $expectedBatches): void
     {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock->method('find')->willReturn($contentList);
@@ -37,11 +35,11 @@ final class ContentTypeInputGeneratorStrategyTest extends TestCase
         $inputMock = $this->createMock(InputInterface::class);
         $inputMock->method('getOption')->with('content-type')->willReturn(uniqid('type', true));
 
-        $generator = new ContentTypeInputGeneratorStrategy($contentServiceMock);
+        $strategy = new ContentTypeInputGeneratorStrategy($contentServiceMock);
 
         self::assertSame(
             $expectedBatches,
-            iterator_to_array($generator->getGenerator($inputMock, $iterationCount))
+            iterator_to_array($strategy->getBatchList($inputMock, $batchSize))
         );
     }
 
