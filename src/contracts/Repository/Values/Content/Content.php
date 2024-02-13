@@ -23,6 +23,16 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 abstract class Content extends ValueObject
 {
+    public function getId(): int
+    {
+        return $this->getVersionInfo()->getContentInfo()->getId();
+    }
+
+    public function getContentInfo(): ContentInfo
+    {
+        return $this->getVersionInfo()->getContentInfo();
+    }
+
     /**
      * Returns the VersionInfo for this version.
      *

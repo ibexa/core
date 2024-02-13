@@ -101,7 +101,7 @@ abstract class User extends Content implements UserReference
      */
     public function getUserId(): int
     {
-        return $this->id;
+        return $this->getId();
     }
 }
 
