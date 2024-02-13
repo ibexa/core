@@ -300,6 +300,9 @@ INSERT INTO "ezuser_setting" ("is_enabled", "max_login", "user_id")
 VALUES (1, 1000, 10),
        (1, 10, 14);
 
+INSERT INTO "ezpreferences" ("name", "user_id", "value")
+SELECT 'focus_mode', u.contentobject_id, '0' FROM "ezuser" u WHERE u.login = 'admin';
+
 -- Set proper sequence values after inserting data
 SELECT SETVAL('ezcobj_state_group_id_seq', COALESCE(MAX(id), 1) ) FROM ezcobj_state_group;
 SELECT SETVAL('ezcobj_state_id_seq', COALESCE(MAX(id), 1) ) FROM ezcobj_state;
