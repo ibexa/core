@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -83,6 +84,17 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         $this->checkPermissions();
         $this->checkParameters();
         $this->checkCreateDatabase($output);
+
+        $schemaManager = $this->connection->getSchemaManager();
+        if (!empty($schemaManager->listTables())) {
+            /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
+            $helper = $this->getHelper('question');
+            $question = new ConfirmationQuestion('Running this command will delete current data in database. Continue? [y]');
+
+            if (!$helper->ask($input, $output, $question)) {
+                return 0;
+            }
+        }
 
         $type = $input->getArgument('type');
         $siteaccess = $input->getOption('siteaccess');
