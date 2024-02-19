@@ -130,6 +130,7 @@ EOF;
                 throw $e;
             }
         }
+        $response->headers->addCacheControlDirective('no-cache', true);
         $response->setPrivate();
 
         $this->previewHelper->restoreConfigScope();
