@@ -237,7 +237,7 @@ final class PreviewControllerTest extends TestCase
         $this->httpKernel
             ->method('handle')
             ->with($request->duplicate(null, null, $forwardRequestParameters), HttpKernelInterface::SUB_REQUEST)
-            ->willReturn($this->createMock(Response::class))
+            ->willReturn(new Response())
         ;
 
         $controller = $this->getPreviewController();
