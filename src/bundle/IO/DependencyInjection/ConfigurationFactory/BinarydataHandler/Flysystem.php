@@ -15,5 +15,3 @@ class Flysystem extends BaseFactory
         return 'ibexa.core.io.binarydata_handler.flysystem';
     }
 }
-
-class_alias(Flysystem::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory\BinarydataHandler\Flysystem');

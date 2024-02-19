@@ -144,5 +144,3 @@ class StatusLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(StatusLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\StatusLimitationTest');

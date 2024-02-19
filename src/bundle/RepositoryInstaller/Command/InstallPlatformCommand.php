@@ -270,5 +270,3 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         return ['ezplatform:install'];
     }
 }
-
-class_alias(InstallPlatformCommand::class, 'EzSystems\PlatformInstallerBundle\Command\InstallPlatformCommand');

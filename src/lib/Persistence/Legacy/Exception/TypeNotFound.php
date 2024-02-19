@@ -27,5 +27,3 @@ class TypeNotFound extends NotFoundException
         );
     }
 }
-
-class_alias(TypeNotFound::class, 'eZ\Publish\Core\Persistence\Legacy\Exception\TypeNotFound');

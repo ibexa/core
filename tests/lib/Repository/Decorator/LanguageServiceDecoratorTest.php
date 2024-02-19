@@ -175,5 +175,3 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->newLanguageCreateStruct(...$parameters);
     }
 }
-
-class_alias(LanguageServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\LanguageServiceDecoratorTest');

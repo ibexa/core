@@ -43,5 +43,3 @@ class ContentSearchAdapterTest extends ContentSearchHitAdapterTest
         return $expectedResult;
     }
 }
-
-class_alias(ContentSearchAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\ContentSearchAdapterTest');

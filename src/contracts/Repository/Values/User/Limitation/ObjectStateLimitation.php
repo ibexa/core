@@ -29,5 +29,3 @@ class ObjectStateLimitation extends Limitation
         return Limitation::STATE;
     }
 }
-
-class_alias(ObjectStateLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\ObjectStateLimitation');

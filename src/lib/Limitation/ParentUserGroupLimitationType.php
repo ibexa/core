@@ -213,5 +213,3 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(ParentUserGroupLimitationType::class, 'eZ\Publish\Core\Limitation\ParentUserGroupLimitationType');

@@ -180,5 +180,3 @@ class Parser
         return $data;
     }
 }
-
-class_alias(Parser::class, 'eZ\Publish\Core\Persistence\TransformationProcessor\DefinitionBased\Parser');

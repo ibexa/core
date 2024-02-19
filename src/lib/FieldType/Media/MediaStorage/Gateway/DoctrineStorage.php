@@ -142,5 +142,3 @@ class DoctrineStorage extends BaseDoctrineStorage
         ;
     }
 }
-
-class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage');

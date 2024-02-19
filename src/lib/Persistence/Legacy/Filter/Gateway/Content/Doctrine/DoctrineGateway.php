@@ -290,5 +290,3 @@ final class DoctrineGateway implements Gateway
         return $wrappedQuery;
     }
 }
-
-class_alias(DoctrineGateway::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway');

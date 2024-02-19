@@ -58,5 +58,3 @@ class FieldTypeParameterProviderRegistryPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(FieldTypeParameterProviderRegistryPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\FieldTypeParameterProviderRegistryPass');

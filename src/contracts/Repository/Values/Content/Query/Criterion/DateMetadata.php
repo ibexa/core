@@ -86,5 +86,3 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
         ];
     }
 }
-
-class_alias(DateMetadata::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\DateMetadata');

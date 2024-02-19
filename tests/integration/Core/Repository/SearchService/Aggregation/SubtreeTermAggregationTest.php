@@ -32,5 +32,3 @@ final class SubtreeTermAggregationTest extends AbstractAggregationTest
         yield $builder->build();
     }
 }
-
-class_alias(SubtreeTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\SubtreeTermAggregationTest');

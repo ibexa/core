@@ -52,5 +52,3 @@ class UserGroupCreateStruct extends APIUserGroupCreateStruct
         );
     }
 }
-
-class_alias(UserGroupCreateStruct::class, 'eZ\Publish\Core\Repository\Values\User\UserGroupCreateStruct');

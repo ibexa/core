@@ -178,5 +178,3 @@ class Utf8Converter
         return $charCode;
     }
 }
-
-class_alias(Utf8Converter::class, 'eZ\Publish\Core\Persistence\Utf8Converter');

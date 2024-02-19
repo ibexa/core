@@ -14,5 +14,3 @@ use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage;
 class MediaStorage extends BinaryBaseStorage
 {
 }
-
-class_alias(MediaStorage::class, 'eZ\Publish\Core\FieldType\Media\MediaStorage');

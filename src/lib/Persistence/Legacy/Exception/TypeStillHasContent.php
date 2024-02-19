@@ -31,5 +31,3 @@ class TypeStillHasContent extends BadStateException
         );
     }
 }
-
-class_alias(TypeStillHasContent::class, 'eZ\Publish\Core\Persistence\Legacy\Exception\TypeStillHasContent');

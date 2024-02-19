@@ -183,5 +183,3 @@ class URIElement implements VersatileMatcher, URILexer
         return $this;
     }
 }
-
-class_alias(URIElement::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\URIElement');

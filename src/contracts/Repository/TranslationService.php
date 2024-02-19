@@ -44,5 +44,3 @@ interface TranslationService
      */
     public function translateString($translation, $locale);
 }
-
-class_alias(TranslationService::class, 'eZ\Publish\API\Repository\TranslationService');

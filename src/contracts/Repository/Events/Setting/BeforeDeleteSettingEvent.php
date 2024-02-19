@@ -26,5 +26,3 @@ final class BeforeDeleteSettingEvent extends BeforeEvent
         return $this->setting;
     }
 }
-
-class_alias(BeforeDeleteSettingEvent::class, 'eZ\Publish\API\Repository\Events\Setting\BeforeDeleteSettingEvent');

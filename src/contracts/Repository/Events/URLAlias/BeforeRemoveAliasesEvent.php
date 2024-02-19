@@ -25,5 +25,3 @@ final class BeforeRemoveAliasesEvent extends BeforeEvent
         return $this->aliasList;
     }
 }
-
-class_alias(BeforeRemoveAliasesEvent::class, 'eZ\Publish\API\Repository\Events\URLAlias\BeforeRemoveAliasesEvent');

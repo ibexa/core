@@ -29,5 +29,3 @@ interface ParameterProviderInterface
      */
     public function getViewParameters(Field $field);
 }
-
-class_alias(ParameterProviderInterface::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface');

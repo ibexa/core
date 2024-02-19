@@ -14,5 +14,3 @@ use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage;
 class BinaryFileStorage extends BinaryBaseStorage
 {
 }
-
-class_alias(BinaryFileStorage::class, 'eZ\Publish\Core\FieldType\BinaryFile\BinaryFileStorage');

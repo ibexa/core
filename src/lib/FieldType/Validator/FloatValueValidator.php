@@ -112,5 +112,3 @@ class FloatValueValidator extends Validator
         return $isValid;
     }
 }
-
-class_alias(FloatValueValidator::class, 'eZ\Publish\Core\FieldType\Validator\FloatValueValidator');

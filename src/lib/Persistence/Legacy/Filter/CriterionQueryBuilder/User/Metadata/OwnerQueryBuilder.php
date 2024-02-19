@@ -37,5 +37,3 @@ final class OwnerQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(OwnerQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\Metadata\OwnerQueryBuilder');

@@ -225,5 +225,3 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
         return null;
     }
 }
-
-class_alias(TranslatableExceptionsFileVisitor::class, 'eZ\Publish\Core\MVC\Symfony\Translation\TranslatableExceptionsFileVisitor');

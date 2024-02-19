@@ -335,5 +335,3 @@ class TranslationHelperTest extends TestCase
         $this->assertSame($expectedLanguages, $this->translationHelper->getAvailableLanguages());
     }
 }
-
-class_alias(TranslationHelperTest::class, 'eZ\Publish\Core\Helper\Tests\TranslationHelperTest');

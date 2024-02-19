@@ -58,5 +58,3 @@ final class BeforeUpdateUserPasswordEvent extends BeforeEvent
         return $this->updatedUser instanceof User;
     }
 }
-
-class_alias(BeforeUpdateUserPasswordEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeUpdateUserPasswordEvent');

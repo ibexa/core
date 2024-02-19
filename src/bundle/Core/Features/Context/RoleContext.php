@@ -132,5 +132,3 @@ class RoleContext implements Context
         );
     }
 }
-
-class_alias(RoleContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\RoleContext');

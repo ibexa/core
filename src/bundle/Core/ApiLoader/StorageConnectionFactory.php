@@ -52,5 +52,3 @@ class StorageConnectionFactory implements ContainerAwareInterface
         return $this->container->get($doctrineConnectionId);
     }
 }
-
-class_alias(StorageConnectionFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\StorageConnectionFactory');

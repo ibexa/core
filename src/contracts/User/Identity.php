@@ -53,5 +53,3 @@ interface Identity
      */
     public function getHash();
 }
-
-class_alias(Identity::class, 'eZ\Publish\SPI\User\Identity');

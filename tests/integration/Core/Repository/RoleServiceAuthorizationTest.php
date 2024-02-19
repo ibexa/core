@@ -671,5 +671,3 @@ class RoleServiceAuthorizationTest extends BaseTest
         return $role;
     }
 }
-
-class_alias(RoleServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\RoleServiceAuthorizationTest');

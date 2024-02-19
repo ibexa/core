@@ -82,5 +82,3 @@ class ContentType extends APIContentType
         return $this->fieldDefinitions;
     }
 }
-
-class_alias(ContentType::class, 'eZ\Publish\Core\Repository\Values\ContentType\ContentType');

@@ -140,5 +140,3 @@ class AliasGeneratorTest extends TestCase
         $this->assertFalse($this->aliasGenerator->supportsValue(new Image\Value()));
     }
 }
-
-class_alias(AliasGeneratorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\ImageAsset\AliasGeneratorTest');

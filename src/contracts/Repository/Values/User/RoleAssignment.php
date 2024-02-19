@@ -40,5 +40,3 @@ abstract class RoleAssignment extends ValueObject
      */
     abstract public function getRole(): Role;
 }
-
-class_alias(RoleAssignment::class, 'eZ\Publish\API\Repository\Values\User\RoleAssignment');

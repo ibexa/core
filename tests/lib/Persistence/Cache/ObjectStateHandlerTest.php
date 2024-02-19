@@ -212,5 +212,3 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTest
         ];
     }
 }
-
-class_alias(ObjectStateHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\ObjectStateHandlerTest');

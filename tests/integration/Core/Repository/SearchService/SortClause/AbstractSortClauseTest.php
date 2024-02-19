@@ -33,5 +33,3 @@ abstract class AbstractSortClauseTest extends BaseTest
         self::assertEquals($expectedOrderedIds, $actualIds);
     }
 }
-
-class_alias(AbstractSortClauseTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\SortClause\AbstractSortClauseTest');

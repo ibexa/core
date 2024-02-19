@@ -44,5 +44,3 @@ class ContentId extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(ContentId::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentId');

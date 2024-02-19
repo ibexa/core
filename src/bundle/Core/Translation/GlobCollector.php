@@ -43,5 +43,3 @@ class GlobCollector implements Collector
         return $meta;
     }
 }
-
-class_alias(GlobCollector::class, 'eZ\Bundle\EzPublishCoreBundle\Translation\GlobCollector');

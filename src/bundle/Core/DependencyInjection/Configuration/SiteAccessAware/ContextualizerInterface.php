@@ -234,5 +234,3 @@ interface ContextualizerInterface
      */
     public function getGroupsBySiteAccess();
 }
-
-class_alias(ContextualizerInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface');

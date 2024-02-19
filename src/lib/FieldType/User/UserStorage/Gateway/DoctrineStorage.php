@@ -440,5 +440,3 @@ class DoctrineStorage extends Gateway
             ->fetchColumn();
     }
 }
-
-class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage');

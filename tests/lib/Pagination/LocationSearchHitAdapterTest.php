@@ -188,5 +188,3 @@ class LocationSearchHitAdapterTest extends TestCase
         return $query;
     }
 }
-
-class_alias(LocationSearchHitAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\LocationSearchHitAdapterTest');

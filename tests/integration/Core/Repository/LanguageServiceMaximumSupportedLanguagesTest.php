@@ -90,5 +90,3 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTest
         $this->languageService->createLanguage($languageCreate);
     }
 }
-
-class_alias(LanguageServiceMaximumSupportedLanguagesTest::class, 'eZ\Publish\API\Repository\Tests\LanguageServiceMaximumSupportedLanguagesTest');

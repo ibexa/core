@@ -34,5 +34,3 @@ class IsFieldEmpty extends Criterion
         ];
     }
 }
-
-class_alias(IsFieldEmpty::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\IsFieldEmpty');

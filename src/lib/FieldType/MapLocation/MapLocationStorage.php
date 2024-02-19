@@ -71,5 +71,3 @@ class MapLocationStorage extends GatewayBasedStorage
         return is_array($field->value->externalData) ? $field->value->externalData['address'] : null;
     }
 }
-
-class_alias(MapLocationStorage::class, 'eZ\Publish\Core\FieldType\MapLocation\MapLocationStorage');

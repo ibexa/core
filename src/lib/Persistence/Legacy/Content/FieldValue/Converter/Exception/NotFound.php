@@ -26,5 +26,3 @@ class NotFound extends NotFoundException
         );
     }
 }
-
-class_alias(NotFound::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound');

@@ -268,5 +268,3 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
         return self::VALUE_SCHEMA_LOCATION_PATH;
     }
 }
-
-class_alias(SubtreeLimitationType::class, 'eZ\Publish\Core\Limitation\SubtreeLimitationType');

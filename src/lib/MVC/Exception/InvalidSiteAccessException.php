@@ -35,5 +35,3 @@ class InvalidSiteAccessException extends RuntimeException
         parent::__construct($message);
     }
 }
-
-class_alias(InvalidSiteAccessException::class, 'eZ\Publish\Core\MVC\Exception\InvalidSiteAccessException');

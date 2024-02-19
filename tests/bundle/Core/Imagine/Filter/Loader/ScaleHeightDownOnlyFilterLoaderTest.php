@@ -48,5 +48,3 @@ class ScaleHeightDownOnlyFilterLoaderTest extends TestCase
         $this->assertSame($image, $this->loader->load($image, [$height]));
     }
 }
-
-class_alias(ScaleHeightDownOnlyFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoaderTest');

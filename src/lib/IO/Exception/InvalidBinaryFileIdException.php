@@ -15,5 +15,3 @@ class InvalidBinaryFileIdException extends InvalidArgumentValue
         parent::__construct('BinaryFile::id', $id, 'BinaryFile');
     }
 }
-
-class_alias(InvalidBinaryFileIdException::class, 'eZ\Publish\Core\IO\Exception\InvalidBinaryFileIdException');

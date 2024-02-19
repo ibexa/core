@@ -42,5 +42,3 @@ class LocationSearchAdapterTest extends LocationSearchHitAdapterTest
         return $expectedResult;
     }
 }
-
-class_alias(LocationSearchAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\LocationSearchAdapterTest');

@@ -493,5 +493,3 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         yield $contentIds;
     }
 }
-
-class_alias(ReindexCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\ReindexCommand');

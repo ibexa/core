@@ -51,5 +51,3 @@ abstract class ObjectStateGroup extends ValueObject implements MultiLanguageName
      */
     protected $languageCodes;
 }
-
-class_alias(ObjectStateGroup::class, 'eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroup');

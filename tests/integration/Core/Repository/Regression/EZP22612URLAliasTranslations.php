@@ -60,5 +60,3 @@ class EZP22612URLAliasTranslations extends BaseTest
         );
     }
 }
-
-class_alias(EZP22612URLAliasTranslations::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP22612URLAliasTranslations');

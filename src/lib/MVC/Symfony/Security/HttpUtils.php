@@ -58,5 +58,3 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
         return $path && strpos($path, 'http') !== 0 && strpos($path, '/') !== 0;
     }
 }
-
-class_alias(HttpUtils::class, 'eZ\Publish\Core\MVC\Symfony\Security\HttpUtils');

@@ -69,5 +69,3 @@ class User extends ValueObject
      */
     public $maxLogin = 0;
 }
-
-class_alias(User::class, 'eZ\Publish\SPI\Persistence\User');

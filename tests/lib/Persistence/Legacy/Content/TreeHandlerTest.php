@@ -520,5 +520,3 @@ class TreeHandlerTest extends TestCase
         );
     }
 }
-
-class_alias(TreeHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\TreeHandlerTest');

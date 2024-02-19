@@ -20,5 +20,3 @@ class GeoLocationField extends FieldType
      */
     protected $type = 'ez_geolocation';
 }
-
-class_alias(GeoLocationField::class, 'eZ\Publish\SPI\Search\FieldType\GeoLocationField');

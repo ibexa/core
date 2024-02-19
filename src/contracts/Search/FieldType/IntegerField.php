@@ -20,5 +20,3 @@ class IntegerField extends FieldType
      */
     protected $type = 'ez_integer';
 }
-
-class_alias(IntegerField::class, 'eZ\Publish\SPI\Search\FieldType\IntegerField');

@@ -20,5 +20,3 @@ interface MetadataHandler
      */
     public function extract($path);
 }
-
-class_alias(MetadataHandler::class, 'eZ\Publish\Core\IO\MetadataHandler');

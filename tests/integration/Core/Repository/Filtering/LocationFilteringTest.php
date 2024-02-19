@@ -117,5 +117,3 @@ final class LocationFilteringTest extends BaseRepositoryFilteringTestCase
         );
     }
 }
-
-class_alias(LocationFilteringTest::class, 'eZ\Publish\API\Repository\Tests\Filtering\LocationFilteringTest');

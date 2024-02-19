@@ -27,5 +27,3 @@ interface CachableView
      */
     public function isCacheEnabled();
 }
-
-class_alias(CachableView::class, 'eZ\Publish\Core\MVC\Symfony\View\CachableView');

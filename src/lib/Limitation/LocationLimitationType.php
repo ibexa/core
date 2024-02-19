@@ -234,5 +234,3 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
         return self::VALUE_SCHEMA_LOCATION_ID;
     }
 }
-
-class_alias(LocationLimitationType::class, 'eZ\Publish\Core\Limitation\LocationLimitationType');

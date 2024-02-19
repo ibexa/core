@@ -73,5 +73,3 @@ class Section extends MultipleValued
         return isset($this->values[$section->identifier]);
     }
 }
-
-class_alias(Section::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section');

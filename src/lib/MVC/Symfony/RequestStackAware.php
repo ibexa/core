@@ -41,5 +41,3 @@ trait RequestStackAware
         return $this->requestStack->getCurrentRequest();
     }
 }
-
-class_alias(RequestStackAware::class, 'eZ\Publish\Core\MVC\Symfony\RequestStackAware');

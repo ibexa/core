@@ -115,5 +115,3 @@ abstract class GatewayBasedStorage implements FieldStorage
         return $this->storeFieldData($versionInfo, $field, $context);
     }
 }
-
-class_alias(GatewayBasedStorage::class, 'eZ\Publish\Core\FieldType\GatewayBasedStorage');

@@ -29,5 +29,3 @@ final class CompoundStub extends Compound
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(CompoundStub::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\Stubs\CompoundStub');

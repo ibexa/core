@@ -26,5 +26,3 @@ class InvalidResponseException extends ForbiddenException implements Translatabl
         );
     }
 }
-
-class_alias(InvalidResponseException::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Exception\InvalidResponseException');

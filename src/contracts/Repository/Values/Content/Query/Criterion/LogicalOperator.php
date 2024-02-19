@@ -56,5 +56,3 @@ abstract class LogicalOperator extends Criterion
         throw new NotImplementedException('getSpecifications() not implemented for LogicalOperators');
     }
 }
-
-class_alias(LogicalOperator::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalOperator');

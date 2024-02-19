@@ -45,5 +45,3 @@ class RoleCopyStruct extends APIRoleCopyStruct
         $this->policies[] = $policyCreateStruct;
     }
 }
-
-class_alias(RoleCopyStruct::class, 'eZ\Publish\Core\Repository\Values\User\RoleCopyStruct');

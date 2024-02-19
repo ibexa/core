@@ -226,5 +226,3 @@ final class SettingServiceTest extends BaseTest
         $settingService->deleteSetting($setting);
     }
 }
-
-class_alias(SettingServiceTest::class, 'eZ\Publish\API\Repository\Tests\SettingServiceTest');

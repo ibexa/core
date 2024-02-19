@@ -45,5 +45,3 @@ class Php extends IdManager
         return $id;
     }
 }
-
-class_alias(Php::class, 'eZ\Publish\API\Repository\Tests\IdManager\Php');

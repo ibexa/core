@@ -53,5 +53,3 @@ final class LogicalOrQueryBuilder implements CriterionQueryBuilder
         return (string)$queryBuilder->expr()->orX(...$constraints);
     }
 }
-
-class_alias(LogicalOrQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalOrQueryBuilder');

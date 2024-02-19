@@ -35,5 +35,3 @@ class ContentTypeCreateStruct extends APIContentTypeCreateStruct
         $this->fieldDefinitions[] = $fieldDef;
     }
 }
-
-class_alias(ContentTypeCreateStruct::class, 'eZ\Publish\Core\Repository\Values\ContentType\ContentTypeCreateStruct');

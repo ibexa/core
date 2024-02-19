@@ -41,5 +41,3 @@ class ConfigSuggestionTest extends TestCase
         $this->assertTrue($suggestion->isMandatory());
     }
 }
-
-class_alias(ConfigSuggestionTest::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Tests\ConfigSuggestionTest');

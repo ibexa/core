@@ -17,5 +17,3 @@ interface VersatileScopeInterface extends ConfigResolverInterface
 
     public function setDefaultScope(string $scope): void;
 }
-
-class_alias(VersatileScopeInterface::class, 'eZ\Publish\Core\MVC\Symfony\Configuration\VersatileScopeInterface');

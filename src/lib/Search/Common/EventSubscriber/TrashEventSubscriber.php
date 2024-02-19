@@ -73,5 +73,3 @@ class TrashEventSubscriber extends AbstractSearchEventSubscriber implements Even
         }
     }
 }
-
-class_alias(TrashEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\TrashEventSubscriber');

@@ -51,5 +51,3 @@ class Location extends MultipleValued
         return isset($this->values[$view->getLocation()->id]);
     }
 }
-
-class_alias(Location::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Id\Location');

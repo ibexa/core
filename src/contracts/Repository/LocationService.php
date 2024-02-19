@@ -274,5 +274,3 @@ interface LocationService
      */
     public function count(Filter $filter, ?array $languages = null): int;
 }
-
-class_alias(LocationService::class, 'eZ\Publish\API\Repository\LocationService');

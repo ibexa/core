@@ -78,5 +78,3 @@ class KeywordTest extends TestCase
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());
     }
 }
-
-class_alias(KeywordTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\KeywordTest');

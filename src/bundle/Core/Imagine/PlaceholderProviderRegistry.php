@@ -42,5 +42,3 @@ class PlaceholderProviderRegistry
         return $this->providers[$type];
     }
 }
-
-class_alias(PlaceholderProviderRegistry::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderProviderRegistry');

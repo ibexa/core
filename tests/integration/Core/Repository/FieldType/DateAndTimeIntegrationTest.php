@@ -358,5 +358,3 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         return parent::getSearchTargetValueTwo();
     }
 }
-
-class_alias(DateAndTimeIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\DateAndTimeIntegrationTest');

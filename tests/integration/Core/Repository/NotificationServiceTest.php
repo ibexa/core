@@ -200,5 +200,3 @@ class NotificationServiceTest extends BaseTest
         /* END: Use Case */
     }
 }
-
-class_alias(NotificationServiceTest::class, 'eZ\Publish\API\Repository\Tests\NotificationServiceTest');

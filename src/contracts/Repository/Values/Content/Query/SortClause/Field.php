@@ -82,5 +82,3 @@ class Field extends SortClause implements CustomFieldInterface
         return $this->customFields[$type][$field];
     }
 }
-
-class_alias(Field::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Field');

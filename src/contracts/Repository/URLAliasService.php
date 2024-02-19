@@ -175,5 +175,3 @@ interface URLAliasService
      */
     public function deleteCorruptedUrlAliases(): int;
 }
-
-class_alias(URLAliasService::class, 'eZ\Publish\API\Repository\URLAliasService');

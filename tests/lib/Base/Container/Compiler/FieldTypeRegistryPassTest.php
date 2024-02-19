@@ -83,5 +83,3 @@ class FieldTypeRegistryPassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(FieldTypeRegistryPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\FieldTypeRegistryPassTest');

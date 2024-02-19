@@ -22,5 +22,3 @@ class MultipleRemoteIdentifierField extends FieldType
      */
     protected $type = 'ez_mid';
 }
-
-class_alias(MultipleRemoteIdentifierField::class, 'eZ\Publish\SPI\Search\FieldType\MultipleRemoteIdentifierField');

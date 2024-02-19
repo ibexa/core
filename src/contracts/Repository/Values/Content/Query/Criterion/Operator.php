@@ -48,5 +48,3 @@ abstract class Operator
         );
     }
 }
-
-class_alias(Operator::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator');

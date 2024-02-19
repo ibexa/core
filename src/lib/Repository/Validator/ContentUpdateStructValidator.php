@@ -136,5 +136,3 @@ final class ContentUpdateStructValidator implements ContentValidator
         return $allFieldErrors;
     }
 }
-
-class_alias(ContentUpdateStructValidator::class, 'eZ\Publish\Core\Repository\Validator\ContentUpdateStructValidator');

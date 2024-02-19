@@ -32,5 +32,3 @@ class PermissionSubtree extends APISubtreeCriterion
         return new self($value);
     }
 }
-
-class_alias(PermissionSubtree::class, 'eZ\Publish\Core\Repository\Values\Content\Query\Criterion\PermissionSubtree');

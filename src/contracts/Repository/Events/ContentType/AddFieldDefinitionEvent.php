@@ -38,5 +38,3 @@ final class AddFieldDefinitionEvent extends AfterEvent
         return $this->fieldDefinitionCreateStruct;
     }
 }
-
-class_alias(AddFieldDefinitionEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\AddFieldDefinitionEvent');

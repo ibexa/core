@@ -37,5 +37,3 @@ final class SwapLocationEvent extends AfterEvent
         return $this->location2;
     }
 }
-
-class_alias(SwapLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\SwapLocationEvent');

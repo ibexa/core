@@ -35,5 +35,3 @@ final class BeforeMoveUserGroupEvent extends BeforeEvent
         return $this->newParent;
     }
 }
-
-class_alias(BeforeMoveUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeMoveUserGroupEvent');

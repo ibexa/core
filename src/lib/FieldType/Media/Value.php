@@ -48,5 +48,3 @@ class Value extends BaseValue
      */
     public $width = 0;
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Media\Value');

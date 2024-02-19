@@ -95,5 +95,3 @@ abstract class SectionServiceDecorator implements SectionService
         return $this->innerService->newSectionUpdateStruct();
     }
 }
-
-class_alias(SectionServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\SectionServiceDecorator');

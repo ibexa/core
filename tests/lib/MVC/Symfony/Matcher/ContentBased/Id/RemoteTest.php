@@ -104,5 +104,3 @@ class RemoteTest extends BaseTest
         ];
     }
 }
-
-class_alias(RemoteTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\Id\RemoteTest');

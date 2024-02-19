@@ -71,5 +71,3 @@ class UserGroupRoleAssignment extends APIUserGroupRoleAssignment
         return $this->userGroup;
     }
 }
-
-class_alias(UserGroupRoleAssignment::class, 'eZ\Publish\Core\Repository\Values\User\UserGroupRoleAssignment');

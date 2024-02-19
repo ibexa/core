@@ -94,5 +94,3 @@ class URLWildcardServiceDecoratorTest extends TestCase
         $decoratedService->translate(...$parameters);
     }
 }
-
-class_alias(URLWildcardServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\URLWildcardServiceDecoratorTest');

@@ -139,5 +139,3 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
         }
     }
 }
-
-class_alias(Image::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\Image');

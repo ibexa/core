@@ -71,5 +71,3 @@ class Field extends ValueObject
         return $this->type;
     }
 }
-
-class_alias(Field::class, 'eZ\Publish\SPI\Search\Field');

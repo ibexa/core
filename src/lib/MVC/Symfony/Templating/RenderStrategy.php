@@ -48,5 +48,3 @@ final class RenderStrategy implements SPIRenderStrategy
         ));
     }
 }
-
-class_alias(RenderStrategy::class, 'eZ\Publish\Core\MVC\Symfony\Templating\RenderStrategy');

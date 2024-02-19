@@ -18,5 +18,3 @@ abstract class ContainerConfigBuilder implements ConfigBuilderInterface
         $this->containerBuilder = $containerBuilder;
     }
 }
-
-class_alias(ContainerConfigBuilder::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ContainerConfigBuilder');

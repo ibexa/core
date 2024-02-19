@@ -60,5 +60,3 @@ class SectionName extends SortClauseHandler
             );
     }
 }
-
-class_alias(SectionName::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\SectionName');

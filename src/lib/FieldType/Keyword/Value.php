@@ -53,5 +53,3 @@ class Value extends BaseValue
         return implode(', ', $this->values);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Keyword\Value');

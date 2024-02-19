@@ -34,5 +34,3 @@ final class SectionTermAggregationTest extends AbstractAggregationTest
         yield $builder->build();
     }
 }
-
-class_alias(SectionTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\SectionTermAggregationTest');

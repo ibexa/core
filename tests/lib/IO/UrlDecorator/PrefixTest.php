@@ -72,5 +72,3 @@ class PrefixTest extends TestCase
         ];
     }
 }
-
-class_alias(PrefixTest::class, 'eZ\Publish\Core\IO\Tests\UrlDecorator\PrefixTest');

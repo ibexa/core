@@ -59,5 +59,3 @@ class URL extends ValueObject
      */
     public $modified;
 }
-
-class_alias(URL::class, 'eZ\Publish\SPI\Persistence\URL\URL');

@@ -37,5 +37,3 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer
         return $type === Matcher\Compound::class;
     }
 }
-
-class_alias(CompoundMatcherNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer');

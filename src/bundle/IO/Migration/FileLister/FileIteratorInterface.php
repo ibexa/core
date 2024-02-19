@@ -15,5 +15,3 @@ use Iterator;
 interface FileIteratorInterface extends Countable, Iterator
 {
 }
-
-class_alias(FileIteratorInterface::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileIteratorInterface');

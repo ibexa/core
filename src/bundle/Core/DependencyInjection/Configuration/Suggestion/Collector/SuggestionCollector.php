@@ -41,5 +41,3 @@ class SuggestionCollector implements SuggestionCollectorInterface
         return !empty($this->suggestions);
     }
 }
-
-class_alias(SuggestionCollector::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollector');

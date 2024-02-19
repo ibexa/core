@@ -236,5 +236,3 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         }
     }
 }
-
-class_alias(InMemoryClearingProxyAdapterTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\Adapter\InMemoryClearingProxyAdapterTest');

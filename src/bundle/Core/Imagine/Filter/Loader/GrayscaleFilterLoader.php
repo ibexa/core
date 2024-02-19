@@ -24,5 +24,3 @@ class GrayscaleFilterLoader implements LoaderInterface
         return $image;
     }
 }
-
-class_alias(GrayscaleFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\GrayscaleFilterLoader');

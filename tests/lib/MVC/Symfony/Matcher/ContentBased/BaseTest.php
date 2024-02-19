@@ -115,5 +115,3 @@ abstract class BaseTest extends TestCase
             ->getMock();
     }
 }
-
-class_alias(BaseTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\BaseTest');

@@ -76,5 +76,3 @@ class ValueObjectVoter implements VoterInterface
         return VoterInterface::ACCESS_ABSTAIN;
     }
 }
-
-class_alias(ValueObjectVoter::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authorization\Voter\ValueObjectVoter');

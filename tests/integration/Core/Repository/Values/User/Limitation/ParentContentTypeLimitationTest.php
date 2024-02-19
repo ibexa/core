@@ -107,5 +107,3 @@ class ParentContentTypeLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(ParentContentTypeLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\ParentContentTypeLimitationTest');

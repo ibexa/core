@@ -47,5 +47,3 @@ interface ProxyDomainMapperInterface
 
     public function createUserProxy(int $userId, array $prioritizedLanguages = Language::ALL): User;
 }
-
-class_alias(ProxyDomainMapperInterface::class, 'eZ\Publish\Core\Repository\ProxyFactory\ProxyDomainMapperInterface');

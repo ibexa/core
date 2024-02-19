@@ -103,5 +103,3 @@ class UserServiceTest extends AbstractServiceTest
         ];
     }
 }
-
-class_alias(UserServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\UserServiceTest');

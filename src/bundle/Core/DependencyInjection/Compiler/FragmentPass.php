@@ -59,5 +59,3 @@ class FragmentPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(FragmentPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\FragmentPass');

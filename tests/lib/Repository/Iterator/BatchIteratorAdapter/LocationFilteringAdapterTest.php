@@ -73,5 +73,3 @@ final class LocationFilteringAdapterTest extends TestCase
         self::assertSame(0, $originalFilter->getLimit());
     }
 }
-
-class_alias(LocationFilteringAdapterTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter\LocationFilteringAdapterTest');

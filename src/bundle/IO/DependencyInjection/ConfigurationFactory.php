@@ -57,5 +57,3 @@ interface ConfigurationFactory
      */
     public function configureHandler(ServiceDefinition $serviceDefinition, array $config);
 }
-
-class_alias(ConfigurationFactory::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory');

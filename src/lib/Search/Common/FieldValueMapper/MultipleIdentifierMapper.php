@@ -42,5 +42,3 @@ class MultipleIdentifierMapper extends IdentifierMapper
         return $values;
     }
 }
-
-class_alias(MultipleIdentifierMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\MultipleIdentifierMapper');

@@ -326,5 +326,3 @@ EOT;
         $this->assertEquals($expectedFieldDefinition, $actualFieldDefinition);
     }
 }
-
-class_alias(SelectionTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\SelectionTest');

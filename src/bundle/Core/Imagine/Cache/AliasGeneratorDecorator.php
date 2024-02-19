@@ -135,5 +135,3 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
         return self::IMAGE_VARIATION_NAME_IDENTIFIER;
     }
 }
-
-class_alias(AliasGeneratorDecorator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Cache\AliasGeneratorDecorator');

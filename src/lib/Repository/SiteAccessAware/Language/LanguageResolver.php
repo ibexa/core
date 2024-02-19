@@ -32,5 +32,3 @@ final class LanguageResolver extends AbstractLanguageResolver
         return $this->configLanguages;
     }
 }
-
-class_alias(LanguageResolver::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Language\LanguageResolver');

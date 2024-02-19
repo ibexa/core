@@ -16,5 +16,3 @@ interface Collector
      */
     public function collect();
 }
-
-class_alias(Collector::class, 'eZ\Bundle\EzPublishCoreBundle\Translation\Collector');

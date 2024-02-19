@@ -405,5 +405,3 @@ class LanguageService implements LanguageServiceInterface
         );
     }
 }
-
-class_alias(LanguageService::class, 'eZ\Publish\Core\Repository\LanguageService');

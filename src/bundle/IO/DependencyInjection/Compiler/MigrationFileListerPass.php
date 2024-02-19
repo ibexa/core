@@ -37,5 +37,3 @@ final class MigrationFileListerPass implements CompilerPassInterface
         $fileListerRegistryDef->setArguments([$fileListers]);
     }
 }
-
-class_alias(MigrationFileListerPass::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\Compiler\MigrationFileListerPass');

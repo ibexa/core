@@ -47,5 +47,3 @@ final class ServiceAwareMatcherFactory extends ClassNameMatcherFactory
             : parent::getMatcher($matcherIdentifier);
     }
 }
-
-class_alias(ServiceAwareMatcherFactory::class, 'eZ\Bundle\EzPublishCoreBundle\Matcher\ServiceAwareMatcherFactory');

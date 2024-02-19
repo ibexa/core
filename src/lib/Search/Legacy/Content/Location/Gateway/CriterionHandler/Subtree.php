@@ -46,5 +46,3 @@ class Subtree extends CriterionHandler
         return $criterion instanceof Criterion\Subtree;
     }
 }
-
-class_alias(Subtree::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Subtree');

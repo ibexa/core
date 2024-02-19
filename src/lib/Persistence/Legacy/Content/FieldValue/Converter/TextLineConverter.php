@@ -119,5 +119,3 @@ class TextLineConverter implements Converter
         return 'sort_key_string';
     }
 }
-
-class_alias(TextLineConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\TextLineConverter');

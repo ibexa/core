@@ -154,5 +154,3 @@ class SectionService extends SectionServiceDecorator
         );
     }
 }
-
-class_alias(SectionService::class, 'eZ\Publish\Core\Event\SectionService');

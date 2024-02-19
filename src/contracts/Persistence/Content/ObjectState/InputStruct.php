@@ -51,5 +51,3 @@ class InputStruct extends ValueObject
      */
     public $description;
 }
-
-class_alias(InputStruct::class, 'eZ\Publish\SPI\Persistence\Content\ObjectState\InputStruct');

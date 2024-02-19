@@ -28,5 +28,3 @@ interface ConfigBuilderInterface
      */
     public function addResource(ResourceInterface $resource);
 }
-
-class_alias(ConfigBuilderInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigBuilderInterface');

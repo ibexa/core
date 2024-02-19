@@ -50,5 +50,3 @@ abstract class SortClause
         $this->target = $sortTarget;
     }
 }
-
-class_alias(SortClause::class, 'eZ\Publish\API\Repository\Values\URL\Query\SortClause');

@@ -48,5 +48,3 @@ abstract class MultipleValued extends RepositoryAware implements MatcherInterfac
         return $this->repository;
     }
 }
-
-class_alias(MultipleValued::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued');

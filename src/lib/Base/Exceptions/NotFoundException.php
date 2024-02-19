@@ -36,5 +36,3 @@ class NotFoundException extends APINotFoundException implements Httpable, Transl
         parent::__construct($this->getBaseTranslation(), self::NOT_FOUND, $previous);
     }
 }
-
-class_alias(NotFoundException::class, 'eZ\Publish\Core\Base\Exceptions\NotFoundException');

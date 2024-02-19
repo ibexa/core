@@ -59,5 +59,3 @@ class IOVariationPurgerTest extends TestCase
         $purger->purge(['medium', 'large']);
     }
 }
-
-class_alias(IOVariationPurgerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\VariationPurger\IOVariationPurgerTest');

@@ -85,5 +85,3 @@ class FileSizeValidator extends Validator
         return $isValid;
     }
 }
-
-class_alias(FileSizeValidator::class, 'eZ\Publish\Core\FieldType\Validator\FileSizeValidator');

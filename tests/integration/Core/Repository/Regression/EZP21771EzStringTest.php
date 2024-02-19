@@ -54,5 +54,3 @@ class EZP21771EzStringTest extends BaseTest
         );
     }
 }
-
-class_alias(EZP21771EzStringTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP21771EzStringTest');

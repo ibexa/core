@@ -25,5 +25,3 @@ final class UnsupportedSortClauseException extends RuntimeException
         parent::__construct($message, $code, $previous);
     }
 }
-
-class_alias(UnsupportedSortClauseException::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Exception\UnsupportedSortClauseException');

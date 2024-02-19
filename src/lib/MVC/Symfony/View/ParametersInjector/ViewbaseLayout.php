@@ -48,5 +48,3 @@ class ViewbaseLayout implements EventSubscriberInterface
         $event->getParameterBag()->set('page_layout', $pageLayout);
     }
 }
-
-class_alias(ViewbaseLayout::class, 'eZ\Publish\Core\MVC\Symfony\View\ParametersInjector\ViewbaseLayout');

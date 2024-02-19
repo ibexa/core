@@ -43,5 +43,3 @@ class RemoteId extends CriterionHandler
         );
     }
 }
-
-class_alias(RemoteId::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\RemoteId');

@@ -76,5 +76,3 @@ abstract class AbstractLocationQueryType extends AbstractQueryType
         return new LocationQuery();
     }
 }
-
-class_alias(AbstractLocationQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\AbstractLocationQueryType');

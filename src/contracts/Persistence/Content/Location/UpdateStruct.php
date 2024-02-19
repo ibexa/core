@@ -47,5 +47,3 @@ class UpdateStruct extends ValueObject
      */
     public $sortOrder;
 }
-
-class_alias(UpdateStruct::class, 'eZ\Publish\SPI\Persistence\Content\Location\UpdateStruct');

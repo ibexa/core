@@ -31,5 +31,3 @@ class SwirlFilterLoader implements LoaderInterface
         return $this->filter->apply($image);
     }
 }
-
-class_alias(SwirlFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\SwirlFilterLoader');

@@ -48,5 +48,3 @@ class ContentUpdateStruct extends APIContentUpdateStruct
         );
     }
 }
-
-class_alias(ContentUpdateStruct::class, 'eZ\Publish\Core\Repository\Values\Content\ContentUpdateStruct');

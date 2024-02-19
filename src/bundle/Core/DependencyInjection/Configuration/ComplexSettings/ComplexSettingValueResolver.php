@@ -56,5 +56,3 @@ class ComplexSettingValueResolver
         return $value;
     }
 }
-
-class_alias(ComplexSettingValueResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ComplexSettings\ComplexSettingValueResolver');

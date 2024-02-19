@@ -345,5 +345,3 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         return $resources;
     }
 }
-
-class_alias(FieldBlockRenderer::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer');

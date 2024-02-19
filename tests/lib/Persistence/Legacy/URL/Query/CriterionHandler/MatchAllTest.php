@@ -42,5 +42,3 @@ class MatchAllTest extends CriterionHandlerTest
         $this->assertEquals($expected, $actual);
     }
 }
-
-class_alias(MatchAllTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriterionHandler\MatchAllTest');

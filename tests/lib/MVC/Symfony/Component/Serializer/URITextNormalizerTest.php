@@ -45,5 +45,3 @@ final class URITextNormalizerTest extends TestCase
         $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
-
-class_alias(URITextNormalizerTest::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\URITextNormalizerTest');

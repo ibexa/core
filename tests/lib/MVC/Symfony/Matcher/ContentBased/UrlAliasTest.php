@@ -158,5 +158,3 @@ class UrlAliasTest extends BaseTest
         $this->matcher->matchContentInfo($this->getContentInfoMock());
     }
 }
-
-class_alias(UrlAliasTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\UrlAliasTest');

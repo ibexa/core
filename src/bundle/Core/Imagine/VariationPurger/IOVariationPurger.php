@@ -71,5 +71,3 @@ class IOVariationPurger implements VariationPurger
         }
     }
 }
-
-class_alias(IOVariationPurger::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\IOVariationPurger');

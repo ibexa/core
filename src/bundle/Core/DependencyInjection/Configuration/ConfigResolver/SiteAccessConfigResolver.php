@@ -123,5 +123,3 @@ abstract class SiteAccessConfigResolver implements VersatileScopeInterface, Site
 
     abstract protected function getParameterFromResolver(SiteAccess $siteAccess, string $paramName, string $namespace);
 }
-
-class_alias(SiteAccessConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver\SiteAccessConfigResolver');

@@ -36,5 +36,3 @@ final class BeforeUnassignContentTypeGroupEvent extends BeforeEvent
         return $this->contentTypeGroup;
     }
 }
-
-class_alias(BeforeUnassignContentTypeGroupEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeUnassignContentTypeGroupEvent');

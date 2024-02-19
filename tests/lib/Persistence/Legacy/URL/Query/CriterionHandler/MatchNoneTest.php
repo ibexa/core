@@ -42,5 +42,3 @@ class MatchNoneTest extends CriterionHandlerTest
         $this->assertEquals($expected, $actual);
     }
 }
-
-class_alias(MatchNoneTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriterionHandler\MatchNoneTest');

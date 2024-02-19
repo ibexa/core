@@ -138,5 +138,3 @@ class RouteReferenceGeneratorTest extends TestCase
         ];
     }
 }
-
-class_alias(RouteReferenceGeneratorTest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Tests\RouteReferenceGeneratorTest');

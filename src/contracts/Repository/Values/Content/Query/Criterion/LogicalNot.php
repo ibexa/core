@@ -31,5 +31,3 @@ class LogicalNot extends LogicalOperator implements FilteringCriterion, TrashCri
         parent::__construct([$criterion]);
     }
 }
-
-class_alias(LogicalNot::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalNot');

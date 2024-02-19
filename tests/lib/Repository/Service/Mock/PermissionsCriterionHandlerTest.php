@@ -396,5 +396,3 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
         return $this->permissionResolverMock;
     }
 }
-
-class_alias(PermissionsCriterionHandlerTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\PermissionsCriterionHandlerTest');

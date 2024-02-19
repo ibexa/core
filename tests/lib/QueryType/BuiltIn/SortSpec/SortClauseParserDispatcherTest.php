@@ -62,5 +62,3 @@ final class SortClauseParserDispatcherTest extends TestCase
         $this->assertTrue($dispatcher->supports(self::EXAMPLE_SORT_CLAUSE));
     }
 }
-
-class_alias(SortClauseParserDispatcherTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortClauseParserDispatcherTest');

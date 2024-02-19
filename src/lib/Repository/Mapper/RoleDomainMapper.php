@@ -249,5 +249,3 @@ class RoleDomainMapper
         );
     }
 }
-
-class_alias(RoleDomainMapper::class, 'eZ\Publish\Core\Repository\Mapper\RoleDomainMapper');

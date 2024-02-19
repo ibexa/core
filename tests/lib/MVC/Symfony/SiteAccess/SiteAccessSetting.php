@@ -34,5 +34,3 @@ final class SiteAccessSetting
         $this->matchingType = $matchingType;
     }
 }
-
-class_alias(SiteAccessSetting::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\SiteAccessSetting');

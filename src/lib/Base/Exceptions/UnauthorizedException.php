@@ -48,5 +48,3 @@ class UnauthorizedException extends APIUnauthorizedException implements Httpable
         parent::__construct($this->getBaseTranslation(), self::UNAUTHORIZED, $previous);
     }
 }
-
-class_alias(UnauthorizedException::class, 'eZ\Publish\Core\Base\Exceptions\UnauthorizedException');

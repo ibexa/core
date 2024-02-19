@@ -75,5 +75,3 @@ class LocationParamConverterTest extends AbstractParamConverterTest
         $this->assertNull($request->attributes->get('location'));
     }
 }
-
-class_alias(LocationParamConverterTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Converter\LocationParamConverterTest');

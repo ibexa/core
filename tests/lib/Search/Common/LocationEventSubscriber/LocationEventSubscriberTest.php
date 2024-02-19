@@ -126,5 +126,3 @@ final class LocationEventSubscriberTest extends TestCase
         ]);
     }
 }
-
-class_alias(LocationEventSubscriberTest::class, 'eZ\Publish\Core\Search\Tests\Common\LocationEventSubscriber\LocationEventSubscriberTest');

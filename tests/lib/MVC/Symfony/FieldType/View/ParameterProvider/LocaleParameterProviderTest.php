@@ -73,5 +73,3 @@ class LocaleParameterProviderTest extends TestCase
         return $mock;
     }
 }
-
-class_alias(LocaleParameterProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\Tests\View\ParameterProvider\LocaleParameterProviderTest');

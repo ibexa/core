@@ -20,5 +20,3 @@ class DeleteByParamsStruct extends ValueObject
      */
     public $status;
 }
-
-class_alias(DeleteByParamsStruct::class, 'eZ\Publish\SPI\Persistence\Content\Type\DeleteByParamsStruct');

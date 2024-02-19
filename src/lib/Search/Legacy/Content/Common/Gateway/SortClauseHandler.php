@@ -91,5 +91,3 @@ abstract class SortClauseHandler
         return 'sort_table_' . ($externalTableName !== null ? $externalTableName . '_' : '') . $number;
     }
 }
-
-class_alias(SortClauseHandler::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler');

@@ -543,5 +543,3 @@ class AuthorTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(AuthorTest::class, 'eZ\Publish\Core\FieldType\Tests\AuthorTest');

@@ -12,5 +12,3 @@ class FieldDefinitionSettingsTemplates extends Templates
     public const INFO = 'Template settings for field definition settings rendered by the ibexa_render_field_definition_settings() Twig function';
     public const INFO_TEMPLATE_KEY = 'Template file where to find block definition to display field definition settings';
 }
-
-class_alias(FieldDefinitionSettingsTemplates::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\FieldDefinitionSettingsTemplates');

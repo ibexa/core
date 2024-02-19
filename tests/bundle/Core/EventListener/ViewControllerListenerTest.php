@@ -201,5 +201,3 @@ class ViewControllerListenerTest extends TestCase
         );
     }
 }
-
-class_alias(ViewControllerListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\ViewControllerListenerTest');

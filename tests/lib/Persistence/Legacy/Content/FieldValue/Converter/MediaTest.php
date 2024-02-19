@@ -92,5 +92,3 @@ class MediaTest extends TestCase
         );
     }
 }
-
-class_alias(MediaTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\MediaTest');

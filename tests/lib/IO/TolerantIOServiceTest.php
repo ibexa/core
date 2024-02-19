@@ -70,5 +70,3 @@ class TolerantIOServiceTest extends IOServiceTest
         );
     }
 }
-
-class_alias(TolerantIOServiceTest::class, 'eZ\Publish\Core\IO\Tests\TolerantIOServiceTest');

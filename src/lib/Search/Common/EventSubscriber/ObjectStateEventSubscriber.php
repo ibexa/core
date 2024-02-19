@@ -35,5 +35,3 @@ class ObjectStateEventSubscriber extends AbstractSearchEventSubscriber implement
         }
     }
 }
-
-class_alias(ObjectStateEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\ObjectStateEventSubscriber');

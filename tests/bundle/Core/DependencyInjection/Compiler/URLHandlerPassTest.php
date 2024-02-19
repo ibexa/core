@@ -62,5 +62,3 @@ class URLHandlerPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(URLHandlerPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\URLHandlerPassTest');

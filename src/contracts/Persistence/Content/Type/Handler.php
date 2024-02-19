@@ -344,5 +344,3 @@ interface Handler
      */
     public function deleteByUserAndStatus(int $userId, int $status): void;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Type\Handler');

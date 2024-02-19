@@ -327,5 +327,3 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
         ];
     }
 }
-
-class_alias(MapLocationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\MapLocationIntegrationTest');

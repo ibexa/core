@@ -73,5 +73,3 @@ class ObjectStateIdentifier extends CriterionHandler
         );
     }
 }
-
-class_alias(ObjectStateIdentifier::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ObjectStateIdentifier');

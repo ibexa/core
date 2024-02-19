@@ -179,5 +179,3 @@ class RoutingExtension extends AbstractExtension
         return [];
     }
 }
-
-class_alias(RoutingExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\RoutingExtension');

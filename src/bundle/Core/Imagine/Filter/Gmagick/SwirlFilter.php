@@ -25,5 +25,3 @@ class SwirlFilter extends AbstractFilter
         return $image;
     }
 }
-
-class_alias(SwirlFilter::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Gmagick\SwirlFilter');

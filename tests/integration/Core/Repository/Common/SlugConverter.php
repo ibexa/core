@@ -24,5 +24,3 @@ class SlugConverter extends LegacySlugConverter
         $this->configuration[$key] = $value;
     }
 }
-
-class_alias(SlugConverter::class, 'eZ\Publish\API\Repository\Tests\Common\SlugConverter');

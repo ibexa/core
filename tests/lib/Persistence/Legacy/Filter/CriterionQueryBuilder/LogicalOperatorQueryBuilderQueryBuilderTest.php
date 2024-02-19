@@ -73,5 +73,3 @@ final class LogicalOperatorQueryBuilderQueryBuilderTest extends BaseCriterionVis
         ];
     }
 }
-
-class_alias(LogicalOperatorQueryBuilderQueryBuilderTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Filter\CriterionQueryBuilder\LogicalOperatorQueryBuilderQueryBuilderTest');

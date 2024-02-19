@@ -215,5 +215,3 @@ abstract class RoleServiceDecorator implements RoleService
         return $this->innerService->getLimitationTypesByModuleFunction($module, $function);
     }
 }
-
-class_alias(RoleServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\RoleServiceDecorator');

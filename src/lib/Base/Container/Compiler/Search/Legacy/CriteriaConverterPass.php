@@ -69,5 +69,3 @@ class CriteriaConverterPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(CriteriaConverterPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Search\Legacy\CriteriaConverterPass');

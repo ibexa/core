@@ -20,5 +20,3 @@ class MultipleIntegerField extends FieldType
      */
     protected $type = 'ez_minteger';
 }
-
-class_alias(MultipleIntegerField::class, 'eZ\Publish\SPI\Search\FieldType\MultipleIntegerField');

@@ -28,5 +28,3 @@ final class ContextAwareTwigVariablesExtension extends AbstractExtension impleme
         return $this->configResolver->getParameter('twig_variables');
     }
 }
-
-class_alias(ContextAwareTwigVariablesExtension::class, 'eZ\Bundle\EzPublishCoreBundle\Templating\Twig\ContextAwareTwigVariablesExtension');

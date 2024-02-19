@@ -80,5 +80,3 @@ class SiteAccess extends ValueObject implements JsonSerializable
         ];
     }
 }
-
-class_alias(SiteAccess::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess');

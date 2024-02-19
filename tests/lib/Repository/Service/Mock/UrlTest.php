@@ -484,5 +484,3 @@ class UrlTest extends BaseServiceMockTest
         return new URL(['id' => $id, 'url' => $url]);
     }
 }
-
-class_alias(UrlTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UrlTest');

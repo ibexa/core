@@ -27,5 +27,3 @@ final class DeleteRoleEvent extends AfterEvent
         return $this->role;
     }
 }
-
-class_alias(DeleteRoleEvent::class, 'eZ\Publish\API\Repository\Events\Role\DeleteRoleEvent');

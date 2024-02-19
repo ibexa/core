@@ -22,5 +22,3 @@ class SiteAccessLimitation extends Limitation
         return Limitation::SITEACCESS;
     }
 }
-
-class_alias(SiteAccessLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\SiteAccessLimitation');

@@ -117,5 +117,3 @@ class UserWrappedTest extends TestCase
 interface UserEquatableInterface extends UserInterface, EquatableInterface
 {
 }
-
-class_alias(UserWrappedTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\UserWrappedTest');

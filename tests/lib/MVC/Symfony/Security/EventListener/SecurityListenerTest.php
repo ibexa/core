@@ -412,5 +412,3 @@ class SecurityListenerTest extends TestCase
         $this->listener->onKernelRequest($event);
     }
 }
-
-class_alias(SecurityListenerTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\EventListener\SecurityListenerTest');

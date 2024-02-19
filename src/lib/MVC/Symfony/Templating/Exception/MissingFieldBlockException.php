@@ -11,5 +11,3 @@ use RuntimeException;
 class MissingFieldBlockException extends RuntimeException
 {
 }
-
-class_alias(MissingFieldBlockException::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Exception\MissingFieldBlockException');

@@ -46,5 +46,3 @@ class LogicalAnd extends CriterionHandler
         return $queryBuilder->expr()->andX(...$subexpressions);
     }
 }
-
-class_alias(LogicalAnd::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalAnd');

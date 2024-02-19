@@ -35,5 +35,3 @@ class CreateStruct extends ValueObject
      */
     public $userId;
 }
-
-class_alias(CreateStruct::class, 'eZ\Publish\SPI\Persistence\Bookmark\CreateStruct');

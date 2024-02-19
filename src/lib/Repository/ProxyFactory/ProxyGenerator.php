@@ -83,5 +83,3 @@ final class ProxyGenerator implements ProxyGeneratorInterface
         return new LazyLoadingValueHolderFactory($config);
     }
 }
-
-class_alias(ProxyGenerator::class, 'eZ\Publish\Core\Repository\ProxyFactory\ProxyGenerator');

@@ -86,5 +86,3 @@ final class GatewayFactoryTest extends TestCase
         }
     }
 }
-
-class_alias(GatewayFactoryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\SharedGateway\GatewayFactoryTest');

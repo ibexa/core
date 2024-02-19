@@ -55,5 +55,3 @@ class URI extends Regex implements Matcher
         parent::setRequest($request);
     }
 }
-
-class_alias(URI::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Regex\URI');

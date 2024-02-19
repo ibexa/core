@@ -49,5 +49,3 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
         ];
     }
 }
-
-class_alias(CrowdinRequestLocaleSubscriberTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventSubscriber\CrowdinRequestLocaleSubscriberTest');

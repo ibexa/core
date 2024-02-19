@@ -110,5 +110,3 @@ class SettingServiceDecoratorTest extends TestCase
         $decoratedService->newSettingUpdateStruct(...$parameters);
     }
 }
-
-class_alias(SettingServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\SettingServiceDecoratorTest');

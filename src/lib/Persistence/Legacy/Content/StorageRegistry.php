@@ -40,5 +40,3 @@ class StorageRegistry
         return $this->storageMap[$typeName];
     }
 }
-
-class_alias(StorageRegistry::class, 'eZ\Publish\Core\Persistence\Legacy\Content\StorageRegistry');

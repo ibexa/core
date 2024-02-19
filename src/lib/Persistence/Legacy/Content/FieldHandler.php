@@ -490,5 +490,3 @@ class FieldHandler
         );
     }
 }
-
-class_alias(FieldHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldHandler');

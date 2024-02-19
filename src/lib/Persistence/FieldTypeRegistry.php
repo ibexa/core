@@ -79,5 +79,3 @@ class FieldTypeRegistry
         return $this->coreFieldTypes[$identifier];
     }
 }
-
-class_alias(FieldTypeRegistry::class, 'eZ\Publish\Core\Persistence\FieldTypeRegistry');

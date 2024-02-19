@@ -36,5 +36,3 @@ final class BeforeAssignUserToUserGroupEvent extends BeforeEvent
         return $this->userGroup;
     }
 }
-
-class_alias(BeforeAssignUserToUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeAssignUserToUserGroupEvent');

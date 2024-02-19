@@ -29,5 +29,3 @@ interface ProxyGeneratorInterface
 
     public function warmUp(iterable $classes): void;
 }
-
-class_alias(ProxyGeneratorInterface::class, 'eZ\Publish\Core\Repository\ProxyFactory\ProxyGeneratorInterface');

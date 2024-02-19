@@ -127,5 +127,3 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         return false;
     }
 }
-
-class_alias(ExceptionMessageTemplateFileVisitor::class, 'eZ\Publish\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor');

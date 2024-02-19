@@ -66,5 +66,3 @@ class ViewTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('content_view', [], 'ibexa_demo_site_admin', false);
     }
 }
-
-class_alias(ViewTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\ViewTest');

@@ -97,5 +97,3 @@ class DebugTemplate extends Template
         return [];
     }
 }
-
-class_alias(DebugTemplate::class, 'eZ\Bundle\EzPublishDebugBundle\Twig\DebugTemplate');

@@ -32,5 +32,3 @@ abstract class BaseLocationSortClauseQueryBuilder implements SortClauseQueryBuil
 
     abstract protected function getSortingExpression(): string;
 }
-
-class_alias(BaseLocationSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\BaseLocationSortClauseQueryBuilder');

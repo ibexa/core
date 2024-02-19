@@ -61,5 +61,3 @@ class RegisterStorageEnginePass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(RegisterStorageEnginePass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\RegisterStorageEnginePass');

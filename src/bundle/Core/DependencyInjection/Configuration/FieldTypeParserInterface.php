@@ -25,5 +25,3 @@ interface FieldTypeParserInterface extends ParserInterface
      */
     public function addFieldTypeSemanticConfig(NodeBuilder $nodeBuilder);
 }
-
-class_alias(FieldTypeParserInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\FieldTypeParserInterface');

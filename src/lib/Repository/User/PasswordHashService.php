@@ -76,5 +76,3 @@ final class PasswordHashService implements PasswordHashServiceInterface
         return $passwordHash === $this->createPasswordHash($plainPassword, $hashType);
     }
 }
-
-class_alias(PasswordHashService::class, 'eZ\Publish\Core\Repository\User\PasswordHashService');

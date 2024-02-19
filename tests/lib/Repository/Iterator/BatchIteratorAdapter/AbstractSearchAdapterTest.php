@@ -73,5 +73,3 @@ abstract class AbstractSearchAdapterTest extends TestCase
         return new Query();
     }
 }
-
-class_alias(AbstractSearchAdapterTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTest');

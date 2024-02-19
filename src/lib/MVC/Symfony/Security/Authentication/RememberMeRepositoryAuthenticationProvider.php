@@ -41,5 +41,3 @@ class RememberMeRepositoryAuthenticationProvider extends RememberMeAuthenticatio
         return $authenticatedToken;
     }
 }
-
-class_alias(RememberMeRepositoryAuthenticationProvider::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authentication\RememberMeRepositoryAuthenticationProvider');

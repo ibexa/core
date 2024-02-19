@@ -117,5 +117,3 @@ class URLServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(URLServiceTest::class, 'eZ\Publish\Core\Event\Tests\URLServiceTest');

@@ -53,5 +53,3 @@ final class RandomSortClauseParserTest extends TestCase
         $this->assertTrue($this->randomSortClauseParser->supports('random'));
     }
 }
-
-class_alias(RandomSortClauseParserTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortClauseParser\RandomSortClauseParserTest');

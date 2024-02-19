@@ -135,5 +135,3 @@ class ConfigParserTest extends TestCase
         return $this->createMock(ParserInterface::class);
     }
 }
-
-class_alias(ConfigParserTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ConfigParserTest');

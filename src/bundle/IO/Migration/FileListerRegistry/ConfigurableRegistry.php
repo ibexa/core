@@ -53,5 +53,3 @@ final class ConfigurableRegistry implements FileListerRegistry
         return array_keys($this->registry);
     }
 }
-
-class_alias(ConfigurableRegistry::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileListerRegistry\ConfigurableRegistry');

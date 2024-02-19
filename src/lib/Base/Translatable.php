@@ -65,5 +65,3 @@ interface Translatable
      */
     public function getBaseTranslation();
 }
-
-class_alias(Translatable::class, 'eZ\Publish\Core\Base\Translatable');

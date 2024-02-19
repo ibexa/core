@@ -54,5 +54,3 @@ class Port extends Map
         return $matcher;
     }
 }
-
-class_alias(Port::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Map\Port');

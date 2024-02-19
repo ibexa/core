@@ -97,5 +97,3 @@ class StorageHandler
             ->deleteFieldData($versionInfo, $ids, $this->context);
     }
 }
-
-class_alias(StorageHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\StorageHandler');

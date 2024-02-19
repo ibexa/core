@@ -157,5 +157,3 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         return $statusCode >= 200 && $statusCode < 300;
     }
 }
-
-class_alias(HTTPHandler::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\Handler\HTTPHandler');

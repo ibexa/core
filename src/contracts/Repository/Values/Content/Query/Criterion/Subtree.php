@@ -55,5 +55,3 @@ class Subtree extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(Subtree::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Subtree');

@@ -40,5 +40,3 @@ final class LocationSearchAdapterTest extends AbstractSearchAdapterTest
         return new LocationQuery();
     }
 }
-
-class_alias(LocationSearchAdapterTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter\LocationSearchAdapterTest');

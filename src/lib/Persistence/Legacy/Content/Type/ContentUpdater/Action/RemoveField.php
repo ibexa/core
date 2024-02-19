@@ -103,5 +103,3 @@ class RemoveField extends Action
         }
     }
 }
-
-class_alias(RemoveField::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField');

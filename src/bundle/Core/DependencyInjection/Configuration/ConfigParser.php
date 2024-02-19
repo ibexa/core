@@ -87,5 +87,3 @@ class ConfigParser implements ParserInterface
         }
     }
 }
-
-class_alias(ConfigParser::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigParser');

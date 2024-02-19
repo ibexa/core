@@ -274,5 +274,3 @@ class Type extends BaseType implements TranslationContainerInterface
         ];
     }
 }
-
-class_alias(Type::class, 'eZ\Publish\Core\FieldType\Media\Type');

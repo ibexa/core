@@ -81,5 +81,3 @@ class AbstractFilterTest extends TestCase
         ];
     }
 }
-
-class_alias(AbstractFilterTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\AbstractFilterTest');

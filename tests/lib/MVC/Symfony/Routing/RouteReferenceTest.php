@@ -63,5 +63,3 @@ class RouteReferenceTest extends TestCase
         $this->assertFalse($reference->has('foo'));
     }
 }
-
-class_alias(RouteReferenceTest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Tests\RouteReferenceTest');

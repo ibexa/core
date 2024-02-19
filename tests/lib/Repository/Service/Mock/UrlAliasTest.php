@@ -3412,5 +3412,3 @@ class UrlAliasTest extends BaseServiceMockTest
             ->willReturn($spiUrlAliases);
     }
 }
-
-class_alias(UrlAliasTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UrlAliasTest');

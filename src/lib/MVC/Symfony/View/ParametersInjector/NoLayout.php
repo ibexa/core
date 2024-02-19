@@ -30,5 +30,3 @@ class NoLayout implements EventSubscriberInterface
         );
     }
 }
-
-class_alias(NoLayout::class, 'eZ\Publish\Core\MVC\Symfony\View\ParametersInjector\NoLayout');

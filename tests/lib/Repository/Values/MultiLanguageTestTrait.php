@@ -116,5 +116,3 @@ trait MultiLanguageTestTrait
         }
     }
 }
-
-class_alias(MultiLanguageTestTrait::class, 'eZ\Publish\Core\Repository\Tests\Values\MultiLanguageTestTrait');

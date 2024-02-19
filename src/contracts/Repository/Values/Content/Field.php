@@ -86,5 +86,3 @@ class Field extends ValueObject
         return $this->fieldTypeIdentifier;
     }
 }
-
-class_alias(Field::class, 'eZ\Publish\API\Repository\Values\Content\Field');

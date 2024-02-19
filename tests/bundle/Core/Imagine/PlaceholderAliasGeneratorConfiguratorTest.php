@@ -62,5 +62,3 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
         $configurator->configure($generator);
     }
 }
-
-class_alias(PlaceholderAliasGeneratorConfiguratorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\PlaceholderAliasGeneratorConfiguratorTest');

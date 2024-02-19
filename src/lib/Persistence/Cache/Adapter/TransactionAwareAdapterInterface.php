@@ -37,5 +37,3 @@ interface TransactionAwareAdapterInterface extends TagAwareAdapterInterface
      */
     public function rollbackTransaction(): void;
 }
-
-class_alias(TransactionAwareAdapterInterface::class, 'eZ\Publish\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface');

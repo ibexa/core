@@ -376,5 +376,3 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
         return 4;
     }
 }
-
-class_alias(RelationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\RelationIntegrationTest');

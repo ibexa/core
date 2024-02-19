@@ -104,5 +104,3 @@ class LegacyStorageImageFileList implements ImageFileList
         $this->item = $imageId;
     }
 }
-
-class_alias(LegacyStorageImageFileList::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\LegacyStorageImageFileList');

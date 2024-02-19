@@ -65,5 +65,3 @@ abstract class Gateway extends StorageGateway
      */
     abstract public function countFileReferences(array $files);
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway');

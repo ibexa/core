@@ -193,7 +193,6 @@ class InMemoryCacheTest extends TestCase
         $this->assertSame($obj, $this->cache->get('eight'));
     }
 }
-class_alias(InMemoryCacheTest::class, 'eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCacheTest');
 
 namespace Ibexa\Core\Persistence\Cache\InMemory;
 

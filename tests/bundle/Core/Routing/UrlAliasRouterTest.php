@@ -401,5 +401,3 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $this->assertEquals($expected, $this->router->matchRequest($request));
     }
 }
-
-class_alias(UrlAliasRouterTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Routing\UrlAliasRouterTest');

@@ -86,5 +86,3 @@ abstract class Gateway
      */
     abstract public function canDeleteLanguage(int $id): bool;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\Gateway');

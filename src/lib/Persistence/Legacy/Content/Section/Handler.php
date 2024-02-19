@@ -229,5 +229,3 @@ class Handler implements BaseSectionHandler
         return $this->sectionGateway->countRoleAssignmentsUsingSection($sectionId);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Section\Handler');

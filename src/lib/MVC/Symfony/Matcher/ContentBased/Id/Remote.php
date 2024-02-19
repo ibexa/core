@@ -47,5 +47,3 @@ class Remote extends MultipleValued
         return isset($this->values[$view->getContent()->contentInfo->remoteId]);
     }
 }
-
-class_alias(Remote::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote');

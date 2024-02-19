@@ -38,5 +38,3 @@ final class RawRangeAggregationTest extends AbstractAggregationTest
         ];
     }
 }
-
-class_alias(RawRangeAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\RawRangeAggregationTest');

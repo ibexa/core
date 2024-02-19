@@ -13,5 +13,3 @@ interface IdentityAware
 {
     public function setIdentity(Identity $identity);
 }
-
-class_alias(IdentityAware::class, 'eZ\Publish\SPI\User\IdentityAware');

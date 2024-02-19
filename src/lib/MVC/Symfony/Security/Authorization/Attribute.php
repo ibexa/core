@@ -55,5 +55,3 @@ class Attribute
         return "EZ_ROLE_{$this->module}_{$this->function}";
     }
 }
-
-class_alias(Attribute::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute');

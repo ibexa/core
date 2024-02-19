@@ -324,5 +324,3 @@ class RouterTest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterTest');

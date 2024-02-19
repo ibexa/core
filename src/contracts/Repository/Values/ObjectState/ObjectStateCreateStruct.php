@@ -56,5 +56,3 @@ class ObjectStateCreateStruct extends ValueObject
      */
     public $descriptions;
 }
-
-class_alias(ObjectStateCreateStruct::class, 'eZ\Publish\API\Repository\Values\ObjectState\ObjectStateCreateStruct');

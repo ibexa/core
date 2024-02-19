@@ -30,5 +30,3 @@ class LocationSearchAdapter extends LocationSearchHitAdapter
         return $list;
     }
 }
-
-class_alias(LocationSearchAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\LocationSearchAdapter');

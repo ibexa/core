@@ -167,5 +167,3 @@ class SessionSetDynamicNameListenerTest extends TestCase
         $listener->onSiteAccessMatch(new PostSiteAccessMatchEvent(new SiteAccess('test'), $request, HttpKernelInterface::MAIN_REQUEST));
     }
 }
-
-class_alias(SessionSetDynamicNameListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\SessionSetDynamicNameListenerTest');

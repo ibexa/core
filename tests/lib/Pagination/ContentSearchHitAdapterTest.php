@@ -184,5 +184,3 @@ class ContentSearchHitAdapterTest extends TestCase
         return $query;
     }
 }
-
-class_alias(ContentSearchHitAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\ContentSearchHitAdapterTest');

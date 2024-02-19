@@ -26,5 +26,3 @@ final class EmptyTrashEvent extends AfterEvent
         return $this->resultList;
     }
 }
-
-class_alias(EmptyTrashEvent::class, 'eZ\Publish\API\Repository\Events\Trash\EmptyTrashEvent');

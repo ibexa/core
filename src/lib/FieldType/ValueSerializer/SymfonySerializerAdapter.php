@@ -78,5 +78,3 @@ final class SymfonySerializerAdapter implements ValueSerializerInterface
         return $this->decoder->decode($data, $this->format, $context);
     }
 }
-
-class_alias(SymfonySerializerAdapter::class, 'eZ\Publish\Core\FieldType\ValueSerializer\SymfonySerializerAdapter');

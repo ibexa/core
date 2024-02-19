@@ -106,5 +106,3 @@ class EmailAddressValidatorTest extends TestCase
         }
     }
 }
-
-class_alias(EmailAddressValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\EmailAddressValidatorTest');

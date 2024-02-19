@@ -771,5 +771,3 @@ class MediaTest extends BinaryBaseTest
         ];
     }
 }
-
-class_alias(MediaTest::class, 'eZ\Publish\Core\FieldType\Tests\MediaTest');

@@ -186,5 +186,3 @@ class SectionServiceDecoratorTest extends TestCase
         $decoratedService->newSectionUpdateStruct(...$parameters);
     }
 }
-
-class_alias(SectionServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\SectionServiceDecoratorTest');

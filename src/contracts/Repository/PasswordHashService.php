@@ -43,5 +43,3 @@ interface PasswordHashService
      */
     public function isValidPassword(string $plainPassword, string $passwordHash, ?int $hashType = null): bool;
 }
-
-class_alias(PasswordHashService::class, 'eZ\Publish\API\Repository\PasswordHashService');

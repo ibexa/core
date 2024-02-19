@@ -99,5 +99,3 @@ final class LocationFilteringAdapterTest extends TestCase
         ]);
     }
 }
-
-class_alias(LocationFilteringAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\LocationFilteringAdapterTest');

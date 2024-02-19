@@ -186,5 +186,3 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
         return $this->persistenceHandler->urlWildcardHandler()->countAll();
     }
 }
-
-class_alias(UrlWildcardHandler::class, 'eZ\Publish\Core\Persistence\Cache\UrlWildcardHandler');

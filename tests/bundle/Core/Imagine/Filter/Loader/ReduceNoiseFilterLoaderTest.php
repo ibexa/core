@@ -34,5 +34,3 @@ class ReduceNoiseFilterLoaderTest extends TestCase
         $this->loader->load($this->createMock(ImageInterface::class));
     }
 }
-
-class_alias(ReduceNoiseFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\ReduceNoiseFilterLoaderTest');

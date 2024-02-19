@@ -20,5 +20,3 @@ class StringField extends FieldType
      */
     protected $type = 'ez_string';
 }
-
-class_alias(StringField::class, 'eZ\Publish\SPI\Search\FieldType\StringField');

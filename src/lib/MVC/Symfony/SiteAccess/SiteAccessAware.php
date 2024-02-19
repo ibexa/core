@@ -15,5 +15,3 @@ interface SiteAccessAware
 {
     public function setSiteAccess(SiteAccess $siteAccess = null);
 }
-
-class_alias(SiteAccessAware::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessAware');

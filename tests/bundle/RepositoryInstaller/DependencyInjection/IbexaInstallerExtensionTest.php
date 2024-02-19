@@ -56,5 +56,3 @@ class IbexaInstallerExtensionTest extends AbstractExtensionTestCase
         ];
     }
 }
-
-class_alias(IbexaInstallerExtensionTest::class, 'EzSystems\PlatformInstallerBundleTests\DependencyInjection\EzSystemsPlatformInstallerExtensionTest');

@@ -111,5 +111,3 @@ class HandlerTest extends TestCase
         $this->assertEquals($objects, $this->handler->loadUserPreferences($ownerId, $offset, $limit));
     }
 }
-
-class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference\HandlerTest');

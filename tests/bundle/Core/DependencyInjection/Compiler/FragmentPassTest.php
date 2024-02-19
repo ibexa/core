@@ -87,5 +87,3 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(FragmentPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\FragmentPassTest');

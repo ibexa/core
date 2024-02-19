@@ -656,5 +656,3 @@ class ParentContentTypeLimitationTypeTest extends Base
         $this->markTestIncomplete('Method is not implemented yet: ' . __METHOD__);
     }
 }
-
-class_alias(ParentContentTypeLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\ParentContentTypeLimitationTypeTest');

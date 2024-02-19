@@ -186,5 +186,3 @@ class UsernameProviderTest extends TestCase
         $this->assertSame(['ROLE_USER'], $user->getRoles());
     }
 }
-
-class_alias(UsernameProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\User\UsernameProviderTest');

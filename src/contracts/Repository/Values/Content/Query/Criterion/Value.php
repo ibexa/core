@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 abstract class Value
 {
 }
-
-class_alias(Value::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value');

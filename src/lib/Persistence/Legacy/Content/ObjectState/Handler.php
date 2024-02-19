@@ -350,5 +350,3 @@ class Handler implements BaseObjectStateHandler
         return $this->objectStateGateway->getContentCount($stateId);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Handler');

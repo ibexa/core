@@ -15,5 +15,3 @@ interface URLHandlerInterface
      */
     public function validate(array $urls);
 }
-
-class_alias(URLHandlerInterface::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\URLHandlerInterface');

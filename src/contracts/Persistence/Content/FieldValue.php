@@ -46,5 +46,3 @@ class FieldValue extends ValueObject
      */
     public $sortKey;
 }
-
-class_alias(FieldValue::class, 'eZ\Publish\SPI\Persistence\Content\FieldValue');

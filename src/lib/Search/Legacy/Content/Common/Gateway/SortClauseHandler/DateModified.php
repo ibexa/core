@@ -43,5 +43,3 @@ class DateModified extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(DateModified::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\DateModified');

@@ -41,5 +41,3 @@ class UrlWildcard extends ValueObject
      */
     public $forward;
 }
-
-class_alias(UrlWildcard::class, 'eZ\Publish\SPI\Persistence\Content\UrlWildcard');

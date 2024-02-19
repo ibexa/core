@@ -112,5 +112,3 @@ class MapperTest extends TestCase
         return $struct;
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Language\MapperTest');

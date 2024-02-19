@@ -38,5 +38,3 @@ class LegacyStorageImageFileRowReader implements ImageFileRowReader
         return $this->statement->rowCount();
     }
 }
-
-class_alias(LegacyStorageImageFileRowReader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\LegacyStorageImageFileRowReader');

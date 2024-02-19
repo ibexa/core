@@ -35,5 +35,3 @@ interface Gateway
         int $offset
     ): iterable;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Gateway\Gateway');

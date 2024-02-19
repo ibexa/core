@@ -40,5 +40,3 @@ class Depth extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(Depth::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Depth');

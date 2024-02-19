@@ -41,5 +41,3 @@ class CacheFactory implements ContainerAwareInterface
         );
     }
 }
-
-class_alias(CacheFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\CacheFactory');

@@ -36,5 +36,3 @@ class FieldTypeConstraints extends ValueObject
      */
     public $fieldSettings;
 }
-
-class_alias(FieldTypeConstraints::class, 'eZ\Publish\SPI\Persistence\Content\FieldTypeConstraints');

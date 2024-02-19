@@ -38,5 +38,3 @@ abstract class Gateway
         $doCount = true
     ): array;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway');

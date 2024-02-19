@@ -21,5 +21,3 @@ interface OptionsBag
 
     public function has(string $key): bool;
 }
-
-class_alias(OptionsBag::class, 'eZ\Publish\SPI\Options\OptionsBag');

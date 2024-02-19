@@ -163,5 +163,3 @@ class MapperTest extends TestCase
         );
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Location\MapperTest');

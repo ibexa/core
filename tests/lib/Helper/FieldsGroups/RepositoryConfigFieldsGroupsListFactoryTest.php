@@ -60,5 +60,3 @@ class RepositoryConfigFieldsGroupsListFactoryTest extends TestCase
         return $this->translatorMock;
     }
 }
-
-class_alias(RepositoryConfigFieldsGroupsListFactoryTest::class, 'eZ\Publish\Core\Helper\Tests\FieldsGroups\RepositoryConfigFieldsGroupsListFactoryTest');

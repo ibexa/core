@@ -16,5 +16,3 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 abstract class Location extends Criterion
 {
 }
-
-class_alias(Location::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Location');

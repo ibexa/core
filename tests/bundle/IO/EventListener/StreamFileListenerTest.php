@@ -163,5 +163,3 @@ class StreamFileListenerTest extends TestCase
         return $event;
     }
 }
-
-class_alias(StreamFileListenerTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\EventListener\StreamFileListenerTest');

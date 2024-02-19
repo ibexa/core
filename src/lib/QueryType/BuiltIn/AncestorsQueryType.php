@@ -38,5 +38,3 @@ final class AncestorsQueryType extends AbstractLocationQueryType
         ]);
     }
 }
-
-class_alias(AncestorsQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\AncestorsQueryType');

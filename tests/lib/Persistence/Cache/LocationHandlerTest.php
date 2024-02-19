@@ -319,5 +319,3 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 }
-
-class_alias(LocationHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\LocationHandlerTest');

@@ -324,5 +324,3 @@ EOT
         return ['ezplatform:io:migrate-files'];
     }
 }
-
-class_alias(MigrateFilesCommand::class, 'eZ\Bundle\EzPublishIOBundle\Command\MigrateFilesCommand');

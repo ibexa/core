@@ -220,5 +220,3 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTest
         ];
     }
 }
-
-class_alias(EZP21906SearchOneContentMultipleLocationsTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP21906SearchOneContentMultipleLocationsTest');

@@ -180,5 +180,3 @@ class TransactionHandlerTest extends TestCase
         return $this->languageHandlerMock;
     }
 }
-
-class_alias(TransactionHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\TransactionHandlerTest');

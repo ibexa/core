@@ -28,5 +28,3 @@ final class ConsoleCommandPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(ConsoleCommandPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ConsoleCommandPass');

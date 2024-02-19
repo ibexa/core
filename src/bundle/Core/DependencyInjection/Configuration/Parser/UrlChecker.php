@@ -35,5 +35,3 @@ class UrlChecker extends AbstractParser
         }
     }
 }
-
-class_alias(UrlChecker::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\UrlChecker');

@@ -100,5 +100,3 @@ final class SettingService extends SettingServiceDecorator
         );
     }
 }
-
-class_alias(SettingService::class, 'eZ\Publish\Core\Event\SettingService');

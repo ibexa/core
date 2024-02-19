@@ -88,5 +88,3 @@ interface URLService
      */
     public function updateUrl(URL $url, URLUpdateStruct $struct): URL;
 }
-
-class_alias(URLService::class, 'eZ\Publish\API\Repository\URLService');

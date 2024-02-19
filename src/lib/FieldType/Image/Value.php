@@ -183,5 +183,3 @@ class Value extends BaseValue
         throw new PropertyNotFoundException($propertyName, static::class);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Image\Value');

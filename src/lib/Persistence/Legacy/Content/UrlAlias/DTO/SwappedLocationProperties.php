@@ -42,5 +42,3 @@ class SwappedLocationProperties
      */
     public $entries;
 }
-
-class_alias(SwappedLocationProperties::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties');

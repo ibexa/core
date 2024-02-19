@@ -557,5 +557,3 @@ class URLWildcardServiceTest extends BaseTest
         $this->assertSame(1, $urlWildcardService->countAll());
     }
 }
-
-class_alias(URLWildcardServiceTest::class, 'eZ\Publish\API\Repository\Tests\URLWildcardServiceTest');

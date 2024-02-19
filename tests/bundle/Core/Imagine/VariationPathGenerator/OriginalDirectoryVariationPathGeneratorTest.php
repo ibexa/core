@@ -20,5 +20,3 @@ class OriginalDirectoryVariationPathGeneratorTest extends TestCase
         );
     }
 }
-
-class_alias(OriginalDirectoryVariationPathGeneratorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGeneratorTest');

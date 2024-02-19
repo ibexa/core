@@ -56,5 +56,3 @@ class ControllerMatch implements ViewBuilderRegistry
         return null;
     }
 }
-
-class_alias(ControllerMatch::class, 'eZ\Publish\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch');

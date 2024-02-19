@@ -278,5 +278,3 @@ abstract class AbstractServiceTest extends TestCase
         }
     }
 }
-
-class_alias(AbstractServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\AbstractServiceTest');

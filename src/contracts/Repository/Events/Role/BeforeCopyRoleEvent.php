@@ -62,5 +62,3 @@ final class BeforeCopyRoleEvent extends BeforeEvent
         return $this->copiedRole instanceof Role;
     }
 }
-
-class_alias(BeforeCopyRoleEvent::class, 'eZ\Publish\API\Repository\Events\Role\BeforeCopyRoleEvent');

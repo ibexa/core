@@ -186,5 +186,3 @@ class EmailProviderTest extends TestCase
         $this->assertSame(['ROLE_USER'], $user->getRoles());
     }
 }
-
-class_alias(EmailProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\User\EmailProviderTest');

@@ -232,5 +232,3 @@ class NotificationServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(NotificationServiceTest::class, 'eZ\Publish\Core\Event\Tests\NotificationServiceTest');

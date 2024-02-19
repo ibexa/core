@@ -197,5 +197,3 @@ class CountryTest extends TestCase
         );
     }
 }
-
-class_alias(CountryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\CountryTest');

@@ -16,5 +16,3 @@ class BinaryFileNotFoundException extends BaseNotFoundException
         parent::__construct('BinaryFile', $path, $previous);
     }
 }
-
-class_alias(BinaryFileNotFoundException::class, 'eZ\Publish\Core\IO\Exception\BinaryFileNotFoundException');

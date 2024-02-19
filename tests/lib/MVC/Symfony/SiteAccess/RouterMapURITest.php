@@ -110,5 +110,3 @@ class RouterMapURITest extends TestCase
         $this->assertSame('/toutouyoutou/foo', $result->getRequest()->pathinfo);
     }
 }
-
-class_alias(RouterMapURITest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterMapURITest');

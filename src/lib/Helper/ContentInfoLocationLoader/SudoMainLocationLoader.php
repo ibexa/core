@@ -42,5 +42,3 @@ class SudoMainLocationLoader implements ContentInfoLocationLoader
         }
     }
 }
-
-class_alias(SudoMainLocationLoader::class, 'eZ\Publish\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader');

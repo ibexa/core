@@ -159,5 +159,3 @@ class SimplifiedRequest extends ValueObject
         return ['scheme', 'host', 'port', 'pathinfo', 'queryParams', 'languages', 'headers'];
     }
 }
-
-class_alias(SimplifiedRequest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest');

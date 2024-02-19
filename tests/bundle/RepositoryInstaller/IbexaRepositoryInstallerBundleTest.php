@@ -58,5 +58,3 @@ class IbexaRepositoryInstallerBundleTest extends TestCase
         $this->bundle->build($container);
     }
 }
-
-class_alias(IbexaRepositoryInstallerBundleTest::class, 'EzSystems\PlatformInstallerBundleTests\EzSystemsPlatformInstallerBundleTest');

@@ -13,5 +13,3 @@ interface LocationValueView
      */
     public function getLocation();
 }
-
-class_alias(LocationValueView::class, 'eZ\Publish\Core\MVC\Symfony\View\LocationValueView');

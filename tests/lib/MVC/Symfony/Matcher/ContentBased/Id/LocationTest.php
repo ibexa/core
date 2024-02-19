@@ -104,5 +104,3 @@ class LocationTest extends BaseTest
         ];
     }
 }
-
-class_alias(LocationTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\Id\LocationTest');

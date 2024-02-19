@@ -65,5 +65,3 @@ abstract class Base extends TestCase
         parent::tearDown();
     }
 }
-
-class_alias(Base::class, 'eZ\Publish\Core\Limitation\Tests\Base');

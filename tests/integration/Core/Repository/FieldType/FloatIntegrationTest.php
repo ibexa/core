@@ -313,5 +313,3 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
         return false;
     }
 }
-
-class_alias(FloatIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\FloatIntegrationTest');

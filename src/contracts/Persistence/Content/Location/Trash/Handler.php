@@ -91,5 +91,3 @@ interface Handler
      */
     public function deleteTrashItem($trashedId);
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Location\Trash\Handler');

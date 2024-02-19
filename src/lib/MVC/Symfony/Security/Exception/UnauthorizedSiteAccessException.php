@@ -21,5 +21,3 @@ class UnauthorizedSiteAccessException extends AccessDeniedException
         parent::__construct("User '$username' doesn't have user/login permission to SiteAccess '$siteAccess->name'", $previous);
     }
 }
-
-class_alias(UnauthorizedSiteAccessException::class, 'eZ\Publish\Core\MVC\Symfony\Security\Exception\UnauthorizedSiteAccessException');

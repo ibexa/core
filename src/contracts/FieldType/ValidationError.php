@@ -38,5 +38,3 @@ interface ValidationError extends Translatable
      */
     public function getTarget();
 }
-
-class_alias(ValidationError::class, 'eZ\Publish\SPI\FieldType\ValidationError');

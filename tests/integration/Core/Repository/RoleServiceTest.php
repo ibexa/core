@@ -3077,5 +3077,3 @@ class RoleServiceTest extends BaseTest
         return $userRoleAssignment;
     }
 }
-
-class_alias(RoleServiceTest::class, 'eZ\Publish\API\Repository\Tests\RoleServiceTest');

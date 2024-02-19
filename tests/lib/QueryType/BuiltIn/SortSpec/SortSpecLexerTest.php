@@ -185,5 +185,3 @@ final class SortSpecLexerTest extends TestCase
         ], $output);
     }
 }
-
-class_alias(SortSpecLexerTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortSpecLexerTest');

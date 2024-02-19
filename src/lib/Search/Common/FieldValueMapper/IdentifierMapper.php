@@ -47,5 +47,3 @@ class IdentifierMapper extends FieldValueMapper
         return preg_replace('([^A-Za-z0-9/]+)', '', $value);
     }
 }
-
-class_alias(IdentifierMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\IdentifierMapper');

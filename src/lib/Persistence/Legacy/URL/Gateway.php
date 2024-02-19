@@ -64,5 +64,3 @@ abstract class Gateway
      */
     abstract public function loadUrlDataByUrl($url);
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Gateway');

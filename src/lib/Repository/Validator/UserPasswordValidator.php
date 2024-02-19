@@ -201,5 +201,3 @@ class UserPasswordValidator
         return new ValidationError($message, null, $values, 'password');
     }
 }
-
-class_alias(UserPasswordValidator::class, 'eZ\Publish\Core\Repository\Validator\UserPasswordValidator');

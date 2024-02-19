@@ -71,5 +71,3 @@ final class SortClauseVisitor implements FilteringSortClauseVisitor
         return self::$queryBuildersForSortClauses[$sortClauseFQCN];
     }
 }
-
-class_alias(SortClauseVisitor::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseVisitor');

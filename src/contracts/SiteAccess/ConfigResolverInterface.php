@@ -47,5 +47,3 @@ interface ConfigResolverInterface
      */
     public function getDefaultNamespace(): string;
 }
-
-class_alias(ConfigResolverInterface::class, 'eZ\Publish\Core\MVC\ConfigResolverInterface');

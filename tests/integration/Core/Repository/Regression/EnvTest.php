@@ -43,5 +43,3 @@ class EnvTest extends BaseTest
         }
     }
 }
-
-class_alias(EnvTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EnvTest');

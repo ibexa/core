@@ -42,5 +42,3 @@ final class LocationIdQueryBuilderTest extends BaseCriterionVisitorQueryBuilderT
         return [new IdQueryBuilder()];
     }
 }
-
-class_alias(LocationIdQueryBuilderTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Filter\CriterionQueryBuilder\Location\LocationIdQueryBuilderTest');

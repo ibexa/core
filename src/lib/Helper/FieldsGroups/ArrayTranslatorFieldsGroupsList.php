@@ -64,5 +64,3 @@ final class ArrayTranslatorFieldsGroupsList implements FieldsGroupsList
         return $fieldDefinition->fieldGroup;
     }
 }
-
-class_alias(ArrayTranslatorFieldsGroupsList::class, 'eZ\Publish\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList');

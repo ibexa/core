@@ -514,5 +514,3 @@ class EmailAddressTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(EmailAddressTest::class, 'eZ\Publish\Core\FieldType\Tests\EmailAddressTest');

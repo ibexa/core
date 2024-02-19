@@ -48,5 +48,3 @@ class RouteReferenceGenerator implements RouteReferenceGeneratorInterface
         return $event->getRouteReference();
     }
 }
-
-class_alias(RouteReferenceGenerator::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator');

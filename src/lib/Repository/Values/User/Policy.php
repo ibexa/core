@@ -34,5 +34,3 @@ class Policy extends APIPolicy
         return $this->limitations;
     }
 }
-
-class_alias(Policy::class, 'eZ\Publish\Core\Repository\Values\User\Policy');

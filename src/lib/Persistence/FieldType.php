@@ -53,5 +53,3 @@ class FieldType implements FieldTypeInterface, FieldTypeInterface\IsEmptyValue
         );
     }
 }
-
-class_alias(FieldType::class, 'eZ\Publish\Core\Persistence\FieldType');

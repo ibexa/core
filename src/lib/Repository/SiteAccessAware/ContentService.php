@@ -292,5 +292,3 @@ class ContentService implements ContentServiceInterface
         );
     }
 }
-
-class_alias(ContentService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\ContentService');

@@ -30,5 +30,3 @@ class GrayscaleFilterLoaderTest extends TestCase
         $this->assertSame($image, $loader->load($image));
     }
 }
-
-class_alias(GrayscaleFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\GrayscaleFilterLoaderTest');

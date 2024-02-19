@@ -32,5 +32,3 @@ interface SuggestionCollectorInterface
      */
     public function hasSuggestions();
 }
-
-class_alias(SuggestionCollectorInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface');

@@ -36,5 +36,3 @@ final class TranslateEvent extends AfterEvent
         return $this->result;
     }
 }
-
-class_alias(TranslateEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\TranslateEvent');

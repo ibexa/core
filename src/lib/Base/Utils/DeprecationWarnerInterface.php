@@ -18,5 +18,3 @@ interface DeprecationWarnerInterface
      */
     public function log($message);
 }
-
-class_alias(DeprecationWarnerInterface::class, 'eZ\Publish\Core\Base\Utils\DeprecationWarnerInterface');

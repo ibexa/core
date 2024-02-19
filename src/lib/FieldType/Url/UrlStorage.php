@@ -131,5 +131,3 @@ class UrlStorage extends GatewayBasedStorage
     {
     }
 }
-
-class_alias(UrlStorage::class, 'eZ\Publish\Core\FieldType\Url\UrlStorage');

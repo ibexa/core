@@ -114,5 +114,3 @@ final class QueryTypePassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(QueryTypePassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\QueryTypePassTest');

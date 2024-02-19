@@ -216,5 +216,3 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(ParentDepthLimitationType::class, 'eZ\Publish\Core\Limitation\ParentDepthLimitationType');

@@ -52,5 +52,3 @@ class LegacyPathGenerator extends PathGenerator
         );
     }
 }
-
-class_alias(LegacyPathGenerator::class, 'eZ\Publish\Core\FieldType\Image\PathGenerator\LegacyPathGenerator');

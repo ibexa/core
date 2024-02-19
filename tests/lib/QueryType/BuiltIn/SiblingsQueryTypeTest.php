@@ -155,5 +155,3 @@ final class SiblingsQueryTypeTest extends AbstractQueryTypeTest
         return ['filter', 'offset', 'limit', 'sort', 'location', 'content'];
     }
 }
-
-class_alias(SiblingsQueryTypeTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\SiblingsQueryTypeTest');

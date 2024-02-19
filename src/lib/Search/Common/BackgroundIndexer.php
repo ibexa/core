@@ -45,5 +45,3 @@ interface BackgroundIndexer
      */
     public function registerLocation(Location $location);
 }
-
-class_alias(BackgroundIndexer::class, 'eZ\Publish\Core\Search\Common\BackgroundIndexer');

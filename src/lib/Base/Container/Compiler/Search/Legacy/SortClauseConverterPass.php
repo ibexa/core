@@ -61,5 +61,3 @@ class SortClauseConverterPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(SortClauseConverterPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Search\Legacy\SortClauseConverterPass');

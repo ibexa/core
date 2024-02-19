@@ -36,5 +36,3 @@ interface QueryType
      */
     public static function getName();
 }
-
-class_alias(QueryType::class, 'eZ\Publish\Core\QueryType\QueryType');

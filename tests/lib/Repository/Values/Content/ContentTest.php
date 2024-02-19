@@ -125,5 +125,3 @@ final class ContentTest extends TestCase
         $this->assertEquals($name, $object->getName());
     }
 }
-
-class_alias(ContentTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\ContentTest');

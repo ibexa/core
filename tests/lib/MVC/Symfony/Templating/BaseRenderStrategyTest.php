@@ -98,5 +98,3 @@ abstract class BaseRenderStrategyTest extends TestCase
         ]);
     }
 }
-
-class_alias(BaseRenderStrategyTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\BaseRenderStrategyTest');

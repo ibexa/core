@@ -149,5 +149,3 @@ class LanguageService extends LanguageServiceDecorator
         );
     }
 }
-
-class_alias(LanguageService::class, 'eZ\Publish\Core\Event\LanguageService');

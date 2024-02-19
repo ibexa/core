@@ -40,5 +40,3 @@ abstract class Gateway extends StorageGateway
      */
     abstract public function deleteFieldData($fieldId, $versionNo);
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\Keyword\KeywordStorage\Gateway');

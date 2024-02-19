@@ -48,5 +48,3 @@ final class BeforeTranslateEvent extends BeforeEvent
         return $this->result instanceof URLWildcardTranslationResult;
     }
 }
-
-class_alias(BeforeTranslateEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\BeforeTranslateEvent');

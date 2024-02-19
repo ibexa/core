@@ -25,5 +25,3 @@ class FloatMapper extends FieldValueMapper
         return sprintf('%F', (float)$field->getValue());
     }
 }
-
-class_alias(FloatMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\FloatMapper');

@@ -317,5 +317,3 @@ class SectionHandlerTest extends TestCase
         return $this->gatewayMock;
     }
 }
-
-class_alias(SectionHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Section\SectionHandlerTest');

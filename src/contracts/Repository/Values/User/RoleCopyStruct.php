@@ -27,5 +27,3 @@ abstract class RoleCopyStruct extends RoleCreateStruct
      */
     public $status;
 }
-
-class_alias(RoleCopyStruct::class, 'eZ\Publish\API\Repository\Values\User\RoleCopyStruct');

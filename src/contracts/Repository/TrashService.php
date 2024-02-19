@@ -98,5 +98,3 @@ interface TrashService
      */
     public function findTrashItems(Query $query): SearchResult;
 }
-
-class_alias(TrashService::class, 'eZ\Publish\API\Repository\TrashService');

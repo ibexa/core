@@ -83,5 +83,3 @@ class FieldTypeParameterProviderRegistryPassTest extends AbstractCompilerPassTes
         ];
     }
 }
-
-class_alias(FieldTypeParameterProviderRegistryPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\FieldTypeParameterProviderRegistryPassTest');

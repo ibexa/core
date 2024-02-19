@@ -200,5 +200,3 @@ class HandlerTest extends TestCase
         return $url;
     }
 }
-
-class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\HandlerTest');

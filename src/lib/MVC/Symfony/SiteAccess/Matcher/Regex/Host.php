@@ -55,5 +55,3 @@ class Host extends Regex implements Matcher
         parent::setRequest($request);
     }
 }
-
-class_alias(Host::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Regex\Host');

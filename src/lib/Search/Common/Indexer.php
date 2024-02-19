@@ -70,5 +70,3 @@ abstract class Indexer
         return $query->execute();
     }
 }
-
-class_alias(Indexer::class, 'eZ\Publish\Core\Search\Common\Indexer');

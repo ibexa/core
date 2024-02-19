@@ -55,5 +55,3 @@ class FieldValueConverterRegistryTest extends TestCase
         return $this->createMock(Converter::class);
     }
 }
-
-class_alias(FieldValueConverterRegistryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValueConverterRegistryTest');

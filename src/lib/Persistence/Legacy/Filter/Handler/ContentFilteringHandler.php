@@ -78,5 +78,3 @@ final class ContentFilteringHandler implements Handler
         return $this->gateway->count($filter->getCriterion());
     }
 }
-
-class_alias(ContentFilteringHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler');

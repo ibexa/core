@@ -1338,5 +1338,3 @@ class TrashServiceTest extends BaseTrashServiceTest
         }
     }
 }
-
-class_alias(TrashServiceTest::class, 'eZ\Publish\API\Repository\Tests\TrashServiceTest');

@@ -48,5 +48,3 @@ final class SubtreeTermAggregationTest extends TestCase
         $this->assertEquals(self::EXAMPLE_PATH_STRING, $aggregation->getPathString());
     }
 }
-
-class_alias(SubtreeTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\Values\Content\Query\Aggregation\Location\SubtreeTermAggregationTest');

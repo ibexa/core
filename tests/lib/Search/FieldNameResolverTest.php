@@ -860,5 +860,3 @@ class FieldNameResolverTest extends TestCase
         return $this->createMock(APISortClause::class);
     }
 }
-
-class_alias(FieldNameResolverTest::class, 'eZ\Publish\Core\Search\Tests\FieldNameResolverTest');

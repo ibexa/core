@@ -27,5 +27,3 @@ interface Location
      */
     public function getView(APIContentLocation $location, $viewType);
 }
-
-class_alias(Location::class, 'eZ\Publish\Core\MVC\Symfony\View\Provider\Location');

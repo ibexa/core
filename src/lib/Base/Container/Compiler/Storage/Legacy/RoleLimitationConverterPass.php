@@ -39,5 +39,3 @@ class RoleLimitationConverterPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(RoleLimitationConverterPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Storage\Legacy\RoleLimitationConverterPass');

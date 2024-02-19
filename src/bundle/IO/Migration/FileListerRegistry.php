@@ -29,5 +29,3 @@ interface FileListerRegistry
      */
     public function getIdentifiers();
 }
-
-class_alias(FileListerRegistry::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileListerRegistry');

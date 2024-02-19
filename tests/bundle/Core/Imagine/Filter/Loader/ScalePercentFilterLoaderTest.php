@@ -73,5 +73,3 @@ class ScalePercentFilterLoaderTest extends TestCase
         $this->assertSame($image, $this->loader->load($image, [$widthPercent, $heightPercent]));
     }
 }
-
-class_alias(ScalePercentFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\ScalePercentFilterLoaderTest');

@@ -20,5 +20,3 @@ class MultipleStringField extends FieldType
      */
     protected $type = 'ez_mstring';
 }
-
-class_alias(MultipleStringField::class, 'eZ\Publish\SPI\Search\FieldType\MultipleStringField');

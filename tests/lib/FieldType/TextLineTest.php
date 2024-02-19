@@ -695,5 +695,3 @@ class TextLineTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(TextLineTest::class, 'eZ\Publish\Core\FieldType\Tests\TextLineTest');

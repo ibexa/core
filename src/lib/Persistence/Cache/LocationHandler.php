@@ -507,5 +507,3 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $this->persistenceHandler->locationHandler()->countLocationsByContent($contentId);
     }
 }
-
-class_alias(LocationHandler::class, 'eZ\Publish\Core\Persistence\Cache\LocationHandler');

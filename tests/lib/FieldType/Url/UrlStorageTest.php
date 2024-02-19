@@ -268,5 +268,3 @@ class UrlStorageTest extends TestCase
         return $this->gatewayMock;
     }
 }
-
-class_alias(UrlStorageTest::class, 'eZ\Publish\Core\FieldType\Tests\Url\UrlStorageTest');

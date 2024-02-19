@@ -362,5 +362,3 @@ class URLWildcardServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(URLWildcardServiceTest::class, 'eZ\Publish\Core\Event\Tests\URLWildcardServiceTest');

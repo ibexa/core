@@ -69,5 +69,3 @@ class FragmentListenerFactoryTest extends TestCase
         $this->assertNull($listener);
     }
 }
-
-class_alias(FragmentListenerFactoryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Fragment\FragmentListenerFactoryTest');

@@ -111,5 +111,3 @@ class EZP21798Test extends BaseTest
         $contentService->loadContent($contentInfoarticle->id);
     }
 }
-
-class_alias(EZP21798Test::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP21798Test');

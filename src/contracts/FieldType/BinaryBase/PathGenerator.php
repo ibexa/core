@@ -16,5 +16,3 @@ abstract class PathGenerator implements PathGeneratorInterface
 {
     abstract public function getStoragePathForField(Field $field, VersionInfo $versionInfo);
 }
-
-class_alias(PathGenerator::class, 'eZ\Publish\SPI\FieldType\BinaryBase\PathGenerator');

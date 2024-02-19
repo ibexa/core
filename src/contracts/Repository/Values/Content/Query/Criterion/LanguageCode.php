@@ -65,5 +65,3 @@ class LanguageCode extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(LanguageCode::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\LanguageCode');

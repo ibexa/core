@@ -28,5 +28,3 @@ class Depth extends Location implements FilteringSortClause, TrashSortClause
         parent::__construct('location_depth', $sortDirection);
     }
 }
-
-class_alias(Depth::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Depth');

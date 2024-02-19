@@ -126,5 +126,3 @@ final class VersionValidatorTest extends BaseTest
         $this->contentService->publishVersion($contentDraft->versionInfo);
     }
 }
-
-class_alias(VersionValidatorTest::class, 'eZ\Publish\API\Repository\Tests\ContentService\VersionValidatorTest');

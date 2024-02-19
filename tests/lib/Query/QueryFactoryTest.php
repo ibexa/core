@@ -60,5 +60,3 @@ final class QueryFactoryTest extends TestCase
         $this->assertEquals($expectedQuery, $actualQuery);
     }
 }
-
-class_alias(QueryFactoryTest::class, 'eZ\Publish\Core\Query\Tests\QueryFactoryTest');

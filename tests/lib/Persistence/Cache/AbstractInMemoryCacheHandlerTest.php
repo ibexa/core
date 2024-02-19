@@ -294,5 +294,3 @@ abstract class AbstractInMemoryCacheHandlerTest extends AbstractBaseHandlerTest
         //$this->assertAttributeEquals([], 'tags', $cacheItem);
     }
 }
-
-class_alias(AbstractInMemoryCacheHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\AbstractInMemoryCacheHandlerTest');

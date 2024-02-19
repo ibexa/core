@@ -34,5 +34,3 @@ class CreateStruct extends ValueObject
      */
     public $isEnabled = true;
 }
-
-class_alias(CreateStruct::class, 'eZ\Publish\SPI\Persistence\Content\Language\CreateStruct');

@@ -97,5 +97,3 @@ class ParameterProvider implements ParameterProviderInterface
         return false;
     }
 }
-
-class_alias(ParameterProvider::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider');

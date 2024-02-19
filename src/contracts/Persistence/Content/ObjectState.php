@@ -79,5 +79,3 @@ class ObjectState extends ValueObject
      */
     public $description;
 }
-
-class_alias(ObjectState::class, 'eZ\Publish\SPI\Persistence\Content\ObjectState');

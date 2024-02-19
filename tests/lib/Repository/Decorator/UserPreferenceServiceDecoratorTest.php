@@ -77,5 +77,3 @@ class UserPreferenceServiceDecoratorTest extends TestCase
         $decoratedService->getUserPreferenceCount(...$parameters);
     }
 }
-
-class_alias(UserPreferenceServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\UserPreferenceServiceDecoratorTest');

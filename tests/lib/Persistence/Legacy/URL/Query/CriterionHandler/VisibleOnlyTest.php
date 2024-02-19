@@ -69,5 +69,3 @@ class VisibleOnlyTest extends CriterionHandlerTest
         return new QueryBuilder($connection);
     }
 }
-
-class_alias(VisibleOnlyTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriterionHandler\VisibleOnlyTest');

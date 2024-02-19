@@ -113,5 +113,3 @@ class ContentPreviewContext extends RawMinkContext
         );
     }
 }
-
-class_alias(ContentPreviewContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\ContentPreviewContext');

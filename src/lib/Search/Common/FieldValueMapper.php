@@ -37,5 +37,3 @@ abstract class FieldValueMapper
      */
     abstract public function map(Field $field);
 }
-
-class_alias(FieldValueMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper');

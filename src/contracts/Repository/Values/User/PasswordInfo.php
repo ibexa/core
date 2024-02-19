@@ -55,5 +55,3 @@ final class PasswordInfo extends ValueObject
         return $this->expirationWarningDate;
     }
 }
-
-class_alias(PasswordInfo::class, 'eZ\Publish\API\Repository\Values\User\PasswordInfo');

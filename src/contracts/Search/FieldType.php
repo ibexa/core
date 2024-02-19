@@ -62,5 +62,3 @@ abstract class FieldType extends ValueObject
         return $this->type;
     }
 }
-
-class_alias(FieldType::class, 'eZ\Publish\SPI\Search\FieldType');

@@ -168,5 +168,3 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         return $return;
     }
 }
-
-class_alias(TrashHandler::class, 'eZ\Publish\Core\Persistence\Cache\TrashHandler');

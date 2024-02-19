@@ -122,5 +122,3 @@ abstract class Value extends BaseValue
         return parent::__isset($propertyName);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\BinaryBase\Value');

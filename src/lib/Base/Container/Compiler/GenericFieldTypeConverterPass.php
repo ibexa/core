@@ -146,5 +146,3 @@ final class GenericFieldTypeConverterPass implements CompilerPassInterface
         return $reflection->isSubclassOf(GenericType::class);
     }
 }
-
-class_alias(GenericFieldTypeConverterPass::class, 'eZ\Publish\Core\Base\Container\Compiler\GenericFieldTypeConverterPass');

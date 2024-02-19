@@ -648,5 +648,3 @@ class BinaryFileTest extends BinaryBaseTest
         return $mock;
     }
 }
-
-class_alias(BinaryFileTest::class, 'eZ\Publish\Core\FieldType\Tests\BinaryFileTest');

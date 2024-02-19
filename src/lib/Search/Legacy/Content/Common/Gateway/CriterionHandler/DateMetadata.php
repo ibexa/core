@@ -87,5 +87,3 @@ class DateMetadata extends CriterionHandler
         }
     }
 }
-
-class_alias(DateMetadata::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\DateMetadata');

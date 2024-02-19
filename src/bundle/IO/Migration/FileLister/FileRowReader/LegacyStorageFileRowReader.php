@@ -63,5 +63,3 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
         return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
     }
 }
-
-class_alias(LegacyStorageFileRowReader::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileRowReader\LegacyStorageFileRowReader');

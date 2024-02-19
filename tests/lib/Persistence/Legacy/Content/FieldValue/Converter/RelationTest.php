@@ -68,5 +68,3 @@ EOT;
         );
     }
 }
-
-class_alias(RelationTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\RelationTest');

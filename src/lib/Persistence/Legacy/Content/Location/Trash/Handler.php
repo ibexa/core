@@ -249,5 +249,3 @@ class Handler implements BaseTrashHandler
         return $result;
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Trash\Handler');

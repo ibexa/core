@@ -241,5 +241,3 @@ class UserPasswordValidatorTest extends TestCase
         ];
     }
 }
-
-class_alias(UserPasswordValidatorTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UserPasswordValidatorTest');

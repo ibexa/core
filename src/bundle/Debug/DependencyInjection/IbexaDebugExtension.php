@@ -39,5 +39,3 @@ class IbexaDebugExtension extends Extension implements PrependExtensionInterface
         }
     }
 }
-
-class_alias(IbexaDebugExtension::class, 'eZ\Bundle\EzPublishDebugBundle\DependencyInjection\EzPublishDebugExtension');

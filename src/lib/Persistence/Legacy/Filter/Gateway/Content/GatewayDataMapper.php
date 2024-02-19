@@ -23,5 +23,3 @@ interface GatewayDataMapper
 
     public function mapContentMetadataToPersistenceContentInfo(array $row): ContentInfo;
 }
-
-class_alias(GatewayDataMapper::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper');

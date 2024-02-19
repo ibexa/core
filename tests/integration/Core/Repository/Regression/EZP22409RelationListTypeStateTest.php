@@ -155,5 +155,3 @@ class EZP22409RelationListTypeStateTest extends BaseTest
         $content2 = $contentService->publishVersion($draft2->versionInfo);
     }
 }
-
-class_alias(EZP22409RelationListTypeStateTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP22409RelationListTypeStateTest');

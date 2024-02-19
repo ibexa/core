@@ -102,5 +102,3 @@ class URIText extends Regex implements VersatileMatcher, URILexer
         return $this->request;
     }
 }
-
-class_alias(URIText::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\URIText');

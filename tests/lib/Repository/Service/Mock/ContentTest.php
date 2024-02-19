@@ -6314,5 +6314,3 @@ class ContentTest extends BaseServiceMockTest
         return $repositoryMock;
     }
 }
-
-class_alias(ContentTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\ContentTest');

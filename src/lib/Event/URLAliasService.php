@@ -138,5 +138,3 @@ class URLAliasService extends URLAliasServiceDecorator
         );
     }
 }
-
-class_alias(URLAliasService::class, 'eZ\Publish\Core\Event\URLAliasService');

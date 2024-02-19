@@ -210,5 +210,3 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
     }
 }
-
-class_alias(CachedPermissionServiceTest::class, 'eZ\Publish\Core\Repository\Tests\Permission\CachedPermissionServiceTest');

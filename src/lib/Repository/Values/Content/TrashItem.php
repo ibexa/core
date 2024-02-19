@@ -116,5 +116,3 @@ class TrashItem extends APITrashItem
         return parent::__isset($property);
     }
 }
-
-class_alias(TrashItem::class, 'eZ\Publish\Core\Repository\Values\Content\TrashItem');

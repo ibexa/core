@@ -51,5 +51,3 @@ interface ValueSerializerInterface
      */
     public function decode(?string $data, array $context = []): ?array;
 }
-
-class_alias(ValueSerializerInterface::class, 'eZ\Publish\SPI\FieldType\ValueSerializerInterface');

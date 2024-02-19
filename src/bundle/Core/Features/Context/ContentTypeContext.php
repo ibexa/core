@@ -240,5 +240,3 @@ class ContentTypeContext implements Context
         return $contentType ? true : false;
     }
 }
-
-class_alias(ContentTypeContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\ContentTypeContext');

@@ -86,5 +86,3 @@ class ConfigSuggestion
         return $this->mandatory;
     }
 }
-
-class_alias(ConfigSuggestion::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\ConfigSuggestion');

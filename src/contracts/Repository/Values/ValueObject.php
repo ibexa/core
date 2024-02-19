@@ -207,5 +207,3 @@ abstract class ValueObject
         return $this->__isset($property);
     }
 }
-
-class_alias(ValueObject::class, 'eZ\Publish\API\Repository\Values\ValueObject');

@@ -358,5 +358,3 @@ class TimeTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(TimeTest::class, 'eZ\Publish\Core\FieldType\Tests\TimeTest');

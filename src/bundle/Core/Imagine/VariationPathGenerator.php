@@ -14,5 +14,3 @@ use Ibexa\Contracts\Core\Variation\VariationPathGenerator as VariationPathGenera
 interface VariationPathGenerator extends VariationPathGeneratorContract
 {
 }
-
-class_alias(VariationPathGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator');

@@ -135,5 +135,3 @@ abstract class Map implements VersatileMatcher
         return $this->reverseMap = array_flip($map);
     }
 }
-
-class_alias(Map::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Map');

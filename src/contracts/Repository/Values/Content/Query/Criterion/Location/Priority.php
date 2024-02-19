@@ -55,5 +55,3 @@ class Priority extends Location implements FilteringCriterion
         return new self($operator, $value);
     }
 }
-
-class_alias(Priority::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Location\Priority');

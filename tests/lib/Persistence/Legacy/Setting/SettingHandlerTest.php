@@ -291,5 +291,3 @@ final class SettingHandlerTest extends TestCase
         return $this->gatewayMock;
     }
 }
-
-class_alias(SettingHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Setting\SettingHandlerTest');

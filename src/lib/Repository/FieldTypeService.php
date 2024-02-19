@@ -88,5 +88,3 @@ class FieldTypeService implements FieldTypeServiceInterface
         return $this->fieldTypeRegistry->hasFieldType($identifier);
     }
 }
-
-class_alias(FieldTypeService::class, 'eZ\Publish\Core\Repository\FieldTypeService');

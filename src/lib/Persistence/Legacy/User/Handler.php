@@ -691,5 +691,3 @@ class Handler implements BaseUserHandler
         return $this->mapper->mapRoleAssignments($data);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\User\Handler');

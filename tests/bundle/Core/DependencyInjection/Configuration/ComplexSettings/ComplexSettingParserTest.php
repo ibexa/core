@@ -78,5 +78,3 @@ class ComplexSettingParserTest extends TestCase
         ];
     }
 }
-
-class_alias(ComplexSettingParserTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserTest');

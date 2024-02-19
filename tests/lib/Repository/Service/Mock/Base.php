@@ -459,5 +459,3 @@ abstract class Base extends TestCase
         return $this->locationFilteringHandlerMock;
     }
 }
-
-class_alias(Base::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\Base');

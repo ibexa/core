@@ -42,5 +42,3 @@ interface MultiLanguageDescription
      */
     public function getDescription($languageCode = null);
 }
-
-class_alias(MultiLanguageDescription::class, 'eZ\Publish\SPI\Repository\Values\MultiLanguageDescription');

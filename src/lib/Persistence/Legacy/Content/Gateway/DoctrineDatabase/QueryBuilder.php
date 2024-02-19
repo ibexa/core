@@ -185,5 +185,3 @@ final class QueryBuilder
         return $query;
     }
 }
-
-class_alias(QueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder');

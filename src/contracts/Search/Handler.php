@@ -108,5 +108,3 @@ interface Handler
      */
     public function purgeIndex();
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Search\Handler');

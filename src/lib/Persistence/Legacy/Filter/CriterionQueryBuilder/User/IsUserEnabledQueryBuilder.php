@@ -47,5 +47,3 @@ final class IsUserEnabledQueryBuilder extends BaseUserCriterionQueryBuilder
         );
     }
 }
-
-class_alias(IsUserEnabledQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\IsUserEnabledQueryBuilder');

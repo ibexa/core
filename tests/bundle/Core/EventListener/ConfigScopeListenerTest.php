@@ -74,5 +74,3 @@ class ConfigScopeListenerTest extends TestCase
         $this->assertSame($siteAccess, $event->getSiteAccess());
     }
 }
-
-class_alias(ConfigScopeListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\ConfigScopeListenerTest');

@@ -43,5 +43,3 @@ class Id extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(Id::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Id');

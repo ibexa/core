@@ -22,5 +22,3 @@ final class RegexHostNormalizer extends AbstractPropertyWhitelistNormalizer
         return $data instanceof Host;
     }
 }
-
-class_alias(RegexHostNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer');

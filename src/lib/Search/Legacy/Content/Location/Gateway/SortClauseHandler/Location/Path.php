@@ -43,5 +43,3 @@ class Path extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(Path::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Path');

@@ -6669,5 +6669,3 @@ class ContentServiceTest extends BaseContentServiceTest
         return $contentWithReverseRelations;
     }
 }
-
-class_alias(ContentServiceTest::class, 'eZ\Publish\API\Repository\Tests\ContentServiceTest');

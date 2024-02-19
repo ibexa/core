@@ -89,5 +89,3 @@ class LanguageTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(LanguageTest::class, 'eZ\Publish\API\Repository\Tests\Values\Content\LanguageTest');

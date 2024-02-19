@@ -161,5 +161,3 @@ class SiteAccessServiceTest extends TestCase
         ];
     }
 }
-
-class_alias(SiteAccessServiceTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\SiteAccessServiceTest');

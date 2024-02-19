@@ -338,5 +338,3 @@ class AssetMapperTest extends TestCase
         return $mock;
     }
 }
-
-class_alias(AssetMapperTest::class, 'eZ\Publish\Core\FieldType\Tests\ImageAsset\AssetMapperTest');

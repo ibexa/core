@@ -152,5 +152,3 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
         ));
     }
 }
-
-class_alias(RenderLocationStrategyTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\RenderLocationStrategyTest');

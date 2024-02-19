@@ -233,5 +233,3 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
             : self::ACCESS_GRANTED;
     }
 }
-
-class_alias(ContentTypeLimitationType::class, 'eZ\Publish\Core\Limitation\ContentTypeLimitationType');

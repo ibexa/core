@@ -201,5 +201,3 @@ abstract class BinaryBaseTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(BinaryBaseTest::class, 'eZ\Publish\Core\FieldType\Tests\BinaryBaseTest');

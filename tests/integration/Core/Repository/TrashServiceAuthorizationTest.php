@@ -313,5 +313,3 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
         $trashService->trash($parentLocation);
     }
 }
-
-class_alias(TrashServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\TrashServiceAuthorizationTest');

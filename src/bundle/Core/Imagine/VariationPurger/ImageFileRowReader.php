@@ -32,5 +32,3 @@ interface ImageFileRowReader
      */
     public function getCount();
 }
-
-class_alias(ImageFileRowReader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\ImageFileRowReader');

@@ -38,5 +38,3 @@ class PlaceholderProviderPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(PlaceholderProviderPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\PlaceholderProviderPass');

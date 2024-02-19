@@ -170,5 +170,3 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
         return $name;
     }
 }
-
-class_alias(UrlWildcardRouter::class, 'eZ\Publish\Core\MVC\Symfony\Routing\UrlWildcardRouter');

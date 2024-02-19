@@ -129,5 +129,3 @@ class URLWildcardService extends URLWildcardServiceDecorator
         return $result;
     }
 }
-
-class_alias(URLWildcardService::class, 'eZ\Publish\Core\Event\URLWildcardService');

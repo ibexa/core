@@ -81,5 +81,3 @@ class CriteriaConverterTest extends TestCase
         );
     }
 }
-
-class_alias(CriteriaConverterTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriteriaConverterTest');

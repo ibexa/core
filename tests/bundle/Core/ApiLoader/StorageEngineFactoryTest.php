@@ -124,5 +124,3 @@ class StorageEngineFactoryTest extends TestCase
         return $this->createMock(Handler::class);
     }
 }
-
-class_alias(StorageEngineFactoryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ApiLoader\StorageEngineFactoryTest');

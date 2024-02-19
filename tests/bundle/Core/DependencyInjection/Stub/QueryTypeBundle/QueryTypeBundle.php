@@ -11,5 +11,3 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class QueryTypeBundle extends Bundle
 {
 }
-
-class_alias(QueryTypeBundle::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\QueryTypeBundle\QueryTypeBundle');

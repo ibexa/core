@@ -113,5 +113,3 @@ class ChainConfigResolver implements ConfigResolverInterface
         throw new \LogicException('getDefaultNamespace() is not supported by the ChainConfigResolver');
     }
 }
-
-class_alias(ChainConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ChainConfigResolver');

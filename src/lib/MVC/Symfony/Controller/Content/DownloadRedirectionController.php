@@ -91,5 +91,3 @@ class DownloadRedirectionController extends Controller
         throw new InvalidArgumentException("Could not find any Field with ID $fieldId in Content item with ID {$content->id}");
     }
 }
-
-class_alias(DownloadRedirectionController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController');

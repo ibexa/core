@@ -23,5 +23,3 @@ class StubYamlPolicyProvider extends YamlPolicyProvider
         return $this->files;
     }
 }
-
-class_alias(StubYamlPolicyProvider::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\StubYamlPolicyProvider');

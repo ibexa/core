@@ -32,5 +32,3 @@ class MatchNone implements CriterionHandler
         return '1 = 0';
     }
 }
-
-class_alias(MatchNone::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\MatchNone');

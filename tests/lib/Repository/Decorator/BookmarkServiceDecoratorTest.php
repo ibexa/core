@@ -78,5 +78,3 @@ class BookmarkServiceDecoratorTest extends TestCase
         $decoratedService->isBookmarked(...$parameters);
     }
 }
-
-class_alias(BookmarkServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\BookmarkServiceDecoratorTest');

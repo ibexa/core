@@ -36,5 +36,3 @@ class ContentDraftList extends ValueObject implements IteratorAggregate
         return new ArrayIterator($this->items);
     }
 }
-
-class_alias(ContentDraftList::class, 'eZ\Publish\API\Repository\Values\Content\ContentDraftList');

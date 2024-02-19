@@ -143,5 +143,3 @@ class PreviewLocationProviderTest extends TestCase
         return $content;
     }
 }
-
-class_alias(PreviewLocationProviderTest::class, 'eZ\Publish\Core\Helper\Tests\PreviewLocationProviderTest');

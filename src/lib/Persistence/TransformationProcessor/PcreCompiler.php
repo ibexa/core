@@ -286,5 +286,3 @@ class PcreCompiler
         return hexdec(preg_replace('/[^[:xdigit:]]/', '', (string)$value));
     }
 }
-
-class_alias(PcreCompiler::class, 'eZ\Publish\Core\Persistence\TransformationProcessor\PcreCompiler');

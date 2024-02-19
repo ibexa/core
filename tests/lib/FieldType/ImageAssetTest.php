@@ -433,5 +433,3 @@ class ImageAssetTest extends FieldTypeTest
         );
     }
 }
-
-class_alias(ImageAssetTest::class, 'eZ\Publish\Core\FieldType\Tests\ImageAssetTest');

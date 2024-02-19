@@ -78,5 +78,3 @@ abstract class OptionsResolverBasedQueryType implements QueryType
         return $this->resolver;
     }
 }
-
-class_alias(OptionsResolverBasedQueryType::class, 'eZ\Publish\Core\QueryType\OptionsResolverBasedQueryType');

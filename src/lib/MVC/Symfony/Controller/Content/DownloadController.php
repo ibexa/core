@@ -119,5 +119,3 @@ class DownloadController extends Controller
         return $response;
     }
 }
-
-class_alias(DownloadController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Content\DownloadController');

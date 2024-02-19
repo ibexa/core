@@ -27,5 +27,3 @@ final class FloatRangeAggregation extends AbstractFieldRangeAggregation
         return new self($name, $contentTypeIdentifier, $fieldDefinitionIdentifier, $ranges);
     }
 }
-
-class_alias(FloatRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\FloatRangeAggregation');

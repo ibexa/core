@@ -89,5 +89,3 @@ class RoleTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(RoleTest::class, 'eZ\Publish\Core\Repository\Tests\Values\User\RoleTest');

@@ -57,5 +57,3 @@ interface ViewManagerInterface
      */
     public function renderContentView(View $view, array $defaultParams = []);
 }
-
-class_alias(ViewManagerInterface::class, 'eZ\Publish\Core\MVC\Symfony\View\ViewManagerInterface');

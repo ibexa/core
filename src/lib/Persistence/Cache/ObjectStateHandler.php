@@ -368,5 +368,3 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
         return $this->persistenceHandler->objectStateHandler()->getContentCount($stateId);
     }
 }
-
-class_alias(ObjectStateHandler::class, 'eZ\Publish\Core\Persistence\Cache\ObjectStateHandler');

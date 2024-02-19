@@ -48,5 +48,3 @@ class ScaleWidthDownOnlyFilterLoaderTest extends TestCase
         $this->assertSame($image, $this->loader->load($image, [$width]));
     }
 }
-
-class_alias(ScaleWidthDownOnlyFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\ScaleWidthDownOnlyFilterLoaderTest');

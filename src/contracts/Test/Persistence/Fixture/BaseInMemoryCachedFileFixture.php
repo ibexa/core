@@ -52,5 +52,3 @@ abstract class BaseInMemoryCachedFileFixture implements Fixture
         return self::$inMemoryCachedLoadedData[$this->filePath] ?? [];
     }
 }
-
-class_alias(BaseInMemoryCachedFileFixture::class, 'eZ\Publish\SPI\Tests\Persistence\BaseInMemoryCachedFileFixture');

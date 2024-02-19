@@ -20,5 +20,3 @@ class CustomField extends FieldType
      */
     public $type;
 }
-
-class_alias(CustomField::class, 'eZ\Publish\SPI\Search\FieldType\CustomField');

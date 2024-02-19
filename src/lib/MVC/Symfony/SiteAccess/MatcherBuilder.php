@@ -39,5 +39,3 @@ class MatcherBuilder implements MatcherBuilderInterface
         return $matcher;
     }
 }
-
-class_alias(MatcherBuilder::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\MatcherBuilder');

@@ -25,5 +25,3 @@ class StorageNotFound extends InvalidArgumentException
         );
     }
 }
-
-class_alias(StorageNotFound::class, 'eZ\Publish\Core\Persistence\Legacy\Exception\StorageNotFound');

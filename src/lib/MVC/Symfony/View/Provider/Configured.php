@@ -61,5 +61,3 @@ class Configured implements ViewProvider
         return $view;
     }
 }
-
-class_alias(Configured::class, 'eZ\Publish\Core\MVC\Symfony\View\Provider\Configured');

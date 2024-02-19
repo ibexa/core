@@ -26,5 +26,3 @@ final class BeforeDeleteLanguageEvent extends BeforeEvent
         return $this->language;
     }
 }
-
-class_alias(BeforeDeleteLanguageEvent::class, 'eZ\Publish\API\Repository\Events\Language\BeforeDeleteLanguageEvent');

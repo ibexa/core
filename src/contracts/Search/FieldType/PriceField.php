@@ -20,5 +20,3 @@ class PriceField extends FieldType
      */
     protected $type = 'ez_currency';
 }
-
-class_alias(PriceField::class, 'eZ\Publish\SPI\Search\FieldType\PriceField');

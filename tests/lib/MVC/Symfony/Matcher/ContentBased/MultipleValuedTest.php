@@ -61,5 +61,3 @@ class MultipleValuedTest extends BaseTest
         return $this->getMockForAbstractClass(MultipleValued::class);
     }
 }
-
-class_alias(MultipleValuedTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\MultipleValuedTest');

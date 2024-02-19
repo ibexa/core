@@ -24,5 +24,3 @@ class SuggestionCollectorTest extends TestCase
         $this->assertSame($suggestions, $collector->getSuggestions());
     }
 }
-
-class_alias(SuggestionCollectorTest::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Tests\Collector\SuggestionCollectorTest');

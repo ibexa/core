@@ -28,5 +28,3 @@ class RandomTarget extends Target
         $this->seed = $seed;
     }
 }
-
-class_alias(RandomTarget::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target\RandomTarget');

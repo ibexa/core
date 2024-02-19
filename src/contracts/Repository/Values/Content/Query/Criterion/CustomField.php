@@ -33,5 +33,3 @@ class CustomField extends Criterion
         ];
     }
 }
-
-class_alias(CustomField::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\CustomField');

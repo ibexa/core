@@ -155,5 +155,3 @@ class FlysystemTest extends TestCase
         $this->handler->deleteDirectory('some/path');
     }
 }
-
-class_alias(FlysystemTest::class, 'eZ\Publish\Core\IO\Tests\IOMetadataHandler\FlysystemTest');

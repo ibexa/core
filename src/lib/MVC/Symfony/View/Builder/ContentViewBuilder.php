@@ -294,5 +294,3 @@ class ContentViewBuilder implements ViewBuilder
         return false;
     }
 }
-
-class_alias(ContentViewBuilder::class, 'eZ\Publish\Core\MVC\Symfony\View\Builder\ContentViewBuilder');

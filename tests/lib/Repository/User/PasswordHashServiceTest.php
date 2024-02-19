@@ -79,5 +79,3 @@ final class PasswordHashServiceTest extends TestCase
         ini_set('zend.exception_string_param_max_len', (string)$paramMax);
     }
 }
-
-class_alias(PasswordHashServiceTest::class, 'eZ\Publish\Core\Repository\Tests\User\PasswordHashServiceTest');

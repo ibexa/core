@@ -48,5 +48,3 @@ final class UpdateSettingEvent extends AfterEvent
         return $this->settingUpdateStruct;
     }
 }
-
-class_alias(UpdateSettingEvent::class, 'eZ\Publish\API\Repository\Events\Setting\UpdateSettingEvent');

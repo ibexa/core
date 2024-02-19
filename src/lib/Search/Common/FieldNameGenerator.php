@@ -80,5 +80,3 @@ class FieldNameGenerator
         return $name . '_' . $typeName;
     }
 }
-
-class_alias(FieldNameGenerator::class, 'eZ\Publish\Core\Search\Common\FieldNameGenerator');

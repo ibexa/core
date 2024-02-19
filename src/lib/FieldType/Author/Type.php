@@ -257,5 +257,3 @@ class Type extends FieldType implements TranslationContainerInterface
         ];
     }
 }
-
-class_alias(Type::class, 'eZ\Publish\Core\FieldType\Author\Type');

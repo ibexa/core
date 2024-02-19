@@ -113,5 +113,3 @@ class ImageFileVariationPurgerTest extends TestCase
         return new ImageFileVariationPurger(new ArrayIterator($fileList), $this->ioServiceMock, $this->pathGeneratorMock);
     }
 }
-
-class_alias(ImageFileVariationPurgerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\VariationPurger\ImageFileVariationPurgerTest');

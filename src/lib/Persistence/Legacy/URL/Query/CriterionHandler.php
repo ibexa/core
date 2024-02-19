@@ -33,5 +33,3 @@ interface CriterionHandler
         Criterion $criterion
     );
 }
-
-class_alias(CriterionHandler::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler');

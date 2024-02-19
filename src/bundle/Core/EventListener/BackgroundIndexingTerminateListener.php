@@ -136,5 +136,3 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
         }
     }
 }
-
-class_alias(BackgroundIndexingTerminateListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\BackgroundIndexingTerminateListener');

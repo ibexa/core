@@ -24,5 +24,3 @@ final class MissingUserFieldTypeException extends ContentValidationException
         );
     }
 }
-
-class_alias(MissingUserFieldTypeException::class, 'eZ\Publish\Core\Base\Exceptions\MissingUserFieldTypeException');

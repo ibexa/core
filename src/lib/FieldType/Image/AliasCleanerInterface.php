@@ -18,5 +18,3 @@ interface AliasCleanerInterface
      */
     public function removeAliases($originalPath);
 }
-
-class_alias(AliasCleanerInterface::class, 'eZ\Publish\Core\FieldType\Image\AliasCleanerInterface');

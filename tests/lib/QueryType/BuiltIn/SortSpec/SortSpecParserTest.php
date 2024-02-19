@@ -135,5 +135,3 @@ final class SortSpecParserTest extends TestCase
         $this->assertEquals($token, $parser->matchAnyOf(Token::TYPE_ASC, Token::TYPE_DESC));
     }
 }
-
-class_alias(SortSpecParserTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortSpecParserTest');

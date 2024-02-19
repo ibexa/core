@@ -70,5 +70,3 @@ abstract class LazyListIterator implements IteratorAggregate
         }
     }
 }
-
-class_alias(LazyListIterator::class, 'eZ\Publish\SPI\Persistence\Filter\LazyListIterator');

@@ -49,5 +49,3 @@ class URLHandlerRegistry implements URLHandlerRegistryInterface
         return $this->handlers[$scheme];
     }
 }
-
-class_alias(URLHandlerRegistry::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\URLHandlerRegistry');

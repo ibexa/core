@@ -25,5 +25,3 @@ final class VisibilityTermAggregationTest extends AbstractAggregationTest
         yield $builder->build();
     }
 }
-
-class_alias(VisibilityTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\VisibilityTermAggregationTest');

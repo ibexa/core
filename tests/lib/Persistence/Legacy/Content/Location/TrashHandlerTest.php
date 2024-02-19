@@ -576,5 +576,3 @@ class TrashHandlerTest extends TestCase
         $this->assertCount(1, $trashResult);
     }
 }
-
-class_alias(TrashHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Location\TrashHandlerTest');

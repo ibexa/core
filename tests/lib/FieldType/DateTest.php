@@ -349,5 +349,3 @@ class DateTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(DateTest::class, 'eZ\Publish\Core\FieldType\Tests\DateTest');

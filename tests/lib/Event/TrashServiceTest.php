@@ -454,5 +454,3 @@ class TrashServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(TrashServiceTest::class, 'eZ\Publish\Core\Event\Tests\TrashServiceTest');

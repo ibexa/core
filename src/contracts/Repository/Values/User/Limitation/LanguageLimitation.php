@@ -22,5 +22,3 @@ class LanguageLimitation extends Limitation
         return Limitation::LANGUAGE;
     }
 }
-
-class_alias(LanguageLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\LanguageLimitation');

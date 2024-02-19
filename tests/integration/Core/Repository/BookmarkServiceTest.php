@@ -151,5 +151,3 @@ class BookmarkServiceTest extends BaseTest
         }, $bookmarks->items));
     }
 }
-
-class_alias(BookmarkServiceTest::class, 'eZ\Publish\API\Repository\Tests\BookmarkServiceTest');

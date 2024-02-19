@@ -403,5 +403,3 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
         return $name;
     }
 }
-
-class_alias(UrlAliasRouter::class, 'eZ\Publish\Core\MVC\Symfony\Routing\UrlAliasRouter');

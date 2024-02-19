@@ -894,5 +894,3 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         return $spiLocation->id === $spiLocation->parentId;
     }
 }
-
-class_alias(ContentDomainMapper::class, 'eZ\Publish\Core\Repository\Mapper\ContentDomainMapper');

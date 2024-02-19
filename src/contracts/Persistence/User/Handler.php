@@ -355,5 +355,3 @@ interface Handler
      */
     public function removeRoleAssignment($roleAssignmentId);
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\User\Handler');

@@ -63,5 +63,3 @@ final class StatsAggregationResult extends AggregationResult
         return $this->sum;
     }
 }
-
-class_alias(StatsAggregationResult::class, 'eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\StatsAggregationResult');

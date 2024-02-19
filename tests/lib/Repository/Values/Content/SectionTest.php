@@ -92,5 +92,3 @@ class SectionTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(SectionTest::class, 'eZ\Publish\API\Repository\Tests\Values\Content\SectionTest');

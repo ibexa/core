@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 final class LanguageTermAggregation extends AbstractTermAggregation
 {
 }
-
-class_alias(LanguageTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\LanguageTermAggregation');

@@ -115,5 +115,3 @@ class YamlConfigurationContext implements Context
         $application->run($input);
     }
 }
-
-class_alias(YamlConfigurationContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\YamlConfigurationContext');

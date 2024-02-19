@@ -107,5 +107,3 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         $this->container->compile();
     }
 }
-
-class_alias(IbexaIOExtensionTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\EzPublishIOExtensionTest');

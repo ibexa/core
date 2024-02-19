@@ -47,5 +47,3 @@ class Value extends BaseValue
         return implode(', ', array_column($this->countries, 'Name'));
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Country\Value');

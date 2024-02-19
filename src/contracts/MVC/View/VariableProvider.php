@@ -16,5 +16,3 @@ interface VariableProvider
 
     public function getTwigVariables(View $view, array $options = []): object;
 }
-
-class_alias(VariableProvider::class, 'eZ\Publish\SPI\MVC\View\VariableProvider');

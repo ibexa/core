@@ -300,5 +300,3 @@ class LanguageHandlerTest extends TestCase
         return $this->gatewayMock;
     }
 }
-
-class_alias(LanguageHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Language\LanguageHandlerTest');

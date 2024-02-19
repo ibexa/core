@@ -225,5 +225,3 @@ class BinaryStreamResponse extends Response
         return null;
     }
 }
-
-class_alias(BinaryStreamResponse::class, 'eZ\Bundle\EzPublishIOBundle\BinaryStreamResponse');

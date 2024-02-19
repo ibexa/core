@@ -35,5 +35,3 @@ interface QueryTypeRegistry
      */
     public function getQueryType($name);
 }
-
-class_alias(QueryTypeRegistry::class, 'eZ\Publish\Core\QueryType\QueryTypeRegistry');

@@ -47,5 +47,3 @@ class FieldFacet extends Facet
      */
     public $entries;
 }
-
-class_alias(FieldFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\FieldFacet');

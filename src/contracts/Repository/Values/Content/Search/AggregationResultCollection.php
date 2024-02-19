@@ -112,5 +112,3 @@ final class AggregationResultCollection implements Countable, IteratorAggregate
         return count($this->entries);
     }
 }
-
-class_alias(AggregationResultCollection::class, 'eZ\Publish\API\Repository\Values\Content\Search\AggregationResultCollection');

@@ -13,5 +13,3 @@ interface ParametersInjector
 {
     public function injectViewParameters(View $view, array $parameters);
 }
-
-class_alias(ParametersInjector::class, 'eZ\Publish\Core\MVC\Symfony\View\ParametersInjector');

@@ -23,5 +23,3 @@ class PathQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return 'location.path_string';
     }
 }
-
-class_alias(PathQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\PathQueryBuilder');

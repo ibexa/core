@@ -61,5 +61,3 @@ class Relation extends ValueObject
      */
     public $type;
 }
-
-class_alias(Relation::class, 'eZ\Publish\SPI\Persistence\Content\Relation');

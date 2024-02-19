@@ -51,5 +51,3 @@ abstract class BaseCoreFieldTypeIntegrationTest extends APIBaseTest
         }
     }
 }
-
-class_alias(BaseCoreFieldTypeIntegrationTest::class, 'eZ\Publish\Core\FieldType\Tests\Integration\BaseCoreFieldTypeIntegrationTest');

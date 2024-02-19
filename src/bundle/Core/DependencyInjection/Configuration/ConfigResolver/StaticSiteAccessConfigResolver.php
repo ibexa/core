@@ -44,5 +44,3 @@ class StaticSiteAccessConfigResolver extends SiteAccessConfigResolver
         return StaticSiteAccessProvider::class === $siteAccess->provider;
     }
 }
-
-class_alias(StaticSiteAccessConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver\StaticSiteAccessConfigResolver');

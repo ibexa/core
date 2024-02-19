@@ -44,5 +44,3 @@ class RoleUpdateStruct extends ValueObject
      */
     public $description = [];
 }
-
-class_alias(RoleUpdateStruct::class, 'eZ\Publish\SPI\Persistence\User\RoleUpdateStruct');

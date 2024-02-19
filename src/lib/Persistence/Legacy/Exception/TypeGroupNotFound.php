@@ -27,5 +27,3 @@ class TypeGroupNotFound extends NotFoundException
         );
     }
 }
-
-class_alias(TypeGroupNotFound::class, 'eZ\Publish\Core\Persistence\Legacy\Exception\TypeGroupNotFound');

@@ -162,5 +162,3 @@ final class UserCheckerTest extends TestCase
         $this->userChecker->checkPostAuth(new User($apiUser));
     }
 }
-
-class_alias(UserCheckerTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\UserCheckerTest');

@@ -298,5 +298,3 @@ class BlockingLimitationTypeTest extends Base
         );
     }
 }
-
-class_alias(BlockingLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\BlockingLimitationTypeTest');

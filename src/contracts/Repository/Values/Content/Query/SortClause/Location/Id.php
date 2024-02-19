@@ -29,5 +29,3 @@ class Id extends Location implements FilteringSortClause
         parent::__construct('location_id', $sortDirection);
     }
 }
-
-class_alias(Id::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Id');

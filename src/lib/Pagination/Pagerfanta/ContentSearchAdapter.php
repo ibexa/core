@@ -30,5 +30,3 @@ class ContentSearchAdapter extends ContentSearchHitAdapter
         return $list;
     }
 }
-
-class_alias(ContentSearchAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\ContentSearchAdapter');

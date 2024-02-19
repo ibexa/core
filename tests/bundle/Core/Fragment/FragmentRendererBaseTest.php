@@ -75,5 +75,3 @@ abstract class FragmentRendererBaseTest extends TestCase
 
     abstract public function getRenderer(): FragmentRendererInterface;
 }
-
-class_alias(FragmentRendererBaseTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Fragment\FragmentRendererBaseTest');

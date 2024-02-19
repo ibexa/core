@@ -381,5 +381,3 @@ EOT;
         );
     }
 }
-
-class_alias(DateAndTimeTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\DateAndTimeTest');

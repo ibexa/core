@@ -125,5 +125,3 @@ class IOConfigResolverTest extends TestCase
         $this->assertEquals('/path/to/ibexa/web/var/demo_site/legacy_storage', $ioConfigResolver->getRootDir());
     }
 }
-
-class_alias(IOConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\SiteAccess\Config\IOConfigResolverTest');

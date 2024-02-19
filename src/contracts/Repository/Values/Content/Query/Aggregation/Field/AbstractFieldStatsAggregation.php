@@ -26,5 +26,3 @@ abstract class AbstractFieldStatsAggregation extends AbstractStatsAggregation im
         $this->fieldDefinitionIdentifier = $fieldDefinitionIdentifier;
     }
 }
-
-class_alias(AbstractFieldStatsAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\AbstractFieldStatsAggregation');

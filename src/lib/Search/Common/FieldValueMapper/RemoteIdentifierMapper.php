@@ -23,5 +23,3 @@ class RemoteIdentifierMapper extends StringMapper
         return $field->getType() instanceof RemoteIdentifierField;
     }
 }
-
-class_alias(RemoteIdentifierMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper');

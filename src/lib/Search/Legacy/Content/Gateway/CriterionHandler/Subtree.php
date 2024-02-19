@@ -55,5 +55,3 @@ class Subtree extends CriterionHandler
         );
     }
 }
-
-class_alias(Subtree::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway\CriterionHandler\Subtree');

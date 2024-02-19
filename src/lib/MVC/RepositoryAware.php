@@ -21,5 +21,3 @@ abstract class RepositoryAware implements RepositoryAwareInterface
         $this->repository = $repository;
     }
 }
-
-class_alias(RepositoryAware::class, 'eZ\Publish\Core\MVC\RepositoryAware');

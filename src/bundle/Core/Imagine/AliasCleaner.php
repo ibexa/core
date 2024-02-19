@@ -24,5 +24,3 @@ class AliasCleaner implements AliasCleanerInterface
         $this->aliasResolver->remove([$originalPath], []);
     }
 }
-
-class_alias(AliasCleaner::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\AliasCleaner');

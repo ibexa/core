@@ -38,5 +38,3 @@ final class CreateNotificationEvent extends AfterEvent
         return $this->createStruct;
     }
 }
-
-class_alias(CreateNotificationEvent::class, 'eZ\Publish\API\Repository\Events\Notification\CreateNotificationEvent');

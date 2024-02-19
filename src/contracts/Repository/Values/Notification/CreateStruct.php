@@ -24,5 +24,3 @@ class CreateStruct extends ValueObject
     /** @var array */
     public $data = [];
 }
-
-class_alias(CreateStruct::class, 'eZ\Publish\API\Repository\Values\Notification\CreateStruct');

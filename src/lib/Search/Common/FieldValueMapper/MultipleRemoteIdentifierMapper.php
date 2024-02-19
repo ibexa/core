@@ -30,5 +30,3 @@ final class MultipleRemoteIdentifierMapper extends RemoteIdentifierMapper
         return $values;
     }
 }
-
-class_alias(MultipleRemoteIdentifierMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\MultipleRemoteIdentifierMapper');

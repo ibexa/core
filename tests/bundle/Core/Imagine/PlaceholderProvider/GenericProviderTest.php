@@ -101,5 +101,3 @@ class GenericProviderTest extends TestCase
         $this->assertEquals(strtolower($expected), strtolower((string)$actual));
     }
 }
-
-class_alias(GenericProviderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\PlaceholderProvider\GenericProviderTest');

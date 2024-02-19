@@ -313,5 +313,3 @@ class FieldNameResolver
         return reset($fieldName);
     }
 }
-
-class_alias(FieldNameResolver::class, 'eZ\Publish\Core\Search\Common\FieldNameResolver');

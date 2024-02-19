@@ -35,5 +35,3 @@ abstract class ProxyAwareDomainMapper
         $this->proxyFactory = $proxyFactory;
     }
 }
-
-class_alias(ProxyAwareDomainMapper::class, 'eZ\Publish\Core\Repository\Mapper\ProxyAwareDomainMapper');

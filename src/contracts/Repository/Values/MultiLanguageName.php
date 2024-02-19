@@ -46,5 +46,3 @@ interface MultiLanguageName
      */
     public function getName($languageCode = null);
 }
-
-class_alias(MultiLanguageName::class, 'eZ\Publish\SPI\Repository\Values\MultiLanguageName');

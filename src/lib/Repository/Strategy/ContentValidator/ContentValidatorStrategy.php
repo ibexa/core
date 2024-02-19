@@ -81,5 +81,3 @@ final class ContentValidatorStrategy implements ContentValidator
         return $fieldErrors;
     }
 }
-
-class_alias(ContentValidatorStrategy::class, 'eZ\Publish\Core\Repository\Strategy\ContentValidator\ContentValidatorStrategy');

@@ -73,5 +73,3 @@ abstract class ContentCreateStruct extends ContentStruct
      */
     public $modificationDate;
 }
-
-class_alias(ContentCreateStruct::class, 'eZ\Publish\API\Repository\Values\Content\ContentCreateStruct');

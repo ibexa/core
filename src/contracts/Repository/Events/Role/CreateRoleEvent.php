@@ -38,5 +38,3 @@ final class CreateRoleEvent extends AfterEvent
         return $this->roleDraft;
     }
 }
-
-class_alias(CreateRoleEvent::class, 'eZ\Publish\API\Repository\Events\Role\CreateRoleEvent');

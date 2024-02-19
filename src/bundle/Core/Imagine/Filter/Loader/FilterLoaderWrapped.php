@@ -21,5 +21,3 @@ abstract class FilterLoaderWrapped implements LoaderInterface
         $this->innerLoader = $innerLoader;
     }
 }
-
-class_alias(FilterLoaderWrapped::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\FilterLoaderWrapped');

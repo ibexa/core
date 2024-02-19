@@ -78,5 +78,3 @@ abstract class MigrationHandler implements MigrationHandlerInterface
         $this->logInfo("File with id $id not found");
     }
 }
-
-class_alias(MigrationHandler::class, 'eZ\Bundle\EzPublishIOBundle\Migration\MigrationHandler');

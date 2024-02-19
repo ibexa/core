@@ -24,5 +24,3 @@ class FlysystemTest extends BaseFlysystemTest
         return 'ibexa.core.io.binarydata_handler.flysystem';
     }
 }
-
-class_alias(FlysystemTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactory\BinarydataHandler\FlysystemTest');

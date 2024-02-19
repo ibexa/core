@@ -46,5 +46,3 @@ interface SearchResultAdapter extends AdapterInterface
      */
     public function getMaxScore(): ?float;
 }
-
-class_alias(SearchResultAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\SearchResultAdapter');

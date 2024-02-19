@@ -53,5 +53,3 @@ class MailToHandler extends AbstractConfigResolverBasedURLHandler
         return $resolver;
     }
 }
-
-class_alias(MailToHandler::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\Handler\MailToHandler');

@@ -45,5 +45,3 @@ class Registry
         $this->viewProviders = $viewProviders;
     }
 }
-
-class_alias(Registry::class, 'eZ\Publish\Core\MVC\Symfony\View\Provider\Registry');

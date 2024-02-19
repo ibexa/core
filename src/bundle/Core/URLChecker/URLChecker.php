@@ -95,5 +95,3 @@ class URLChecker implements URLCheckerInterface
         return $grouped;
     }
 }
-
-class_alias(URLChecker::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\URLChecker');

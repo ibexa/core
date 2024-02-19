@@ -54,5 +54,3 @@ class ContentTypeGroupId extends CriterionHandler
         );
     }
 }
-
-class_alias(ContentTypeGroupId::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeGroupId');

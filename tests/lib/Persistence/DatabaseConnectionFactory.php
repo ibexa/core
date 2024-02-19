@@ -85,5 +85,3 @@ class DatabaseConnectionFactory
         return self::$connectionPool[$databaseURL];
     }
 }
-
-class_alias(DatabaseConnectionFactory::class, 'eZ\Publish\Core\Persistence\Tests\DatabaseConnectionFactory');

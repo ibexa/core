@@ -35,5 +35,3 @@ interface VersatileMatcher extends Matcher
      */
     public function getRequest();
 }
-
-class_alias(VersatileMatcher::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\VersatileMatcher');

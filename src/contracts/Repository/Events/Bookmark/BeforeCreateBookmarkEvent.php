@@ -26,5 +26,3 @@ final class BeforeCreateBookmarkEvent extends BeforeEvent
         return $this->location;
     }
 }
-
-class_alias(BeforeCreateBookmarkEvent::class, 'eZ\Publish\API\Repository\Events\Bookmark\BeforeCreateBookmarkEvent');

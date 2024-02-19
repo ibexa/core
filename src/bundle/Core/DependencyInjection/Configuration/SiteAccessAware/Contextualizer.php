@@ -385,5 +385,3 @@ class Contextualizer implements ContextualizerInterface
         return $mergedSettings;
     }
 }
-
-class_alias(Contextualizer::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\Contextualizer');

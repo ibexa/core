@@ -272,5 +272,3 @@ class Handler implements BaseUrlWildcardHandler
         return $destinationUrl;
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Handler');

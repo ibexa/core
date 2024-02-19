@@ -782,5 +782,3 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
         }
     }
 }
-
-class_alias(SearchMultivaluedBaseIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\SearchMultivaluedBaseIntegrationTest');

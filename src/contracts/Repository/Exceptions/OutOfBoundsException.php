@@ -14,5 +14,3 @@ use OutOfBoundsException as BaseOutOfBoundsException;
 class OutOfBoundsException extends BaseOutOfBoundsException implements RepositoryException
 {
 }
-
-class_alias(OutOfBoundsException::class, 'eZ\Publish\API\Repository\Exceptions\OutOfBoundsException');

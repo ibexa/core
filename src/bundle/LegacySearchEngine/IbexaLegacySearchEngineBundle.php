@@ -34,5 +34,3 @@ class IbexaLegacySearchEngineBundle extends Bundle
         return $this->extension;
     }
 }
-
-class_alias(IbexaLegacySearchEngineBundle::class, 'eZ\Bundle\EzPublishLegacySearchEngineBundle\EzPublishLegacySearchEngineBundle');

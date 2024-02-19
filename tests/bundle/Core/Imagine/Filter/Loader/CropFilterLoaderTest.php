@@ -66,5 +66,3 @@ class CropFilterLoaderTest extends TestCase
         $this->assertSame($image, $this->loader->load($image, [$width, $height, $offsetX, $offsetY]));
     }
 }
-
-class_alias(CropFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\CropFilterLoaderTest');

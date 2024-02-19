@@ -69,5 +69,3 @@ class TransformationProcessorDefinitionBasedTest extends TestCase
         );
     }
 }
-
-class_alias(TransformationProcessorDefinitionBasedTest::class, 'eZ\Publish\Core\Persistence\Tests\TransformationProcessor\TransformationProcessorDefinitionBasedTest');

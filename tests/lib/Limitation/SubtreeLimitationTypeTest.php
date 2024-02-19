@@ -576,5 +576,3 @@ class SubtreeLimitationTypeTest extends Base
         );
     }
 }
-
-class_alias(SubtreeLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\SubtreeLimitationTypeTest');

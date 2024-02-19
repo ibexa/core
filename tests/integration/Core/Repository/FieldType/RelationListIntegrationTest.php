@@ -411,5 +411,3 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return [13, 14];
     }
 }
-
-class_alias(RelationListIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\RelationListIntegrationTest');

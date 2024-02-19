@@ -155,5 +155,3 @@ class DoctrineDatabaseTest extends TestCase
         return $this->contentUpdaterMock;
     }
 }
-
-class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Type\Update\Handler\DoctrineDatabaseTest');

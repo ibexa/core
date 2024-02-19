@@ -50,5 +50,3 @@ final class BeforeDeleteTrashItemEvent extends BeforeEvent
         return $this->result instanceof TrashItemDeleteResult;
     }
 }
-
-class_alias(BeforeDeleteTrashItemEvent::class, 'eZ\Publish\API\Repository\Events\Trash\BeforeDeleteTrashItemEvent');

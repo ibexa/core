@@ -32,5 +32,3 @@ class ContentTypeGroup extends APIContentTypeGroup
     use MultiLanguageNameTrait;
     use MultiLanguageDescriptionTrait;
 }
-
-class_alias(ContentTypeGroup::class, 'eZ\Publish\Core\Repository\Values\ContentType\ContentTypeGroup');

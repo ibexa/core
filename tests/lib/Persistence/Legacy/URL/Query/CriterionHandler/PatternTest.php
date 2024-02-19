@@ -59,5 +59,3 @@ class PatternTest extends CriterionHandlerTest
         $this->assertEquals($expected, $actual);
     }
 }
-
-class_alias(PatternTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriterionHandler\PatternTest');

@@ -23,5 +23,3 @@ interface MatcherBuilderInterface
      */
     public function buildMatcher($matcherIdentifier, $matchingConfiguration, SimplifiedRequest $request);
 }
-
-class_alias(MatcherBuilderInterface::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface');

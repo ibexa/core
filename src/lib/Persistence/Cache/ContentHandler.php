@@ -687,5 +687,3 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         );
     }
 }
-
-class_alias(ContentHandler::class, 'eZ\Publish\Core\Persistence\Cache\ContentHandler');

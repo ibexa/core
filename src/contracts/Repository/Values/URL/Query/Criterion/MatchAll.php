@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 class MatchAll extends Matcher
 {
 }
-
-class_alias(MatchAll::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\MatchAll');

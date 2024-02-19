@@ -85,5 +85,3 @@ class MapLocationConverter implements Converter
         return 'sort_key_string';
     }
 }
-
-class_alias(MapLocationConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\MapLocationConverter');

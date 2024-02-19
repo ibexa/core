@@ -54,5 +54,3 @@ class AnonymousAuthenticationProviderTest extends TestCase
         $this->assertSame($anonymousToken, $authProvider->authenticate($anonymousToken));
     }
 }
-
-class_alias(AnonymousAuthenticationProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\Authentication\AnonymousAuthenticationProviderTest');

@@ -34,5 +34,3 @@ class RelativeResolver extends ImagineProxyResolver
         return parse_url($url, PHP_URL_PATH);
     }
 }
-
-class_alias(RelativeResolver::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Cache\Resolver\RelativeResolver');

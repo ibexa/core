@@ -24,5 +24,3 @@ abstract class UserGroup extends Content
      */
     protected $parentId;
 }
-
-class_alias(UserGroup::class, 'eZ\Publish\API\Repository\Values\User\UserGroup');

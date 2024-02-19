@@ -22,5 +22,3 @@ class URL extends SortClause
         parent::__construct('url', $sortDirection);
     }
 }
-
-class_alias(URL::class, 'eZ\Publish\API\Repository\Values\URL\Query\SortClause\URL');

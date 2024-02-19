@@ -43,5 +43,3 @@ final class RandomSortClauseParser implements SortClauseParserInterface
         return $name === self::SUPPORTED_CLAUSE_NAME;
     }
 }
-
-class_alias(RandomSortClauseParser::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\RandomSortClauseParser');

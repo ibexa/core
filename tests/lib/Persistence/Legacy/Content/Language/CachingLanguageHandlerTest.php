@@ -356,5 +356,3 @@ class CachingLanguageHandlerTest extends TestCase
         return [$langUs, $langGb];
     }
 }
-
-class_alias(CachingLanguageHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Language\CachingLanguageHandlerTest');

@@ -40,5 +40,3 @@ final class IdQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(IdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Section\IdQueryBuilder');

@@ -91,5 +91,3 @@ class Value extends BaseValue
         return $this->date->format($this->stringFormat);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Date\Value');

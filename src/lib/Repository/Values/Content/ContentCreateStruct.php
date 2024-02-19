@@ -54,5 +54,3 @@ class ContentCreateStruct extends APIContentCreateStruct
         );
     }
 }
-
-class_alias(ContentCreateStruct::class, 'eZ\Publish\Core\Repository\Values\Content\ContentCreateStruct');

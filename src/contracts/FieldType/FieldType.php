@@ -379,5 +379,3 @@ abstract class FieldType
      */
     abstract public function getRelations(Value $value);
 }
-
-class_alias(FieldType::class, 'eZ\Publish\SPI\FieldType\FieldType');

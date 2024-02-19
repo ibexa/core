@@ -40,5 +40,3 @@ final class EntityManagerFactoryServiceLocatorPass implements CompilerPassInterf
         return $entityManagers;
     }
 }
-
-class_alias(EntityManagerFactoryServiceLocatorPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\EntityManagerFactoryServiceLocatorPass');

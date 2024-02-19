@@ -55,5 +55,3 @@ final class ContentItem extends ValueObject
         return $this->type;
     }
 }
-
-class_alias(ContentItem::class, 'eZ\Publish\SPI\Persistence\Content\ContentItem');

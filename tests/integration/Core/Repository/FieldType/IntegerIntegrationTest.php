@@ -317,5 +317,3 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(IntegerIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\IntegerIntegrationTest');

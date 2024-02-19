@@ -29,5 +29,3 @@ class CompositeCriterion extends CriterionHandler
         return $converter->convertCriteria($queryBuilder, $criterion->criteria, $languageSettings);
     }
 }
-
-class_alias(CompositeCriterion::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\CompositeCriterion');

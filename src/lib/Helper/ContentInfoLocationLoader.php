@@ -25,5 +25,3 @@ interface ContentInfoLocationLoader
      */
     public function loadLocation(ContentInfo $contentInfo);
 }
-
-class_alias(ContentInfoLocationLoader::class, 'eZ\Publish\Core\Helper\ContentInfoLocationLoader');

@@ -27,5 +27,3 @@ class RoleNotFound extends NotFoundException
         );
     }
 }
-
-class_alias(RoleNotFound::class, 'eZ\Publish\Core\Persistence\Legacy\Exception\RoleNotFound');

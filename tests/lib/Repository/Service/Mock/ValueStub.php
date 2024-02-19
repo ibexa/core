@@ -31,5 +31,3 @@ class ValueStub extends BaseValue
         return (string)$this->value;
     }
 }
-
-class_alias(ValueStub::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\ValueStub');

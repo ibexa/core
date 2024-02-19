@@ -37,5 +37,3 @@ trait SerializerTrait
         );
     }
 }
-
-class_alias(SerializerTrait::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\SerializerTrait');

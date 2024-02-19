@@ -32,5 +32,3 @@ interface ViewMatcherInterface
      */
     public function match(View $view);
 }
-
-class_alias(ViewMatcherInterface::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ViewMatcherInterface');

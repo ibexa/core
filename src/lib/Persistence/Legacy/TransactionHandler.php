@@ -88,5 +88,3 @@ class TransactionHandler implements TransactionHandlerInterface
         }
     }
 }
-
-class_alias(TransactionHandler::class, 'eZ\Publish\Core\Persistence\Legacy\TransactionHandler');

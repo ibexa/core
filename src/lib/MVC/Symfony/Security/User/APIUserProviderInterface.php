@@ -23,5 +23,3 @@ interface APIUserProviderInterface extends UserProviderInterface
      */
     public function loadUserByAPIUser(APIUser $apiUser);
 }
-
-class_alias(APIUserProviderInterface::class, 'eZ\Publish\Core\MVC\Symfony\Security\User\APIUserProviderInterface');

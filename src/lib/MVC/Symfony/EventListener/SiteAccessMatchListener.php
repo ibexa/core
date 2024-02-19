@@ -207,5 +207,3 @@ class SiteAccessMatchListener implements EventSubscriberInterface
         return $matcher;
     }
 }
-
-class_alias(SiteAccessMatchListener::class, 'eZ\Publish\Core\MVC\Symfony\EventListener\SiteAccessMatchListener');

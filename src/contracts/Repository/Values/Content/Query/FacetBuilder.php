@@ -52,5 +52,3 @@ abstract class FacetBuilder extends ValueObject
      */
     public $minCount = 1;
 }
-
-class_alias(FacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder');

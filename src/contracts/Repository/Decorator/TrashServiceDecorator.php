@@ -58,5 +58,3 @@ abstract class TrashServiceDecorator implements TrashService
         return $this->innerService->findTrashItems($query);
     }
 }
-
-class_alias(TrashServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\TrashServiceDecorator');

@@ -21,5 +21,3 @@ class URLWildcardStruct extends ValueObject
     /** @var bool */
     public $forward;
 }
-
-class_alias(URLWildcardStruct::class, 'eZ\Publish\API\Repository\Values\Content\URLWildcardStruct');

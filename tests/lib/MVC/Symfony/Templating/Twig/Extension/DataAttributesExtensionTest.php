@@ -25,5 +25,3 @@ class DataAttributesExtensionTest extends IntegrationTestCase
         return __DIR__ . '/_fixtures/filters';
     }
 }
-
-class_alias(DataAttributesExtensionTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\Extension\DataAttributesExtensionTest');

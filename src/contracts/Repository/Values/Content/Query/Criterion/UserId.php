@@ -39,5 +39,3 @@ class UserId extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(UserId::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\UserId');

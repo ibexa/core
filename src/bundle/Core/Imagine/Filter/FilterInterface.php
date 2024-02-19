@@ -52,5 +52,3 @@ interface FilterInterface extends BaseFilterInterface
      */
     public function getOptions();
 }
-
-class_alias(FilterInterface::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\FilterInterface');

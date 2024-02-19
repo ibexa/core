@@ -306,5 +306,3 @@ class ISBNTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(ISBNTest::class, 'eZ\Publish\Core\FieldType\Tests\ISBNTest');

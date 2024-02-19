@@ -26,5 +26,3 @@ trait FieldAggregationTrait
         return $this->fieldDefinitionIdentifier;
     }
 }
-
-class_alias(FieldAggregationTrait::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\FieldAggregationTrait');

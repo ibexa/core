@@ -32,5 +32,3 @@ class PropertyNotFoundException extends Exception implements RepositoryException
         }
     }
 }
-
-class_alias(PropertyNotFoundException::class, 'eZ\Publish\API\Repository\Exceptions\PropertyNotFoundException');

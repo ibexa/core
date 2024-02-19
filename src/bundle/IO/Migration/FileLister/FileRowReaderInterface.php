@@ -32,5 +32,3 @@ interface FileRowReaderInterface
      */
     public function getCount();
 }
-
-class_alias(FileRowReaderInterface::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileRowReaderInterface');

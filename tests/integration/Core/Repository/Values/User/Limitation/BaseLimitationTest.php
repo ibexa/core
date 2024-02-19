@@ -131,5 +131,3 @@ abstract class BaseLimitationTest extends BaseTest
         return $roleService->loadRoleByIdentifier($roleIdentifier);
     }
 }
-
-class_alias(BaseLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\BaseLimitationTest');

@@ -115,5 +115,3 @@ class Handler implements HandlerInterface
         $this->gateway->delete($notification->id);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Notification\Handler');

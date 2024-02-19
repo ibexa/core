@@ -166,5 +166,3 @@ class IbexaCoreCollectorTest extends TestCase
         return $this->createMock(DataCollectorInterface::class);
     }
 }
-
-class_alias(IbexaCoreCollectorTest::class, 'eZ\Bundle\EzPublishDebugBundle\Tests\Collector\EzPublishCoreCollectorTest');

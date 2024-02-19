@@ -40,5 +40,3 @@ class ObjectStateIdentifier extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(ObjectStateIdentifier::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ObjectStateIdentifier');

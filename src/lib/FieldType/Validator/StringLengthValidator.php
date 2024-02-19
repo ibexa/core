@@ -137,5 +137,3 @@ class StringLengthValidator extends Validator
         return $isValid;
     }
 }
-
-class_alias(StringLengthValidator::class, 'eZ\Publish\Core\FieldType\Validator\StringLengthValidator');

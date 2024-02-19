@@ -39,5 +39,3 @@ class FieldTypesTranslationExtractor implements ExtractorInterface
         return $catalogue;
     }
 }
-
-class_alias(FieldTypesTranslationExtractor::class, 'eZ\Publish\Core\MVC\Symfony\Translation\FieldTypesTranslationExtractor');

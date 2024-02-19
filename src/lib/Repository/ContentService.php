@@ -2647,5 +2647,3 @@ class ContentService implements ContentServiceInterface
         return $this->contentFilteringHandler->count($filter);
     }
 }
-
-class_alias(ContentService::class, 'eZ\Publish\Core\Repository\ContentService');

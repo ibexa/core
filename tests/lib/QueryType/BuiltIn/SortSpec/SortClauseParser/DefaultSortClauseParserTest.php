@@ -69,5 +69,3 @@ final class DefaultSortClauseParserTest extends TestCase
         $this->assertFalse($this->defaultSortClauseParser->supports('unsupported'));
     }
 }
-
-class_alias(DefaultSortClauseParserTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortClauseParser\DefaultSortClauseParserTest');

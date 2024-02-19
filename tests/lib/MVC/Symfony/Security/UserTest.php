@@ -129,5 +129,3 @@ class UserTest extends TestCase
         $this->assertSame($fullName, (string)$user);
     }
 }
-
-class_alias(UserTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\UserTest');

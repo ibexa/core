@@ -76,5 +76,3 @@ class Policy extends ValueObject
      */
     public $limitations;
 }
-
-class_alias(Policy::class, 'eZ\Publish\SPI\Persistence\User\Policy');

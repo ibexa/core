@@ -32,5 +32,3 @@ class CropFilterLoader extends FilterLoaderWrapped
         );
     }
 }
-
-class_alias(CropFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\CropFilterLoader');

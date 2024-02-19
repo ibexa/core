@@ -26,5 +26,3 @@ final class BeforeDeleteBookmarkEvent extends BeforeEvent
         return $this->location;
     }
 }
-
-class_alias(BeforeDeleteBookmarkEvent::class, 'eZ\Publish\API\Repository\Events\Bookmark\BeforeDeleteBookmarkEvent');

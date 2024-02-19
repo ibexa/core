@@ -20,5 +20,3 @@ class TextField extends FieldType
      */
     protected $type = 'ez_text';
 }
-
-class_alias(TextField::class, 'eZ\Publish\SPI\Search\FieldType\TextField');

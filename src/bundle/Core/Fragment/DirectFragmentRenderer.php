@@ -160,5 +160,3 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
         return self::NAME;
     }
 }
-
-class_alias(DirectFragmentRenderer::class, 'eZ\Bundle\EzPublishCoreBundle\Fragment\DirectFragmentRenderer');

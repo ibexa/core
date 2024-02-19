@@ -116,5 +116,3 @@ class ContentFieldStrategyTest extends TestCase
         $contentFieldStrategy->getThumbnail($field);
     }
 }
-
-class_alias(ContentFieldStrategyTest::class, 'eZ\Publish\Core\Repository\Tests\ContentThumbnail\ContentFieldStrategyTest');

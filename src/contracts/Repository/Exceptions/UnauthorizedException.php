@@ -17,5 +17,3 @@ use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
 abstract class UnauthorizedException extends Exception implements RepositoryException
 {
 }
-
-class_alias(UnauthorizedException::class, 'eZ\Publish\API\Repository\Exceptions\UnauthorizedException');

@@ -161,5 +161,3 @@ class ContentLanguageHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 }
-
-class_alias(ContentLanguageHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\ContentLanguageHandlerTest');

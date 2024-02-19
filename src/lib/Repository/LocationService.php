@@ -1021,5 +1021,3 @@ class LocationService implements LocationServiceInterface
         }
     }
 }
-
-class_alias(LocationService::class, 'eZ\Publish\Core\Repository\LocationService');

@@ -138,5 +138,3 @@ final class QueryRenderControllerTest extends TestCase
         );
     }
 }
-
-class_alias(QueryRenderControllerTest::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Tests\QueryRenderControllerTest');

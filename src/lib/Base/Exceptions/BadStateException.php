@@ -34,5 +34,3 @@ class BadStateException extends APIBadStateException implements Translatable
         parent::__construct($this->getBaseTranslation(), 0, $previous);
     }
 }
-
-class_alias(BadStateException::class, 'eZ\Publish\Core\Base\Exceptions\BadStateException');

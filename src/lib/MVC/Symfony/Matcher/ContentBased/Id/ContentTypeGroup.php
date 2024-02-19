@@ -66,5 +66,3 @@ class ContentTypeGroup extends MultipleValued
         return false;
     }
 }
-
-class_alias(ContentTypeGroup::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentTypeGroup');

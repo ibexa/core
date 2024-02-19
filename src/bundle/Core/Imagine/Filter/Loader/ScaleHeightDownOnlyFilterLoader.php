@@ -32,5 +32,3 @@ class ScaleHeightDownOnlyFilterLoader extends FilterLoaderWrapped
         );
     }
 }
-
-class_alias(ScaleHeightDownOnlyFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoader');

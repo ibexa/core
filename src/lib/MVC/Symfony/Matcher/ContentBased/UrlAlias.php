@@ -78,5 +78,3 @@ class UrlAlias extends MultipleValued
         return $this->matchLocation($view->getLocation());
     }
 }
-
-class_alias(UrlAlias::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias');

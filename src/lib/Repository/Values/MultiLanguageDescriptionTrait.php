@@ -46,5 +46,3 @@ trait MultiLanguageDescriptionTrait
             : reset($this->descriptions);
     }
 }
-
-class_alias(MultiLanguageDescriptionTrait::class, 'eZ\Publish\Core\Repository\Values\MultiLanguageDescriptionTrait');

@@ -138,5 +138,3 @@ class HttpUtilsTest extends TestCase
         ];
     }
 }
-
-class_alias(HttpUtilsTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\HttpUtilsTest');

@@ -53,5 +53,3 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
         );
     }
 }
-
-class_alias(LegacyDFSClusterTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactory\MetadataHandler\LegacyDFSClusterTest');

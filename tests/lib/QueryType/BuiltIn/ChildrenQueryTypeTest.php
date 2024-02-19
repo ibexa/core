@@ -154,5 +154,3 @@ final class ChildrenQueryTypeTest extends AbstractQueryTypeTest
         return ['filter', 'offset', 'limit', 'sort', 'location', 'content'];
     }
 }
-
-class_alias(ChildrenQueryTypeTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\ChildrenQueryTypeTest');

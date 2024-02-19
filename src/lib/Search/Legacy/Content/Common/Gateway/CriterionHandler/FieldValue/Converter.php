@@ -76,5 +76,3 @@ class Converter
         return $this->defaultHandler->handle($outerQuery, $subQuery, $criterion, $column);
     }
 }
-
-class_alias(Converter::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter');

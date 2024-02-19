@@ -13,5 +13,3 @@ interface ViewProvider
      */
     public function getView(View $view);
 }
-
-class_alias(ViewProvider::class, 'eZ\Publish\Core\MVC\Symfony\View\ViewProvider');

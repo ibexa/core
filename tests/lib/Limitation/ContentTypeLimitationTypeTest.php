@@ -455,5 +455,3 @@ class ContentTypeLimitationTypeTest extends Base
         );
     }
 }
-
-class_alias(ContentTypeLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\ContentTypeLimitationTypeTest');

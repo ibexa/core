@@ -60,5 +60,3 @@ interface FieldBlockRendererInterface
      */
     public function renderFieldDefinitionEdit(FieldDefinition $fieldDefinition, array $params = []);
 }
-
-class_alias(FieldBlockRendererInterface::class, 'eZ\Publish\Core\MVC\Symfony\Templating\FieldBlockRendererInterface');

@@ -378,5 +378,3 @@ class NewObjectStateLimitationTypeTest extends Base
         );
     }
 }
-
-class_alias(NewObjectStateLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\NewObjectStateLimitationTypeTest');

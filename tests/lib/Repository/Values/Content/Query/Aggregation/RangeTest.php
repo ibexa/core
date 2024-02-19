@@ -135,5 +135,3 @@ final class RangeTest extends TestCase
         ];
     }
 }
-
-class_alias(RangeTest::class, 'eZ\Publish\API\Repository\Tests\Values\Content\Query\Aggregation\RangeTest');

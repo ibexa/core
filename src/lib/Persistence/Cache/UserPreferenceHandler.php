@@ -112,5 +112,3 @@ class UserPreferenceHandler extends AbstractInMemoryPersistenceHandler implement
         return $this->persistenceHandler->userPreferenceHandler()->loadUserPreferences($userId, $offset, $limit);
     }
 }
-
-class_alias(UserPreferenceHandler::class, 'eZ\Publish\Core\Persistence\Cache\UserPreferenceHandler');

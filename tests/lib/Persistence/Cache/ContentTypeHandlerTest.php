@@ -474,5 +474,3 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
         call_user_func_array([$handler, $method], $arguments);
     }
 }
-
-class_alias(ContentTypeHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\ContentTypeHandlerTest');

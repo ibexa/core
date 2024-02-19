@@ -70,5 +70,3 @@ final class ContentFilteringAdapterTest extends TestCase
         self::assertSame(0, $originalFilter->getLimit());
     }
 }
-
-class_alias(ContentFilteringAdapterTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter\ContentFilteringAdapterTest');

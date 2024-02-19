@@ -249,5 +249,3 @@ class SecurityListener implements EventSubscriberInterface
         );
     }
 }
-
-class_alias(SecurityListener::class, 'eZ\Publish\Core\MVC\Symfony\Security\EventListener\SecurityListener');

@@ -99,5 +99,3 @@ class Handler implements HandlerInterface
         $this->gateway->locationSwapped($location1Id, $location2Id);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Handler');

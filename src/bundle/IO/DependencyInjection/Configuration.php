@@ -76,5 +76,3 @@ class Configuration implements ConfigurationInterface
         }
     }
 }
-
-class_alias(Configuration::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\Configuration');

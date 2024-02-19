@@ -53,5 +53,3 @@ class ConnectionFactory implements ContainerAwareInterface
         return $this->container->get($doctrineConnectionId);
     }
 }
-
-class_alias(ConnectionFactory::class, 'eZ\Bundle\EzPublishLegacySearchEngineBundle\ApiLoader\ConnectionFactory');

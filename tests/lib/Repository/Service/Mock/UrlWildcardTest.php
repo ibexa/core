@@ -774,5 +774,3 @@ class UrlWildcardTest extends BaseServiceMockTest
             ->getMock();
     }
 }
-
-class_alias(UrlWildcardTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UrlWildcardTest');

@@ -51,5 +51,3 @@ class ContentTypeIdentifier extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(ContentTypeIdentifier::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier');

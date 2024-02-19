@@ -34,5 +34,3 @@ class CrowdinRequestLocaleSubscriber implements EventSubscriberInterface
         $e->getRequest()->headers->set('accept-language', 'ach-UG');
     }
 }
-
-class_alias(CrowdinRequestLocaleSubscriber::class, 'eZ\Bundle\EzPublishCoreBundle\EventSubscriber\CrowdinRequestLocaleSubscriber');

@@ -121,5 +121,3 @@ class IOConfigurationPass implements CompilerPassInterface
         return $factories[$type];
     }
 }
-
-class_alias(IOConfigurationPass::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\Compiler\IOConfigurationPass');

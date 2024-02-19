@@ -36,5 +36,3 @@ final class BeforeAssignContentTypeGroupEvent extends BeforeEvent
         return $this->contentTypeGroup;
     }
 }
-
-class_alias(BeforeAssignContentTypeGroupEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeAssignContentTypeGroupEvent');

@@ -787,5 +787,3 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
         return $mappedFields;
     }
 }
-
-class_alias(NonRedundantFieldSetTest::class, 'eZ\Publish\API\Repository\Tests\NonRedundantFieldSetTest');

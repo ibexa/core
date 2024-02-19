@@ -264,5 +264,3 @@ class URLService implements URLServiceInterface
         return null;
     }
 }
-
-class_alias(URLService::class, 'eZ\Publish\Core\Repository\URLService');

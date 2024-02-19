@@ -306,5 +306,3 @@ class RepositoryTest extends BaseTest
         $repository->rollback();
     }
 }
-
-class_alias(RepositoryTest::class, 'eZ\Publish\API\Repository\Tests\RepositoryTest');

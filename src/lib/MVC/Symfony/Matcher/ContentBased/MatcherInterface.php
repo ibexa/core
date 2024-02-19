@@ -33,5 +33,3 @@ interface MatcherInterface extends ViewMatcherInterface
      */
     public function matchContentInfo(ContentInfo $contentInfo);
 }
-
-class_alias(MatcherInterface::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\MatcherInterface');

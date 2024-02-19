@@ -57,5 +57,3 @@ abstract class Gateway
         string $identifier
     ): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Setting\Gateway');

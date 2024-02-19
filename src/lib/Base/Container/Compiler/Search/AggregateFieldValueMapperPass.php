@@ -39,5 +39,3 @@ class AggregateFieldValueMapperPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(AggregateFieldValueMapperPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Search\AggregateFieldValueMapperPass');

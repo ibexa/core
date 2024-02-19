@@ -29,5 +29,3 @@ final class ViewEvents
      */
     public const FILTER_VIEW_PARAMETERS = 'view.parameters_injection';
 }
-
-class_alias(ViewEvents::class, 'eZ\Publish\Core\MVC\Symfony\View\ViewEvents');

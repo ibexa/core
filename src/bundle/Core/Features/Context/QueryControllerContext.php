@@ -90,5 +90,3 @@ class QueryControllerContext extends RawMinkContext
         return $items;
     }
 }
-
-class_alias(QueryControllerContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\QueryControllerContext');

@@ -34,5 +34,3 @@ class NativeSessionHandler extends \SessionHandler
         }
     }
 }
-
-class_alias(NativeSessionHandler::class, 'eZ\Bundle\EzPublishCoreBundle\Session\Handler\NativeSessionHandler');

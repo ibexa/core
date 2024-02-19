@@ -84,5 +84,3 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTest
         ];
     }
 }
-
-class_alias(EZP22958SearchSubtreePathstringFormatTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP22958SearchSubtreePathstringFormatTest');

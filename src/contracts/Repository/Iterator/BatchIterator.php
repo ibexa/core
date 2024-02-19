@@ -98,5 +98,3 @@ final class BatchIterator implements Iterator
         return $this->adapter->fetch($this->position, $this->batchSize);
     }
 }
-
-class_alias(BatchIterator::class, 'eZ\Publish\API\Repository\Iterator\BatchIterator');

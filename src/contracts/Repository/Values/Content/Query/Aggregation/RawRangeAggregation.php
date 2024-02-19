@@ -41,5 +41,3 @@ final class RawRangeAggregation extends AbstractRangeAggregation implements RawA
         return new self($name, $fieldName, $ranges);
     }
 }
-
-class_alias(RawRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\RawRangeAggregation');

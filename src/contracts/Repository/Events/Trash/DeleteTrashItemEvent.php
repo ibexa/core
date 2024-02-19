@@ -38,5 +38,3 @@ final class DeleteTrashItemEvent extends AfterEvent
         return $this->result;
     }
 }
-
-class_alias(DeleteTrashItemEvent::class, 'eZ\Publish\API\Repository\Events\Trash\DeleteTrashItemEvent');

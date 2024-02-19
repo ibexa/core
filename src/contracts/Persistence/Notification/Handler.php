@@ -71,5 +71,3 @@ interface Handler
      */
     public function delete(APINotification $notification): void;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Notification\Handler');

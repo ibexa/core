@@ -21,5 +21,3 @@ abstract class LimitationValidationException extends ForbiddenException
      */
     abstract public function getLimitationErrors();
 }
-
-class_alias(LimitationValidationException::class, 'eZ\Publish\API\Repository\Exceptions\LimitationValidationException');

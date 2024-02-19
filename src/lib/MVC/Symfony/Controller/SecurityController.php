@@ -41,5 +41,3 @@ class SecurityController
         return $view;
     }
 }
-
-class_alias(SecurityController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\SecurityController');

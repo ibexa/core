@@ -39,5 +39,3 @@ final class IOConfigResolver implements IOConfigProvider
         return $this->complexConfigProcessor->processComplexSetting('io.url_prefix');
     }
 }
-
-class_alias(IOConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\Config\IOConfigResolver');

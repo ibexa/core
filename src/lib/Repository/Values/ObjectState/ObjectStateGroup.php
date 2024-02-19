@@ -64,5 +64,3 @@ class ObjectStateGroup extends APIObjectStateGroup
         return parent::__isset($property);
     }
 }
-
-class_alias(ObjectStateGroup::class, 'eZ\Publish\Core\Repository\Values\ObjectState\ObjectStateGroup');

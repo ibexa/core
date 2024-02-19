@@ -141,5 +141,3 @@ class EZP21109EzIntegerTest extends BaseTest
         }
     }
 }
-
-class_alias(EZP21109EzIntegerTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP21109EzIntegerTest');

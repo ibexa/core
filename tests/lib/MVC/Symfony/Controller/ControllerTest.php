@@ -72,5 +72,3 @@ class ControllerTest extends TestCase
         self::assertSame($tplResult, $response->getContent());
     }
 }
-
-class_alias(ControllerTest::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Tests\ControllerTest');

@@ -30,5 +30,3 @@ class MatchAll extends Criterion implements FilteringCriterion, TrashCriterion
         return [];
     }
 }
-
-class_alias(MatchAll::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\MatchAll');

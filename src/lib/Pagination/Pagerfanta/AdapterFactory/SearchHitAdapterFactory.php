@@ -49,5 +49,3 @@ final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
         return new FixedSearchResultHitAdapter($searchResults);
     }
 }
-
-class_alias(SearchHitAdapterFactory::class, 'eZ\Publish\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory');

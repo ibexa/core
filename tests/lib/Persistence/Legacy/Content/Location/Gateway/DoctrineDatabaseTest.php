@@ -1479,5 +1479,3 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 }
-
-class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Location\Gateway\DoctrineDatabaseTest');

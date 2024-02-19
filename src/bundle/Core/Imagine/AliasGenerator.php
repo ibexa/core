@@ -165,5 +165,3 @@ class AliasGenerator implements VariationHandler
         return $value instanceof ImageValue;
     }
 }
-
-class_alias(AliasGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\AliasGenerator');

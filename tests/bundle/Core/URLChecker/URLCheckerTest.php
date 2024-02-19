@@ -166,5 +166,3 @@ class URLCheckerTest extends TestCase
         return $urlChecker;
     }
 }
-
-class_alias(URLCheckerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\URLChecker\URLCheckerTest');

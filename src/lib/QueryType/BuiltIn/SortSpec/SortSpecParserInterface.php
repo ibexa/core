@@ -24,5 +24,3 @@ interface SortSpecParserInterface
 
     public function matchAnyOf(string ...$types): Token;
 }
-
-class_alias(SortSpecParserInterface::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortSpecParserInterface');

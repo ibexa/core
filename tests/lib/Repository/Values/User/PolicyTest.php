@@ -92,5 +92,3 @@ class PolicyTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(PolicyTest::class, 'eZ\Publish\Core\Repository\Tests\Values\User\PolicyTest');

@@ -44,5 +44,3 @@ class FileInfoTest extends TestCase
         );
     }
 }
-
-class_alias(FileInfoTest::class, 'eZ\Publish\Core\IO\Tests\MimeTypeDetector\FileInfoTest');

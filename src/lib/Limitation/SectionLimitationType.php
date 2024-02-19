@@ -179,5 +179,3 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(SectionLimitationType::class, 'eZ\Publish\Core\Limitation\SectionLimitationType');

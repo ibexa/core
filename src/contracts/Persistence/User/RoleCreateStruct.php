@@ -26,5 +26,3 @@ class RoleCreateStruct extends ValueObject
      */
     public $policies = [];
 }
-
-class_alias(RoleCreateStruct::class, 'eZ\Publish\SPI\Persistence\User\RoleCreateStruct');

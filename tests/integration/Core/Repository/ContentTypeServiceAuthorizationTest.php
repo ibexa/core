@@ -600,5 +600,3 @@ class ContentTypeServiceAuthorizationTest extends BaseContentTypeServiceTest
         /* END: Use Case */
     }
 }
-
-class_alias(ContentTypeServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\ContentTypeServiceAuthorizationTest');

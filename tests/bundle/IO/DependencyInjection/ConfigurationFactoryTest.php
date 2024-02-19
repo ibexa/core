@@ -126,5 +126,3 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
     {
     }
 }
-
-class_alias(ConfigurationFactoryTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactoryTest');

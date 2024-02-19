@@ -93,5 +93,3 @@ class ContentTypeIdentifier extends CriterionHandler
         );
     }
 }
-
-class_alias(ContentTypeIdentifier::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeIdentifier');

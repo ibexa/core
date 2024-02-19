@@ -92,5 +92,3 @@ class ImageFileLister extends MigrationHandler implements FileListerInterface
         return $metadataList;
     }
 }
-
-class_alias(ImageFileLister::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\ImageFileLister');

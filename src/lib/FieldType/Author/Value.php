@@ -47,5 +47,3 @@ class Value extends BaseValue
         return implode(', ', $authorNames);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Author\Value');

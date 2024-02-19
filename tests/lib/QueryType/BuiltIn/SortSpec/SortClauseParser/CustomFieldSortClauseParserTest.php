@@ -56,5 +56,3 @@ final class CustomFieldSortClauseParserTest extends TestCase
         $this->assertTrue($this->parser->supports('custom_field'));
     }
 }
-
-class_alias(CustomFieldSortClauseParserTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortClauseParser\CustomFieldSortClauseParserTest');

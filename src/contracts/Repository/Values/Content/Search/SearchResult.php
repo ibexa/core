@@ -105,5 +105,3 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
         return new ArrayIterator($this->searchHits);
     }
 }
-
-class_alias(SearchResult::class, 'eZ\Publish\API\Repository\Values\Content\Search\SearchResult');

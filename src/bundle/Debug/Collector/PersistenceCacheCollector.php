@@ -146,5 +146,3 @@ class PersistenceCacheCollector extends DataCollector
         $this->data = [];
     }
 }
-
-class_alias(PersistenceCacheCollector::class, 'eZ\Bundle\EzPublishDebugBundle\Collector\PersistenceCacheCollector');

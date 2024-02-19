@@ -149,5 +149,3 @@ class BlockingLimitationType implements SPILimitationTypeInterface
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(BlockingLimitationType::class, 'eZ\Publish\Core\Limitation\BlockingLimitationType');

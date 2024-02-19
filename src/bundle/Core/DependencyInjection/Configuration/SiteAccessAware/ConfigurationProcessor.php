@@ -192,5 +192,3 @@ class ConfigurationProcessor
         return $this->contextualizer;
     }
 }
-
-class_alias(ConfigurationProcessor::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor');

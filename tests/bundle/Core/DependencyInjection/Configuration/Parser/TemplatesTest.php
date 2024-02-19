@@ -159,5 +159,3 @@ class TemplatesTest extends AbstractParserTestCase
         return $config;
     }
 }
-
-class_alias(TemplatesTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\TemplatesTest');

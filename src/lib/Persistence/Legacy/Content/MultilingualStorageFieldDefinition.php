@@ -27,5 +27,3 @@ class MultilingualStorageFieldDefinition extends ValueObject
     /** @var int */
     public $languageId;
 }
-
-class_alias(MultilingualStorageFieldDefinition::class, 'eZ\Publish\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition');

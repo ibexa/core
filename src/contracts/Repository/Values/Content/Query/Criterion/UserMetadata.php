@@ -86,5 +86,3 @@ class UserMetadata extends Criterion implements TrashCriterion, FilteringCriteri
         ];
     }
 }
-
-class_alias(UserMetadata::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\UserMetadata');

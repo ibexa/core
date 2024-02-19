@@ -31,5 +31,3 @@ interface ViewBuilder
      */
     public function buildView(array $parameters);
 }
-
-class_alias(ViewBuilder::class, 'eZ\Publish\Core\MVC\Symfony\View\Builder\ViewBuilder');

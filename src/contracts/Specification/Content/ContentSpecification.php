@@ -14,5 +14,3 @@ interface ContentSpecification
 {
     public function isSatisfiedBy(Content $content): bool;
 }
-
-class_alias(ContentSpecification::class, 'eZ\Publish\SPI\Specification\Content\ContentSpecification');

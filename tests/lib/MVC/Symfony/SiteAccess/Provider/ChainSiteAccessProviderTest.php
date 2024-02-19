@@ -172,5 +172,3 @@ final class ChainSiteAccessProviderTest extends TestCase
         return $undefinedSiteAccess;
     }
 }
-
-class_alias(ChainSiteAccessProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\Provider\ChainSiteAccessProviderTest');

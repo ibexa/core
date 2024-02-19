@@ -357,5 +357,3 @@ class URLAliasServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(URLAliasServiceTest::class, 'eZ\Publish\Core\Event\Tests\URLAliasServiceTest');

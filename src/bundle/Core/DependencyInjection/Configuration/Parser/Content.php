@@ -79,5 +79,3 @@ class Content extends AbstractParser
         }
     }
 }
-
-class_alias(Content::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\Content');

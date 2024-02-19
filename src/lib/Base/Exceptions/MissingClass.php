@@ -43,5 +43,3 @@ class MissingClass extends LogicException implements Translatable
         parent::__construct($this->getBaseTranslation(), 0, $previous);
     }
 }
-
-class_alias(MissingClass::class, 'eZ\Publish\Core\Base\Exceptions\MissingClass');

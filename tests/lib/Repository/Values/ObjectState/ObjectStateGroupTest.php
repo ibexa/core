@@ -126,5 +126,3 @@ class ObjectStateGroupTest extends TestCase
         $this->fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(ObjectStateGroupTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ObjectState\ObjectStateGroupTest');

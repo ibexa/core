@@ -42,5 +42,3 @@ class IbexaIOBundle extends Bundle
         return $this->extension;
     }
 }
-
-class_alias(IbexaIOBundle::class, 'eZ\Bundle\EzPublishIOBundle\EzPublishIOBundle');

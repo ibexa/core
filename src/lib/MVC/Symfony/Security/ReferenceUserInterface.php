@@ -30,5 +30,3 @@ interface ReferenceUserInterface extends UserInterface
      */
     public function getAPIUser();
 }
-
-class_alias(ReferenceUserInterface::class, 'eZ\Publish\Core\MVC\Symfony\Security\ReferenceUserInterface');

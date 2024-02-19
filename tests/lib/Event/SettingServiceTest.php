@@ -330,5 +330,3 @@ class SettingServiceTest extends AbstractServiceTest
         return $service->updateSetting(...$parameters);
     }
 }
-
-class_alias(SettingServiceTest::class, 'eZ\Publish\Core\Event\Tests\SettingServiceTest');

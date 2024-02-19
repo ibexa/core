@@ -25,5 +25,3 @@ abstract class LimitationHandler
 
     abstract public function toSPI(Policy $policy): void;
 }
-
-class_alias(LimitationHandler::class, 'eZ\Publish\Core\Persistence\Legacy\User\Role\LimitationHandler');

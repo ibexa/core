@@ -308,5 +308,3 @@ class DomainMapperTest extends BaseServiceMockTest
         return $this->createMock(LoggerInterface::class);
     }
 }
-
-class_alias(DomainMapperTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\DomainMapperTest');

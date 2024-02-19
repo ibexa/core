@@ -408,5 +408,3 @@ class RelationListConverter implements Converter
         return $groupedData;
     }
 }
-
-class_alias(RelationListConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationListConverter');

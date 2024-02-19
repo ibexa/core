@@ -49,5 +49,3 @@ final class BeforeDeleteUserEvent extends BeforeEvent
         return is_array($this->locations);
     }
 }
-
-class_alias(BeforeDeleteUserEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeDeleteUserEvent');

@@ -210,5 +210,3 @@ class Repository implements RepositoryInterface
         $this->repository->rollback();
     }
 }
-
-class_alias(Repository::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Repository');

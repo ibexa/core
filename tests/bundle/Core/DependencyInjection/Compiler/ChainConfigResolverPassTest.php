@@ -78,5 +78,3 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(ChainConfigResolverPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\ChainConfigResolverPassTest');

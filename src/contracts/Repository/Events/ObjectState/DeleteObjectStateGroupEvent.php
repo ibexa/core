@@ -26,5 +26,3 @@ final class DeleteObjectStateGroupEvent extends AfterEvent
         return $this->objectStateGroup;
     }
 }
-
-class_alias(DeleteObjectStateGroupEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\DeleteObjectStateGroupEvent');

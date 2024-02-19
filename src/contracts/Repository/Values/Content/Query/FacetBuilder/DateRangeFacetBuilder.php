@@ -46,5 +46,3 @@ abstract class DateRangeFacetBuilder extends FacetBuilder
      */
     abstract public function addUnboundedTo($from);
 }
-
-class_alias(DateRangeFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\DateRangeFacetBuilder');

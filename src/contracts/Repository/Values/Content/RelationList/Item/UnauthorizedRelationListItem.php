@@ -27,5 +27,3 @@ final class UnauthorizedRelationListItem extends UnauthorizedListItem implements
         return false;
     }
 }
-
-class_alias(UnauthorizedRelationListItem::class, 'eZ\Publish\API\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem');

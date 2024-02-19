@@ -315,5 +315,3 @@ class MaskGeneratorTest extends LanguageAwareTestCase
         return $this->languageHandler;
     }
 }
-
-class_alias(MaskGeneratorTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Language\MaskGeneratorTest');

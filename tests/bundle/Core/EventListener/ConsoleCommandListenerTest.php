@@ -125,5 +125,3 @@ class ConsoleCommandListenerTest extends TestCase
         return $siteAccessProviderMock;
     }
 }
-
-class_alias(ConsoleCommandListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\ConsoleCommandListenerTest');

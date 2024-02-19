@@ -76,5 +76,3 @@ class MapperTest extends TestCase
         $this->assertEquals($objects, $this->mapper->extractBookmarksFromRows($rows));
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark\MapperTest');

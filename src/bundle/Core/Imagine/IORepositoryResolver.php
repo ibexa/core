@@ -127,5 +127,3 @@ class IORepositoryResolver extends PathResolver implements ResolverInterface
         }
     }
 }
-
-class_alias(IORepositoryResolver::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\IORepositoryResolver');

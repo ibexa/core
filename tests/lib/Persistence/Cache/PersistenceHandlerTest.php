@@ -110,5 +110,3 @@ class PersistenceHandlerTest extends AbstractBaseHandlerTest
         $this->assertInstanceOf(Cache\TransactionHandler::class, $handler);
     }
 }
-
-class_alias(PersistenceHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\PersistenceHandlerTest');

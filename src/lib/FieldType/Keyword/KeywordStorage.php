@@ -82,5 +82,3 @@ class KeywordStorage extends GatewayBasedStorage
         return null;
     }
 }
-
-class_alias(KeywordStorage::class, 'eZ\Publish\Core\FieldType\Keyword\KeywordStorage');

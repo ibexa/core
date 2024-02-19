@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 class MatchNone extends Matcher
 {
 }
-
-class_alias(MatchNone::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\MatchNone');

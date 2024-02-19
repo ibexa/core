@@ -36,5 +36,3 @@ class RequestAttributes implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(RequestAttributes::class, 'eZ\Publish\Core\MVC\Symfony\View\Builder\ParametersFilter\RequestAttributes');

@@ -512,5 +512,3 @@ class MapperTest extends TestCase
         return $this->createMock(StorageDispatcherInterface::class);
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Type\MapperTest');

@@ -87,5 +87,3 @@ class URI extends Map implements URILexer
         return $matcher;
     }
 }
-
-class_alias(URI::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Map\URI');

@@ -1903,5 +1903,3 @@ class ObjectStateServiceTest extends BaseTest
         );
     }
 }
-
-class_alias(ObjectStateServiceTest::class, 'eZ\Publish\API\Repository\Tests\ObjectStateServiceTest');

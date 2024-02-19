@@ -196,5 +196,3 @@ class RelationConverter implements Converter
         return 'sort_key_int';
     }
 }
-
-class_alias(RelationConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter');

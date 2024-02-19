@@ -51,5 +51,3 @@ class SectionIdentifier extends CriterionHandler
         );
     }
 }
-
-class_alias(SectionIdentifier::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\SectionIdentifier');

@@ -60,5 +60,3 @@ final class CopyContentEvent extends AfterEvent
         return $this->versionInfo;
     }
 }
-
-class_alias(CopyContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\CopyContentEvent');

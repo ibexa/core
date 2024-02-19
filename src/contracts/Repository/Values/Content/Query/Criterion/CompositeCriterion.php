@@ -26,5 +26,3 @@ abstract class CompositeCriterion extends Criterion
         throw new NotImplementedException('getSpecifications() not implemented for CompositeCriterion');
     }
 }
-
-class_alias(CompositeCriterion::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\CompositeCriterion');

@@ -225,5 +225,3 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
         return null;
     }
 }
-
-class_alias(ValidationErrorFileVisitor::class, 'eZ\Publish\Core\MVC\Symfony\Translation\ValidationErrorFileVisitor');

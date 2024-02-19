@@ -264,5 +264,3 @@ class SearchIndex
         return $query;
     }
 }
-
-class_alias(SearchIndex::class, 'eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex');

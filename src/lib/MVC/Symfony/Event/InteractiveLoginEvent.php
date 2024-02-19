@@ -68,5 +68,3 @@ class InteractiveLoginEvent extends Event
         return $this->apiUser;
     }
 }
-
-class_alias(InteractiveLoginEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\InteractiveLoginEvent');

@@ -46,5 +46,3 @@ interface UrlRedecoratorInterface
      */
     public function redecorateFromTarget($uri);
 }
-
-class_alias(UrlRedecoratorInterface::class, 'eZ\Publish\Core\IO\UrlRedecoratorInterface');

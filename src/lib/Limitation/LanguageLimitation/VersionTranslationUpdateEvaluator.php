@@ -53,5 +53,3 @@ final class VersionTranslationUpdateEvaluator implements VersionTargetEvaluator
         return $accessVote;
     }
 }
-
-class_alias(VersionTranslationUpdateEvaluator::class, 'eZ\Publish\Core\Limitation\LanguageLimitation\VersionTranslationUpdateEvaluator');

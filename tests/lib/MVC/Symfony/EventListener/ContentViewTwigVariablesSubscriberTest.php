@@ -246,5 +246,3 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
         $subscriber->onPreContentView($event);
     }
 }
-
-class_alias(ContentViewTwigVariablesSubscriberTest::class, 'eZ\Publish\Core\MVC\Symfony\EventListener\Tests\ContentViewTwigVariablesSubscriberTest');

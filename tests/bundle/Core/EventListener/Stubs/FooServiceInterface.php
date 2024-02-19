@@ -10,5 +10,3 @@ interface FooServiceInterface
 {
     public function someMethod($arg);
 }
-
-class_alias(FooServiceInterface::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\Stubs\FooServiceInterface');

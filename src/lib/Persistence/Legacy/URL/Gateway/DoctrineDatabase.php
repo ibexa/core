@@ -268,5 +268,3 @@ class DoctrineDatabase extends Gateway
         return self::SORT_DIRECTION_MAP[$direction];
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase');

@@ -165,5 +165,3 @@ class SectionHandler extends AbstractHandler implements SectionHandlerInterface
         return $this->persistenceHandler->sectionHandler()->countRoleAssignmentsUsingSection($sectionId);
     }
 }
-
-class_alias(SectionHandler::class, 'eZ\Publish\Core\Persistence\Cache\SectionHandler');

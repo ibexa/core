@@ -86,5 +86,3 @@ class ImageValidator extends Validator
         return true;
     }
 }
-
-class_alias(ImageValidator::class, 'eZ\Publish\Core\FieldType\Validator\ImageValidator');

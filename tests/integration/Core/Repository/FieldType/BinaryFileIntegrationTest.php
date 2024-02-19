@@ -442,5 +442,3 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(BinaryFileIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\BinaryFileIntegrationTest');

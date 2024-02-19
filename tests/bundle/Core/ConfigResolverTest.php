@@ -294,5 +294,3 @@ class ConfigResolverTest extends TestCase
         $this->assertSame($newDefaultScope, $configResolver->getDefaultScope());
     }
 }
-
-class_alias(ConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ConfigResolverTest');

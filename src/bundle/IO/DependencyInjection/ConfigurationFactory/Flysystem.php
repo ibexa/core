@@ -78,5 +78,3 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
         return $filesystemId;
     }
 }
-
-class_alias(Flysystem::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory\Flysystem');

@@ -133,5 +133,3 @@ class ContentPreviewHelper implements SiteAccessAware
         $this->previewedLocation = $previewedLocation;
     }
 }
-
-class_alias(ContentPreviewHelper::class, 'eZ\Publish\Core\Helper\ContentPreviewHelper');

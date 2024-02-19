@@ -125,5 +125,3 @@ abstract class Controller implements ContainerAwareInterface
         return $this->container->get('security.authorization_checker')->isGranted($attribute);
     }
 }
-
-class_alias(Controller::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Controller');

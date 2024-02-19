@@ -177,5 +177,3 @@ abstract class Validator
         $this->constraints[$name] = $value;
     }
 }
-
-class_alias(Validator::class, 'eZ\Publish\Core\FieldType\Validator');

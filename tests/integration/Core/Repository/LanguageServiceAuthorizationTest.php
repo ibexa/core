@@ -193,5 +193,3 @@ class LanguageServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
-
-class_alias(LanguageServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\LanguageServiceAuthorizationTest');

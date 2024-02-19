@@ -45,5 +45,3 @@ class ContentInfoTest extends TestCase
         }
     }
 }
-
-class_alias(ContentInfoTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\ContentInfoTest');

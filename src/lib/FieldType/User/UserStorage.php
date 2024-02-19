@@ -87,5 +87,3 @@ class UserStorage extends GatewayBasedStorage
         return $this->gateway->countUsersWithUnsupportedHashType($supportedHashTypes);
     }
 }
-
-class_alias(UserStorage::class, 'eZ\Publish\Core\FieldType\User\UserStorage');

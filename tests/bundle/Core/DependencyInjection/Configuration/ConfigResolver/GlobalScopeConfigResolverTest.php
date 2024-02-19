@@ -28,5 +28,3 @@ class GlobalScopeConfigResolverTest extends ConfigResolverTest
         return 'global';
     }
 }
-
-class_alias(GlobalScopeConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolverTest');

@@ -39,5 +39,3 @@ final class RegexNormalizerTest extends TestCase
         $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
-
-class_alias(RegexNormalizerTest::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\RegexNormalizerTest');

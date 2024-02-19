@@ -69,5 +69,3 @@ class UrlRedecoratorTest extends TestCase
         );
     }
 }
-
-class_alias(UrlRedecoratorTest::class, 'eZ\Publish\Core\IO\Tests\UrlRedecoratorTest');

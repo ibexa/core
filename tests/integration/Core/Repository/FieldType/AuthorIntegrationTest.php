@@ -532,5 +532,3 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 }
-
-class_alias(AuthorIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\AuthorIntegrationTest');

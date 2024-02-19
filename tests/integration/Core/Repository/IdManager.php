@@ -37,5 +37,3 @@ abstract class IdManager
      */
     abstract public function parseId($type, $id);
 }
-
-class_alias(IdManager::class, 'eZ\Publish\API\Repository\Tests\IdManager');

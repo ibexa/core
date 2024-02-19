@@ -49,5 +49,3 @@ final class BeforeHideLocationEvent extends BeforeEvent
         return $this->hiddenLocation instanceof Location;
     }
 }
-
-class_alias(BeforeHideLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\BeforeHideLocationEvent');

@@ -48,5 +48,3 @@ final class BatchIteratorTest extends TestCase
         $this->assertEquals(1, $adapter->getFetchCounter());
     }
 }
-
-class_alias(BatchIteratorTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorTest');

@@ -76,5 +76,3 @@ class EZP20018ObjectStateTest extends BaseTest
         $this->assertCount($results2->totalCount, $results2->searchHits);
     }
 }
-
-class_alias(EZP20018ObjectStateTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP20018ObjectStateTest');

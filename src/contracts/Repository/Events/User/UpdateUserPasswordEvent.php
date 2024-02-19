@@ -48,5 +48,3 @@ final class UpdateUserPasswordEvent extends AfterEvent
         return $this->updatedUser;
     }
 }
-
-class_alias(UpdateUserPasswordEvent::class, 'eZ\Publish\API\Repository\Events\User\UpdateUserPasswordEvent');

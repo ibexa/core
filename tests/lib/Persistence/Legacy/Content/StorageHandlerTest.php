@@ -215,5 +215,3 @@ class StorageHandlerTest extends TestCase
         return $this->versionInfoMock;
     }
 }
-
-class_alias(StorageHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\StorageHandlerTest');

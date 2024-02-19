@@ -92,5 +92,3 @@ class ParameterProviderTest extends TestCase
         return $field;
     }
 }
-
-class_alias(ParameterProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\Tests\User\ParameterProviderTest');

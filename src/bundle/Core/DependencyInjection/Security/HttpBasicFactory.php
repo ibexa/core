@@ -20,5 +20,3 @@ class HttpBasicFactory extends BaseHttpBasicFactory
         return 'ezpublish_http_basic';
     }
 }
-
-class_alias(HttpBasicFactory::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\HttpBasicFactory');

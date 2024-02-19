@@ -162,5 +162,3 @@ class ObjectStateService implements ObjectStateServiceInterface
         return $this->service->newObjectStateUpdateStruct();
     }
 }
-
-class_alias(ObjectStateService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\ObjectStateService');

@@ -51,5 +51,3 @@ class RoleLimitationConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(RoleLimitationConverterPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Storage\Legacy\RoleLimitationConverterPassTest');

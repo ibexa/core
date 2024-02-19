@@ -55,5 +55,3 @@ class PlaceholderProviderPassTest extends AbstractCompilerPassTestCase
         $this->compile();
     }
 }
-
-class_alias(PlaceholderProviderPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\PlaceholderProviderPassTest');

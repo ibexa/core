@@ -22,5 +22,3 @@ class NewSectionLimitation extends Limitation
         return Limitation::NEWSECTION;
     }
 }
-
-class_alias(NewSectionLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\NewSectionLimitation');

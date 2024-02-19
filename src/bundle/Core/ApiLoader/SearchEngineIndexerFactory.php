@@ -87,5 +87,3 @@ class SearchEngineIndexerFactory
         return $this->searchEngineIndexers[$searchEngineAlias];
     }
 }
-
-class_alias(SearchEngineIndexerFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\SearchEngineIndexerFactory');

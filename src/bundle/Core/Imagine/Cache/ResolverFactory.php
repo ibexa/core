@@ -66,5 +66,3 @@ class ResolverFactory
         return new $this->resolverDecoratorClass($this->resolver, [$imageHost]);
     }
 }
-
-class_alias(ResolverFactory::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Cache\ResolverFactory');

@@ -237,5 +237,3 @@ class Field extends SortClauseHandler
         );
     }
 }
-
-class_alias(Field::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Field');

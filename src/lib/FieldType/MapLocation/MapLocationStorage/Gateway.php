@@ -46,5 +46,3 @@ abstract class Gateway extends StorageGateway
      */
     abstract public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds);
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\MapLocation\MapLocationStorage\Gateway');

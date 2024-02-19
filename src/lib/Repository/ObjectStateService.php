@@ -833,5 +833,3 @@ class ObjectStateService implements ObjectStateServiceInterface
         return $inputStruct;
     }
 }
-
-class_alias(ObjectStateService::class, 'eZ\Publish\Core\Repository\ObjectStateService');

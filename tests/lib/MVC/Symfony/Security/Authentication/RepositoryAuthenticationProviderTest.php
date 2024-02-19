@@ -269,5 +269,3 @@ class RepositoryAuthenticationProviderTest extends TestCase
         $this->authProvider->authenticate($token);
     }
 }
-
-class_alias(RepositoryAuthenticationProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\Authentication\RepositoryAuthenticationProviderTest');

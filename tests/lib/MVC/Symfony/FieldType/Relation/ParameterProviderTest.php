@@ -80,5 +80,3 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, ['available' => false]);
     }
 }
-
-class_alias(ParameterProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\Tests\Relation\ParameterProviderTest');

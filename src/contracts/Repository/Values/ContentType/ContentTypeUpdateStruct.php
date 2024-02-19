@@ -106,5 +106,3 @@ class ContentTypeUpdateStruct extends ValueObject
      */
     public $descriptions;
 }
-
-class_alias(ContentTypeUpdateStruct::class, 'eZ\Publish\API\Repository\Values\ContentType\ContentTypeUpdateStruct');

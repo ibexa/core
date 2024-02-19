@@ -89,5 +89,3 @@ class SearchServiceTest extends AbstractServiceTest
         return $arguments;
     }
 }
-
-class_alias(SearchServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\SearchServiceTest');

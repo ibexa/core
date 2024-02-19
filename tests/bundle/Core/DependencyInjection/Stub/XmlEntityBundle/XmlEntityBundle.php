@@ -13,5 +13,3 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class XmlEntityBundle extends Bundle
 {
 }
-
-class_alias(XmlEntityBundle::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\XmlEntityBundle\XmlEntityBundle');

@@ -115,5 +115,3 @@ class UpdateStruct extends ValueObject
      */
     public $defaultAlwaysAvailable;
 }
-
-class_alias(UpdateStruct::class, 'eZ\Publish\SPI\Persistence\Content\Type\UpdateStruct');

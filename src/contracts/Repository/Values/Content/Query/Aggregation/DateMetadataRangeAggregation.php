@@ -44,5 +44,3 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
         return new self($name, $type, $ranges);
     }
 }
-
-class_alias(DateMetadataRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\DateMetadataRangeAggregation');

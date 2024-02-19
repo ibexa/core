@@ -5295,5 +5295,3 @@ class SearchServiceTest extends BaseTest
         return get_class($this->getSetupFactory()) === Legacy::class;
     }
 }
-
-class_alias(SearchServiceTest::class, 'eZ\Publish\API\Repository\Tests\SearchServiceTest');

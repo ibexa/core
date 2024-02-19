@@ -24,5 +24,3 @@ class GlobCollectorTest extends TestCase
         }
     }
 }
-
-class_alias(GlobCollectorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Translation\GlobCollectorTest');

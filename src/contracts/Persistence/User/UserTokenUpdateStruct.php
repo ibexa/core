@@ -35,5 +35,3 @@ class UserTokenUpdateStruct extends ValueObject
      */
     public $userId;
 }
-
-class_alias(UserTokenUpdateStruct::class, 'eZ\Publish\SPI\Persistence\User\UserTokenUpdateStruct');

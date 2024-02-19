@@ -193,5 +193,3 @@ final class FieldDefinitionCollection implements FieldDefinitionCollectionInterf
         throw new BadMethodCallException(self::class . ' is read-only!');
     }
 }
-
-class_alias(FieldDefinitionCollection::class, 'eZ\Publish\Core\Repository\Values\ContentType\FieldDefinitionCollection');

@@ -54,5 +54,3 @@ class IndexRequestListener implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(IndexRequestListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\IndexRequestListener');

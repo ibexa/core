@@ -210,5 +210,3 @@ class DoctrineDatabaseTest extends TestCase
         return $this->databaseGateway;
     }
 }
-
-class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\User\Role\Gateway\DoctrineDatabaseTest');

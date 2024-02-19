@@ -166,5 +166,3 @@ class NewObjectStateLimitationType extends AbstractPersistenceLimitationType imp
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(NewObjectStateLimitationType::class, 'eZ\Publish\Core\Limitation\NewObjectStateLimitationType');

@@ -239,5 +239,3 @@ class KeywordTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(KeywordTest::class, 'eZ\Publish\Core\FieldType\Tests\KeywordTest');

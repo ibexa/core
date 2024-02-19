@@ -36,5 +36,3 @@ class URLUpdateStruct extends ValueObject
      */
     public $lastChecked;
 }
-
-class_alias(URLUpdateStruct::class, 'eZ\Publish\API\Repository\Values\URL\URLUpdateStruct');

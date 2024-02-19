@@ -35,5 +35,3 @@ class Value extends BaseValue
         return (string)$this->email;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\EmailAddress\Value');

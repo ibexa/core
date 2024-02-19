@@ -199,5 +199,3 @@ class RouterHostPortURITest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterHostPortURITest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterHostPortURITest');

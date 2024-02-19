@@ -246,5 +246,3 @@ class UrlWildcardHandlerTest extends TestCase
         return $this->urlWildcardHandler;
     }
 }
-
-class_alias(UrlWildcardHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlWildcard\UrlWildcardHandlerTest');

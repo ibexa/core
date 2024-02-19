@@ -37,5 +37,3 @@ final class MoveUserGroupEvent extends AfterEvent
         return $this->newParent;
     }
 }
-
-class_alias(MoveUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\MoveUserGroupEvent');

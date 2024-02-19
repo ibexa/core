@@ -42,5 +42,3 @@ interface SettingService
 
     public function newSettingUpdateStruct(array $properties = []): SettingUpdateStruct;
 }
-
-class_alias(SettingService::class, 'eZ\Publish\API\Repository\SettingService');

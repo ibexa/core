@@ -46,5 +46,3 @@ final class ObjectStateIdQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(ObjectStateIdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\ObjectStateIdQueryBuilder');

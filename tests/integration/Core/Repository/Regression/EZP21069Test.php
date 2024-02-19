@@ -113,5 +113,3 @@ class EZP21069Test extends BaseTest
         $this->assertEmpty($results->searchHits);
     }
 }
-
-class_alias(EZP21069Test::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP21069Test');

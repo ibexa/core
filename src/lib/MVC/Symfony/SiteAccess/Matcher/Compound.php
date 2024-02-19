@@ -127,5 +127,3 @@ abstract class Compound implements CompoundInterface, URILexer
         return ['subMatchers'];
     }
 }
-
-class_alias(Compound::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Compound');

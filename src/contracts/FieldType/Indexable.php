@@ -54,5 +54,3 @@ interface Indexable
      */
     public function getDefaultSortField();
 }
-
-class_alias(Indexable::class, 'eZ\Publish\SPI\FieldType\Indexable');

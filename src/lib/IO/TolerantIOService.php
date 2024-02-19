@@ -128,5 +128,3 @@ class TolerantIOService extends IOService
         $this->logger->info("BinaryFile with id $id not found");
     }
 }
-
-class_alias(TolerantIOService::class, 'eZ\Publish\Core\IO\TolerantIOService');

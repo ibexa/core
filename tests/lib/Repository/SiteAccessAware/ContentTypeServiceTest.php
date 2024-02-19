@@ -127,5 +127,3 @@ class ContentTypeServiceTest extends AbstractServiceTest
         ];
     }
 }
-
-class_alias(ContentTypeServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\ContentTypeServiceTest');

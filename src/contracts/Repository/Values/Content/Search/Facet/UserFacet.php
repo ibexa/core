@@ -24,5 +24,3 @@ class UserFacet extends Facet
      */
     public $entries;
 }
-
-class_alias(UserFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\UserFacet');

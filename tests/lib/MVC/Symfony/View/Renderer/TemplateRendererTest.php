@@ -77,5 +77,3 @@ class TemplateRendererTest extends TestCase
         return $view;
     }
 }
-
-class_alias(TemplateRendererTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\Renderer\TemplateRendererTest');

@@ -634,5 +634,3 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
         }
     }
 }
-
-class_alias(ContentTypeHandler::class, 'eZ\Publish\Core\Persistence\Cache\ContentTypeHandler');

@@ -32,5 +32,3 @@ class ForbiddenException extends APIForbiddenException implements Translatable
         parent::__construct($this->getBaseTranslation());
     }
 }
-
-class_alias(ForbiddenException::class, 'eZ\Publish\Core\Base\Exceptions\ForbiddenException');

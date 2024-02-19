@@ -41,5 +41,3 @@ final class LookupLimitationResult extends ValueObject
         $this->roleLimitations = $roleLimitations;
     }
 }
-
-class_alias(LookupLimitationResult::class, 'eZ\Publish\API\Repository\Values\User\LookupLimitationResult');

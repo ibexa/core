@@ -87,5 +87,3 @@ final class LegacySchemaImporter
         return $statements;
     }
 }
-
-class_alias(LegacySchemaImporter::class, 'eZ\Publish\API\Repository\Tests\LegacySchemaImporter');

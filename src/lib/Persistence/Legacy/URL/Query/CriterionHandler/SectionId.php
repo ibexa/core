@@ -45,5 +45,3 @@ class SectionId extends Base
         );
     }
 }
-
-class_alias(SectionId::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\SectionId');

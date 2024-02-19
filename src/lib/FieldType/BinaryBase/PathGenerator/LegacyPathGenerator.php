@@ -33,5 +33,3 @@ class LegacyPathGenerator extends PathGenerator
         return substr($mimeType, 0, strpos($mimeType, '/'));
     }
 }
-
-class_alias(LegacyPathGenerator::class, 'eZ\Publish\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator');

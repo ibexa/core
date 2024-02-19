@@ -52,5 +52,3 @@ class EZP26327UrlAliasHistorizationTest extends BaseTest
         $this->assertTrue($historyAlias->isHistory);
     }
 }
-
-class_alias(EZP26327UrlAliasHistorizationTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP26327UrlAliasHistorizationTest');

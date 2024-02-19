@@ -40,5 +40,3 @@ class RoleCopyStruct extends ValueObject
      */
     public $policies = [];
 }
-
-class_alias(RoleCopyStruct::class, 'eZ\Publish\SPI\Persistence\User\RoleCopyStruct');

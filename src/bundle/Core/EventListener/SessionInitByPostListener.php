@@ -49,5 +49,3 @@ class SessionInitByPostListener implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(SessionInitByPostListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\SessionInitByPostListener');

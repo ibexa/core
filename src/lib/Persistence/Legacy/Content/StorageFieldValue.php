@@ -45,5 +45,3 @@ class StorageFieldValue extends ValueObject
      */
     public $sortKeyString = '';
 }
-
-class_alias(StorageFieldValue::class, 'eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue');

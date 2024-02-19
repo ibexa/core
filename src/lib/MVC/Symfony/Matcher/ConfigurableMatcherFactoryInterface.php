@@ -13,5 +13,3 @@ interface ConfigurableMatcherFactoryInterface extends MatcherFactoryInterface
 {
     public function setMatchConfig(array $matchConfig): void;
 }
-
-class_alias(ConfigurableMatcherFactoryInterface::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ConfigurableMatcherFactoryInterface');

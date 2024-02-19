@@ -39,5 +39,3 @@ class DateMapper extends FieldValueMapper
         return $date->format('Y-m-d\\TH:i:s\\Z');
     }
 }
-
-class_alias(DateMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\DateMapper');

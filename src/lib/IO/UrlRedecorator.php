@@ -37,5 +37,3 @@ class UrlRedecorator implements UrlRedecoratorInterface
         );
     }
 }
-
-class_alias(UrlRedecorator::class, 'eZ\Publish\Core\IO\UrlRedecorator');

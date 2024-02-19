@@ -361,5 +361,3 @@ class IORepositoryResolverTest extends TestCase
         $this->imageResolver->remove([$originalPath], $filters);
     }
 }
-
-class_alias(IORepositoryResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\IORepositoryResolverTest');

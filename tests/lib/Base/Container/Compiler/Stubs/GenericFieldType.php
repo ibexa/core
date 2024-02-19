@@ -17,5 +17,3 @@ final class GenericFieldType extends Type
         return 'field_type_identifier';
     }
 }
-
-class_alias(GenericFieldType::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Stubs\GenericFieldType');

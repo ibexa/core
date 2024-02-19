@@ -106,5 +106,3 @@ class ContentPreviewHelperTest extends TestCase
         $this->assertSame($location, $this->previewHelper->getPreviewedLocation());
     }
 }
-
-class_alias(ContentPreviewHelperTest::class, 'eZ\Publish\Core\Helper\Tests\ContentPreviewHelperTest');

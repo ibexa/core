@@ -38,5 +38,3 @@ final class UpdateContentTypeGroupEvent extends AfterEvent
         return $this->contentTypeGroupUpdateStruct;
     }
 }
-
-class_alias(UpdateContentTypeGroupEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\UpdateContentTypeGroupEvent');

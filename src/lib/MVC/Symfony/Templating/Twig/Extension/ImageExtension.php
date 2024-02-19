@@ -108,5 +108,3 @@ class ImageExtension extends AbstractExtension
         return $this->assetMapper->getContentFieldIdentifier();
     }
 }
-
-class_alias(ImageExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension');

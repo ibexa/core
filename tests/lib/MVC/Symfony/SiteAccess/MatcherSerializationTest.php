@@ -171,5 +171,3 @@ class MatcherSerializationTest extends TestCase
         return [$matcherBeforeSerialization, $matcherAfterDeserialization];
     }
 }
-
-class_alias(MatcherSerializationTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\MatcherSerializationTest');

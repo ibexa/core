@@ -32,5 +32,3 @@ class ContentTypeValidationException extends APIContentTypeValidationException i
         parent::__construct($this->getBaseTranslation());
     }
 }
-
-class_alias(ContentTypeValidationException::class, 'eZ\Publish\Core\Base\Exceptions\ContentTypeValidationException');

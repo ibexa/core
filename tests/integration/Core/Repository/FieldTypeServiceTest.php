@@ -128,5 +128,3 @@ class FieldTypeServiceTest extends BaseTest
         $this->assertFalse($typeExists);
     }
 }
-
-class_alias(FieldTypeServiceTest::class, 'eZ\Publish\API\Repository\Tests\FieldTypeServiceTest');

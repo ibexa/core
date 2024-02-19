@@ -212,5 +212,3 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         return $mock;
     }
 }
-
-class_alias(ContentExtensionTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\Extension\ContentExtensionTest');

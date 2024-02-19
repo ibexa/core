@@ -180,5 +180,3 @@ final class DeleteTranslationTest extends BaseTest
         );
     }
 }
-
-class_alias(DeleteTranslationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\DeleteTranslationTest');

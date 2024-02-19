@@ -38,5 +38,3 @@ final class AssignSectionToSubtreeEvent extends AfterEvent
         return $this->section;
     }
 }
-
-class_alias(AssignSectionToSubtreeEvent::class, 'eZ\Publish\API\Repository\Events\Section\AssignSectionToSubtreeEvent');

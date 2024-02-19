@@ -74,5 +74,3 @@ class UrlAliasServiceTest extends AbstractServiceTest
         return $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
     }
 }
-
-class_alias(UrlAliasServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\UrlAliasServiceTest');

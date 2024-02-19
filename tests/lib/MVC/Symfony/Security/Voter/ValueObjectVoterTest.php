@@ -195,5 +195,3 @@ class ValueObjectVoterTest extends TestCase
         ];
     }
 }
-
-class_alias(ValueObjectVoterTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\Voter\ValueObjectVoterTest');

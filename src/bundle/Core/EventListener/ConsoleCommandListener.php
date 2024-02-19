@@ -81,5 +81,3 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
         $this->debug = $debug;
     }
 }
-
-class_alias(ConsoleCommandListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ConsoleCommandListener');

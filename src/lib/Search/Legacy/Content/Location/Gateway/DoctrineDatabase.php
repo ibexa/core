@@ -258,5 +258,3 @@ final class DoctrineDatabase extends Gateway
         return $mask;
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\DoctrineDatabase');

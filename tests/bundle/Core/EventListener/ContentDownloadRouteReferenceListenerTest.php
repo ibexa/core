@@ -161,5 +161,3 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         return new ContentDownloadRouteReferenceListener($this->translationHelperMock);
     }
 }
-
-class_alias(ContentDownloadRouteReferenceListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\ContentDownloadRouteReferenceListenerTest');

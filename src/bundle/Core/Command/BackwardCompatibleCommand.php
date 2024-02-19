@@ -17,5 +17,3 @@ interface BackwardCompatibleCommand
      */
     public function getDeprecatedAliases(): array;
 }
-
-class_alias(BackwardCompatibleCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\BackwardCompatibleCommand');

@@ -18,5 +18,3 @@ interface ContentValueView
      */
     public function getContent();
 }
-
-class_alias(ContentValueView::class, 'eZ\Publish\Core\MVC\Symfony\View\ContentValueView');

@@ -255,5 +255,3 @@ class UrlTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(UrlTest::class, 'eZ\Publish\Core\FieldType\Tests\UrlTest');

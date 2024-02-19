@@ -88,5 +88,3 @@ class ViewProvidersPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(ViewProvidersPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ViewProvidersPass');

@@ -131,5 +131,3 @@ class BookmarkService implements BookmarkServiceInterface
             ->getUserId();
     }
 }
-
-class_alias(BookmarkService::class, 'eZ\Publish\Core\Repository\BookmarkService');

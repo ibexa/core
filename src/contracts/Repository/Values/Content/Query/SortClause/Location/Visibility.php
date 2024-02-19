@@ -27,5 +27,3 @@ class Visibility extends Location implements FilteringSortClause
         parent::__construct('location_visibility', $sortDirection);
     }
 }
-
-class_alias(Visibility::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Visibility');

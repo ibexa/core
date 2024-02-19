@@ -67,5 +67,3 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         return $metadataList;
     }
 }
-
-class_alias(BinaryFileLister::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\BinaryFileLister');

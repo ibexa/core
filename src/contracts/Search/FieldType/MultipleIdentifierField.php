@@ -27,5 +27,3 @@ class MultipleIdentifierField extends FieldType
      */
     protected $raw = false;
 }
-
-class_alias(MultipleIdentifierField::class, 'eZ\Publish\SPI\Search\FieldType\MultipleIdentifierField');

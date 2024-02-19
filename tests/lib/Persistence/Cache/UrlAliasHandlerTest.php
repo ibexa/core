@@ -220,5 +220,3 @@ class UrlAliasHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 }
-
-class_alias(UrlAliasHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\UrlAliasHandlerTest');

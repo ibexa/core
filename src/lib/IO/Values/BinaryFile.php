@@ -60,5 +60,3 @@ class BinaryFile extends ValueObject
      */
     public $mimeType;
 }
-
-class_alias(BinaryFile::class, 'eZ\Publish\Core\IO\Values\BinaryFile');

@@ -182,5 +182,3 @@ class GenericTest extends BaseFieldTypeTest
         return $serializer;
     }
 }
-
-class_alias(GenericTest::class, 'eZ\Publish\SPI\FieldType\Generic\Tests\GenericTest');

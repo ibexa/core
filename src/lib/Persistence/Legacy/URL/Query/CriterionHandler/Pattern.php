@@ -41,5 +41,3 @@ class Pattern implements CriterionHandler
         );
     }
 }
-
-class_alias(Pattern::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\Pattern');

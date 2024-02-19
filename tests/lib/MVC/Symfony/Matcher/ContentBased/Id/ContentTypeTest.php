@@ -148,5 +148,3 @@ class ContentTypeTest extends BaseTest
         return $data;
     }
 }
-
-class_alias(ContentTypeTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\Id\ContentTypeTest');

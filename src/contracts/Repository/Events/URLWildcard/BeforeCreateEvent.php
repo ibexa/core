@@ -64,5 +64,3 @@ final class BeforeCreateEvent extends BeforeEvent
         return $this->urlWildcard instanceof URLWildcard;
     }
 }
-
-class_alias(BeforeCreateEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\BeforeCreateEvent');

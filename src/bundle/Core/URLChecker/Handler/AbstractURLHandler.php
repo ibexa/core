@@ -53,5 +53,3 @@ abstract class AbstractURLHandler implements URLHandlerInterface
         }
     }
 }
-
-class_alias(AbstractURLHandler::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\Handler\AbstractURLHandler');

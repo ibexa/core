@@ -79,5 +79,3 @@ class ConverterRegistry
         return $this->converterMap[$typeName];
     }
 }
-
-class_alias(ConverterRegistry::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry');

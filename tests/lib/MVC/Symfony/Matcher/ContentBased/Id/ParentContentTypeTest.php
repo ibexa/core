@@ -144,5 +144,3 @@ class ParentContentTypeTest extends BaseTest
         );
     }
 }
-
-class_alias(ParentContentTypeTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\Id\ParentContentTypeTest');

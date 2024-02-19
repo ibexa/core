@@ -53,5 +53,3 @@ final class UserLogin extends SortClauseHandler
         );
     }
 }
-
-class_alias(UserLogin::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Trash\UserLogin');

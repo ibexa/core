@@ -34,5 +34,3 @@ class ScalePercentFilterLoader extends FilterLoaderWrapped
         return $this->innerLoader->load($image, ['size' => [$targetWidth, $targetHeight]]);
     }
 }
-
-class_alias(ScalePercentFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\ScalePercentFilterLoader');

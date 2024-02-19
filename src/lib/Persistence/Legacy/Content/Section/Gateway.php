@@ -70,5 +70,3 @@ abstract class Gateway
      */
     abstract public function assignSectionToContent(int $sectionId, int $contentId): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Section\Gateway');

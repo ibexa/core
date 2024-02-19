@@ -115,5 +115,3 @@ class RenderStrategyTest extends TestCase
         $this->assertSame('other_rendered_content', $renderStrategy->render($valueObject, new RenderOptions()));
     }
 }
-
-class_alias(RenderStrategyTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\RenderStrategyTest');

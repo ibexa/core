@@ -42,5 +42,3 @@ class StaticStrategyTest extends TestCase
         );
     }
 }
-
-class_alias(StaticStrategyTest::class, 'eZ\Publish\Core\Repository\Tests\ContentThumbnail\StaticStrategyTest');

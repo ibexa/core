@@ -32,5 +32,3 @@ class EventDispatcherInjector implements ParametersInjector
         $view->addParameters($event->getViewParameters());
     }
 }
-
-class_alias(EventDispatcherInjector::class, 'eZ\Publish\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector');

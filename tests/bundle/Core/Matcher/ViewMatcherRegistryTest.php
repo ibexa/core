@@ -69,5 +69,3 @@ final class ViewMatcherRegistryTest extends TestCase
         return $this->createMock(ViewMatcherInterface::class);
     }
 }
-
-class_alias(ViewMatcherRegistryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Matcher\ViewMatcherRegistryTest');

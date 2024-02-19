@@ -18,5 +18,3 @@ class IbexaDebugBundle extends Bundle
         $container->addCompilerPass(new DataCollectorPass());
     }
 }
-
-class_alias(IbexaDebugBundle::class, 'eZ\Bundle\EzPublishDebugBundle\EzPublishDebugBundle');

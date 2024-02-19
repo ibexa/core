@@ -22,5 +22,3 @@ class ContentTypeLimitation extends Limitation
         return Limitation::CONTENTTYPE;
     }
 }
-
-class_alias(ContentTypeLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\ContentTypeLimitation');

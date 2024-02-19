@@ -46,5 +46,3 @@ class PolicyCreateStruct extends APIPolicyCreateStruct
         $this->limitations[$limitationIdentifier] = $limitation;
     }
 }
-
-class_alias(PolicyCreateStruct::class, 'eZ\Publish\Core\Repository\Values\User\PolicyCreateStruct');

@@ -32,5 +32,3 @@ class CoreExtension extends AbstractExtension implements GlobalsInterface
         ];
     }
 }
-
-class_alias(CoreExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\CoreExtension');

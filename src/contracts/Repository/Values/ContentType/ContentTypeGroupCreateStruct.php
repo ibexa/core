@@ -27,5 +27,3 @@ class ContentTypeGroupCreateStruct extends ContentTypeGroupStruct
      */
     public $creationDate = null;
 }
-
-class_alias(ContentTypeGroupCreateStruct::class, 'eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupCreateStruct');

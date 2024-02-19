@@ -24,5 +24,3 @@ abstract class StorageGateway implements StorageGatewayInterface
         return sprintf('%s_%s_seq', $table, $column);
     }
 }
-
-class_alias(StorageGateway::class, 'eZ\Publish\SPI\FieldType\StorageGateway');

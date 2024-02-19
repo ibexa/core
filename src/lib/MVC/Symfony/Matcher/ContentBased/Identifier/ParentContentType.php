@@ -69,5 +69,3 @@ class ParentContentType extends MultipleValued
         return false;
     }
 }
-
-class_alias(ParentContentType::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ParentContentType');

@@ -79,5 +79,3 @@ class Group extends ValueObject
      */
     public $isSystem;
 }
-
-class_alias(Group::class, 'eZ\Publish\SPI\Persistence\Content\Type\Group');

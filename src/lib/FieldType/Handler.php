@@ -29,5 +29,3 @@ interface Handler
      */
     public function getFieldTypeValue();
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\FieldType\Handler');

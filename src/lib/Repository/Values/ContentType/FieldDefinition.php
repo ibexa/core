@@ -73,5 +73,3 @@ class FieldDefinition extends APIFieldDefinition
         return $this->fieldSettings;
     }
 }
-
-class_alias(FieldDefinition::class, 'eZ\Publish\Core\Repository\Values\ContentType\FieldDefinition');

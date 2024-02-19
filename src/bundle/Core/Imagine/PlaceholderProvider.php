@@ -20,5 +20,3 @@ interface PlaceholderProvider
      */
     public function getPlaceholder(ImageValue $value, array $options = []): string;
 }
-
-class_alias(PlaceholderProvider::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderProvider');

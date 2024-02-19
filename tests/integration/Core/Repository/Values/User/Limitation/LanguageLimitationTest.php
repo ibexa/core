@@ -885,5 +885,3 @@ class LanguageLimitationTest extends BaseTest
         return $contentService->createContentDraft($publishedContent->contentInfo);
     }
 }
-
-class_alias(LanguageLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\LanguageLimitationTest');

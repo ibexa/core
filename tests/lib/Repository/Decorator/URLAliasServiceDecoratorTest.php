@@ -176,5 +176,3 @@ class URLAliasServiceDecoratorTest extends TestCase
         $decoratedService->deleteCorruptedUrlAliases(...$parameters);
     }
 }
-
-class_alias(URLAliasServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\URLAliasServiceDecoratorTest');

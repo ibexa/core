@@ -120,5 +120,3 @@ class ContentDownloadRouteReferenceListener implements EventSubscriberInterface
         );
     }
 }
-
-class_alias(ContentDownloadRouteReferenceListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ContentDownloadRouteReferenceListener');

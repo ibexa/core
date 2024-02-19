@@ -96,5 +96,3 @@ final class ContentFilteringAdapterTest extends TestCase
         return new ContentList($numberOfItems, $items);
     }
 }
-
-class_alias(ContentFilteringAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\ContentFilteringAdapterTest');

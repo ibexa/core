@@ -51,5 +51,3 @@ class Unindexed implements Indexable
         return null;
     }
 }
-
-class_alias(Unindexed::class, 'eZ\Publish\Core\FieldType\Unindexed');

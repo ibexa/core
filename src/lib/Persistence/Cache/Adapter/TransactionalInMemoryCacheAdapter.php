@@ -306,5 +306,3 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         }
     }
 }
-
-class_alias(TransactionalInMemoryCacheAdapter::class, 'eZ\Publish\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter');

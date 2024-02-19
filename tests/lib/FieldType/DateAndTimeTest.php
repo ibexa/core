@@ -438,5 +438,3 @@ class DateAndTimeTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(DateAndTimeTest::class, 'eZ\Publish\Core\FieldType\Tests\DateAndTimeTest');

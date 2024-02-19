@@ -62,5 +62,3 @@ class FieldTypeServiceDecoratorTest extends TestCase
         $decoratedService->hasFieldType(...$parameters);
     }
 }
-
-class_alias(FieldTypeServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\FieldTypeServiceDecoratorTest');

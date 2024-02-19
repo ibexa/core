@@ -30,5 +30,3 @@ class MultipleIntegerMapper extends IntegerMapper
         return $values;
     }
 }
-
-class_alias(MultipleIntegerMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\MultipleIntegerMapper');

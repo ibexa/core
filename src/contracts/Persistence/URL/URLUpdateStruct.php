@@ -38,5 +38,3 @@ class URLUpdateStruct extends ValueObject
      */
     public $modified;
 }
-
-class_alias(URLUpdateStruct::class, 'eZ\Publish\SPI\Persistence\URL\URLUpdateStruct');

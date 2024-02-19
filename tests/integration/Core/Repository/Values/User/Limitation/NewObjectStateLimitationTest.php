@@ -103,5 +103,3 @@ class NewObjectStateLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(NewObjectStateLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\NewObjectStateLimitationTest');

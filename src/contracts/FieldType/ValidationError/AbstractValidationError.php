@@ -55,5 +55,3 @@ abstract class AbstractValidationError implements ValidationError
         return $this->target;
     }
 }
-
-class_alias(AbstractValidationError::class, 'eZ\Publish\SPI\FieldType\ValidationError\AbstractValidationError');

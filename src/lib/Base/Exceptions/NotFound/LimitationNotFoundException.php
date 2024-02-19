@@ -41,5 +41,3 @@ class LimitationNotFoundException extends RuntimeException implements Httpable, 
         parent::__construct($this->getBaseTranslation(), self::INTERNAL_ERROR, $previous);
     }
 }
-
-class_alias(LimitationNotFoundException::class, 'eZ\Publish\Core\Base\Exceptions\NotFound\LimitationNotFoundException');

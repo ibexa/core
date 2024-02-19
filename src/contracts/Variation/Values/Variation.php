@@ -62,5 +62,3 @@ class Variation extends ValueObject
      */
     protected $lastModified;
 }
-
-class_alias(Variation::class, 'eZ\Publish\SPI\Variation\Values\Variation');

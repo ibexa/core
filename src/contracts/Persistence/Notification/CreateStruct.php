@@ -27,5 +27,3 @@ class CreateStruct extends ValueObject
     /** @var int */
     public $created;
 }
-
-class_alias(CreateStruct::class, 'eZ\Publish\SPI\Persistence\Notification\CreateStruct');

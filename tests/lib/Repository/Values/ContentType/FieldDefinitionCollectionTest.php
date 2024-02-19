@@ -327,5 +327,3 @@ final class FieldDefinitionCollectionTest extends TestCase
         };
     }
 }
-
-class_alias(FieldDefinitionCollectionTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ContentType\FieldDefinitionCollectionTest');

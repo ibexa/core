@@ -25,5 +25,3 @@ class ReduceNoiseFilter extends AbstractFilter
         return $image;
     }
 }
-
-class_alias(ReduceNoiseFilter::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Imagick\ReduceNoiseFilter');

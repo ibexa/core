@@ -100,5 +100,3 @@ class IndexRequestListenerTest extends TestCase
         $this->assertFalse($this->request->attributes->has('needsRedirect'));
     }
 }
-
-class_alias(IndexRequestListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\IndexRequestListenerTest');

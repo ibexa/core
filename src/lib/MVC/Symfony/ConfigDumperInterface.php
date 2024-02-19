@@ -23,5 +23,3 @@ interface ConfigDumperInterface
      */
     public function dump(array $configArray, $options = self::OPT_DEFAULT);
 }
-
-class_alias(ConfigDumperInterface::class, 'eZ\Publish\Core\MVC\Symfony\ConfigDumperInterface');

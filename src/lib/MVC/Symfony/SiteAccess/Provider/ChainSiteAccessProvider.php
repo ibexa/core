@@ -62,5 +62,3 @@ final class ChainSiteAccessProvider implements SiteAccessProviderInterface
         throw new NotFoundException('Site Access', $name);
     }
 }
-
-class_alias(ChainSiteAccessProvider::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider');

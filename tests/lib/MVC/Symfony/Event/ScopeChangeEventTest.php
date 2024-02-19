@@ -19,5 +19,3 @@ class ScopeChangeEventTest extends TestCase
         $this->assertSame($siteAccess, $event->getSiteAccess());
     }
 }
-
-class_alias(ScopeChangeEventTest::class, 'eZ\Publish\Core\MVC\Symfony\Event\Tests\ScopeChangeEventTest');

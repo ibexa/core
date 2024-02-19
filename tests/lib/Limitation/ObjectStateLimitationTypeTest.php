@@ -305,5 +305,3 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertEquals([3], $criterion->criteria[1]->value);
     }
 }
-
-class_alias(ObjectStateLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\ObjectStateLimitationTypeTest');

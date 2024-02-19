@@ -132,5 +132,3 @@ abstract class AbstractViewTest extends TestCase
         ];
     }
 }
-
-class_alias(AbstractViewTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\AbstractViewTest');

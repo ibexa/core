@@ -18,5 +18,3 @@ interface ParserInterface extends HookableConfigurationMapperInterface
      */
     public function addSemanticConfig(NodeBuilder $nodeBuilder);
 }
-
-class_alias(ParserInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ParserInterface');

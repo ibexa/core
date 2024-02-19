@@ -13,5 +13,3 @@ class DeprecationWarner implements DeprecationWarnerInterface
         @trigger_error($message, E_USER_DEPRECATED);
     }
 }
-
-class_alias(DeprecationWarner::class, 'eZ\Publish\Core\Base\Utils\DeprecationWarner');

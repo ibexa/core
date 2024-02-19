@@ -97,5 +97,3 @@ class TextBlockConverter implements Converter
         return 'sort_key_string';
     }
 }
-
-class_alias(TextBlockConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\TextBlockConverter');

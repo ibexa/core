@@ -24,5 +24,3 @@ interface Capable
      */
     public function supports(int $capabilityFlag): bool;
 }
-
-class_alias(Capable::class, 'eZ\Publish\SPI\Search\Capable');

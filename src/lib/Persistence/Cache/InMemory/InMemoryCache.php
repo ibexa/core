@@ -218,5 +218,3 @@ class InMemoryCache
         }
     }
 }
-
-class_alias(InMemoryCache::class, 'eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCache');

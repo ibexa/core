@@ -158,5 +158,3 @@ class UserGroupLimitationTest extends BaseLimitationTest
         return $draft;
     }
 }
-
-class_alias(UserGroupLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\UserGroupLimitationTest');

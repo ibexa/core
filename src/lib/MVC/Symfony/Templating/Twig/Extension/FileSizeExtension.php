@@ -119,5 +119,3 @@ class FileSizeExtension extends AbstractExtension
         return $formatter->format($number);
     }
 }
-
-class_alias(FileSizeExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension');

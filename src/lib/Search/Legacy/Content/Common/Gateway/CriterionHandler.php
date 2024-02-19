@@ -86,5 +86,3 @@ abstract class CriterionHandler
         return false;
     }
 }
-
-class_alias(CriterionHandler::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler');

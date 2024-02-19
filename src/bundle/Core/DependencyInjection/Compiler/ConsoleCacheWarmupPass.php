@@ -46,5 +46,3 @@ class ConsoleCacheWarmupPass implements CompilerPassInterface
         $container->getDefinition('cache_warmer')->replaceArgument(0, $warmers);
     }
 }
-
-class_alias(ConsoleCacheWarmupPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ConsoleCacheWarmupPass');

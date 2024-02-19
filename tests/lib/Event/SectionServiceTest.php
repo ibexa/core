@@ -402,5 +402,3 @@ class SectionServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(SectionServiceTest::class, 'eZ\Publish\Core\Event\Tests\SectionServiceTest');

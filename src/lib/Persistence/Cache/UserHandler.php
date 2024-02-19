@@ -764,5 +764,3 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
         ]);
     }
 }
-
-class_alias(UserHandler::class, 'eZ\Publish\Core\Persistence\Cache\UserHandler');

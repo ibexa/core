@@ -46,5 +46,3 @@ final class SiblingQueryBuilder implements CriterionQueryBuilder
         return $this->logicalAndQueryBuilder->buildQueryConstraint($queryBuilder, $_criterion);
     }
 }
-
-class_alias(SiblingQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\SiblingQueryBuilder');

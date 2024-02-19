@@ -42,5 +42,3 @@ final class SiteAccessMatcherRegistryPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(SiteAccessMatcherRegistryPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\SiteAccessMatcherRegistryPass');

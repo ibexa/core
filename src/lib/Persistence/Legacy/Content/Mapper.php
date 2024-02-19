@@ -579,5 +579,3 @@ class Mapper
         return $relation;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Mapper');

@@ -332,5 +332,3 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(TextLineIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\TextLineIntegrationTest');

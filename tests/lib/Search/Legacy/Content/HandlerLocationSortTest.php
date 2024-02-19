@@ -653,5 +653,3 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
     }
 }
-
-class_alias(HandlerLocationSortTest::class, 'eZ\Publish\Core\Search\Legacy\Tests\Content\HandlerLocationSortTest');

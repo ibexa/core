@@ -58,5 +58,3 @@ abstract class UnauthorizedListItem
         return $this->payload;
     }
 }
-
-class_alias(UnauthorizedListItem::class, 'eZ\Publish\API\Repository\Lists\UnauthorizedListItem');

@@ -25,5 +25,3 @@ class TrashItemDeleteResultList extends ValueObject implements \IteratorAggregat
         return new ArrayIterator($this->items);
     }
 }
-
-class_alias(TrashItemDeleteResultList::class, 'eZ\Publish\API\Repository\Values\Content\Trash\TrashItemDeleteResultList');

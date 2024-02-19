@@ -43,5 +43,3 @@ class ViewRendererListener implements EventSubscriberInterface
         $event->setResponse($response);
     }
 }
-
-class_alias(ViewRendererListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ViewRendererListener');

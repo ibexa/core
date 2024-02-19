@@ -118,5 +118,3 @@ class URLAliasService implements URLAliasServiceInterface
         return $this->service->deleteCorruptedUrlAliases();
     }
 }
-
-class_alias(URLAliasService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\URLAliasService');

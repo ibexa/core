@@ -28,5 +28,3 @@ interface ConfigurationMapperInterface
      */
     public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer);
 }
-
-class_alias(ConfigurationMapperInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationMapperInterface');

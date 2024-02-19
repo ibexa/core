@@ -74,5 +74,3 @@ class SearchField implements Indexable
         return $this->getDefaultMatchField();
     }
 }
-
-class_alias(SearchField::class, 'eZ\Publish\Core\FieldType\BinaryFile\SearchField');

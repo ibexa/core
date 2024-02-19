@@ -30,5 +30,3 @@ final class MapNormalizer extends PropertyNormalizer
         return $data instanceof Map;
     }
 }
-
-class_alias(MapNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\MapNormalizer');

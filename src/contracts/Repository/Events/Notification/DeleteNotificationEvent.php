@@ -26,5 +26,3 @@ final class DeleteNotificationEvent extends AfterEvent
         return $this->notification;
     }
 }
-
-class_alias(DeleteNotificationEvent::class, 'eZ\Publish\API\Repository\Events\Notification\DeleteNotificationEvent');

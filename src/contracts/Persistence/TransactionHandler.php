@@ -39,5 +39,3 @@ interface TransactionHandler
      */
     public function rollback();
 }
-
-class_alias(TransactionHandler::class, 'eZ\Publish\SPI\Persistence\TransactionHandler');

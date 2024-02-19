@@ -31,5 +31,3 @@ abstract class ContentStruct extends ValueObject
      */
     abstract public function setField(string $fieldDefIdentifier, $value, ?string $language = null): void;
 }
-
-class_alias(ContentStruct::class, 'eZ\Publish\API\Repository\Values\Content\ContentStruct');

@@ -27,5 +27,3 @@ final class RemoveRoleAssignmentEvent extends AfterEvent
         return $this->roleAssignment;
     }
 }
-
-class_alias(RemoveRoleAssignmentEvent::class, 'eZ\Publish\API\Repository\Events\Role\RemoveRoleAssignmentEvent');

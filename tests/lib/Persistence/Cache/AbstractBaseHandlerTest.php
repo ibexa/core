@@ -187,5 +187,3 @@ abstract class AbstractBaseHandlerTest extends TestCase
         ];
     }
 }
-
-class_alias(AbstractBaseHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\AbstractBaseHandlerTest');

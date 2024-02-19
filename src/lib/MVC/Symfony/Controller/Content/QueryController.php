@@ -144,5 +144,3 @@ class QueryController
         return new ContentSearchHitAdapter($query, $this->searchService);
     }
 }
-
-class_alias(QueryController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Content\QueryController');

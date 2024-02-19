@@ -34,5 +34,3 @@ final class ContentSearchAdapterTest extends AbstractSearchAdapterTest
         return 'findContent';
     }
 }
-
-class_alias(ContentSearchAdapterTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter\ContentSearchAdapterTest');

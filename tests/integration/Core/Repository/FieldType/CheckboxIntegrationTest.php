@@ -424,5 +424,3 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         return $contentTypeService->loadContentType($contentTypeDraft->id);
     }
 }
-
-class_alias(CheckboxIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\CheckboxIntegrationTest');

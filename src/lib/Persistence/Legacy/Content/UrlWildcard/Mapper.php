@@ -85,5 +85,3 @@ class Mapper
         return $urlWildcards;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Mapper');

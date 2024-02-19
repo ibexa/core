@@ -26,5 +26,3 @@ abstract class AbstractFieldTermAggregation extends AbstractTermAggregation impl
         $this->fieldDefinitionIdentifier = $fieldDefinitionIdentifier;
     }
 }
-
-class_alias(AbstractFieldTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\AbstractFieldTermAggregation');

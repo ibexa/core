@@ -123,5 +123,3 @@ class UrlWildcardMapperTest extends TestCase
         return new Mapper();
     }
 }
-
-class_alias(UrlWildcardMapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlWildcard\UrlWildcardMapperTest');

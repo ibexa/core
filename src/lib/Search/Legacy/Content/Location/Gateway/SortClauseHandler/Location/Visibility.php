@@ -43,5 +43,3 @@ class Visibility extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(Visibility::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Visibility');

@@ -600,5 +600,3 @@ class Handler implements BaseLocationHandler
         return $this->locationGateway->countLocationsByContentId($contentId);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Handler');

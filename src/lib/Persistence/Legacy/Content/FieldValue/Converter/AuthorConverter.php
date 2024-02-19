@@ -155,5 +155,3 @@ class AuthorConverter implements Converter
         return $authors;
     }
 }
-
-class_alias(AuthorConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\AuthorConverter');

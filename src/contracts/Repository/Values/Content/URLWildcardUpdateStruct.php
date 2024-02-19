@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 final class URLWildcardUpdateStruct extends URLWildcardStruct
 {
 }
-
-class_alias(URLWildcardUpdateStruct::class, 'eZ\Publish\API\Repository\Values\Content\URLWildcardUpdateStruct');

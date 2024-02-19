@@ -32,5 +32,3 @@ interface EmbedView
      */
     public function isEmbed();
 }
-
-class_alias(EmbedView::class, 'eZ\Publish\Core\MVC\Symfony\View\EmbedView');

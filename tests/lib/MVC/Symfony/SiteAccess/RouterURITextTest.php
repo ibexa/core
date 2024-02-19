@@ -166,5 +166,3 @@ class RouterURITextTest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterURITextTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterURITextTest');

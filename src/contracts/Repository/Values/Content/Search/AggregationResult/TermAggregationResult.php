@@ -95,5 +95,3 @@ class TermAggregationResult extends AggregationResult implements IteratorAggrega
         return new self($aggregation->getName(), $entries);
     }
 }
-
-class_alias(TermAggregationResult::class, 'eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\TermAggregationResult');

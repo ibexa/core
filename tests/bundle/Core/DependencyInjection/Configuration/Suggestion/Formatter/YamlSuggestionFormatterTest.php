@@ -94,5 +94,3 @@ EOT;
         $this->assertSame($message, $formatter->format($suggestion));
     }
 }
-
-class_alias(YamlSuggestionFormatterTest::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Tests\Formatter\YamlSuggestionFormatterTest');

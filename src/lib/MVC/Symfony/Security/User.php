@@ -157,5 +157,3 @@ class User implements ReferenceUserInterface, EquatableInterface
         return ['reference', 'roles'];
     }
 }
-
-class_alias(User::class, 'eZ\Publish\Core\MVC\Symfony\Security\User');

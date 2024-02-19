@@ -334,5 +334,3 @@ class IOService implements IOServiceInterface
         return $path[0] === '/' || (PHP_OS === 'WINNT' && $path[1] === ':');
     }
 }
-
-class_alias(IOService::class, 'eZ\Publish\Core\IO\IOService');

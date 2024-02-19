@@ -35,5 +35,3 @@ class Value extends BaseValue
         return implode(',', $this->selection);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Selection\Value');

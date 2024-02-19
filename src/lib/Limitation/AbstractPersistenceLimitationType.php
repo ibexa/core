@@ -24,5 +24,3 @@ class AbstractPersistenceLimitationType
         $this->persistence = $persistence;
     }
 }
-
-class_alias(AbstractPersistenceLimitationType::class, 'eZ\Publish\Core\Limitation\AbstractPersistenceLimitationType');

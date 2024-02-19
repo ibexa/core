@@ -49,5 +49,3 @@ final class BeforeUpdateFieldDefinitionEvent extends BeforeEvent
         return $this->fieldDefinitionUpdateStruct;
     }
 }
-
-class_alias(BeforeUpdateFieldDefinitionEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeUpdateFieldDefinitionEvent');

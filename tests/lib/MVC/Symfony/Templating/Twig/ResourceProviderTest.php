@@ -183,5 +183,3 @@ class ResourceProviderTest extends TestCase
         return $mock;
     }
 }
-
-class_alias(ResourceProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\ResourceProviderTest');

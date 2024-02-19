@@ -100,5 +100,3 @@ abstract class BaseLimitationIntegrationTest extends BaseTest
         );
     }
 }
-
-class_alias(BaseLimitationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\BaseLimitationIntegrationTest');

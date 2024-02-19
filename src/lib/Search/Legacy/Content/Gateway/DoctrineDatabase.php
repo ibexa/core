@@ -262,5 +262,3 @@ final class DoctrineDatabase extends Gateway
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway\DoctrineDatabase');

@@ -91,5 +91,3 @@ class Aggregate extends FieldValueMapper
         );
     }
 }
-
-class_alias(Aggregate::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\Aggregate');

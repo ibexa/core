@@ -27,5 +27,3 @@ class GroupNotEmpty extends BadStateException
         );
     }
 }
-
-class_alias(GroupNotEmpty::class, 'eZ\Publish\Core\Persistence\Legacy\Exception\GroupNotEmpty');

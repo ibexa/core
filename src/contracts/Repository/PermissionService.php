@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository;
 interface PermissionService extends PermissionResolver, PermissionCriterionResolver
 {
 }
-
-class_alias(PermissionService::class, 'eZ\Publish\API\Repository\PermissionService');

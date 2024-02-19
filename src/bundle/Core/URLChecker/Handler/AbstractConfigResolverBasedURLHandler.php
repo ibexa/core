@@ -52,5 +52,3 @@ abstract class AbstractConfigResolverBasedURLHandler extends AbstractURLHandler
         return $this->getOptionsResolver()->resolve($options);
     }
 }
-
-class_alias(AbstractConfigResolverBasedURLHandler::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\Handler\AbstractConfigResolverBasedURLHandler');

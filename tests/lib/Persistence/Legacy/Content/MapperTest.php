@@ -604,5 +604,3 @@ class MapperTest extends LanguageAwareTestCase
         return $this->languageHandler;
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\MapperTest');

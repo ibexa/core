@@ -52,5 +52,3 @@ class LocationId extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(LocationId::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationId');

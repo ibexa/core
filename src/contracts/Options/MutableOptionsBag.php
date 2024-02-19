@@ -17,5 +17,3 @@ interface MutableOptionsBag extends OptionsBag
 
     public function remove(string $key): void;
 }
-
-class_alias(MutableOptionsBag::class, 'eZ\Publish\SPI\Options\MutableOptionsBag');

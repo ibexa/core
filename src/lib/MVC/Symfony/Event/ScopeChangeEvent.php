@@ -30,5 +30,3 @@ class ScopeChangeEvent extends Event
         return $this->siteAccess;
     }
 }
-
-class_alias(ScopeChangeEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\ScopeChangeEvent');

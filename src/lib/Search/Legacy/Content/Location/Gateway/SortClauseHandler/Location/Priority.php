@@ -43,5 +43,3 @@ class Priority extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(Priority::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\Priority');

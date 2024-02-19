@@ -1142,5 +1142,3 @@ class ContentTypeServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(ContentTypeServiceTest::class, 'eZ\Publish\Core\Event\Tests\ContentTypeServiceTest');

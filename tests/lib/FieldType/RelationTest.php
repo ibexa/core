@@ -502,5 +502,3 @@ class RelationTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(RelationTest::class, 'eZ\Publish\Core\FieldType\Tests\RelationTest');

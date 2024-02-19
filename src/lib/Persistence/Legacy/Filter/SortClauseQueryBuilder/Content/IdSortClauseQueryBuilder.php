@@ -28,5 +28,3 @@ class IdSortClauseQueryBuilder implements SortClauseQueryBuilder
         $queryBuilder->addOrderBy('content.id', $sortClause->direction);
     }
 }
-
-class_alias(IdSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Content\IdSortClauseQueryBuilder');

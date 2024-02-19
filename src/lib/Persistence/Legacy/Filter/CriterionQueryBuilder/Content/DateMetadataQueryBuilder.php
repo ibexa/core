@@ -43,5 +43,3 @@ final class DateMetadataQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(DateMetadataQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\DateMetadataQueryBuilder');

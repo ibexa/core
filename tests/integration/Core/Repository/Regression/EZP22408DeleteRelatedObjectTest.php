@@ -180,5 +180,3 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         return $this->getRepository()->getLocationService()->newLocationCreateStruct(2);
     }
 }
-
-class_alias(EZP22408DeleteRelatedObjectTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP22408DeleteRelatedObjectTest');

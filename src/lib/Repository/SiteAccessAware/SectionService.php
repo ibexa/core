@@ -96,5 +96,3 @@ class SectionService implements SectionServiceInterface
         return $this->service->newSectionUpdateStruct();
     }
 }
-
-class_alias(SectionService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\SectionService');

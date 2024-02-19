@@ -57,5 +57,3 @@ final class RelatedToContentQueryType extends AbstractQueryType
         );
     }
 }
-
-class_alias(RelatedToContentQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\RelatedToContentQueryType');

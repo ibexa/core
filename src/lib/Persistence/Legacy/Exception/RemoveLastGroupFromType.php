@@ -31,5 +31,3 @@ class RemoveLastGroupFromType extends BadStateException
         );
     }
 }
-
-class_alias(RemoveLastGroupFromType::class, 'eZ\Publish\Core\Persistence\Legacy\Exception\RemoveLastGroupFromType');

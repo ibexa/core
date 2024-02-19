@@ -120,5 +120,3 @@ final class SortSpecParser implements SortSpecParserInterface
         );
     }
 }
-
-class_alias(SortSpecParser::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortSpecParser');

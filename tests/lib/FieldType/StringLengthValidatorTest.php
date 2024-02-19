@@ -404,5 +404,3 @@ class StringLengthValidatorTest extends TestCase
         ];
     }
 }
-
-class_alias(StringLengthValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\StringLengthValidatorTest');

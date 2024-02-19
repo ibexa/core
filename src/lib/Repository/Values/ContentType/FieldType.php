@@ -297,5 +297,3 @@ class FieldType implements FieldTypeInterface
         return $this->internalFieldType->validate($fieldDef, $value);
     }
 }
-
-class_alias(FieldType::class, 'eZ\Publish\Core\Repository\Values\ContentType\FieldType');

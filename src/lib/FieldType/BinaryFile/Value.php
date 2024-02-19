@@ -20,5 +20,3 @@ class Value extends BaseValue
      */
     public $downloadCount = 0;
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\BinaryFile\Value');

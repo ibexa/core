@@ -83,5 +83,3 @@ class ExceptionListener implements EventSubscriberInterface
         return $message;
     }
 }
-
-class_alias(ExceptionListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ExceptionListener');

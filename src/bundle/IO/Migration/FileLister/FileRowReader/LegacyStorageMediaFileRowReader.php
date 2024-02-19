@@ -18,5 +18,3 @@ final class LegacyStorageMediaFileRowReader extends LegacyStorageFileRowReader
         return 'ezmedia';
     }
 }
-
-class_alias(LegacyStorageMediaFileRowReader::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileRowReader\LegacyStorageMediaFileRowReader');

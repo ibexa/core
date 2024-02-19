@@ -53,5 +53,3 @@ final class SimplifiedRequestNormalizerTest extends TestCase
         $this->assertFalse($normalizer->supportsNormalization(new stdClass()));
     }
 }
-
-class_alias(SimplifiedRequestNormalizerTest::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\SimplifiedRequestNormalizerTest');

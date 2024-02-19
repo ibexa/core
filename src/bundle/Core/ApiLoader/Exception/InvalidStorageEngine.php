@@ -11,5 +11,3 @@ use InvalidArgumentException;
 class InvalidStorageEngine extends InvalidArgumentException
 {
 }
-
-class_alias(InvalidStorageEngine::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\Exception\InvalidStorageEngine');

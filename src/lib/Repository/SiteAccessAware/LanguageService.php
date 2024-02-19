@@ -91,5 +91,3 @@ class LanguageService implements LanguageServiceInterface
         return $this->service->newLanguageCreateStruct();
     }
 }
-
-class_alias(LanguageService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\LanguageService');

@@ -56,5 +56,3 @@ class Templates extends AbstractParser
         // Nothing to do here.
     }
 }
-
-class_alias(Templates::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\Templates');

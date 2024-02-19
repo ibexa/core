@@ -56,5 +56,3 @@ class FieldSettings extends ArrayObject
         return parent::offsetGet($index);
     }
 }
-
-class_alias(FieldSettings::class, 'eZ\Publish\Core\FieldType\FieldSettings');

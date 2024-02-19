@@ -115,5 +115,3 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->deleteNotification(...$parameters);
     }
 }
-
-class_alias(NotificationServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\NotificationServiceDecoratorTest');

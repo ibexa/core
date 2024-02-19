@@ -59,5 +59,3 @@ abstract class AbstractSearchEventSubscriber
         }
     }
 }
-
-class_alias(AbstractSearchEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\AbstractSearchEventSubscriber');

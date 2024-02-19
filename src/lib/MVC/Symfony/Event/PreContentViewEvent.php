@@ -50,5 +50,3 @@ class PreContentViewEvent extends Event
         return $this->contentView;
     }
 }
-
-class_alias(PreContentViewEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent');

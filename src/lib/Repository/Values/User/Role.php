@@ -34,5 +34,3 @@ class Role extends APIRole
         return $this->policies;
     }
 }
-
-class_alias(Role::class, 'eZ\Publish\Core\Repository\Values\User\Role');

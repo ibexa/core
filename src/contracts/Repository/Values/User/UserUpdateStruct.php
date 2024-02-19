@@ -59,5 +59,3 @@ class UserUpdateStruct extends ValueObject
      */
     public $contentMetadataUpdateStruct = null;
 }
-
-class_alias(UserUpdateStruct::class, 'eZ\Publish\API\Repository\Values\User\UserUpdateStruct');

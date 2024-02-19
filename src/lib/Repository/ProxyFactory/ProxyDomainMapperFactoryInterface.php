@@ -15,5 +15,3 @@ interface ProxyDomainMapperFactoryInterface
 {
     public function create(Repository $repository): ProxyDomainMapperInterface;
 }
-
-class_alias(ProxyDomainMapperFactoryInterface::class, 'eZ\Publish\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface');

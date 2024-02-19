@@ -127,5 +127,3 @@ class UserGroupTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(UserGroupTest::class, 'eZ\Publish\Core\Repository\Tests\Values\User\UserGroupTest');

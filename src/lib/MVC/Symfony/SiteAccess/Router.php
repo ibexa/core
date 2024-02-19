@@ -270,5 +270,3 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
         $this->siteAccess = $siteAccess;
     }
 }
-
-class_alias(Router::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Router');

@@ -1360,5 +1360,3 @@ class PermissionResolverTest extends BaseTest
         return $contentCreateStruct;
     }
 }
-
-class_alias(PermissionResolverTest::class, 'eZ\Publish\API\Repository\Tests\PermissionResolverTest');

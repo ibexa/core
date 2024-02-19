@@ -47,5 +47,3 @@ final class SerializerStub implements SerializerInterface, NormalizerInterface
         return true;
     }
 }
-
-class_alias(SerializerStub::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\Stubs\SerializerStub');

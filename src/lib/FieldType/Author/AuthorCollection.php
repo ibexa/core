@@ -76,5 +76,3 @@ class AuthorCollection extends ArrayObject
         $this->exchangeArray($aAuthors);
     }
 }
-
-class_alias(AuthorCollection::class, 'eZ\Publish\Core\FieldType\Author\AuthorCollection');

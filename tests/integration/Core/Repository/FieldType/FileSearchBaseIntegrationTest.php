@@ -220,5 +220,3 @@ abstract class FileSearchBaseIntegrationTest extends SearchBaseIntegrationTest
         $this->testIsEmptyValue($updatedContent->getFieldValue('data'));
     }
 }
-
-class_alias(FileSearchBaseIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\FileSearchBaseIntegrationTest');

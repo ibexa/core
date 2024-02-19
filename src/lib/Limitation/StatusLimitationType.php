@@ -161,5 +161,3 @@ class StatusLimitationType implements SPILimitationTypeInterface
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(StatusLimitationType::class, 'eZ\Publish\Core\Limitation\StatusLimitationType');

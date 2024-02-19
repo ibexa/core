@@ -199,5 +199,3 @@ abstract class BaseNonRedundantFieldSetTest extends BaseTest
         return $contentService->loadContent($content->id, null, $content->versionInfo->versionNo);
     }
 }
-
-class_alias(BaseNonRedundantFieldSetTest::class, 'eZ\Publish\API\Repository\Tests\BaseNonRedundantFieldSetTest');

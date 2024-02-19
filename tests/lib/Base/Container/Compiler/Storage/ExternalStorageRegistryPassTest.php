@@ -208,5 +208,3 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(ExternalStorageRegistryPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Storage\ExternalStorageRegistryPassTest');

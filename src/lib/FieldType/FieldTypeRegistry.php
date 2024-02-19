@@ -91,5 +91,3 @@ class FieldTypeRegistry
         return $this->concreteFieldTypesIdentifiers;
     }
 }
-
-class_alias(FieldTypeRegistry::class, 'eZ\Publish\Core\FieldType\FieldTypeRegistry');

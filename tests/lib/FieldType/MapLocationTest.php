@@ -319,5 +319,3 @@ class MapLocationTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(MapLocationTest::class, 'eZ\Publish\Core\FieldType\Tests\MapLocationTest');

@@ -42,5 +42,3 @@ final class DefaultSortClauseParser implements SortClauseParserInterface
         return isset($this->valueObjectClassMap[$name]);
     }
 }
-
-class_alias(DefaultSortClauseParser::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\DefaultSortClauseParser');

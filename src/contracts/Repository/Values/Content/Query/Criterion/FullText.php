@@ -156,5 +156,3 @@ class FullText extends Criterion implements CustomFieldInterface
         return $this->customFields[$type][$field];
     }
 }
-
-class_alias(FullText::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\FullText');

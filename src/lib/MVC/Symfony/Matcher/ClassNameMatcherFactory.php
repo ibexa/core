@@ -143,5 +143,3 @@ class ClassNameMatcherFactory implements ConfigurableMatcherFactoryInterface
         $this->matchConfig = $matchConfig;
     }
 }
-
-class_alias(ClassNameMatcherFactory::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ClassNameMatcherFactory');

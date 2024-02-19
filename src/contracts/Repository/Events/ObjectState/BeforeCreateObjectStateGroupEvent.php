@@ -50,5 +50,3 @@ final class BeforeCreateObjectStateGroupEvent extends BeforeEvent
         return $this->objectStateGroup instanceof ObjectStateGroup;
     }
 }
-
-class_alias(BeforeCreateObjectStateGroupEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\BeforeCreateObjectStateGroupEvent');

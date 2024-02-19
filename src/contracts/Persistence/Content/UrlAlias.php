@@ -103,5 +103,3 @@ class UrlAlias extends ValueObject
      */
     public $forward;
 }
-
-class_alias(UrlAlias::class, 'eZ\Publish\SPI\Persistence\Content\UrlAlias');

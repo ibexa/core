@@ -15,5 +15,3 @@ interface RepositoryAwareInterface
      */
     public function setRepository(Repository $repository);
 }
-
-class_alias(RepositoryAwareInterface::class, 'eZ\Publish\Core\MVC\RepositoryAwareInterface');

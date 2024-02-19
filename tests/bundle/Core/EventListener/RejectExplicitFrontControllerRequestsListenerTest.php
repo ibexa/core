@@ -282,5 +282,3 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         ];
     }
 }
-
-class_alias(RejectExplicitFrontControllerRequestsListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\RejectExplicitFrontControllerRequestsListenerTest');

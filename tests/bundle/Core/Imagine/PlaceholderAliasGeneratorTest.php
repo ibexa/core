@@ -298,5 +298,3 @@ class PlaceholderAliasGeneratorTest extends TestCase
         ];
     }
 }
-
-class_alias(PlaceholderAliasGeneratorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\PlaceholderAliasGeneratorTest');

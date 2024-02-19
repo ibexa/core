@@ -11,5 +11,3 @@ class ContentView extends View
     public const NODE_KEY = 'content_view';
     public const INFO = 'Template selection settings when displaying a content';
 }
-
-class_alias(ContentView::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\ContentView');

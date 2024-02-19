@@ -235,5 +235,3 @@ class UserPreferenceTest extends BaseServiceMockTest
         ]);
     }
 }
-
-class_alias(UserPreferenceTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UserPreferenceTest');

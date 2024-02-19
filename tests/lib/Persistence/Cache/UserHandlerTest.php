@@ -636,5 +636,3 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
         $handler->removeRoleAssignment($roleAssignmentId);
     }
 }
-
-class_alias(UserHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\UserHandlerTest');
