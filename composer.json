@@ -159,10 +159,6 @@
     "extra": {
         "branch-alias": {
             "dev-main": "4.6.x-dev"
-        },
-        "thanks": {
-            "name": "ezsystems/ezplatform",
-            "url": "https://github.com/ezsystems/ezplatform"
         }
     }
 }
