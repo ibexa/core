@@ -81,7 +81,6 @@
         "symfony/dependency-injection": "5.3.7",
         "symfony/security-core": "5.3.0",
         "doctrine/dbal": "2.7.0",
-        "ezsystems/ezpublish-legacy": "*",
         "phpunit/phpunit": "8.4.0"
     },
     "replace": {
