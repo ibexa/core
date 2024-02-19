@@ -83,9 +83,6 @@
         "doctrine/dbal": "2.7.0",
         "phpunit/phpunit": "8.4.0"
     },
-    "replace": {
-        "ezsystems/ezplatform-kernel": "*"
-    },
     "autoload": {
         "psr-4": {
             "Ibexa\\Bundle\\Core\\": "src/bundle/Core",
