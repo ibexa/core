@@ -5156,11 +5156,6 @@ parameters:
 			path: src/contracts/FieldType/Generic/Type.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Generic\\\\Type\\:\\:getSortInfo\\(\\) expects Ibexa\\\\Core\\\\FieldType\\\\Value, Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value given\\.$#"
-			count: 1
-			path: src/contracts/FieldType/Generic/Type.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\ValidationError\\:\\:setTarget\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/FieldType/ValidationError.php
