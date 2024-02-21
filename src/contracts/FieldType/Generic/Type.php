@@ -194,8 +194,6 @@ abstract class Type extends FieldType
      *
      * In case of multi value, values should be string and separated by "-" or ",".
      *
-     * @param \Ibexa\Core\FieldType\Value $value
-     *
      * @return mixed
      */
     protected function getSortInfo(Value $value)
