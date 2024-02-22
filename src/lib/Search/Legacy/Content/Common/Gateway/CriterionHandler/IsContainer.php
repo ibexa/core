@@ -35,6 +35,9 @@ class IsContainer extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
+        /** @var bool $isContainer */
+        $isContainer = reset($criterion->value);
+
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
             ->select(
@@ -44,7 +47,7 @@ class IsContainer extends CriterionHandler
             )->where(
                 $queryBuilder->expr()->eq(
                     'is_container',
-                    $queryBuilder->createNamedParameter((int)reset($criterion->value), ParameterType::INTEGER)
+                    $queryBuilder->createNamedParameter((int)$isContainer, ParameterType::INTEGER)
                 )
             );
 
