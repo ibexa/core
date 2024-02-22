@@ -35,8 +35,9 @@ class IsContainer extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
-        /** @var bool $isContainer */
-        $isContainer = reset($criterion->value);
+        /** @var array{bool} $criterionValue */
+        $criterionValue = $criterion->value;
+        $isContainer = reset($criterionValue);
 
         $subSelect = $this->connection->createQueryBuilder();
         $subSelect
