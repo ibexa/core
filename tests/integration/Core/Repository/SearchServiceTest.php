@@ -684,6 +684,14 @@ class SearchServiceTest extends BaseTest
             ],
             [
                 [
+                    'query' => new Criterion\IsContainer(true),
+                    'sortClauses' => [new SortClause\ContentId()],
+                    'limit' => 5,
+                ],
+                $fixtureDir . 'IsContainerTrue.php',
+            ],
+            [
+                [
                     'query' => new Criterion\IsContainer(false),
                     'sortClauses' => [new SortClause\ContentId()],
                     'limit' => 5,
