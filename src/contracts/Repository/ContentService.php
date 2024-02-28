@@ -405,6 +405,19 @@ interface ContentService
     public function loadRelations(VersionInfo $versionInfo): iterable;
 
     /**
+     * Loads all outgoing relations for the given version.
+     *
+     * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
+     * {@link \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem}
+     */
+    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, int $limit = -1): RelationList;
+
+    /**
+     * Counts all outgoing relations for the given version.
+     */
+    public function countRelations(VersionInfo $versionInfo): int;
+
+    /**
      * Counts all incoming relations for the given content object.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
