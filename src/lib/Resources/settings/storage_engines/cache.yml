@@ -117,6 +117,7 @@ parameters:
         content_info: 'ci-%s'
         content_info_by_remote_id: 'cibri-%s'
         content_locations: 'cl-%s'
+        content_relations_count: 'crc-%s'
         content_reverse_relations_count: 'crrc-%s'
         content_version_info: 'cvi-%s'
         content_version_list: 'c-%s-vl'

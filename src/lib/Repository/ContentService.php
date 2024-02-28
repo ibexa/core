@@ -2051,6 +2051,83 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function countRelations(APIVersionInfo $versionInfo): int
+    {
+        $function = 'versionread';
+
+        if ($versionInfo->isPublished()) {
+            $function = 'read';
+        }
+
+        if (!$this->permissionResolver->canUser('content', $function, $versionInfo)) {
+            return 0;
+        }
+
+        $contentInfo = $versionInfo->getContentInfo();
+
+        return $this->persistenceHandler->contentHandler()->countRelations(
+            $contentInfo->id,
+            $versionInfo->versionNo
+        );
+    }
+
+    public function loadRelationList(APIVersionInfo $versionInfo, int $offset = 0, int $limit = -1): RelationList
+    {
+        $function = 'versionread';
+
+        if ($versionInfo->isPublished()) {
+            $function = 'read';
+        }
+
+        $list = new RelationList();
+
+        if (!$this->permissionResolver->canUser('content', $function, $versionInfo)) {
+            return $list;
+        }
+
+        $contentInfo = $versionInfo->getContentInfo();
+        $list->totalCount = $this->persistenceHandler->contentHandler()->countRelations(
+            $contentInfo->id,
+            $versionInfo->versionNo
+        );
+
+        if ($list->totalCount === 0) {
+            return $list;
+        }
+
+        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $contentInfo->id,
+            $offset,
+            $limit,
+            $versionInfo->versionNo,
+        );
+
+        foreach ($spiRelations as $spiRelation) {
+            $destinationContentInfo = $this->internalLoadContentInfoById($spiRelation->destinationContentId);
+
+            if (!$this->permissionResolver->canUser('content', 'read', $destinationContentInfo)) {
+                $list->items[] = new UnauthorizedRelationListItem(
+                    'content',
+                    'read',
+                    ['contentId' => $destinationContentInfo->id]
+                );
+
+                continue;
+            }
+            $relation = $this->contentDomainMapper->buildRelationDomainObject(
+                $spiRelation,
+                $contentInfo,
+                $destinationContentInfo
+            );
+            $list->items[] = new RelationListItem($relation);
+        }
+
+        return $list;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function countReverseRelations(ContentInfo $contentInfo): int
     {
         if (!$this->permissionResolver->canUser('content', 'reverserelatedlist', $contentInfo)) {

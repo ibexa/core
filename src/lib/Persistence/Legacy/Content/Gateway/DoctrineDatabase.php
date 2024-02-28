@@ -1445,6 +1445,145 @@ final class DoctrineDatabase extends Gateway
         return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
+    public function countRelations(
+        int $contentId,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): int {
+        $query = $this->connection->createQueryBuilder();
+        $expr = $query->expr();
+        $query
+            ->select($this->databasePlatform->getCountExpression('l.id'))
+            ->from(self::CONTENT_RELATION_TABLE, 'l')
+            ->innerJoin(
+                'l',
+                'ezcontentobject',
+                'ezcontentobject_to',
+                $expr->and(
+                    'l.to_contentobject_id = ezcontentobject_to.id',
+                    'ezcontentobject_to.status = :status'
+                )
+            )
+            ->where(
+                'l.from_contentobject_id = :content_id'
+            )
+            ->setParameter(
+                'status',
+                ContentInfo::STATUS_PUBLISHED,
+                ParameterType::INTEGER
+            )
+            ->setParameter('content_id', $contentId, ParameterType::INTEGER);
+
+        // source version number
+        if (null !== $contentVersionNo) {
+            $query
+                ->andWhere('l.from_contentobject_version = :version_no')
+                ->setParameter('version_no', $contentVersionNo, ParameterType::INTEGER);
+        } else {
+            // from published version only
+            $query
+                ->innerJoin(
+                    'ezcontentobject_to',
+                    'ezcontentobject',
+                    'c',
+                    $expr->and(
+                        'c.id = l.from_contentobject_id',
+                        'c.current_version = l.from_contentobject_version'
+                    )
+                );
+        }
+
+        // relation type
+        if (null !== $relationType) {
+            $query
+                ->andWhere(
+                    $expr->gt(
+                        $this->databasePlatform->getBitAndComparisonExpression(
+                            'l.relation_type',
+                            ':relation_type'
+                        ),
+                        0
+                    )
+                )
+                ->setParameter('relation_type', $relationType, ParameterType::INTEGER);
+        }
+
+        return (int)$query->execute()->fetchOne();
+    }
+
+    public function listRelations(
+        int $contentId,
+        int $offset = 0,
+        int $limit = -1,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): array {
+        $query = $this->queryBuilder->createRelationFindQueryBuilder();
+        $expr = $query->expr();
+        $query
+            ->innerJoin(
+                'l',
+                'ezcontentobject',
+                'ezcontentobject_to',
+                $expr->and(
+                    $expr->eq('l.to_contentobject_id', 'ezcontentobject_to.id'),
+                    $expr->eq('ezcontentobject_to.status', ':status'),
+                )
+            )
+            ->where(
+                'l.from_contentobject_id = :content_id'
+            )
+            ->setParameter(
+                'status',
+                ContentInfo::STATUS_PUBLISHED,
+                ParameterType::INTEGER
+            )
+            ->setParameter('content_id', $contentId, ParameterType::INTEGER);
+
+        // source version number
+        if (null !== $contentVersionNo) {
+            $query
+                ->andWhere('l.from_contentobject_version = :version_no')
+                ->setParameter('version_no', $contentVersionNo, ParameterType::INTEGER);
+        } else {
+            // from published version only
+            $query
+                ->innerJoin(
+                    'ezcontentobject_to',
+                    'ezcontentobject',
+                    'c',
+                    $expr->and(
+                        $expr->eq('c.id', 'l.from_contentobject_id'),
+                        $expr->eq('c.current_version', 'l.from_contentobject_version'),
+                    )
+                );
+        }
+
+        // relation type
+        if (null !== $relationType) {
+            $query
+                ->andWhere(
+                    $expr->gt(
+                        $this->databasePlatform->getBitAndComparisonExpression(
+                            'l.relation_type',
+                            ':relation_type'
+                        ),
+                        0
+                    )
+                )
+                ->setParameter('relation_type', $relationType, ParameterType::INTEGER);
+        }
+
+        $query->setFirstResult($offset);
+        if ($limit > 0) {
+            $query->setMaxResults($limit);
+        }
+
+        $query->orderBy('l.id', 'DESC');
+
+        return $query->execute()->fetchAllAssociative();
+    }
+
     public function countReverseRelations(int $toContentId, ?int $relationType = null): int
     {
         $query = $this->connection->createQueryBuilder();

@@ -295,6 +295,26 @@ interface Handler
     public function loadRelations($sourceContentId, $sourceContentVersionNo = null, $type = null);
 
     /**
+     * Counts relations from $sourceContentId. Optionally, count only those with $type and $sourceContentVersionNo.
+     */
+    public function countRelations(
+        int $sourceContentId,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): int;
+
+    /**
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation[]
+     */
+    public function loadRelationList(
+        int $sourceContentId,
+        int $offset = 0,
+        int $limit = -1,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): array;
+
+    /**
      * Counts relations from $destinationContentId only against published versions. Optionally, count only those with $type.
      *
      * @param int $destinationContentId Destination Content ID

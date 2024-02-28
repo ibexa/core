@@ -31,6 +31,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     private const CONTENT_VERSION_LIST_IDENTIFIER = 'content_version_list';
     private const CONTENT_VERSION_INFO_IDENTIFIER = 'content_version_info';
     private const CONTENT_VERSION_IDENTIFIER = 'content_version';
+    private const CONTENT_RELATIONS_COUNT_IDENTIFIER = 'content_relations_count';
     private const CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER = 'content_reverse_relations_count';
     private const RELATION_IDENTIFIER = 'relation';
 
@@ -515,6 +516,72 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         );
 
         return $this->persistenceHandler->contentHandler()->loadRelations($sourceContentId, $sourceContentVersionNo, $type);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
+    {
+        $cacheItem = $this->cache->getItem(
+            $this->cacheIdentifierGenerator->generateKey(
+                self::CONTENT_RELATIONS_COUNT_IDENTIFIER,
+                [$sourceContentId],
+                true
+            )
+        );
+
+        if ($cacheItem->isHit()) {
+            $this->logger->logCacheHit(['content' => $sourceContentId, 'version' => $sourceContentVersionNo]);
+
+            return $cacheItem->get();
+        }
+
+        $this->logger->logCacheMiss(['content' => $sourceContentId, 'version' => $sourceContentVersionNo]);
+        $relationsCount = $this->persistenceHandler->contentHandler()->countRelations(
+            $sourceContentId,
+            $sourceContentVersionNo,
+            $type
+        );
+        $cacheItem->set($relationsCount);
+        $tags = [
+            $this->cacheIdentifierGenerator->generateTag(
+                self::CONTENT_IDENTIFIER,
+                [$sourceContentId]
+            ),
+        ];
+
+        $cacheItem->tag($tags);
+        $this->cache->save($cacheItem);
+
+        return $relationsCount;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadRelationList(
+        int $sourceContentId,
+        int $offset = 0,
+        int $limit = -1,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): array {
+        $this->logger->logCall(__METHOD__, [
+            'content' => $sourceContentId,
+            'version' => $sourceContentVersionNo,
+            'offset' => $offset,
+            'limit' => $limit,
+            'type' => $type,
+        ]);
+
+        return $this->persistenceHandler->contentHandler()->loadRelationList(
+            $sourceContentId,
+            $offset,
+            $limit,
+            $sourceContentVersionNo,
+            $type
+        );
     }
 
     /**

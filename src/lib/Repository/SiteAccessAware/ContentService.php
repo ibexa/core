@@ -199,6 +199,22 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function countRelations(VersionInfo $versionInfo): int
+    {
+        return $this->service->countRelations($versionInfo);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, int $limit = -1): RelationList
+    {
+        return $this->service->loadRelationList($versionInfo, $offset, $limit);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function countReverseRelations(ContentInfo $contentInfo): int
     {
         return $this->service->countReverseRelations($contentInfo);

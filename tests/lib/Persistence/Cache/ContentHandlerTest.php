@@ -86,6 +86,8 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi = false, array $additionalCalls
         return [
             ['countReverseRelations', [2], 'ibx-crrc-2', null, null, [['content_reverse_relations_count', [2], true]], ['ibx-crrc-2'], 10],
+            ['countRelations', [2], 'ibx-crc-2', null, null, [['content_relations_count', [2], true]], ['ibx-crc-2'], 10],
+            ['countRelations', [2, 2], 'ibx-crc-2', null, null, [['content_relations_count', [2], true]], ['ibx-crc-2'], 10],
             ['load', [2, 1], 'ibx-c-2-1-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2, 1, ['eng-GB', 'eng-US']], 'ibx-c-2-1-eng-GB|eng-US', null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2], 'ibx-c-2-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
@@ -129,6 +131,34 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
                     ['content_reverse_relations_count', [2], true],
                 ],
                 ['ibx-crrc-2'],
+                10,
+            ],
+            [
+                'countRelations',
+                [2],
+                'ibx-crc-2',
+                [
+                    ['content', [2], false],
+                ],
+                ['c-2'],
+                [
+                    ['content_relations_count', [2], true],
+                ],
+                ['ibx-crc-2'],
+                10,
+            ],
+            [
+                'countRelations',
+                [2, 3],
+                'ibx-crc-2',
+                [
+                    ['content', [2], false],
+                ],
+                ['c-2'],
+                [
+                    ['content_relations_count', [2], true],
+                ],
+                ['ibx-crc-2'],
                 10,
             ],
             [
