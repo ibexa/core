@@ -34496,11 +34496,6 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Cannot access property \\$id on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|false\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
 			message: "#^Cannot access property \\$id on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|null\\.$#"
 			count: 11
 			path: tests/integration/Core/Repository/LocationServiceTest.php
