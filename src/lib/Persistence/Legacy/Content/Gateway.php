@@ -371,6 +371,8 @@ abstract class Gateway
 
     /**
      * Load paginated data of related to/from $contentId.
+     *
+     * @return array<mixed>
      */
     abstract public function listRelations(
         int $contentId,
