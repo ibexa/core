@@ -63259,23 +63259,3 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Specification\\\\Content\\\\ContentTypeSpecificationTest\\:\\:providerForIsSatisfiedBy\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Specification/Content/ContentTypeSpecificationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Gateway\\:\\:listRelations\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Gateway\\\\DoctrineDatabase\\:\\:listRelations\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Gateway\\\\ExceptionConversion\\:\\:listRelations\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/ExceptionConversion.php
-
-		-
-			message: "#^Cannot call method getDestinationContentInfo\\(\\) on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\|null\\.$#"
-			count: 4
-			path: tests/integration/Core/Repository/ContentServiceTest.php

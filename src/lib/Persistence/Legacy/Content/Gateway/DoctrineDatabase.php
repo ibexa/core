@@ -1511,6 +1511,9 @@ final class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchOne();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function listRelations(
         int $contentId,
         int $offset = 0,

@@ -3692,7 +3692,7 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $draft = $this->createContentWithRelations();
 
-        $this->assertEquals(2, $this->contentService->countRelations($draft->getVersionInfo()));
+        self::assertEquals(2, $this->contentService->countRelations($draft->getVersionInfo()));
     }
 
     /**
@@ -3704,7 +3704,7 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $draft = $this->createContentDraftVersion1();
 
-        $this->assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
+        self::assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
     }
 
     /**
@@ -3718,7 +3718,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $mediaUser = $this->createMediaUserVersion1();
         $this->permissionResolver->setCurrentUserReference($mediaUser);
 
-        $this->assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
+        self::assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
     }
 
     /**
@@ -3731,15 +3731,22 @@ class ContentServiceTest extends BaseContentServiceTest
         $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
         $demoDesign = $this->contentService->loadContentInfoByRemoteId(self::DEMO_DESIGN_REMOTE_ID);
 
-        $this->assertSame(2, $relationList->totalCount);
-        $this->assertEquals(
+        self::assertSame(2, $relationList->totalCount);
+
+        $relation1 = $relationList->items[0]->getRelation();
+        $relation2 = $relationList->items[1]->getRelation();
+
+        self::assertNotNull($relation1);
+        self::assertNotNull($relation2);
+
+        self::assertEquals(
             $demoDesign,
-            $relationList->items[0]->getRelation()->getDestinationContentInfo()
+            $relation1->getDestinationContentInfo()
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $media,
-            $relationList->items[1]->getRelation()->getDestinationContentInfo()
+            $relation2->getDestinationContentInfo()
         );
     }
 
@@ -3755,15 +3762,23 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $relationPage1 = $this->contentService->loadRelationList($versionInfo, 0, 1);
         $relationPage2 = $this->contentService->loadRelationList($versionInfo, 1, 2);
-        $this->assertSame(2, $relationPage1->totalCount);
-        $this->assertSame(2, $relationPage2->totalCount);
-        $this->assertEquals(
+
+        self::assertSame(2, $relationPage1->totalCount);
+        self::assertSame(2, $relationPage2->totalCount);
+
+        $relation1 = $relationPage1->items[0]->getRelation();
+        $relation2 = $relationPage2->items[0]->getRelation();
+
+        self::assertNotNull($relation1);
+        self::assertNotNull($relation2);
+
+        self::assertEquals(
             $demoDesign,
-            $relationPage1->items[0]->getRelation()->getDestinationContentInfo()
+            $relation1->getDestinationContentInfo()
         );
-        $this->assertEquals(
+        self::assertEquals(
             $media,
-            $relationPage2->items[0]->getRelation()->getDestinationContentInfo()
+            $relation2->getDestinationContentInfo()
         );
     }
 
