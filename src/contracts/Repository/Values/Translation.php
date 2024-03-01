@@ -8,12 +8,15 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values;
 
+use Stringable;
+
 /**
- * Base class fro translation messages.
+ * Abstract for UI translation messages, use its extensions: Translation\Message, Translation\Plural.
  *
- * Use its extensions: Translation\Singular, Translation\Plural.
+ * @see \Ibexa\Contracts\Core\Repository\Values\Translation\Message
+ * @see \Ibexa\Contracts\Core\Repository\Values\Translation\Plural
  */
-abstract class Translation extends ValueObject
+abstract class Translation extends ValueObject implements Stringable
 {
 }
 
