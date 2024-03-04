@@ -1464,7 +1464,7 @@ final class DoctrineDatabase extends Gateway
                     'ezcontentobject_to.status = :status'
                 )
             )
-            ->where(
+            ->andWhere(
                 'l.from_contentobject_id = :content_id'
             )
             ->setParameter(
@@ -1533,7 +1533,7 @@ final class DoctrineDatabase extends Gateway
                     $expr->eq('ezcontentobject_to.status', ':status'),
                 )
             )
-            ->where(
+            ->andWhere(
                 'l.from_contentobject_id = :content_id'
             )
             ->setParameter(

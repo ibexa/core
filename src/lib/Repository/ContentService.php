@@ -2048,9 +2048,6 @@ class ContentService implements ContentServiceInterface
         return $relations;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countRelations(APIVersionInfo $versionInfo): int
     {
         $function = 'versionread';
