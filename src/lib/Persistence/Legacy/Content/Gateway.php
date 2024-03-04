@@ -361,7 +361,7 @@ abstract class Gateway
     ): array;
 
     /**
-     * Count number of related to/from $contentId.
+     * Counts number of related to/from $contentId.
      */
     abstract public function countRelations(
         int $contentId,
@@ -370,7 +370,7 @@ abstract class Gateway
     ): int;
 
     /**
-     * Load paginated data of related to/from $contentId.
+     * Loads paginated data of related to/from $contentId.
      *
      * @return array<mixed>
      */
@@ -383,7 +383,7 @@ abstract class Gateway
     ): array;
 
     /**
-     * Count number of related to/from $contentId.
+     * Counts number of related to/from $contentId.
      */
     abstract public function countReverseRelations(int $contentId, ?int $relationType = null): int;
 

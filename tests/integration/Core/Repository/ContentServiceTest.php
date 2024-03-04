@@ -3684,8 +3684,6 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the countRelations() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::countRelations
      */
     public function testCountRelations(): void
@@ -3696,8 +3694,6 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the countRelations() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::countRelations
      */
     public function testCountRelationsReturnsZeroByDefault(): void
@@ -3708,8 +3704,6 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the countRelations() method.
-     *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::countRelations
      */
     public function testCountRelationsForUnauthorizedUser(): void

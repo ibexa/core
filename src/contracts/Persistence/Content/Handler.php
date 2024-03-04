@@ -295,7 +295,7 @@ interface Handler
     public function loadRelations($sourceContentId, $sourceContentVersionNo = null, $type = null);
 
     /**
-     * Counts relations from $sourceContentId. Optionally, count only those with $type and $sourceContentVersionNo.
+     * Counts relations from $sourceContentId. Optionally, counts only those with $type and $sourceContentVersionNo.
      */
     public function countRelations(
         int $sourceContentId,
