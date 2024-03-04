@@ -3683,9 +3683,6 @@ class ContentServiceTest extends BaseContentServiceTest
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::countRelations
-     */
     public function testCountRelations(): void
     {
         $draft = $this->createContentWithRelations();
@@ -3693,9 +3690,6 @@ class ContentServiceTest extends BaseContentServiceTest
         self::assertEquals(2, $this->contentService->countRelations($draft->getVersionInfo()));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::countRelations
-     */
     public function testCountRelationsReturnsZeroByDefault(): void
     {
         $draft = $this->createContentDraftVersion1();
@@ -3703,9 +3697,6 @@ class ContentServiceTest extends BaseContentServiceTest
         self::assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::countRelations
-     */
     public function testCountRelationsForUnauthorizedUser(): void
     {
         $draft = $this->createContentWithRelations();
@@ -3715,9 +3706,6 @@ class ContentServiceTest extends BaseContentServiceTest
         self::assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList
-     */
     public function testLoadRelationList(): void
     {
         $draft = $this->createContentWithRelations();
@@ -3744,9 +3732,6 @@ class ContentServiceTest extends BaseContentServiceTest
         );
     }
 
-    /**
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList
-     */
     public function testLoadRelationListWithPagination(): void
     {
         $draft = $this->createContentWithRelations();

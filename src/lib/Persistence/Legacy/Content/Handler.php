@@ -822,9 +822,6 @@ class Handler implements BaseContentHandler
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
     {
         return $this->contentGateway->countRelations($sourceContentId, $sourceContentVersionNo, $type);
