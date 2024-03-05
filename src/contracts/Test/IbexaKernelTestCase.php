@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * @experimental
+ * @internal For core tests only. Use \Ibexa\Contracts\Test\Core\IbexaKernelTestCase from ibexa/test-core instead.
  */
 abstract class IbexaKernelTestCase extends KernelTestCase
 {
