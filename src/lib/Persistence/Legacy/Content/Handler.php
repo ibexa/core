@@ -833,7 +833,7 @@ class Handler implements BaseContentHandler
     public function loadRelationList(
         int $sourceContentId,
         int $offset = 0,
-        int $limit = -1,
+        ?int $limit = null,
         ?int $sourceContentVersionNo = null,
         ?int $type = null
     ): array {
