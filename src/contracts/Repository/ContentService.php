@@ -410,7 +410,7 @@ interface ContentService
      * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
      * {@link \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem}
      */
-    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, int $limit = -1): RelationList;
+    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, ?int $limit = null): RelationList;
 
     /**
      * Counts all outgoing relations for the given version.

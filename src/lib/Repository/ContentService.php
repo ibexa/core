@@ -2068,7 +2068,7 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    public function loadRelationList(APIVersionInfo $versionInfo, int $offset = 0, int $limit = -1): RelationList
+    public function loadRelationList(APIVersionInfo $versionInfo, int $offset = 0, ?int $limit = null): RelationList
     {
         $function = 'versionread';
 

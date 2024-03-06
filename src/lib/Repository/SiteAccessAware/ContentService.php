@@ -207,7 +207,7 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, int $limit = -1): RelationList
+    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, ?int $limit = null): RelationList
     {
         return $this->service->loadRelationList($versionInfo, $offset, $limit);
     }

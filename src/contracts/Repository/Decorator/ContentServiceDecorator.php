@@ -198,7 +198,7 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->countRelations($versionInfo);
     }
 
-    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, int $limit = -1): RelationList
+    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, ?int $limit = null): RelationList
     {
         return $this->innerService->loadRelationList($versionInfo, $offset, $limit);
     }

@@ -410,7 +410,7 @@ final class ExceptionConversion extends Gateway
     public function listRelations(
         int $contentId,
         int $offset = 0,
-        int $limit = -1,
+        ?int $limit = null,
         ?int $contentVersionNo = null,
         ?int $relationType = null
     ): array {

@@ -1517,7 +1517,7 @@ final class DoctrineDatabase extends Gateway
     public function listRelations(
         int $contentId,
         int $offset = 0,
-        int $limit = -1,
+        ?int $limit = null,
         ?int $contentVersionNo = null,
         ?int $relationType = null
     ): array {
@@ -1578,7 +1578,7 @@ final class DoctrineDatabase extends Gateway
         }
 
         $query->setFirstResult($offset);
-        if ($limit > 0) {
+        if ($limit !== null) {
             $query->setMaxResults($limit);
         }
 
