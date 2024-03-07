@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -83,6 +84,14 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         $this->checkPermissions();
         $this->checkParameters();
         $this->checkCreateDatabase($output);
+
+        $schemaManager = $this->connection->getSchemaManager();
+        if (!empty($schemaManager->listTables())) {
+            $io = new SymfonyStyle($input, $output);
+            if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?', )) {
+                return 0;
+            }
+        }
 
         $type = $input->getArgument('type');
         $siteaccess = $input->getOption('siteaccess');
