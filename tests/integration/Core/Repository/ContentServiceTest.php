@@ -2184,7 +2184,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $contentType,
             self::ENG_US
         );
-        $contentCreate->setField('name', 'My Content');
+        $contentCreate->setField('name', 'My content');
         $content = $contentService->publishVersion(
             $contentService->createContent(
                 $contentCreate,
