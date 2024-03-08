@@ -237,14 +237,14 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         }
 
         $fieldDefinitionsMap = [];
-        foreach ($contentType->fieldDefinitions as $fieldDefinition) {
-            $fieldDefinitionsMap[$fieldDefinition->id] = $fieldDefinition;
+        foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
+            $fieldDefinitionsMap[$fieldDefinition->getId()] = $fieldDefinition;
         }
 
         $fieldInFilterLanguagesMap = [];
         if (!empty($prioritizedLanguages) && $alwaysAvailableLanguage !== null) {
             foreach ($spiFields as $spiField) {
-                if (in_array($spiField->languageCode, $prioritizedLanguages)) {
+                if (in_array($spiField->languageCode, $prioritizedLanguages, true)) {
                     $fieldInFilterLanguagesMap[$spiField->fieldDefinitionId] = true;
                 }
             }
@@ -259,7 +259,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
 
             $fieldDefinition = $fieldDefinitionsMap[$spiField->fieldDefinitionId];
 
-            if (!empty($prioritizedLanguages) && !in_array($spiField->languageCode, $prioritizedLanguages)) {
+            if (!empty($prioritizedLanguages) && !in_array($spiField->languageCode, $prioritizedLanguages, true)) {
                 // If filtering is enabled we ignore fields in other languages then $prioritizedLanguages, if:
                 if ($alwaysAvailableLanguage === null) {
                     // Ignore field if we don't have $alwaysAvailableLanguageCode fallback
@@ -273,13 +273,13 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
                 }
             }
 
-            $fields[$fieldDefinition->position][] = new Field(
+            $fields[$fieldDefinition->getPosition()][] = new Field(
                 [
                     'id' => $spiField->id,
                     'value' => $this->fieldTypeRegistry->getFieldType($spiField->type)
                         ->fromPersistenceValue($spiField->value),
                     'languageCode' => $spiField->languageCode,
-                    'fieldDefIdentifier' => $fieldDefinition->identifier,
+                    'fieldDefIdentifier' => $fieldDefinition->getIdentifier(),
                     'fieldTypeIdentifier' => $spiField->type,
                 ]
             );
@@ -536,12 +536,13 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             'alwaysAvailable' => 1,
             'remoteId' => null,
             'mainLanguageCode' => 'eng-GB',
+            'isHidden' => false,
         ]);
 
         $content = new Content([
             'versionInfo' => new VersionInfo([
                 'names' => [
-                    $contentInfo->mainLanguageCode => $contentInfo->name,
+                    $contentInfo->getMainLanguageCode() => $contentInfo->getName(),
                 ],
                 'contentInfo' => $contentInfo,
                 'versionNo' => $contentInfo->currentVersionNo,
@@ -571,7 +572,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
                 'contentInfo' => $contentInfo,
                 'id' => $spiLocation->id,
                 'priority' => $spiLocation->priority,
-                'hidden' => $spiLocation->hidden || $contentInfo->isHidden,
+                'hidden' => $spiLocation->hidden || $contentInfo->isHidden(),
                 'invisible' => $spiLocation->invisible,
                 'explicitlyHidden' => $spiLocation->hidden,
                 'remoteId' => $spiLocation->remoteId,
