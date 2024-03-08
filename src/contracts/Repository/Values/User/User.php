@@ -11,11 +11,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\User;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 /**
- * This class represents a user value.
- *
- * @property-read string $login
+ * @property-read string $login @deprecated {@see User::getLogin()} instead.
  * @property-read string $email
- * @property-read string $passwordHash
+ * @property-read string $passwordHash @deprecated {@see User::getPasswordHash()} instead.
  * @property-read string $hashAlgorithm Hash algorithm used to hash the password
  * @property-read \DateTimeInterface|null $passwordUpdatedAt
  * @property-read bool $enabled User can not login if false
@@ -94,14 +92,20 @@ abstract class User extends Content implements UserReference
      */
     protected $maxLogin;
 
-    /**
-     * The User id of the User.
-     *
-     * @return int
-     */
     public function getUserId(): int
     {
+        // ATM User Id is the same as Content Id
         return $this->getId();
+    }
+
+    public function getLogin(): string
+    {
+        return $this->login;
+    }
+
+    public function getPasswordHash(): string
+    {
+        return $this->passwordHash;
     }
 }
 

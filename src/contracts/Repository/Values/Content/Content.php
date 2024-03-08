@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * this class represents a content object in a specific version.
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo convenience getter for getVersionInfo()->getContentInfo()
- * @property-read int $id convenience getter for retrieving the contentId: $versionInfo->contentInfo->id
+ * @property-read int $id @deprecated use {@see Content::getId()} instead.
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo calls getVersionInfo()
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields access fields, calls getFields()
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail|null $thumbnail calls getThumbnail()
