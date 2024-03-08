@@ -73,7 +73,7 @@ class Location extends APILocation
     {
         switch ($property) {
             case 'contentId':
-                return $this->contentInfo->id;
+                return $this->getContentInfo()->getId();
             case 'path':
                 if ($this->path !== null) {
                     return $this->path;

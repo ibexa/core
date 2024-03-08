@@ -160,6 +160,9 @@ abstract class FieldDefinition extends ValueObject implements MultiLanguageName,
         return $this->isInfoCollector;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDefaultValue()
     {
         return $this->defaultValue;

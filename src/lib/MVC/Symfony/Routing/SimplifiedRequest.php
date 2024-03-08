@@ -204,7 +204,7 @@ class SimplifiedRequest extends ValueObject
     /**
      * @return array<string>|null
      */
-    public function getHeader($headerName): ?array
+    public function getHeader(string $headerName): ?array
     {
         return $this->headers[$headerName] ?? null;
     }
