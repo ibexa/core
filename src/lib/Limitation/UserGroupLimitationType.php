@@ -7,6 +7,7 @@
 namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
@@ -190,10 +191,15 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
         }
 
         $groupIds = [];
-        $currentUserLocations = $this->persistence->locationHandler()->loadLocationsByContent($currentUser->getUserId());
-        if (!empty($currentUserLocations)) {
-            foreach ($currentUserLocations as $currentUserLocation) {
-                $groupIds[] = $currentUserLocation->parentId;
+        $locationHandler = $this->persistence->locationHandler();
+        $currentUserLocations = $locationHandler->loadLocationsByContent($currentUser->getUserId());
+        foreach ($currentUserLocations as $currentUserLocation) {
+            try {
+                $parentLocation = $locationHandler->load($currentUserLocation->parentId);
+                $groupIds[] = $parentLocation->contentId;
+            } catch (NotFoundException $e) {
+                // there is no need for any action - carrying on with checking other user locations
+                continue;
             }
         }
 
