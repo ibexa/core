@@ -9,13 +9,13 @@ namespace Ibexa\Core\MVC\Symfony\Routing;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
- * @property-read string $scheme The request scheme - http or https
- * @property-read string $host The host name
- * @property-read string $port The port the request is made on
- * @property-read string $pathinfo The path being requested relative to the executed script
- * @property-read array $queryParams Array of parameters extracted from the query string
- * @property-read array $languages List of languages acceptable by the client browser
- * @property-read array $headers Hash of request headers
+ * @property-read string $scheme @deprecated use {@see SimplifiedRequest::getScheme()} instead.
+ * @property-read string $host @deprecated use {@see SimplifiedRequest::getHost()} instead.
+ * @property-read string $port @deprecated use {@see SimplifiedRequest::getScheme()} instead.
+ * @property-read string $pathinfo @deprecated use {@see SimplifiedRequest::getPathInfo()} instead.
+ * @property-read array $queryParams @deprecated use {@see SimplifiedRequest::getQueryParams()} instead.
+ * @property-read array $languages @deprecated use {@see SimplifiedRequest::getLanguages()} instead.
+ * @property-read array $headers @deprecated use {@see SimplifiedRequest::getHeaders()} instead.
  */
 class SimplifiedRequest extends ValueObject
 {
@@ -157,6 +157,64 @@ class SimplifiedRequest extends ValueObject
         $this->headers = [];
 
         return ['scheme', 'host', 'port', 'pathinfo', 'queryParams', 'languages', 'headers'];
+    }
+
+    /**
+     * The request scheme - http or https.
+     */
+    public function getScheme(): string
+    {
+        return $this->scheme;
+    }
+
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    public function getPort(): string
+    {
+        return $this->port;
+    }
+
+    /**
+     * The path being requested relative to the executed script.
+     */
+    public function getPathInfo(): string
+    {
+        return $this->pathinfo;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getQueryParams(): array
+    {
+        return $this->queryParams;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getLanguages(): array
+    {
+        return $this->languages;
+    }
+
+    /**
+     * @return array<string>|null
+     */
+    public function getHeader($headerName): ?array
+    {
+        return $this->headers[$headerName] ?? null;
+    }
+
+    /**
+     * @return array<string, array<string>>
+     */
+    public function getHeaders(): array
+    {
+        return $this->headers;
     }
 }
 
