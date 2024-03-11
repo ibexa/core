@@ -6,37 +6,38 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
+namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsContainer;
+use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 
 /**
  * @internal for internal use by Repository Filtering
  */
-final class IsContainerQueryBuilder extends BaseLocationCriterionQueryBuilder
+final class IsContainerQueryBuilder implements CriterionQueryBuilder
 {
     public function accepts(FilteringCriterion $criterion): bool
     {
         return $criterion instanceof IsContainer;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsContainer $criterion
+     */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsContainer $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         $queryBuilder
             ->joinOnce(
                 'content',
                 Gateway::CONTENT_TYPE_TABLE,
-                'contentclass',
-                'content.contentclass_id = contentclass.id',
+                'content_type',
+                'content.contentclass_id = content_type.id',
             );
 
         /** @var array{bool} $criterionValue */
@@ -44,7 +45,7 @@ final class IsContainerQueryBuilder extends BaseLocationCriterionQueryBuilder
         $isContainer = reset($criterionValue);
 
         return $queryBuilder->expr()->in(
-            'contentclass.is_container',
+            'content_type.is_container',
             $queryBuilder->createNamedParameter((int)$isContainer, ParameterType::INTEGER)
         );
     }
