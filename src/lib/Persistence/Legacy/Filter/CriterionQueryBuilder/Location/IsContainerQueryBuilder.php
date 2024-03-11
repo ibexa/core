@@ -39,11 +39,13 @@ final class IsContainerQueryBuilder extends BaseLocationCriterionQueryBuilder
                 'content.contentclass_id = contentclass.id',
             );
 
-        $value = $criterion->value ? 1 : 0;
+        /** @var array{bool} $criterionValue */
+        $criterionValue = $criterion->value;
+        $isContainer = reset($criterionValue);
 
         return $queryBuilder->expr()->in(
             'contentclass.is_container',
-            $queryBuilder->createNamedParameter($value, ParameterType::INTEGER)
+            $queryBuilder->createNamedParameter((int)$isContainer, ParameterType::INTEGER)
         );
     }
 }
