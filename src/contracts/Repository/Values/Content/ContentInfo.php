@@ -195,6 +195,11 @@ class ContentInfo extends ValueObject
         return $this->section;
     }
 
+    public function getSectionId(): int
+    {
+        return $this->sectionId;
+    }
+
     public function getMainLanguage(): Language
     {
         return $this->mainLanguage;
