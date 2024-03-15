@@ -16,16 +16,15 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 final class LookupLimitationResult extends ValueObject
 {
     /** @var bool */
-    protected $hasAccess;
+    protected bool $hasAccess;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] */
-    protected $roleLimitations;
+    protected array $roleLimitations;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations[] */
-    protected $lookupPolicyLimitations;
+    protected array $lookupPolicyLimitations;
 
     /**
-     * @param bool $hasAccess
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $roleLimitations
      * @param \Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations[] $lookupPolicyLimitations
      */
@@ -39,6 +38,21 @@ final class LookupLimitationResult extends ValueObject
         $this->hasAccess = $hasAccess;
         $this->lookupPolicyLimitations = $lookupPolicyLimitations;
         $this->roleLimitations = $roleLimitations;
+    }
+
+    public function hasAccess(): bool
+    {
+        return $this->hasAccess;
+    }
+
+    public function getRoleLimitations(): array
+    {
+        return $this->roleLimitations;
+    }
+
+    public function getLookupPolicyLimitations(): array
+    {
+        return $this->lookupPolicyLimitations;
     }
 }
 
