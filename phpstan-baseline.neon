@@ -18851,11 +18851,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Setting/Gateway/ExceptionConversion.php
 
 		-
-			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/SharedGateway/DatabasePlatform/SqliteGateway.php
-
-		-
 			message: "#^Argument of an invalid type array\\<Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\SharedGateway\\\\Gateway\\>\\|iterable supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/SharedGateway/GatewayFactory.php
@@ -29292,7 +29287,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$fieldDefinition of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentTypeService\\:\\:removeFieldDefinition\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null given\\.$#"
-			count: 7
+			count: 6
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
 
 		-

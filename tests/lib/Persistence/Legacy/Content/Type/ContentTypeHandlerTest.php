@@ -1005,12 +1005,9 @@ class ContentTypeHandlerTest extends TestCase
                 $this->returnValue(new Type())
             );
 
-        $updateHandlerMock->expects($this->once())
-            ->method('updateContentObjects')
-            ->with(
-                $this->isInstanceOf(Type::class),
-                $this->isInstanceOf(Type::class)
-            );
+        $updateHandlerMock->expects($this->never())
+            ->method('updateContentObjects');
+
         $updateHandlerMock->expects($this->once())
             ->method('deleteOldType')
             ->with(
