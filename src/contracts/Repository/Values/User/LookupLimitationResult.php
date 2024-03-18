@@ -45,11 +45,17 @@ final class LookupLimitationResult extends ValueObject
         return $this->hasAccess;
     }
 
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     */
     public function getRoleLimitations(): array
     {
         return $this->roleLimitations;
     }
 
+    /**
+     * @return \Ibexa\Contracts\Core\Repository\Values\User\LookupPolicyLimitations[]
+     */
     public function getLookupPolicyLimitations(): array
     {
         return $this->lookupPolicyLimitations;
