@@ -632,7 +632,7 @@ class ContentService implements ContentServiceInterface
                 $location = $this->repository->getLocationService()->loadLocation(
                     $locationCreateStructs[0]->parentLocationId
                 );
-                $contentCreateStruct->sectionId = $location->contentInfo->sectionId;
+                $contentCreateStruct->sectionId = $location->getContentInfo()->getSectionId();
             } else {
                 $contentCreateStruct->sectionId = 1;
             }
@@ -1945,7 +1945,7 @@ class ContentService implements ContentServiceInterface
                 'create',
                 [
                     'parentLocationId' => $destinationLocationCreateStruct->parentLocationId,
-                    'sectionId' => $contentInfo->sectionId,
+                    'sectionId' => $contentInfo->getSectionId(),
                 ]
             );
         }

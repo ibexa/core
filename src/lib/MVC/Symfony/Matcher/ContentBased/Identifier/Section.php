@@ -27,7 +27,7 @@ class Section extends MultipleValued
         $section = $this->repository->sudo(
             static function (Repository $repository) use ($location) {
                 return $repository->getSectionService()->loadSection(
-                    $location->getContentInfo()->sectionId
+                    $location->getContentInfo()->getSectionId()
                 );
             }
         );
@@ -47,7 +47,7 @@ class Section extends MultipleValued
         $section = $this->repository->sudo(
             static function (Repository $repository) use ($contentInfo) {
                 return $repository->getSectionService()->loadSection(
-                    $contentInfo->sectionId
+                    $contentInfo->getSectionId()
                 );
             }
         );
@@ -65,7 +65,7 @@ class Section extends MultipleValued
         $section = $this->repository->sudo(
             static function (Repository $repository) use ($contentInfo) {
                 return $repository->getSectionService()->loadSection(
-                    $contentInfo->sectionId
+                    $contentInfo->getSectionId()
                 );
             }
         );
