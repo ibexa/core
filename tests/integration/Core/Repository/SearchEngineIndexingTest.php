@@ -1115,7 +1115,7 @@ class SearchEngineIndexingTest extends BaseTest
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo */
         $contentInfo = $results->searchHits[0]->valueObject;
-        $this->assertEquals($section->id, $contentInfo->getSectionId());
+        self::assertEquals($section->id, $contentInfo->getSectionId());
     }
 
     /**
