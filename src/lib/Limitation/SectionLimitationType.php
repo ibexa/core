@@ -138,6 +138,8 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
         /*
          * We ignore Targets here, they are only interesting in NewState limitation as we on this one is more interested
          * the section already assigned to object.
+         *
+         * We can't use strict comparison because limitationValues is an array of string
          */
         if ($object instanceof ContentCreateStruct) {
             return in_array($object->sectionId, $value->limitationValues);
