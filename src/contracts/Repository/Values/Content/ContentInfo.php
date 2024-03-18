@@ -65,7 +65,7 @@ class ContentInfo extends ValueObject
      *
      * @var int
      */
-    protected $sectionId;
+    protected int $sectionId;
 
     /**
      * Current Version number is the version number of the published version or the version number of
