@@ -37,19 +37,19 @@ class ContentInfoTest extends TestCase
         );
 
         $dateFormatted = $dateTime->format('c');
-        self::assertSame($contentInfo->getId(), 1);
-        self::assertSame($contentInfo->contentTypeId, 2);
-        self::assertSame($contentInfo->name, 'foo');
-        self::assertSame($contentInfo->getSectionId(), 1);
-        self::assertSame($contentInfo->currentVersionNo, 1);
+        self::assertSame(1, $contentInfo->getId());
+        self::assertSame(2, $contentInfo->contentTypeId);
+        self::assertSame('foo', $contentInfo->name);
+        self::assertSame(1, $contentInfo->getSectionId());
+        self::assertSame(1, $contentInfo->currentVersionNo);
         self::assertTrue($contentInfo->isPublished());
-        self::assertSame($contentInfo->ownerId, 10);
+        self::assertSame(10, $contentInfo->ownerId);
         self::assertSame($dateFormatted, $contentInfo->modificationDate->format('c'));
         self::assertSame($dateFormatted, $contentInfo->publishedDate->format('c'));
         self::assertFalse($contentInfo->alwaysAvailable);
-        self::assertSame($contentInfo->remoteId, '1qaz2wsx');
-        self::assertSame($contentInfo->getMainLanguageCode(), 'eng-GB');
-        self::assertSame($contentInfo->getMainLocationId(), 2);
+        self::assertSame('1qaz2wsx', $contentInfo->remoteId);
+        self::assertSame('eng-GB', $contentInfo->getMainLanguageCode());
+        self::assertSame(2, $contentInfo->getMainLocationId());
     }
 }
 
