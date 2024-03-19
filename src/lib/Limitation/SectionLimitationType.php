@@ -139,9 +139,13 @@ class SectionLimitationType extends AbstractPersistenceLimitationType implements
          * We ignore Targets here, they are only interesting in NewState limitation as we on this one is more interested
          * the section already assigned to object.
          *
-         * @var $object ContentInfo|ContentCreateStruct
+         * We can't use strict comparison because limitationValues is an array of string
          */
-        return in_array($object->sectionId, $value->limitationValues);
+        if ($object instanceof ContentCreateStruct) {
+            return in_array($object->sectionId, $value->limitationValues);
+        }
+
+        return in_array($object->getSectionId(), $value->limitationValues);
     }
 
     /**

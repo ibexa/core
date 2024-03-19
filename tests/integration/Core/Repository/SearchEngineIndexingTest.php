@@ -1112,7 +1112,10 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ContentId($content->id);
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContentInfo($query);
-        $this->assertEquals($section->id, $results->searchHits[0]->valueObject->sectionId);
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo */
+        $contentInfo = $results->searchHits[0]->valueObject;
+        self::assertEquals($section->id, $contentInfo->getSectionId());
     }
 
     /**

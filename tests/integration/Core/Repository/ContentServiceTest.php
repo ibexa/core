@@ -1365,7 +1365,7 @@ class ContentServiceTest extends BaseContentServiceTest
                 $contentInfo->mainLanguageCode,
                 $contentInfo->ownerId,
                 $contentInfo->remoteId,
-                $contentInfo->sectionId,
+                $contentInfo->getSectionId(),
             ]
         );
     }
@@ -2071,7 +2071,7 @@ class ContentServiceTest extends BaseContentServiceTest
             ],
             [
                 'remoteId' => $contentInfo->remoteId,
-                'sectionId' => $contentInfo->sectionId,
+                'sectionId' => $contentInfo->getSectionId(),
                 'alwaysAvailable' => $contentInfo->alwaysAvailable,
                 'currentVersionNo' => $contentInfo->currentVersionNo,
                 'mainLanguageCode' => $contentInfo->mainLanguageCode,

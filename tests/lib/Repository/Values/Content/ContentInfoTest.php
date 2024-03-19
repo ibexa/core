@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Core\Repository\Values\Content;
 
+use DateTimeImmutable;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use PHPUnit\Framework\TestCase;
 
@@ -14,35 +15,41 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentInfoTest extends TestCase
 {
-    public function testObjectProperties()
+    public function testCreateObject(): void
     {
-        $object = new ContentInfo();
-        $properties = $object->attributes();
-        self::assertNotContains('internalFields', $properties, 'Internal property found ');
-        self::assertContains('contentTypeId', $properties, 'Property not found');
-        self::assertContains('id', $properties, 'Property not found');
-        self::assertContains('name', $properties, 'Property not found');
-        self::assertContains('sectionId', $properties, 'Property not found');
-        self::assertContains('currentVersionNo', $properties, 'Property not found');
-        self::assertContains('published', $properties, 'Property not found');
-        self::assertContains('ownerId', $properties, 'Property not found');
-        self::assertContains('modificationDate', $properties, 'Property not found');
-        self::assertContains('publishedDate', $properties, 'Property not found');
-        self::assertContains('alwaysAvailable', $properties, 'Property not found');
-        self::assertContains('remoteId', $properties, 'Property not found');
-        self::assertContains('mainLanguageCode', $properties, 'Property not found');
-        self::assertContains('mainLocationId', $properties, 'Property not found');
+        $dateTime = new DateTimeImmutable();
+        $contentInfo = new ContentInfo(
+            [
+                'id' => 1,
+                'contentTypeId' => 2,
+                'name' => 'foo',
+                'sectionId' => 1,
+                'currentVersionNo' => 1,
+                'status' => 1,
+                'ownerId' => 10,
+                'modificationDate' => $dateTime,
+                'publishedDate' => $dateTime,
+                'alwaysAvailable' => false,
+                'remoteId' => '1qaz2wsx',
+                'mainLanguageCode' => 'eng-GB',
+                'mainLocationId' => 2,
+            ]
+        );
 
-        // check for duplicates and double check existence of property
-        $propertiesHash = [];
-        foreach ($properties as $property) {
-            if (isset($propertiesHash[$property])) {
-                self::fail("Property '{$property}' exists several times in properties list");
-            } elseif (!isset($object->$property)) {
-                self::fail("Property '{$property}' does not exist on object, even though it was hinted to be there");
-            }
-            $propertiesHash[$property] = 1;
-        }
+        $dateFormatted = $dateTime->format('c');
+        self::assertSame(1, $contentInfo->getId());
+        self::assertSame(2, $contentInfo->contentTypeId);
+        self::assertSame('foo', $contentInfo->name);
+        self::assertSame(1, $contentInfo->getSectionId());
+        self::assertSame(1, $contentInfo->currentVersionNo);
+        self::assertTrue($contentInfo->isPublished());
+        self::assertSame(10, $contentInfo->ownerId);
+        self::assertSame($dateFormatted, $contentInfo->modificationDate->format('c'));
+        self::assertSame($dateFormatted, $contentInfo->publishedDate->format('c'));
+        self::assertFalse($contentInfo->alwaysAvailable);
+        self::assertSame('1qaz2wsx', $contentInfo->remoteId);
+        self::assertSame('eng-GB', $contentInfo->getMainLanguageCode());
+        self::assertSame(2, $contentInfo->getMainLocationId());
     }
 }
 
