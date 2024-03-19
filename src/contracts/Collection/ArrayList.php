@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
 class ArrayList extends AbstractInMemoryCollection implements ListInterface
 {
     /**
-     * @param TValue[] $items
+     * @phpstan-param TValue[] $items
      */
     public function __construct(array $items = [])
     {
@@ -45,7 +45,7 @@ class ArrayList extends AbstractInMemoryCollection implements ListInterface
     }
 
     /**
-     * @param TValue $value
+     * @phpstan-param TValue $value
      */
     public function contains($value): bool
     {
@@ -53,9 +53,9 @@ class ArrayList extends AbstractInMemoryCollection implements ListInterface
     }
 
     /**
-     * @param TValue[] $items
+     * @phpstan-param TValue[] $items
      *
-     * @return \Ibexa\Contracts\Core\Collection\ArrayList<TValue>
+     * @phpstan-return \Ibexa\Contracts\Core\Collection\ArrayList<TValue>
      */
     protected function createFrom(array $items): self
     {
