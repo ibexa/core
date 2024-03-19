@@ -36531,11 +36531,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$sectionId\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
-
-		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$versionInfo\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
@@ -61479,11 +61474,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Validator\\\\TargetContentValidatorTest\\:\\:\\$contentTypeHandler has unknown class PHPUnit_Framework_MockObject_MockObject as its type\\.$#"
 			count: 1
 			path: tests/lib/Repository/Validator/TargetContentValidatorTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfoTest\\:\\:testObjectProperties\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/ContentInfoTest.php
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\:\\:\\$notDefined\\.$#"

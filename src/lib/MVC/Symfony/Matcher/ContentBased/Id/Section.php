@@ -23,7 +23,7 @@ class Section extends MultipleValued
      */
     public function matchLocation(APILocation $location)
     {
-        return isset($this->values[$location->getContentInfo()->sectionId]);
+        return isset($this->values[$location->getContentInfo()->getSectionId()]);
     }
 
     /**
@@ -35,7 +35,7 @@ class Section extends MultipleValued
      */
     public function matchContentInfo(ContentInfo $contentInfo)
     {
-        return isset($this->values[$contentInfo->sectionId]);
+        return isset($this->values[$contentInfo->getSectionId()]);
     }
 
     public function match(View $view)
@@ -44,7 +44,7 @@ class Section extends MultipleValued
             return false;
         }
 
-        return isset($this->values[$view->getContent()->contentInfo->sectionId]);
+        return isset($this->values[$view->getContent()->contentInfo->getSectionId()]);
     }
 }
 
