@@ -1487,6 +1487,51 @@ class URLAliasServiceTest extends BaseTest
         self::assertFalse($newAlias->isHistory);
     }
 
+    public function testRenamingParentContentDoesntBreakChildAlias(): void
+    {
+        $repository = $this->getRepository();
+        $urlAliasService = $repository->getURLAliasService();
+        $contentService = $repository->getContentService();
+
+        $languageCode = 'eng-GB';
+
+        // 1. Create parent folder
+        $folder = $this->createFolder([$languageCode => 'a'], 2);
+        $folderLocationId = $folder->contentInfo->getMainLocationId();
+
+        // 2. Create child folder
+        $child = $this->createFolder([$languageCode => 'b'], $folderLocationId);
+        $childLocation = $child->getVersionInfo()->getContentInfo()->getMainLocation();
+        $childLocationId = $childLocation->id;
+
+        // 3. Create custom URL alias for child folder
+        $urlAliasService->createUrlAlias($childLocation, '/c/b', $languageCode);
+        $lookup = $urlAliasService->lookup('/c/b');
+
+        self::assertSame('/c/b', $lookup->path);
+        self::assertSame($childLocationId, $lookup->destination);
+
+        // 4. Rename "A" to "C"
+        $folderDraft = $contentService->createContentDraft($folder->contentInfo);
+        $folderUpdateStruct = $contentService->newContentUpdateStruct();
+        $folderUpdateStruct->setField('name', 'c');
+        $renamedFolder = $contentService->updateContent($folderDraft->getVersionInfo(), $folderUpdateStruct);
+        $contentService->publishVersion($renamedFolder->getVersionInfo());
+
+        // Loading aliases shouldn't throw a `BadStateException`
+        $childLocationAliases = $urlAliasService->listLocationAliases($childLocation);
+
+        self::assertCount(1, $childLocationAliases);
+        self::assertSame('/c/b', $childLocationAliases[0]->path);
+
+        // Renamed content should have '/c2' path alias
+        $lookupRenamed = $urlAliasService->lookup('c2');
+        $originalLookup = $urlAliasService->lookup('/c/b');
+
+        self::assertSame($childLocationId, $originalLookup->destination);
+        self::assertSame('/c2', $lookupRenamed->path);
+    }
+
     /**
      * Lookup given URL and check if it is archived and points to the given Location Id.
      *
