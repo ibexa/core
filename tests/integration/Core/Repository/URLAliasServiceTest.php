@@ -1497,6 +1497,7 @@ class URLAliasServiceTest extends BaseTest
 
         // 2. Create child folder
         $child = $this->createFolder([$languageCode => 'b'], $folderLocationId);
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $childLocation */
         $childLocation = $child->getVersionInfo()->getContentInfo()->getMainLocation();
         $childLocationId = $childLocation->id;
 
@@ -1515,6 +1516,7 @@ class URLAliasServiceTest extends BaseTest
         $contentService->publishVersion($renamedFolder->getVersionInfo());
 
         // Loading aliases shouldn't throw a `BadStateException`
+        /** @var array<int, \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias>  $childLocationAliases */
         $childLocationAliases = $urlAliasService->listLocationAliases($childLocation);
 
         self::assertCount(1, $childLocationAliases);
