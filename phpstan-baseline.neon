@@ -10697,7 +10697,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Core\\\\FieldType\\\\Value\\:\\:\\$fileName\\.$#"
-			count: 2
+			count: 1
 			path: src/lib/FieldType/Validator/FileExtensionBlackListValidator.php
 
 		-
