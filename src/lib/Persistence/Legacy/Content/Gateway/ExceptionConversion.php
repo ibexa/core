@@ -409,16 +409,16 @@ final class ExceptionConversion extends Gateway
      */
     public function listRelations(
         int $contentId,
+        int $limit,
         int $offset = 0,
-        ?int $limit = null,
         ?int $contentVersionNo = null,
         ?int $relationType = null
     ): array {
         try {
             return $this->innerGateway->listRelations(
                 $contentId,
-                $offset,
                 $limit,
+                $offset,
                 $contentVersionNo,
                 $relationType
             );

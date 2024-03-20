@@ -376,8 +376,8 @@ abstract class Gateway
      */
     abstract public function listRelations(
         int $contentId,
+        int $limit,
         int $offset = 0,
-        ?int $limit = null,
         ?int $contentVersionNo = null,
         ?int $relationType = null
     ): array;

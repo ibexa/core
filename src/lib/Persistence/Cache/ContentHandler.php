@@ -32,6 +32,9 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     private const CONTENT_VERSION_INFO_IDENTIFIER = 'content_version_info';
     private const CONTENT_VERSION_IDENTIFIER = 'content_version';
     private const CONTENT_RELATIONS_COUNT_IDENTIFIER = 'content_relations_count';
+    private const CONTENT_RELATIONS_COUNT_WITH_TYPE_IDENTIFIER = 'content_relations_count_with_type';
+    private const CONTENT_RELATIONS_COUNT_WITH_TYPE_AND_VERSION_IDENTIFIER = 'content_relations_count_with_type_and_version';
+    private const CONTENT_RELATIONS_COUNT_WITH_VERSION_IDENTIFIER = 'content_relations_count_with_version';
     private const CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER = 'content_reverse_relations_count';
     private const RELATION_IDENTIFIER = 'relation';
 
@@ -520,10 +523,24 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
 
     public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
     {
+        $values[] = $sourceContentId;
+        if ($sourceContentVersionNo === null && $type !== null) {
+            $patternName = self::CONTENT_RELATIONS_COUNT_WITH_TYPE_IDENTIFIER;
+            $values[] = $type;
+        } elseif ($sourceContentVersionNo !== null && $type === null) {
+            $patternName = self::CONTENT_RELATIONS_COUNT_WITH_VERSION_IDENTIFIER;
+            $values[] = $sourceContentVersionNo;
+        } elseif ($sourceContentVersionNo !== null && $type !== null) {
+            $patternName = self::CONTENT_RELATIONS_COUNT_WITH_TYPE_AND_VERSION_IDENTIFIER;
+            $values = array_merge($values, [$type, $sourceContentVersionNo]);
+        } else {
+            $patternName = self::CONTENT_RELATIONS_COUNT_IDENTIFIER;
+        }
+
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
-                self::CONTENT_RELATIONS_COUNT_IDENTIFIER,
-                [$sourceContentId],
+                $patternName,
+                $values,
                 true
             )
         );
@@ -559,8 +576,8 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
      */
     public function loadRelationList(
         int $sourceContentId,
+        int $limit,
         int $offset = 0,
-        ?int $limit = null,
         ?int $sourceContentVersionNo = null,
         ?int $type = null
     ): array {
@@ -574,8 +591,8 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
 
         return $this->persistenceHandler->contentHandler()->loadRelationList(
             $sourceContentId,
-            $offset,
             $limit,
+            $offset,
             $sourceContentVersionNo,
             $type
         );
