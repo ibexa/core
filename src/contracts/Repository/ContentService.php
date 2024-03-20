@@ -30,6 +30,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 interface ContentService
 {
+    public const DEFAULT_PAGE_SIZE = 25;
+
     /**
      * Loads a content info object.
      *
@@ -398,7 +400,7 @@ interface ContentService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
+     * @deprecated since 4.5, use loadRelationList().
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
@@ -408,9 +410,14 @@ interface ContentService
      * Loads all outgoing relations for the given version.
      *
      * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
-     * {@link \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem}
+     *
+     * @see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem
      */
-    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, ?int $limit = null): RelationList;
+    public function loadRelationList(
+        VersionInfo $versionInfo,
+        int $offset = 0,
+        int $limit = self::DEFAULT_PAGE_SIZE
+    ): RelationList;
 
     /**
      * Counts all outgoing relations for the given version.

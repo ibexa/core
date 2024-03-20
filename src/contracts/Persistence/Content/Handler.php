@@ -308,8 +308,8 @@ interface Handler
      */
     public function loadRelationList(
         int $sourceContentId,
+        int $limit,
         int $offset = 0,
-        ?int $limit = null,
         ?int $sourceContentVersionNo = null,
         ?int $type = null
     ): array;

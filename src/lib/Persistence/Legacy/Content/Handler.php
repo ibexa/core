@@ -832,13 +832,13 @@ class Handler implements BaseContentHandler
      */
     public function loadRelationList(
         int $sourceContentId,
+        int $limit,
         int $offset = 0,
-        ?int $limit = null,
         ?int $sourceContentVersionNo = null,
         ?int $type = null
     ): array {
         return $this->mapper->extractRelationsFromRows(
-            $this->contentGateway->listRelations($sourceContentId, $offset, $limit, $sourceContentVersionNo, $type)
+            $this->contentGateway->listRelations($sourceContentId, $limit, $offset, $sourceContentVersionNo, $type)
         );
     }
 

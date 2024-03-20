@@ -87,7 +87,9 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         return [
             ['countReverseRelations', [2], 'ibx-crrc-2', null, null, [['content_reverse_relations_count', [2], true]], ['ibx-crrc-2'], 10],
             ['countRelations', [2], 'ibx-crc-2', null, null, [['content_relations_count', [2], true]], ['ibx-crc-2'], 10],
-            ['countRelations', [2, 2], 'ibx-crc-2', null, null, [['content_relations_count', [2], true]], ['ibx-crc-2'], 10],
+            ['countRelations', [2, 2], 'ibx-crc-2-v-2', null, null, [['content_relations_count_with_version', [2, 2], true]], ['ibx-crc-2-v-2'], 10],
+            ['countRelations', [2, null, 1], 'ibx-crc-2-t-1', null, null, [['content_relations_count_with_type', [2, 1], true]], ['ibx-crc-2-t-1'], 10],
+            ['countRelations', [2, 2, 1], 'ibx-crc-2-t-1-v-2', null, null, [['content_relations_count_with_type_and_version', [2, 1, 2], true]], ['ibx-crc-2-t-1-v-2'], 10],
             ['load', [2, 1], 'ibx-c-2-1-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2, 1, ['eng-GB', 'eng-US']], 'ibx-c-2-1-eng-GB|eng-US', null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2], 'ibx-c-2-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
@@ -150,15 +152,43 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             [
                 'countRelations',
                 [2, 3],
-                'ibx-crc-2',
+                'ibx-crc-2-v-3',
                 [
                     ['content', [2], false],
                 ],
                 ['c-2'],
                 [
-                    ['content_relations_count', [2], true],
+                    ['content_relations_count_with_version', [2, 3], true],
                 ],
-                ['ibx-crc-2'],
+                ['ibx-crc-2-v-3'],
+                10,
+            ],
+            [
+                'countRelations',
+                [2, null, 1],
+                'ibx-crc-2-t-1',
+                [
+                    ['content', [2], false],
+                ],
+                ['c-2'],
+                [
+                    ['content_relations_count_with_type', [2, 1], true],
+                ],
+                ['ibx-crc-2-t-1'],
+                10,
+            ],
+            [
+                'countRelations',
+                [2, 3, 1],
+                'ibx-crc-2-t-1-v-3',
+                [
+                    ['content', [2], false],
+                ],
+                ['c-2'],
+                [
+                    ['content_relations_count_with_type_and_version', [2, 1, 3], true],
+                ],
+                ['ibx-crc-2-t-1-v-3'],
                 10,
             ],
             [
