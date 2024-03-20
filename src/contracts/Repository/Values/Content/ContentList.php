@@ -11,7 +11,6 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 use ArrayIterator;
 use Ibexa\Contracts\Core\Repository\Collections\TotalCountAwareInterface;
 use IteratorAggregate;
-use Traversable;
 
 /**
  * A filtered Content items list iterator.
@@ -19,13 +18,15 @@ use Traversable;
 final class ContentList implements IteratorAggregate, TotalCountAwareInterface
 {
     /** @var int */
-    private $totalCount;
+    private int $totalCount;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content[] */
-    private $contentItems;
+    private array $contentItems;
 
     /**
      * @internal for internal use by Repository
+     *
+     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Content> $contentItems
      */
     public function __construct(int $totalCount, array $contentItems)
     {
@@ -39,9 +40,9 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]|\Traversable
+     * @return \ArrayIterator<int, \Ibexa\Contracts\Core\Repository\Values\Content\Content>
      */
-    public function getIterator(): Traversable
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->contentItems);
     }
