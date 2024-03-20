@@ -2,10 +2,11 @@ services:
     Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage:
         class: Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage
         arguments:
-            - '@Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage'
-            - '@ibexa.field_type.ezbinaryfile.io_service'
-            - '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
-            - '@ibexa.core.io.mimeTypeDetector'
+            $gateway: '@Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage'
+            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $pathGenerator: '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
+            $mimeTypeDetector: '@ibexa.core.io.mimeTypeDetector'
+            $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezbinaryfile}
 
@@ -18,6 +19,7 @@ services:
             $imageSizeMetadataHandler: '@Ibexa\Core\IO\MetadataHandler\ImageSize'
             $aliasCleaner: '@Ibexa\Core\FieldType\Image\AliasCleanerInterface'
             $filePathNormalizer: '@Ibexa\Core\IO\FilePathNormalizerInterface'
+            $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezimage}
 
@@ -30,10 +32,11 @@ services:
     Ibexa\Core\FieldType\Media\MediaStorage:
         class: Ibexa\Core\FieldType\Media\MediaStorage
         arguments:
-            - '@Ibexa\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage'
-            - '@ibexa.field_type.ezbinaryfile.io_service'
-            - '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
-            - '@ibexa.core.io.mimeTypeDetector'
+            $gateway: '@Ibexa\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage'
+            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $pathGenerator: '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
+            $mimeTypeDetector: '@ibexa.core.io.mimeTypeDetector'
+            $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezmedia}
 

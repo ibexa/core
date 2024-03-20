@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage;
 use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway;
 use Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage;
+use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
@@ -36,6 +37,9 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
     protected $storage;
 
+    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
+    protected $fileExtensionBlackListValidatorMock;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -43,6 +47,9 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
         $this->gateway = $this->getStorageGateway();
         $this->pathGeneratorMock = $this->createMock(PathGenerator::class);
         $this->ioServiceMock = $this->createMock(IOServiceInterface::class);
+        $this->fileExtensionBlackListValidatorMock = $this->createMock(
+            FileExtensionBlackListValidator::class
+        );
         $this->storage = $this->getMockBuilder(BinaryBaseStorage::class)
             ->onlyMethods([])
             ->setConstructorArgs(
@@ -51,6 +58,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
                     $this->ioServiceMock,
                     $this->pathGeneratorMock,
                     $this->createMock(MimeTypeDetector::class),
+                    $this->fileExtensionBlackListValidatorMock,
                 ]
             )
             ->getMock();
