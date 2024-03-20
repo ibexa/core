@@ -256,11 +256,6 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Handler\\:\\:\\$pathString\\.$#"
-			count: 2
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
 			message: "#^Call to an undefined method Ibexa\\\\Core\\\\Search\\\\Common\\\\Indexer\\:\\:purge\\(\\)\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
@@ -271,17 +266,7 @@ parameters:
 			path: src/bundle/Core/Command/ReindexCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:__construct\\(\\) has parameter \\$searchIndexer with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:getPhpProcess\\(\\) has parameter \\$contentIds with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
 
@@ -317,7 +302,7 @@ parameters:
 
 		-
 			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:\\$phpPath \\(string\\) does not accept string\\|null\\.$#"
-			count: 2
+			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
 
 		-
@@ -6901,11 +6886,6 @@ parameters:
 			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/ContentFilteringAdapter.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\ContentFilteringAdapter\\:\\:fetch\\(\\) should return Iterator but returns iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>&Traversable\\.$#"
-			count: 1
-			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/ContentFilteringAdapter.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\LocationFilteringAdapter\\:\\:__construct\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/LocationFilteringAdapter.php
@@ -7047,11 +7027,6 @@ parameters:
 
 		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/ContentList.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList\\:\\:__construct\\(\\) has parameter \\$contentItems with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/ContentList.php
 
@@ -34112,11 +34087,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Traversable\\<mixed, mixed\\>\\:\\:offsetGet\\(\\)\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
-
-		-
-			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>&Traversable\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
 

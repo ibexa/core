@@ -9,12 +9,8 @@ namespace Ibexa\Bundle\Core\Command;
 use function count;
 use DateTime;
 use const DIRECTORY_SEPARATOR;
-use Generator;
+use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
-use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Common\IncrementalIndexer;
@@ -59,10 +55,10 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
     private $locationHandler;
 
-    private APIContentService $contentService;
+    private ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy;
 
     public function __construct(
-        $searchIndexer,
+        Indexer $searchIndexer,
         Handler $locationHandler,
         IndexerGateway $gateway,
         LoggerInterface $logger,
@@ -70,7 +66,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         string $env,
         bool $isDebug,
         string $projectDir,
-        APIContentService $contentService,
+        ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy,
         string $phpPath = null
     ) {
         $this->gateway = $gateway;
@@ -82,8 +78,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         $this->env = $env;
         $this->isDebug = $isDebug;
         $this->projectDir = $projectDir;
-        $this->contentService = $contentService;
-        $this->phpPath = $phpPath;
+        $this->contentIdListGeneratorStrategy = $contentIdListGeneratorStrategy;
 
         parent::__construct();
     }
@@ -261,28 +256,20 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
 
         if ($since = $input->getOption('since')) {
             $count = $this->gateway->countContentSince(new DateTime($since));
-            $generator = $this->gateway->getContentSince(new DateTime($since), $iterationCount);
+            $batchList = $this->gateway->getContentSince(new DateTime($since), $iterationCount);
             $purge = false;
         } elseif ($locationId = (int) $input->getOption('subtree')) {
-            /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
             $location = $this->locationHandler->load($locationId);
             $count = $this->gateway->countContentInSubtree($location->pathString);
-            $generator = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
+            $batchList = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
             $purge = false;
-        } elseif ($contentType = $input->getOption('content-type')) {
-            $filter = new Filter();
-            $filter
-                ->withCriterion(
-                    new Query\Criterion\ContentTypeIdentifier($contentType)
-                );
-
-            $contentList = $this->contentService->find($filter);
-            $count = $contentList->getTotalCount();
-            $generator = $this->fetchIterationFromContentList($contentList, $iterationCount);
-            $purge = false;
+        } elseif (!empty($input->getOption('content-type'))) {
+            $batchList = $this->contentIdListGeneratorStrategy->getBatchList($input, $iterationCount);
+            $count = $batchList->getCount();
+            $purge = $this->contentIdListGeneratorStrategy->shouldPurgeIndex($input);
         } else {
             $count = $this->gateway->countAllContent();
-            $generator = $this->gateway->getAllContent($iterationCount);
+            $batchList = $this->gateway->getAllContent($iterationCount);
             $purge = !$input->getOption('no-purge');
         }
 
@@ -318,13 +305,13 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         if ($processCount > 1) {
             $this->runParallelProcess(
                 $progress,
-                $generator,
+                $batchList,
                 (int)$processCount,
                 $commit
             );
         } else {
             // if we only have one process, or less iterations to warrant running several, we index it all inline
-            foreach ($generator as $contentIds) {
+            foreach ($batchList as $contentIds) {
                 $this->searchIndexer->updateSearchIndex($contentIds, $commit);
                 $progress->advance(1);
             }
@@ -341,15 +328,28 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
+     * @param iterable<int, array<int>> $results
+     *
+     * @return \Generator<int, array<int>>
+     */
+    private function buildGenerator(iterable $results): \Generator
+    {
+        yield from $results;
+    }
+
+    /**
+     * @param iterable<int, array<int>> $batchList
+     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     private function runParallelProcess(
         ProgressBar $progress,
-        Generator $generator,
+        iterable $batchList,
         int $processCount,
         bool $commit
     ): void {
-        /** @var \Symfony\Component\Process\Process[]|null[] */
+        $generator = $this->buildGenerator($batchList);
+        /** @var \Symfony\Component\Process\Process[]|null[] $processes */
         $processes = array_fill(0, $processCount, null);
         do {
             /** @var \Symfony\Component\Process\Process $process */
@@ -390,7 +390,7 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     }
 
     /**
-     * @param array $contentIds
+     * @param int[] $contentIds
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -477,20 +477,6 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     public function getDeprecatedAliases(): array
     {
         return ['ezplatform:reindex'];
-    }
-
-    private function fetchIterationFromContentList(ContentList $contentList, int $iterationCount): Generator
-    {
-        $i = 1;
-        $contentIds = [];
-        foreach ($contentList as $content) {
-            $contentIds[] = $content->id;
-            if ($iterationCount <= $i) {
-                break;
-            }
-            ++$i;
-        }
-        yield $contentIds;
     }
 }
 
