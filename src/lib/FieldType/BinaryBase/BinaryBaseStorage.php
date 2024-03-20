@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\Base\Exceptions\ContentFieldValidationException;
+use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\IOServiceInterface;
 
 /**
@@ -39,24 +41,21 @@ class BinaryBaseStorage extends GatewayBasedStorage
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway */
     protected $gateway;
 
-    /**
-     * Construct from gateways.
-     *
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
-     * @param \Ibexa\Core\IO\IOServiceInterface $ioService
-     * @param \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator $pathGenerator
-     * @param \Ibexa\Contracts\Core\IO\MimeTypeDetector $mimeTypeDetector
-     */
+    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator */
+    protected $fileExtensionBlackListValidator;
+
     public function __construct(
         StorageGatewayInterface $gateway,
         IOServiceInterface $ioService,
         PathGenerator $pathGenerator,
-        MimeTypeDetector $mimeTypeDetector
+        MimeTypeDetector $mimeTypeDetector,
+        FileExtensionBlackListValidator $fileExtensionBlackListValidator
     ) {
         parent::__construct($gateway);
         $this->ioService = $ioService;
         $this->pathGenerator = $pathGenerator;
         $this->mimeTypeDetector = $mimeTypeDetector;
+        $this->fileExtensionBlackListValidator = $fileExtensionBlackListValidator;
     }
 
     /**
@@ -67,6 +66,10 @@ class BinaryBaseStorage extends GatewayBasedStorage
         $this->downloadUrlGenerator = $downloadUrlGenerator;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     */
     public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
     {
         if ($field->value->externalData === null) {
@@ -76,6 +79,17 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
 
         if (isset($field->value->externalData['inputUri'])) {
+            $this->fileExtensionBlackListValidator->validateFileExtension($field->value->externalData['fileName']);
+            if (!empty($errors = $this->fileExtensionBlackListValidator->getErrors())) {
+                $preparedErrors = [];
+                $preparedErrors[$field->fieldDefinitionId][$field->languageCode] = $errors;
+
+                throw ContentFieldValidationException::createNewWithMultiline(
+                    $preparedErrors,
+                    $versionInfo->contentInfo->name
+                );
+            }
+
             $field->value->externalData['mimeType'] = $this->mimeTypeDetector->getFromPath($field->value->externalData['inputUri']);
             $createStruct = $this->ioService->newBinaryCreateStructFromLocalFile($field->value->externalData['inputUri']);
             $createStruct->id = $this->pathGenerator->getStoragePathForField($field, $versionInfo);

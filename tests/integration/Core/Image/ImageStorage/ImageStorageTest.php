@@ -16,6 +16,7 @@ use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
 use Ibexa\Core\FieldType\Image\ImageStorage;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
 use Ibexa\Core\FieldType\Image\PathGenerator;
+use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\MetadataHandler;
@@ -50,6 +51,9 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage */
     private $storage;
 
+    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
+    private $fileExtensionBlackListValidator;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -61,6 +65,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
         $this->aliasCleaner = $this->createMock(AliasCleanerInterface::class);
         $this->filePathNormalizer = $this->createMock(FilePathNormalizerInterface::class);
         $this->ioService = $this->createMock(IOServiceInterface::class);
+        $this->fileExtensionBlackListValidator = $this->createMock(FileExtensionBlackListValidator::class);
         $this->storage = new ImageStorage(
             $this->gateway,
             $this->ioService,
@@ -68,6 +73,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
             $this->imageSizeMetadataHandler,
             $this->aliasCleaner,
             $this->filePathNormalizer,
+            $this->fileExtensionBlackListValidator
         );
     }
 
