@@ -112,7 +112,9 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         return new ContentList(
             $searchResults->totalCount,
             array_map(
-                static function (SearchHit $searchHit) {
+                static function (SearchHit $searchHit): Content {
+                    self::assertInstanceOf(Content::class, $searchHit->valueObject);
+
                     return $searchHit->valueObject;
                 },
                 $searchResults->searchHits
@@ -332,7 +334,9 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         $filter = new Filter(new Criterion\ContentId(57), [$sortClause]);
         $contentList = $this->find($filter, []);
         self::assertCount(1, $contentList);
-        self::assertSame(57, $contentList->getIterator()[0]->id);
+        $contentItem = $contentList->getIterator()[0];
+        self::assertNotNull($contentItem);
+        self::assertSame(57, $contentItem->id);
     }
 
     /**

@@ -42,7 +42,7 @@ services:
             $env: '%kernel.environment%'
             $projectDir: '%kernel.project_dir%'
             $isDebug: '%kernel.debug%'
-            $contentService: '@Ibexa\Contracts\Core\Repository\ContentService'
+            $contentIdListGeneratorStrategy: '@Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy'
         tags:
             - { name: console.command }
 
@@ -65,3 +65,7 @@ services:
     Ibexa\Bundle\Core\Command\ExpireUserPasswordsCommand:
         autowire: true
         autoconfigure: true
+
+    # Dedicated services for commands
+    Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy:
+        autowire: true
