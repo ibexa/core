@@ -827,9 +827,6 @@ class Handler implements BaseContentHandler
         return $this->contentGateway->countRelations($sourceContentId, $sourceContentVersionNo, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadRelationList(
         int $sourceContentId,
         int $limit,

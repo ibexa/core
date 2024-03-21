@@ -1435,10 +1435,10 @@ final class DoctrineDatabase extends Gateway
             ->innerJoin(
                 'l',
                 self::CONTENT_ITEM_TABLE,
-                'ezcontentobject_to',
+                'c_to',
                 $expr->and(
-                    'l.to_contentobject_id = ezcontentobject_to.id',
-                    'ezcontentobject_to.status = :status'
+                    'l.to_contentobject_id = c_to.id',
+                    'c_to.status = :status'
                 )
             )
             ->where(
@@ -1460,7 +1460,7 @@ final class DoctrineDatabase extends Gateway
             // from published version only
             $query
                 ->innerJoin(
-                    'ezcontentobject_to',
+                    'c_to',
                     self::CONTENT_ITEM_TABLE,
                     'c',
                     $expr->and(

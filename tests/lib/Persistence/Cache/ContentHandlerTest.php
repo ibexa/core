@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
@@ -82,6 +83,13 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         $info = new ContentInfo(['id' => 2]);
         $version = new VersionInfo(['versionNo' => 1, 'contentInfo' => $info]);
         $content = new Content(['fields' => [], 'versionInfo' => $version]);
+        $relation = new Relation();
+        $relation->id = 1;
+        $relation->sourceContentId = 2;
+        $relation->sourceContentVersionNo = 2;
+        $relation->destinationContentId = 1;
+        $relation->type = 1;
+        $relationList[1] = $relation;
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi = false, array $additionalCalls
         return [
@@ -90,6 +98,10 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ['countRelations', [2, 2], 'ibx-crc-2-v-2', null, null, [['content_relations_count_with_version', [2, 2], true]], ['ibx-crc-2-v-2'], 10],
             ['countRelations', [2, null, 1], 'ibx-crc-2-t-1', null, null, [['content_relations_count_with_type', [2, 1], true]], ['ibx-crc-2-t-1'], 10],
             ['countRelations', [2, 2, 1], 'ibx-crc-2-t-1-v-2', null, null, [['content_relations_count_with_type_and_version', [2, 1, 2], true]], ['ibx-crc-2-t-1-v-2'], 10],
+            ['loadRelationList', [2, 1, 0], 'ibx-crl-2-l-1-o-0', null, null, [['content_relations_list', [2, 1, 0], true]], ['ibx-crl-2-l-1-o-0'], $relationList],
+            ['loadRelationList', [2, 1, 0, 2], 'ibx-crl-2-l-1-o-0-v-2', null, null, [['content_relations_list_with_version', [2, 1, 0, 2], true]], ['ibx-crl-2-l-1-o-0-v-2'], $relationList],
+            ['loadRelationList', [2, 1, 0, null, 1], 'ibx-crl-2-l-1-o-0-t-1', null, null, [['content_relations_list_with_type', [2, 1, 0, 1], true]], ['ibx-crl-2-l-1-o-0-t-1'], $relationList],
+            ['loadRelationList', [2, 1, 0, 2, 1], 'ibx-crl-2-l-1-o-0-t-1-v-2', null, null, [['content_relations_list_with_type_and_version', [2, 1, 0, 1, 2], true]], ['ibx-crl-2-l-1-o-0-t-1-v-2'], $relationList],
             ['load', [2, 1], 'ibx-c-2-1-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2, 1, ['eng-GB', 'eng-US']], 'ibx-c-2-1-eng-GB|eng-US', null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2], 'ibx-c-2-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
