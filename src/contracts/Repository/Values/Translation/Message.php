@@ -42,12 +42,12 @@ class Message extends Translation
     {
         $this->message = $message;
         $this->values = $values;
+
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
+    #[\Override]
+    public function __toString(): string
     {
         return strtr($this->message, $this->values);
     }

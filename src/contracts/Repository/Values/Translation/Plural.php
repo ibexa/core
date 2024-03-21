@@ -67,12 +67,12 @@ class Plural extends Translation
         $this->singular = $singular;
         $this->plural = $plural;
         $this->values = $values;
+
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
+    #[\Override]
+    public function __toString(): string
     {
         return strtr(current($this->values) == 1 ? $this->plural : $this->singular, $this->values);
     }
