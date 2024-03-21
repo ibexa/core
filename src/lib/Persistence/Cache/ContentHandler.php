@@ -35,6 +35,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     private const CONTENT_RELATIONS_COUNT_WITH_TYPE_IDENTIFIER = 'content_relations_count_with_type';
     private const CONTENT_RELATIONS_COUNT_WITH_TYPE_AND_VERSION_IDENTIFIER = 'content_relations_count_with_type_and_version';
     private const CONTENT_RELATIONS_COUNT_WITH_VERSION_IDENTIFIER = 'content_relations_count_with_version';
+    private const CONTENT_RELATIONS_LIST_IDENTIFIER = 'content_relations_list';
+    private const CONTENT_RELATIONS_LIST_WITH_TYPE_IDENTIFIER = 'content_relations_list_with_type';
+    private const CONTENT_RELATIONS_LIST_WITH_TYPE_AND_VERSION_IDENTIFIER = 'content_relations_list_with_type_and_version';
+    private const CONTENT_RELATIONS_LIST_WITH_VERSION_IDENTIFIER = 'content_relations_list_with_version';
     private const CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER = 'content_reverse_relations_count';
     private const RELATION_IDENTIFIER = 'relation';
 
@@ -546,12 +550,12 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         );
 
         if ($cacheItem->isHit()) {
-            $this->logger->logCacheHit(['content' => $sourceContentId, 'version' => $sourceContentVersionNo]);
+            $this->logger->logCacheHit(['content' => $sourceContentId, 'version' => $sourceContentVersionNo, 'type' => $type]);
 
             return $cacheItem->get();
         }
 
-        $this->logger->logCacheMiss(['content' => $sourceContentId, 'version' => $sourceContentVersionNo]);
+        $this->logger->logCacheMiss(['content' => $sourceContentId, 'version' => $sourceContentVersionNo, 'type' => $type]);
         $relationsCount = $this->persistenceHandler->contentHandler()->countRelations(
             $sourceContentId,
             $sourceContentVersionNo,
@@ -571,9 +575,6 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $relationsCount;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadRelationList(
         int $sourceContentId,
         int $limit,
@@ -581,21 +582,65 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         ?int $sourceContentVersionNo = null,
         ?int $type = null
     ): array {
-        $this->logger->logCall(__METHOD__, [
+        $values = [$sourceContentId, $limit, $offset];
+
+        if ($sourceContentVersionNo === null && $type !== null) {
+            $patternName = self::CONTENT_RELATIONS_LIST_WITH_TYPE_IDENTIFIER;
+            $values[] = $type;
+        } elseif ($sourceContentVersionNo !== null && $type === null) {
+            $patternName = self::CONTENT_RELATIONS_LIST_WITH_VERSION_IDENTIFIER;
+            $values[] = $sourceContentVersionNo;
+        } elseif ($sourceContentVersionNo !== null && $type !== null) {
+            $patternName = self::CONTENT_RELATIONS_LIST_WITH_TYPE_AND_VERSION_IDENTIFIER;
+            $values = array_merge($values, [$type, $sourceContentVersionNo]);
+        } else {
+            $patternName = self::CONTENT_RELATIONS_LIST_IDENTIFIER;
+        }
+
+        $cacheItem = $this->cache->getItem(
+            $this->cacheIdentifierGenerator->generateKey(
+                $patternName,
+                $values,
+                true
+            )
+        );
+
+        $logCacheArguments = [
             'content' => $sourceContentId,
             'version' => $sourceContentVersionNo,
-            'offset' => $offset,
-            'limit' => $limit,
             'type' => $type,
-        ]);
+            'limit' => $limit,
+            'offset' => $offset,
+        ];
 
-        return $this->persistenceHandler->contentHandler()->loadRelationList(
+        if ($cacheItem->isHit()) {
+            $this->logger->logCacheHit($logCacheArguments);
+
+            return $cacheItem->get();
+        }
+
+        $this->logger->logCacheMiss($logCacheArguments);
+
+        $relationList = $this->persistenceHandler->contentHandler()->loadRelationList(
             $sourceContentId,
             $limit,
             $offset,
             $sourceContentVersionNo,
             $type
         );
+
+        $cacheItem->set($relationList);
+        $tags = [
+            $this->cacheIdentifierGenerator->generateTag(
+                self::CONTENT_IDENTIFIER,
+                [$sourceContentId]
+            ),
+        ];
+
+        $cacheItem->tag($tags);
+        $this->cache->save($cacheItem);
+
+        return $relationList;
     }
 
     /**

@@ -400,7 +400,7 @@ interface ContentService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
      *
-     * @deprecated since 4.5, use loadRelationList().
+     * @deprecated since 4.5, use loadRelationList() instead.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
@@ -410,6 +410,9 @@ interface ContentService
      * Loads all outgoing relations for the given version.
      *
      * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      *
      * @see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem
      */
@@ -421,6 +424,9 @@ interface ContentService
 
     /**
      * Counts all outgoing relations for the given version.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     public function countRelations(VersionInfo $versionInfo): int;
 

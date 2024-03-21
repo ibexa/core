@@ -404,9 +404,6 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function listRelations(
         int $contentId,
         int $limit,
