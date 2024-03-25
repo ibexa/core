@@ -8,12 +8,13 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\ContentService;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Helper\ContentPreviewHelper;
 use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
@@ -132,46 +133,19 @@ class PreviewController
                 HttpKernelInterface::SUB_REQUEST,
                 false
             );
-        } catch (\Exception $e) {
-            try {
-                if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
-                    // @todo This should probably be an exception that embeds the original one
-                    $message = <<<EOF
-<p>The view that rendered this location draft uses a custom controller, and resulted in a fatal error.</p>
-<p>Location View is deprecated, as it causes issues with preview, such as an empty location id when previewing the first version of a content.</p>
-EOF;
-
-                    throw new Exception($message, 0, $e);
-                }
-            } catch (\Exception $e2) {
-                $this->logger->warning('Unable to check if location uses a custom controller when loading the preview page', ['exception' => $e2]);
-                if ($this->debugMode) {
-                    throw $e2;
-                }
-            }
-            $message = '';
-
-            if ($e instanceof NotFoundException) {
-                $message .= 'Location not found or not available in requested language';
-                $this->logger->warning('Location not found or not available in requested language when loading the preview page', ['exception' => $e]);
-                if ($this->debugMode) {
-                    throw new Exception($message, 0, $e);
-                }
-            } else {
-                $this->logger->warning('Unable to load the preview page', ['exception' => $e]);
-            }
-
+        } catch (APINotFoundException $e) {
+            $message = 'Location not found or not available in requested language';
+            $this->logger->warning(
+                'Location not found or not available in requested language when loading the preview page',
+                ['exception' => $e]
+            );
             if ($this->debugMode) {
-                throw $e;
+                throw new BadStateException($message, 1, $e);
             }
-
-            $message = <<<EOF
-<p>$message</p>
-<p>Unable to load the preview page</p>
-<p>See logs for more information</p>
-EOF;
 
             return new Response($message);
+        } catch (Exception $e) {
+            return $this->buildResponseForGenericPreviewError($location, $content, $e);
         }
         $response->headers->addCacheControlDirective('no-cache', true);
         $response->setPrivate();
@@ -227,6 +201,41 @@ EOF;
             null,
             $forwardRequestParameters
         );
+    }
+
+    /**
+     * @throws \Ibexa\Core\Base\Exceptions\BadStateException
+     */
+    private function buildResponseForGenericPreviewError(Location $location, Content $content, Exception $e): Response
+    {
+        $message = '';
+        try {
+            if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
+                $message = <<<EOF
+<p>The view that rendered this location draft uses a custom controller, and resulted in a fatal error.</p>
+<p>Location View is deprecated, as it causes issues with preview, such as an empty location id when previewing the first version of a content.</p>
+EOF;
+            }
+        } catch (Exception $innerException) {
+            $message = 'An exception occurred when handling page preview exception';
+            $this->logger->warning(
+                'Unable to check if location uses a custom controller when loading the preview page',
+                ['exception' => $innerException]
+            );
+        }
+
+        $this->logger->warning('Unable to load the preview page', ['exception' => $e]);
+
+        $message .= <<<EOF
+<p>Unable to load the preview page</p>
+<p>See logs for more information</p>
+EOF;
+
+        if ($this->debugMode) {
+            throw new BadStateException($message, 1, $e);
+        }
+
+        return new Response($message);
     }
 }
 
