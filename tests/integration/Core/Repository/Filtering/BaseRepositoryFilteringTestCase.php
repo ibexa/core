@@ -239,6 +239,8 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTest
             Criterion\Operator::BETWEEN,
             [1080220197, 1448889046]
         );
+        yield 'IsContainer=true' => new Criterion\IsContainer(true);
+        yield 'IsContainer=false' => new Criterion\IsContainer(false);
         yield 'IsUserBased=true' => new Criterion\IsUserBased(true);
         yield 'IsUserBased=false' => new Criterion\IsUserBased(false);
         yield 'IsUserEnabled=true' => new Criterion\IsUserEnabled();
