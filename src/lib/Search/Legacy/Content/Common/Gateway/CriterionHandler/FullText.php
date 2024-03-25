@@ -146,17 +146,20 @@ class FullText extends CriterionHandler
      */
     protected function getWordExpression(QueryBuilder $query, string $token): string
     {
-        if ($this->configuration['enableWildcards'] && $token[0] === '*') {
-            return $query->expr()->like(
-                'word',
-                $query->createNamedParameter('%' . substr($token, 1))
-            );
-        }
+        $hasLeadingWildcard = str_starts_with($token, '*');
+        $hasTrailingWildcard = str_ends_with($token, '*');
+        if ($this->configuration['enableWildcards'] && ($hasLeadingWildcard || $hasTrailingWildcard)) {
+            $token = $hasLeadingWildcard ? substr($token, 1) : $token;
+            $token = $hasTrailingWildcard ? substr($token, 0, -1) : $token;
 
-        if ($this->configuration['enableWildcards'] && $token[strlen($token) - 1] === '*') {
+            $token = str_replace('%', '\\%', $token);
+
+            $token = $hasLeadingWildcard ? '%' . $token : $token;
+            $token = $hasTrailingWildcard ? $token . '%' : $token;
+
             return $query->expr()->like(
                 'word',
-                $query->createNamedParameter(substr($token, 0, -1) . '%')
+                $query->createNamedParameter($token)
             );
         }
 
