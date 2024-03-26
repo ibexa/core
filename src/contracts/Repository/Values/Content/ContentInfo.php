@@ -29,7 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @property-read string $mainLanguageCode The main language code of the Content object. If the available flag is set to true the Content is shown in this language if the requested language does not exist.
  * @property-read int|null $mainLocationId @deprecated Use {@see ContentInfo::getMainLocationId} instead
  * @property-read int $status status of the Content object
- * @property-read bool $isHidden status of the Content object
+ * @property-read bool $isHidden @deprecated Use {@see ContentInfo::$isHidden} instead
  */
 class ContentInfo extends ValueObject
 {
@@ -185,6 +185,11 @@ class ContentInfo extends ValueObject
         return $this->status === self::STATUS_TRASHED;
     }
 
+    public function isHidden(): bool
+    {
+        return $this->isHidden;
+    }
+
     public function getContentType(): ContentType
     {
         return $this->contentType;
@@ -228,6 +233,11 @@ class ContentInfo extends ValueObject
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
 

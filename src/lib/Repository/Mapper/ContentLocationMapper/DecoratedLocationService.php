@@ -123,8 +123,8 @@ final class DecoratedLocationService extends LocationServiceDecorator
     {
         foreach ($locationList as $location) {
             $this->contentLocationMapper->setMapping(
-                $location->id,
-                $location->contentId
+                $location->getId(),
+                $location->getContentId()
             );
         }
     }
