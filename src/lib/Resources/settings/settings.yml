@@ -1,5 +1,5 @@
 parameters:
-    ibexa.persistence.legacy.dsn: sqlite://:memory:
+    ibexa.persistence.legacy.dsn: 'sqlite://:memory:'
     anonymous_user_id: 10
     kernel.debug: false
     languages: []

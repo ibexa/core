@@ -127,9 +127,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
             $loader->load('routing/js_routing.yml');
         }
 
-        // Default settings
-        $this->handleDefaultSettingsLoading($container, $loader);
-
         $this->registerRepositoriesConfiguration($config, $container);
         $this->registerSiteAccessConfiguration($config, $container);
         $this->registerImageMagickConfiguration($config, $container);
@@ -198,6 +195,9 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $this->prependDoctrineConfiguration($container);
         $this->prependJMSTranslation($container);
 
+        // Default settings
+        $this->handleDefaultSettingsLoading($container);
+
         $this->configureGenericSetup($container);
         $this->configurePlatformShSetup($container);
     }
@@ -236,15 +236,14 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * Handle default settings.
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
-     *
      * @throws \Exception
      */
-    private function handleDefaultSettingsLoading(ContainerBuilder $container, FileLoader $loader)
+    private function handleDefaultSettingsLoading(ContainerBuilder $container): void
     {
+        $loader = new Loader\YamlFileLoader(
+            $container,
+            new FileLocator(__DIR__ . '/../Resources/config')
+        );
         $loader->load('default_settings.yml');
 
         foreach ($this->defaultSettingsCollection as $fileLocation => $files) {
@@ -830,12 +829,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     private function configurePlatformShSetup(ContainerBuilder $container): void
     {
         $projectDir = $container->getParameter('kernel.project_dir');
-
-        // Run for all hooks, incl build step
-        if ($_SERVER['PLATFORM_PROJECT_ENTROPY'] ?? false) {
-            // Disable PHPStormPass as we don't have write access & it's not localhost
-            $container->setParameter('ezdesign.phpstorm.enabled', false);
-        }
 
         // Will not be executed on build step
         $relationships = $_SERVER['PLATFORM_RELATIONSHIPS'] ?? false;
