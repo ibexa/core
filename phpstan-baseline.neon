@@ -1771,11 +1771,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\IbexaCoreExtension\\:\\:handleDefaultSettingsLoading\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\IbexaCoreExtension\\:\\:handleHelpers\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
