@@ -3540,22 +3540,7 @@ class ContentServiceTest extends BaseContentServiceTest
      */
     public function testLoadRelations()
     {
-        $draft = $this->createContentDraftVersion1();
-
-        $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
-        $demoDesign = $this->contentService->loadContentInfoByRemoteId(self::DEMO_DESIGN_REMOTE_ID);
-
-        // Create relation between new content object and "Media" page
-        $this->contentService->addRelation(
-            $draft->getVersionInfo(),
-            $media
-        );
-
-        // Create another relation with the "Demo Design" page
-        $this->contentService->addRelation(
-            $draft->getVersionInfo(),
-            $demoDesign
-        );
+        $draft = $this->createContentWithRelations();
 
         $relations = $this->contentService->loadRelations($draft->getVersionInfo());
 
@@ -3695,6 +3680,84 @@ class ContentServiceTest extends BaseContentServiceTest
                     'destinationContentInfo' => $relations[0]->destinationContentInfo->remoteId,
                 ],
             ]
+        );
+    }
+
+    public function testCountRelations(): void
+    {
+        $draft = $this->createContentWithRelations();
+
+        self::assertEquals(2, $this->contentService->countRelations($draft->getVersionInfo()));
+    }
+
+    public function testCountRelationsReturnsZeroByDefault(): void
+    {
+        $draft = $this->createContentDraftVersion1();
+
+        self::assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
+    }
+
+    public function testCountRelationsForUnauthorizedUser(): void
+    {
+        $draft = $this->createContentWithRelations();
+        $mediaUser = $this->createMediaUserVersion1();
+        $this->permissionResolver->setCurrentUserReference($mediaUser);
+
+        self::assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
+    }
+
+    public function testLoadRelationList(): void
+    {
+        $draft = $this->createContentWithRelations();
+        $relationList = $this->contentService->loadRelationList($draft->getVersionInfo());
+        $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
+        $demoDesign = $this->contentService->loadContentInfoByRemoteId(self::DEMO_DESIGN_REMOTE_ID);
+
+        self::assertSame(2, $relationList->totalCount);
+
+        $relation1 = $relationList->items[0]->getRelation();
+        $relation2 = $relationList->items[1]->getRelation();
+
+        self::assertNotNull($relation1);
+        self::assertNotNull($relation2);
+
+        self::assertEquals(
+            $demoDesign,
+            $relation1->getDestinationContentInfo()
+        );
+
+        self::assertEquals(
+            $media,
+            $relation2->getDestinationContentInfo()
+        );
+    }
+
+    public function testLoadRelationListWithPagination(): void
+    {
+        $draft = $this->createContentWithRelations();
+        $versionInfo = $draft->getVersionInfo();
+        $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
+        $demoDesign = $this->contentService->loadContentInfoByRemoteId(self::DEMO_DESIGN_REMOTE_ID);
+
+        $relationPage1 = $this->contentService->loadRelationList($versionInfo, 0, 1);
+        $relationPage2 = $this->contentService->loadRelationList($versionInfo, 1, 2);
+
+        self::assertSame(2, $relationPage1->totalCount);
+        self::assertSame(2, $relationPage2->totalCount);
+
+        $relation1 = $relationPage1->items[0]->getRelation();
+        $relation2 = $relationPage2->items[0]->getRelation();
+
+        self::assertNotNull($relation1);
+        self::assertNotNull($relation2);
+
+        self::assertEquals(
+            $demoDesign,
+            $relation1->getDestinationContentInfo()
+        );
+        self::assertEquals(
+            $media,
+            $relation2->getDestinationContentInfo()
         );
     }
 
@@ -6667,6 +6730,26 @@ class ContentServiceTest extends BaseContentServiceTest
         }
 
         return $contentWithReverseRelations;
+    }
+
+    private function createContentWithRelations(): Content
+    {
+        $draft = $this->createContentDraftVersion1();
+        $versionInfo = $draft->getVersionInfo();
+
+        $media = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
+        $demoDesign = $this->contentService->loadContentInfoByRemoteId(self::DEMO_DESIGN_REMOTE_ID);
+        $this->contentService->addRelation(
+            $versionInfo,
+            $media
+        );
+
+        $this->contentService->addRelation(
+            $versionInfo,
+            $demoDesign
+        );
+
+        return $draft;
     }
 }
 

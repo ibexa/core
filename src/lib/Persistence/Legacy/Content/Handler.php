@@ -822,6 +822,23 @@ class Handler implements BaseContentHandler
         );
     }
 
+    public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
+    {
+        return $this->contentGateway->countRelations($sourceContentId, $sourceContentVersionNo, $type);
+    }
+
+    public function loadRelationList(
+        int $sourceContentId,
+        int $limit,
+        int $offset = 0,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): array {
+        return $this->mapper->extractRelationsFromRows(
+            $this->contentGateway->listRelations($sourceContentId, $limit, $offset, $sourceContentVersionNo, $type)
+        );
+    }
+
     /**
      * {@inheritdoc}
      */

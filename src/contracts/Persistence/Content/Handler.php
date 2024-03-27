@@ -283,6 +283,8 @@ interface Handler
     /**
      * Loads relations from $sourceContentId. Optionally, loads only those with $type and $sourceContentVersionNo.
      *
+     * @deprecated since 4.5, use loadRelationList() instead.
+     *
      * @param mixed $sourceContentId Source Content ID
      * @param mixed|null $sourceContentVersionNo Source Content Version, null if not specified
      * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
@@ -293,6 +295,26 @@ interface Handler
      * @return \Ibexa\Contracts\Core\Persistence\Content\Relation[]
      */
     public function loadRelations($sourceContentId, $sourceContentVersionNo = null, $type = null);
+
+    /**
+     * Counts relations from $sourceContentId. Optionally, counts only those with $type and $sourceContentVersionNo.
+     */
+    public function countRelations(
+        int $sourceContentId,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): int;
+
+    /**
+     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation[]
+     */
+    public function loadRelationList(
+        int $sourceContentId,
+        int $limit,
+        int $offset = 0,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): array;
 
     /**
      * Counts relations from $destinationContentId only against published versions. Optionally, count only those with $type.

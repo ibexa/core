@@ -392,6 +392,38 @@ final class ExceptionConversion extends Gateway
         }
     }
 
+    public function countRelations(
+        int $contentId,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): int {
+        try {
+            return $this->innerGateway->countRelations($contentId, $contentVersionNo, $relationType);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function listRelations(
+        int $contentId,
+        int $limit,
+        int $offset = 0,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): array {
+        try {
+            return $this->innerGateway->listRelations(
+                $contentId,
+                $limit,
+                $offset,
+                $contentVersionNo,
+                $relationType
+            );
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
     public function countReverseRelations(int $contentId, ?int $relationType = null): int
     {
         try {

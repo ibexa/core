@@ -361,7 +361,29 @@ abstract class Gateway
     ): array;
 
     /**
-     * Count number of related to/from $contentId.
+     * Counts number of related to/from $contentId.
+     */
+    abstract public function countRelations(
+        int $contentId,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): int;
+
+    /**
+     * Loads paginated data of related to/from $contentId.
+     *
+     * @return array<array<string, mixed>>
+     */
+    abstract public function listRelations(
+        int $contentId,
+        int $limit,
+        int $offset = 0,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): array;
+
+    /**
+     * Counts number of related to/from $contentId.
      */
     abstract public function countReverseRelations(int $contentId, ?int $relationType = null): int;
 
