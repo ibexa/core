@@ -7,10 +7,10 @@
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
-return SearchResult::__set_state([
+return new SearchResult([
     'facets' => [],
     'searchHits' => [
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 4,
                         'title' => 'Users',
@@ -20,7 +20,7 @@ return SearchResult::__set_state([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 11,
                         'title' => 'Members',
@@ -30,7 +30,7 @@ return SearchResult::__set_state([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 12,
                         'title' => 'Administrator users',
@@ -40,7 +40,7 @@ return SearchResult::__set_state([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 13,
                         'title' => 'Editors',
@@ -50,7 +50,7 @@ return SearchResult::__set_state([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 41,
                         'title' => 'Media',

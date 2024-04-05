@@ -7,10 +7,10 @@
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
-return SearchResult::__set_state([
+return new SearchResult([
     'facets' => [],
     'searchHits' => [
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 10,
                         'title' => 'Anonymous User',
@@ -20,7 +20,7 @@ return SearchResult::__set_state([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 14,
                         'title' => 'Administrator User',
@@ -30,7 +30,7 @@ return SearchResult::__set_state([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 52,
                         'title' => 'Common INI settings',
@@ -40,7 +40,7 @@ return SearchResult::__set_state([
                 'highlight' => null,
                 'matchedTranslation' => 'eng-US',
             ]),
-            SearchHit::__set_state([
+            new SearchHit([
                 'valueObject' => [
                         'id' => 54,
                         'title' => 'Ibexa Demo Design (without demo content)',
