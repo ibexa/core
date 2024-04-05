@@ -17,7 +17,7 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 /**
  * Content type group criterion handler.
  */
-class IsContainer extends CriterionHandler
+final class IsContainer extends CriterionHandler
 {
     public function accept(Criterion $criterion): bool
     {

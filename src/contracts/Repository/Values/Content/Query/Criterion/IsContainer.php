@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
-class IsContainer extends Criterion implements FilteringCriterion
+final class IsContainer extends Criterion implements FilteringCriterion
 {
     public function __construct(bool $value = true)
     {
