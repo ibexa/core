@@ -108,6 +108,11 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     abstract public function getLanguages(): iterable;
 
     /**
+     * @return iterable<string>
+     */
+    abstract public function getLanguageCodes(): iterable;
+
+    /**
      * Returns true if version is a draft.
      *
      * @return bool

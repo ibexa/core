@@ -89,6 +89,11 @@ class VersionInfo extends APIVersionInfo
         return $this->languages;
     }
 
+    public function getLanguageCodes(): iterable
+    {
+        return $this->languageCodes;
+    }
+
     /**
      * {@inheritdoc}
      */
