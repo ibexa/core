@@ -1991,15 +1991,6 @@ class ContentService implements ContentServiceInterface
         return $this->internalLoadContentById($content->id);
     }
 
-    /**
-     * Loads all outgoing relations for the given version.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
-     *
-     * @deprecated since 4.5, use loadRelationList().
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     */
     public function loadRelations(APIVersionInfo $versionInfo): iterable
     {
         if ($versionInfo->isPublished()) {

@@ -283,7 +283,7 @@ interface Handler
     /**
      * Loads relations from $sourceContentId. Optionally, loads only those with $type and $sourceContentVersionNo.
      *
-     * @deprecated since 4.5, use loadRelationList() instead.
+     * @deprecated 4.5.7 The "ContentService::loadRelations()" method is deprecated, will be removed in 5.0.
      *
      * @param mixed $sourceContentId Source Content ID
      * @param mixed|null $sourceContentVersionNo Source Content Version, null if not specified
@@ -297,7 +297,7 @@ interface Handler
     public function loadRelations($sourceContentId, $sourceContentVersionNo = null, $type = null);
 
     /**
-     * Counts relations from $sourceContentId. Optionally, counts only those with $type and $sourceContentVersionNo.
+     * Counts all outgoing relations for the given version.
      */
     public function countRelations(
         int $sourceContentId,

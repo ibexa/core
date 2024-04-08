@@ -1441,7 +1441,7 @@ final class DoctrineDatabase extends Gateway
                     'c_to.status = :status'
                 )
             )
-            ->where(
+            ->andWhere(
                 'l.from_contentobject_id = :content_id'
             )
             ->setParameter(

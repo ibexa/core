@@ -400,7 +400,7 @@ interface ContentService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
      *
-     * @deprecated since 4.5, use loadRelationList() instead.
+     * @deprecated 4.5.7 The "ContentService::loadRelations()" method is deprecated, will be removed in 5.0.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
@@ -409,7 +409,7 @@ interface ContentService
     /**
      * Loads all outgoing relations for the given version.
      *
-     * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
+     * If the user is not allowed to read specific version then a returned `RelationList` will contain `UnauthorizedRelationListItem`
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
