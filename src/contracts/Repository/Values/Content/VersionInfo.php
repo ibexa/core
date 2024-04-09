@@ -89,7 +89,7 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
      *
      * @var string[]
      */
-    protected $languageCodes = [];
+    protected array $languageCodes = [];
 
     /**
      * Content of the content this version belongs to.
@@ -108,9 +108,12 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     abstract public function getLanguages(): iterable;
 
     /**
-     * @return iterable<string>
+     * @return array<string>
      */
-    abstract public function getLanguageCodes(): iterable;
+    public function getLanguageCodes(): array
+    {
+        return $this->languageCodes;
+    }
 
     /**
      * Returns true if version is a draft.
