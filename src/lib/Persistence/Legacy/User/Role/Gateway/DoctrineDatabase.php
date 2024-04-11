@@ -157,7 +157,8 @@ final class DoctrineDatabase extends Gateway
                 $this->buildRoleDraftQueryConstraint($status, $query)
             )
             ->orderBy('p.id', 'ASC')
-            ->addOrderBy('l.identifier', 'ASC');
+            ->addOrderBy('l.identifier', 'ASC')
+            ->addOrderBy('v.value', 'ASC');
 
         return $query->execute()->fetchAllAssociative();
     }
@@ -182,7 +183,8 @@ final class DoctrineDatabase extends Gateway
                 $this->buildRoleDraftQueryConstraint($status, $query)
             )
             ->orderBy('p.id', 'ASC')
-            ->addOrderBy('l.identifier', 'ASC');
+            ->addOrderBy('l.identifier', 'ASC')
+            ->addOrderBy('v.value', 'ASC');
 
         return $query->execute()->fetchAllAssociative();
     }
