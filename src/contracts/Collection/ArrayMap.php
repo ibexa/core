@@ -34,9 +34,9 @@ class ArrayMap extends AbstractInMemoryCollection implements MapInterface
     }
 
     /**
-     * @param TValue[] $items
+     * @phpstan-param TValue[] $items
      *
-     * @return \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValue>
+     * @phpstan-return \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValue>
      */
     protected function createFrom(array $items): self
     {

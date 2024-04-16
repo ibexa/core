@@ -20,11 +20,11 @@ use Iterator;
  */
 abstract class AbstractInMemoryCollection implements CollectionInterface, StreamableInterface
 {
-    /** @var TValue[] */
+    /** @phpstan-var TValue[] */
     protected array $items;
 
     /**
-     * @param TValue[] $items
+     * @phpstan-param TValue[] $items
      */
     public function __construct(array $items = [])
     {
