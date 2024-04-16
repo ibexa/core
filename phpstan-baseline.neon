@@ -21246,11 +21246,6 @@ parameters:
 			path: src/lib/Repository/TrashService.php
 
 		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\:\\:\\$languageCodes\\.$#"
-			count: 2
-			path: src/lib/Repository/URLAliasService.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\UrlAlias referenced with incorrect case\\: Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\URLAlias\\.$#"
 			count: 7
 			path: src/lib/Repository/URLAliasService.php
