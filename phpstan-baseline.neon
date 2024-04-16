@@ -7411,11 +7411,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Trash/TrashItemDeleteResultList.php
 
 		-
-			message: "#^PHPDoc tag @property\\-read has invalid value \\(string\\[\\] languageCodes the languages for which this alias is valid\\)\\: Unexpected token \"languageCodes\", expected variable at offset 451$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/URLAlias.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLWildcard\\\\SearchResult implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/URLWildcard/SearchResult.php
