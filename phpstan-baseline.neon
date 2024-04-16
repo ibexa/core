@@ -27396,11 +27396,6 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\:\\:\\$languageCodes\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
 			message: "#^Argument of an invalid type Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentMetadataUpdateStruct supplied for foreach, only iterables are supported\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
@@ -38849,11 +38844,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$locationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:loadLocation\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/URLAliasServiceAuthorizationTest.php
-
-		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\:\\:\\$languageCodes\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/URLAliasServiceTest.php
 
 		-
 			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\>\\.$#"
@@ -59839,11 +59829,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\SearchTest\\:\\:\\$repositoryMock has no type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/SearchTest.php
-
-		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\:\\:\\$languageCodes\\.$#"
-			count: 3
-			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
 
 		-
 			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\>\\.$#"
