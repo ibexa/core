@@ -17,11 +17,11 @@ use Twig\Template;
  */
 class DebugTemplate extends Template
 {
-    private $fileSystem;
+    private Filesystem $fileSystem;
 
-    public function display(array $context, array $blocks = [])
+    public function display(array $context, array $blocks = []): void
     {
-        $this->fileSystem = $this->fileSystem ?: new Filesystem();
+        $this->fileSystem = $this->fileSystem ?? new Filesystem();
 
         // Bufferize to be able to insert template name as HTML comments if applicable.
         // Layout template name will only appear at the end, to avoid potential quirks with old browsers
@@ -68,7 +68,7 @@ class DebugTemplate extends Template
     /**
      * {@inheritdoc}
      */
-    public function getTemplateName()
+    public function getTemplateName(): string
     {
         return '';
     }
@@ -84,7 +84,7 @@ class DebugTemplate extends Template
     /**
      * {@inheritdoc}
      */
-    protected function doDisplay(array $context, array $blocks = [])
+    protected function doDisplay(array $context, array $blocks = []): string
     {
         return '';
     }
@@ -92,7 +92,7 @@ class DebugTemplate extends Template
     /**
      * {@inheritdoc}
      */
-    public function getDebugInfo()
+    public function getDebugInfo(): array
     {
         return [];
     }
