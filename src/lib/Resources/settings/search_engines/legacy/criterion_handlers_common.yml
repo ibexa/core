@@ -146,7 +146,6 @@ services:
 
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsContainer:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
-        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsContainer
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
