@@ -4156,11 +4156,6 @@ parameters:
 			path: src/bundle/Debug/IbexaDebugBundle.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:display\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:display\\(\\) has parameter \\$blocks with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Debug/Twig/DebugTemplate.php
@@ -4171,27 +4166,12 @@ parameters:
 			path: src/bundle/Debug/Twig/DebugTemplate.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:doDisplay\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:doDisplay\\(\\) has parameter \\$blocks with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Debug/Twig/DebugTemplate.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:doDisplay\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:getDebugInfo\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:getSourceContext\\(\\) should return Twig\\\\Source but returns string\\.$#"
 			count: 1
 			path: src/bundle/Debug/Twig/DebugTemplate.php
 
