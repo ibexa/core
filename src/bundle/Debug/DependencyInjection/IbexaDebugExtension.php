@@ -6,16 +6,21 @@
  */
 namespace Ibexa\Bundle\Debug\DependencyInjection;
 
-use Ibexa\Bundle\Debug\Twig\DebugTemplate;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class IbexaDebugExtension extends Extension implements PrependExtensionInterface
+/**
+ * @internal
+ * @final
+ */
+class IbexaDebugExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * @throws \Exception
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader(
             $container,
@@ -24,19 +29,6 @@ class IbexaDebugExtension extends Extension implements PrependExtensionInterface
 
         // Base services and services overrides
         $loader->load('services.yml');
-    }
-
-    /**
-     * Sets the twig base template class to this bundle's in order to collect template infos.
-     */
-    public function prepend(ContainerBuilder $container)
-    {
-        if ($container->getParameter('kernel.debug')) {
-            $container->prependExtensionConfig(
-                'twig',
-                ['base_template_class' => DebugTemplate::class]
-            );
-        }
     }
 }
 
