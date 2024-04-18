@@ -14,9 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-/**
- * Content type group criterion handler.
- */
 final class IsContainer extends CriterionHandler
 {
     public function accept(Criterion $criterion): bool
