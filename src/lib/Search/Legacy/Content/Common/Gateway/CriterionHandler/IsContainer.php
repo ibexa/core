@@ -11,6 +11,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
@@ -23,8 +24,6 @@ final class IsContainer extends CriterionHandler
 
     /**
      * @phpstan-param array{languages: string[]} $languageSettings
-     *
-     * @param array $languageSettings
      */
     public function handle(
         CriteriaConverter $converter,
@@ -41,7 +40,7 @@ final class IsContainer extends CriterionHandler
             ->select(
                 'id'
             )->from(
-                'ezcontentclass'
+                ContentTypeGateway::CONTENT_TYPE_TABLE
             )->where(
                 $queryBuilder->expr()->eq(
                     'is_container',
