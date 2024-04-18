@@ -126,11 +126,6 @@ parameters:
 			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function trim expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
 			message: "#^Parameter \\#1 \\$fp of function fclose expects resource, resource\\|false given\\.$#"
 			count: 1
 			path: src/bundle/IO/BinaryStreamResponse.php

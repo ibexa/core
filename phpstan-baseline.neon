@@ -4141,64 +4141,9 @@ parameters:
 			path: src/bundle/Debug/DependencyInjection/Compiler/DataCollectorPass.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\DependencyInjection\\\\IbexaDebugExtension\\:\\:load\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Debug/DependencyInjection/IbexaDebugExtension.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\DependencyInjection\\\\IbexaDebugExtension\\:\\:prepend\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Debug/DependencyInjection/IbexaDebugExtension.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\IbexaDebugBundle\\:\\:build\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Debug/IbexaDebugBundle.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:display\\(\\) has parameter \\$blocks with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:display\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:doDisplay\\(\\) has parameter \\$blocks with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:doDisplay\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Parameter \\#1 \\$haystack of function stripos expects string, string\\|false\\|null given\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Parameter \\#1 \\$path of function dirname expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function substr expects string, string\\|false\\|null given\\.$#"
-			count: 2
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
-
-		-
-			message: "#^Property Ibexa\\\\Bundle\\\\Debug\\\\Twig\\\\DebugTemplate\\:\\:\\$fileSystem has no type specified\\.$#"
-			count: 1
-			path: src/bundle/Debug/Twig/DebugTemplate.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\IO\\\\ApiLoader\\\\HandlerRegistry\\:\\:setHandlersMap\\(\\) has no return type specified\\.$#"
