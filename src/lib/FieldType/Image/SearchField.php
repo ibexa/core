@@ -18,8 +18,13 @@ class SearchField implements Indexable
 {
     public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
     {
-        $width = $field->value->data['width'] ?? null;
-        $height = $field->value->data['height'] ?? null;
+        $width = isset($field->value->data['width']) && $field->value->data['width'] !== null
+            ? (int)$field->value->data['width']
+            : null;
+
+        $height = isset($field->value->data['height']) && $field->value->data['height'] !== null
+            ? (int)$field->value->data['height']
+            : null;
 
         return [
             new Search\Field(
