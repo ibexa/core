@@ -16167,7 +16167,7 @@ parameters:
 
 		-
 			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 17
+			count: 16
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
@@ -63259,4 +63259,3 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Specification\\\\Content\\\\ContentTypeSpecificationTest\\:\\:providerForIsSatisfiedBy\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Specification/Content/ContentTypeSpecificationTest.php
-

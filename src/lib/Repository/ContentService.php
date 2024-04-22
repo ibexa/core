@@ -1991,15 +1991,6 @@ class ContentService implements ContentServiceInterface
         return $this->internalLoadContentById($content->id);
     }
 
-    /**
-     * Loads all outgoing relations for the given version.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     */
     public function loadRelations(APIVersionInfo $versionInfo): iterable
     {
         if ($versionInfo->isPublished()) {
@@ -2046,6 +2037,78 @@ class ContentService implements ContentServiceInterface
         }
 
         return $relations;
+    }
+
+    public function countRelations(APIVersionInfo $versionInfo): int
+    {
+        $function = $versionInfo->isPublished() ? 'read' : 'versionread';
+
+        if (!$this->permissionResolver->canUser('content', $function, $versionInfo)) {
+            return 0;
+        }
+
+        $contentInfo = $versionInfo->getContentInfo();
+
+        return $this->persistenceHandler->contentHandler()->countRelations(
+            $contentInfo->id,
+            $versionInfo->versionNo
+        );
+    }
+
+    public function loadRelationList(APIVersionInfo $versionInfo, int $offset = 0, int $limit = self::DEFAULT_PAGE_SIZE): RelationList
+    {
+        $function = $versionInfo->isPublished() ? 'read' : 'versionread';
+
+        $list = new RelationList();
+
+        if (!$this->permissionResolver->canUser('content', $function, $versionInfo)) {
+            return $list;
+        }
+
+        $contentInfo = $versionInfo->getContentInfo();
+        $list->totalCount = $this->persistenceHandler->contentHandler()->countRelations(
+            $contentInfo->id,
+            $versionInfo->versionNo
+        );
+
+        if ($list->totalCount === 0) {
+            return $list;
+        }
+
+        $persistenceRelationList = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $contentInfo->id,
+            $limit,
+            $offset,
+            $versionInfo->versionNo,
+        );
+
+        $destinationContentIds = array_column($persistenceRelationList, 'destinationContentId');
+        $destinationContentInfos = $this->persistenceHandler->contentHandler()->loadContentInfoList($destinationContentIds);
+
+        foreach ($persistenceRelationList as $persistenceRelation) {
+            $contentId = $persistenceRelation->destinationContentId;
+            $destinationContentInfo = $this->contentDomainMapper->buildContentInfoDomainObject(
+                $destinationContentInfos[$contentId]
+            );
+
+            if (!$this->permissionResolver->canUser('content', 'read', $destinationContentInfo)) {
+                $list->items[] = new UnauthorizedRelationListItem(
+                    'content',
+                    'read',
+                    ['contentId' => $destinationContentInfo->id]
+                );
+
+                continue;
+            }
+            $relation = $this->contentDomainMapper->buildRelationDomainObject(
+                $persistenceRelation,
+                $contentInfo,
+                $destinationContentInfo
+            );
+            $list->items[] = new RelationListItem($relation);
+        }
+
+        return $list;
     }
 
     /**
