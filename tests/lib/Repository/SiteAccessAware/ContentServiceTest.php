@@ -103,6 +103,8 @@ class ContentServiceTest extends AbstractServiceTest
             ['copyContent', [$contentInfo, $locationCreateStruct, $versionInfo], $content],
 
             ['loadRelations', [$versionInfo], [$relation]],
+            ['loadRelationList', [$versionInfo], $relationList],
+            ['countRelations', [$versionInfo], 0],
 
             ['countReverseRelations', [$contentInfo], 0],
 

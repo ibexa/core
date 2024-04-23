@@ -1387,18 +1387,61 @@ final class DoctrineDatabase extends Gateway
         ?int $relationType = null
     ): array {
         $query = $this->queryBuilder->createRelationFindQueryBuilder();
+        $query = $this->prepareRelationQuery($query, $contentId, $contentVersionNo, $relationType);
+
+        return $query->execute()->fetchAllAssociative();
+    }
+
+    public function countRelations(
+        int $contentId,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): int {
+        $query = $this->connection->createQueryBuilder();
+        $query->select($this->databasePlatform->getCountExpression('l.id'))
+            ->from(self::CONTENT_RELATION_TABLE, 'l');
+
+        $query = $this->prepareRelationQuery($query, $contentId, $contentVersionNo, $relationType);
+
+        return (int)$query->execute()->fetchOne();
+    }
+
+    public function listRelations(
+        int $contentId,
+        int $limit,
+        int $offset = 0,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): array {
+        $query = $this->queryBuilder->createRelationFindQueryBuilder();
+        $query = $this->prepareRelationQuery($query, $contentId, $contentVersionNo, $relationType);
+
+        $query->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $query->orderBy('l.id', 'DESC');
+
+        return $query->execute()->fetchAllAssociative();
+    }
+
+    private function prepareRelationQuery(
+        DoctrineQueryBuilder $query,
+        int $contentId,
+        ?int $contentVersionNo = null,
+        ?int $relationType = null
+    ): DoctrineQueryBuilder {
         $expr = $query->expr();
         $query
             ->innerJoin(
                 'l',
-                'ezcontentobject',
-                'ezcontentobject_to',
-                $expr->andX(
-                    'l.to_contentobject_id = ezcontentobject_to.id',
-                    'ezcontentobject_to.status = :status'
+                self::CONTENT_ITEM_TABLE,
+                'c_to',
+                $expr->and(
+                    'l.to_contentobject_id = c_to.id',
+                    'c_to.status = :status'
                 )
             )
-            ->where(
+            ->andWhere(
                 'l.from_contentobject_id = :content_id'
             )
             ->setParameter(
@@ -1409,7 +1452,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('content_id', $contentId, ParameterType::INTEGER);
 
         // source version number
-        if (null !== $contentVersionNo) {
+        if ($contentVersionNo !== null) {
             $query
                 ->andWhere('l.from_contentobject_version = :version_no')
                 ->setParameter('version_no', $contentVersionNo, ParameterType::INTEGER);
@@ -1417,10 +1460,10 @@ final class DoctrineDatabase extends Gateway
             // from published version only
             $query
                 ->innerJoin(
-                    'ezcontentobject_to',
-                    'ezcontentobject',
+                    'c_to',
+                    self::CONTENT_ITEM_TABLE,
                     'c',
-                    $expr->andX(
+                    $expr->and(
                         'c.id = l.from_contentobject_id',
                         'c.current_version = l.from_contentobject_version'
                     )
@@ -1442,7 +1485,7 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter('relation_type', $relationType, ParameterType::INTEGER);
         }
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query;
     }
 
     public function countReverseRelations(int $toContentId, ?int $relationType = null): int

@@ -16027,7 +16027,7 @@ parameters:
 
 		-
 			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 17
+			count: 16
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
