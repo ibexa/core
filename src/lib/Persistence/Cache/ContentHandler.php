@@ -31,6 +31,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     private const CONTENT_VERSION_LIST_IDENTIFIER = 'content_version_list';
     private const CONTENT_VERSION_INFO_IDENTIFIER = 'content_version_info';
     private const CONTENT_VERSION_IDENTIFIER = 'content_version';
+    private const CONTENT_RELATIONS_COUNT_WITH_VERSION_TYPE_IDENTIFIER = 'content_relations_count_with_by_version_type_suffix';
+    private const CONTENT_RELATION_IDENTIFIER = 'content_relation';
+    private const CONTENT_RELATIONS_LIST_IDENTIFIER = 'content_relations_list';
+    private const CONTENT_RELATIONS_LIST_WITH_VERSION_TYPE_IDENTIFIER = 'content_relations_list_with_by_version_type_suffix';
     private const CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER = 'content_reverse_relations_count';
     private const RELATION_IDENTIFIER = 'relation';
 
@@ -515,6 +519,97 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         );
 
         return $this->persistenceHandler->contentHandler()->loadRelations($sourceContentId, $sourceContentVersionNo, $type);
+    }
+
+    public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
+    {
+        $cacheItem = $this->cache->getItem(
+            $this->cacheIdentifierGenerator->generateKey(
+                self::CONTENT_RELATIONS_COUNT_WITH_VERSION_TYPE_IDENTIFIER,
+                [$sourceContentId, $sourceContentVersionNo, $type],
+                true
+            )
+        );
+
+        if ($cacheItem->isHit()) {
+            $this->logger->logCacheHit(['content' => $sourceContentId, 'version' => $sourceContentVersionNo, 'type' => $type]);
+
+            return $cacheItem->get();
+        }
+
+        $this->logger->logCacheMiss(['content' => $sourceContentId, 'version' => $sourceContentVersionNo, 'type' => $type]);
+        $relationsCount = $this->persistenceHandler->contentHandler()->countRelations(
+            $sourceContentId,
+            $sourceContentVersionNo,
+            $type
+        );
+        $cacheItem->set($relationsCount);
+        $tags = [
+            $this->cacheIdentifierGenerator->generateTag(
+                self::CONTENT_IDENTIFIER,
+                [$sourceContentId]
+            ),
+        ];
+
+        $cacheItem->tag($tags);
+        $this->cache->save($cacheItem);
+
+        return $relationsCount;
+    }
+
+    public function loadRelationList(
+        int $sourceContentId,
+        int $limit,
+        int $offset = 0,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): array {
+        return $this->getListCacheValue(
+            $this->cacheIdentifierGenerator->generateKey(
+                self::CONTENT_RELATIONS_LIST_WITH_VERSION_TYPE_IDENTIFIER,
+                [$sourceContentId, $limit, $offset, $sourceContentVersionNo, $type],
+                true
+            ),
+            function () use ($sourceContentId, $limit, $offset, $sourceContentVersionNo, $type): array {
+                return $this->persistenceHandler->contentHandler()->loadRelationList(
+                    $sourceContentId,
+                    $limit,
+                    $offset,
+                    $sourceContentVersionNo,
+                    $type
+                );
+            },
+            function (Relation $relation): array {
+                return [
+                    $this->cacheIdentifierGenerator->generateTag(
+                        self::CONTENT_RELATION_IDENTIFIER,
+                        [$relation->destinationContentId]
+                    ),
+                    $this->cacheIdentifierGenerator->generateTag(
+                        self::CONTENT_IDENTIFIER,
+                        [$relation->destinationContentId]
+                    ),
+                ];
+            },
+            function (Relation $relation): array {
+                return [
+                    $this->cacheIdentifierGenerator->generateKey(self::CONTENT_IDENTIFIER, [$relation->destinationContentId], true),
+                ];
+            },
+            function () use ($sourceContentId): array {
+                return [
+                    $this->cacheIdentifierGenerator->generateTag(
+                        self::CONTENT_RELATIONS_LIST_IDENTIFIER,
+                        [$sourceContentId]
+                    ),
+                    $this->cacheIdentifierGenerator->generateTag(
+                        self::CONTENT_IDENTIFIER,
+                        [$sourceContentId]
+                    ),
+                ];
+            },
+            [$sourceContentId, $limit, $offset, $sourceContentVersionNo, $type]
+        );
     }
 
     /**
