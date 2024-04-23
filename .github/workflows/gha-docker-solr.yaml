@@ -15,7 +15,7 @@ env:
 
 jobs:
     build-and-publish:
-        runs-on: "ubuntu-20.04"
+        runs-on: "ubuntu-22.04"
         permissions:
             packages: write
         services:
@@ -50,9 +50,9 @@ jobs:
                 VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
                 composer require --no-update "ibexa/solr:$VERSION"
 
-            - uses: "ramsey/composer-install@v2"
+            - uses: ramsey/composer-install@v3
               with:
-                  dependency-versions: "highest"
+                  dependency-versions: highest
 
             - name: Run integration test suite
               run: composer test-integration-solr
@@ -71,4 +71,3 @@ jobs:
 
             - name: Push image
               run: docker push "$IMAGE_NAME"
-
