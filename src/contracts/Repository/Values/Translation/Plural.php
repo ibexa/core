@@ -74,7 +74,9 @@ class Plural extends Translation
      */
     public function __toString()
     {
-        return strtr(current($this->values) == 1 ? $this->plural : $this->singular, $this->values);
+        $firstValue = !empty($this->values) ? current(array_values($this->values)) : null;
+
+        return strtr((int)$firstValue === 1 ? $this->singular : $this->plural, $this->values);
     }
 }
 
