@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Translation;
 
@@ -20,26 +21,23 @@ class Message extends Translation
     /**
      * Message string. Might use replacements like %foo%, which are replaced by
      * the values specified in the values array.
-     *
-     * @var string
      */
-    protected $message;
+    protected string $message;
 
     /**
      * Translation value objects. May not contain any numbers, which might
      * result in requiring plural forms. Use Plural for that.
      *
-     * @var array
+     * @var array<string, scalar>
      */
-    protected $values;
+    protected array $values;
 
     /**
      * Construct singular only message from string and optional value array.
      *
-     * @param string $message
-     * @param array $values
+     * @param array<string, scalar> $values
      */
-    public function __construct($message, array $values = [])
+    public function __construct(string $message, array $values = [])
     {
         $this->message = $message;
         $this->values = $values;
