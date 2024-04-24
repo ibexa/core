@@ -103,10 +103,12 @@ class UrlAliasGenerator extends Generator
      * Returns path corresponding to $rootLocationId.
      *
      * @param int $rootLocationId
-     * @param array $languages
+     * @param array<string>|null $languages
      * @param string $siteaccess
      *
      * @return string
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function getPathPrefixByRootLocationId($rootLocationId, $languages = null, $siteaccess = null)
     {
@@ -122,7 +124,7 @@ class UrlAliasGenerator extends Generator
             $this->pathPrefixMap[$siteaccess][$rootLocationId] = $this->repository
                 ->getURLAliasService()
                 ->reverseLookup(
-                    $this->loadLocation($rootLocationId),
+                    $this->loadLocation($rootLocationId, $languages),
                     null,
                     false,
                     $languages
@@ -157,15 +159,16 @@ class UrlAliasGenerator extends Generator
      * Not to be used for link generation.
      *
      * @param int $locationId
+     * @param array<string>|null $languages
      *
      * @return \Ibexa\Core\Repository\Values\Content\Location
      */
-    public function loadLocation($locationId)
+    public function loadLocation($locationId, ?array $languages = null)
     {
         return $this->repository->sudo(
-            static function (Repository $repository) use ($locationId) {
+            static function (Repository $repository) use ($locationId, $languages) {
                 /* @var $repository \Ibexa\Core\Repository\Repository */
-                return $repository->getLocationService()->loadLocation($locationId);
+                return $repository->getLocationService()->loadLocation($locationId, $languages);
             }
         );
     }
