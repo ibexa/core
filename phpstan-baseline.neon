@@ -8531,11 +8531,6 @@ parameters:
 			path: src/lib/Base/Exceptions/UnauthorizedException.php
 
 		-
-			message: "#^Cannot cast Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Translation to string\\.$#"
-			count: 1
-			path: src/lib/Base/Exceptions/UserPasswordValidationException.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Exceptions\\\\UserPasswordValidationException\\:\\:__construct\\(\\) has parameter \\$errors with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Base/Exceptions/UserPasswordValidationException.php
@@ -43039,11 +43034,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\FloatValueValidatorTest\\:\\:testValidateWrongValues\\(\\) has parameter \\$values with no type specified\\.$#"
 			count: 1
 			path: tests/lib/FieldType/FloatValueValidatorTest.php
-
-		-
-			message: "#^Cannot cast Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Translation to string\\.$#"
-			count: 1
-			path: tests/lib/FieldType/Generic/GenericTest.php
 
 		-
 			message: "#^Class Symfony\\\\Component\\\\Validator\\\\ConstraintViolation constructor invoked with 1 parameter, 6\\-10 required\\.$#"
