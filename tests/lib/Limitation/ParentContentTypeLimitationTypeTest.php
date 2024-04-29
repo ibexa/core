@@ -494,7 +494,7 @@ class ParentContentTypeLimitationTypeTest extends Base
             foreach ($targets as $index => $target) {
                 if ($target instanceof LocationCreateStruct) {
                     $this->getPersistenceMock()
-                        ->expects(self::once($index))
+                        ->expects(self::once())
                         ->method('locationHandler')
                         ->will(self::returnValue($this->locationHandlerMock));
 
