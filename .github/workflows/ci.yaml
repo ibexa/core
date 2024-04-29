@@ -30,6 +30,14 @@ jobs:
               with:
                   dependency-versions: "highest"
 
+            - uses: actions/cache@v3
+              with:
+                key: "${{ runner.os }}-php-cs-fixer-${{ matrix.php }}-${{ hashFiles('composer.lock') }}"
+                path: .php-cs-fixer.cache
+                restore-keys: |
+                    ${{ runner.os }}-php-cs-fixer-${{ matrix.php }}-
+                    ${{ runner.os }}-php-cs-fixer-
+
             - name: Run code style check
               run: composer run-script check-cs -- --format=checkstyle | cs2pr
 
@@ -63,6 +71,14 @@ jobs:
 
             - name: Setup problem matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            - uses: actions/cache@v3
+              with:
+                  key: "${{ runner.os }}-phpstan-${{ matrix.php }}-${{ hashFiles('composer.lock') }}"
+                  path: var/phpstan
+                  restore-keys: |
+                      ${{ runner.os }}-phpstan-${{ matrix.php }}-
+                      ${{ runner.os }}-phpstan-
 
             - name: Run PHPStan analysis
               run: composer run-script phpstan

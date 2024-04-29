@@ -7,6 +7,7 @@ includes:
 parameters:
     level: 8
     treatPhpDocTypesAsCertain: false
+    tmpDir: var/phpstan
     ignoreErrors:
         -
             message: "#^Cannot call method (fetchOne|fetchColumn|fetchAllAssociative|fetchAssociative|fetchAllKeyValue)\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
