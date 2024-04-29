@@ -24531,8 +24531,13 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertArrayHasKey\\(\\) expects array\\|ArrayAccess, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			message: "#^Parameter \\#2 \\$array of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertArrayHasKey\\(\\) expects array\\|ArrayAccess, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 2
+			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$haystack of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertContains\\(\\) expects iterable, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
@@ -25287,6 +25292,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventSubscriber\\\\TrustedHeaderClientIpEventSubscriberTest\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventSubscriber\\\\TrustedHeaderClientIpEventSubscriberTest\\:\\:__construct\\(\\) has parameter \\$name with no type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
 
@@ -35471,7 +35481,7 @@ parameters:
 			path: tests/integration/Core/Repository/Regression/EZP20018ObjectStateTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$expectedCount of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertCount\\(\\) expects int, int\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$expectedCount of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertCount\\(\\) expects int, int\\|null given\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/Regression/EZP20018ObjectStateTest.php
 
@@ -38087,11 +38097,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testUserMetadataGroupHorizontalQueryLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$expectedCount of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertCount\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
@@ -45642,11 +45647,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Limitation\\\\ParentContentTypeLimitationTypeTest\\:\\:testValueSchema\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
-
-		-
-			message: "#^Method PHPUnit\\\\Framework\\\\TestCase\\:\\:once\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: tests/lib/Limitation/ParentContentTypeLimitationTypeTest.php
 
@@ -56206,17 +56206,17 @@ parameters:
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
 
 		-
-			message: "#^Method class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:87\\:\\:__construct\\(\\) has parameter \\$validationReturn with no value type specified in iterable type array\\.$#"
+			message: "#^Method class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:88\\:\\:__construct\\(\\) has parameter \\$validationReturn with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
 
 		-
-			message: "#^Method class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:87\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: "#^Method class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:88\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
 
 		-
-			message: "#^Property class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:87\\:\\:\\$validationReturn type has no value type specified in iterable type array\\.$#"
+			message: "#^Property class@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\\.php\\:88\\:\\:\\$validationReturn type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
 
