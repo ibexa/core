@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Core\MVC\Symfony\Security\InteractiveLoginToken;
@@ -29,12 +30,12 @@ class InteractiveLoginTokenTest extends TestCase
         }
 
         $token = new InteractiveLoginToken($user, $originalTokenType, $credentials, $providerKey, $roles);
-        $this->assertSame($user, $token->getUser());
-        $this->assertTrue($token->isAuthenticated());
-        $this->assertSame($originalTokenType, $token->getOriginalTokenType());
-        $this->assertSame($credentials, $token->getCredentials());
-        $this->assertSame($providerKey, $token->getProviderKey());
-        $this->assertEquals($expectedRoles, $token->getRoleNames());
+        self::assertSame($user, $token->getUser());
+        self::assertTrue($token->isAuthenticated());
+        self::assertSame($originalTokenType, $token->getOriginalTokenType());
+        self::assertSame($credentials, $token->getCredentials());
+        self::assertSame($providerKey, $token->getProviderKey());
+        self::assertEquals($expectedRoles, $token->getRoleNames());
     }
 
     public function testSerialize()
@@ -48,7 +49,7 @@ class InteractiveLoginTokenTest extends TestCase
         $token = new InteractiveLoginToken($user, $originalTokenType, $credentials, $providerKey, $roles);
         $serialized = serialize($token);
         $unserializedToken = unserialize($serialized);
-        $this->assertEquals($token, $unserializedToken);
+        self::assertEquals($token, $unserializedToken);
     }
 }
 

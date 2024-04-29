@@ -20,10 +20,10 @@ class RenderOptionsTest extends TestCase
             'b' => null,
         ]);
 
-        $this->assertTrue($renderOptions->has('a'));
-        $this->assertSame('value_a', $renderOptions->get('a'));
-        $this->assertFalse($renderOptions->has('b'));
-        $this->assertSame([
+        self::assertTrue($renderOptions->has('a'));
+        self::assertSame('value_a', $renderOptions->get('a'));
+        self::assertFalse($renderOptions->has('b'));
+        self::assertSame([
             'a' => 'value_a',
             'b' => null,
         ], $renderOptions->all());
@@ -34,16 +34,16 @@ class RenderOptionsTest extends TestCase
         $renderOptions = new RenderOptions();
 
         $renderOptions->set('a', 'value_a');
-        $this->assertTrue($renderOptions->has('a'));
-        $this->assertSame('value_a', $renderOptions->get('a'));
+        self::assertTrue($renderOptions->has('a'));
+        self::assertSame('value_a', $renderOptions->get('a'));
 
-        $this->assertTrue($renderOptions->has('a'));
+        self::assertTrue($renderOptions->has('a'));
         $renderOptions->set('a', 'different_value_a');
-        $this->assertSame('different_value_a', $renderOptions->get('a'));
+        self::assertSame('different_value_a', $renderOptions->get('a'));
 
-        $this->assertFalse($renderOptions->has('b'));
+        self::assertFalse($renderOptions->has('b'));
         $renderOptions->set('b', null);
-        $this->assertFalse($renderOptions->has('b'));
+        self::assertFalse($renderOptions->has('b'));
     }
 
     public function testGettingDefaultOptions(): void
@@ -53,14 +53,14 @@ class RenderOptionsTest extends TestCase
             'b' => 'default_value_b',
         ]);
 
-        $this->assertFalse($renderOptions->has('a'));
-        $this->assertSame('some_default_value', $renderOptions->get('a', 'some_default_value'));
+        self::assertFalse($renderOptions->has('a'));
+        self::assertSame('some_default_value', $renderOptions->get('a', 'some_default_value'));
 
-        $this->assertTrue($renderOptions->has('b'));
-        $this->assertSame('default_value_b', $renderOptions->get('b', 'other_default_value'));
+        self::assertTrue($renderOptions->has('b'));
+        self::assertSame('default_value_b', $renderOptions->get('b', 'other_default_value'));
 
-        $this->assertFalse($renderOptions->has('c'));
-        $this->assertSame('default_value_c', $renderOptions->get('c', 'default_value_c'));
+        self::assertFalse($renderOptions->has('c'));
+        self::assertSame('default_value_c', $renderOptions->get('c', 'default_value_c'));
     }
 
     public function testUnsettingOptions(): void
@@ -72,12 +72,12 @@ class RenderOptionsTest extends TestCase
         ]);
 
         $renderOptions->set('a', null);
-        $this->assertFalse($renderOptions->has('a'));
+        self::assertFalse($renderOptions->has('a'));
 
         $renderOptions->remove('b');
-        $this->assertFalse($renderOptions->has('b'));
+        self::assertFalse($renderOptions->has('b'));
 
-        $this->assertTrue($renderOptions->has('c'));
+        self::assertTrue($renderOptions->has('c'));
     }
 }
 

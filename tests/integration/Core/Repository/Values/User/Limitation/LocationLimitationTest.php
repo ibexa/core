@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -11,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -48,7 +50,7 @@ class LocationLimitationTest extends BaseLimitationTest
         $draft = $this->createWikiPageDraft();
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             'An awesome wiki page',
             $draft->getFieldValue('title')->text
         );

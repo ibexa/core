@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\RelationList;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -34,7 +35,7 @@ class ParameterProviderTest extends TestCase
         $contentServiceMock
             ->method('loadContentInfoList')
             ->with($desinationContentIds)
-            ->will($this->returnCallback(static function ($arg) {
+            ->will(self::returnCallback(static function ($arg) {
                 $return = [];
                 if (in_array(123, $arg)) {
                     $return[123] = new ContentInfo(['status' => ContentInfo::STATUS_DRAFT]);

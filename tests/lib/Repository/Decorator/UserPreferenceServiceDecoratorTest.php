@@ -33,7 +33,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
 
         $parameters = [['random_value_5ced05ce1437c3.99987071']];
 
-        $serviceMock->expects($this->once())->method('setUserPreference')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('setUserPreference')->with(...$parameters);
 
         $decoratedService->setUserPreference(...$parameters);
     }
@@ -45,7 +45,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce143830.91322594'];
 
-        $serviceMock->expects($this->once())->method('getUserPreference')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('getUserPreference')->with(...$parameters);
 
         $decoratedService->getUserPreference(...$parameters);
     }
@@ -60,7 +60,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
             922,
         ];
 
-        $serviceMock->expects($this->once())->method('loadUserPreferences')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadUserPreferences')->with(...$parameters);
 
         $decoratedService->loadUserPreferences(...$parameters);
     }
@@ -72,7 +72,7 @@ class UserPreferenceServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('getUserPreferenceCount')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('getUserPreferenceCount')->with(...$parameters);
 
         $decoratedService->getUserPreferenceCount(...$parameters);
     }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
@@ -35,12 +36,12 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
     public function testMatch($parameterName, $namespace, $scope, $viewsConfiguration, $matchedConfig): void
     {
         $view = $this->createMock(ContentView::class);
-        $this->configResolver->expects($this->atLeastOnce())->method('getParameter')->with(
+        $this->configResolver->expects(self::atLeastOnce())->method('getParameter')->with(
             $parameterName,
             $namespace,
             $scope
         )->willReturn($viewsConfiguration);
-        $this->innerMatcherFactory->expects($this->once())->method('match')->with($view)->willReturn($matchedConfig);
+        $this->innerMatcherFactory->expects(self::once())->method('match')->with($view)->willReturn($matchedConfig);
 
         $matcherFactory = new DynamicallyConfiguredMatcherFactoryDecorator(
             $this->innerMatcherFactory,
@@ -50,7 +51,7 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
             $scope
         );
 
-        $this->assertEquals($matchedConfig, $matcherFactory->match($view));
+        self::assertEquals($matchedConfig, $matcherFactory->match($view));
     }
 
     public function matchConfigProvider(): array

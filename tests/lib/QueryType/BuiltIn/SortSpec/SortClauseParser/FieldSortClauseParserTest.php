@@ -46,7 +46,7 @@ final class FieldSortClauseParserTest extends TestCase
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);
 
-        $this->assertEquals(
+        self::assertEquals(
             new Field(self::EXAMPLE_CONTENT_TYPE_ID, self::EXAMPLE_FIELD_ID, Query::SORT_ASC),
             $this->fieldSortClauseParser->parse($parser, 'field')
         );
@@ -54,7 +54,7 @@ final class FieldSortClauseParserTest extends TestCase
 
     public function testSupports(): void
     {
-        $this->assertTrue($this->fieldSortClauseParser->supports('field'));
+        self::assertTrue($this->fieldSortClauseParser->supports('field'));
     }
 }
 

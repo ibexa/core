@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -88,15 +89,15 @@ class RouterHostPortURITest extends RouterBaseTest
         $request = new SimplifiedRequest(['host' => $mapKey]);
         $matcher = new Host(['foo' => $mapKey]);
         $matcher->setRequest($request);
-        $this->assertSame($request, $matcher->getRequest());
-        $this->assertSame($mapKey, $matcher->getMapKey());
+        self::assertSame($request, $matcher->getRequest());
+        self::assertSame($mapKey, $matcher->getMapKey());
     }
 
     public function testReverseHostMatchFail()
     {
         $config = ['foo' => 'bar'];
         $matcher = new Host($config);
-        $this->assertNull($matcher->reverseMatch('non_existent'));
+        self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
     public function testReverseMatchHost()
@@ -109,13 +110,13 @@ class RouterHostPortURITest extends RouterBaseTest
         $request = new SimplifiedRequest(['host' => 'ibexa.co']);
         $matcher = new Host($config);
         $matcher->setRequest($request);
-        $this->assertSame('ibexa.co', $matcher->getMapKey());
+        self::assertSame('ibexa.co', $matcher->getMapKey());
 
         $result = $matcher->reverseMatch('ibexa_demo_site');
-        $this->assertInstanceOf(Host::class, $result);
-        $this->assertSame($request, $matcher->getRequest());
-        $this->assertSame('phoenix-rises.fm', $result->getMapKey());
-        $this->assertSame('phoenix-rises.fm', $result->getRequest()->host);
+        self::assertInstanceOf(Host::class, $result);
+        self::assertSame($request, $matcher->getRequest());
+        self::assertSame('phoenix-rises.fm', $result->getMapKey());
+        self::assertSame('phoenix-rises.fm', $result->getRequest()->host);
     }
 
     public function testSetGetRequestMapPort()
@@ -124,15 +125,15 @@ class RouterHostPortURITest extends RouterBaseTest
         $request = new SimplifiedRequest(['port' => $mapKey]);
         $matcher = new Port(['foo' => $mapKey]);
         $matcher->setRequest($request);
-        $this->assertSame($request, $matcher->getRequest());
-        $this->assertSame($mapKey, $matcher->getMapKey());
+        self::assertSame($request, $matcher->getRequest());
+        self::assertSame($mapKey, $matcher->getMapKey());
     }
 
     public function testReversePortMatchFail()
     {
         $config = ['foo' => '8080'];
         $matcher = new Port($config);
-        $this->assertNull($matcher->reverseMatch('non_existent'));
+        self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
     public function testReverseMatchPort()
@@ -145,14 +146,14 @@ class RouterHostPortURITest extends RouterBaseTest
         $request = new SimplifiedRequest(['scheme' => 'http', 'host' => 'ibexa.co']);
         $matcher = new Port($config);
         $matcher->setRequest($request);
-        $this->assertSame(80, $matcher->getMapKey());
+        self::assertSame(80, $matcher->getMapKey());
 
         $result = $matcher->reverseMatch('ibexa_demo_site');
-        $this->assertInstanceOf(Port::class, $result);
-        $this->assertSame($request, $matcher->getRequest());
-        $this->assertSame(8000, $result->getMapKey());
-        $this->assertSame(8000, $result->getRequest()->port);
-        $this->assertSame('http', $result->getRequest()->scheme);
+        self::assertInstanceOf(Port::class, $result);
+        self::assertSame($request, $matcher->getRequest());
+        self::assertSame(8000, $result->getMapKey());
+        self::assertSame(8000, $result->getRequest()->port);
+        self::assertSame('http', $result->getRequest()->scheme);
     }
 
     protected function createRouter(): Router

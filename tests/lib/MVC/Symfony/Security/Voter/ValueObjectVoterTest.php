@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Voter;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -32,7 +33,7 @@ class ValueObjectVoterTest extends TestCase
     public function testSupportsAttribute($attribute, $expectedResult)
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
-        $this->assertSame($expectedResult, $voter->supportsAttribute($attribute));
+        self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
 
     public function supportsAttributeProvider()
@@ -60,7 +61,7 @@ class ValueObjectVoterTest extends TestCase
     public function testSupportsClass($class)
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
-        $this->assertTrue($voter->supportsClass($class));
+        self::assertTrue($voter->supportsClass($class));
     }
 
     public function supportsClassProvider()
@@ -79,7 +80,7 @@ class ValueObjectVoterTest extends TestCase
     public function testVoteInvalidAttribute(array $attributes)
     {
         $voter = new ValueObjectVoter($this->permissionResolver);
-        $this->assertSame(
+        self::assertSame(
             VoterInterface::ACCESS_ABSTAIN,
             $voter->vote(
                 $this->createMock(TokenInterface::class),
@@ -108,12 +109,12 @@ class ValueObjectVoterTest extends TestCase
         $voter = new ValueObjectVoter($this->permissionResolver);
         $targets = isset($attribute->limitations['targets']) ? $attribute->limitations['targets'] : [];
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('canUser')
             ->with($attribute->module, $attribute->function, $attribute->limitations['valueObject'], $targets)
-            ->will($this->returnValue($repositoryCanUser));
+            ->will(self::returnValue($repositoryCanUser));
 
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $voter->vote(
                 $this->createMock(TokenInterface::class),

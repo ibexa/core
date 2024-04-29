@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Closure;
@@ -86,13 +87,13 @@ abstract class AbstractServiceTest extends TestCase
     {
         if ($return) {
             $this->innerApiServiceMock
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method($method)
                 ->with(...$arguments)
                 ->willReturn($return);
         } else {
             $this->innerApiServiceMock
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method($method)
                 ->with(...$arguments);
         }
@@ -100,7 +101,7 @@ abstract class AbstractServiceTest extends TestCase
         $actualReturn = $this->service->$method(...$arguments);
 
         if ($return) {
-            $this->assertEquals($return, $actualReturn);
+            self::assertEquals($return, $actualReturn);
         }
     }
 
@@ -160,7 +161,7 @@ abstract class AbstractServiceTest extends TestCase
         $expectedArguments = $this->setLanguagesLookupExpectedArguments($arguments, $languageArgumentIndex, $languages);
 
         $this->languageResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPrioritizedLanguages')
             ->with([])
             ->willReturn($languages);
@@ -169,14 +170,14 @@ abstract class AbstractServiceTest extends TestCase
             $arguments[$alwaysAvailableArgumentIndex] = null;
             $expectedArguments[$alwaysAvailableArgumentIndex] = true;
             $this->languageResolverMock
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('getUseAlwaysAvailable')
                 ->with(null)
                 ->willReturn(true);
         }
 
         $this->innerApiServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($method)
             ->with(...$expectedArguments)
             ->willReturn($return);
@@ -188,7 +189,7 @@ abstract class AbstractServiceTest extends TestCase
         $actualReturn = $this->service->$method(...$arguments);
 
         if ($return) {
-            $this->assertEquals($return, $actualReturn);
+            self::assertEquals($return, $actualReturn);
         }
     }
 
@@ -224,21 +225,21 @@ abstract class AbstractServiceTest extends TestCase
         $arguments = $this->setLanguagesPassTroughArguments($arguments, $languageArgumentIndex, $languages);
 
         $this->languageResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPrioritizedLanguages')
             ->with($languages)
             ->willReturn($languages);
 
         if ($alwaysAvailableArgumentIndex) {
             $this->languageResolverMock
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('getUseAlwaysAvailable')
                 ->with($arguments[$alwaysAvailableArgumentIndex])
                 ->willReturn($arguments[$alwaysAvailableArgumentIndex]);
         }
 
         $this->innerApiServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($method)
             ->with(...$arguments)
             ->willReturn($return);
@@ -250,7 +251,7 @@ abstract class AbstractServiceTest extends TestCase
         $actualReturn = $this->service->$method(...$arguments);
 
         if ($return) {
-            $this->assertEquals($return, $actualReturn);
+            self::assertEquals($return, $actualReturn);
         }
     }
 

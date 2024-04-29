@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Event;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -17,11 +18,11 @@ class InteractiveLoginEventTest extends TestCase
     public function testGetSetAPIUser()
     {
         $event = new InteractiveLoginEvent(new Request(), $this->createMock(TokenInterface::class));
-        $this->assertFalse($event->hasAPIUser());
+        self::assertFalse($event->hasAPIUser());
         $apiUser = $this->createMock(User::class);
         $event->setApiUser($apiUser);
-        $this->assertTrue($event->hasAPIUser());
-        $this->assertSame($apiUser, $event->getAPIUser());
+        self::assertTrue($event->hasAPIUser());
+        self::assertSame($apiUser, $event->getAPIUser());
     }
 }
 

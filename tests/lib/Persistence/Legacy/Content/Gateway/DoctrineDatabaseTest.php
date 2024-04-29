@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\ParameterType;
@@ -217,7 +218,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $version->contentInfo->id = $contentId;
         $gateway->insertVersion($version, []);
 
-        $this->assertTrue(
+        self::assertTrue(
             $gateway->setStatus($version->contentInfo->id, $version->versionNo, VersionInfo::STATUS_PENDING)
         );
 
@@ -252,7 +253,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $version->contentInfo->id = $contentId;
         $gateway->insertVersion($version, []);
 
-        $this->assertTrue(
+        self::assertTrue(
             $gateway->setStatus($version->contentInfo->id, $version->versionNo, VersionInfo::STATUS_PUBLISHED)
         );
 
@@ -278,7 +279,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertFalse(
+        self::assertFalse(
             $gateway->setStatus(23, 42, 2)
         );
     }
@@ -601,23 +602,23 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->listVersions(226);
 
-        $this->assertCount(
+        self::assertCount(
             2,
             $res
         );
 
         foreach ($res as $row) {
-            $this->assertCount(
+            self::assertCount(
                 23,
                 $row
             );
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             675,
             $res[0]['ezcontentobject_version_id']
         );
-        $this->assertEquals(
+        self::assertEquals(
             676,
             $res[1]['ezcontentobject_version_id']
         );
@@ -632,7 +633,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->listVersionNumbers(226);
 
-        $this->assertEquals([1, 2], $res);
+        self::assertEquals([1, 2], $res);
     }
 
     public function testListVersionsForUser()
@@ -644,31 +645,31 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->listVersionsForUser(14);
 
-        $this->assertCount(
+        self::assertCount(
             2,
             $res
         );
 
         foreach ($res as $row) {
-            $this->assertCount(
+            self::assertCount(
                 23,
                 $row
             );
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             677,
             $res[0]['ezcontentobject_version_id']
         );
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $res[0]['ezcontentobject_version_status']
         );
-        $this->assertEquals(
+        self::assertEquals(
             678,
             $res[1]['ezcontentobject_version_id']
         );
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $res[1]['ezcontentobject_version_status']
         );
@@ -716,7 +717,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $res
         );*/
 
-        $this->assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows_multiple_versions.php) and tests needs to be adapted.');
+        self::assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows_multiple_versions.php) and tests needs to be adapted.');
     }
 
     public function testCreateFixtureForMapperExtractContentFromRows()
@@ -736,7 +737,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $res
         );*/
 
-        $this->assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows.php) and tests needs to be adapted.');
+        self::assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows.php) and tests needs to be adapted.');
     }
 
     public function testLoadWithSingleTranslation()
@@ -758,7 +759,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ['4'],
             $res
         );
-        $this->assertCount(
+        self::assertCount(
             1,
             $res
         );
@@ -773,7 +774,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $res = $gateway->load(226, 2, ['de-DE']);
 
-        $this->assertCount(
+        self::assertCount(
             0,
             $res
         );
@@ -801,7 +802,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             }
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedValues,
             $containedValues
         );
@@ -815,7 +816,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [228],
             $gateway->getAllLocationIds(226)
         );
@@ -829,7 +830,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'ezstring' => [841],
                 'ezimage' => [843],
@@ -847,7 +848,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'ezstring' => [4001, 4002],
             ],
@@ -870,7 +871,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteRelations(149);
 
-        $this->assertEquals(
+        self::assertEquals(
             // yes, relates to itself!
             [
                 'all' => $beforeCount['all'] - 2,
@@ -900,7 +901,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteRelations(75);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 6,
                 'from' => $beforeCount['from'] - 6,
@@ -929,7 +930,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteRelations(225, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 1,
                 'from' => $beforeCount['from'] - 1,
@@ -957,7 +958,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteField(22);
 
-        $this->assertEquals(
+        self::assertEquals(
             $beforeCount - 2,
             $this->countContentFields()
         );
@@ -985,7 +986,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteFields(4);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 2,
                 'this' => 0,
@@ -1011,7 +1012,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteFields(225, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 2,
                 'this' => $beforeCount['this'] - 2,
@@ -1037,7 +1038,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteVersions(14);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 2,
                 'this' => 0,
@@ -1063,7 +1064,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteVersions(225, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 1,
                 'this' => $beforeCount['this'] - 1,
@@ -1126,7 +1127,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteNames(14);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 2,
                 'this' => 0,
@@ -1152,7 +1153,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteNames(225, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount['all'] - 1,
                 'this' => $beforeCount['this'] - 1,
@@ -1175,7 +1176,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getDatabaseGateway();
         $gateway->deleteContent(14);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'all' => $beforeCount - 1,
                 'this' => 0,
@@ -1224,7 +1225,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $relations = $gateway->loadRelations(57);
 
-        $this->assertCount(3, $relations);
+        self::assertCount(3, $relations);
 
         $this->assertValuesInRows(
             'ezcontentobject_link_to_contentobject_id',
@@ -1252,7 +1253,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $relations = $gateway->loadRelations(57, null, RelationValue::COMMON);
 
-        $this->assertCount(1, $relations, 'Expecting one relation to be loaded');
+        self::assertCount(1, $relations, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
             'ezcontentobject_link_relation_type',
@@ -1275,7 +1276,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $relations = $gateway->loadRelations(57, 1);
 
-        $this->assertCount(1, $relations, 'Expecting one relation to be loaded');
+        self::assertCount(1, $relations, 'Expecting one relation to be loaded');
 
         $this->assertValuesInRows(
             'ezcontentobject_link_to_contentobject_id',
@@ -1292,7 +1293,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $relations = $gateway->loadRelations(57, 1, RelationValue::EMBED);
 
-        $this->assertCount(0, $relations, 'Expecting no relation to be loaded');
+        self::assertCount(0, $relations, 'Expecting no relation to be loaded');
     }
 
     public function testLoadReverseRelations()
@@ -1353,7 +1354,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $gateway->getLastVersionNumber(4)
         );
@@ -1680,7 +1681,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $orig = include __DIR__ . '/../_fixtures/extract_version_info_from_rows_multiple_versions.php';
 
-        $this->assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows_multiple_versions.php) and tests needs to be adapted.');
+        self::assertEquals($orig, $res, 'Fixtures differ between what was previously stored(expected) and what it now generates(actual), this hints either some mistake in impl or that the fixture (../_fixtures/extract_content_from_rows_multiple_versions.php) and tests needs to be adapted.');
     }
 
     /**

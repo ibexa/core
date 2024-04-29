@@ -82,7 +82,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
         $event = new PreContentViewEvent($view);
 
         $view
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setParameters')
             ->with([]);
 
@@ -105,7 +105,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
             ]);
 
         $view
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setParameters')
             ->with([
                 'param_1' => 'scalar_1',
@@ -136,7 +136,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
             ]);
 
         $view
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setParameters')
             ->with([
                 'param_1' => 'scalar_1',
@@ -167,7 +167,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
             ]);
 
         $view
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setParameters')
             ->with([
                 'random_number' => $randomNumber,
@@ -204,7 +204,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
             ]);
 
         $view
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setParameters')
             ->with([
                 'some_number' => $someNumber,
@@ -236,7 +236,7 @@ final class ContentViewTwigVariablesSubscriberTest extends TestCase
             ]);
 
         $view
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setParameters')
             ->with([
                 'example' => 'test_provider_value',

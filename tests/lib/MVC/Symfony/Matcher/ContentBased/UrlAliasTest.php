@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -25,6 +26,7 @@ class UrlAliasTest extends BaseTest
 
     /**
      * @dataProvider setMatchingConfigProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
@@ -34,7 +36,7 @@ class UrlAliasTest extends BaseTest
     public function testSetMatchingConfig($matchingConfig, $expectedValues)
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame(
+        self::assertSame(
             $this->matcher->getValues(),
             $expectedValues
         );
@@ -71,32 +73,33 @@ class UrlAliasTest extends BaseTest
         ];
 
         $urlAliasServiceMock = $this->createMock(URLAliasService::class);
-        $urlAliasServiceMock->expects($this->at(0))
+        $urlAliasServiceMock->expects(self::at(0))
             ->method('listLocationAliases')
             ->with(
-                $this->isInstanceOf(Location::class),
+                self::isInstanceOf(Location::class),
                 true
             )
-            ->will($this->returnValue([]));
-        $urlAliasServiceMock->expects($this->at(1))
+            ->will(self::returnValue([]));
+        $urlAliasServiceMock->expects(self::at(1))
             ->method('listLocationAliases')
             ->with(
-                $this->isInstanceOf(Location::class),
+                self::isInstanceOf(Location::class),
                 false
             )
-            ->will($this->returnValue($urlAliasList));
+            ->will(self::returnValue($urlAliasList));
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getURLAliasService')
-            ->will($this->returnValue($urlAliasServiceMock));
+            ->will(self::returnValue($urlAliasServiceMock));
 
         return $repository;
     }
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\UrlAlias::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
@@ -109,7 +112,7 @@ class UrlAliasTest extends BaseTest
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchLocation($this->getLocationMock())
         );

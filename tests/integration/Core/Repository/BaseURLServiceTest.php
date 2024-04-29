@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
@@ -30,20 +31,20 @@ abstract class BaseURLServiceTest extends BaseTest
         $searchResult = $repository->getURLService()->findUrls($query);
         /* END: Use Case */
 
-        $this->assertInstanceOf(SearchResult::class, $searchResult);
-        $this->assertSame($expectedTotalCount, $searchResult->totalCount);
+        self::assertInstanceOf(SearchResult::class, $searchResult);
+        self::assertSame($expectedTotalCount, $searchResult->totalCount);
         $this->assertSearchResultItems($searchResult, $expectedUrls, $ignoreOrder);
     }
 
     protected function assertSearchResultItems(SearchResult $searchResult, array $expectedUrls, $ignoreOrder)
     {
-        $this->assertCount(count($expectedUrls), $searchResult->items);
+        self::assertCount(count($expectedUrls), $searchResult->items);
 
         foreach ($searchResult->items as $i => $item) {
             if ($ignoreOrder) {
-                $this->assertContains($item->url, $expectedUrls);
+                self::assertContains($item->url, $expectedUrls);
             } else {
-                $this->assertEquals($expectedUrls[$i], $item->url);
+                self::assertEquals($expectedUrls[$i], $item->url);
             }
         }
     }
@@ -53,7 +54,7 @@ abstract class BaseURLServiceTest extends BaseTest
         $visitedUrls = [];
 
         foreach ($results->items as $item) {
-            $this->assertNotContains(
+            self::assertNotContains(
                 $item->url,
                 $visitedUrls,
                 'Search results contains duplicated url: ' . $item->url
@@ -65,9 +66,9 @@ abstract class BaseURLServiceTest extends BaseTest
 
     protected function assertUsagesSearchResultItems(UsageSearchResult $searchResult, array $expectedContentInfoIds)
     {
-        $this->assertCount(count($expectedContentInfoIds), $searchResult->items);
+        self::assertCount(count($expectedContentInfoIds), $searchResult->items);
         foreach ($searchResult->items as $contentInfo) {
-            $this->assertContains($contentInfo->id, $expectedContentInfoIds);
+            self::assertContains($contentInfo->id, $expectedContentInfoIds);
         }
     }
 

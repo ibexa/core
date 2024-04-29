@@ -365,7 +365,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @param array{limit?: integer, sequence?: string} $settings
+     * @param array{limit?: int, sequence?: string} $settings
      */
     private function buildNameSchemaService(
         AbstractSchemaEvent $event,

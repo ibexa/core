@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence;
 
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
@@ -24,7 +25,7 @@ class FieldTypeRegistryTest extends TestCase
         $fieldType = $this->getFieldTypeMock();
         $registry = new FieldTypeRegistry([self::FIELD_TYPE_IDENTIFIER => $fieldType]);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPIPersistenceFieldType::class,
             $registry->getFieldType(self::FIELD_TYPE_IDENTIFIER)
         );
@@ -37,7 +38,7 @@ class FieldTypeRegistryTest extends TestCase
 
         $result = $registry->getFieldType(self::FIELD_TYPE_IDENTIFIER);
 
-        $this->assertInstanceOf(SPIPersistenceFieldType::class, $result);
+        self::assertInstanceOf(SPIPersistenceFieldType::class, $result);
     }
 
     /**
@@ -76,7 +77,7 @@ class FieldTypeRegistryTest extends TestCase
         $registry = new FieldTypeRegistry([]);
         $registry->register(self::FIELD_TYPE_IDENTIFIER, $fieldType);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPIPersistenceFieldType::class,
             $registry->getFieldType(self::FIELD_TYPE_IDENTIFIER)
         );

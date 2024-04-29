@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\RequestEventListener;
@@ -68,7 +69,7 @@ class RequestEventListenerTest extends TestCase
 
     public function testSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 KernelEvents::REQUEST => [
                     ['onKernelRequestForward', 10],
@@ -82,7 +83,7 @@ class RequestEventListenerTest extends TestCase
     public function testOnKernelRequestForwardSubRequest()
     {
         $this->httpKernel
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('handle');
 
         $event = new RequestEvent($this->httpKernel, new Request(), HttpKernelInterface::SUB_REQUEST);
@@ -107,15 +108,15 @@ class RequestEventListenerTest extends TestCase
 
         $response = new Response('Success!');
         $this->httpKernel
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('handle')
-            ->with($this->equalTo($expectedForwardRequest))
-            ->will($this->returnValue($response));
+            ->with(self::equalTo($expectedForwardRequest))
+            ->will(self::returnValue($response));
 
         $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
         $this->requestEventListener->onKernelRequestForward($event);
-        $this->assertSame($response, $event->getResponse());
-        $this->assertTrue($event->isPropagationStopped());
+        self::assertSame($response, $event->getResponse());
+        self::assertTrue($event->isPropagationStopped());
 
         ClockMock::withClockMock(false);
     }
@@ -124,7 +125,7 @@ class RequestEventListenerTest extends TestCase
     {
         $event = new RequestEvent($this->httpKernel, new Request(), HttpKernelInterface::SUB_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
-        $this->assertFalse($event->hasResponse());
+        self::assertFalse($event->hasResponse());
     }
 
     public function testOnKernelRequestRedirect()
@@ -139,13 +140,13 @@ class RequestEventListenerTest extends TestCase
 
         $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
-        $this->assertTrue($event->hasResponse());
+        self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
         $response = $event->getResponse();
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertSame("$semanticPathinfo?some=thing", $response->getTargetUrl());
-        $this->assertSame(301, $response->getStatusCode());
-        $this->assertTrue($event->isPropagationStopped());
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertSame("$semanticPathinfo?some=thing", $response->getTargetUrl());
+        self::assertSame(301, $response->getStatusCode());
+        self::assertTrue($event->isPropagationStopped());
     }
 
     public function testOnKernelRequestRedirectWithLocationId()
@@ -161,14 +162,14 @@ class RequestEventListenerTest extends TestCase
 
         $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
-        $this->assertTrue($event->hasResponse());
+        self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
         $response = $event->getResponse();
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertSame("$semanticPathinfo?some=thing", $response->getTargetUrl());
-        $this->assertSame(301, $response->getStatusCode());
-        $this->assertEquals(123, $response->headers->get('X-Location-Id'));
-        $this->assertTrue($event->isPropagationStopped());
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertSame("$semanticPathinfo?some=thing", $response->getTargetUrl());
+        self::assertSame(301, $response->getStatusCode());
+        self::assertEquals(123, $response->headers->get('X-Location-Id'));
+        self::assertTrue($event->isPropagationStopped());
     }
 
     public function testOnKernelRequestRedirectPrependSiteaccess()
@@ -187,20 +188,20 @@ class RequestEventListenerTest extends TestCase
 
         $expectedURI = "/test$semanticPathinfo";
         $siteaccessMatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('analyseLink')
             ->with($semanticPathinfo)
-            ->will($this->returnValue($expectedURI));
+            ->will(self::returnValue($expectedURI));
 
         $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
-        $this->assertTrue($event->hasResponse());
+        self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
         $response = $event->getResponse();
-        $this->assertInstanceOf(RedirectResponse::class, $response);
-        $this->assertSame("$expectedURI?some=thing", $response->getTargetUrl());
-        $this->assertSame(301, $response->getStatusCode());
-        $this->assertTrue($event->isPropagationStopped());
+        self::assertInstanceOf(RedirectResponse::class, $response);
+        self::assertSame("$expectedURI?some=thing", $response->getTargetUrl());
+        self::assertSame(301, $response->getStatusCode());
+        self::assertTrue($event->isPropagationStopped());
     }
 }
 

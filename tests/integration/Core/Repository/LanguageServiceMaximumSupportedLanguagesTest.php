@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
@@ -12,6 +13,7 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFacto
  * Test case for maximum number of languages supported in the LanguageService.
  *
  * @see \Ibexa\Contracts\Core\Repository\LanguageService
+ *
  * @group integration
  * @group language
  */
@@ -39,7 +41,7 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTest
         if (\PHP_VERSION_ID < 50400 && PHP_INT_SIZE === 8) {
             $setupFactory = $this->getSetupFactory();
             if ($setupFactory instanceof LegacySetupFactory && $setupFactory->getDB() === 'sqlite') {
-                $this->markTestSkipped('Skip on Sqlite, PHP 5.3 and 64bit, as int column is limited to 32bit on 64bit');
+                self::markTestSkipped('Skip on Sqlite, PHP 5.3 and 64bit, as int column is limited to 32bit on 64bit');
             }
         }
 

@@ -25,8 +25,8 @@ final class SubtreeTermAggregationTest extends TestCase
             self::EXAMPLE_PATH_STRING
         );
 
-        $this->assertEquals(self::EXAMPLE_AGGREGATION_NAME, $aggregation->getName());
-        $this->assertEquals(self::EXAMPLE_PATH_STRING, $aggregation->getPathString());
+        self::assertEquals(self::EXAMPLE_AGGREGATION_NAME, $aggregation->getName());
+        self::assertEquals(self::EXAMPLE_PATH_STRING, $aggregation->getPathString());
     }
 
     public function testConstructThrowsInvalidArgumentExceptionOnInvalidPathString(): void
@@ -44,8 +44,8 @@ final class SubtreeTermAggregationTest extends TestCase
 
         $aggregation = SubtreeTermAggregation::fromLocation(self::EXAMPLE_AGGREGATION_NAME, $location);
 
-        $this->assertEquals(self::EXAMPLE_AGGREGATION_NAME, $aggregation->getName());
-        $this->assertEquals(self::EXAMPLE_PATH_STRING, $aggregation->getPathString());
+        self::assertEquals(self::EXAMPLE_AGGREGATION_NAME, $aggregation->getName());
+        self::assertEquals(self::EXAMPLE_PATH_STRING, $aggregation->getPathString());
     }
 }
 

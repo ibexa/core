@@ -50,7 +50,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $data = $this->loadNotification($id);
 
-        $this->assertEquals([
+        self::assertEquals([
             'id' => $id,
             'owner_id' => '14',
             'is_pending' => 1,
@@ -64,7 +64,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $data = $this->getGateway()->getNotificationById(self::EXISTING_NOTIFICATION_ID);
 
-        $this->assertEquals([
+        self::assertEquals([
             self::EXISTING_NOTIFICATION_DATA,
         ], $data);
     }
@@ -82,7 +82,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $this->getGateway()->updateNotification($notification);
 
-        $this->assertEquals([
+        self::assertEquals([
             'id' => (string) self::EXISTING_NOTIFICATION_ID,
             'owner_id' => '14',
             'is_pending' => '0',
@@ -94,14 +94,14 @@ class DoctrineDatabaseTest extends TestCase
 
     public function testCountUserNotifications()
     {
-        $this->assertEquals(5, $this->getGateway()->countUserNotifications(
+        self::assertEquals(5, $this->getGateway()->countUserNotifications(
             self::EXISTING_NOTIFICATION_DATA['owner_id']
         ));
     }
 
     public function testCountUserPendingNotifications()
     {
-        $this->assertEquals(
+        self::assertEquals(
             3,
             $this->getGateway()->countUserPendingNotifications(
                 self::EXISTING_NOTIFICATION_DATA['owner_id']
@@ -117,7 +117,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $results = $this->getGateway()->loadUserNotifications($userId, $offset, $limit);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'id' => '4',
                 'owner_id' => '14',
@@ -149,7 +149,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $this->getGateway()->delete(self::EXISTING_NOTIFICATION_ID);
 
-        $this->assertEmpty($this->loadNotification(self::EXISTING_NOTIFICATION_ID));
+        self::assertEmpty($this->loadNotification(self::EXISTING_NOTIFICATION_ID));
     }
 
     /**

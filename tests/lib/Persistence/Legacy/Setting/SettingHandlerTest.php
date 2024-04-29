@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Setting;
 
 use Ibexa\Contracts\Core\Persistence\Setting\Setting;
@@ -123,7 +124,7 @@ final class SettingHandlerTest extends TestCase
                 self::identicalTo('group_d1'),
                 self::identicalTo('identifier_e2')
             )
-            ->will($this->returnValue([
+            ->will(self::returnValue([
                 'group' => 'group_d1',
                 'identifier' => 'identifier_e2',
                 'value' => 'value_f3',
@@ -166,7 +167,7 @@ final class SettingHandlerTest extends TestCase
                 self::identicalTo('group_d1'),
                 self::identicalTo('identifier_e2')
             )
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
 
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage(<<<ERROR

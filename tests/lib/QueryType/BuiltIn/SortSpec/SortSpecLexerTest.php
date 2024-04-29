@@ -22,7 +22,7 @@ final class SortSpecLexerTest extends TestCase
         $lexer = new SortSpecLexer();
         $lexer->tokenize($input);
 
-        $this->assertEquals($expectedTokens, $lexer->getAll());
+        self::assertEquals($expectedTokens, $lexer->getAll());
     }
 
     public function dataProviderForTokenize(): iterable
@@ -178,7 +178,7 @@ final class SortSpecLexerTest extends TestCase
             $output[] = $lexer->consume();
         }
 
-        $this->assertEquals([
+        self::assertEquals([
             new Token(Token::TYPE_ID, 'foo', 0),
             new Token(Token::TYPE_COMMA, ',', 3),
             new Token(Token::TYPE_ASC, 'asc', 5),

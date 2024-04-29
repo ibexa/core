@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -39,11 +40,11 @@ class KeywordTest extends TestCase
         $storageFieldValue = new StorageFieldValue();
 
         $this->converter->toStorageValue($value, $storageFieldValue);
-        $this->assertNull($storageFieldValue->dataText);
-        $this->assertNull($storageFieldValue->dataInt);
-        $this->assertNull($storageFieldValue->dataFloat);
-        $this->assertEquals(0, $storageFieldValue->sortKeyInt);
-        $this->assertEquals('', $storageFieldValue->sortKeyString);
+        self::assertNull($storageFieldValue->dataText);
+        self::assertNull($storageFieldValue->dataInt);
+        self::assertNull($storageFieldValue->dataFloat);
+        self::assertEquals(0, $storageFieldValue->sortKeyInt);
+        self::assertEquals('', $storageFieldValue->sortKeyString);
     }
 
     /**
@@ -56,8 +57,8 @@ class KeywordTest extends TestCase
         $fieldValue = new FieldValue();
 
         $this->converter->toFieldValue($storageFieldValue, $fieldValue);
-        $this->assertSame([], $fieldValue->data);
-        $this->assertEquals('', $fieldValue->sortKey);
+        self::assertSame([], $fieldValue->data);
+        self::assertEquals('', $fieldValue->sortKey);
     }
 
     /**

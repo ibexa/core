@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\User\Role;
 
 use Ibexa\Contracts\Core\Persistence\User\Policy;
@@ -42,7 +43,7 @@ class LimitationConverterTest extends TestCase
             Limitation::STATE => '*',
         ];
         $converter->toLegacy($policy);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => '*',
             ],
@@ -55,7 +56,7 @@ class LimitationConverterTest extends TestCase
             Limitation::STATE => [1, 2],
         ];
         $converter->toLegacy($policy);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2],
             ],
@@ -68,7 +69,7 @@ class LimitationConverterTest extends TestCase
             Limitation::STATE => [1, 2, 3, 4],
         ];
         $converter->toLegacy($policy);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2],
             ],
@@ -95,7 +96,7 @@ class LimitationConverterTest extends TestCase
             ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => '*',
         ];
         $converter->toSPI($policy);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 Limitation::STATE => '*',
             ],
@@ -108,7 +109,7 @@ class LimitationConverterTest extends TestCase
             ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2],
         ];
         $converter->toSPI($policy);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 Limitation::STATE => [1, 2],
             ],
@@ -121,7 +122,7 @@ class LimitationConverterTest extends TestCase
             ObjectStateLimitationHandler::STATE_GROUP . 'ez_lock' => [1, 2, 3, 4],
         ];
         $converter->toSPI($policy);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 Limitation::STATE => [1, 2, 3, 4],
             ],
@@ -136,12 +137,12 @@ class LimitationConverterTest extends TestCase
         ];
         $converter->toSPI($policy);
 
-        $this->assertArrayHasKey(Limitation::STATE, $policy->limitations);
+        self::assertArrayHasKey(Limitation::STATE, $policy->limitations);
 
         // Don't expect backend to return sorted result, so lets sort values before testing
         sort($policy->limitations[Limitation::STATE], SORT_NUMERIC);
 
-        $this->assertEquals(
+        self::assertEquals(
             [1, 2, 5],
             $policy->limitations[Limitation::STATE],
             'Expected State limitation to be transformed into StateGroup_ limitations'

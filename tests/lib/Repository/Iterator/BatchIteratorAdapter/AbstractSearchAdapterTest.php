@@ -43,20 +43,20 @@ abstract class AbstractSearchAdapterTest extends TestCase
 
         $searchService = $this->createMock(SearchService::class);
         $searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($this->getExpectedFindMethod())
             ->with($expectedQuery, self::EXAMPLE_LANGUAGE_FILTER, true)
             ->willReturn($searchResults);
 
         $adapter = $this->createAdapterUnderTest($searchService, $originalQuery, self::EXAMPLE_LANGUAGE_FILTER, true);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedIterator,
             $adapter->fetch(self::EXAMPLE_OFFSET, self::EXAMPLE_LIMIT),
         );
 
-        $this->assertEquals(0, $originalQuery->offset);
-        $this->assertEquals(25, $originalQuery->limit);
+        self::assertEquals(0, $originalQuery->offset);
+        self::assertEquals(25, $originalQuery->limit);
     }
 
     abstract protected function createAdapterUnderTest(

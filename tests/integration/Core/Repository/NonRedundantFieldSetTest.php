@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
  * These tests depends on TextLine field type being functional.
  *
  * @covers \Ibexa\Contracts\Core\Repository\ContentService
+ *
  * @group content
  */
 class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
@@ -26,6 +28,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Default values are stored.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -41,7 +44,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         $content = $this->createTestContent($mainLanguageCode, $fieldValues);
 
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -50,21 +53,22 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the createContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends testCreateContentDefaultValues
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
     public function testCreateContentDefaultValuesFields(Content $content)
     {
-        $this->assertCount(1, $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertCount(4, $content->getFields());
+        self::assertCount(1, $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertCount(4, $content->getFields());
 
         // eng-US
-        $this->assertEquals('new value 1', $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals('new value 3', $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals('new value 1', $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals('new value 3', $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
     }
 
     /**
@@ -73,6 +77,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Creating fields with empty values, no values being passed to storage.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -88,7 +93,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         $content = $this->createTestContent($mainLanguageCode, $fieldValues);
 
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -97,6 +102,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the createContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends testCreateContentEmptyValues
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -105,16 +111,16 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(1, $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertCount(4, $content->getFields());
+        self::assertCount(1, $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertCount(4, $content->getFields());
 
         // eng-US
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field4', 'eng-US'));
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field4', 'eng-US'));
     }
 
     /**
@@ -124,6 +130,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Case where additional language is not stored.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -139,7 +146,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         $content = $this->createTestContent($mainLanguageCode, $fieldValues);
 
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -148,6 +155,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the createContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends testCreateContentEmptyValuesTranslationNotStored
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -156,19 +164,19 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(1, $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertCount(4, $content->getFields());
+        self::assertCount(1, $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertCount(4, $content->getFields());
 
         // eng-US
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field4', 'eng-US'));
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field4', 'eng-US'));
 
         // ger-DE is not stored!
-        $this->assertNotContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertNotContains('ger-DE', $content->versionInfo->languageCodes);
     }
 
     /**
@@ -177,6 +185,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Creating with two languages, main language is always stored (even with all values being empty).
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -192,7 +201,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         $content = $this->createTestContent($mainLanguageCode, $fieldValues);
 
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -201,6 +210,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the createContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends testCreateContentTwoLanguagesMainTranslationStored
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -209,23 +219,23 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(2, $content->versionInfo->languageCodes);
-        $this->assertContains('ger-DE', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertCount(8, $content->getFields());
+        self::assertCount(2, $content->versionInfo->languageCodes);
+        self::assertContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertCount(8, $content->getFields());
 
         // eng-US
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field4', 'eng-US'));
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field4', 'eng-US'));
 
         // ger-DE
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
-        $this->assertEquals('new ger-DE value 4', $content->getFieldValue('field4', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
+        self::assertEquals('new ger-DE value 4', $content->getFieldValue('field4', 'ger-DE'));
     }
 
     /**
@@ -235,6 +245,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * for it being passed to the storage. Second language will not be stored.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -249,7 +260,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         $content = $this->createTestContent($mainLanguageCode, $fieldValues);
 
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -258,6 +269,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the createContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends testCreateContentTwoLanguagesSecondTranslationNotStored
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -266,18 +278,18 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(1, $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertCount(4, $content->getFields());
+        self::assertCount(1, $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertCount(4, $content->getFields());
 
         // eng-US
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // ger-DE is not stored!
-        $this->assertNotContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertNotContains('ger-DE', $content->versionInfo->languageCodes);
     }
 
     /**
@@ -286,6 +298,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Creating with no fields in struct, using only default values.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -298,7 +311,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         $content = $this->createTestContent($mainLanguageCode, $fieldValues);
 
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -307,6 +320,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the createContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends testCreateContentDefaultValuesNoStructFields
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -315,15 +329,15 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(1, $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertCount(4, $content->getFields());
+        self::assertCount(1, $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertCount(4, $content->getFields());
 
         // eng-US
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
     }
 
     /**
@@ -332,6 +346,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Creating in two languages with no given field values for main language.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -346,7 +361,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         $content = $this->createTestContent($mainLanguageCode, $fieldValues);
 
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -355,6 +370,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the createContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends testCreateContentTwoLanguagesNoValuesForMainLanguage
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -363,28 +379,29 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(2, $content->versionInfo->languageCodes);
-        $this->assertContains('ger-DE', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertCount(8, $content->getFields());
+        self::assertCount(2, $content->versionInfo->languageCodes);
+        self::assertContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertCount(8, $content->getFields());
 
         // eng-US
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('default value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('default value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // ger-DE
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
-        $this->assertEquals('default value 2', $content->getFieldValue('field2', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
-        $this->assertEquals('new value 4', $content->getFieldValue('field4', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
+        self::assertEquals('default value 2', $content->getFieldValue('field2', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
+        self::assertEquals('new value 4', $content->getFieldValue('field4', 'ger-DE'));
     }
 
     /**
      * Test for the createContentDraft() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContentDraft()
+     *
      * @depends testCreateContentTwoLanguagesMainTranslationStoredFields
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
@@ -414,24 +431,24 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $content = $data[1];
 
-        $this->assertEquals(VersionInfo::STATUS_DRAFT, $content->versionInfo->status);
-        $this->assertEquals(2, $content->versionInfo->versionNo);
-        $this->assertCount(2, $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-GB', $content->versionInfo->languageCodes);
-        $this->assertCount(8, $content->getFields());
+        self::assertEquals(VersionInfo::STATUS_DRAFT, $content->versionInfo->status);
+        self::assertEquals(2, $content->versionInfo->versionNo);
+        self::assertCount(2, $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertContains('eng-GB', $content->versionInfo->languageCodes);
+        self::assertCount(8, $content->getFields());
 
         // eng-US
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // eng-GB
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'eng-GB'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
-        $this->assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
-        $this->assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'eng-GB'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
+        self::assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
+        self::assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
     }
 
     /**
@@ -456,6 +473,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      *  - value for new language is not empty
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -469,7 +487,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
         ];
 
         $content = $this->updateTestContent($initialLanguageCode, $fieldValues);
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -478,6 +496,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the updateContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
+     *
      * @depends testUpdateContentWithNewLanguage
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -486,29 +505,29 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(3, $content->versionInfo->languageCodes);
-        $this->assertContains('ger-DE', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-GB', $content->versionInfo->languageCodes);
-        $this->assertCount(12, $content->getFields());
+        self::assertCount(3, $content->versionInfo->languageCodes);
+        self::assertContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertContains('eng-GB', $content->versionInfo->languageCodes);
+        self::assertCount(12, $content->getFields());
 
         // eng-US
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // eng-GB
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'eng-GB'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
-        $this->assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
-        $this->assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'eng-GB'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
+        self::assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
+        self::assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
 
         // ger-DE
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'ger-DE'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
-        $this->assertEquals('new value 4', $content->getFieldValue('field4', 'ger-DE'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'ger-DE'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
+        self::assertEquals('new value 4', $content->getFieldValue('field4', 'ger-DE'));
     }
 
     /**
@@ -522,6 +541,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      *  - existing language value not changed
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -536,7 +556,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
         ];
 
         $content = $this->updateTestContent($initialLanguageCode, $fieldValues);
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -545,6 +565,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the updateContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
+     *
      * @depends testUpdateContentWithNewLanguageVariant
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -553,29 +574,29 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(3, $content->versionInfo->languageCodes);
-        $this->assertContains('ger-DE', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-GB', $content->versionInfo->languageCodes);
-        $this->assertCount(12, $content->getFields());
+        self::assertCount(3, $content->versionInfo->languageCodes);
+        self::assertContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertContains('eng-GB', $content->versionInfo->languageCodes);
+        self::assertCount(12, $content->getFields());
 
         // eng-US
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // eng-GB
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-GB'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
-        $this->assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
-        $this->assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-GB'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
+        self::assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
+        self::assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
 
         // ger-DE
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
-        $this->assertEquals('new value 4', $content->getFieldValue('field4', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
+        self::assertEquals('new value 4', $content->getFieldValue('field4', 'ger-DE'));
     }
 
     /**
@@ -584,6 +605,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Updating with with new language and no field values given in the update struct.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -595,7 +617,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
         $fieldValues = [];
 
         $content = $this->updateTestContent($initialLanguageCode, $fieldValues);
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -604,6 +626,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the updateContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
+     *
      * @depends testUpdateContentWithNewLanguageNoValues
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -612,29 +635,29 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(3, $content->versionInfo->languageCodes);
-        $this->assertContains('ger-DE', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-GB', $content->versionInfo->languageCodes);
-        $this->assertCount(12, $content->getFields());
+        self::assertCount(3, $content->versionInfo->languageCodes);
+        self::assertContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertContains('eng-GB', $content->versionInfo->languageCodes);
+        self::assertCount(12, $content->getFields());
 
         // eng-US
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // eng-GB
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'eng-GB'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
-        $this->assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
-        $this->assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'eng-GB'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'eng-GB'));
+        self::assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
+        self::assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
 
         // ger-DE
-        $this->assertEquals('value 1', $content->getFieldValue('field1', 'ger-DE'));
-        $this->assertEquals('value 2', $content->getFieldValue('field2', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
-        $this->assertEquals('default value 4', $content->getFieldValue('field4', 'ger-DE'));
+        self::assertEquals('value 1', $content->getFieldValue('field1', 'ger-DE'));
+        self::assertEquals('value 2', $content->getFieldValue('field2', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
+        self::assertEquals('default value 4', $content->getFieldValue('field4', 'ger-DE'));
     }
 
     /**
@@ -644,6 +667,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * for non-main language.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -658,7 +682,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
         ];
 
         $content = $this->updateTestContent($initialLanguageCode, $fieldValues);
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -667,6 +691,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the updateContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
+     *
      * @depends testUpdateContentUpdatingNonTranslatableFieldUpdatesFieldCopy
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -675,22 +700,22 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(2, $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-GB', $content->versionInfo->languageCodes);
-        $this->assertCount(8, $content->getFields());
+        self::assertCount(2, $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertContains('eng-GB', $content->versionInfo->languageCodes);
+        self::assertCount(8, $content->getFields());
 
         // eng-US
-        $this->assertEquals('new value 1', $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals('new value 1', $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // eng-GB
-        $this->assertEquals('new value 1', $content->getFieldValue('field1', 'eng-GB'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-GB'));
-        $this->assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
-        $this->assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
+        self::assertEquals('new value 1', $content->getFieldValue('field1', 'eng-GB'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-GB'));
+        self::assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
+        self::assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
     }
 
     /**
@@ -699,6 +724,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Updating with two languages, initial language is always stored (even with all values being empty).
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testCreateContent
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentTypeServiceTest::testCreateContentType
      *
@@ -714,7 +740,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
         ];
 
         $content = $this->updateTestContent($initialLanguageCode, $fieldValues);
-        $this->assertInstanceOf(Content::class, $content);
+        self::assertInstanceOf(Content::class, $content);
 
         return $content;
     }
@@ -723,6 +749,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
      * Test for the updateContent() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::updateContent()
+     *
      * @depends testUpdateContentWithTwoLanguagesInitialLanguageTranslationNotCreated
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
@@ -731,29 +758,29 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
     {
         $emptyValue = $this->getRepository()->getFieldTypeService()->getFieldType('ezstring')->getEmptyValue();
 
-        $this->assertCount(3, $content->versionInfo->languageCodes);
-        $this->assertContains('ger-DE', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-US', $content->versionInfo->languageCodes);
-        $this->assertContains('eng-GB', $content->versionInfo->languageCodes);
-        $this->assertCount(12, $content->getFields());
+        self::assertCount(3, $content->versionInfo->languageCodes);
+        self::assertContains('ger-DE', $content->versionInfo->languageCodes);
+        self::assertContains('eng-US', $content->versionInfo->languageCodes);
+        self::assertContains('eng-GB', $content->versionInfo->languageCodes);
+        self::assertCount(12, $content->getFields());
 
         // eng-US
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
-        $this->assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
-        $this->assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-US'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-US'));
+        self::assertEquals('value 3', $content->getFieldValue('field3', 'eng-US'));
+        self::assertEquals('value 4', $content->getFieldValue('field4', 'eng-US'));
 
         // eng-GB
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-GB'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-GB'));
-        $this->assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
-        $this->assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'eng-GB'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'eng-GB'));
+        self::assertEquals('value 3 eng-GB', $content->getFieldValue('field3', 'eng-GB'));
+        self::assertEquals('value 4 eng-GB', $content->getFieldValue('field4', 'eng-GB'));
 
         // ger-DE
-        $this->assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field2', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
-        $this->assertEquals($emptyValue, $content->getFieldValue('field4', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field1', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field2', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field3', 'ger-DE'));
+        self::assertEquals($emptyValue, $content->getFieldValue('field4', 'ger-DE'));
     }
 
     protected function assertFieldIds(Content $content1, Content $content2)
@@ -763,7 +790,7 @@ class NonRedundantFieldSetTest extends BaseNonRedundantFieldSetTest
 
         foreach ($fields1 as $fieldDefinitionIdentifier => $languageFieldIds) {
             foreach ($languageFieldIds as $languageCode => $fieldId) {
-                $this->assertEquals(
+                self::assertEquals(
                     $fields2[$fieldDefinitionIdentifier][$languageCode],
                     $fieldId
                 );

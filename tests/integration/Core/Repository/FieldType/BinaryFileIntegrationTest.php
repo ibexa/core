@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -182,7 +183,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             BinaryFileValue::class,
             $field->value
         );
@@ -194,13 +195,13 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
         unset($expectedData['id']);
         $expectedData['inputUri'] = null;
 
-        $this->assertNotEmpty($field->value->id);
+        self::assertNotEmpty($field->value->id);
         $this->assertPropertiesCorrect(
             $expectedData,
             $field->value
         );
 
-        $this->assertTrue(
+        self::assertTrue(
             $this->uriExistsOnIO($field->value->uri),
             "File {$field->value->uri} doesn't exist"
         );
@@ -249,7 +250,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             BinaryFileValue::class,
             $field->value
         );
@@ -261,13 +262,13 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
         unset($expectedData['id']);
         $expectedData['inputUri'] = null;
 
-        $this->assertNotEmpty($field->value->id);
+        self::assertNotEmpty($field->value->id);
         $this->assertPropertiesCorrect(
             $expectedData,
             $field->value
         );
 
-        $this->assertTrue(
+        self::assertTrue(
             $this->uriExistsOnIO($field->value->uri),
             "File {$field->value->uri} doesn't exist."
         );
@@ -290,7 +291,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
     {
         $this->assertFieldDataLoadedCorrect($field);
 
-        $this->assertEquals(
+        self::assertEquals(
             self::$loadedBinaryFilePath,
             $field->value->id
         );
@@ -394,7 +395,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
     protected function checkSearchEngineSupport()
     {
         if ($this->getSetupFactory() instanceof Legacy) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 "'ezbinaryfile' field type is not searchable with Legacy Search Engine"
             );
         }
@@ -414,6 +415,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
     protected function getSearchTargetValueOne()
     {
         $value = $this->getValidSearchValueOne();
+
         // ensure case-insensitivity
         return strtoupper($value->fileName);
     }
@@ -421,6 +423,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
     protected function getSearchTargetValueTwo()
     {
         $value = $this->getValidSearchValueTwo();
+
         // ensure case-insensitivity
         return strtoupper($value->fileName);
     }

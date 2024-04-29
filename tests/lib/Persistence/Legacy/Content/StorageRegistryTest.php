@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\FieldType\FieldStorage;
@@ -23,7 +24,7 @@ class StorageRegistryTest extends TestCase
         $storage = $this->getStorageMock();
         $registry = new StorageRegistry([self::TYPE_NAME => $storage]);
 
-        $this->assertSame($storage, $registry->getStorage(self::TYPE_NAME));
+        self::assertSame($storage, $registry->getStorage(self::TYPE_NAME));
     }
 
     public function testGetStorage()
@@ -33,7 +34,7 @@ class StorageRegistryTest extends TestCase
 
         $res = $registry->getStorage(self::TYPE_NAME);
 
-        $this->assertSame(
+        self::assertSame(
             $storage,
             $res
         );

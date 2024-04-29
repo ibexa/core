@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -24,6 +25,7 @@ class DepthTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
@@ -34,7 +36,7 @@ class DepthTest extends BaseTest
     public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame($expectedResult, $this->matcher->matchLocation($location));
+        self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
 
     public function matchLocationProvider()
@@ -75,6 +77,7 @@ class DepthTest extends BaseTest
 
     /**
      * @dataProvider matchContentInfoProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
@@ -87,7 +90,7 @@ class DepthTest extends BaseTest
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchContentInfo($this->getContentInfoMock(['mainLocationId' => 42]))
         );
@@ -129,24 +132,24 @@ class DepthTest extends BaseTest
     private function generateRepositoryMockForDepth($depth)
     {
         $locationServiceMock = $this->createMock(LocationService::class);
-        $locationServiceMock->expects($this->once())
+        $locationServiceMock->expects(self::once())
             ->method('loadLocation')
             ->with(42)
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     $this->getLocationMock(['depth' => $depth])
                 )
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock));
+            ->will(self::returnValue($locationServiceMock));
         $repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPermissionResolver')
-            ->will($this->returnValue($this->getPermissionResolverMock()));
+            ->will(self::returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }

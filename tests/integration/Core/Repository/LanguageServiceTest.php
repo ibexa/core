@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
@@ -16,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
  * Test case for operations in the LanguageService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\LanguageService
+ *
  * @group integration
  * @group language
  */
@@ -36,7 +38,7 @@ class LanguageServiceTest extends BaseTest
         $languageCreate = $languageService->newLanguageCreateStruct();
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             LanguageCreateStruct::class,
             $languageCreate
         );
@@ -57,6 +59,7 @@ class LanguageServiceTest extends BaseTest
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testNewLanguageCreateStruct
      */
     public function testCreateLanguage()
@@ -74,7 +77,7 @@ class LanguageServiceTest extends BaseTest
         $language = $languageService->createLanguage($languageCreate);
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Language::class,
             $language
         );
@@ -88,11 +91,12 @@ class LanguageServiceTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageSetsIdPropertyOnReturnedLanguage($language)
     {
-        $this->assertNotNull($language->id);
+        self::assertNotNull($language->id);
     }
 
     /**
@@ -101,11 +105,12 @@ class LanguageServiceTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language $language
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageSetsExpectedProperties($language)
     {
-        $this->assertEquals(
+        self::assertEquals(
             [
                 true,
                 'English (New Zealand)',
@@ -123,6 +128,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the createLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageThrowsInvalidArgumentException()
@@ -153,6 +159,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
+     *
      * @depends testCreateLanguage
      */
     public function testLoadLanguageById()
@@ -170,16 +177,16 @@ class LanguageServiceTest extends BaseTest
 
         $language = $languageService->loadLanguageById($languageId);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Language::class,
             $language
         );
 
         $languages = $languageService->loadLanguageListById([$languageId]);
 
-        $this->assertIsIterable($languages);
-        $this->assertCount(1, $languages);
-        $this->assertInstanceOf(Language::class, $languages[$languageId]);
+        self::assertIsIterable($languages);
+        self::assertCount(1, $languages);
+        self::assertInstanceOf(Language::class, $languages[$languageId]);
     }
 
     /**
@@ -187,6 +194,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageById
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListById
+     *
      * @depends testLoadLanguageById
      */
     public function testLoadLanguageByIdThrowsNotFoundException()
@@ -199,8 +207,8 @@ class LanguageServiceTest extends BaseTest
 
         $languages = $languageService->loadLanguageListById([$nonExistentLanguageId]);
 
-        $this->assertIsIterable($languages);
-        $this->assertCount(0, $languages);
+        self::assertIsIterable($languages);
+        self::assertCount(0, $languages);
 
         $this->expectException(NotFoundException::class);
 
@@ -212,6 +220,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the updateLanguageName() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
+     *
      * @depends testLoadLanguageById
      */
     public function testUpdateLanguageName()
@@ -237,7 +246,7 @@ class LanguageServiceTest extends BaseTest
         /* END: Use Case */
 
         // Verify that the service returns an updated language instance.
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Language::class,
             $updatedLanguage
         );
@@ -276,6 +285,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the enableLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::enableLanguage
+     *
      * @depends testLoadLanguageById
      */
     public function testEnableLanguage()
@@ -298,13 +308,14 @@ class LanguageServiceTest extends BaseTest
         $enabledLanguage = $languageService->loadLanguageById($language->id);
         /* END: Use Case */
 
-        $this->assertTrue($enabledLanguage->enabled);
+        self::assertTrue($enabledLanguage->enabled);
     }
 
     /**
      * Test for the disableLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::disableLanguage
+     *
      * @depends testLoadLanguageById
      */
     public function testDisableLanguage()
@@ -327,7 +338,7 @@ class LanguageServiceTest extends BaseTest
         $enabledLanguage = $languageService->loadLanguageById($language->id);
         /* END: Use Case */
 
-        $this->assertFalse($enabledLanguage->enabled);
+        self::assertFalse($enabledLanguage->enabled);
     }
 
     /**
@@ -335,6 +346,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
+     *
      * @depends testCreateLanguage
      */
     public function testLoadLanguage()
@@ -367,8 +379,8 @@ class LanguageServiceTest extends BaseTest
 
         $languages = $languageService->loadLanguageListByCode(['eng-NZ']);
 
-        $this->assertIsIterable($languages);
-        $this->assertCount(1, $languages);
+        self::assertIsIterable($languages);
+        self::assertCount(1, $languages);
 
         $this->assertPropertiesCorrect(
             [
@@ -386,6 +398,7 @@ class LanguageServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguage
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguageListByCode
+     *
      * @depends testLoadLanguage
      */
     public function testLoadLanguageThrowsNotFoundException()
@@ -396,8 +409,8 @@ class LanguageServiceTest extends BaseTest
 
         $languages = $languageService->loadLanguageListByCode(['fre-FR']);
 
-        $this->assertIsIterable($languages);
-        $this->assertCount(0, $languages);
+        self::assertIsIterable($languages);
+        self::assertCount(0, $languages);
 
         $this->expectException(NotFoundException::class);
 
@@ -423,6 +436,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the loadLanguages() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
+     *
      * @depends testCreateLanguage
      * @depends testLoadLanguage
      */
@@ -461,13 +475,14 @@ class LanguageServiceTest extends BaseTest
         /* END: Use Case */
 
         // eng-US, eng-GB, ger-DE + 2 newly created
-        $this->assertCount(5, $languages);
+        self::assertCount(5, $languages);
     }
 
     /**
      * Test for the loadLanguages() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::loadLanguages
+     *
      * @depends testCreateLanguage
      */
     public function loadLanguagesReturnsAnEmptyArrayByDefault()
@@ -476,13 +491,14 @@ class LanguageServiceTest extends BaseTest
 
         $languageService = $repository->getContentLanguageService();
 
-        $this->assertSame([], $languageService->loadLanguages());
+        self::assertSame([], $languageService->loadLanguages());
     }
 
     /**
      * Test for the deleteLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
+     *
      * @depends testLoadLanguages
      */
     public function testDeleteLanguage()
@@ -507,7 +523,7 @@ class LanguageServiceTest extends BaseTest
         /* END: Use Case */
 
         // +1 -1
-        $this->assertEquals($beforeCount, count($languageService->loadLanguages()));
+        self::assertEquals($beforeCount, count($languageService->loadLanguages()));
 
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Could not find \'Language\' with identifier \'eng-NZ\'');
@@ -525,6 +541,7 @@ class LanguageServiceTest extends BaseTest
      * we cannot declare them here.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage
+     *
      * @depends testDeleteLanguage
      */
     public function testDeleteLanguageThrowsInvalidArgumentException()
@@ -576,7 +593,7 @@ class LanguageServiceTest extends BaseTest
         $repository = $this->getRepository();
         $languageService = $repository->getContentLanguageService();
 
-        $this->assertRegExp(
+        self::assertRegExp(
             '(^[a-z]{3}\-[A-Z]{2}$)',
             $languageService->getDefaultLanguageCode()
         );
@@ -586,6 +603,7 @@ class LanguageServiceTest extends BaseTest
      * Test for the createLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageInTransactionWithRollback()
@@ -624,13 +642,14 @@ class LanguageServiceTest extends BaseTest
         }
         /* END: Use Case */
 
-        $this->assertTrue(isset($e), 'Can still load language after rollback');
+        self::assertTrue(isset($e), 'Can still load language after rollback');
     }
 
     /**
      * Test for the createLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageInTransactionWithCommit()
@@ -665,13 +684,14 @@ class LanguageServiceTest extends BaseTest
         $language = $languageService->loadLanguage('eng-NZ');
         /* END: Use Case */
 
-        $this->assertEquals('eng-NZ', $language->languageCode);
+        self::assertEquals('eng-NZ', $language->languageCode);
     }
 
     /**
      * Test for the updateLanguageName() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
+     *
      * @depends testUpdateLanguageName
      */
     public function testUpdateLanguageNameInTransactionWithRollback()
@@ -703,13 +723,14 @@ class LanguageServiceTest extends BaseTest
         $updatedLanguage = $languageService->loadLanguage('eng-US');
         /* END: Use Case */
 
-        $this->assertEquals('English (American)', $updatedLanguage->name);
+        self::assertEquals('English (American)', $updatedLanguage->name);
     }
 
     /**
      * Test for the updateLanguageName() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName
+     *
      * @depends testUpdateLanguageName
      */
     public function testUpdateLanguageNameInTransactionWithCommit()
@@ -741,7 +762,7 @@ class LanguageServiceTest extends BaseTest
         $updatedLanguage = $languageService->loadLanguage('eng-US');
         /* END: Use Case */
 
-        $this->assertEquals('My English', $updatedLanguage->name);
+        self::assertEquals('My English', $updatedLanguage->name);
     }
 }
 

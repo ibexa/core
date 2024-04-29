@@ -32,10 +32,10 @@ class UserPreferenceServiceTest extends BaseTest
         $userPreferenceList = $userPreferenceService->loadUserPreferences(0, 25);
         /* END: Use Case */
 
-        $this->assertInstanceOf(UserPreferenceList::class, $userPreferenceList);
-        $this->assertIsArray($userPreferenceList->items);
-        $this->assertIsInt($userPreferenceList->totalCount);
-        $this->assertEquals(5, $userPreferenceList->totalCount);
+        self::assertInstanceOf(UserPreferenceList::class, $userPreferenceList);
+        self::assertIsArray($userPreferenceList->items);
+        self::assertIsInt($userPreferenceList->totalCount);
+        self::assertEquals(5, $userPreferenceList->totalCount);
     }
 
     /**
@@ -53,12 +53,13 @@ class UserPreferenceServiceTest extends BaseTest
         $userPreference = $userPreferenceService->getUserPreference($userPreferenceName);
         /* END: Use Case */
 
-        $this->assertInstanceOf(UserPreference::class, $userPreference);
-        $this->assertEquals($userPreferenceName, $userPreference->name);
+        self::assertInstanceOf(UserPreference::class, $userPreference);
+        self::assertEquals($userPreferenceName, $userPreference->name);
     }
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference()
+     *
      * @depends testGetUserPreference
      */
     public function testSetUserPreference()
@@ -79,12 +80,13 @@ class UserPreferenceServiceTest extends BaseTest
         $userPreference = $userPreferenceService->getUserPreference($userPreferenceName);
         /* END: Use Case */
 
-        $this->assertInstanceOf(UserPreference::class, $userPreference);
-        $this->assertEquals($userPreferenceName, $userPreference->name);
+        self::assertInstanceOf(UserPreference::class, $userPreference);
+        self::assertEquals($userPreferenceName, $userPreference->name);
     }
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference()
+     *
      * @depends testSetUserPreference
      */
     public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnInvalidValue()
@@ -108,6 +110,7 @@ class UserPreferenceServiceTest extends BaseTest
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserPreferenceService::setUserPreference()
+     *
      * @depends testSetUserPreference
      */
     public function testSetUserPreferenceThrowsInvalidArgumentExceptionOnEmptyName()
@@ -140,7 +143,7 @@ class UserPreferenceServiceTest extends BaseTest
         $userPreferenceCount = $userPreferenceService->getUserPreferenceCount();
         /* END: Use Case */
 
-        $this->assertEquals(5, $userPreferenceCount);
+        self::assertEquals(5, $userPreferenceCount);
     }
 }
 

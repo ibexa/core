@@ -27,7 +27,7 @@ final class IsPreviewTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Core\MVC\Symfony\View\View, boolean, boolean}>
+     * @return iterable<string, array{\Ibexa\Core\MVC\Symfony\View\View, bool, bool}>
      */
     public static function getDataForTestMatch(): iterable
     {

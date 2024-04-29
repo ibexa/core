@@ -29,9 +29,9 @@ final class DirectFragmentRendererTest extends TestCase
     {
         $controllerResolver = $this->getControllerResolverInterfaceMock();
         $controllerResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getController')
-            ->with($this->callback(function (Request $request) {
+            ->with(self::callback(function (Request $request) {
                 $this->assertEquals('/_fragment', $request->getPathInfo());
                 $this->assertEquals('some::controller', $request->attributes->get('_controller'));
                 $this->assertEquals('attribute_value', $request->attributes->get('some'));
@@ -65,8 +65,8 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render($controllerReference, $request);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertSame('rendered_response', $response->getContent());
+        self::assertInstanceOf(Response::class, $response);
+        self::assertSame('rendered_response', $response->getContent());
     }
 
     public function testControllerResponse(): void
@@ -82,8 +82,8 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertSame('response_body', $response->getContent());
+        self::assertInstanceOf(Response::class, $response);
+        self::assertSame('response_body', $response->getContent());
     }
 
     public function testControllerViewResponse(): void
@@ -102,7 +102,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $templateRendererMock = $this->getTemplateRendererMock();
         $templateRendererMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($contentView)
             ->willReturn('rendered_' . $contentView->getTemplateIdentifier());
@@ -113,8 +113,8 @@ final class DirectFragmentRendererTest extends TestCase
         );
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertSame('rendered_template_identifier', $response->getContent());
+        self::assertInstanceOf(Response::class, $response);
+        self::assertSame('rendered_template_identifier', $response->getContent());
     }
 
     public function testControllerStringResponse(): void
@@ -130,8 +130,8 @@ final class DirectFragmentRendererTest extends TestCase
         $directFragmentRenderer = $this->getDirectFragmentRenderer($controllerResolver);
         $response = $directFragmentRenderer->render('', new Request(), []);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertSame('some_prerendered_response', $response->getContent());
+        self::assertInstanceOf(Response::class, $response);
+        self::assertSame('some_prerendered_response', $response->getContent());
     }
 
     public function testControllerUnhandledStringResponse(): void

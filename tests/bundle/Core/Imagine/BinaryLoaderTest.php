@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\BinaryLoader;
@@ -38,10 +39,10 @@ class BinaryLoaderTest extends TestCase
 
         $path = 'something.jpg';
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will($this->throwException(new NotFoundException('foo', 'bar')));
+            ->will(self::throwException(new NotFoundException('foo', 'bar')));
 
         $this->binaryLoader->find($path);
     }
@@ -52,10 +53,10 @@ class BinaryLoaderTest extends TestCase
 
         $path = 'something.jpg';
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will($this->returnValue(new MissingBinaryFile()));
+            ->will(self::returnValue(new MissingBinaryFile()));
 
         $this->binaryLoader->find($path);
     }
@@ -64,15 +65,15 @@ class BinaryLoaderTest extends TestCase
     {
         $path = 'var/site/storage/images/1/2/3/123-name/name.png';
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will($this->throwException(new InvalidBinaryFileIdException($path)));
+            ->will(self::throwException(new InvalidBinaryFileIdException($path)));
 
         try {
             $this->binaryLoader->find($path);
         } catch (NotLoadableException $e) {
-            $this->assertStringContainsString(
+            self::assertStringContainsString(
                 "Suggested value: '1/2/3/123-name/name.png'",
                 $e->getMessage()
             );

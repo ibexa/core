@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -13,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
  * Test case for operations in the SectionService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SectionService
+ *
  * @group integration
  * @group authorization
  */
@@ -150,7 +152,7 @@ class SectionServiceAuthorizationTest extends BaseTest
         $sections = $sectionService->loadSections();
         /* END: Use Case */
 
-        $this->assertEquals([], $sections);
+        self::assertEquals([], $sections);
     }
 
     /**
@@ -195,7 +197,7 @@ class SectionServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
 
         // Only Sections the user has access to should be loaded
-        $this->assertEquals([$expectedSection], $sections);
+        self::assertEquals([$expectedSection], $sections);
     }
 
     /**

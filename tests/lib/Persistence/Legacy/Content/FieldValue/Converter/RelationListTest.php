@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
@@ -54,11 +55,11 @@ EOT;
         $actualStorageFieldValue = new StorageFieldValue();
 
         $this->converter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRelationXmlHashFromDB')
             ->with($destinationContentIds)
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         '1' => [
                             [
@@ -96,7 +97,7 @@ EOT;
 
         $this->converter->toStorageValue($fieldValue, $actualStorageFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedStorageFieldValue,
             $actualStorageFieldValue
         );
@@ -123,14 +124,14 @@ EOT;
         $actualStorageFieldValue = new StorageFieldValue();
 
         $this->converter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRelationXmlHashFromDB')
             ->with($destinationContentIds)
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $this->converter->toStorageValue($fieldValue, $actualStorageFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedStorageFieldValue,
             $actualStorageFieldValue
         );
@@ -157,7 +158,7 @@ EOT;
 
         $this->converter->toFieldValue($storageFieldValue, $actualFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldValue,
             $actualFieldValue
         );
@@ -184,7 +185,7 @@ EOT;
 
         $this->converter->toFieldValue($storageFieldValue, $actualFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldValue,
             $actualFieldValue
         );
@@ -227,7 +228,7 @@ EOT;
 
         $this->converter->toStorageFieldDefinition($fieldDefinition, $actualStorageFieldDefinition);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedStorageFieldDefinition,
             $actualStorageFieldDefinition
         );
@@ -285,7 +286,7 @@ EOT;
 
         $this->converter->toFieldDefinition($storageFieldDefinition, $actualFieldDefinition);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldDefinition,
             $actualFieldDefinition
         );

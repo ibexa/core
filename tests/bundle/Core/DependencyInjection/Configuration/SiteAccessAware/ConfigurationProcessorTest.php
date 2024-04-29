@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ConfigurationMapperInterface;
@@ -34,12 +35,12 @@ class ConfigurationProcessorTest extends TestCase
         $processor = new ConfigurationProcessor($container, $namespace, $siteAccessNodeName);
 
         $contextualizer = $processor->getContextualizer();
-        $this->assertInstanceOf(ContextualizerInterface::class, $contextualizer);
-        $this->assertSame($container, $contextualizer->getContainer());
-        $this->assertSame($namespace, $contextualizer->getNamespace());
-        $this->assertSame($siteAccessNodeName, $contextualizer->getSiteAccessNodeName());
-        $this->assertSame($siteAccessList, $contextualizer->getAvailableSiteAccesses());
-        $this->assertSame($groupsBySa, $contextualizer->getGroupsBySiteAccess());
+        self::assertInstanceOf(ContextualizerInterface::class, $contextualizer);
+        self::assertSame($container, $contextualizer->getContainer());
+        self::assertSame($namespace, $contextualizer->getNamespace());
+        self::assertSame($siteAccessNodeName, $contextualizer->getSiteAccessNodeName());
+        self::assertSame($siteAccessList, $contextualizer->getAvailableSiteAccesses());
+        self::assertSame($groupsBySa, $contextualizer->getGroupsBySiteAccess());
     }
 
     public function testGetSetContextualizer()
@@ -49,14 +50,14 @@ class ConfigurationProcessorTest extends TestCase
         $container = $this->getContainerMock();
         $processor = new ConfigurationProcessor($container, $namespace, $siteAccessNodeName);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             ContextualizerInterface::class,
             $processor->getContextualizer()
         );
 
         $newContextualizer = $this->getContextualizerMock();
         $processor->setContextualizer($newContextualizer);
-        $this->assertSame($newContextualizer, $processor->getContextualizer());
+        self::assertSame($newContextualizer, $processor->getContextualizer());
     }
 
     public function testMapConfigWrongMapper()
@@ -142,10 +143,10 @@ class ConfigurationProcessorTest extends TestCase
 
         $mapper = $this->createMock(ConfigurationMapperInterface::class);
         $mapper
-            ->expects($this->exactly(count($config[$saNodeName])))
+            ->expects(self::exactly(count($config[$saNodeName])))
             ->method('mapConfig')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         [$sa1Config, $sa1Name, $contextualizer, null],
                         [$sa2Config, $sa2Name, $contextualizer, null],
@@ -188,18 +189,18 @@ class ConfigurationProcessorTest extends TestCase
 
         $mapper = $this->createMock(HookableConfigurationMapperInterface::class);
         $mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('preMap')
             ->with($config, $contextualizer);
         $mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('postMap')
             ->with($config, $contextualizer);
         $mapper
-            ->expects($this->exactly(count($config[$saNodeName])))
+            ->expects(self::exactly(count($config[$saNodeName])))
             ->method('mapConfig')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         [$sa1Config, $sa1Name, $contextualizer, null],
                         [$sa2Config, $sa2Name, $contextualizer, null],
@@ -240,7 +241,7 @@ class ConfigurationProcessorTest extends TestCase
         ];
 
         $contextualizer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('mapSetting')
             ->with('foo', $config);
         $processor->mapSetting('foo', $config);
@@ -276,7 +277,7 @@ class ConfigurationProcessorTest extends TestCase
         ];
 
         $contextualizer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('mapConfigArray')
             ->with('hello', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
         $processor->mapConfigArray('hello', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Exception;
@@ -84,7 +85,7 @@ class ExceptionListenerTest extends TestCase
 
         $translatedMessage = 'translated message';
         $this->translator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trans')
             ->with($messageTemplate, $translationParams)
             ->willReturn($translatedMessage);
@@ -107,7 +108,7 @@ class ExceptionListenerTest extends TestCase
 
         $translatedMessage = 'translated message';
         $this->translator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trans')
             ->with($messageTemplate, $translationParams)
             ->willReturn($translatedMessage);
@@ -134,7 +135,7 @@ class ExceptionListenerTest extends TestCase
 
         $translatedMessage = 'translated message';
         $this->translator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trans')
             ->with($messageTemplate, $translationParams)
             ->willReturn($translatedMessage);
@@ -171,7 +172,7 @@ class ExceptionListenerTest extends TestCase
 
         $translatedMessage = 'translated message';
         $this->translator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trans')
             ->with($messageTemplate, $translationParams)
             ->willReturn($translatedMessage);
@@ -204,7 +205,7 @@ class ExceptionListenerTest extends TestCase
         $exception = new \RuntimeException('foo');
         $event = $this->generateExceptionEvent($exception);
         $this->translator
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('trans');
 
         $this->listener->onKernelException($event);

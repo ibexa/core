@@ -61,9 +61,9 @@ class ParameterProviderTest extends TestCase
             $this->createFieldMock(self::EXAMPLE_USER_ID)
         );
 
-        $this->assertFalse($parameters['is_password_expired']);
-        $this->assertEquals($passwordExpiresAt, $parameters['password_expires_at']);
-        $this->assertEquals($passwordExpiresIn, $parameters['password_expires_in']->days);
+        self::assertFalse($parameters['is_password_expired']);
+        self::assertEquals($passwordExpiresAt, $parameters['password_expires_at']);
+        self::assertEquals($passwordExpiresIn, $parameters['password_expires_in']->days);
     }
 
     public function testGetViewParametersWhenPasswordExpirationDateIsNull(): void
@@ -75,7 +75,7 @@ class ParameterProviderTest extends TestCase
             ->with($this->user)
             ->willReturn(new PasswordInfo());
 
-        $this->assertEquals([
+        self::assertEquals([
             'is_password_expired' => false,
             'password_expires_at' => null,
             'password_expires_in' => null,

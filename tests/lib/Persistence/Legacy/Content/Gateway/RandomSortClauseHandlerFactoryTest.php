@@ -40,7 +40,7 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
             ->willReturn($platform);
 
         $handlerFactory = new RandomSortClauseHandlerFactory($connection, $gateways);
-        $this->assertEquals(
+        self::assertEquals(
             'testStorage',
             $handlerFactory->getGateway()->getDriverName()
         );

@@ -21,12 +21,12 @@ final class FixedSearchResultHitAdapterTest extends TestCase
 
         $adapter = new FixedSearchResultHitAdapter($searchResult);
 
-        $this->assertEquals($searchResult->totalCount, $adapter->getNbResults());
-        $this->assertEquals($searchResult->searchHits, $adapter->getSlice(0, 10));
-        $this->assertSame($searchResult->getAggregations(), $adapter->getAggregations());
-        $this->assertEquals($searchResult->maxScore, $adapter->getMaxScore());
-        $this->assertEquals($searchResult->time, $adapter->getTime());
-        $this->assertEquals($searchResult->timedOut, $adapter->getTimedOut());
+        self::assertEquals($searchResult->totalCount, $adapter->getNbResults());
+        self::assertEquals($searchResult->searchHits, $adapter->getSlice(0, 10));
+        self::assertSame($searchResult->getAggregations(), $adapter->getAggregations());
+        self::assertEquals($searchResult->maxScore, $adapter->getMaxScore());
+        self::assertEquals($searchResult->time, $adapter->getTime());
+        self::assertEquals($searchResult->timedOut, $adapter->getTimedOut());
     }
 
     private function createExampleSearchResult(): SearchResult

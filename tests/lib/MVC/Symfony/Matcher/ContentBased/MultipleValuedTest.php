@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased;
 
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
@@ -12,6 +13,7 @@ class MultipleValuedTest extends BaseTest
 {
     /**
      * @dataProvider matchingConfigProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::getValues
      */
@@ -20,11 +22,11 @@ class MultipleValuedTest extends BaseTest
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setMatchingConfig($matchingConfig);
         $values = $matcher->getValues();
-        $this->assertIsArray($values);
+        self::assertIsArray($values);
 
         $matchingConfig = is_array($matchingConfig) ? $matchingConfig : [$matchingConfig];
         foreach ($matchingConfig as $val) {
-            $this->assertContains($val, $values);
+            self::assertContains($val, $values);
         }
     }
 
@@ -53,7 +55,7 @@ class MultipleValuedTest extends BaseTest
     {
         $matcher = $this->getMultipleValuedMatcherMock();
         $matcher->setRepository($this->repositoryMock);
-        $this->assertSame($this->repositoryMock, $matcher->getRepository());
+        self::assertSame($this->repositoryMock, $matcher->getRepository());
     }
 
     private function getMultipleValuedMatcherMock()

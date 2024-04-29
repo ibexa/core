@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine;
@@ -31,7 +32,7 @@ class StorageEngineFactoryTest extends TestCase
             $factory->registerStorageEngine($persistenceHandler, $identifier);
         }
 
-        $this->assertSame($storageEngines, $factory->getStorageEngines());
+        self::assertSame($storageEngines, $factory->getStorageEngines());
     }
 
     public function testBuildStorageEngine()
@@ -63,12 +64,12 @@ class StorageEngineFactoryTest extends TestCase
         }
 
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will($this->returnValue($repositoryAlias));
+            ->will(self::returnValue($repositoryAlias));
 
-        $this->assertSame($expectedStorageEngine, $factory->buildStorageEngine());
+        self::assertSame($expectedStorageEngine, $factory->buildStorageEngine());
     }
 
     public function testBuildInvalidStorageEngine()
@@ -103,12 +104,12 @@ class StorageEngineFactoryTest extends TestCase
         }
 
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will($this->returnValue($repositoryAlias));
+            ->will(self::returnValue($repositoryAlias));
 
-        $this->assertSame($this->getPersistenceHandlerMock(), $factory->buildStorageEngine());
+        self::assertSame($this->getPersistenceHandlerMock(), $factory->buildStorageEngine());
     }
 
     /**

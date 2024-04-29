@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
@@ -54,13 +55,13 @@ class ConfigResolverTest extends TestCase
         $defaultNS = 'ibexa.site_access.config';
         $resolver = $this->getResolver($defaultNS, $strategy);
 
-        $this->assertSame($strategy, $resolver->getUndefinedStrategy());
+        self::assertSame($strategy, $resolver->getUndefinedStrategy());
         $resolver->setUndefinedStrategy(ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION);
-        $this->assertSame(ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, $resolver->getUndefinedStrategy());
+        self::assertSame(ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, $resolver->getUndefinedStrategy());
 
-        $this->assertSame($defaultNS, $resolver->getDefaultNamespace());
+        self::assertSame($defaultNS, $resolver->getDefaultNamespace());
         $resolver->setDefaultNamespace('anotherNamespace');
-        $this->assertSame('anotherNamespace', $resolver->getDefaultNamespace());
+        self::assertSame('anotherNamespace', $resolver->getDefaultNamespace());
     }
 
     public function testGetParameterFailedWithException()
@@ -74,7 +75,7 @@ class ConfigResolverTest extends TestCase
     public function testGetParameterFailedNull()
     {
         $resolver = $this->getResolver('ibexa.site_access.config', ConfigResolver::UNDEFINED_STRATEGY_NULL);
-        $this->assertNull($resolver->getParameter('foo'));
+        self::assertNull($resolver->getParameter('foo'));
     }
 
     public function parameterProvider()
@@ -111,17 +112,17 @@ class ConfigResolverTest extends TestCase
     {
         $globalScopeParameter = "ibexa.site_access.config.global.$paramName";
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasParameter')
             ->with($globalScopeParameter)
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with($globalScopeParameter)
-            ->will($this->returnValue($expectedValue));
+            ->will(self::returnValue($expectedValue));
 
-        $this->assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
+        self::assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
     }
 
     /**
@@ -131,23 +132,23 @@ class ConfigResolverTest extends TestCase
     {
         $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
         $this->containerMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('hasParameter')
             ->with(
-                $this->logicalOr(
+                self::logicalOr(
                     "ibexa.site_access.config.global.$paramName",
                     $relativeScopeParameter
                 )
             )
             // First call is for "global" scope, second is the right one
-            ->will($this->onConsecutiveCalls(false, true));
+            ->will(self::onConsecutiveCalls(false, true));
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with($relativeScopeParameter)
-            ->will($this->returnValue($expectedValue));
+            ->will(self::returnValue($expectedValue));
 
-        $this->assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
+        self::assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
     }
 
     /**
@@ -158,23 +159,23 @@ class ConfigResolverTest extends TestCase
         $scope = 'some_siteaccess';
         $relativeScopeParameter = "ibexa.site_access.config.$scope.$paramName";
         $this->containerMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('hasParameter')
             ->with(
-                $this->logicalOr(
+                self::logicalOr(
                     "ibexa.site_access.config.global.$paramName",
                     $relativeScopeParameter
                 )
             )
         // First call is for "global" scope, second is the right one
-            ->will($this->onConsecutiveCalls(false, true));
+            ->will(self::onConsecutiveCalls(false, true));
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with($relativeScopeParameter)
-            ->will($this->returnValue($expectedValue));
+            ->will(self::returnValue($expectedValue));
 
-        $this->assertSame(
+        self::assertSame(
             $expectedValue,
             $this->getResolver()->getParameter($paramName, 'ibexa.site_access.config', $scope)
         );
@@ -188,24 +189,24 @@ class ConfigResolverTest extends TestCase
         $defaultScopeParameter = "ibexa.site_access.config.default.$paramName";
         $relativeScopeParameter = "ibexa.site_access.config.{$this->siteAccess->name}.$paramName";
         $this->containerMock
-            ->expects($this->exactly(3))
+            ->expects(self::exactly(3))
             ->method('hasParameter')
             ->with(
-                $this->logicalOr(
+                self::logicalOr(
                     "ibexa.site_access.config.global.$paramName",
                     $relativeScopeParameter,
                     $defaultScopeParameter
                 )
             )
             // First call is for "global" scope, second is the right one
-            ->will($this->onConsecutiveCalls(false, false, true));
+            ->will(self::onConsecutiveCalls(false, false, true));
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with($defaultScopeParameter)
-            ->will($this->returnValue($expectedValue));
+            ->will(self::returnValue($expectedValue));
 
-        $this->assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
+        self::assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
     }
 
     public function hasParameterProvider()
@@ -235,10 +236,10 @@ class ConfigResolverTest extends TestCase
             [$this->siteAccess->name => [$groupName]]
         );
 
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(self::atLeastOnce())
             ->method('hasParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ["ibexa.site_access.config.default.$paramName", $defaultMatch],
                         ["ibexa.site_access.config.$groupName.$paramName", $groupMatch],
@@ -248,7 +249,7 @@ class ConfigResolverTest extends TestCase
                 )
             );
 
-        $this->assertSame($expectedResult, $configResolver->hasParameter($paramName));
+        self::assertSame($expectedResult, $configResolver->hasParameter($paramName));
     }
 
     /**
@@ -269,10 +270,10 @@ class ConfigResolverTest extends TestCase
             ]
         );
 
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(self::atLeastOnce())
             ->method('hasParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ["$namespace.default.$paramName", $defaultMatch],
                         ["$namespace.$groupName.$paramName", $groupMatch],
@@ -282,16 +283,16 @@ class ConfigResolverTest extends TestCase
                 )
             );
 
-        $this->assertSame($expectedResult, $configResolver->hasParameter($paramName, $namespace, $scope));
+        self::assertSame($expectedResult, $configResolver->hasParameter($paramName, $namespace, $scope));
     }
 
     public function testGetSetDefaultScope()
     {
         $newDefaultScope = 'bar';
         $configResolver = $this->getResolver();
-        $this->assertSame($this->siteAccess->name, $configResolver->getDefaultScope());
+        self::assertSame($this->siteAccess->name, $configResolver->getDefaultScope());
         $configResolver->setDefaultScope($newDefaultScope);
-        $this->assertSame($newDefaultScope, $configResolver->getDefaultScope());
+        self::assertSame($newDefaultScope, $configResolver->getDefaultScope());
     }
 }
 

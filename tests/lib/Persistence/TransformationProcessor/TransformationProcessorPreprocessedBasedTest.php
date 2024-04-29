@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence;
@@ -27,7 +28,7 @@ class TransformationProcessorPreprocessedBasedTest extends TestCase
     {
         $processor = $this->getProcessor();
 
-        $this->assertSame(
+        self::assertSame(
             'hello world!',
             $processor->transform('Hello World!', ['ascii_lowercase'])
         );
@@ -37,7 +38,7 @@ class TransformationProcessorPreprocessedBasedTest extends TestCase
     {
         $processor = $this->getProcessor();
 
-        $this->assertSame(
+        self::assertSame(
             'HELLO WORLD!',
             $processor->transform('Hello World!', ['ascii_uppercase'])
         );
@@ -52,7 +53,7 @@ class TransformationProcessorPreprocessedBasedTest extends TestCase
     {
         $processor = $this->getProcessor();
 
-        $this->assertSame(
+        self::assertSame(
             'HELLO WORLD.',
             $processor->transform('Hello World!')
         );

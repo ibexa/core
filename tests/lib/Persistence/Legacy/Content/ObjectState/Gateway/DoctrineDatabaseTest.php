@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
@@ -52,7 +53,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $result = $gateway->loadObjectStateData(1);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_default_language_id' => 2,
@@ -76,7 +77,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $result = $gateway->loadObjectStateDataByIdentifier('not_locked', 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_default_language_id' => 2,
@@ -100,7 +101,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $result = $gateway->loadObjectStateListData(2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     [
@@ -139,7 +140,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $result = $gateway->loadObjectStateGroupData(2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_group_default_language_id' => 2,
@@ -162,7 +163,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $result = $gateway->loadObjectStateGroupDataByIdentifier('ez_lock');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_group_default_language_id' => 2,
@@ -185,7 +186,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $result = $gateway->loadObjectStateGroupListData(0, -1);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     [
@@ -210,7 +211,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->insertObjectState($this->getObjectStateFixture(), 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_default_language_id' => 4,
@@ -238,7 +239,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->insertObjectStateGroup($this->getObjectStateGroupFixture());
         $gateway->insertObjectState($this->getObjectStateFixture(), 3);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_default_language_id' => 4,
@@ -259,7 +260,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->getDatabaseGateway()->loadObjectStateData(3)
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             // 185 is the number of objects in the fixture
             185,
             $gateway->getContentCount(3)
@@ -275,7 +276,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->updateObjectState($objectStateFixture);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_default_language_id' => 4,
@@ -299,7 +300,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->deleteObjectState(1);
 
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $this->getDatabaseGateway()->loadObjectStateData(1)
         );
@@ -330,7 +331,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->insertObjectStateGroup($this->getObjectStateGroupFixture());
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_group_default_language_id' => 4,
@@ -358,7 +359,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->updateObjectStateGroup($groupFixture);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_group_default_language_id' => 4,
@@ -381,7 +382,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway->deleteObjectStateGroup(2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $this->getDatabaseGateway()->loadObjectStateGroupData(2)
         );
@@ -413,7 +414,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $result = $gateway->loadObjectStateDataForContent(42, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_default_language_id' => 2,
@@ -438,7 +439,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $result = $gateway->getContentCount(1);
 
         // 185 is the number of objects in the fixture
-        $this->assertEquals(185, $result);
+        self::assertEquals(185, $result);
     }
 
     public function testUpdateObjectStatePriority()
@@ -449,7 +450,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $objectStateData = $gateway->loadObjectStateData(1);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'ezcobj_state_default_language_id' => 2,

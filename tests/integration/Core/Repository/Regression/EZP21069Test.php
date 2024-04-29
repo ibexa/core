@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -89,8 +90,8 @@ class EZP21069Test extends BaseTest
         $query->filter = new Field('name', Operator::EQ, 'TheOriginalNews');
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
-        $this->assertEquals(0, $results->totalCount);
-        $this->assertEmpty($results->searchHits);
+        self::assertEquals(0, $results->totalCount);
+        self::assertEmpty($results->searchHits);
     }
 
     public function testSearchOnCurrentAttributeContentGivesOnesResult()
@@ -99,8 +100,8 @@ class EZP21069Test extends BaseTest
         $query->filter = new Field('name', Operator::EQ, 'TheUpdatedNews');
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
-        $this->assertEquals(1, $results->totalCount);
-        $this->assertCount(1, $results->searchHits);
+        self::assertEquals(1, $results->totalCount);
+        self::assertCount(1, $results->searchHits);
     }
 
     public function testSearchOnDraftAttributeContentGivesNoResult()
@@ -109,8 +110,8 @@ class EZP21069Test extends BaseTest
         $query->filter = new Field('name', Operator::EQ, 'TheDraftNews');
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
-        $this->assertEquals(0, $results->totalCount);
-        $this->assertEmpty($results->searchHits);
+        self::assertEquals(0, $results->totalCount);
+        self::assertEmpty($results->searchHits);
     }
 }
 

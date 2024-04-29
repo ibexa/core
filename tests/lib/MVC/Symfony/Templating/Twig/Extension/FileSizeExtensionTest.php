@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -84,10 +85,10 @@ class FileSizeExtensionTest extends IntegrationTestCase
     protected function getConfigResolverInterfaceMock()
     {
         $configResolverInterfaceMock = $this->createMock(ConfigResolverInterface::class);
-        $configResolverInterfaceMock->expects($this->any())
+        $configResolverInterfaceMock->expects(self::any())
             ->method('getParameter')
             ->with('languages')
-            ->will($this->returnValue($this->getLocale()));
+            ->will(self::returnValue($this->getLocale()));
 
         return $configResolverInterfaceMock;
     }
@@ -98,10 +99,10 @@ class FileSizeExtensionTest extends IntegrationTestCase
     protected function getLocaleConverterInterfaceMock()
     {
         $this->localeConverterInterfaceMock = $this->createMock(LocaleConverterInterface::class);
-        $this->localeConverterInterfaceMock->expects($this->any())
+        $this->localeConverterInterfaceMock->expects(self::any())
         ->method('convertToPOSIX')
         ->will(
-            $this->returnValueMap(
+            self::returnValueMap(
                 [
                     ['fre-FR', 'fr-FR'],
                     ['eng-GB', 'en-GB'],
@@ -120,8 +121,8 @@ class FileSizeExtensionTest extends IntegrationTestCase
         $that = $this;
         $this->translatorMock = $this->createMock(TranslatorInterface::class);
         $this->translatorMock
-            ->expects($this->any())->method('trans')->will(
-                $this->returnCallback(
+            ->expects(self::any())->method('trans')->will(
+                self::returnCallback(
                     static function ($suffixes) use ($that) {
                         foreach ($that->getLocale() as $value) {
                             if ($value === 'fre-FR') {

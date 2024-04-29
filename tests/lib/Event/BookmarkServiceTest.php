@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
@@ -34,11 +35,11 @@ class BookmarkServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeCreateBookmarkEvent::class, 0],
             [CreateBookmarkEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateBookmarkStopPropagationInBeforeEvents()
@@ -64,10 +65,10 @@ class BookmarkServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeCreateBookmarkEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateBookmarkEvent::class, 0],
             [CreateBookmarkEvent::class, 0],
         ]);
@@ -91,11 +92,11 @@ class BookmarkServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteBookmarkEvent::class, 0],
             [DeleteBookmarkEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteBookmarkStopPropagationInBeforeEvents()
@@ -121,10 +122,10 @@ class BookmarkServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteBookmarkEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteBookmarkEvent::class, 0],
             [DeleteBookmarkEvent::class, 0],
         ]);

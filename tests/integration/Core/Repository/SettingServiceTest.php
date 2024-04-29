@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\Setting;
  * Test case for operations in the SettingService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SettingService
+ *
  * @group integration
  * @group setting
  */

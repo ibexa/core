@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -41,20 +42,20 @@ class ContentPreviewHelperTest extends TestCase
         $newSiteAccess = new SiteAccess($newSiteAccessName);
 
         $this->siteAccessRouter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('matchByName')
-            ->with($this->equalTo($newSiteAccessName))
+            ->with(self::equalTo($newSiteAccessName))
             ->willReturn($newSiteAccess);
 
         $event = new ScopeChangeEvent($newSiteAccess);
         $this->eventDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($event), MVCEvents::CONFIG_SCOPE_CHANGE);
+            ->with(self::equalTo($event), MVCEvents::CONFIG_SCOPE_CHANGE);
 
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $this->previewHelper->setSiteAccess($originalSiteAccess);
-        $this->assertEquals(
+        self::assertEquals(
             $newSiteAccess,
             $this->previewHelper->changeConfigScope($newSiteAccessName)
         );
@@ -65,12 +66,12 @@ class ContentPreviewHelperTest extends TestCase
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $event = new ScopeChangeEvent($originalSiteAccess);
         $this->eventDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($event), MVCEvents::CONFIG_SCOPE_RESTORE);
+            ->with(self::equalTo($event), MVCEvents::CONFIG_SCOPE_RESTORE);
 
         $this->previewHelper->setSiteAccess($originalSiteAccess);
-        $this->assertEquals(
+        self::assertEquals(
             $originalSiteAccess,
             $this->previewHelper->restoreConfigScope()
         );
@@ -81,29 +82,29 @@ class ContentPreviewHelperTest extends TestCase
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $this->previewHelper->setSiteAccess($originalSiteAccess);
 
-        $this->assertFalse($this->previewHelper->isPreviewActive());
+        self::assertFalse($this->previewHelper->isPreviewActive());
         $this->previewHelper->setPreviewActive(true);
-        $this->assertTrue($this->previewHelper->isPreviewActive());
+        self::assertTrue($this->previewHelper->isPreviewActive());
         $this->previewHelper->setPreviewActive(false);
-        $this->assertFalse($this->previewHelper->isPreviewActive());
+        self::assertFalse($this->previewHelper->isPreviewActive());
 
         self::assertNotSame($originalSiteAccess, $this->previewHelper->getOriginalSiteAccess());
     }
 
     public function testPreviewedContent()
     {
-        $this->assertNull($this->previewHelper->getPreviewedContent());
+        self::assertNull($this->previewHelper->getPreviewedContent());
         $content = $this->createMock(APIContent::class);
         $this->previewHelper->setPreviewedContent($content);
-        $this->assertSame($content, $this->previewHelper->getPreviewedContent());
+        self::assertSame($content, $this->previewHelper->getPreviewedContent());
     }
 
     public function testPreviewedLocation()
     {
-        $this->assertNull($this->previewHelper->getPreviewedLocation());
+        self::assertNull($this->previewHelper->getPreviewedLocation());
         $location = $this->createMock(APILocation::class);
         $this->previewHelper->setPreviewedLocation($location);
-        $this->assertSame($location, $this->previewHelper->getPreviewedLocation());
+        self::assertSame($location, $this->previewHelper->getPreviewedLocation());
     }
 }
 

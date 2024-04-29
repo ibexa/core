@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL;
 
 use Ibexa\Contracts\Core\Persistence\URL\URL;
@@ -38,7 +39,7 @@ class MapperTest extends TestCase
         $expected->created = 0;
         $expected->modified = $urlUpdateStruct->modified;
 
-        $this->assertEquals($expected, $this->mapper->createURLFromUpdateStruct($urlUpdateStruct));
+        self::assertEquals($expected, $this->mapper->createURLFromUpdateStruct($urlUpdateStruct));
     }
 
     public function testExtractURLsFromRows()
@@ -82,7 +83,7 @@ class MapperTest extends TestCase
         $urlEzplatformCom->created = (int)$rows[1]['created'];
         $urlEzplatformCom->modified = (int)$rows[1]['modified'];
 
-        $this->assertEquals([$urlEzNo, $urlEzplatformCom], $this->mapper->extractURLsFromRows($rows));
+        self::assertEquals([$urlEzNo, $urlEzplatformCom], $this->mapper->extractURLsFromRows($rows));
     }
 }
 

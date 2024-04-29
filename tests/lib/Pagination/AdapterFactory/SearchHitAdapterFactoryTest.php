@@ -41,7 +41,7 @@ final class SearchHitAdapterFactoryTest extends TestCase
     {
         $query = new Query();
 
-        $this->assertEquals(
+        self::assertEquals(
             new ContentSearchHitAdapter(
                 $query,
                 $this->searchService,
@@ -55,7 +55,7 @@ final class SearchHitAdapterFactoryTest extends TestCase
     {
         $query = new LocationQuery();
 
-        $this->assertEquals(
+        self::assertEquals(
             new LocationSearchHitAdapter(
                 $query,
                 $this->searchService,
@@ -82,12 +82,12 @@ final class SearchHitAdapterFactoryTest extends TestCase
         ]);
 
         $this->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($expectedSearchMethod)
             ->with($query, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult);
 
-        $this->assertEquals(
+        self::assertEquals(
             new FixedSearchResultHitAdapter($searchResult),
             $this->searchHitAdapterFactory->createFixedAdapter($query, self::EXAMPLE_LANGUAGE_FILTER)
         );

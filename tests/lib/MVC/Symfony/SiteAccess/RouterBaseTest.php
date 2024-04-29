@@ -47,10 +47,10 @@ abstract class RouterBaseTest extends TestCase
     {
         $router = $this->createRouter();
         $sa = $router->match($request);
-        $this->assertInstanceOf(SiteAccess::class, $sa);
-        $this->assertSame($siteAccess, $sa->name);
+        self::assertInstanceOf(SiteAccess::class, $sa);
+        self::assertSame($siteAccess, $sa->name);
         // SiteAccess must be serializable as a whole. See https://issues.ibexa.co/browse/EZP-21613
-        $this->assertIsString(serialize($sa));
+        self::assertIsString(serialize($sa));
         $router->setSiteAccess();
     }
 

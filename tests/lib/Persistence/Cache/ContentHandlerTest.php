@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content;
@@ -424,16 +425,16 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
 
     public function testDeleteContent()
     {
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandlerMock = $this->createMock(SPIContentHandler::class);
         $this->persistenceHandlerMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('contentHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadReverseRelations')
             ->with(2, APIRelation::FIELD | APIRelation::ASSET)
             ->willReturn(
@@ -443,17 +444,17 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             );
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteContent')
             ->with(2)
             ->willReturn(true);
 
         $this->cacheMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('deleteItem');
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('generateTag')
             ->withConsecutive(
                 ['content', [42], false],
@@ -462,7 +463,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ->willReturnOnConsecutiveCalls('c-42', 'c-2');
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with(['c-42', 'c-2']);
 

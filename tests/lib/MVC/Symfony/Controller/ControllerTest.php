@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller;
 
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
@@ -35,10 +36,10 @@ class ControllerTest extends TestCase
         $this->controller = $this->getMockForAbstractClass(Controller::class);
         $this->controller->setContainer($this->containerMock);
         $this->containerMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('get')
             ->with('templating')
-            ->will($this->returnValue($this->templateEngineMock));
+            ->will(self::returnValue($this->templateEngineMock));
     }
 
     public function testRender()
@@ -47,10 +48,10 @@ class ControllerTest extends TestCase
         $params = ['foo' => 'bar', 'truc' => 'muche'];
         $tplResult = "I'm a template result";
         $this->templateEngineMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($view, $params)
-            ->will($this->returnValue($tplResult));
+            ->will(self::returnValue($tplResult));
         $response = $this->controller->render($view, $params);
         self::assertInstanceOf(Response::class, $response);
         self::assertSame($tplResult, $response->getContent());
@@ -63,10 +64,10 @@ class ControllerTest extends TestCase
         $params = ['foo' => 'bar', 'truc' => 'muche'];
         $tplResult = "I'm a template result";
         $this->templateEngineMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($view, $params)
-            ->will($this->returnValue($tplResult));
+            ->will(self::returnValue($tplResult));
 
         self::assertSame($response, $this->controller->render($view, $params, $response));
         self::assertSame($tplResult, $response->getContent());

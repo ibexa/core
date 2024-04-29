@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -25,6 +26,7 @@ class ParentLocationTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
@@ -35,7 +37,7 @@ class ParentLocationTest extends BaseTest
     public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame($expectedResult, $this->matcher->matchLocation($location));
+        self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
 
     public function matchLocationProvider()
@@ -66,6 +68,7 @@ class ParentLocationTest extends BaseTest
 
     /**
      * @dataProvider matchContentInfoProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
@@ -78,7 +81,7 @@ class ParentLocationTest extends BaseTest
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchContentInfo($this->getContentInfoMock(['mainLocationId' => 42]))
         );
@@ -120,24 +123,24 @@ class ParentLocationTest extends BaseTest
     private function generateRepositoryMockForParentLocationId($parentLocationId)
     {
         $locationServiceMock = $this->createMock(LocationService::class);
-        $locationServiceMock->expects($this->once())
+        $locationServiceMock->expects(self::once())
             ->method('loadLocation')
             ->with(42)
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     $this->getLocationMock(['parentLocationId' => $parentLocationId])
                 )
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock));
+            ->will(self::returnValue($locationServiceMock));
         $repository
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPermissionResolver')
-            ->will($this->returnValue($this->getPermissionResolverMock()));
+            ->will(self::returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }

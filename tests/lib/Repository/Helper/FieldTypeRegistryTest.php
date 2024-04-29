@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Helper;
 
 use Ibexa\Contracts\Core\FieldType\FieldType;
@@ -24,7 +25,7 @@ class FieldTypeRegistryTest extends TestCase
         $fieldTypes = [self::FIELD_TYPE_ID => $fieldType];
 
         $registry = new FieldTypeRegistry($fieldTypes);
-        $this->assertTrue($registry->hasFieldType(self::FIELD_TYPE_ID));
+        self::assertTrue($registry->hasFieldType(self::FIELD_TYPE_ID));
     }
 
     protected function getFieldTypeMock()
@@ -42,7 +43,7 @@ class FieldTypeRegistryTest extends TestCase
 
         $fieldType = $registry->getFieldType(self::FIELD_TYPE_ID);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             FieldType::class,
             $fieldType
         );
@@ -81,15 +82,15 @@ class FieldTypeRegistryTest extends TestCase
 
         $fieldTypes = $registry->getFieldTypes();
 
-        $this->assertIsArray($fieldTypes);
-        $this->assertCount(2, $fieldTypes);
-        $this->assertArrayHasKey(self::FIELD_TYPE_ID, $fieldTypes);
-        $this->assertInstanceOf(
+        self::assertIsArray($fieldTypes);
+        self::assertCount(2, $fieldTypes);
+        self::assertArrayHasKey(self::FIELD_TYPE_ID, $fieldTypes);
+        self::assertInstanceOf(
             FieldType::class,
             $fieldTypes[self::FIELD_TYPE_ID]
         );
-        $this->assertArrayHasKey('two', $fieldTypes);
-        $this->assertInstanceOf(
+        self::assertArrayHasKey('two', $fieldTypes);
+        self::assertInstanceOf(
             FieldType::class,
             $fieldTypes['two']
         );

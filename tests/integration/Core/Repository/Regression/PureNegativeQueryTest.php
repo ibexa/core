@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -24,7 +25,7 @@ class PureNegativeQueryTest extends BaseTest
         $query = new Query(['filter' => new Criterion\MatchAll()]);
         $result = $this->getRepository()->getSearchService()->findContent($query);
         // Sanity check
-        $this->assertGreaterThan(0, $result->totalCount);
+        self::assertGreaterThan(0, $result->totalCount);
         $totalCount = $result->totalCount;
         $contentId = 12;
 
@@ -228,7 +229,7 @@ class PureNegativeQueryTest extends BaseTest
 
         $result = $this->getRepository()->getSearchService()->findContentInfo($query);
 
-        $this->assertEquals($totalCount, $result->totalCount);
+        self::assertEquals($totalCount, $result->totalCount);
     }
 
     /**
@@ -247,7 +248,7 @@ class PureNegativeQueryTest extends BaseTest
 
         $result = $this->getRepository()->getSearchService()->findContentInfo($query);
 
-        $this->assertEquals($totalCount, $result->totalCount);
+        self::assertEquals($totalCount, $result->totalCount);
     }
 
     /**
@@ -266,7 +267,7 @@ class PureNegativeQueryTest extends BaseTest
 
         $result = $this->getRepository()->getSearchService()->findLocations($query);
 
-        $this->assertEquals($totalCount, $result->totalCount);
+        self::assertEquals($totalCount, $result->totalCount);
     }
 
     /**
@@ -285,7 +286,7 @@ class PureNegativeQueryTest extends BaseTest
 
         $result = $this->getRepository()->getSearchService()->findLocations($query);
 
-        $this->assertEquals($totalCount, $result->totalCount);
+        self::assertEquals($totalCount, $result->totalCount);
     }
 }
 

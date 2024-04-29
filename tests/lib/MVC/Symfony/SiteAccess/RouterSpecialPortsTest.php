@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -77,7 +78,7 @@ class RouterSpecialPortsTest extends RouterBaseTest
     public function testGetName()
     {
         $matcher = new PortMatcher(['port' => '8080', 'scheme' => 'http'], []);
-        $this->assertSame('port', $matcher->getName());
+        self::assertSame('port', $matcher->getName());
     }
 
     protected function createRouter(): Router

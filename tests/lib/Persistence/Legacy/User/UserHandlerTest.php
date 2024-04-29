@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\User;
 
 use DateInterval;
@@ -117,7 +118,7 @@ class UserHandlerTest extends TestCase
 
         $user = $this->getValidUser();
 
-        $this->assertEquals(
+        self::assertEquals(
             $user,
             $handler->load($user->id)
         );
@@ -153,7 +154,7 @@ class UserHandlerTest extends TestCase
         $user = $this->getValidUser();
 
         $loadedUser = $handler->loadByLogin($user->login);
-        $this->assertEquals(
+        self::assertEquals(
             $user,
             $loadedUser
         );
@@ -225,7 +226,7 @@ class UserHandlerTest extends TestCase
         $validUser = $this->getValidUser();
 
         $user = $handler->loadByEmail($validUser->email);
-        $this->assertEquals(
+        self::assertEquals(
             $validUser,
             $user
         );
@@ -245,7 +246,7 @@ class UserHandlerTest extends TestCase
         $user = $this->getValidUser();
 
         $users = $handler->loadUsersByEmail($user->email);
-        $this->assertEquals(
+        self::assertEquals(
             $user,
             $users[0]
         );
@@ -277,7 +278,7 @@ class UserHandlerTest extends TestCase
         $handler->updateUserToken($userToken);
 
         $loadedUser = $handler->loadUserByToken($userToken->hashKey);
-        $this->assertEquals(
+        self::assertEquals(
             $user,
             $loadedUser
         );
@@ -409,7 +410,7 @@ class UserHandlerTest extends TestCase
 
         $roleDraft = $handler->createRole($createStruct);
 
-        $this->assertSame(1, $roleDraft->id);
+        self::assertSame(1, $roleDraft->id);
     }
 
     public function testLoadRole()
@@ -423,7 +424,7 @@ class UserHandlerTest extends TestCase
         $handler->publishRoleDraft($roleDraft->id);
         $role = $handler->loadRole($roleDraft->id);
 
-        $this->assertEquals(
+        self::assertEquals(
             $roleDraft->id,
             $role->id
         );
@@ -446,7 +447,7 @@ class UserHandlerTest extends TestCase
         $handler->publishRoleDraft($roleDraft->id);
 
         $loaded = $handler->loadRole($roleDraft->id);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\Policy(
                     [
@@ -484,7 +485,7 @@ class UserHandlerTest extends TestCase
         $handler->publishRoleDraft($roleDraft->id);
 
         $loaded = $handler->loadRole($roleDraft->id);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\Policy(
                     [
@@ -522,7 +523,7 @@ class UserHandlerTest extends TestCase
         $handler->publishRoleDraft($roleDraft->id);
 
         $loaded = $handler->loadRole($roleDraft->id);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\Policy(
                     [
@@ -546,14 +547,14 @@ class UserHandlerTest extends TestCase
     {
         $handler = $this->getUserHandler();
 
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $handler->loadRoles()
         );
 
         $role = $this->createTestRole($handler);
 
-        $this->assertEquals(
+        self::assertEquals(
             [$role],
             $handler->loadRoles()
         );
@@ -664,7 +665,7 @@ class UserHandlerTest extends TestCase
 
         $policy = $handler->addPolicy($role->id, $policy);
 
-        $this->assertEquals(1, $policy->id);
+        self::assertEquals(1, $policy->id);
     }
 
     public function testAddPolicyLimitations()
@@ -919,7 +920,7 @@ class UserHandlerTest extends TestCase
         $policies = $handler->loadPoliciesByUserId(10); // Anonymous user
 
         // Verify, that we received an array of Policy objects
-        $this->assertTrue(
+        self::assertTrue(
             array_reduce(
                 array_map(
                     static function ($policy) {
@@ -933,7 +934,7 @@ class UserHandlerTest extends TestCase
                 true
             )
         );
-        $this->assertCount(8, $policies);
+        self::assertCount(8, $policies);
     }
 
     public function testLoadRoleAssignmentsByGroupId()
@@ -941,7 +942,7 @@ class UserHandlerTest extends TestCase
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\RoleAssignment(
                     [
@@ -961,7 +962,7 @@ class UserHandlerTest extends TestCase
             $handler->loadRoleAssignmentsByGroupId(11)// 11: Members
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\RoleAssignment(
                     [
@@ -974,7 +975,7 @@ class UserHandlerTest extends TestCase
             $handler->loadRoleAssignmentsByGroupId(42)// 42: Anonymous users
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $handler->loadRoleAssignmentsByGroupId(10)// 10: Anonymous User
         );
@@ -985,7 +986,7 @@ class UserHandlerTest extends TestCase
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\RoleAssignment(
                     [
@@ -1004,7 +1005,7 @@ class UserHandlerTest extends TestCase
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\RoleAssignment(
                     [
@@ -1035,7 +1036,7 @@ class UserHandlerTest extends TestCase
             $handler->loadRoleAssignmentsByGroupId(13)
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Persistence\User\RoleAssignment(
                     [

@@ -76,7 +76,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
      */
     public function testGenerateTag(array $arguments, string $resultKey): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             $resultKey,
             $this->cacheIdentifierGenerator->generateTag(...$arguments)
         );
@@ -89,7 +89,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->assertEquals(
+        self::assertEquals(
             $resultKey,
             $this->cacheIdentifierGenerator->generateTag(...$arguments)
         );
@@ -100,7 +100,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
      */
     public function testGenerateKey(array $arguments, string $resultKey): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             $resultKey,
             $this->cacheIdentifierGenerator->generateKey(...$arguments)
         );
@@ -113,7 +113,7 @@ final class CacheIdentifierGeneratorTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $this->assertEquals(
+        self::assertEquals(
             $resultKey,
             $this->cacheIdentifierGenerator->generateKey(...$arguments)
         );

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use function array_filter;
@@ -24,6 +25,7 @@ use Ibexa\Core\Repository\Values\User\UserReference;
  *  Test case for operations in the PermissionResolver.
  *
  * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver
+ *
  * @group integration
  * @group permission
  */
@@ -61,6 +63,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the setCurrentUserReference() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::setCurrentUserReference()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
     public function testSetCurrentUserReference()
@@ -88,12 +91,12 @@ class PermissionResolverTest extends BaseTest
         $permissionResolver->setCurrentUserReference($administratorUser);
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             $administratorUserId,
             $permissionResolver->getCurrentUserReference()->getUserId()
         );
 
-        $this->assertSame(
+        self::assertSame(
             $administratorUser,
             $permissionResolver->getCurrentUserReference()
         );
@@ -103,6 +106,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the hasAccess() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
     public function testHasAccessWithAnonymousUserNo()
@@ -126,13 +130,14 @@ class PermissionResolverTest extends BaseTest
         $hasAccess = $permissionResolver->hasAccess('content', 'remove', $anonymousUser);
         /* END: Use Case */
 
-        $this->assertFalse($hasAccess);
+        self::assertFalse($hasAccess);
     }
 
     /**
      * Test for the hasAccess() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends testHasAccessWithAnonymousUserNo
      */
@@ -160,13 +165,14 @@ class PermissionResolverTest extends BaseTest
         $hasAccess = $permissionResolver->hasAccess('content', 'remove');
         /* END: Use Case */
 
-        $this->assertFalse($hasAccess);
+        self::assertFalse($hasAccess);
     }
 
     /**
      * Test for the hasAccess() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      */
     public function testHasAccessWithAdministratorUser()
@@ -188,13 +194,14 @@ class PermissionResolverTest extends BaseTest
         $hasAccess = $permissionResolver->hasAccess('content', 'read', $administratorUser);
         /* END: Use Case */
 
-        $this->assertTrue($hasAccess);
+        self::assertTrue($hasAccess);
     }
 
     /**
      * Test for the hasAccess() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends testSetCurrentUserReference
      * @depends testHasAccessWithAdministratorUser
@@ -221,13 +228,14 @@ class PermissionResolverTest extends BaseTest
         $hasAccess = $permissionResolver->hasAccess('content', 'read');
         /* END: Use Case */
 
-        $this->assertTrue($hasAccess);
+        self::assertTrue($hasAccess);
     }
 
     /**
      * Test for the hasAccess() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends testSetCurrentUserReference
      */
@@ -248,16 +256,17 @@ class PermissionResolverTest extends BaseTest
         $permissionSets = $permissionResolver->hasAccess('content', 'read');
         /* END: Use Case */
 
-        $this->assertIsArray(
+        self::assertIsArray(
             $permissionSets
         );
-        $this->assertNotEmpty($permissionSets);
+        self::assertNotEmpty($permissionSets);
     }
 
     /**
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessForCurrentUserNo
@@ -304,6 +313,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessForCurrentUserYes
@@ -341,7 +351,7 @@ class PermissionResolverTest extends BaseTest
         $contentService->deleteContent($contentInfo);
         /* END: Use Case */
 
-        $this->assertTrue($canUser);
+        self::assertTrue($canUser);
         $contentService->loadContent($homeId);
     }
 
@@ -349,6 +359,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessLimited
@@ -378,13 +389,14 @@ class PermissionResolverTest extends BaseTest
         $canUser = $permissionResolver->canUser('content', 'read', $imagesFolder);
         /* END: Use Case */
 
-        $this->assertTrue($canUser);
+        self::assertTrue($canUser);
     }
 
     /**
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends testHasAccessLimited
@@ -429,6 +441,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
      * @depends testSetCurrentUserReference
@@ -468,6 +481,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
@@ -518,8 +532,8 @@ class PermissionResolverTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertTrue($canUser);
-        $this->assertEquals(
+        self::assertTrue($canUser);
+        self::assertEquals(
             'My awesome forums',
             $contentDraft->getFieldValue('title')->text
         );
@@ -529,6 +543,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
@@ -589,6 +604,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
@@ -640,8 +656,8 @@ class PermissionResolverTest extends BaseTest
         $contentDraft = $contentService->createContent($contentCreateStruct, $locationCreateStructs);
         /* END: Use Case */
 
-        $this->assertTrue($canUser);
-        $this->assertEquals(
+        self::assertTrue($canUser);
+        self::assertEquals(
             'My multipurpose folder',
             $contentDraft->getFieldValue('name')->text
         );
@@ -651,6 +667,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
@@ -712,6 +729,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the canUser() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentTypeService
@@ -766,7 +784,7 @@ class PermissionResolverTest extends BaseTest
     {
         $this->expectException(BadStateException::class);
 
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Cannot be tested on current fixture since policy with unsupported limitation value is not available.'
         );
     }
@@ -881,6 +899,7 @@ class PermissionResolverTest extends BaseTest
      * Test for the lookupLimitations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserNo
@@ -916,15 +935,16 @@ class PermissionResolverTest extends BaseTest
         $lookupLimitations = $permissionResolver->lookupLimitations('content', 'remove', $contentInfo);
         /* END: Use Case */
 
-        $this->assertFalse($lookupLimitations->hasAccess);
-        $this->assertEquals($lookupLimitations->roleLimitations, []);
-        $this->assertEquals($lookupLimitations->lookupPolicyLimitations, []);
+        self::assertFalse($lookupLimitations->hasAccess);
+        self::assertEquals($lookupLimitations->roleLimitations, []);
+        self::assertEquals($lookupLimitations->lookupPolicyLimitations, []);
     }
 
     /**
      * Test for the lookupLimitations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserYes
@@ -957,15 +977,16 @@ class PermissionResolverTest extends BaseTest
         $lookupLimitations = $permissionResolver->lookupLimitations('content', 'remove', $contentInfo);
         /* END: Use Case */
 
-        $this->assertTrue($lookupLimitations->hasAccess);
-        $this->assertEquals($lookupLimitations->roleLimitations, []);
-        $this->assertEquals($lookupLimitations->lookupPolicyLimitations, []);
+        self::assertTrue($lookupLimitations->hasAccess);
+        self::assertEquals($lookupLimitations->roleLimitations, []);
+        self::assertEquals($lookupLimitations->lookupPolicyLimitations, []);
     }
 
     /**
      * When one of policy pass then all limitation should be returned.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserYes
@@ -1027,6 +1048,7 @@ class PermissionResolverTest extends BaseTest
      * When one of policy pass then only filtered limitation should be returned.
      *
      * @covers \Ibexa\Contracts\Core\Repository\PermissionResolver::lookupLimitations()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetUserService
      * @depends Ibexa\Tests\Integration\Core\Repository\RepositoryTest::testGetContentService
      * @depends Ibexa\Tests\Integration\Core\Repository\PermissionResolverTest::testHasAccessForCurrentUserYes

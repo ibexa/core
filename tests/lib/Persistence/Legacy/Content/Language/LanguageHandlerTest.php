@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
@@ -45,32 +46,32 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('createLanguageFromCreateStruct')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     SPILanguageCreateStruct::class
                 )
-            )->will($this->returnValue(new Language()));
+            )->will(self::returnValue(new Language()));
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('insertLanguage')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Language::class
                 )
-            )->will($this->returnValue(2));
+            )->will(self::returnValue(2));
 
         $createStruct = $this->getCreateStructFixture();
 
         $result = $handler->create($createStruct);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Language::class,
             $result
         );
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $result->id
         );
@@ -91,9 +92,9 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('updateLanguage')
-            ->with($this->isInstanceOf(Language::class));
+            ->with(self::isInstanceOf(Language::class));
 
         $handler->update($this->getLanguageFixture());
     }
@@ -114,19 +115,19 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadLanguageListData')
-            ->with($this->equalTo([2]))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo([2]))
+            ->will(self::returnValue([]));
 
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractLanguagesFromRows')
-            ->with($this->equalTo([]))
-            ->will($this->returnValue([new Language()]));
+            ->with(self::equalTo([]))
+            ->will(self::returnValue([new Language()]));
 
         $result = $handler->load(2);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Language::class,
             $result
         );
@@ -140,16 +141,16 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadLanguageListData')
-            ->with($this->equalTo([2]))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo([2]))
+            ->will(self::returnValue([]));
 
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractLanguagesFromRows')
-            ->with($this->equalTo([]))
+            ->with(self::equalTo([]))
             // No language extracted
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $result = $handler->load(2);
     }
@@ -160,19 +161,19 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadLanguageListDataByLanguageCode')
-            ->with($this->equalTo(['eng-US']))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo(['eng-US']))
+            ->will(self::returnValue([]));
 
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractLanguagesFromRows')
-            ->with($this->equalTo([]))
-            ->will($this->returnValue([new Language()]));
+            ->with(self::equalTo([]))
+            ->will(self::returnValue([new Language()]));
 
         $result = $handler->loadByLanguageCode('eng-US');
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Language::class,
             $result
         );
@@ -186,16 +187,16 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadLanguageListDataByLanguageCode')
-            ->with($this->equalTo(['eng-US']))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo(['eng-US']))
+            ->will(self::returnValue([]));
 
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractLanguagesFromRows')
-            ->with($this->equalTo([]))
+            ->with(self::equalTo([]))
             // No language extracted
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $result = $handler->loadByLanguageCode('eng-US');
     }
@@ -206,18 +207,18 @@ class LanguageHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadAllLanguagesData')
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractLanguagesFromRows')
-            ->with($this->equalTo([]))
-            ->will($this->returnValue([new Language()]));
+            ->with(self::equalTo([]))
+            ->will(self::returnValue([new Language()]));
 
         $result = $handler->loadAll();
 
-        $this->assertIsArray(
+        self::assertIsArray(
             $result
         );
     }
@@ -227,13 +228,13 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('canDeleteLanguage')
-            ->with($this->equalTo(2))
-            ->will($this->returnValue(true));
-        $gatewayMock->expects($this->once())
+            ->with(self::equalTo(2))
+            ->will(self::returnValue(true));
+        $gatewayMock->expects(self::once())
             ->method('deleteLanguage')
-            ->with($this->equalTo(2));
+            ->with(self::equalTo(2));
 
         $result = $handler->delete(2);
     }
@@ -245,11 +246,11 @@ class LanguageHandlerTest extends TestCase
         $handler = $this->getLanguageHandler();
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('canDeleteLanguage')
-            ->with($this->equalTo(2))
-            ->will($this->returnValue(false));
-        $gatewayMock->expects($this->never())
+            ->with(self::equalTo(2))
+            ->will(self::returnValue(false));
+        $gatewayMock->expects(self::never())
             ->method('deleteLanguage');
 
         $result = $handler->delete(2);

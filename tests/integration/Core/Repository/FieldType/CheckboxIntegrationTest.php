@@ -322,6 +322,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
 
     /**
      * @dataProvider getDataForTestFindContentFieldCriterion
+     *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException

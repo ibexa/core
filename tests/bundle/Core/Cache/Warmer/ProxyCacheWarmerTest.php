@@ -28,13 +28,13 @@ final class ProxyCacheWarmerTest extends TestCase
 
     public function testIsOptional(): void
     {
-        $this->assertFalse($this->proxyCacheWarmer->isOptional());
+        self::assertFalse($this->proxyCacheWarmer->isOptional());
     }
 
     public function testWarmUp(): void
     {
         $this->proxyGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('warmUp')
             ->with(ProxyCacheWarmer::PROXY_CLASSES);
 

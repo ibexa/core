@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -33,13 +34,13 @@ class AnonymousAuthenticationProviderTest extends TestCase
     {
         $anonymousUserId = 10;
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('anonymous_user_id')
-            ->will($this->returnValue($anonymousUserId));
+            ->will(self::returnValue($anonymousUserId));
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setCurrentUserReference')
             ->with(new UserReference($anonymousUserId));
 
@@ -51,7 +52,7 @@ class AnonymousAuthenticationProviderTest extends TestCase
             ->getMockBuilder(AnonymousToken::class)
             ->setConstructorArgs([$key, $this->createMock(UserInterface::class)])
             ->getMockForAbstractClass();
-        $this->assertSame($anonymousToken, $authProvider->authenticate($anonymousToken));
+        self::assertSame($anonymousToken, $authProvider->authenticate($anonymousToken));
     }
 }
 

@@ -107,7 +107,7 @@ class SiteAccessServiceTest extends TestCase
             ->method('getSiteAccesses')
             ->willReturn($this->availableSiteAccesses);
 
-        $this->assertSame(['current', 'first_sa'], $this->getSiteAccessService()->getSiteAccessesRelation());
+        self::assertSame(['current', 'first_sa'], $this->getSiteAccessService()->getSiteAccessesRelation());
     }
 
     public function testGetFirstSiteAccessesRelation(): void
@@ -120,7 +120,7 @@ class SiteAccessServiceTest extends TestCase
             ->method('getSiteAccesses')
             ->willReturn($this->availableSiteAccesses);
 
-        $this->assertSame(
+        self::assertSame(
             ['current', 'first_sa'],
             $this->getSiteAccessService()->getSiteAccessesRelation(new SiteAccess('first_sa'))
         );

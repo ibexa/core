@@ -10,6 +10,7 @@ namespace Ibexa\Contracts\Core\Test;
 
 /**
  * @internal
+ *
  * @experimental
  */
 interface IbexaTestKernelInterface

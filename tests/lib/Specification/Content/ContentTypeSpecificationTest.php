@@ -28,7 +28,7 @@ final class ContentTypeSpecificationTest extends TestCase
             self::EXISTING_CONTENT_TYPE_IDENTIFIER
         );
 
-        $this->assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
+        self::assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
     }
 
     public function testConstructorWithNotExistingContentTypeIdentifier(): void
@@ -37,7 +37,7 @@ final class ContentTypeSpecificationTest extends TestCase
             self::NOT_EXISTING_CONTENT_TYPE_IDENTIFIER
         );
 
-        $this->assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
+        self::assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
     }
 
     /**
@@ -59,11 +59,11 @@ final class ContentTypeSpecificationTest extends TestCase
             ->getMockForAbstractClass();
 
         $contentMock = $this->createMock(Content::class);
-        $contentMock->expects($this->once())
+        $contentMock->expects(self::once())
             ->method('getContentType')
             ->willReturn($contentTypeMock);
 
-        $this->assertEquals(
+        self::assertEquals(
             $contentTypeSpecification->isSatisfiedBy($contentMock),
             $shouldBeSatisfied
         );

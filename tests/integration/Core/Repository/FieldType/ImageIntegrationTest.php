@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Doctrine\DBAL\ParameterType;
@@ -328,7 +329,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     {
         $this->assertFieldDataLoadedCorrect($field);
 
-        $this->assertEquals(
+        self::assertEquals(
             self::$loadedImagePath,
             $field->value->id
         );
@@ -461,12 +462,12 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
             }
         }
 
-        $this->assertTrue(
+        self::assertTrue(
             isset($paths['eng-US']) && isset($paths['ger-DE']),
             'Failed asserting that file path for all languages were found in draft'
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $paths['eng-US'],
             $paths['ger-DE']
         );
@@ -625,7 +626,7 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
     protected function checkSearchEngineSupport(): void
     {
         if ($this->getSetupFactory() instanceof Legacy) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 "'ezimage' field type is not searchable with Legacy Search Engine"
             );
         }

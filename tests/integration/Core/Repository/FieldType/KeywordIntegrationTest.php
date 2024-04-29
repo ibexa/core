@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -144,12 +145,12 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             KeywordValue::class,
             $field->value
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             ['foo' => true, 'bar' => true, 'sindelfingen' => true],
             array_fill_keys($field->value->values, true)
         );
@@ -188,12 +189,12 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             KeywordValue::class,
             $field->value
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             ['bielefeld' => true],
             array_fill_keys($field->value->values, true)
         );
@@ -214,12 +215,12 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             KeywordValue::class,
             $field->value
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             ['foo' => true, 'bar' => true, 'sindelfingen' => true],
             array_fill_keys($field->value->values, true)
         );
@@ -367,7 +368,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $dataField = $loadedContent->getField('data');
         sort($dataField->value->values);
         sort($value->values);
-        $this->assertEquals($value, $dataField->value);
+        self::assertEquals($value, $dataField->value);
     }
 
     /**
@@ -393,7 +394,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         // go back to the first version and check whether keywords are correct
         $contentDraft03 = $contentService->createContentDraft($publishedContent01->contentInfo, $contentDraft01->versionInfo);
         $contentService->deleteContent($publishedContent01->contentInfo);
-        $this->assertEqualsCanonicalizing($contentDraft03->getFieldValue('data'), $value01);
+        self::assertEqualsCanonicalizing($contentDraft03->getFieldValue('data'), $value01);
     }
 
     public function testKeywordsAreCaseSensitive()
@@ -403,12 +404,12 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $publishedContent02 = $this->createAndPublishContent('foo', $contentType, md5(uniqid(__METHOD__, true)));
 
         $data = $publishedContent01->getField('data')->value;
-        $this->assertCount(1, $data->values);
-        $this->assertEquals('Foo', $data->values[0]);
+        self::assertCount(1, $data->values);
+        self::assertEquals('Foo', $data->values[0]);
 
         $data = $publishedContent02->getField('data')->value;
-        $this->assertCount(1, $data->values);
-        $this->assertEquals('foo', $data->values[0]);
+        self::assertCount(1, $data->values);
+        self::assertEquals('foo', $data->values[0]);
     }
 
     /**
@@ -588,7 +589,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         $searchService = $repository->getSearchService();
         $searchResult = $searchService->findContent($query);
 
-        $this->assertEquals(1, $searchResult->totalCount);
+        self::assertEquals(1, $searchResult->totalCount);
     }
 }
 

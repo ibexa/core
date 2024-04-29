@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator;
@@ -27,7 +28,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
     {
         $configResolver = $this->createMock(ConfigResolverInterface::class);
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('io.binarydata_handler')
             ->willReturn(self::BINARY_HANDLER_NAME);
@@ -36,7 +37,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
 
         $providerRegistry = $this->createMock(PlaceholderProviderRegistry::class);
         $providerRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getProvider')
             ->with(self::PROVIDER_TYPE)
             ->willReturn($provider);
@@ -50,7 +51,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
 
         $generator = $this->createMock(PlaceholderAliasGenerator::class);
         $generator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setPlaceholderProvider')
             ->with($provider, self::PROVIDER_OPTIONS);
 

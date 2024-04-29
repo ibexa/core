@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\Events\Notification\BeforeCreateNotificationEvent;
@@ -39,12 +40,12 @@ class NotificationServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($notification, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($notification, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateNotificationEvent::class, 0],
             [CreateNotificationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateNotificationResultInBeforeEvents()
@@ -72,13 +73,13 @@ class NotificationServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventNotification, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventNotification, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateNotificationEvent::class, 10],
             [BeforeCreateNotificationEvent::class, 0],
             [CreateNotificationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateNotificationStopPropagationInBeforeEvents()
@@ -108,11 +109,11 @@ class NotificationServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventNotification, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventNotification, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateNotificationEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateNotificationEvent::class, 0],
             [CreateNotificationEvent::class, 0],
         ]);
@@ -136,11 +137,11 @@ class NotificationServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteNotificationEvent::class, 0],
             [DeleteNotificationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteNotificationStopPropagationInBeforeEvents()
@@ -166,10 +167,10 @@ class NotificationServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteNotificationEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteNotificationEvent::class, 0],
             [DeleteNotificationEvent::class, 0],
         ]);
@@ -193,11 +194,11 @@ class NotificationServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeMarkNotificationAsReadEvent::class, 0],
             [MarkNotificationAsReadEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testMarkNotificationAsReadStopPropagationInBeforeEvents()
@@ -223,10 +224,10 @@ class NotificationServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeMarkNotificationAsReadEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeMarkNotificationAsReadEvent::class, 0],
             [MarkNotificationAsReadEvent::class, 0],
         ]);

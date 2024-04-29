@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\SessionInitByPostListener;
@@ -30,7 +31,7 @@ class SessionInitByPostListenerTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 MVCEvents::SITEACCESS => ['onSiteAccessMatch', 249],
             ],
@@ -45,14 +46,14 @@ class SessionInitByPostListenerTest extends TestCase
 
         $event = new PostSiteAccessMatchEvent(new SiteAccess('test'), $request, HttpKernelInterface::MAIN_REQUEST);
         $listener = new SessionInitByPostListener();
-        $this->assertNull($listener->onSiteAccessMatch($event));
+        self::assertNull($listener->onSiteAccessMatch($event));
     }
 
     public function testOnSiteAccessMatchSubRequest()
     {
         $session = $this->createMock(SessionInterface::class);
         $session
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getName');
 
         $request = new Request();
@@ -69,16 +70,16 @@ class SessionInitByPostListenerTest extends TestCase
         $session = $this->createMock(SessionInterface::class);
         $session
             ->method('getName')
-            ->will($this->returnValue($sessionName));
+            ->will(self::returnValue($sessionName));
         $session
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isStarted')
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
         $session
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('setId');
         $session
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('start');
 
         $request = new Request();
@@ -97,17 +98,17 @@ class SessionInitByPostListenerTest extends TestCase
 
         $session
             ->method('getName')
-            ->will($this->returnValue($sessionName));
+            ->will(self::returnValue($sessionName));
         $session
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isStarted')
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
         $session
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setId')
             ->with($sessionId);
         $session
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('start');
 
         $request = new Request();

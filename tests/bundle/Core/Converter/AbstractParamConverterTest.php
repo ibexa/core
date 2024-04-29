@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Converter;
 
 use PHPUnit\Framework\TestCase;
@@ -20,14 +21,14 @@ abstract class AbstractParamConverterTest extends TestCase
             ->getMock();
 
         if ($name !== null) {
-            $config->expects($this->any())
+            $config->expects(self::any())
                 ->method('getName')
-                ->will($this->returnValue($name));
+                ->will(self::returnValue($name));
         }
         if ($class !== null) {
-            $config->expects($this->any())
+            $config->expects(self::any())
                 ->method('getClass')
-                ->will($this->returnValue($class));
+                ->will(self::returnValue($class));
         }
 
         return $config;

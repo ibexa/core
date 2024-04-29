@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
@@ -16,8 +17,8 @@ class RouteReferenceTest extends TestCase
         $route = 'my_route';
         $params = ['foo' => 'bar', 'some' => 'thing'];
         $reference = new RouteReference($route, $params);
-        $this->assertSame($route, $reference->getRoute());
-        $this->assertSame($params, $reference->getParams());
+        self::assertSame($route, $reference->getRoute());
+        self::assertSame($params, $reference->getParams());
     }
 
     public function testGetSetRoute()
@@ -26,41 +27,41 @@ class RouteReferenceTest extends TestCase
         $newRoute = 'bar';
 
         $reference = new RouteReference($initialRoute);
-        $this->assertSame($initialRoute, $reference->getRoute());
+        self::assertSame($initialRoute, $reference->getRoute());
         $reference->setRoute($newRoute);
-        $this->assertSame($newRoute, $reference->getRoute());
+        self::assertSame($newRoute, $reference->getRoute());
     }
 
     public function testGetSetParams()
     {
         $reference = new RouteReference('foo');
-        $this->assertSame([], $reference->getParams());
+        self::assertSame([], $reference->getParams());
 
         $reference->set('foo', 'bar');
-        $this->assertSame('bar', $reference->get('foo'));
+        self::assertSame('bar', $reference->get('foo'));
         $obj = new \stdClass();
         $reference->set('object', $obj);
-        $this->assertSame($obj, $reference->get('object'));
+        self::assertSame($obj, $reference->get('object'));
         $reference->set('bool', true);
-        $this->assertTrue($reference->get('bool'));
-        $this->assertSame(
+        self::assertTrue($reference->get('bool'));
+        self::assertSame(
             ['foo' => 'bar', 'object' => $obj, 'bool' => true],
             $reference->getParams()
         );
 
         $defaultValue = 'http://www.phoenix-rises.fm';
-        $this->assertSame($defaultValue, $reference->get('url', $defaultValue));
+        self::assertSame($defaultValue, $reference->get('url', $defaultValue));
     }
 
     public function testRemoveParam()
     {
         $reference = new RouteReference('foo');
         $reference->set('foo', 'bar');
-        $this->assertTrue($reference->has('foo'));
-        $this->assertSame('bar', $reference->get('foo'));
+        self::assertTrue($reference->has('foo'));
+        self::assertSame('bar', $reference->get('foo'));
 
         $reference->remove('foo');
-        $this->assertFalse($reference->has('foo'));
+        self::assertFalse($reference->has('foo'));
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper\FieldsGroups;
 
 use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
@@ -20,14 +21,14 @@ class RepositoryConfigFieldsGroupsListFactoryTest extends TestCase
     public function testBuild()
     {
         $this->getRepositoryConfigMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRepositoryConfig')
             ->willReturn(['fields_groups' => ['list' => ['group_a', 'group_b'], 'default' => 'group_a']]);
 
         $this->getTranslatorMock()
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('trans')
-            ->will($this->returnArgument(0));
+            ->will(self::returnArgument(0));
 
         $factory = new RepositoryConfigFieldsGroupsListFactory($this->getRepositoryConfigMock());
         $list = $factory->build($this->getTranslatorMock());

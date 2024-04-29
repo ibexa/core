@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -11,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -61,7 +63,7 @@ class NewSectionLimitationTest extends BaseLimitationTest
         );
         /* END: Use Case */
 
-        $this->assertSame(
+        self::assertSame(
             $sectionId,
             $contentService->loadContentInfo($contentId)->getSectionId()
         );

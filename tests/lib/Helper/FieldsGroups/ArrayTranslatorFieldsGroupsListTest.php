@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper\FieldsGroups;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -58,7 +59,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
 
         $arrayTranslatorFieldsGroupsList = $this->getArrayTranslatorFieldsGroupsList();
 
-        $this->assertSame(
+        self::assertSame(
             $fieldDefinitionMock->fieldGroup,
             $arrayTranslatorFieldsGroupsList->getFieldGroup($fieldDefinitionMock)
         );
@@ -70,7 +71,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
 
         $arrayTranslatorFieldsGroupsList = $this->getArrayTranslatorFieldsGroupsList();
 
-        $this->assertSame(
+        self::assertSame(
             self::DEFAULT_GROUP_ID,
             $arrayTranslatorFieldsGroupsList->getFieldGroup($fieldDefinitionMock)
         );
@@ -79,9 +80,9 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     public function testUsesIdentifierIfNoTranslation(): void
     {
         $this->getTranslatorMock()
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('trans')
-            ->will($this->returnArgument(0));
+            ->will(self::returnArgument(0));
 
         $list = $this->getArrayTranslatorFieldsGroupsList();
 
@@ -120,10 +121,10 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     private function applyTranslationsForTranslationsMock(): void
     {
         $this->getTranslatorMock()
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('trans')
             ->will(
-                $this->returnValueMap([
+                self::returnValueMap([
                     [self::FIRST_GROUP_ID, [], 'ibexa_fields_groups', null, self::FIRST_GROUP_NAME],
                     [self::SECOND_GROUP_ID, [], 'ibexa_fields_groups', null, self::SECOND_GROUP_NAME],
                 ])

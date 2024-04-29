@@ -51,15 +51,15 @@ abstract class AbstractViewTest extends TestCase
         $additionalParams = ['truc' => 'muche', 'laurel' => 'hardy'];
         $view->addParameters($additionalParams);
 
-        $this->assertSame($this->getAlwaysAvailableParams() + $params + $additionalParams, $view->getParameters());
+        self::assertSame($this->getAlwaysAvailableParams() + $params + $additionalParams, $view->getParameters());
     }
 
     public function testHasParameter(): View
     {
         $view = $this->createViewUnderTest(__METHOD__, ['foo' => 'bar']);
 
-        $this->assertTrue($view->hasParameter('foo'));
-        $this->assertFalse($view->hasParameter('nonExistent'));
+        self::assertTrue($view->hasParameter('foo'));
+        self::assertFalse($view->hasParameter('nonExistent'));
 
         return $view;
     }
@@ -69,7 +69,7 @@ abstract class AbstractViewTest extends TestCase
      */
     public function testGetParameter(View $view): View
     {
-        $this->assertSame('bar', $view->getParameter('foo'));
+        self::assertSame('bar', $view->getParameter('foo'));
 
         return $view;
     }
@@ -94,7 +94,7 @@ abstract class AbstractViewTest extends TestCase
         $contentView = $this->createViewUnderTest();
         $contentView->setTemplateIdentifier($templateIdentifier);
 
-        $this->assertSame($templateIdentifier, $contentView->getTemplateIdentifier());
+        self::assertSame($templateIdentifier, $contentView->getTemplateIdentifier());
     }
 
     public function goodTemplateIdentifierProvider(): array

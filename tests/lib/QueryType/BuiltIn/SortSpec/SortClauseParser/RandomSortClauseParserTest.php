@@ -42,7 +42,7 @@ final class RandomSortClauseParserTest extends TestCase
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);
 
-        $this->assertEquals(
+        self::assertEquals(
             new Random(self::EXAMPLE_SEED, Query::SORT_ASC),
             $this->randomSortClauseParser->parse($parser, 'random')
         );
@@ -50,7 +50,7 @@ final class RandomSortClauseParserTest extends TestCase
 
     public function testSupports(): void
     {
-        $this->assertTrue($this->randomSortClauseParser->supports('random'));
+        self::assertTrue($this->randomSortClauseParser->supports('random'));
     }
 }
 

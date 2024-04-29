@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
@@ -49,10 +50,10 @@ class FieldHelperTest extends TestCase
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);
         $content = $this->createMock(APIContent::class);
         $content
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('__get')
             ->with('contentInfo')
-            ->will($this->returnValue($contentInfo));
+            ->will(self::returnValue($contentInfo));
 
         $fieldDefIdentifier = 'my_field_definition';
         $textLineFT = new TextLineType();
@@ -64,29 +65,29 @@ class FieldHelperTest extends TestCase
             ->setConstructorArgs([['fieldTypeIdentifier' => 'ezstring']])
             ->getMockForAbstractClass();
         $contentType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFieldDefinition')
             ->with($fieldDefIdentifier)
-            ->will($this->returnValue($fieldDefinition));
+            ->will(self::returnValue($fieldDefinition));
 
         $content
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getContentType')
             ->willReturn($contentType);
 
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslatedField')
             ->with($content, $fieldDefIdentifier)
-            ->will($this->returnValue($emptyField));
+            ->will(self::returnValue($emptyField));
 
         $this->fieldTypeServiceMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getFieldType')
             ->with('ezstring')
-            ->will($this->returnValue(new FieldType($textLineFT)));
+            ->will(self::returnValue(new FieldType($textLineFT)));
 
-        $this->assertTrue($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
+        self::assertTrue($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }
 
     public function testIsFieldNotEmpty()
@@ -95,10 +96,10 @@ class FieldHelperTest extends TestCase
         $contentInfo = new ContentInfo(['contentTypeId' => $contentTypeId]);
         $content = $this->createMock(APIContent::class);
         $content
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('__get')
             ->with('contentInfo')
-            ->will($this->returnValue($contentInfo));
+            ->will(self::returnValue($contentInfo));
 
         $fieldDefIdentifier = 'my_field_definition';
         $textLineFT = new TextLineType();
@@ -110,29 +111,29 @@ class FieldHelperTest extends TestCase
             ->setConstructorArgs([['fieldTypeIdentifier' => 'ezstring']])
             ->getMockForAbstractClass();
         $contentType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFieldDefinition')
             ->with($fieldDefIdentifier)
-            ->will($this->returnValue($fieldDefinition));
+            ->will(self::returnValue($fieldDefinition));
 
         $content
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getContentType')
             ->willReturn($contentType);
 
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslatedField')
             ->with($content, $fieldDefIdentifier)
-            ->will($this->returnValue($emptyField));
+            ->will(self::returnValue($emptyField));
 
         $this->fieldTypeServiceMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getFieldType')
             ->with('ezstring')
-            ->will($this->returnValue(new FieldType($textLineFT)));
+            ->will(self::returnValue(new FieldType($textLineFT)));
 
-        $this->assertFalse($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
+        self::assertFalse($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser;
@@ -17,7 +18,7 @@ class DynamicSettingParserTest extends TestCase
     public function testIsDynamicSetting($setting, $expected)
     {
         $parser = new DynamicSettingParser();
-        $this->assertSame($expected, $parser->isDynamicSetting($setting));
+        self::assertSame($expected, $parser->isDynamicSetting($setting));
     }
 
     public function isDynamicSettingProvider()
@@ -53,7 +54,7 @@ class DynamicSettingParserTest extends TestCase
     public function testParseDynamicSetting($setting, array $expected)
     {
         $parser = new DynamicSettingParser();
-        $this->assertSame($expected, $parser->parseDynamicSetting($setting));
+        self::assertSame($expected, $parser->parseDynamicSetting($setting));
     }
 
     public function parseDynamicSettingProvider()

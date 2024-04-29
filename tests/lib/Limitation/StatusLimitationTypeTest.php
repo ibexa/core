@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
@@ -56,6 +57,7 @@ class StatusLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestAcceptValue
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation $limitation
@@ -79,6 +81,7 @@ class StatusLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestAcceptValueException
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
@@ -147,6 +150,7 @@ class StatusLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestValidateError
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation $limitation
@@ -183,13 +187,13 @@ class StatusLimitationTypeTest extends Base
 
         if ($shouldBeCalled) {
             $versionInfoMock
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('__get')
                 ->with('status')
-                ->will($this->returnValue(24));
+                ->will(self::returnValue(24));
         } else {
             $versionInfoMock
-                ->expects($this->never())
+                ->expects(self::never())
                 ->method('__get')
                 ->with('status');
         }
@@ -205,9 +209,9 @@ class StatusLimitationTypeTest extends Base
             ->getMock();
 
         $contentMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVersionInfo')
-            ->will($this->returnValue($this->getVersionInfoMock()));
+            ->will(self::returnValue($this->getVersionInfoMock()));
 
         return $contentMock;
     }
@@ -259,6 +263,7 @@ class StatusLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestEvaluate
      */
     public function testEvaluate(
@@ -268,8 +273,8 @@ class StatusLimitationTypeTest extends Base
         StatusLimitationType $limitationType
     ) {
         $userMock = $this->getUserMock();
-        $userMock->expects($this->never())
-            ->method($this->anything());
+        $userMock->expects(self::never())
+            ->method(self::anything());
 
         $userMock = new User();
         $value = $limitationType->evaluate(
@@ -308,6 +313,7 @@ class StatusLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestEvaluateInvalidArgument
      */
     public function testEvaluateInvalidArgument(
@@ -318,7 +324,7 @@ class StatusLimitationTypeTest extends Base
         $this->expectException(InvalidArgumentException::class);
 
         $userMock = $this->getUserMock();
-        $userMock->expects($this->never())->method($this->anything());
+        $userMock->expects(self::never())->method(self::anything());
 
         $userMock = new User();
         $limitationType->evaluate(

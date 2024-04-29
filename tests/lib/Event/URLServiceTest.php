@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\Events\URL\BeforeUpdateUrlEvent;
@@ -36,12 +37,12 @@ class URLServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($updatedUrl, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($updatedUrl, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateUrlEvent::class, 0],
             [UpdateUrlEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnUpdateUrlResultInBeforeEvents()
@@ -70,13 +71,13 @@ class URLServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUpdatedUrl, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedUrl, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateUrlEvent::class, 10],
             [BeforeUpdateUrlEvent::class, 0],
             [UpdateUrlEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testUpdateUrlStopPropagationInBeforeEvents()
@@ -107,11 +108,11 @@ class URLServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUpdatedUrl, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedUrl, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateUrlEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeUpdateUrlEvent::class, 0],
             [UpdateUrlEvent::class, 0],
         ]);

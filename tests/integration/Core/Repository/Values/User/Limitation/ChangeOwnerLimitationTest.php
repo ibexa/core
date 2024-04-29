@@ -21,6 +21,7 @@ use RuntimeException;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ChangeOwnerLimitation
+ *
  * @group integration
  * @group limitation
  */

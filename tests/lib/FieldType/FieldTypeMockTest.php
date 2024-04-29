@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -48,10 +49,10 @@ class FieldTypeMockTest extends TestCase
         );
 
         $stub
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getSettingsSchema')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'true' => [
                             'default' => true,
@@ -87,7 +88,7 @@ class FieldTypeMockTest extends TestCase
 
         $fieldSettings = $initialSettings;
         $stub->applyDefaultSettings($fieldSettings);
-        $this->assertSame(
+        self::assertSame(
             $expectedSettings,
             $fieldSettings
         );
@@ -191,15 +192,15 @@ class FieldTypeMockTest extends TestCase
         );
 
         $stub
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getValidatorConfigurationSchema')
             ->will(
-                $this->returnValue([])
+                self::returnValue([])
             );
 
         $validatorConfiguration = null;
         $stub->applyDefaultValidatorConfiguration($validatorConfiguration);
-        $this->assertNull(
+        self::assertNull(
             $validatorConfiguration
         );
     }
@@ -221,10 +222,10 @@ class FieldTypeMockTest extends TestCase
         );
 
         $stub
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getValidatorConfigurationSchema')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'TestValidator' => [
                             'valueClick' => [
@@ -240,7 +241,7 @@ class FieldTypeMockTest extends TestCase
 
         $validatorConfiguration = $initialConfiguration;
         $stub->applyDefaultValidatorConfiguration($validatorConfiguration);
-        $this->assertSame(
+        self::assertSame(
             $expectedConfiguration,
             $validatorConfiguration
         );

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
@@ -48,8 +49,8 @@ class EZP26327UrlAliasHistorizationTest extends BaseTest
         $activeAlias = $urlAliasService->lookup('/name-gb');
         $historyAlias = $urlAliasService->lookup('/name-us');
 
-        $this->assertFalse($activeAlias->isHistory);
-        $this->assertTrue($historyAlias->isHistory);
+        self::assertFalse($activeAlias->isHistory);
+        self::assertTrue($historyAlias->isHistory);
     }
 }
 

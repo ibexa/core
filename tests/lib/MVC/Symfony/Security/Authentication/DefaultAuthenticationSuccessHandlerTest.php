@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -36,15 +37,15 @@ class DefaultAuthenticationSuccessHandlerTest extends TestCase
         $refOptions = $refHandler->getProperty('options');
         $refOptions->setAccessible(true);
         $options = $refOptions->getValue($successHandler);
-        $this->assertSame('/', $options['default_target_path']);
+        self::assertSame('/', $options['default_target_path']);
 
         $defaultPage = '/foo/bar';
         $configResolver = $this->createMock(ConfigResolverInterface::class);
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('default_page')
-            ->will($this->returnValue($defaultPage));
+            ->will(self::returnValue($defaultPage));
         $successHandler->setConfigResolver($configResolver);
         $successHandler->setEventDispatcher($this->createMock(EventDispatcherInterface::class));
 
@@ -59,7 +60,7 @@ class DefaultAuthenticationSuccessHandlerTest extends TestCase
 
         $successHandler->onAuthenticationSuccess($request, $this->createMock(TokenInterface::class));
         $options = $refOptions->getValue($successHandler);
-        $this->assertSame($defaultPage, $options['default_target_path']);
+        self::assertSame($defaultPage, $options['default_target_path']);
     }
 }
 

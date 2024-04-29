@@ -13,6 +13,7 @@ namespace Ibexa\Contracts\Core\Collection;
  * @template TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValue>
+ *
  * @template-implements \Ibexa\Contracts\Core\Collection\MutableMapInterface<TKey,TValue>
  */
 class MutableArrayMap extends ArrayMap implements MutableMapInterface

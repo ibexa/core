@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -13,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -50,7 +52,7 @@ class SubtreeLimitationTest extends BaseLimitationTest
         $userService->updateUserGroup($userGroup, $groupUpdate);
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             'Ibexa Editors',
             $userService->loadUserGroup($userGroupId)
                 ->getFieldValue('name')

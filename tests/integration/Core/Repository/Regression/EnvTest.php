@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
@@ -24,22 +25,22 @@ class EnvTest extends BaseTest
     {
         $pool = $this->getSetupFactory()->getServiceContainer()->get('ibexa.cache_pool');
 
-        $this->assertInstanceOf(TransactionalInMemoryCacheAdapter::class, $pool);
+        self::assertInstanceOf(TransactionalInMemoryCacheAdapter::class, $pool);
 
         $reflectionDecoratedPool = new \ReflectionProperty($pool, 'sharedPool');
         $reflectionDecoratedPool->setAccessible(true);
         $pool = $reflectionDecoratedPool->getValue($pool);
 
-        $this->assertInstanceOf(TagAwareAdapter::class, $pool);
+        self::assertInstanceOf(TagAwareAdapter::class, $pool);
 
         $reflectionPool = new \ReflectionProperty($pool, 'pool');
         $reflectionPool->setAccessible(true);
         $innerPool = $reflectionPool->getValue($pool);
 
         if (getenv('CUSTOM_CACHE_POOL') === 'singleredis') {
-            $this->assertInstanceOf(RedisAdapter::class, $innerPool);
+            self::assertInstanceOf(RedisAdapter::class, $innerPool);
         } else {
-            $this->assertInstanceOf(ArrayAdapter::class, $innerPool);
+            self::assertInstanceOf(ArrayAdapter::class, $innerPool);
         }
     }
 }

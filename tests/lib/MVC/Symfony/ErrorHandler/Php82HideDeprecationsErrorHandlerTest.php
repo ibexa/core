@@ -34,7 +34,7 @@ final class Php82HideDeprecationsErrorHandlerTest extends TestCase
         Php82HideDeprecationsErrorHandler::register(true);
         $errorReporting = error_reporting();
 
-        $this->assertSame(E_ALL & ~E_DEPRECATED, $errorReporting);
+        self::assertSame(E_ALL & ~E_DEPRECATED, $errorReporting);
     }
 
     public function testRegisterNoDebug(): void
@@ -42,6 +42,6 @@ final class Php82HideDeprecationsErrorHandlerTest extends TestCase
         Php82HideDeprecationsErrorHandler::register(false);
         $errorReporting = error_reporting();
 
-        $this->assertSame(E_ALL & ~E_DEPRECATED, $errorReporting);
+        self::assertSame(E_ALL & ~E_DEPRECATED, $errorReporting);
     }
 }

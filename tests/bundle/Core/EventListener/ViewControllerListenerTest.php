@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\ViewControllerListener;
@@ -75,7 +76,7 @@ class ViewControllerListenerTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [KernelEvents::CONTROLLER => ['getController', 10]],
             $this->controllerListener::getSubscribedEvents()
         );
@@ -87,7 +88,7 @@ class ViewControllerListenerTest extends TestCase
         $this->request->attributes->set('_controller', $initialController);
 
         $this->viewBuilderRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFromRegistry')
             ->with('Foo::bar')
             ->willReturn(null);
@@ -101,7 +102,7 @@ class ViewControllerListenerTest extends TestCase
         $this->request->attributes->set('_controller', $initialController);
 
         $this->viewBuilderRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFromRegistry')
             ->with($initialController)
             ->willReturn(null);
@@ -128,31 +129,31 @@ class ViewControllerListenerTest extends TestCase
         );
 
         $this->viewBuilderRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFromRegistry')
-            ->will($this->returnValue($this->viewBuilderMock));
+            ->will(self::returnValue($this->viewBuilderMock));
 
         $viewObject = new ContentView($templateIdentifier);
         $viewObject->setControllerReference(new ControllerReference($customController));
 
         $this->viewBuilderMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildView')
-            ->will($this->returnValue($viewObject));
+            ->will(self::returnValue($viewObject));
 
         $this->controllerResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getController')
-            ->will($this->returnValue(static function () {}));
+            ->will(self::returnValue(static function () {}));
 
         $this->controllerListener->getController($this->event);
-        $this->assertEquals($customController, $this->request->attributes->get('_controller'));
+        self::assertEquals($customController, $this->request->attributes->get('_controller'));
 
         $expectedView = new ContentView();
         $expectedView->setTemplateIdentifier($templateIdentifier);
         $expectedView->setControllerReference(new ControllerReference($customController));
 
-        $this->assertEquals($expectedView, $this->request->attributes->get('view'));
+        self::assertEquals($expectedView, $this->request->attributes->get('view'));
     }
 
     public function testGetControllerEmitsProperEvents(): void
@@ -161,26 +162,26 @@ class ViewControllerListenerTest extends TestCase
         };
 
         $this->viewBuilderRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFromRegistry')
             ->willReturn($this->viewBuilderMock);
 
         $this->viewBuilderMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildView')
             ->willReturn($viewObject);
 
         $this->eventDispatcher
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('dispatch')
             ->withConsecutive(
                 [
-                    $this->isInstanceOf(FilterViewBuilderParametersEvent::class),
-                    $this->identicalTo(ViewEvents::FILTER_BUILDER_PARAMETERS),
+                    self::isInstanceOf(FilterViewBuilderParametersEvent::class),
+                    self::identicalTo(ViewEvents::FILTER_BUILDER_PARAMETERS),
                 ],
                 [
-                    $this->isInstanceOf(PostBuildViewEvent::class),
-                    $this->isNull(),
+                    self::isInstanceOf(PostBuildViewEvent::class),
+                    self::isNull(),
                 ]
             )
             ->willReturnArgument(0);

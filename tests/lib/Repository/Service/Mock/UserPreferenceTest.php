@@ -117,7 +117,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         $userPreferenceValue = 'value';
 
         $this->userSPIPreferenceHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserPreferenceByUserIdAndName')
             ->with(self::CURRENT_USER_ID, $userPreferenceName)
             ->willReturn(new UserPreference([
@@ -131,7 +131,7 @@ class UserPreferenceTest extends BaseServiceMockTest
             'name' => $userPreferenceName,
             'value' => $userPreferenceValue,
         ]);
-        $this->assertEquals($expected, $APIUserPreference);
+        self::assertEquals($expected, $APIUserPreference);
     }
 
     /**
@@ -148,13 +148,13 @@ class UserPreferenceTest extends BaseServiceMockTest
         }, range(1, $expectedTotalCount));
 
         $this->userSPIPreferenceHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('countUserPreferences')
             ->with(self::CURRENT_USER_ID)
             ->willReturn($expectedTotalCount);
 
         $this->userSPIPreferenceHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUserPreferences')
             ->with(self::CURRENT_USER_ID, $offset, $limit)
             ->willReturn(array_map(static function ($locationId) {
@@ -166,8 +166,8 @@ class UserPreferenceTest extends BaseServiceMockTest
 
         $userPreferences = $this->createAPIUserPreferenceService()->loadUserPreferences($offset, $limit);
 
-        $this->assertEquals($expectedTotalCount, $userPreferences->totalCount);
-        $this->assertEquals($expectedItems, $userPreferences->items);
+        self::assertEquals($expectedTotalCount, $userPreferences->totalCount);
+        self::assertEquals($expectedItems, $userPreferences->items);
     }
 
     /**
@@ -178,14 +178,14 @@ class UserPreferenceTest extends BaseServiceMockTest
         $expectedTotalCount = 10;
 
         $this->userSPIPreferenceHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('countUserPreferences')
             ->with(self::CURRENT_USER_ID)
             ->willReturn($expectedTotalCount);
 
         $APIUserPreference = $this->createAPIUserPreferenceService()->getUserPreferenceCount();
 
-        $this->assertEquals($expectedTotalCount, $APIUserPreference);
+        self::assertEquals($expectedTotalCount, $APIUserPreference);
     }
 
     /**
@@ -203,28 +203,28 @@ class UserPreferenceTest extends BaseServiceMockTest
     private function assertTransactionIsCommitted(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects($this->once())->method('beginTransaction');
+        $repository->expects(self::once())->method('beginTransaction');
         $operation();
-        $repository->expects($this->once())->method('commit');
-        $repository->expects($this->never())->method('rollback');
+        $repository->expects(self::once())->method('commit');
+        $repository->expects(self::never())->method('rollback');
     }
 
     private function assertTransactionIsNotStarted(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects($this->never())->method('beginTransaction');
+        $repository->expects(self::never())->method('beginTransaction');
         $operation();
-        $repository->expects($this->never())->method('commit');
-        $repository->expects($this->never())->method('rollback');
+        $repository->expects(self::never())->method('commit');
+        $repository->expects(self::never())->method('rollback');
     }
 
     private function assertTransactionIsRollback(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects($this->once())->method('beginTransaction');
+        $repository->expects(self::once())->method('beginTransaction');
         $operation();
-        $repository->expects($this->never())->method('commit');
-        $repository->expects($this->once())->method('rollback');
+        $repository->expects(self::never())->method('commit');
+        $repository->expects(self::once())->method('rollback');
     }
 
     private function createAPIUserPreference(): APIUserPreference

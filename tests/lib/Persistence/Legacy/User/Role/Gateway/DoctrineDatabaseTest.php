@@ -80,7 +80,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'contentobject_id' => '12',
@@ -101,7 +101,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'contentobject_id' => '11',
@@ -136,7 +136,7 @@ class DoctrineDatabaseTest extends TestCase
     {
         $gateway = $this->getDatabaseGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'contentobject_id' => '11',

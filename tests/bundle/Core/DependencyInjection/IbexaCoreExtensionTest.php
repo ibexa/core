@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\QueryTypePass;
@@ -132,7 +133,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     public function testImageMagickConfigurationBasic()
     {
         if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
-            $this->markTestSkipped('Missing or mis-configured Imagemagick convert path.');
+            self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
         }
 
         $this->load(
@@ -189,7 +190,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     public function testImageMagickConfigurationFilters()
     {
         if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
-            $this->markTestSkipped('Missing or mis-configured Imagemagick convert path.');
+            self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
         }
 
         $customFilters = [
@@ -205,12 +206,12 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 ],
             ]
         );
-        $this->assertTrue($this->container->hasParameter('ibexa.image.imagemagick.filters'));
+        self::assertTrue($this->container->hasParameter('ibexa.image.imagemagick.filters'));
         $filters = $this->container->getParameter('ibexa.image.imagemagick.filters');
-        $this->assertArrayHasKey('foobar', $filters);
-        $this->assertSame($customFilters['foobar'], $filters['foobar']);
-        $this->assertArrayHasKey('wow', $filters);
-        $this->assertSame($customFilters['wow'], $filters['wow']);
+        self::assertArrayHasKey('foobar', $filters);
+        self::assertSame($customFilters['foobar'], $filters['foobar']);
+        self::assertArrayHasKey('wow', $filters);
+        self::assertSame($customFilters['wow'], $filters['wow']);
     }
 
     public function testImagePlaceholderConfiguration()
@@ -231,7 +232,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ]);
 
-        $this->assertEquals([
+        self::assertEquals([
             'default' => [
                 'provider' => 'generic',
                 'options' => [
@@ -253,11 +254,11 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->load();
         $this->assertContainerBuilderHasAlias('router', ChainRouter::class);
 
-        $this->assertTrue($this->container->hasParameter('ibexa.default_router.non_site_access_aware_routes'));
+        self::assertTrue($this->container->hasParameter('ibexa.default_router.non_site_access_aware_routes'));
         $nonSiteaccessAwareRoutes = $this->container->getParameter('ibexa.default_router.non_site_access_aware_routes');
         // See ezpublish_minimal_no_siteaccess.yml fixture
-        $this->assertContains('foo_route', $nonSiteaccessAwareRoutes);
-        $this->assertContains('my_prefix_', $nonSiteaccessAwareRoutes);
+        self::assertContains('foo_route', $nonSiteaccessAwareRoutes);
+        self::assertContains('my_prefix_', $nonSiteaccessAwareRoutes);
     }
 
     /**
@@ -327,8 +328,8 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     {
         $this->load(['locale_conversion' => ['foo' => 'bar']]);
         $conversionMap = $this->container->getParameter('ibexa.locale.conversion_map');
-        $this->assertArrayHasKey('foo', $conversionMap);
-        $this->assertSame('bar', $conversionMap['foo']);
+        self::assertArrayHasKey('foo', $conversionMap);
+        self::assertSame('bar', $conversionMap['foo']);
     }
 
     public function testRepositoriesConfiguration()
@@ -372,13 +373,13 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
+        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         foreach ($repositories as &$repositoryConfig) {
             $repositoryConfig['storage']['config'] = [];
             $repositoryConfig['search']['config'] = [];
         }
-        $this->assertSame($repositories, $this->container->getParameter('ibexa.repositories'));
+        self::assertSame($repositories, $this->container->getParameter('ibexa.repositories'));
     }
 
     /**
@@ -387,15 +388,15 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     public function testRepositoriesConfigurationFieldGroups($repositories, $expectedRepositories)
     {
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
+        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
         $repositoriesPar = $this->container->getParameter('ibexa.repositories');
-        $this->assertEquals(count($repositories), count($repositoriesPar));
+        self::assertEquals(count($repositories), count($repositoriesPar));
 
         foreach ($repositoriesPar as $key => $repo) {
-            $this->assertArrayHasKey($key, $expectedRepositories);
-            $this->assertArrayHasKey('fields_groups', $repo);
-            $this->assertEqualsCanonicalizing($expectedRepositories[$key]['fields_groups'], $repo['fields_groups'], 'Invalid fields groups element');
+            self::assertArrayHasKey($key, $expectedRepositories);
+            self::assertArrayHasKey('fields_groups', $repo);
+            self::assertEqualsCanonicalizing($expectedRepositories[$key]['fields_groups'], $repo['fields_groups'], 'Invalid fields groups element');
         }
     }
 
@@ -547,9 +548,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
+        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
-        $this->assertSame(
+        self::assertSame(
             $expectedRepositories,
             $this->container->getParameter('ibexa.repositories')
         );
@@ -588,9 +589,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
+        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
-        $this->assertSame(
+        self::assertSame(
             $expectedRepositories,
             $this->container->getParameter('ibexa.repositories')
         );
@@ -629,9 +630,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
+        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
-        $this->assertSame(
+        self::assertSame(
             $expectedRepositories,
             $this->container->getParameter('ibexa.repositories')
         );
@@ -700,9 +701,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
+        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
-        $this->assertSame(
+        self::assertSame(
             $expectedRepositories,
             $this->container->getParameter('ibexa.repositories')
         );
@@ -739,9 +740,9 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ];
         $this->load(['repositories' => $repositories]);
-        $this->assertTrue($this->container->hasParameter('ibexa.repositories'));
+        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
 
-        $this->assertSame(
+        self::assertSame(
             $expectedRepositories,
             $this->container->getParameter('ibexa.repositories')
         );
@@ -827,7 +828,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             ],
         ]);
         $parsedConfig = $this->container->getParameter('ibexa.url_alias.slug_converter');
-        $this->assertSame(
+        self::assertSame(
             $configuration,
             $parsedConfig
         );

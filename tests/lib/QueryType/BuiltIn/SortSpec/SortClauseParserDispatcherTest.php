@@ -30,7 +30,7 @@ final class SortClauseParserDispatcherTest extends TestCase
 
         $dispatcher = new SortClauseParserDispatcher([$parser]);
 
-        $this->assertEquals(
+        self::assertEquals(
             $sortClause,
             $dispatcher->parse($sortSpecParser, self::EXAMPLE_SORT_CLAUSE)
         );
@@ -59,7 +59,7 @@ final class SortClauseParserDispatcherTest extends TestCase
 
         $dispatcher = new SortClauseParserDispatcher([$parser]);
 
-        $this->assertTrue($dispatcher->supports(self::EXAMPLE_SORT_CLAUSE));
+        self::assertTrue($dispatcher->supports(self::EXAMPLE_SORT_CLAUSE));
     }
 }
 

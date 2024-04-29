@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\ParameterType;
@@ -193,7 +194,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
 
         $data = $handler->loadTrashByLocation(71);
 
-        $this->assertEquals(
+        self::assertEquals(
             $value,
             $data[$field],
             "Value in property $field not as expected."
@@ -205,14 +206,14 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $handler->countTrashed()
         );
 
         $this->trashSubtree();
 
-        $this->assertEquals(
+        self::assertEquals(
             8,
             $handler->countTrashed()
         );
@@ -223,7 +224,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $handler->listTrashed(0, null, [])
         );
@@ -248,7 +249,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
-        $this->assertCount(
+        self::assertCount(
             8,
             $handler->listTrashed(0, null, [])
         );
@@ -260,7 +261,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
-        $this->assertCount(
+        self::assertCount(
             5,
             $handler->listTrashed(0, 5, [])
         );
@@ -297,7 +298,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $this->trashSubtree();
 
         $trashList = $handler->listTrashed(0, 1, []);
-        $this->assertEquals($value, $trashList[0][$key]);
+        self::assertEquals($value, $trashList[0][$key]);
     }
 
     public function testListTrashSortedPathStringDesc()
@@ -306,7 +307,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 '/1/2/69/76/',
                 '/1/2/69/72/75/',
@@ -338,7 +339,7 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         $handler = $this->getLocationGateway();
         $this->trashSubtree();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 '/1/2/69/',
                 '/1/2/69/76/',

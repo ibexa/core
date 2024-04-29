@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
@@ -141,7 +142,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             IntegerValue::class,
             $field->value
         );
@@ -192,7 +193,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             IntegerValue::class,
             $field->value
         );
@@ -221,7 +222,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             IntegerValue::class,
             $field->value
         );

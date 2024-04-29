@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -32,11 +33,11 @@ class EmailAddressTest extends FieldTypeTest
     {
         $transformationProcessorMock = $this->getTransformationProcessorMock();
 
-        $transformationProcessorMock->expects($this->any())
+        $transformationProcessorMock->expects(self::any())
             ->method('transformByGroup')
-            ->with($this->anything(), 'lowercase')
+            ->with(self::anything(), 'lowercase')
             ->will(
-                $this->returnCallback(
+                self::returnCallback(
                     static function ($value, $group) {
                         return strtolower($value);
                     }

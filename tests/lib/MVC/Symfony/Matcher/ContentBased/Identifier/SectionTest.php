@@ -35,10 +35,10 @@ class SectionTest extends BaseTest
     private function generateRepositoryMockForSectionIdentifier($sectionIdentifier)
     {
         $sectionServiceMock = $this->createMock(SectionService::class);
-        $sectionServiceMock->expects($this->once())
+        $sectionServiceMock->expects(self::once())
             ->method('loadSection')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     $this
                         ->getMockBuilder(Section::class)
                         ->setConstructorArgs(
@@ -52,19 +52,20 @@ class SectionTest extends BaseTest
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSectionService')
-            ->will($this->returnValue($sectionServiceMock));
+            ->will(self::returnValue($sectionServiceMock));
         $repository
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPermissionResolver')
-            ->will($this->returnValue($this->getPermissionResolverMock()));
+            ->will(self::returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }
 
     /**
      * @dataProvider matchSectionProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
@@ -80,15 +81,15 @@ class SectionTest extends BaseTest
 
         $location = $this->getLocationMock();
         $location
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentInfo')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     $this->getContentInfoMock(['sectionId' => 1])
                 )
             );
 
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchLocation($location)
         );
@@ -122,6 +123,7 @@ class SectionTest extends BaseTest
 
     /**
      * @dataProvider matchSectionProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
@@ -134,7 +136,7 @@ class SectionTest extends BaseTest
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchContentInfo($this->getContentInfoMock(['sectionId' => 1]))
         );

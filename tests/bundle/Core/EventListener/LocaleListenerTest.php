@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\LocaleListener;
@@ -35,7 +36,7 @@ class LocaleListenerTest extends TestCase
 
         $this->requestStack = new RequestStack();
         $parameterBagMock = $this->createMock(ParameterBag::class);
-        $parameterBagMock->expects($this->never())->method($this->anything());
+        $parameterBagMock->expects(self::never())->method(self::anything());
 
         $requestMock = $this->createMock(Request::class);
         $requestMock->attributes = $parameterBagMock;
@@ -49,16 +50,16 @@ class LocaleListenerTest extends TestCase
     public function testOnKernelRequest(array $configuredLanguages, array $convertedLocalesValueMap, $expectedLocale): void
     {
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('languages')
-            ->will($this->returnValue($configuredLanguages));
+            ->will(self::returnValue($configuredLanguages));
 
         $this->localeConverter
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('convertToPOSIX')
             ->will(
-                $this->returnValueMap($convertedLocalesValueMap)
+                self::returnValueMap($convertedLocalesValueMap)
             );
 
         $defaultLocale = 'en';
@@ -73,7 +74,7 @@ class LocaleListenerTest extends TestCase
                 HttpKernelInterface::MASTER_REQUEST
             )
         );
-        $this->assertSame($expectedLocale, $request->attributes->get('_locale'));
+        self::assertSame($expectedLocale, $request->attributes->get('_locale'));
     }
 
     public function onKernelRequestProvider(): array

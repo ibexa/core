@@ -57,7 +57,7 @@ class MapperTest extends TestCase
             ]),
         ];
 
-        $this->assertEquals($objects, $this->mapper->extractUserPreferencesFromRows($rows));
+        self::assertEquals($objects, $this->mapper->extractUserPreferencesFromRows($rows));
     }
 }
 

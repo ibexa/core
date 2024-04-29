@@ -75,7 +75,7 @@ class ContentViewBuilderTest extends TestCase
         $this->permissionResolver = $this->getMockBuilder(PermissionResolver::class)->getMock();
         $this->requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
         $this->repository
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPermissionResolver')
             ->willReturn($this->permissionResolver);
 
@@ -90,8 +90,8 @@ class ContentViewBuilderTest extends TestCase
 
     public function testMatches(): void
     {
-        $this->assertTrue($this->contentViewBuilder->matches('ibexa_content:55'));
-        $this->assertFalse($this->contentViewBuilder->matches('dummy_value'));
+        self::assertTrue($this->contentViewBuilder->matches('ibexa_content:55'));
+        self::assertFalse($this->contentViewBuilder->matches('dummy_value'));
     }
 
     public function testBuildViewWithoutLocationIdAndContentId(): void
@@ -115,7 +115,7 @@ class ContentViewBuilderTest extends TestCase
         ];
 
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->willThrowException(new NotFoundException('location', 865));
 
@@ -135,7 +135,7 @@ class ContentViewBuilderTest extends TestCase
         $location = new Location(['invisible' => true]);
 
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->willReturn($location);
 
@@ -166,12 +166,12 @@ class ContentViewBuilderTest extends TestCase
 
         // It's call for LocationService::loadLocation()
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('canUser')
             ->willReturn(false);
 
@@ -206,17 +206,17 @@ class ContentViewBuilderTest extends TestCase
 
         // It's call for LocationService::loadLocation()
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('canUser')
             ->willReturn(false);
 
         $this->permissionResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('canUser')
             ->willReturn(false);
 
@@ -333,12 +333,12 @@ class ContentViewBuilderTest extends TestCase
 
         // It's call for LocationService::loadLocation()
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('canUser')
             ->willReturn(true);
 
@@ -375,7 +375,7 @@ class ContentViewBuilderTest extends TestCase
 
         // No call for LocationService::loadLocation()
         $this->repository
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('sudo');
 
         $this->repository
@@ -385,7 +385,7 @@ class ContentViewBuilderTest extends TestCase
         $expectedView = new ContentView(null, [], 'full');
         $expectedView->setContent($content);
 
-        $this->assertEquals($expectedView, $this->contentViewBuilder->buildView($parameters));
+        self::assertEquals($expectedView, $this->contentViewBuilder->buildView($parameters));
     }
 
     public function testBuildView(): void
@@ -415,16 +415,16 @@ class ContentViewBuilderTest extends TestCase
         ];
 
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->willReturn($location);
 
         $this->permissionResolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('canUser')
             ->willReturn(true);
 
-        $this->assertEquals($expectedView, $this->contentViewBuilder->buildView($parameters));
+        self::assertEquals($expectedView, $this->contentViewBuilder->buildView($parameters));
     }
 
     /**
@@ -447,7 +447,7 @@ class ContentViewBuilderTest extends TestCase
         $parameters = ['viewType' => 'embed', 'contentId' => 120, '_controller' => null];
 
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->willReturn($content);
 
@@ -466,7 +466,7 @@ class ContentViewBuilderTest extends TestCase
             ->parametersInjector
             ->method('injectViewParameters')
             ->with(
-                $this->isInstanceOf(ContentView::class),
+                self::isInstanceOf(ContentView::class),
                 array_merge(
                     $parameters,
                     // invocation expectation:

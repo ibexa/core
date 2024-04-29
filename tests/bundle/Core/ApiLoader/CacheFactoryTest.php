@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\CacheFactory;
@@ -46,21 +47,21 @@ class CacheFactoryTest extends TestCase
     public function testGetService($name, $expected)
     {
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('cache_service_name')
-            ->will($this->returnValue($name));
+            ->will(self::returnValue($name));
 
         $this->container
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('get')
             ->with($expected)
-            ->will($this->returnValue($this->createMock(AdapterInterface::class)));
+            ->will(self::returnValue($this->createMock(AdapterInterface::class)));
 
         $factory = new CacheFactory();
         $factory->setContainer($this->container);
 
-        $this->assertInstanceOf(TagAwareAdapter::class, $factory->getCachePool($this->configResolver));
+        self::assertInstanceOf(TagAwareAdapter::class, $factory->getCachePool($this->configResolver));
     }
 }
 

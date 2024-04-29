@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
@@ -67,9 +68,9 @@ class EZP21109EzIntegerTest extends BaseTest
         /** @var \Ibexa\Core\FieldType\Integer\Value $fieldValue */
         $fieldValue = $content->getFieldValue('test');
 
-        $this->assertInstanceOf(Value::class, $fieldValue);
+        self::assertInstanceOf(Value::class, $fieldValue);
 
-        $this->assertEquals($integerValue, $fieldValue->value);
+        self::assertEquals($integerValue, $fieldValue->value);
 
         $contentService->deleteContent($content->versionInfo->contentInfo);
     }

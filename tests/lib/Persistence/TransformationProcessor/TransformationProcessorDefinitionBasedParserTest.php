@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence;
@@ -32,7 +33,7 @@ class TransformationProcessorDefinitionBasedParserTest extends TestCase
         $parser = new Persistence\TransformationProcessor\DefinitionBased\Parser();
 
         $fixture = include $file . '.result';
-        $this->assertEquals(
+        self::assertEquals(
             $fixture,
             $parser->parse($file)
         );

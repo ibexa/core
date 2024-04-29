@@ -76,13 +76,13 @@ final class ContentTypeTest extends TestCase
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
 
         $fieldDefinitionCollection
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('has')
             ->with(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
             ->willReturn(true);
 
         $fieldDefinitionCollection
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('get')
             ->with(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
             ->willReturn($fieldDefinition);
@@ -91,7 +91,7 @@ final class ContentTypeTest extends TestCase
             'fieldDefinitions' => $fieldDefinitionCollection,
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             $fieldDefinition,
             $contentType->getFieldDefinition(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
         );
@@ -101,7 +101,7 @@ final class ContentTypeTest extends TestCase
     {
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('has')
             ->with(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
             ->willReturn(true);
@@ -110,7 +110,7 @@ final class ContentTypeTest extends TestCase
             'fieldDefinitions' => $fieldDefinitionCollection,
         ]);
 
-        $this->assertTrue(
+        self::assertTrue(
             $contentType->hasFieldDefinition(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
         );
     }
@@ -119,7 +119,7 @@ final class ContentTypeTest extends TestCase
     {
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('anyOfType')
             ->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
             ->willReturn(true);
@@ -128,7 +128,7 @@ final class ContentTypeTest extends TestCase
             'fieldDefinitions' => $fieldDefinitionCollection,
         ]);
 
-        $this->assertTrue(
+        self::assertTrue(
             $contentType->hasFieldDefinitionOfType(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
         );
     }
@@ -139,7 +139,7 @@ final class ContentTypeTest extends TestCase
 
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('filterByType')
             ->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
             ->willReturn($expectedFieldDefinitionCollection);
@@ -148,7 +148,7 @@ final class ContentTypeTest extends TestCase
             'fieldDefinitions' => $fieldDefinitionCollection,
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldDefinitionCollection,
             $contentType->getFieldDefinitionsOfType(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
         );
@@ -165,7 +165,7 @@ final class ContentTypeTest extends TestCase
 
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('filterByType')
             ->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
             ->willReturn($filteredFieldDefinitionCollection);
@@ -174,7 +174,7 @@ final class ContentTypeTest extends TestCase
             'fieldDefinitions' => $fieldDefinitionCollection,
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldDefinition,
             $contentType->getFirstFieldDefinitionOfType(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
         );

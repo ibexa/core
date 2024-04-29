@@ -56,10 +56,10 @@ class ChainConfigResolverTest extends TestCase
         $saGroupScopeParameter = $this->getParameter($paramName, self::SA_GROUP);
         $defaultScopeParameter = $this->getParameter($paramName, self::SCOPE_DEFAULT);
         $this->containerMock
-             ->expects($this->exactly(4))
+             ->expects(self::exactly(4))
              ->method('hasParameter')
              ->with(
-                 $this->logicalOr(
+                 self::logicalOr(
                      $globalScopeParameter,
                      $relativeScopeParameter,
                      $saGroupScopeParameter,
@@ -67,14 +67,14 @@ class ChainConfigResolverTest extends TestCase
                  )
              )
              // First call is for "global" scope, second for SA scope, third fo SA group scope, last is the right one
-             ->will($this->onConsecutiveCalls(false, false, false, true));
+             ->will(self::onConsecutiveCalls(false, false, false, true));
         $this->containerMock
-             ->expects($this->once())
+             ->expects(self::once())
              ->method('getParameter')
              ->with($defaultScopeParameter)
              ->willReturn($expectedValue);
 
-        $this->assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
+        self::assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
     }
 
     /**
@@ -85,23 +85,23 @@ class ChainConfigResolverTest extends TestCase
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $relativeScopeParameter = $this->getParameter($paramName, $this->siteAccess->name);
         $this->containerMock
-             ->expects($this->exactly(2))
+             ->expects(self::exactly(2))
              ->method('hasParameter')
              ->with(
-                 $this->logicalOr(
+                 self::logicalOr(
                      $globalScopeParameter,
                      $relativeScopeParameter
                  )
              )
              // First call is for "global" scope, second is the right one
-             ->will($this->onConsecutiveCalls(false, true));
+             ->will(self::onConsecutiveCalls(false, true));
         $this->containerMock
-             ->expects($this->once())
+             ->expects(self::once())
              ->method('getParameter')
              ->with($relativeScopeParameter)
              ->willReturn($expectedValue);
 
-        $this->assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
+        self::assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
     }
 
     /**
@@ -111,23 +111,23 @@ class ChainConfigResolverTest extends TestCase
     {
         $specificScopeParameter = $this->getParameter($paramName, self::FIRST_SA_NAME);
         $this->containerMock
-             ->expects($this->exactly(2))
+             ->expects(self::exactly(2))
              ->method('hasParameter')
              ->with(
-                 $this->logicalOr(
+                 self::logicalOr(
                      "ibexa.site_access.config.global.$paramName",
                      $specificScopeParameter
                  )
              )
              // First call is for "global" scope, second is the right one
-             ->will($this->onConsecutiveCalls(false, true));
+             ->will(self::onConsecutiveCalls(false, true));
         $this->containerMock
-             ->expects($this->once())
+             ->expects(self::once())
              ->method('getParameter')
              ->with($specificScopeParameter)
              ->willReturn($expectedValue);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedValue,
             $this->getChainConfigResolver()->getParameter($paramName, self::DEFAULT_NAMESPACE, self::FIRST_SA_NAME)
         );
@@ -140,17 +140,17 @@ class ChainConfigResolverTest extends TestCase
     {
         $globalScopeParameter = $this->getParameter($paramName, self::SCOPE_GLOBAL);
         $this->containerMock
-             ->expects($this->once())
+             ->expects(self::once())
              ->method('hasParameter')
              ->with($globalScopeParameter)
              ->willReturn(true);
         $this->containerMock
-             ->expects($this->once())
+             ->expects(self::once())
              ->method('getParameter')
              ->with($globalScopeParameter)
              ->willReturn($expectedValue);
 
-        $this->assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
+        self::assertSame($expectedValue, $this->getChainConfigResolver()->getParameter($paramName));
     }
 
     /**
@@ -168,7 +168,7 @@ class ChainConfigResolverTest extends TestCase
 
         $chainConfigResolver = $this->getChainConfigResolver();
 
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(self::atLeastOnce())
              ->method('hasParameter')
              ->willReturnMap(
                  [
@@ -179,7 +179,7 @@ class ChainConfigResolverTest extends TestCase
                  ]
              );
 
-        $this->assertSame($expectedResult, $chainConfigResolver->hasParameter($paramName));
+        self::assertSame($expectedResult, $chainConfigResolver->hasParameter($paramName));
     }
 
     /**
@@ -199,7 +199,7 @@ class ChainConfigResolverTest extends TestCase
 
         $chainConfigResolver = $this->getChainConfigResolver();
 
-        $this->containerMock->expects($this->atLeastOnce())
+        $this->containerMock->expects(self::atLeastOnce())
              ->method('hasParameter')
              ->willReturnMap(
                  [
@@ -210,7 +210,7 @@ class ChainConfigResolverTest extends TestCase
                  ]
              );
 
-        $this->assertSame($expectedResult, $chainConfigResolver->hasParameter($paramName, $namespace, $scope));
+        self::assertSame($expectedResult, $chainConfigResolver->hasParameter($paramName, $namespace, $scope));
     }
 
     private function getGlobalConfigResolver(string $defaultNamespace = self::DEFAULT_NAMESPACE): ConfigResolverInterface

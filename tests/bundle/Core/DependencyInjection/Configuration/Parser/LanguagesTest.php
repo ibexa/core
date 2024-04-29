@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Languages;
@@ -45,7 +46,7 @@ class LanguagesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('languages', $langFre, 'fre');
         $this->assertConfigResolverParameterValue('languages', $langFre, 'fre2');
         $this->assertConfigResolverParameterValue('languages', $langEmptyGroup, self::EMPTY_SA_GROUP);
-        $this->assertSame(
+        self::assertSame(
             [
                 'eng-GB' => ['ibexa_demo_site'],
                 'fre-FR' => ['fre', 'fre2'],
@@ -72,7 +73,7 @@ class LanguagesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('languages', $langDemoSite, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('languages', $langDemoSite, 'fre');
         $this->assertConfigResolverParameterValue('languages', [], self::EMPTY_SA_GROUP);
-        $this->assertSame(
+        self::assertSame(
             [
                 'eng-US' => ['ibexa_demo_frontend_group', 'ibexa_demo_site', 'fre'],
             ],

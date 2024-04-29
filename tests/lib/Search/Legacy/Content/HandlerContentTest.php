@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -206,11 +207,11 @@ class HandlerContentTest extends AbstractTestCase
             )
             ->setMethods(['extractContentInfoFromRows'])
             ->getMock();
-        $mapperMock->expects($this->any())
+        $mapperMock->expects(self::any())
             ->method('extractContentInfoFromRows')
-            ->with($this->isType('array'))
+            ->with(self::isType('array'))
             ->will(
-                $this->returnCallback(
+                self::returnCallback(
                     static function ($rows) {
                         $contentInfoObjs = [];
                         foreach ($rows as $row) {
@@ -257,7 +258,7 @@ class HandlerContentTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $result->totalCount
         );
@@ -280,11 +281,11 @@ class HandlerContentTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $result->totalCount
         );
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $result->searchHits
         );
@@ -307,11 +308,11 @@ class HandlerContentTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $result->totalCount
         );
-        $this->assertCount(
+        self::assertCount(
             1,
             $result->searchHits
         );
@@ -334,11 +335,11 @@ class HandlerContentTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $result->totalCount
         );
-        $this->assertCount(
+        self::assertCount(
             0,
             $result->searchHits
         );
@@ -350,7 +351,7 @@ class HandlerContentTest extends AbstractTestCase
 
         $contentInfo = $locator->findSingle(new Criterion\ContentId(10));
 
-        $this->assertEquals(10, $contentInfo->id);
+        self::assertEquals(10, $contentInfo->id);
     }
 
     public function testFindSingleWithNonSearchableField()
@@ -434,7 +435,7 @@ class HandlerContentTest extends AbstractTestCase
             )
         );
 
-        $this->assertSame(2, $result->totalCount);
+        self::assertSame(2, $result->totalCount);
     }
 
     public function testContentAndCombinatorFilter()
@@ -485,12 +486,12 @@ class HandlerContentTest extends AbstractTestCase
 
         $expectedContentIds = [4, 10, 12];
 
-        $this->assertEquals(
+        self::assertEquals(
             count($expectedContentIds),
             count($result->searchHits)
         );
         foreach ($result->searchHits as $hit) {
-            $this->assertContains(
+            self::assertContains(
                 $hit->valueObject->id,
                 $expectedContentIds
             );
@@ -795,7 +796,7 @@ class HandlerContentTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             185,
             $searchResult->totalCount
         );
@@ -1030,7 +1031,7 @@ class HandlerContentTest extends AbstractTestCase
             )
         );
 
-        $this->assertCount(
+        self::assertCount(
             10,
             array_map(
                 static function ($hit) {

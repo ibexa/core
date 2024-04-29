@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -194,7 +195,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             MediaValue::class,
             $field->value
         );
@@ -206,13 +207,13 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
         unset($expectedData['id']);
         $expectedData['inputUri'] = null;
 
-        $this->assertNotEmpty($field->value->id);
+        self::assertNotEmpty($field->value->id);
         $this->assertPropertiesCorrect(
             $expectedData,
             $field->value
         );
 
-        $this->assertTrue(
+        self::assertTrue(
             $this->uriExistsOnIO($field->value->uri),
             "File {$field->value->uri} doesn't exist."
         );
@@ -261,7 +262,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             MediaValue::class,
             $field->value
         );
@@ -273,13 +274,13 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
         unset($expectedData['id']);
         $expectedData['inputUri'] = null;
 
-        $this->assertNotEmpty($field->value->id);
+        self::assertNotEmpty($field->value->id);
         $this->assertPropertiesCorrect(
             $expectedData,
             $field->value
         );
 
-        $this->assertTrue(
+        self::assertTrue(
             $this->uriExistsOnIO($field->value->uri),
             "File {$field->value->uri} doesn't exist."
         );
@@ -302,7 +303,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
     {
         $this->assertFieldDataLoadedCorrect($field);
 
-        $this->assertEquals(
+        self::assertEquals(
             self::$loadedMediaPath,
             $field->value->id
         );
@@ -418,6 +419,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
     protected function getSearchTargetValueOne()
     {
         $value = $this->getValidSearchValueOne();
+
         // ensure case-insensitivity
         return strtoupper($value->fileName);
     }
@@ -425,6 +427,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
     protected function getSearchTargetValueTwo()
     {
         $value = $this->getValidSearchValueTwo();
+
         // ensure case-insensitivity
         return strtoupper($value->fileName);
     }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -75,10 +76,10 @@ class RouterHostElementTest extends RouterBaseTest
     public function testGetName()
     {
         $matcher = new HostMapMatcher(['host' => 'foo'], []);
-        $this->assertSame('host:map', $matcher->getName());
+        self::assertSame('host:map', $matcher->getName());
 
         $matcherHostElement = new HostElement([1]);
-        $this->assertSame('host:element', $matcherHostElement->getName());
+        self::assertSame('host:element', $matcherHostElement->getName());
     }
 
     /**
@@ -89,8 +90,8 @@ class RouterHostElementTest extends RouterBaseTest
         $matcher = new HostElement([$elementNumber]);
         $matcher->setRequest($request);
         $result = $matcher->reverseMatch($siteAccessName);
-        $this->assertInstanceOf(HostElement::class, $result);
-        $this->assertSame($expectedHost, $result->getRequest()->host);
+        self::assertInstanceOf(HostElement::class, $result);
+        self::assertSame($expectedHost, $result->getRequest()->host);
     }
 
     public function reverseMatchProvider()
@@ -107,7 +108,7 @@ class RouterHostElementTest extends RouterBaseTest
     {
         $matcher = new HostElement([3]);
         $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co']));
-        $this->assertNull($matcher->reverseMatch('foo'));
+        self::assertNull($matcher->reverseMatch('foo'));
     }
 
     public function testSerialize()
@@ -120,7 +121,7 @@ class RouterHostElementTest extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co', 'pathinfo' => '/foo/bar/baz']));
         $serializedSA2 = serialize($sa);
 
-        $this->assertSame($serializedSA1, $serializedSA2);
+        self::assertSame($serializedSA1, $serializedSA2);
     }
 
     protected function createRouter(): Router

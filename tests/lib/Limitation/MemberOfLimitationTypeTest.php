@@ -130,7 +130,7 @@ final class MemberOfLimitationTypeTest extends Base
                 ->method('loadContentInfo')
                 ->withConsecutive([14], [18])
                 ->willReturnOnConsecutiveCalls(
-                    $this->throwException(new NotFoundException('UserGroup', 18)),
+                    self::throwException(new NotFoundException('UserGroup', 18)),
                     new ContentInfo()
                 );
 
@@ -349,6 +349,7 @@ final class MemberOfLimitationTypeTest extends Base
 
     /**
      * @param \Ibexa\Core\Repository\Values\User\User|\Ibexa\Core\Repository\Values\User\UserRoleAssignment $object
+     *
      * @dataProvider providerForTestEvaluateSelfGroup
      */
     public function testEvaluateSelfGroup(

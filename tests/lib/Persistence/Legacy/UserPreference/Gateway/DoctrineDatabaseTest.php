@@ -47,7 +47,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $data = $this->loadUserPreference($id);
 
-        $this->assertEquals([
+        self::assertEquals([
             'id' => $id,
             'user_id' => '14',
             'name' => 'setting_3',
@@ -65,7 +65,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $this->getGateway()->setUserPreference($userPreference);
 
-        $this->assertEquals([
+        self::assertEquals([
             'id' => (string) self::EXISTING_USER_PREFERENCE_ID,
             'user_id' => '14',
             'name' => 'timezone',
@@ -75,7 +75,7 @@ class DoctrineDatabaseTest extends TestCase
 
     public function testCountUserPreferences()
     {
-        $this->assertEquals(3, $this->getGateway()->countUserPreferences(
+        self::assertEquals(3, $this->getGateway()->countUserPreferences(
             self::EXISTING_USER_PREFERENCE_DATA['user_id']
         ));
     }
@@ -88,7 +88,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $results = $this->getGateway()->loadUserPreferences($userId, $offset, $limit);
 
-        $this->assertEquals([
+        self::assertEquals([
             [
                 'id' => '2',
                 'user_id' => '14',

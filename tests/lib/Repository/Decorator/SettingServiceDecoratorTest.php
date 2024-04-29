@@ -39,7 +39,7 @@ class SettingServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(SettingCreateStruct::class)];
 
-        $serviceMock->expects($this->once())->method('createSetting')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('createSetting')->with(...$parameters);
 
         $decoratedService->createSetting(...$parameters);
     }
@@ -54,7 +54,7 @@ class SettingServiceDecoratorTest extends TestCase
             $this->createMock(SettingUpdateStruct::class),
         ];
 
-        $serviceMock->expects($this->once())->method('updateSetting')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('updateSetting')->with(...$parameters);
 
         $decoratedService->updateSetting(...$parameters);
     }
@@ -69,7 +69,7 @@ class SettingServiceDecoratorTest extends TestCase
             self::EXAMPLE_SETTING_IDENTIFIER,
         ];
 
-        $serviceMock->expects($this->once())->method('loadSetting')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadSetting')->with(...$parameters);
 
         $decoratedService->loadSetting(...$parameters);
     }
@@ -81,7 +81,7 @@ class SettingServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Setting::class)];
 
-        $serviceMock->expects($this->once())->method('deleteSetting')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('deleteSetting')->with(...$parameters);
 
         $decoratedService->deleteSetting(...$parameters);
     }
@@ -93,7 +93,7 @@ class SettingServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('newSettingCreateStruct')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('newSettingCreateStruct')->with(...$parameters);
 
         $decoratedService->newSettingCreateStruct(...$parameters);
     }
@@ -105,7 +105,7 @@ class SettingServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('newSettingUpdateStruct')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('newSettingUpdateStruct')->with(...$parameters);
 
         $decoratedService->newSettingUpdateStruct(...$parameters);
     }

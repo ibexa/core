@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -24,8 +25,8 @@ class RouterMapURITest extends TestCase
         $request = new SimplifiedRequest(['pathinfo' => $pathinfo]);
         $matcher = new URIMapMatcher($config);
         $matcher->setRequest($request);
-        $this->assertSame($request, $matcher->getRequest());
-        $this->assertSame($expectedMapKey, $matcher->getMapKey());
+        self::assertSame($request, $matcher->getRequest());
+        self::assertSame($expectedMapKey, $matcher->getMapKey());
     }
 
     /**
@@ -40,10 +41,10 @@ class RouterMapURITest extends TestCase
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $uri])
         );
-        $this->assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
+        self::assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
         // Unserialized matcher should have the same behavior
         $unserializedMatcher = unserialize(serialize($matcher));
-        $this->assertSame($expectedFixedUpURI, $unserializedMatcher->analyseURI($uri));
+        self::assertSame($expectedFixedUpURI, $unserializedMatcher->analyseURI($uri));
     }
 
     /**
@@ -58,10 +59,10 @@ class RouterMapURITest extends TestCase
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $fullUri])
         );
-        $this->assertSame($fullUri, $matcher->analyseLink($linkUri));
+        self::assertSame($fullUri, $matcher->analyseLink($linkUri));
         // Unserialized matcher should have the same behavior
         $unserializedMatcher = unserialize(serialize($matcher));
-        $this->assertSame($fullUri, $unserializedMatcher->analyseLink($linkUri));
+        self::assertSame($fullUri, $unserializedMatcher->analyseLink($linkUri));
     }
 
     public function setRequestProvider()
@@ -89,7 +90,7 @@ class RouterMapURITest extends TestCase
     {
         $config = ['foo' => 'bar'];
         $matcher = new URIMapMatcher($config);
-        $this->assertNull($matcher->reverseMatch('non_existent'));
+        self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
     public function testReverseMatch()
@@ -104,10 +105,10 @@ class RouterMapURITest extends TestCase
         $matcher->setRequest($request);
 
         $result = $matcher->reverseMatch('ibexa_demo_site');
-        $this->assertInstanceOf(URIMapMatcher::class, $result);
-        $this->assertSame($request, $matcher->getRequest());
-        $this->assertSame('toutouyoutou', $result->getMapKey());
-        $this->assertSame('/toutouyoutou/foo', $result->getRequest()->pathinfo);
+        self::assertInstanceOf(URIMapMatcher::class, $result);
+        self::assertSame($request, $matcher->getRequest());
+        self::assertSame('toutouyoutou', $result->getMapKey());
+        self::assertSame('/toutouyoutou/foo', $result->getRequest()->pathinfo);
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\Events\URLWildcard\BeforeCreateEvent;
@@ -43,11 +44,11 @@ class URLWildcardServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRemoveEvent::class, 0],
             [RemoveEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     /**
@@ -76,10 +77,10 @@ class URLWildcardServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRemoveEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeRemoveEvent::class, 0],
             [RemoveEvent::class, 0],
         ]);
@@ -110,12 +111,12 @@ class URLWildcardServiceTest extends AbstractServiceTest
             $traceableEventDispatcher->getCalledListeners()
         );
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeUpdateEvent::class, 0],
             [UpdateEvent::class, 0],
         ]);
 
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testUpdateStopPropagationInBeforeEvents(): void
@@ -148,11 +149,11 @@ class URLWildcardServiceTest extends AbstractServiceTest
             $traceableEventDispatcher->getNotCalledListeners()
         );
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeUpdateEvent::class, 10],
         ]);
 
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeUpdateEvent::class, 0],
             [UpdateEvent::class, 0],
         ]);
@@ -180,12 +181,12 @@ class URLWildcardServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($urlWildcard, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($urlWildcard, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateEvent::class, 0],
             [CreateEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateResultInBeforeEvents()
@@ -215,13 +216,13 @@ class URLWildcardServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUrlWildcard, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUrlWildcard, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateEvent::class, 10],
             [BeforeCreateEvent::class, 0],
             [CreateEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateStopPropagationInBeforeEvents()
@@ -253,11 +254,11 @@ class URLWildcardServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUrlWildcard, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUrlWildcard, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateEvent::class, 0],
             [CreateEvent::class, 0],
         ]);
@@ -283,12 +284,12 @@ class URLWildcardServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($result, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($result, $result);
+        self::assertSame($calledListeners, [
             [BeforeTranslateEvent::class, 0],
             [TranslateEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnTranslateResultInBeforeEvents()
@@ -316,13 +317,13 @@ class URLWildcardServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventResult, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventResult, $result);
+        self::assertSame($calledListeners, [
             [BeforeTranslateEvent::class, 10],
             [BeforeTranslateEvent::class, 0],
             [TranslateEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testTranslateStopPropagationInBeforeEvents()
@@ -352,11 +353,11 @@ class URLWildcardServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventResult, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventResult, $result);
+        self::assertSame($calledListeners, [
             [BeforeTranslateEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeTranslateEvent::class, 0],
             [TranslateEvent::class, 0],
         ]);

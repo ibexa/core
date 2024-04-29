@@ -47,13 +47,13 @@ class HandlerTest extends TestCase
         ]);
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setUserPreference')
             ->with($setStruct)
             ->willReturn(self::USER_PREFERENCE_ID);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('extractUserPreferencesFromRows')
             ->willReturn([new UserPreference([
                 'id' => self::USER_PREFERENCE_ID,
@@ -61,7 +61,7 @@ class HandlerTest extends TestCase
 
         $userPreference = $this->handler->setUserPreference($setStruct);
 
-        $this->assertEquals($userPreference->id, self::USER_PREFERENCE_ID);
+        self::assertEquals($userPreference->id, self::USER_PREFERENCE_ID);
     }
 
     public function testCountUserPreferences()
@@ -70,12 +70,12 @@ class HandlerTest extends TestCase
         $expectedCount = 12;
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('countUserPreferences')
             ->with($ownerId)
             ->willReturn($expectedCount);
 
-        $this->assertEquals($expectedCount, $this->handler->countUserPreferences($ownerId));
+        self::assertEquals($expectedCount, $this->handler->countUserPreferences($ownerId));
     }
 
     public function testLoadUserPreferences()
@@ -97,18 +97,18 @@ class HandlerTest extends TestCase
         ];
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUserPreferences')
             ->with($ownerId, $offset, $limit)
             ->willReturn($rows);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('extractUserPreferencesFromRows')
             ->with($rows)
             ->willReturn($objects);
 
-        $this->assertEquals($objects, $this->handler->loadUserPreferences($ownerId, $offset, $limit));
+        self::assertEquals($objects, $this->handler->loadUserPreferences($ownerId, $offset, $limit));
     }
 }
 

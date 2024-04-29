@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
@@ -28,22 +29,22 @@ class UserWrappedTest extends TestCase
     {
         $originalUser = $this->createMock(SymfonyUserInterface::class);
         $userWrapped = new UserWrapped($originalUser, $this->apiUser);
-        $this->assertSame($this->apiUser, $userWrapped->getAPIUser());
+        self::assertSame($this->apiUser, $userWrapped->getAPIUser());
 
         $newApiUser = $this->createMock(APIUser::class);
         $userWrapped->setAPIUser($newApiUser);
-        $this->assertSame($newApiUser, $userWrapped->getAPIUser());
+        self::assertSame($newApiUser, $userWrapped->getAPIUser());
     }
 
     public function testGetSetWrappedUser()
     {
         $originalUser = $this->createMock(SymfonyUserInterface::class);
         $userWrapped = new UserWrapped($originalUser, $this->apiUser);
-        $this->assertSame($originalUser, $userWrapped->getWrappedUser());
+        self::assertSame($originalUser, $userWrapped->getWrappedUser());
 
         $newWrappedUser = $this->createMock(UserInterface::class);
         $userWrapped->setWrappedUser($newWrappedUser);
-        $this->assertSame($newWrappedUser, $userWrapped->getWrappedUser());
+        self::assertSame($newWrappedUser, $userWrapped->getWrappedUser());
     }
 
     public function testRegularUser()
@@ -51,10 +52,10 @@ class UserWrappedTest extends TestCase
         $originalUser = $this->createMock(SymfonyUserInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);
 
-        $this->assertTrue($user->isEqualTo($this->createMock(SymfonyUserInterface::class)));
+        self::assertTrue($user->isEqualTo($this->createMock(SymfonyUserInterface::class)));
 
         $originalUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('eraseCredentials');
         $user->eraseCredentials();
 
@@ -63,28 +64,28 @@ class UserWrappedTest extends TestCase
         $roles = ['ROLE_USER', 'ROLE_TEST'];
         $salt = md5(microtime(true));
         $originalUser
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('getUsername')
-            ->will($this->returnValue($username));
+            ->will(self::returnValue($username));
         $originalUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPassword')
-            ->will($this->returnValue($password));
+            ->will(self::returnValue($password));
         $originalUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRoles')
-            ->will($this->returnValue($roles));
+            ->will(self::returnValue($roles));
         $originalUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSalt')
-            ->will($this->returnValue($salt));
+            ->will(self::returnValue($salt));
 
-        $this->assertSame($username, $user->getUsername());
-        $this->assertSame($username, (string)$user);
-        $this->assertSame($password, $user->getPassword());
-        $this->assertSame($roles, $user->getRoles());
-        $this->assertSame($salt, $user->getSalt());
-        $this->assertSame($originalUser, $user->getWrappedUser());
+        self::assertSame($username, $user->getUsername());
+        self::assertSame($username, (string)$user);
+        self::assertSame($password, $user->getPassword());
+        self::assertSame($roles, $user->getRoles());
+        self::assertSame($salt, $user->getSalt());
+        self::assertSame($originalUser, $user->getWrappedUser());
     }
 
     public function testIsEqualTo()
@@ -93,11 +94,11 @@ class UserWrappedTest extends TestCase
         $user = new UserWrapped($originalUser, $this->apiUser);
         $otherUser = $this->createMock(SymfonyUserInterface::class);
         $originalUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isEqualTo')
             ->with($otherUser)
-            ->will($this->returnValue(false));
-        $this->assertFalse($user->isEqualTo($otherUser));
+            ->will(self::returnValue(false));
+        self::assertFalse($user->isEqualTo($otherUser));
     }
 
     public function testNotSerializeApiUser(): void

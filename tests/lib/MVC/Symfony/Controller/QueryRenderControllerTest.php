@@ -129,7 +129,7 @@ final class QueryRenderControllerTest extends TestCase
         array $options,
         Request $request = null
     ): void {
-        $this->assertEquals(
+        self::assertEquals(
             $expectedView,
             $this->controller->renderQuery(
                 $request ?? new Request(),

@@ -60,7 +60,7 @@ final class ImageConverterTest extends TestCase
 
         $this->imageConverter->toStorageValue($fieldValue, $storageValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedXml,
             $storageValue->dataText
         );
@@ -154,7 +154,7 @@ XML,
         $fieldValue = new FieldValue();
         $this->imageConverter->toFieldValue($storageValue, $fieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldValue->data,
             $fieldValue->data
         );

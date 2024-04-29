@@ -58,8 +58,8 @@ final class VariableProviderRegistryTest extends TestCase
         $providerA = $registry->getTwigVariableProvider('provider_a');
         $providerB = $registry->getTwigVariableProvider('provider_b');
 
-        $this->assertEquals($providerA->getIdentifier(), 'provider_a');
-        $this->assertEquals($providerB->getIdentifier(), 'provider_b');
+        self::assertEquals($providerA->getIdentifier(), 'provider_a');
+        self::assertEquals($providerB->getIdentifier(), 'provider_b');
     }
 
     public function testParameterNotFoundProviderGetter(): void
@@ -83,12 +83,12 @@ final class VariableProviderRegistryTest extends TestCase
 
         $hasProviderC = $registry->hasTwigVariableProvider('provider_c');
 
-        $this->assertFalse($hasProviderC);
+        self::assertFalse($hasProviderC);
 
         $registry->setTwigVariableProvider($this->getProvider('provider_c'));
 
         $providerC = $registry->getTwigVariableProvider('provider_c');
-        $this->assertEquals($providerC->getIdentifier(), 'provider_c');
+        self::assertEquals($providerC->getIdentifier(), 'provider_c');
     }
 
     public function testParameterProviderChecker(): void
@@ -98,9 +98,9 @@ final class VariableProviderRegistryTest extends TestCase
             $this->getProvider('provider_b'),
         ]);
 
-        $this->assertTrue($registry->hasTwigVariableProvider('provider_a'));
-        $this->assertTrue($registry->hasTwigVariableProvider('provider_b'));
-        $this->assertFalse($registry->hasTwigVariableProvider('provider_c'));
+        self::assertTrue($registry->hasTwigVariableProvider('provider_a'));
+        self::assertTrue($registry->hasTwigVariableProvider('provider_b'));
+        self::assertFalse($registry->hasTwigVariableProvider('provider_c'));
     }
 }
 

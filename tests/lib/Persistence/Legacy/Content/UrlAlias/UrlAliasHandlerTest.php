@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
@@ -342,7 +343,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group location
      */
     public function testLookupLocationUrlAlias(
@@ -390,7 +393,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      *
      * @dataProvider providerForTestLookupLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group case-correction
      * @group location
      *
@@ -518,7 +523,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the lookup() method.
      *
      * @dataProvider providerForTestLookupLocationMultipleLanguages
+     *
      * @depends testLookup
+     *
      * @group multiple-languages
      * @group location
      */
@@ -560,6 +567,7 @@ class UrlAliasHandlerTest extends TestCase
      * @todo document
      *
      * @depends testLookup
+     *
      * @group history
      * @group location
      */
@@ -698,7 +706,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupCustomLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group location
      * @group custom
      */
@@ -740,7 +750,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupCustomLocationUrlAlias
+     *
      * @depends testLookup
+     *
      * @group location
      * @group custom
      */
@@ -797,7 +809,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that NOP action redirects to site root.
      *
      * @dataProvider providerForTestLookupVirtualUrlAlias
+     *
      * @depends testLookup
+     *
      * @group virtual
      */
     public function testLookupVirtualUrlAlias($url, $id)
@@ -866,7 +880,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupResourceUrlAlias
+     *
      * @depends testLookup
+     *
      * @group resource
      */
     public function testLookupResourceUrlAlias(
@@ -908,7 +924,9 @@ class UrlAliasHandlerTest extends TestCase
      * Testing that UrlAlias is found and has expected state.
      *
      * @dataProvider providerForTestLookupResourceUrlAlias
+     *
      * @depends testLookup
+     *
      * @group resource
      */
     public function testLookupResourceUrlAliasCaseInsensitive(
@@ -1038,8 +1056,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testLookupLocationUrlAlias
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocation()
@@ -1082,8 +1100,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationRepublish()
@@ -1108,8 +1126,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasCreatesUniqueAlias()
@@ -1160,9 +1178,10 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @dataProvider providerForTestPublishUrlAliasForLocationComplex
+     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationComplex(
@@ -1209,8 +1228,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationSameAliasForMultipleLanguages()
@@ -1258,8 +1277,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationDowngradesOldEntryToHistory()
@@ -1330,9 +1349,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationSameAliasForMultipleLanguages
+     *
      * @group publish
      * @group downgrade
      */
@@ -1405,9 +1424,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationReusesHistory()
@@ -1438,9 +1457,9 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationDowngradesOldEntryToHistory
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationReusesHistoryOfDifferentLanguage()
@@ -1491,8 +1510,8 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationReusesCustomAlias()
@@ -1515,7 +1534,6 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
      *
      * @depends testPublishUrlAliasForLocation
      */
@@ -1587,7 +1605,6 @@ class UrlAliasHandlerTest extends TestCase
      *
      * @todo document
      *
-     *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationReusingNopElement
      */
@@ -1635,7 +1652,6 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @todo document
-     *
      *
      * @depends testPublishUrlAliasForLocation
      * @depends testPublishUrlAliasForLocationReusingNopElementChangesCustomPath
@@ -1690,7 +1706,7 @@ class UrlAliasHandlerTest extends TestCase
         $handler->publishUrlAliasForLocation(314, 2, 'nop-element', 'cro-HR', false);
 
         $urlAlias = $handler->lookup('jedan');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan'),
@@ -1713,7 +1729,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('nop-element');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('nop-element'),
@@ -1742,7 +1758,7 @@ class UrlAliasHandlerTest extends TestCase
 
         try {
             $handler->lookup('nop-element/search');
-            $this->fail('Custom alias is not destroyed');
+            self::fail('Custom alias is not destroyed');
         } catch (NotFoundException $e) {
             // Custom alias is destroyed by reusing NOP entry with existing autogenerated alias
             // on the same level (that means link and ID are updated to the existing alias ID,
@@ -1763,7 +1779,7 @@ class UrlAliasHandlerTest extends TestCase
         $handler->publishUrlAliasForLocation(314, 2, 'tri', 'cro-HR', false);
 
         $urlAlias = $handler->lookup('jedan');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan'),
@@ -1786,7 +1802,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('tri');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('tri'),
@@ -1827,7 +1843,7 @@ class UrlAliasHandlerTest extends TestCase
         $handler->publishUrlAliasForLocation(314, 2, 'dva', 'cro-HR', false);
 
         $urlAlias = $handler->lookup('jedan');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan'),
@@ -1850,7 +1866,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('dva'),
@@ -1891,22 +1907,22 @@ class UrlAliasHandlerTest extends TestCase
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
 
         $handlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'createUrlAlias'
         )->with(
-            $this->equalTo('eznode:1'),
-            $this->equalTo('path'),
-            $this->equalTo(false),
-            $this->equalTo(null),
-            $this->equalTo(false)
+            self::equalTo('eznode:1'),
+            self::equalTo('path'),
+            self::equalTo(false),
+            self::equalTo(null),
+            self::equalTo(false)
         )->will(
-            $this->returnValue(
+            self::returnValue(
                 new UrlAlias()
             )
         );
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             UrlAlias::class,
             $handlerMock->createCustomUrlAlias(1, 'path')
         );
@@ -1924,22 +1940,22 @@ class UrlAliasHandlerTest extends TestCase
         $handlerMock = $this->getPartlyMockedHandler(['createUrlAlias']);
 
         $handlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'createUrlAlias'
         )->with(
-            $this->equalTo('module/module'),
-            $this->equalTo('path'),
-            $this->equalTo(false),
-            $this->equalTo(null),
-            $this->equalTo(false)
+            self::equalTo('module/module'),
+            self::equalTo('path'),
+            self::equalTo(false),
+            self::equalTo(null),
+            self::equalTo(false)
         )->will(
-            $this->returnValue(
+            self::returnValue(
                 new UrlAlias()
             )
         );
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             UrlAlias::class,
             $handlerMock->createGlobalUrlAlias('module/module', 'path')
         );
@@ -2526,7 +2542,7 @@ class UrlAliasHandlerTest extends TestCase
         foreach ($removedAliases as $path) {
             try {
                 $handler->lookup($path);
-                $this->fail("Alias '$path' not removed!");
+                self::fail("Alias '$path' not removed!");
             } catch (NotFoundException $e) {
                 // Do nothing
             }
@@ -3174,7 +3190,9 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the publishUrlAliasForLocation() method.
      *
      * @dataProvider providerForTestPublishUrlAliasForLocationSkipsReservedWord
+     *
      * @covers \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler::publishUrlAliasForLocation
+     *
      * @group publish
      */
     public function testPublishUrlAliasForLocationSkipsReservedWord($text, $alias)
@@ -3186,8 +3204,8 @@ class UrlAliasHandlerTest extends TestCase
 
         $urlAlias = $handler->lookup($alias);
 
-        $this->assertEquals(314, $urlAlias->destination);
-        $this->assertEquals(['kli-KR'], $urlAlias->languageCodes);
+        self::assertEquals(314, $urlAlias->destination);
+        self::assertEquals(['kli-KR'], $urlAlias->languageCodes);
     }
 
     /**
@@ -3204,13 +3222,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(316, 314, 317, 315);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan/swap');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap'),
@@ -3243,7 +3261,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap'),
@@ -3290,13 +3308,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(316, 314, 317, 315);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan/swap');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap'),
@@ -3329,7 +3347,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap'),
@@ -3362,7 +3380,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-new');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-new'),
@@ -3395,7 +3413,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-new');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-new'),
@@ -3450,7 +3468,7 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(316, 314, 317, 315);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing + 2,
             $this->countRows()
         );
@@ -3461,14 +3479,14 @@ class UrlAliasHandlerTest extends TestCase
         $urlAlias1Historized = $handler->lookup('jedan/swap-new-1');
         $urlAlias2Historized = $handler->lookup('dva/swap-new-2');
 
-        $this->assertEquals($urlAlias1TakenExpected, $urlAlias1Taken);
-        $this->assertEquals($urlAlias2TakenExpected, $urlAlias2Taken);
+        self::assertEquals($urlAlias1TakenExpected, $urlAlias1Taken);
+        self::assertEquals($urlAlias2TakenExpected, $urlAlias2Taken);
 
-        $this->assertEquals($urlAlias1HistorizedExpected, $urlAlias1Historized);
-        $this->assertEquals($urlAlias2HistorizedExpected, $urlAlias2Historized);
+        self::assertEquals($urlAlias1HistorizedExpected, $urlAlias1Historized);
+        self::assertEquals($urlAlias2HistorizedExpected, $urlAlias2Historized);
 
         $urlAlias1New = $handler->lookup('jedan/swap-new-22');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-new-22'),
@@ -3501,7 +3519,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias2New = $handler->lookup('dva/swap-new-12');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-new-12'),
@@ -3548,13 +3566,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(314, 2, 315, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan'),
@@ -3581,7 +3599,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('dva'),
@@ -3622,13 +3640,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(315, 2, 314, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan'),
@@ -3655,7 +3673,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('dva'),
@@ -3696,13 +3714,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(314, 2, 315, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan'),
@@ -3729,7 +3747,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('dva'),
@@ -3756,7 +3774,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan-new');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan-new'),
@@ -3783,7 +3801,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva-new');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('dva-new'),
@@ -3824,13 +3842,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(315, 2, 314, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan'),
@@ -3857,7 +3875,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('dva'),
@@ -3884,7 +3902,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan-new');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('jedan-new'),
@@ -3911,7 +3929,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva-new');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('dva-new'),
@@ -3952,13 +3970,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(314, 2, 315, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('swap');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap'),
@@ -3985,7 +4003,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('swap2');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap2'),
@@ -4026,13 +4044,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(315, 2, 314, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('swap');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap'),
@@ -4059,7 +4077,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('swap2');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap2'),
@@ -4100,13 +4118,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(314, 2, 315, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('swap-hr');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap-hr'),
@@ -4134,7 +4152,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('swap-hr2');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap-hr2'),
@@ -4162,7 +4180,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('swap-en');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap-en'),
@@ -4190,7 +4208,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('swap-en2');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '0-' . md5('swap-en2'),
@@ -4237,7 +4255,7 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(316, 314, 317, 315);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
@@ -4247,10 +4265,10 @@ class UrlAliasHandlerTest extends TestCase
         $urlAlias2HR = $handler->lookup('dva/swap-hr');
         $urlAlias2EN = $handler->lookup('dva/swap-en');
 
-        $this->assertEquals($urlAlias1HRExpected, $urlAlias1HR);
-        $this->assertEquals($urlAlias1ENExpected, $urlAlias1EN);
-        $this->assertEquals($urlAlias2HRExpected, $urlAlias2HR);
-        $this->assertEquals($urlAlias2ENExpected, $urlAlias2EN);
+        self::assertEquals($urlAlias1HRExpected, $urlAlias1HR);
+        self::assertEquals($urlAlias1ENExpected, $urlAlias1EN);
+        self::assertEquals($urlAlias2HRExpected, $urlAlias2HR);
+        self::assertEquals($urlAlias2ENExpected, $urlAlias2EN);
     }
 
     /**
@@ -4267,13 +4285,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(316, 314, 317, 315);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing + 2,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan/swap-hr');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-hr'),
@@ -4307,7 +4325,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-de');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-de'),
@@ -4341,7 +4359,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-en');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-en'),
@@ -4374,7 +4392,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-hr');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-hr'),
@@ -4408,7 +4426,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-en');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-en'),
@@ -4442,7 +4460,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-de');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-de'),
@@ -4489,13 +4507,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(317, 315, 316, 314);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing + 2,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-this'),
@@ -4531,7 +4549,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-en');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-en'),
@@ -4564,7 +4582,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-hr');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-hr'),
@@ -4597,7 +4615,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-this'),
@@ -4647,13 +4665,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(317, 315, 316, 314);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing + 4,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-this'),
@@ -4686,7 +4704,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-en');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-en'),
@@ -4719,7 +4737,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-hr');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-hr'),
@@ -4754,7 +4772,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-that');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-that'),
@@ -4790,7 +4808,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-hr');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-hr'),
@@ -4823,7 +4841,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-that');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-that'),
@@ -4858,7 +4876,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-this'),
@@ -4892,7 +4910,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-en');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-en'),
@@ -4940,13 +4958,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(318, 314, 319, 315);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan/swap-that');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-that'),
@@ -4979,7 +4997,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-this'),
@@ -5012,7 +5030,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-that');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-that'),
@@ -5045,7 +5063,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-this'),
@@ -5092,13 +5110,13 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(316, 314, 317, 315);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing + 1,
             $this->countRows()
         );
 
         $urlAlias = $handler->lookup('jedan/swap-that');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-that'),
@@ -5131,7 +5149,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-this'),
@@ -5164,7 +5182,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('dva/swap-that');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '3-' . md5('swap-that'),
@@ -5197,7 +5215,7 @@ class UrlAliasHandlerTest extends TestCase
         );
 
         $urlAlias = $handler->lookup('jedan/swap-this');
-        $this->assertEquals(
+        self::assertEquals(
             new UrlAlias(
                 [
                     'id' => '2-' . md5('swap-this'),
@@ -5234,6 +5252,7 @@ class UrlAliasHandlerTest extends TestCase
      * Test for the locationSwapped() method.
      *
      * @depends testLocationSwappedWithReusingNopEntry
+     *
      * @group swap
      */
     public function testLocationSwappedWithReusingNopEntryCustomAliasIsDestroyed()
@@ -5246,7 +5265,7 @@ class UrlAliasHandlerTest extends TestCase
 
         try {
             $handler->lookup('jedan/swap-that/search');
-            $this->fail('Custom alias is not destroyed');
+            self::fail('Custom alias is not destroyed');
         } catch (NotFoundException $e) {
             // Custom alias is destroyed by reusing NOP entry with existing autogenerated alias
             // on the same level (that means link and ID are updated to the existing alias ID,
@@ -5269,7 +5288,7 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(314, 2, 315, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );
@@ -5296,7 +5315,7 @@ class UrlAliasHandlerTest extends TestCase
 
         $handler->locationSwapped(314, 2, 315, 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             $countBeforeReusing,
             $this->countRows()
         );

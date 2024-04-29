@@ -45,7 +45,7 @@ class LocationServiceDecoratorTest extends TestCase
             $this->createMock(Location::class),
         ];
 
-        $serviceMock->expects($this->once())->method('copySubtree')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('copySubtree')->with(...$parameters);
 
         $decoratedService->copySubtree(...$parameters);
     }
@@ -61,7 +61,7 @@ class LocationServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects($this->once())->method('loadLocation')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadLocation')->with(...$parameters);
 
         $decoratedService->loadLocation(...$parameters);
     }
@@ -77,7 +77,7 @@ class LocationServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects($this->once())->method('loadLocationList')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadLocationList')->with(...$parameters);
 
         $decoratedService->loadLocationList(...$parameters);
     }
@@ -93,7 +93,7 @@ class LocationServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects($this->once())->method('loadLocationByRemoteId')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadLocationByRemoteId')->with(...$parameters);
 
         $decoratedService->loadLocationByRemoteId(...$parameters);
     }
@@ -109,7 +109,7 @@ class LocationServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce1603f9.50138109'],
         ];
 
-        $serviceMock->expects($this->once())->method('loadLocations')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadLocations')->with(...$parameters);
 
         $decoratedService->loadLocations(...$parameters);
     }
@@ -126,7 +126,7 @@ class LocationServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce160459.73858583'],
         ];
 
-        $serviceMock->expects($this->once())->method('loadLocationChildren')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadLocationChildren')->with(...$parameters);
 
         $decoratedService->loadLocationChildren(...$parameters);
     }
@@ -141,7 +141,7 @@ class LocationServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce160494.77580729'],
         ];
 
-        $serviceMock->expects($this->once())->method('loadParentLocationsForDraftContent')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadParentLocationsForDraftContent')->with(...$parameters);
 
         $decoratedService->loadParentLocationsForDraftContent(...$parameters);
     }
@@ -153,7 +153,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Location::class)];
 
-        $serviceMock->expects($this->once())->method('getLocationChildCount')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('getLocationChildCount')->with(...$parameters);
 
         $decoratedService->getLocationChildCount(...$parameters);
     }
@@ -168,7 +168,7 @@ class LocationServiceDecoratorTest extends TestCase
             $this->createMock(LocationCreateStruct::class),
         ];
 
-        $serviceMock->expects($this->once())->method('createLocation')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('createLocation')->with(...$parameters);
 
         $decoratedService->createLocation(...$parameters);
     }
@@ -183,7 +183,7 @@ class LocationServiceDecoratorTest extends TestCase
             $this->createMock(LocationUpdateStruct::class),
         ];
 
-        $serviceMock->expects($this->once())->method('updateLocation')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('updateLocation')->with(...$parameters);
 
         $decoratedService->updateLocation(...$parameters);
     }
@@ -198,7 +198,7 @@ class LocationServiceDecoratorTest extends TestCase
             $this->createMock(Location::class),
         ];
 
-        $serviceMock->expects($this->once())->method('swapLocation')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('swapLocation')->with(...$parameters);
 
         $decoratedService->swapLocation(...$parameters);
     }
@@ -210,7 +210,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Location::class)];
 
-        $serviceMock->expects($this->once())->method('hideLocation')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('hideLocation')->with(...$parameters);
 
         $decoratedService->hideLocation(...$parameters);
     }
@@ -222,7 +222,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Location::class)];
 
-        $serviceMock->expects($this->once())->method('unhideLocation')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('unhideLocation')->with(...$parameters);
 
         $decoratedService->unhideLocation(...$parameters);
     }
@@ -237,7 +237,7 @@ class LocationServiceDecoratorTest extends TestCase
             $this->createMock(Location::class),
         ];
 
-        $serviceMock->expects($this->once())->method('moveSubtree')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('moveSubtree')->with(...$parameters);
 
         $decoratedService->moveSubtree(...$parameters);
     }
@@ -249,7 +249,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Location::class)];
 
-        $serviceMock->expects($this->once())->method('deleteLocation')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('deleteLocation')->with(...$parameters);
 
         $decoratedService->deleteLocation(...$parameters);
     }
@@ -261,7 +261,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $parameters = [self::EXAMPLE_LOCATION_ID];
 
-        $serviceMock->expects($this->once())->method('newLocationCreateStruct')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('newLocationCreateStruct')->with(...$parameters);
 
         $decoratedService->newLocationCreateStruct(...$parameters);
     }
@@ -273,7 +273,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('newLocationUpdateStruct')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('newLocationUpdateStruct')->with(...$parameters);
 
         $decoratedService->newLocationUpdateStruct(...$parameters);
     }
@@ -285,7 +285,7 @@ class LocationServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('getAllLocationsCount')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('getAllLocationsCount')->with(...$parameters);
 
         $decoratedService->getAllLocationsCount(...$parameters);
     }
@@ -300,7 +300,7 @@ class LocationServiceDecoratorTest extends TestCase
             847,
         ];
 
-        $serviceMock->expects($this->once())->method('loadAllLocations')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadAllLocations')->with(...$parameters);
 
         $decoratedService->loadAllLocations(...$parameters);
     }

@@ -67,7 +67,7 @@ final class BackwardCompatibleIteratorTest extends TestCase
             self::EXAMPLE_DEPRECATED_SERVICE_TAG
         );
 
-        $this->assertEquals([
+        self::assertEquals([
             'app.service.foo' => [
                 ['alias' => 'foo'],
             ],
@@ -95,7 +95,7 @@ final class BackwardCompatibleIteratorTest extends TestCase
             }
         }
 
-        $this->fail(sprintf(
+        self::fail(sprintf(
             'Failed asserting that deprecation warning with message "%s" has been triggered',
             $expectedMessage
         ));

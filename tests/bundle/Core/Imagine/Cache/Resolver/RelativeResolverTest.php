@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Cache\Resolver;
 
 use Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver;
@@ -32,12 +33,12 @@ class RelativeResolverTest extends TestCase
         $expected = '/var/site/storage/images/_aliases/big/7/4/2/0/247-1-eng-GB/test.png';
 
         $this->liipResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with($path, $filter)
             ->willReturn($absolute);
 
-        $this->assertSame($expected, $resolver->resolve($path, $filter));
+        self::assertSame($expected, $resolver->resolve($path, $filter));
     }
 }
 

@@ -23,7 +23,7 @@ final class LoginFormViewTest extends AbstractViewTest
         $view = $this->createViewUnderTest();
         $view->setLastUsername('johndoe');
 
-        $this->assertEquals('johndoe', $view->getLastUsername());
+        self::assertEquals('johndoe', $view->getLastUsername());
     }
 
     public function testSetLastAuthenticationError(): void
@@ -34,7 +34,7 @@ final class LoginFormViewTest extends AbstractViewTest
         $view = $this->createViewUnderTest();
         $view->setLastAuthenticationError($exception);
 
-        $this->assertEquals($exception, $view->getLastAuthenticationException());
+        self::assertEquals($exception, $view->getLastAuthenticationException());
     }
 
     protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View

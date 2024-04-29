@@ -70,12 +70,12 @@ abstract class AbstractQueryTypeTest extends TestCase
      */
     final public function testGetQuery(array $parameters, Query $expectedQuery): void
     {
-        $this->assertEquals($expectedQuery, $this->queryType->getQuery($parameters));
+        self::assertEquals($expectedQuery, $this->queryType->getQuery($parameters));
     }
 
     final public function testGetName(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             $this->getExpectedName(),
             $this->queryType->getName()
         );
@@ -83,7 +83,7 @@ abstract class AbstractQueryTypeTest extends TestCase
 
     final public function testGetSupportedParameters(): void
     {
-        $this->assertEqualsCanonicalizing(
+        self::assertEqualsCanonicalizing(
             $this->getExpectedSupportedParameters(),
             $this->queryType->getSupportedParameters()
         );

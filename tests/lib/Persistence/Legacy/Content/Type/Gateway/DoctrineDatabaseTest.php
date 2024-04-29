@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -198,11 +199,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             3,
             $gateway->countTypesInGroup(1)
         );
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $gateway->countTypesInGroup(23)
         );
@@ -216,11 +217,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $gateway = $this->getGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $gateway->countGroupsForType(1, 1)
         );
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $gateway->countGroupsForType(23, 0)
         );
@@ -257,7 +258,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $data = $gateway->loadGroupData([2]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'created' => '1031216941',
@@ -282,7 +283,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $data = $gateway->loadGroupDataByIdentifier('Users');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'created' => '1031216941',
@@ -307,12 +308,12 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $data = $gateway->loadAllGroupsData();
 
-        $this->assertCount(
+        self::assertCount(
             3,
             $data
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'created' => '1031216941',
                 'creator_id' => '14',
@@ -335,7 +336,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $rows = $gateway->loadTypesDataForGroup(1, 0);
 
-        $this->assertCount(
+        self::assertCount(
             4,
             $rows
         );
@@ -350,11 +351,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $rows = $gateway->loadTypeData(1, 0);
 
-        $this->assertCount(
+        self::assertCount(
             3,
             $rows
         );
-        $this->assertCount(
+        self::assertCount(
             50,
             $rows[0]
         );
@@ -378,11 +379,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $rows = $gateway->loadTypeDataByIdentifier('folder', 0);
 
-        $this->assertCount(
+        self::assertCount(
             3,
             $rows
         );
-        $this->assertCount(
+        self::assertCount(
             50,
             $rows[0]
         );
@@ -397,11 +398,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $rows = $gateway->loadTypeDataByRemoteId('a3d405b81be900468eb153d774f4f0d2', 0);
 
-        $this->assertCount(
+        self::assertCount(
             3,
             $rows
         );
-        $this->assertCount(
+        self::assertCount(
             50,
             $rows[0]
         );
@@ -942,7 +943,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $res = $gateway->countInstancesOfType(3, 0);
 
-        $this->assertEquals(
+        self::assertEquals(
             6,
             $res
         );
@@ -958,7 +959,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getGateway();
         $res = $gateway->countInstancesOfType(23422342, 1);
 
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $res
         );

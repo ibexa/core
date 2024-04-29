@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -23,6 +24,7 @@ use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
  * Test case for Location operations in the SearchService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SearchService
+ *
  * @group integration
  * @group search
  */
@@ -221,14 +223,14 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(2, $result->totalCount);
+        self::assertEquals(2, $result->totalCount);
 
-        $this->assertEquals(
+        self::assertEquals(
             $testContents[0]->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $testContents[1]->contentInfo->mainLocationId,
             $result->searchHits[1]->valueObject->id
         );
@@ -256,9 +258,9 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
+        self::assertEquals(1, $result->totalCount);
 
-        $this->assertEquals(
+        self::assertEquals(
             $testContents[2]->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -287,8 +289,8 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $testContent->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -298,6 +300,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFieldCollectionContains
      */
     public function testFieldCollectionContainsNoMatch()
@@ -317,7 +320,7 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(0, $result->totalCount);
+        self::assertEquals(0, $result->totalCount);
     }
 
     /**
@@ -344,8 +347,8 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $folder->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -364,7 +367,7 @@ class SearchServiceLocationTest extends BaseTest
         $setupFactory = $this->getSetupFactory();
 
         if (!$setupFactory instanceof LegacySolrSetupFactory) {
-            $this->markTestIncomplete(
+            self::markTestIncomplete(
                 'Field Value mappers are used only with Solr and Elastic search engines'
             );
         }
@@ -384,7 +387,7 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
+        self::assertEquals(1, $result->totalCount);
     }
 
     public function testInvalidFieldIdentifierRange()
@@ -503,7 +506,7 @@ class SearchServiceLocationTest extends BaseTest
     {
         // Check using get_class since the others extend SetupFactory\Legacy
         if ($this->getSetupFactory() instanceof Legacy) {
-            $this->markTestIncomplete(
+            self::markTestIncomplete(
                 'Custom fields not supported by LegacySE ' .
                 '(@todo: Legacy should fallback to just querying normal field so this should be tested here)'
             );
@@ -566,6 +569,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceLessThanOrEqual()
@@ -636,8 +640,8 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $wildBoars->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -647,6 +651,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceGreaterThanOrEqual()
@@ -717,8 +722,8 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $tree->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -728,6 +733,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceBetween()
@@ -814,8 +820,8 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $mushrooms->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -825,6 +831,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceSortAscending()
@@ -924,16 +931,16 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(3, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(3, $result->totalCount);
+        self::assertEquals(
             $wildBoars->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
-        $this->assertEquals(
+        self::assertEquals(
             $mushrooms->contentInfo->mainLocationId,
             $result->searchHits[1]->valueObject->id
         );
-        $this->assertEquals(
+        self::assertEquals(
             $tree->contentInfo->mainLocationId,
             $result->searchHits[2]->valueObject->id
         );
@@ -943,6 +950,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceSortDescending()
@@ -1042,16 +1050,16 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(3, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(3, $result->totalCount);
+        self::assertEquals(
             $wildBoars->contentInfo->mainLocationId,
             $result->searchHits[2]->valueObject->id
         );
-        $this->assertEquals(
+        self::assertEquals(
             $mushrooms->contentInfo->mainLocationId,
             $result->searchHits[1]->valueObject->id
         );
-        $this->assertEquals(
+        self::assertEquals(
             $tree->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -1061,6 +1069,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceWithCustomField()
@@ -1134,8 +1143,8 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $wildBoars->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -1145,6 +1154,7 @@ class SearchServiceLocationTest extends BaseTest
      * Test for the findLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations()
+     *
      * @group maplocation
      */
     public function testMapLocationDistanceWithCustomFieldSort()
@@ -1247,16 +1257,16 @@ class SearchServiceLocationTest extends BaseTest
         $searchService = $repository->getSearchService();
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(3, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(3, $result->totalCount);
+        self::assertEquals(
             $wildBoars->contentInfo->mainLocationId,
             $result->searchHits[2]->valueObject->id
         );
-        $this->assertEquals(
+        self::assertEquals(
             $mushrooms->contentInfo->mainLocationId,
             $result->searchHits[1]->valueObject->id
         );
-        $this->assertEquals(
+        self::assertEquals(
             $tree->contentInfo->mainLocationId,
             $result->searchHits[0]->valueObject->id
         );
@@ -1333,14 +1343,14 @@ class SearchServiceLocationTest extends BaseTest
 
         //Sanity check for visible locations
         $result = $searchService->findLocations($query);
-        $this->assertEquals(3, $result->totalCount);
+        self::assertEquals(3, $result->totalCount);
 
         //Hide main content
         $contentService->hideContent($publishedContent->contentInfo);
         $this->refreshSearch($repository);
 
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
+        self::assertEquals(1, $result->totalCount);
 
         //Query for invisible content
         $hiddenQuery = new LocationQuery([
@@ -1355,7 +1365,7 @@ class SearchServiceLocationTest extends BaseTest
         ]);
 
         $result = $searchService->findLocations($hiddenQuery);
-        $this->assertEquals(2, $result->totalCount);
+        self::assertEquals(2, $result->totalCount);
     }
 
     /**
@@ -1373,7 +1383,7 @@ class SearchServiceLocationTest extends BaseTest
             $result = $searchService->findLocations($query);
             $this->simplifySearchResult($result);
         } catch (NotImplementedException $e) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 'This feature is not supported by the current search backend: ' . $e->getMessage()
             );
         }
@@ -1384,9 +1394,9 @@ class SearchServiceLocationTest extends BaseTest
                     $record = $fixture . '.recording',
                     "<?php\n\nreturn " . var_export($result, true) . ";\n\n"
                 );
-                $this->markTestIncomplete("No fixture available. Result recorded at $record. Result: \n" . $this->printResult($result));
+                self::markTestIncomplete("No fixture available. Result recorded at $record. Result: \n" . $this->printResult($result));
             } else {
-                $this->markTestIncomplete("No fixture available. Set \$_ENV['ibexa_tests_record'] to generate:\n " . $fixture);
+                self::markTestIncomplete("No fixture available. Set \$_ENV['ibexa_tests_record'] to generate:\n " . $fixture);
             }
         }
 
@@ -1422,7 +1432,7 @@ class SearchServiceLocationTest extends BaseTest
             }
         }
 
-        $this->assertEqualsWithDelta(
+        self::assertEqualsWithDelta(
             $fixture,
             $result,
             .2, // Be quite generous regarding delay -- most important for scores

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -477,6 +478,7 @@ class Handler implements BaseContentTypeHandler
         }
 
         $this->contentTypeGateway->deleteGroupAssignment($groupId, $contentTypeId, $status);
+
         // @todo FIXME: What is to be returned?
         return true;
     }
@@ -495,6 +497,7 @@ class Handler implements BaseContentTypeHandler
     public function link($groupId, $contentTypeId, $status)
     {
         $this->contentTypeGateway->insertGroupAssignment($groupId, $contentTypeId, $status);
+
         // @todo FIXME: What is to be returned?
         return true;
     }

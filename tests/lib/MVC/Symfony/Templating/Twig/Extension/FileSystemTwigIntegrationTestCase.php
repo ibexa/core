@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Exception;
@@ -32,7 +33,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
         if ($condition) {
             eval('$ret = ' . $condition . ';');
             if (!$ret) {
-                $this->markTestSkipped($condition);
+                self::markTestSkipped($condition);
             }
         }
 
@@ -63,7 +64,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
                 $template = $twig->loadTemplate($twig->getTemplateClass('index.twig'), 'index.twig');
             } catch (Exception $e) {
                 if (false !== $exception) {
-                    $this->assertEquals(
+                    self::assertEquals(
                         trim($exception),
                         trim(
                             sprintf('%s: %s', get_class($e), $e->getMessage())
@@ -86,7 +87,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
                 $output = trim($template->render(eval($match[1] . ';')), "\n ");
             } catch (Exception $e) {
                 if (false !== $exception) {
-                    $this->assertStringContainsString(
+                    self::assertStringContainsString(
                         trim($exception),
                         trim(
                             sprintf('%s: %s', get_class($e), $e->getMessage())
@@ -109,7 +110,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
 
             if (false !== $exception) {
                 list($class) = explode(':', $exception);
-                $this->assertThat(
+                self::assertThat(
                     null,
                     new PHPUnitException($class)
                 );
@@ -128,7 +129,7 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
                     );
                 }
             }
-            $this->assertEquals($expected, $output, $message . ' (in ' . $file . ')');
+            self::assertEquals($expected, $output, $message . ' (in ' . $file . ')');
         }
     }
 }

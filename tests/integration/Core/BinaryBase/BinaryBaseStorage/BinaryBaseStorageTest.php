@@ -88,7 +88,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
         $this->ioServiceMock
             ->expects(self::once())
             ->method('newBinaryCreateStructFromLocalFile')
-            ->will($this->returnValue($binaryFileCreateStruct));
+            ->will(self::returnValue($binaryFileCreateStruct));
 
         $this->pathGeneratorMock
             ->expects(self::once())

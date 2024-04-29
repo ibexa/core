@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\View\Renderer;
 
 use Ibexa\Core\MVC\Exception\NoViewTemplateException;
@@ -42,15 +43,15 @@ class TemplateRendererTest extends TestCase
         $view->setTemplateIdentifier('path/to/template.html.twig');
 
         $this->eventDispatcherMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with(
-                $this->isInstanceOf(PreContentViewEvent::class),
+                self::isInstanceOf(PreContentViewEvent::class),
                 MVCEvents::PRE_CONTENT_VIEW
             );
 
         $this->templateEngineMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with(
                 'path/to/template.html.twig',

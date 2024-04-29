@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateInterval;
@@ -206,13 +207,13 @@ class DateAndTimeTest extends FieldTypeTest
         $actualResult = $fieldType->fromHash($inputHash);
 
         // Tests may run slowly. Allow 20 seconds margin of error.
-        $this->assertGreaterThanOrEqual(
+        self::assertGreaterThanOrEqual(
             $expectedResult,
             $actualResult,
             'fromHash() method did not create expected result.'
         );
         if ($expectedResult->value !== null) {
-            $this->assertLessThan(
+            self::assertLessThan(
                 $expectedResult->value->add(new DateInterval('PT20S')),
                 $actualResult->value,
                 'fromHash() method did not create expected result.'
@@ -271,13 +272,13 @@ class DateAndTimeTest extends FieldTypeTest
         $actualResult = $fieldType->fromHash($inputHash);
 
         // Tests may run slowly. Allow 20 seconds margin of error.
-        $this->assertGreaterThanOrEqual(
+        self::assertGreaterThanOrEqual(
             $expectedResult,
             $actualResult,
             'fromHash() method did not create expected result.'
         );
         if ($expectedResult->value !== null) {
-            $this->assertLessThan(
+            self::assertLessThan(
                 $expectedResult->value->add(new DateInterval('PT20S')),
                 $actualResult->value,
                 'fromHash() method did not create expected result.'

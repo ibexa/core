@@ -51,7 +51,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->willReturn($location);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setMapping')
             ->with(1, 2);
 
@@ -85,7 +85,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->willReturn($locations);
 
         $this->mapper
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('setMapping')
             ->withConsecutive([1, 2], [3, 4]);
 
@@ -128,7 +128,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->willReturn($locations);
 
         $this->mapper
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('setMapping')
             ->withConsecutive([1, 2], [3, 4]);
 
@@ -173,7 +173,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->willReturn($locationList);
 
         $this->mapper
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('setMapping')
             ->withConsecutive([1, 2], [3, 4]);
 
@@ -212,7 +212,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->willReturn($locations);
 
         $this->mapper
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('setMapping')
             ->withConsecutive([1, 2], [3, 4]);
 

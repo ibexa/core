@@ -47,7 +47,7 @@ class EmailProviderTest extends TestCase
     public function testLoadUserByUsernameAlreadyUserObject()
     {
         $user = $this->createMock(UserInterface::class);
-        $this->assertSame($user, $this->userProvider->loadUserByUsername($user));
+        self::assertSame($user, $this->userProvider->loadUserByUsername($user));
     }
 
     public function testLoadUserByUsernameUserNotFound()
@@ -56,10 +56,10 @@ class EmailProviderTest extends TestCase
 
         $username = 'foobar@example.org';
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUserByEmail')
             ->with($username)
-            ->will($this->throwException(new NotFoundException('user', $username)));
+            ->will(self::throwException(new NotFoundException('user', $username)));
         $this->userProvider->loadUserByUsername($username);
     }
 
@@ -69,15 +69,15 @@ class EmailProviderTest extends TestCase
         $apiUser = $this->createMock(APIUser::class);
 
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUserByEmail')
             ->with($username)
-            ->will($this->returnValue($apiUser));
+            ->will(self::returnValue($apiUser));
 
         $user = $this->userProvider->loadUserByUsername($username);
-        $this->assertInstanceOf(UserInterface::class, $user);
-        $this->assertSame($apiUser, $user->getAPIUser());
-        $this->assertSame(['ROLE_USER'], $user->getRoles());
+        self::assertInstanceOf(UserInterface::class, $user);
+        self::assertSame($apiUser, $user->getAPIUser());
+        self::assertSame(['ROLE_USER'], $user->getRoles());
     }
 
     public function testRefreshUserNotSupported()
@@ -105,26 +105,26 @@ class EmailProviderTest extends TestCase
         $refreshedAPIUser = clone $apiUser;
         $user = $this->createMock(UserInterface::class);
         $user
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAPIUser')
-            ->will($this->returnValue($apiUser));
+            ->will(self::returnValue($apiUser));
         $user
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setAPIUser')
             ->with($refreshedAPIUser);
 
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUser')
             ->with($userId)
-            ->will($this->returnValue($refreshedAPIUser));
+            ->will(self::returnValue($refreshedAPIUser));
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setCurrentUserReference')
             ->with(new UserReference($apiUser->getUserId()));
 
-        $this->assertSame($user, $this->userProvider->refreshUser($user));
+        self::assertSame($user, $this->userProvider->refreshUser($user));
     }
 
     public function testRefreshUserNotFound()
@@ -145,15 +145,15 @@ class EmailProviderTest extends TestCase
         );
         $user = $this->createMock(UserInterface::class);
         $user
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAPIUser')
-            ->will($this->returnValue($apiUser));
+            ->will(self::returnValue($apiUser));
 
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUser')
             ->with($userId)
-            ->will($this->throwException(new NotFoundException('user', 'foo')));
+            ->will(self::throwException(new NotFoundException('user', 'foo')));
 
         $this->userProvider->refreshUser($user);
     }
@@ -163,7 +163,7 @@ class EmailProviderTest extends TestCase
      */
     public function testSupportsClass($class, $supports)
     {
-        $this->assertSame($supports, $this->userProvider->supportsClass($class));
+        self::assertSame($supports, $this->userProvider->supportsClass($class));
     }
 
     public function supportsClassProvider()
@@ -181,9 +181,9 @@ class EmailProviderTest extends TestCase
 
         $user = $this->userProvider->loadUserByAPIUser($apiUser);
 
-        $this->assertInstanceOf(MVCUser::class, $user);
-        $this->assertSame($apiUser, $user->getAPIUser());
-        $this->assertSame(['ROLE_USER'], $user->getRoles());
+        self::assertInstanceOf(MVCUser::class, $user);
+        self::assertSame($apiUser, $user->getAPIUser());
+        self::assertSame(['ROLE_USER'], $user->getRoles());
     }
 }
 

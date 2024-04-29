@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Suggestion\Formatter;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion;
@@ -83,7 +84,7 @@ ibexa:
 EOT;
 
         $formatter = new YamlSuggestionFormatter();
-        $this->assertSame($expectedMessage, trim($formatter->format($suggestion)));
+        self::assertSame($expectedMessage, trim($formatter->format($suggestion)));
     }
 
     public function testFormatNoSuggestion()
@@ -91,7 +92,7 @@ EOT;
         $message = 'This is a message';
         $suggestion = new ConfigSuggestion($message);
         $formatter = new YamlSuggestionFormatter();
-        $this->assertSame($message, $formatter->format($suggestion));
+        self::assertSame($message, $formatter->format($suggestion));
     }
 }
 

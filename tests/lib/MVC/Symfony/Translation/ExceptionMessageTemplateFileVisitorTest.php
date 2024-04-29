@@ -89,7 +89,7 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
 
         $logger = $this->createMock(LoggerInterface::class);
         $logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error');
 
         $this->exceptionMessageTemplateFileVisitor->setLogger($logger);

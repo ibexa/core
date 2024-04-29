@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Event;
 
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
@@ -16,7 +17,7 @@ class ScopeChangeEventTest extends TestCase
     {
         $siteAccess = new SiteAccess('foo', 'test');
         $event = new ScopeChangeEvent($siteAccess);
-        $this->assertSame($siteAccess, $event->getSiteAccess());
+        self::assertSame($siteAccess, $event->getSiteAccess());
     }
 }
 

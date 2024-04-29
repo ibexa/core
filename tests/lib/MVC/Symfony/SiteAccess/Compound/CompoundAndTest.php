@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess\Compound;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -74,16 +75,16 @@ class CompoundAndTest extends TestCase
     {
         $this
             ->matcherBuilder
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('buildMatcher')
-            ->will($this->returnValue($this->createMock(Matcher::class)));
+            ->will(self::returnValue($this->createMock(Matcher::class)));
 
         $compoundMatcher->setRequest($this->createMock(SimplifiedRequest::class));
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
         $matchers = $compoundMatcher->getSubMatchers();
-        $this->assertIsArray($matchers);
+        self::assertIsArray($matchers);
         foreach ($matchers as $matcher) {
-            $this->assertInstanceOf(Matcher::class, $matcher);
+            self::assertInstanceOf(Matcher::class, $matcher);
         }
     }
 
@@ -98,7 +99,7 @@ class CompoundAndTest extends TestCase
         $compoundMatcher = $this->buildMatcher();
         $compoundMatcher->setRequest($request);
         $compoundMatcher->setMatcherBuilder(new MatcherBuilder());
-        $this->assertSame($expectedMatch, $compoundMatcher->match());
+        self::assertSame($expectedMatch, $compoundMatcher->match());
     }
 
     public function testSetRequest()
@@ -118,17 +119,17 @@ class CompoundAndTest extends TestCase
         $matcher1 = $this->createMock(Matcher::class);
         $matcher2 = $this->createMock(Matcher::class);
         $this->matcherBuilder
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('buildMatcher')
-            ->will($this->onConsecutiveCalls($matcher1, $matcher2));
+            ->will(self::onConsecutiveCalls($matcher1, $matcher2));
 
         $request = $this->createMock(SimplifiedRequest::class);
         $matcher1
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setRequest')
             ->with($request);
         $matcher2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setRequest')
             ->with($request);
 
@@ -155,13 +156,13 @@ class CompoundAndTest extends TestCase
     {
         $compoundMatcher = $this->buildMatcher();
         $this->matcherBuilder
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('buildMatcher')
-            ->will($this->returnValue($this->createMock(VersatileMatcher::class)));
+            ->will(self::returnValue($this->createMock(VersatileMatcher::class)));
 
         $compoundMatcher->setRequest($this->createMock(SimplifiedRequest::class));
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
-        $this->assertNull($compoundMatcher->reverseMatch('not_configured_sa'));
+        self::assertNull($compoundMatcher->reverseMatch('not_configured_sa'));
     }
 
     public function testReverseMatchNotVersatile()
@@ -190,10 +191,10 @@ class CompoundAndTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->matcherBuilder
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('buildMatcher')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['Map\URI', $mapUriConfig, $request, $matcher1],
                         ['Map\Host', $mapHostConfig, $request, $matcher2],
@@ -202,16 +203,16 @@ class CompoundAndTest extends TestCase
             );
 
         $matcher1
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will($this->returnValue($this->createMock(VersatileMatcher::class)));
+            ->will(self::returnValue($this->createMock(VersatileMatcher::class)));
         $matcher2
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('reverseMatch');
 
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
-        $this->assertNull($compoundMatcher->reverseMatch($siteAccessName));
+        self::assertNull($compoundMatcher->reverseMatch($siteAccessName));
     }
 
     public function testReverseMatchFail()
@@ -236,10 +237,10 @@ class CompoundAndTest extends TestCase
         $matcher1 = $this->createMock(VersatileMatcher::class);
         $matcher2 = $this->createMock(VersatileMatcher::class);
         $this->matcherBuilder
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('buildMatcher')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['Map\URI', $mapUriConfig, $request, $matcher1],
                         ['Map\Host', $mapHostConfig, $request, $matcher2],
@@ -248,18 +249,18 @@ class CompoundAndTest extends TestCase
             );
 
         $matcher1
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will($this->returnValue($this->createMock(VersatileMatcher::class)));
+            ->will(self::returnValue($this->createMock(VersatileMatcher::class)));
         $matcher2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
 
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
-        $this->assertNull($compoundMatcher->reverseMatch($siteAccessName));
+        self::assertNull($compoundMatcher->reverseMatch($siteAccessName));
     }
 
     public function testReverseMatch()
@@ -284,10 +285,10 @@ class CompoundAndTest extends TestCase
         $matcher1 = $this->createMock(VersatileMatcher::class);
         $matcher2 = $this->createMock(VersatileMatcher::class);
         $this->matcherBuilder
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('buildMatcher')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['Map\URI', $mapUriConfig, $request, $matcher1],
                         ['Map\Host', $mapHostConfig, $request, $matcher2],
@@ -297,22 +298,22 @@ class CompoundAndTest extends TestCase
 
         $reverseMatchedMatcher1 = $this->createMock(VersatileMatcher::class);
         $matcher1
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will($this->returnValue($reverseMatchedMatcher1));
+            ->will(self::returnValue($reverseMatchedMatcher1));
         $reverseMatchedMatcher2 = $this->createMock(VersatileMatcher::class);
         $matcher2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('reverseMatch')
             ->with($siteAccessName)
-            ->will($this->returnValue($reverseMatchedMatcher2));
+            ->will(self::returnValue($reverseMatchedMatcher2));
 
         $compoundMatcher->setMatcherBuilder($this->matcherBuilder);
         $result = $compoundMatcher->reverseMatch($siteAccessName);
-        $this->assertInstanceOf(LogicalAnd::class, $result);
+        self::assertInstanceOf(LogicalAnd::class, $result);
         foreach ($result->getSubMatchers() as $subMatcher) {
-            $this->assertInstanceOf(VersatileMatcher::class, $subMatcher);
+            self::assertInstanceOf(VersatileMatcher::class, $subMatcher);
         }
     }
 
@@ -326,7 +327,7 @@ class CompoundAndTest extends TestCase
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/foo/bar/baz']));
         $serializedSA2 = serialize($sa);
 
-        $this->assertSame($serializedSA1, $serializedSA2);
+        self::assertSame($serializedSA1, $serializedSA2);
     }
 }
 

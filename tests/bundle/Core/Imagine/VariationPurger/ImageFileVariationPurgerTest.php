@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\VariationPurger;
 
 use ArrayIterator;
@@ -40,7 +41,7 @@ class ImageFileVariationPurgerTest extends TestCase
         );
 
         $this->pathGeneratorMock
-            ->expects($this->exactly(4))
+            ->expects(self::exactly(4))
             ->method('getVariationPath')
             ->withConsecutive(
                 ['path/to/1st/image.jpg', 'large'],
@@ -59,24 +60,24 @@ class ImageFileVariationPurgerTest extends TestCase
         );
 
         $this->pathGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariationPath')
-            ->will($this->returnValue('path/to/file_large.png'));
+            ->will(self::returnValue('path/to/file_large.png'));
 
         $this->ioServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('exists')
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
 
         $this->ioServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
-            ->will($this->returnValue(new BinaryFile()));
+            ->will(self::returnValue(new BinaryFile()));
 
         $this->ioServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteBinaryFile')
-            ->with($this->isInstanceOf(BinaryFile::class));
+            ->with(self::isInstanceOf(BinaryFile::class));
 
         $purger->purge(['large']);
     }
@@ -88,21 +89,21 @@ class ImageFileVariationPurgerTest extends TestCase
         );
 
         $this->pathGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariationPath')
-            ->will($this->returnValue('path/to/file_large.png'));
+            ->will(self::returnValue('path/to/file_large.png'));
 
         $this->ioServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('exists')
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
 
         $this->ioServiceMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('loadBinaryFile');
 
         $this->ioServiceMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('deleteBinaryFile');
 
         $purger->purge(['large']);

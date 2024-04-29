@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -12,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation
+ *
  * @group integration
  * @group limitation
  */

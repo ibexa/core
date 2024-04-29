@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\TransformationProcessor;
 
 use Ibexa\Core\Persistence;
@@ -45,7 +46,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'aeöü',
             $this->applyTransformations($rules, 'äöü')
         );
@@ -63,7 +64,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'öü',
             $this->applyTransformations($rules, 'äöü')
         );
@@ -81,7 +82,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'äöü',
             $this->applyTransformations($rules, 'äöü')
         );
@@ -99,7 +100,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'Aöü',
             $this->applyTransformations($rules, 'äöü')
         );
@@ -117,7 +118,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'åöü',
             $this->applyTransformations($rules, 'äöü')
         );
@@ -135,7 +136,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'aaaaaaaçè',
             $this->applyTransformations($rules, 'àáâãäåæçè')
         );
@@ -153,7 +154,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'Þßàáâãäçè',
             $this->applyTransformations($rules, 'àáâãäåæçè')
         );
@@ -171,7 +172,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'hello world',
             $this->applyTransformations($rules, 'Hello World')
         );
@@ -189,7 +190,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'âãäåæçèçè',
             $this->applyTransformations($rules, 'àáâãäåæçè')
         );
@@ -207,7 +208,7 @@ class TransformationProcessorPcreCompilerTest extends TestCase
             )
         );
 
-        $this->assertSame(
+        self::assertSame(
             'ßááããååçè',
             $this->applyTransformations($rules, 'àáâãäåæçè')
         );

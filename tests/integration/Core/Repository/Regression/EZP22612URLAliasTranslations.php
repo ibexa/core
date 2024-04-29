@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
@@ -54,7 +55,7 @@ class EZP22612URLAliasTranslations extends BaseTest
         $aliasService = $this->getRepository()->getURLAliasService();
         $alias = $aliasService->lookup('common/alias');
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $alias
         );

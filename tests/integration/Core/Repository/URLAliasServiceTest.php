@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Doctrine\DBAL\Connection;
@@ -22,6 +23,7 @@ use RuntimeException;
  * Test case for operations in the URLAliasService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\URLAliasService
+ *
  * @group url-alias
  */
 class URLAliasServiceTest extends BaseTest
@@ -47,14 +49,14 @@ class URLAliasServiceTest extends BaseTest
             );
 
             if (false === is_object($location)) {
-                $this->markTestSkipped(
+                self::markTestSkipped(
                     'This test cannot be executed, because the utilized ' .
                     'LocationService::loadLocation() does not ' .
                     'return an object.'
                 );
             }
         } catch (Exception $e) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 'This test cannot be executed, because the utilized ' .
                 'LocationService::loadLocation() failed with ' .
                 PHP_EOL . PHP_EOL .
@@ -85,7 +87,7 @@ class URLAliasServiceTest extends BaseTest
         $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US');
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -154,7 +156,7 @@ class URLAliasServiceTest extends BaseTest
     {
         [$createdUrlAlias, $locationId] = $testData;
 
-        $this->assertNotNull($createdUrlAlias->id);
+        self::assertNotNull($createdUrlAlias->id);
 
         $this->assertPropertiesCorrect(
             [
@@ -175,6 +177,7 @@ class URLAliasServiceTest extends BaseTest
      * Test for the createUrlAlias() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::createUrlAlias($location, $path, $languageCode, $forwarding)
+     *
      * @depends testCreateUrlAliasPropertyValues
      */
     public function testCreateUrlAliasWithForwarding()
@@ -194,7 +197,7 @@ class URLAliasServiceTest extends BaseTest
         $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US', true);
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -211,7 +214,7 @@ class URLAliasServiceTest extends BaseTest
     {
         [$createdUrlAlias, $locationId] = $testData;
 
-        $this->assertNotNull($createdUrlAlias->id);
+        self::assertNotNull($createdUrlAlias->id);
 
         $this->assertPropertiesCorrect(
             [
@@ -250,7 +253,7 @@ class URLAliasServiceTest extends BaseTest
         $createdUrlAlias = $urlAliasService->createUrlAlias($location, '/Home/My-New-Site', 'eng-US', false, true);
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -267,7 +270,7 @@ class URLAliasServiceTest extends BaseTest
     {
         [$createdUrlAlias, $locationId] = $testData;
 
-        $this->assertNotNull($createdUrlAlias->id);
+        self::assertNotNull($createdUrlAlias->id);
 
         $this->assertPropertiesCorrect(
             [
@@ -330,7 +333,7 @@ class URLAliasServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -345,7 +348,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testCreateGlobalUrlAliasPropertyValues(URLAlias $createdUrlAlias)
     {
-        $this->assertNotNull($createdUrlAlias->id);
+        self::assertNotNull($createdUrlAlias->id);
 
         $this->assertPropertiesCorrect(
             [
@@ -382,7 +385,7 @@ class URLAliasServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -397,7 +400,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testCreateGlobalUrlAliasWithForwardPropertyValues(URLAlias $createdUrlAlias)
     {
-        $this->assertNotNull($createdUrlAlias->id);
+        self::assertNotNull($createdUrlAlias->id);
 
         $this->assertPropertiesCorrect(
             [
@@ -435,7 +438,7 @@ class URLAliasServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -450,7 +453,7 @@ class URLAliasServiceTest extends BaseTest
      */
     public function testCreateGlobalUrlAliasWithAlwaysAvailablePropertyValues(URLAlias $createdUrlAlias)
     {
-        $this->assertNotNull($createdUrlAlias->id);
+        self::assertNotNull($createdUrlAlias->id);
 
         $this->assertPropertiesCorrect(
             [
@@ -494,7 +497,7 @@ class URLAliasServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -529,7 +532,7 @@ class URLAliasServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $createdUrlAlias
         );
@@ -546,7 +549,7 @@ class URLAliasServiceTest extends BaseTest
     {
         [$createdUrlAlias, $locationId] = $testData;
 
-        $this->assertNotNull($createdUrlAlias->id);
+        self::assertNotNull($createdUrlAlias->id);
 
         $this->assertPropertiesCorrect(
             [
@@ -622,10 +625,10 @@ class URLAliasServiceTest extends BaseTest
         $loadedAliases = $urlAliasService->listLocationAliases($location);
         /* END: Use Case */
 
-        $this->assertIsArray($loadedAliases);
+        self::assertIsArray($loadedAliases);
 
         // Only 1 non-history alias
-        $this->assertCount(1, $loadedAliases);
+        self::assertCount(1, $loadedAliases);
 
         return [$loadedAliases, $location];
     }
@@ -640,11 +643,11 @@ class URLAliasServiceTest extends BaseTest
         [$loadedAliases, $location] = $testData;
 
         foreach ($loadedAliases as $loadedAlias) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 URLAlias::class,
                 $loadedAlias
             );
-            $this->assertEquals(
+            self::assertEquals(
                 $location->id,
                 $loadedAlias->destination
             );
@@ -676,8 +679,8 @@ class URLAliasServiceTest extends BaseTest
         $loadedAliases = $urlAliasService->listLocationAliases($location, false, 'eng-US');
         /* END: Use Case */
 
-        $this->assertIsArray($loadedAliases);
-        $this->assertCount(1, $loadedAliases);
+        self::assertIsArray($loadedAliases);
+        self::assertCount(1, $loadedAliases);
     }
 
     /**
@@ -704,8 +707,8 @@ class URLAliasServiceTest extends BaseTest
         $loadedAliases = $urlAliasService->listLocationAliases($location, true, 'eng-US');
         /* END: Use Case */
 
-        $this->assertIsArray($loadedAliases);
-        $this->assertCount(1, $loadedAliases);
+        self::assertIsArray($loadedAliases);
+        self::assertCount(1, $loadedAliases);
     }
 
     /**
@@ -727,8 +730,8 @@ class URLAliasServiceTest extends BaseTest
         $loadedAliases = $urlAliasService->listGlobalAliases();
         /* END: Use Case */
 
-        $this->assertIsArray($loadedAliases);
-        $this->assertCount(3, $loadedAliases);
+        self::assertIsArray($loadedAliases);
+        self::assertCount(3, $loadedAliases);
     }
 
     /**
@@ -777,8 +780,8 @@ class URLAliasServiceTest extends BaseTest
         $loadedAliases = $urlAliasService->listGlobalAliases('eng-US');
         /* END: Use Case */
 
-        $this->assertIsArray($loadedAliases);
-        $this->assertCount(2, $loadedAliases);
+        self::assertIsArray($loadedAliases);
+        self::assertCount(2, $loadedAliases);
     }
 
     /**
@@ -800,8 +803,8 @@ class URLAliasServiceTest extends BaseTest
         $loadedAliases = $urlAliasService->listGlobalAliases(null, 1);
         /* END: Use Case */
 
-        $this->assertIsArray($loadedAliases);
-        $this->assertCount(2, $loadedAliases);
+        self::assertIsArray($loadedAliases);
+        self::assertCount(2, $loadedAliases);
     }
 
     /**
@@ -823,8 +826,8 @@ class URLAliasServiceTest extends BaseTest
         $loadedAliases = $urlAliasService->listGlobalAliases(null, 0, 1);
         /* END: Use Case */
 
-        $this->assertIsArray($loadedAliases);
-        $this->assertCount(1, $loadedAliases);
+        self::assertIsArray($loadedAliases);
+        self::assertCount(1, $loadedAliases);
     }
 
     /**
@@ -862,7 +865,7 @@ class URLAliasServiceTest extends BaseTest
         $urlAliasService->removeAliases($customAliases);
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             $initialAliases,
             $urlAliasService->listLocationAliases($someLocation)
         );
@@ -912,7 +915,7 @@ class URLAliasServiceTest extends BaseTest
         $loadedAlias = $urlAliasService->lookup('/Setup2');
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $loadedAlias
         );
@@ -938,11 +941,11 @@ class URLAliasServiceTest extends BaseTest
         $loadedAlias = $urlAliasService->lookup('/My/Special-Support', 'eng-US');
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLAlias::class,
             $loadedAlias
         );
-        $this->assertEquals(
+        self::assertEquals(
             'content/search?SearchText=Ibexa',
             $loadedAlias->destination
         );
@@ -1009,6 +1012,7 @@ class URLAliasServiceTest extends BaseTest
      * Test for the lookUp() method after renaming parent which is a part of the lookup path.
      *
      * @see https://issues.ibexa.co/browse/EZP-28046
+     *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::listLocationAliases
      */
@@ -1062,7 +1066,7 @@ class URLAliasServiceTest extends BaseTest
         $urlAliasService->lookup('/My-Folder/My-Article');
         $aliases = $urlAliasService->listLocationAliases($articleLocation, false);
 
-        $this->assertEquals('/My-Folder-Modified/My-Article', $aliases[0]->path);
+        self::assertEquals('/My-Folder-Modified/My-Article', $aliases[0]->path);
     }
 
     /**
@@ -1657,7 +1661,7 @@ class URLAliasServiceTest extends BaseTest
 
     private function assertUrlAliasPropertiesSame(array $expectedValues, URLAlias $urlAlias): void
     {
-        $this->assertSame(
+        self::assertSame(
             $expectedValues,
             [
                 'type' => $urlAlias->type,

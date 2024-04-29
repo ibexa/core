@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
@@ -39,7 +40,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         $reloadedReferenceObject = $contentService->loadContent($referenceObject->id);
         /** @var \Ibexa\Core\FieldType\RelationList\Value */
         $relationListValue = $reloadedReferenceObject->getFieldValue('relation_list');
-        $this->assertSame([$targetObject2->id], $relationListValue->destinationContentIds);
+        self::assertSame([$targetObject2->id], $relationListValue->destinationContentIds);
     }
 
     public function testSingleRelationIsUpdatedWhenRelatedObjectIsDeleted()
@@ -57,7 +58,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         $reloadedReferenceObject = $contentService->loadContent($referenceObject->id);
         /** @var \Ibexa\Core\FieldType\Relation\Value */
         $relationValue = $reloadedReferenceObject->getFieldValue('single_relation');
-        $this->assertEmpty($relationValue->destinationContentId);
+        self::assertEmpty($relationValue->destinationContentId);
     }
 
     private function createTestContentType()

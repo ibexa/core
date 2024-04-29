@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
 
 use Ibexa\Contracts\Core\Persistence\Content;
@@ -51,40 +52,40 @@ class RemoveFieldTest extends TestCase
         $content = $this->getContentFixture(1, ['cro-HR' => $fieldId]);
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->with(self::equalTo($contentId))
+            ->will(self::returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1]]))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo([['id' => $contentId, 'version' => 1]]))
+            ->will(self::returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects(self::at(2))
             ->method('load')
             ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will($this->returnValue([$content]));
+            ->will(self::returnValue([$content]));
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteField')
-            ->with($this->equalTo($fieldId));
+            ->with(self::equalTo($fieldId));
 
-        $this->getContentStorageHandlerMock()->expects($this->once())
+        $this->getContentStorageHandlerMock()->expects(self::once())
             ->method('deleteFieldData')
             ->with(
-                $this->equalTo('ezstring'),
+                self::equalTo('ezstring'),
                 $content->versionInfo,
-                $this->equalTo([$fieldId])
+                self::equalTo([$fieldId])
             );
 
         $action->apply($contentId);
@@ -100,62 +101,62 @@ class RemoveFieldTest extends TestCase
         $content2 = $this->getContentFixture(2, ['cro-HR' => $fieldId]);
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->with(self::equalTo($contentId))
+            ->will(self::returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
+            ->will(self::returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects(self::at(2))
             ->method('load')
             ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will($this->returnValue([$content1]));
+            ->will(self::returnValue([$content1]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(3))
+            ->expects(self::at(3))
             ->method('load')
             ->with($contentId, 2)
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will($this->returnValue([$content2]));
+            ->will(self::returnValue([$content2]));
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteField')
-            ->with($this->equalTo($fieldId));
+            ->with(self::equalTo($fieldId));
 
         $this->getContentStorageHandlerMock()
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('deleteFieldData')
             ->with(
-                $this->equalTo('ezstring'),
+                self::equalTo('ezstring'),
                 $content1->versionInfo,
-                $this->equalTo([$fieldId])
+                self::equalTo([$fieldId])
             );
 
         $this->getContentStorageHandlerMock()
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('deleteFieldData')
             ->with(
-                $this->equalTo('ezstring'),
+                self::equalTo('ezstring'),
                 $content2->versionInfo,
-                $this->equalTo([$fieldId])
+                self::equalTo([$fieldId])
             );
 
         $action->apply($contentId);
@@ -172,73 +173,73 @@ class RemoveFieldTest extends TestCase
         $content2 = $this->getContentFixture(2, ['cro-HR' => $fieldId1, 'hun-HU' => $fieldId2]);
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->with(self::equalTo($contentId))
+            ->will(self::returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
+            ->will(self::returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(2))
+            ->expects(self::at(2))
             ->method('load')
             ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will($this->returnValue([$content1]));
+            ->will(self::returnValue([$content1]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(3))
+            ->expects(self::at(3))
             ->method('load')
             ->with($contentId, 2)
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will($this->returnValue([$content2]));
+            ->will(self::returnValue([$content2]));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(5))
+            ->expects(self::at(5))
             ->method('deleteField')
-            ->with($this->equalTo($fieldId1));
+            ->with(self::equalTo($fieldId1));
 
         $this->getContentGatewayMock()
-            ->expects($this->at(6))
+            ->expects(self::at(6))
             ->method('deleteField')
-            ->with($this->equalTo($fieldId2));
+            ->with(self::equalTo($fieldId2));
 
         $this->getContentStorageHandlerMock()
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('deleteFieldData')
             ->with(
-                $this->equalTo('ezstring'),
+                self::equalTo('ezstring'),
                 $content1->versionInfo,
-                $this->equalTo([$fieldId1, $fieldId2])
+                self::equalTo([$fieldId1, $fieldId2])
             );
 
         $this->getContentStorageHandlerMock()
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('deleteFieldData')
             ->with(
-                $this->equalTo('ezstring'),
+                self::equalTo('ezstring'),
                 $content2->versionInfo,
-                $this->equalTo([$fieldId1, $fieldId2])
+                self::equalTo([$fieldId1, $fieldId2])
             );
 
         $this->getContentGatewayMock()
-            ->expects($this->at(4))
+            ->expects(self::at(4))
             ->method('removeRelationsByFieldDefinitionId')
-            ->with($this->equalTo(42));
+            ->with(self::equalTo(42));
 
         $action->apply($contentId);
     }

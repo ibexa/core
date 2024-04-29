@@ -725,6 +725,7 @@ class Repository implements RepositoryInterface
 
     /**
      * @internal
+     *
      * @private
      */
     public function getNameSchemaService(): NameSchemaServiceInterface

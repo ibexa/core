@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Field;
@@ -115,7 +116,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
             isset($this->legacyUnsupportedOperators[$operator])
             && $this->getSetupFactory() instanceof Legacy
         ) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 'Legacy Search Engine does not properly support multivalued fields ' .
                 "with '{$this->legacyUnsupportedOperators[$operator]}' operator"
             );
@@ -147,7 +148,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());
 
         if (!$fieldType->isSearchable()) {
-            $this->markTestSkipped("Field type '{$this->getTypeName()}' is not searchable.");
+            self::markTestSkipped("Field type '{$this->getTypeName()}' is not searchable.");
         }
 
         $this->checkSearchEngineSupport();
@@ -220,6 +221,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content One.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -243,6 +245,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotEqualsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -266,6 +269,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content One.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -287,6 +291,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotInOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -310,6 +315,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -331,6 +337,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should be empty.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotInOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -354,6 +361,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content One.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -377,6 +385,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotContainsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -400,6 +409,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -421,6 +431,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -442,6 +453,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should be empty.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotGreaterThanOneFindsOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -463,6 +475,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content One.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotGreaterThanOneFindsTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -484,6 +497,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedGreaterThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -507,6 +521,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should be empty.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotGreaterThanOrEqual($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -530,6 +545,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should be empty.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -551,6 +567,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content One.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -572,6 +589,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotLowerThanOneEmpty($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -593,6 +611,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotLowerThanOneFindsOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -614,6 +633,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content One.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -637,6 +657,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotLowerThanOrEqualOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -660,6 +681,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -692,6 +714,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotBetweenOneTwo($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -726,6 +749,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should be empty.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)
@@ -758,6 +782,7 @@ abstract class SearchMultivaluedBaseIntegrationTest extends SearchBaseIntegratio
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findMultivaluedProvider
+     *
      * @depends testCreateMultivaluedTestContent
      */
     public function testFindMultivaluedNotBetweenTwoOne($valuesOne, $valuesTwo, $filter, $content, $modifyField, array $context)

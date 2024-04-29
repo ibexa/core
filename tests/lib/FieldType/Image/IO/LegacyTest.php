@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType\Image\IO;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -49,10 +50,10 @@ class LegacyTest extends TestCase
     public function testGetExternalPath()
     {
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getExternalPath')
             ->with('var/test/storage/images/path/file.png')
-            ->will($this->returnValue('path/file.png'));
+            ->will(self::returnValue('path/file.png'));
 
         self::assertEquals(
             'path/file.png',
@@ -65,12 +66,12 @@ class LegacyTest extends TestCase
         $path = '/tmp/file.png';
         $struct = new BinaryFileCreateStruct();
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->with($path)
-            ->will($this->returnValue($struct));
+            ->will(self::returnValue($struct));
 
-        $this->draftIoServiceMock->expects($this->never())->method('newBinaryCreateStructFromLocalFile');
+        $this->draftIoServiceMock->expects(self::never())->method('newBinaryCreateStructFromLocalFile');
 
         self::assertEquals(
             $struct,
@@ -82,12 +83,12 @@ class LegacyTest extends TestCase
     {
         $path = 'path/file.png';
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('exists')
             ->with($path)
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
 
-        $this->draftIoServiceMock->expects($this->never())->method('exists');
+        $this->draftIoServiceMock->expects(self::never())->method('exists');
 
         self::assertTrue(
             $this->service->exists($path)
@@ -100,12 +101,12 @@ class LegacyTest extends TestCase
         $internalPath = 'var/test/storage/images/path/file.png';
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getInternalPath')
             ->with($id)
-            ->will($this->returnValue($internalPath));
+            ->will(self::returnValue($internalPath));
 
-        $this->draftIoServiceMock->expects($this->never())->method('getInternalPath');
+        $this->draftIoServiceMock->expects(self::never())->method('getInternalPath');
 
         self::assertEquals(
             $internalPath,
@@ -122,12 +123,12 @@ class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $id]);
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($id)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
-        $this->draftIoServiceMock->expects($this->never())->method('loadBinaryFile');
+        $this->draftIoServiceMock->expects(self::never())->method('loadBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -145,18 +146,18 @@ class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $id]);
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getExternalPath')
             ->with($internalId)
-            ->will($this->returnValue($id));
+            ->will(self::returnValue($id));
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($id)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
-        $this->publishedIoServiceMock->expects($this->never())->method('loadBinaryFile');
+        $this->publishedIoServiceMock->expects(self::never())->method('loadBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -174,18 +175,18 @@ class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $id]);
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getExternalPath')
             ->with($internalId)
-            ->will($this->returnValue($id));
+            ->will(self::returnValue($id));
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($id)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
-        $this->draftIoServiceMock->expects($this->never())->method('loadBinaryFile');
+        $this->draftIoServiceMock->expects(self::never())->method('loadBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -201,20 +202,20 @@ class LegacyTest extends TestCase
         $id = 'path/file.jpg';
         $binaryFile = new BinaryFile(['id' => $id]);
 
-        $this->draftIoServiceMock->expects($this->never())->method('getExternalPath');
-        $this->publishedIoServiceMock->expects($this->never())->method('getExternalPath');
+        $this->draftIoServiceMock->expects(self::never())->method('getExternalPath');
+        $this->publishedIoServiceMock->expects(self::never())->method('getExternalPath');
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($id)
-            ->will($this->throwException(new InvalidArgumentException('binaryFileId', "Can't find file with id $id}")));
+            ->will(self::throwException(new InvalidArgumentException('binaryFileId', "Can't find file with id $id}")));
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFile')
             ->with($id)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
         self::assertSame(
             $binaryFile,
@@ -227,10 +228,10 @@ class LegacyTest extends TestCase
         $binaryFileUri = 'var/test/images/an/image.png';
         $binaryFile = new BinaryFile(['id' => 'an/image.png']);
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
         self::assertSame(
             $binaryFile,
@@ -244,16 +245,16 @@ class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => 'an/image.png']);
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
-            ->will($this->throwException(new InvalidArgumentException('$id', "Prefix not found in {$binaryFile->id}")));
+            ->will(self::throwException(new InvalidArgumentException('$id', "Prefix not found in {$binaryFile->id}")));
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
         self::assertSame(
             $binaryFile,
@@ -268,18 +269,18 @@ class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $path]);
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('exists')
             ->with($path)
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFileContents')
             ->with($binaryFile)
-            ->will($this->returnValue($contents));
+            ->will(self::returnValue($contents));
 
-        $this->draftIoServiceMock->expects($this->never())->method('getFileContents');
+        $this->draftIoServiceMock->expects(self::never())->method('getFileContents');
 
         self::assertSame(
             $contents,
@@ -294,18 +295,18 @@ class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $path]);
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('exists')
             ->with($path)
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFileContents')
             ->with($binaryFile)
-            ->will($this->returnValue($contents));
+            ->will(self::returnValue($contents));
 
-        $this->publishedIoServiceMock->expects($this->never())->method('getFileContents');
+        $this->publishedIoServiceMock->expects(self::never())->method('getFileContents');
 
         self::assertSame(
             $contents,
@@ -319,18 +320,18 @@ class LegacyTest extends TestCase
         $mimeType = 'image/png';
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('exists')
             ->with($path)
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getMimeType')
             ->with($path)
-            ->will($this->returnValue($mimeType));
+            ->will(self::returnValue($mimeType));
 
-        $this->draftIoServiceMock->expects($this->never())->method('getMimeType');
+        $this->draftIoServiceMock->expects(self::never())->method('getMimeType');
 
         self::assertSame(
             $mimeType,
@@ -344,18 +345,18 @@ class LegacyTest extends TestCase
         $mimeType = 'image/png';
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('exists')
             ->with($path)
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
 
         $this->draftIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getMimeType')
             ->with($path)
-            ->will($this->returnValue($mimeType));
+            ->will(self::returnValue($mimeType));
 
-        $this->publishedIoServiceMock->expects($this->never())->method('getMimeType');
+        $this->publishedIoServiceMock->expects(self::never())->method('getMimeType');
 
         self::assertSame(
             $mimeType,
@@ -369,12 +370,12 @@ class LegacyTest extends TestCase
         $binaryFile = new BinaryFile();
 
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createBinaryFile')
             ->with($createStruct)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
-        $this->draftIoServiceMock->expects($this->never())->method('createBinaryFile');
+        $this->draftIoServiceMock->expects(self::never())->method('createBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -386,12 +387,12 @@ class LegacyTest extends TestCase
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUri')
             ->with($binaryFile)
-            ->will($this->returnValue('protocol://uri'));
+            ->will(self::returnValue('protocol://uri'));
 
-        $this->draftIoServiceMock->expects($this->never())->method('getUri');
+        $this->draftIoServiceMock->expects(self::never())->method('getUri');
 
         self::assertEquals(
             'protocol://uri',
@@ -403,12 +404,12 @@ class LegacyTest extends TestCase
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFileInputStream')
             ->with($binaryFile)
-            ->will($this->returnValue('resource'));
+            ->will(self::returnValue('resource'));
 
-        $this->draftIoServiceMock->expects($this->never())->method('getFileInputStream');
+        $this->draftIoServiceMock->expects(self::never())->method('getFileInputStream');
 
         self::assertEquals(
             'resource',
@@ -420,11 +421,11 @@ class LegacyTest extends TestCase
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteBinaryFile')
             ->with($binaryFile);
 
-        $this->draftIoServiceMock->expects($this->never())->method('deleteBinaryFile');
+        $this->draftIoServiceMock->expects(self::never())->method('deleteBinaryFile');
 
         $this->service->deleteBinaryFile($binaryFile);
     }
@@ -433,12 +434,12 @@ class LegacyTest extends TestCase
     {
         $struct = new BinaryFileCreateStruct();
         $this->publishedIoServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('newBinaryCreateStructFromUploadedFile')
             ->with([])
-            ->will($this->returnValue($struct));
+            ->will(self::returnValue($struct));
 
-        $this->draftIoServiceMock->expects($this->never())->method('newBinaryCreateStructFromUploadedFile');
+        $this->draftIoServiceMock->expects(self::never())->method('newBinaryCreateStructFromUploadedFile');
 
         self::assertEquals(
             $struct,

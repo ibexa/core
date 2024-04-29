@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleFilterLoader;
@@ -58,17 +59,17 @@ class ScaleFilterLoaderTest extends TestCase
 
         $image = $this->createMock(ImageInterface::class);
         $image
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSize')
-            ->will($this->returnValue($box));
+            ->will(self::returnValue($box));
 
         $this->innerLoader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
-            ->with($image, $this->equalTo(['heighten' => $height]))
-            ->will($this->returnValue($image));
+            ->with($image, self::equalTo(['heighten' => $height]))
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image, [$width, $height]));
+        self::assertSame($image, $this->loader->load($image, [$width, $height]));
     }
 
     public function testLoadWiden()
@@ -81,17 +82,17 @@ class ScaleFilterLoaderTest extends TestCase
 
         $image = $this->createMock(ImageInterface::class);
         $image
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSize')
-            ->will($this->returnValue($box));
+            ->will(self::returnValue($box));
 
         $this->innerLoader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
-            ->with($image, $this->equalTo(['widen' => $width]))
-            ->will($this->returnValue($image));
+            ->with($image, self::equalTo(['widen' => $width]))
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image, [$width, $height]));
+        self::assertSame($image, $this->loader->load($image, [$width, $height]));
     }
 }
 

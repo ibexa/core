@@ -34,7 +34,7 @@ class MapperTest extends TestCase
             'userId' => 87,
         ]);
 
-        $this->assertEquals(new Bookmark([
+        self::assertEquals(new Bookmark([
             'name' => 'Contact',
             'locationId' => 54,
             'userId' => 87,
@@ -73,7 +73,7 @@ class MapperTest extends TestCase
             ]),
         ];
 
-        $this->assertEquals($objects, $this->mapper->extractBookmarksFromRows($rows));
+        self::assertEquals($objects, $this->mapper->extractBookmarksFromRows($rows));
     }
 }
 

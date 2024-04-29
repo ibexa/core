@@ -52,7 +52,7 @@ final class MapDistanceSortClauseParserTest extends TestCase
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);
 
-        $this->assertEquals(
+        self::assertEquals(
             new MapLocationDistance(
                 self::EXAMPLE_CONTENT_TYPE_ID,
                 self::EXAMPLE_FIELD_ID,
@@ -66,7 +66,7 @@ final class MapDistanceSortClauseParserTest extends TestCase
 
     public function testSupports(): void
     {
-        $this->assertTrue($this->mapDistanceSortClauseParser->supports('map_distance'));
+        self::assertTrue($this->mapDistanceSortClauseParser->supports('map_distance'));
     }
 }
 

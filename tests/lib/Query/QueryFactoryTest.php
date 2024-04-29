@@ -41,13 +41,13 @@ final class QueryFactoryTest extends TestCase
 
         $queryType = $this->createMock(QueryType::class);
         $queryType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getQuery')
             ->with(self::EXAMPLE_QUERY_PARAMS)
             ->willReturn($expectedQuery);
 
         $this->queryTypeRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getQueryType')
             ->with(self::EXAMPLE_QUERY_TYPE)
             ->willReturn($queryType);
@@ -57,7 +57,7 @@ final class QueryFactoryTest extends TestCase
             self::EXAMPLE_QUERY_PARAMS
         );
 
-        $this->assertEquals($expectedQuery, $actualQuery);
+        self::assertEquals($expectedQuery, $actualQuery);
     }
 }
 

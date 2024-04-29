@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\ParameterType;
@@ -37,18 +38,18 @@ class ValidityTest extends CriterionHandlerTest
 
         $expressionBuilder = $this->createMock(ExpressionBuilder::class);
         $expressionBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('eq')
             ->with('is_valid', ':is_valid')
             ->willReturn($expected);
 
         $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('expr')
             ->willReturn($expressionBuilder);
         $queryBuilder
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('createNamedParameter')
             ->with((int)$criterion->isValid, ParameterType::INTEGER, ':is_valid')
             ->willReturn(':is_valid');
@@ -58,7 +59,7 @@ class ValidityTest extends CriterionHandlerTest
         $handler = new ValidityHandler();
         $actual = $handler->handle($converter, $queryBuilder, $criterion);
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 }
 

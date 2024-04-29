@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Pagination;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -66,16 +67,16 @@ class ContentSearchHitAdapterTest extends TestCase
 
         $searchResult = new SearchResult(['totalCount' => $nbResults]);
         $this->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
             ->with($countQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult);
 
         $adapter = $this->getAdapter($query, $this->searchService, self::EXAMPLE_LANGUAGE_FILTER);
 
-        $this->assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($nbResults, $adapter->getNbResults());
         // Running a 2nd time to ensure SearchService::findContent() is called only once.
-        $this->assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($nbResults, $adapter->getNbResults());
     }
 
     public function testGetSlice()
@@ -110,22 +111,22 @@ class ContentSearchHitAdapterTest extends TestCase
 
         $this
             ->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
             ->with($searchQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult);
 
         $adapter = $this->getAdapter($query, $this->searchService, self::EXAMPLE_LANGUAGE_FILTER);
 
-        $this->assertSame(
+        self::assertSame(
             $this->getExpectedFinalResultFromHits($hits),
             $adapter->getSlice(self::EXAMPLE_OFFSET, self::EXAMPLE_LIMIT)
         );
-        $this->assertSame($nbResults, $adapter->getNbResults());
-        $this->assertSame($aggregationsResults, $adapter->getAggregations());
-        $this->assertSame(self::EXAMPLE_RESULT_MAX_SCORE, $adapter->getMaxScore());
-        $this->assertTrue($adapter->getTimedOut());
-        $this->assertSame(self::EXAMPLE_RESULT_TIME, $adapter->getTime());
+        self::assertSame($nbResults, $adapter->getNbResults());
+        self::assertSame($aggregationsResults, $adapter->getAggregations());
+        self::assertSame(self::EXAMPLE_RESULT_MAX_SCORE, $adapter->getMaxScore());
+        self::assertTrue($adapter->getTimedOut());
+        self::assertSame(self::EXAMPLE_RESULT_TIME, $adapter->getTime());
     }
 
     public function testGetAggregations(): void
@@ -148,16 +149,16 @@ class ContentSearchHitAdapterTest extends TestCase
 
         $this
             ->searchService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findContent')
             ->with($aggregationQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult);
 
         $adapter = $this->getAdapter($query, $this->searchService, self::EXAMPLE_LANGUAGE_FILTER);
 
-        $this->assertSame($exceptedAggregationsResults, $adapter->getAggregations());
+        self::assertSame($exceptedAggregationsResults, $adapter->getAggregations());
         // Running a 2nd time to ensure SearchService::findContent() is called only once.
-        $this->assertSame($exceptedAggregationsResults, $adapter->getAggregations());
+        self::assertSame($exceptedAggregationsResults, $adapter->getAggregations());
     }
 
     /**

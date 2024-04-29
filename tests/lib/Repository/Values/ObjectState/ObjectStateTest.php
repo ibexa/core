@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Values\ObjectState;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
@@ -84,7 +85,7 @@ class ObjectStateTest extends TestCase
 
         $objectState = new ObjectState();
         $value = $objectState->notDefined;
-        $this->fail('Succeeded getting non existing property');
+        self::fail('Succeeded getting non existing property');
     }
 
     /**
@@ -99,7 +100,7 @@ class ObjectStateTest extends TestCase
 
         $objectState = new ObjectState();
         $objectState->id = 42;
-        $this->fail('Succeeded setting read only property');
+        self::fail('Succeeded setting read only property');
     }
 
     /**
@@ -109,10 +110,10 @@ class ObjectStateTest extends TestCase
     {
         $objectState = new ObjectState();
         $value = isset($objectState->notDefined);
-        $this->assertFalse($value);
+        self::assertFalse($value);
 
         $value = isset($objectState->id);
-        $this->assertTrue($value);
+        self::assertTrue($value);
     }
 
     /**
@@ -127,7 +128,7 @@ class ObjectStateTest extends TestCase
 
         $objectState = new ObjectState(['id' => 2]);
         unset($objectState->id);
-        $this->fail('Unsetting read-only property succeeded');
+        self::fail('Unsetting read-only property succeeded');
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
@@ -29,13 +30,13 @@ class HttpUtilsTest extends TestCase
 
         if ($isUriRouteName) {
             $urlGenerator
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('generate')
                 ->with($uri, $requestAttributes, UrlGeneratorInterface::ABSOLUTE_URL)
-                ->will($this->returnValue($expected . '?' . http_build_query($requestAttributes)));
+                ->will(self::returnValue($expected . '?' . http_build_query($requestAttributes)));
         }
 
-        $this->assertSame($expected, $httpUtils->generateUri($request, $uri));
+        self::assertSame($expected, $httpUtils->generateUri($request, $uri));
     }
 
     public function generateUriStandardProvider()
@@ -58,10 +59,10 @@ class HttpUtilsTest extends TestCase
         if ($uri[0] === '/') {
             $matcher = $this->createMock(SiteAccess\URILexer::class);
             $matcher
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('analyseLink')
                 ->with($uri)
-                ->will($this->returnValue($siteAccessUri . $uri));
+                ->will(self::returnValue($siteAccessUri . $uri));
             $siteAccess->matcher = $matcher;
         }
 
@@ -75,14 +76,14 @@ class HttpUtilsTest extends TestCase
 
         if ($isUriRouteName) {
             $urlGenerator
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('generate')
                 ->with($uri, $requestAttributes, UrlGeneratorInterface::ABSOLUTE_URL)
-                ->will($this->returnValue($expected . '?' . http_build_query($requestAttributes)));
+                ->will(self::returnValue($expected . '?' . http_build_query($requestAttributes)));
         }
 
         $res = $httpUtils->generateUri($request, $uri);
-        $this->assertSame($expected, $res);
+        self::assertSame($expected, $res);
     }
 
     public function generateUriProvider()
@@ -101,7 +102,7 @@ class HttpUtilsTest extends TestCase
         $httpUtils = new HttpUtils();
         $httpUtils->setSiteAccess(new SiteAccess('test'));
         $request = Request::create('http://ezpublish.dev/foo/bar');
-        $this->assertTrue($httpUtils->checkRequestPath($request, '/foo/bar'));
+        self::assertTrue($httpUtils->checkRequestPath($request, '/foo/bar'));
     }
 
     /**
@@ -113,17 +114,17 @@ class HttpUtilsTest extends TestCase
         if ($siteAccessUri !== null) {
             $matcher = $this->createMock(SiteAccess\URILexer::class);
             $matcher
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('analyseLink')
                 ->with($path)
-                ->will($this->returnValue($siteAccessUri . $path));
+                ->will(self::returnValue($siteAccessUri . $path));
             $siteAccess->matcher = $matcher;
         }
 
         $httpUtils = new HttpUtils();
         $httpUtils->setSiteAccess($siteAccess);
         $request = Request::create($requestUri);
-        $this->assertSame($expected, $httpUtils->checkRequestPath($request, $path));
+        self::assertSame($expected, $httpUtils->checkRequestPath($request, $path));
     }
 
     public function checkRequestPathProvider()

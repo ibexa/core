@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View\ParameterProvider;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -32,7 +33,7 @@ class LocaleParameterProviderTest extends TestCase
         $field = new Field(['languageCode' => 'cro-HR']);
         $parameterProvider = new LocaleParameterProvider($this->getLocaleConverterMock());
         $parameterProvider->setRequestStack($this->getRequestStackMock($hasRequestLocale));
-        $this->assertSame(
+        self::assertSame(
             ['locale' => $expectedLocale],
             $parameterProvider->getViewParameters($field)
         );
@@ -43,15 +44,15 @@ class LocaleParameterProviderTest extends TestCase
         $requestStack = new RequestStack();
         $parameterBagMock = $this->createMock(ParameterBag::class);
 
-        $parameterBagMock->expects($this->any())
+        $parameterBagMock->expects(self::any())
             ->method('has')
-            ->with($this->equalTo('_locale'))
-            ->will($this->returnValue($hasLocale));
+            ->with(self::equalTo('_locale'))
+            ->will(self::returnValue($hasLocale));
 
-        $parameterBagMock->expects($this->any())
+        $parameterBagMock->expects(self::any())
             ->method('get')
-            ->with($this->equalTo('_locale'))
-            ->will($this->returnValue('fr_FR'));
+            ->with(self::equalTo('_locale'))
+            ->will(self::returnValue('fr_FR'));
 
         $requestMock = $this->createMock(Request::class);
         $requestMock->attributes = $parameterBagMock;
@@ -65,10 +66,10 @@ class LocaleParameterProviderTest extends TestCase
     {
         $mock = $this->createMock(LocaleConverterInterface::class);
 
-        $mock->expects($this->any())
+        $mock->expects(self::any())
             ->method('convertToPOSIX')
-            ->with($this->equalTo('cro-HR'))
-            ->will($this->returnValue('hr_HR'));
+            ->with(self::equalTo('cro-HR'))
+            ->will(self::returnValue('hr_HR'));
 
         return $mock;
     }

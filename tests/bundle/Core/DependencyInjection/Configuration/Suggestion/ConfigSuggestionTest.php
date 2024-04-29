@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Suggestion;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\ConfigSuggestion;
@@ -14,9 +15,9 @@ class ConfigSuggestionTest extends TestCase
     public function testEmptyConstructor()
     {
         $suggestion = new ConfigSuggestion();
-        $this->assertNull($suggestion->getMessage());
-        $this->assertSame([], $suggestion->getSuggestion());
-        $this->assertFalse($suggestion->isMandatory());
+        self::assertNull($suggestion->getMessage());
+        self::assertSame([], $suggestion->getSuggestion());
+        self::assertFalse($suggestion->isMandatory());
     }
 
     public function testConfigSuggestion()
@@ -25,20 +26,20 @@ class ConfigSuggestionTest extends TestCase
         $configArray = ['foo' => 'bar'];
 
         $suggestion = new ConfigSuggestion($message, $configArray);
-        $this->assertSame($message, $suggestion->getMessage());
-        $this->assertSame($configArray, $suggestion->getSuggestion());
-        $this->assertFalse($suggestion->isMandatory());
+        self::assertSame($message, $suggestion->getMessage());
+        self::assertSame($configArray, $suggestion->getSuggestion());
+        self::assertFalse($suggestion->isMandatory());
 
         $newMessage = 'foo bar';
         $suggestion->setMessage($newMessage);
-        $this->assertSame($newMessage, $suggestion->getMessage());
+        self::assertSame($newMessage, $suggestion->getMessage());
 
         $newConfigArray = ['ibexa' => 'publish'];
         $suggestion->setSuggestion($newConfigArray);
-        $this->assertSame($newConfigArray, $suggestion->getSuggestion());
+        self::assertSame($newConfigArray, $suggestion->getSuggestion());
 
         $suggestion->setMandatory(true);
-        $this->assertTrue($suggestion->isMandatory());
+        self::assertTrue($suggestion->isMandatory());
     }
 }
 

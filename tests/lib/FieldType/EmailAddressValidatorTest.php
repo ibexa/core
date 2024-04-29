@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\FieldType\EmailAddress\Value as EmailAddressValue;
@@ -13,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @todo add more tests, like on validateConstraints method
+ *
  * @group fieldType
  * @group validator
  */
@@ -23,7 +25,7 @@ class EmailAddressValidatorTest extends TestCase
      */
     public function testConstructor()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Validator::class,
             new EmailAddressValidator()
         );
@@ -44,7 +46,7 @@ class EmailAddressValidatorTest extends TestCase
         $validator->initializeWithConstraints(
             $constraints
         );
-        $this->assertSame($constraints['Extent'], $validator->Extent);
+        self::assertSame($constraints['Extent'], $validator->Extent);
     }
 
     /**
@@ -61,7 +63,7 @@ class EmailAddressValidatorTest extends TestCase
             ],
         ];
         $validator = new EmailAddressValidator();
-        $this->assertSame($constraintsSchema, $validator->getConstraintsSchema());
+        self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
     /**
@@ -77,7 +79,7 @@ class EmailAddressValidatorTest extends TestCase
         ];
         $validator = new EmailAddressValidator();
         $validator->Extent = $constraints['Extent'];
-        $this->assertSame($constraints['Extent'], $validator->Extent);
+        self::assertSame($constraints['Extent'], $validator->Extent);
     }
 
     public function testValidateCorrectEmailAddresses()
@@ -86,8 +88,8 @@ class EmailAddressValidatorTest extends TestCase
         $validator->Extent = 'regex';
         $emailAddresses = ['john.doe@example.com', 'Info@Ibexa.Co'];
         foreach ($emailAddresses as $value) {
-            $this->assertTrue($validator->validate(new EmailAddressValue($value)));
-            $this->assertSame([], $validator->getMessage());
+            self::assertTrue($validator->validate(new EmailAddressValue($value)));
+            self::assertSame([], $validator->getMessage());
         }
     }
 
@@ -102,7 +104,7 @@ class EmailAddressValidatorTest extends TestCase
         $validator->Extent = 'regex';
         $emailAddresses = ['.john.doe@example.com', 'Info-at-Ibexa.Co'];
         foreach ($emailAddresses as $value) {
-            $this->assertFalse($validator->validate(new EmailAddressValue($value)));
+            self::assertFalse($validator->validate(new EmailAddressValue($value)));
         }
     }
 }

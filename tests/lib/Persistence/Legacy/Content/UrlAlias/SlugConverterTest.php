@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
@@ -31,17 +32,17 @@ class SlugConverterTest extends TestCase
         $transformedText = 'test text  c ';
         $slug = 'test_text_c';
 
-        $transformationProcessor->expects($this->atLeastOnce())
+        $transformationProcessor->expects(self::atLeastOnce())
             ->method('transform')
             ->with($text, ['test_command1'])
-            ->will($this->returnValue($transformedText));
+            ->will(self::returnValue($transformedText));
 
-        $slugConverter->expects($this->once())
+        $slugConverter->expects(self::once())
             ->method('cleanupText')
-            ->with($this->equalTo($transformedText), $this->equalTo('test_cleanup1'))
-            ->will($this->returnValue($slug));
+            ->with(self::equalTo($transformedText), self::equalTo('test_cleanup1'))
+            ->will(self::returnValue($slug));
 
-        $this->assertEquals(
+        self::assertEquals(
             $slug,
             $slugConverter->convert($text)
         );
@@ -59,17 +60,17 @@ class SlugConverterTest extends TestCase
         $transformedText = 'test text  c ';
         $slug = 'test_text_c';
 
-        $transformationProcessor->expects($this->atLeastOnce())
+        $transformationProcessor->expects(self::atLeastOnce())
             ->method('transform')
             ->with($defaultText, ['test_command1'])
-            ->will($this->returnValue($transformedText));
+            ->will(self::returnValue($transformedText));
 
-        $slugConverter->expects($this->once())
+        $slugConverter->expects(self::once())
             ->method('cleanupText')
-            ->with($this->equalTo($transformedText), $this->equalTo('test_cleanup1'))
-            ->will($this->returnValue($slug));
+            ->with(self::equalTo($transformedText), self::equalTo('test_cleanup1'))
+            ->will(self::returnValue($slug));
 
-        $this->assertEquals(
+        self::assertEquals(
             $slug,
             $slugConverter->convert('', $defaultText)
         );
@@ -87,17 +88,17 @@ class SlugConverterTest extends TestCase
         $transformedText = 'test text  c ';
         $slug = 'test_text_c';
 
-        $transformationProcessor->expects($this->atLeastOnce())
+        $transformationProcessor->expects(self::atLeastOnce())
             ->method('transform')
             ->with($text, ['test_command2'])
-            ->will($this->returnValue($transformedText));
+            ->will(self::returnValue($transformedText));
 
-        $slugConverter->expects($this->once())
+        $slugConverter->expects(self::once())
             ->method('cleanupText')
-            ->with($this->equalTo($transformedText), $this->equalTo('test_cleanup2'))
-            ->will($this->returnValue($slug));
+            ->with(self::equalTo($transformedText), self::equalTo('test_cleanup2'))
+            ->will(self::returnValue($slug));
 
-        $this->assertEquals(
+        self::assertEquals(
             $slug,
             $slugConverter->convert($text, '_1', 'testTransformation2')
         );
@@ -122,7 +123,7 @@ class SlugConverterTest extends TestCase
     {
         $slugConverter = $this->getMockedSlugConverter();
 
-        $this->assertEquals(
+        self::assertEquals(
             $returnValue,
             $slugConverter->getUniqueCounterValue($text, $isRootLevel)
         );
@@ -164,7 +165,7 @@ class SlugConverterTest extends TestCase
 
         $actual = $testMethod->invoke($this->getMockedSlugConverter(), $text, $method);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $actual
         );
@@ -216,7 +217,7 @@ class SlugConverterTest extends TestCase
         );
         $slugConverter = new SlugConverter($transformationProcessor);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $slugConverter->convert($text, $defaultText, $transformation)
         );

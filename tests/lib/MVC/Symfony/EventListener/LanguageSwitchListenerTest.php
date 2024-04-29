@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\EventListener;
 
 use Ibexa\Core\Helper\TranslationHelper;
@@ -29,7 +30,7 @@ class LanguageSwitchListenerTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [MVCEvents::ROUTE_REFERENCE_GENERATION => 'onRouteReferenceGeneration'],
             LanguageSwitchListener::getSubscribedEvents()
         );
@@ -38,7 +39,7 @@ class LanguageSwitchListenerTest extends TestCase
     public function testOnRouteReferenceGenerationNoLanguage()
     {
         $this->translationHelper
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getTranslationSiteAccess');
 
         $event = new RouteReferenceGenerationEvent(new RouteReference('foo'), new Request());
@@ -53,16 +54,16 @@ class LanguageSwitchListenerTest extends TestCase
         $event = new RouteReferenceGenerationEvent($routeReference, new Request());
         $expectedSiteAccess = 'phoenix_rises';
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslationSiteAccess')
             ->with($language)
-            ->will($this->returnValue($expectedSiteAccess));
+            ->will(self::returnValue($expectedSiteAccess));
 
         $listener = new LanguageSwitchListener($this->translationHelper);
         $listener->onRouteReferenceGeneration($event);
-        $this->assertFalse($routeReference->has('language'));
-        $this->assertTrue($routeReference->has('siteaccess'));
-        $this->assertSame($expectedSiteAccess, $routeReference->get('siteaccess'));
+        self::assertFalse($routeReference->has('language'));
+        self::assertTrue($routeReference->has('siteaccess'));
+        self::assertSame($expectedSiteAccess, $routeReference->get('siteaccess'));
     }
 
     public function testOnRouteReferenceGenerationNoTranslationSiteAccess()
@@ -71,15 +72,15 @@ class LanguageSwitchListenerTest extends TestCase
         $routeReference = new RouteReference('foo', ['language' => $language]);
         $event = new RouteReferenceGenerationEvent($routeReference, new Request());
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslationSiteAccess')
             ->with($language)
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
 
         $listener = new LanguageSwitchListener($this->translationHelper);
         $listener->onRouteReferenceGeneration($event);
-        $this->assertFalse($routeReference->has('language'));
-        $this->assertFalse($routeReference->has('siteaccess'));
+        self::assertFalse($routeReference->has('language'));
+        self::assertFalse($routeReference->has('siteaccess'));
     }
 }
 

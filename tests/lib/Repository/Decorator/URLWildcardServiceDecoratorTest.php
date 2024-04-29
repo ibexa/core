@@ -38,7 +38,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects($this->once())->method('create')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('create')->with(...$parameters);
 
         $decoratedService->create(...$parameters);
     }
@@ -50,7 +50,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(URLWildcard::class)];
 
-        $serviceMock->expects($this->once())->method('remove')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('remove')->with(...$parameters);
 
         $decoratedService->remove(...$parameters);
     }
@@ -62,7 +62,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 
         $parameters = [1];
 
-        $serviceMock->expects($this->once())->method('load')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('load')->with(...$parameters);
 
         $decoratedService->load(...$parameters);
     }
@@ -77,7 +77,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
             100,
         ];
 
-        $serviceMock->expects($this->once())->method('loadAll')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadAll')->with(...$parameters);
 
         $decoratedService->loadAll(...$parameters);
     }
@@ -89,7 +89,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 
         $parameters = ['ibexa.co'];
 
-        $serviceMock->expects($this->once())->method('translate')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('translate')->with(...$parameters);
 
         $decoratedService->translate(...$parameters);
     }

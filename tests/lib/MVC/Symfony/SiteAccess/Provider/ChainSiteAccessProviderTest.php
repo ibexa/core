@@ -60,14 +60,14 @@ final class ChainSiteAccessProviderTest extends TestCase
     {
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();
 
-        $this->assertTrue($chainSiteAccessProvider->isDefined($siteAccessName));
+        self::assertTrue($chainSiteAccessProvider->isDefined($siteAccessName));
     }
 
     public function testIsDefinedForUndefinedSiteAccess(): void
     {
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();
 
-        $this->assertFalse($chainSiteAccessProvider->isDefined(self::UNDEFINED_SA_NAME));
+        self::assertFalse($chainSiteAccessProvider->isDefined(self::UNDEFINED_SA_NAME));
     }
 
     public function testGetSiteAccesses(): void
@@ -75,7 +75,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         $chainSiteAccessProvider = $this->getChainSiteAccessProvider();
         $siteAccesses = iterator_to_array($chainSiteAccessProvider->getSiteAccesses());
 
-        $this->assertCount(4, $siteAccesses);
+        self::assertCount(4, $siteAccesses);
 
         $expectedSiteAccessNames = [
             ['name' => self::EXISTING_SA_NAME, 'groups' => [self::SA_GROUP]],
@@ -90,7 +90,7 @@ final class ChainSiteAccessProviderTest extends TestCase
                 $saData['groups']
             );
 
-            $this->assertEquals($expectedSiteAccess, $siteAccesses[$key]);
+            self::assertEquals($expectedSiteAccess, $siteAccesses[$key]);
         }
 
         $undefinedSiteAccess = $this->createSiteAcccess(
@@ -98,7 +98,7 @@ final class ChainSiteAccessProviderTest extends TestCase
             [self::SA_GROUP]
         );
 
-        $this->assertNotContains(
+        self::assertNotContains(
             $undefinedSiteAccess,
             $siteAccesses
         );
@@ -130,7 +130,7 @@ final class ChainSiteAccessProviderTest extends TestCase
         );
         $expectedSiteAccess->groups = $expectedGroups;
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedSiteAccess,
             $chainSiteAccessProvider->getSiteAccess($siteAccessName)
         );

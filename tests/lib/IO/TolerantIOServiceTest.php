@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO;
 
 use Ibexa\Core\IO\TolerantIOService;
@@ -42,10 +43,10 @@ class TolerantIOServiceTest extends IOServiceTest
         $prefixedUri = $this->getPrefixedUri($id);
 
         $this->binarydataHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUri')
             ->with($prefixedUri)
-            ->will($this->returnValue("/$prefixedUri"));
+            ->will(self::returnValue("/$prefixedUri"));
 
         $binaryFile = parent::loadBinaryFileNotFound();
         self::assertEquals(

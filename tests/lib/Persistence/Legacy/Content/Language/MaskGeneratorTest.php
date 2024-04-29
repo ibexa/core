@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
@@ -23,7 +24,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     {
         $generator = $this->getMaskGenerator();
 
-        $this->assertSame(
+        self::assertSame(
             $expectedMask,
             $generator->generateLanguageMask($languages)
         );
@@ -32,7 +33,6 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * @param array $languages
      * @param int $expectedMask
-     *
      *
      * @dataProvider getLanguageMaskData
      */
@@ -47,7 +47,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
             $isAlwaysAvailable = false;
         }
 
-        $this->assertSame(
+        self::assertSame(
             $expectedMask,
             $generator->generateLanguageMaskFromLanguageCodes(array_keys($languages), $isAlwaysAvailable)
         );
@@ -98,7 +98,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     ) {
         $generator = $this->getMaskGenerator();
 
-        $this->assertSame(
+        self::assertSame(
             $expectedIndicator,
             $generator->generateLanguageIndicator($languageCode, $alwaysAvailable)
         );
@@ -129,7 +129,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     {
         $generator = $this->getMaskGenerator();
 
-        $this->assertTrue(
+        self::assertTrue(
             $generator->isLanguageAlwaysAvailable(
                 'eng-GB',
                 [
@@ -144,7 +144,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     {
         $generator = $this->getMaskGenerator();
 
-        $this->assertFalse(
+        self::assertFalse(
             $generator->isLanguageAlwaysAvailable(
                 'eng-GB',
                 [
@@ -159,7 +159,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     {
         $generator = $this->getMaskGenerator();
 
-        $this->assertFalse(
+        self::assertFalse(
             $generator->isLanguageAlwaysAvailable(
                 'eng-GB',
                 [
@@ -275,10 +275,10 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     {
         if (!isset($this->languageHandler)) {
             $this->languageHandler = $this->createMock(LanguageHandler::class);
-            $this->languageHandler->expects($this->any())
-                                  ->method($this->anything())// loadByLanguageCode && loadListByLanguageCodes
+            $this->languageHandler->expects(self::any())
+                                  ->method(self::anything())// loadByLanguageCode && loadListByLanguageCodes
                                   ->will(
-                                      $this->returnCallback(
+                                      self::returnCallback(
                                           static function ($languageCodes) {
                                               if (is_string($languageCodes)) {
                                                   $language = $languageCodes;

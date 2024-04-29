@@ -239,7 +239,7 @@ class ImageAssetTest extends FieldTypeTest
         $invalidContentTypeIdentifier = 'article';
         $invalidContentType = $this->createMock(ContentType::class);
         $invalidContentType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__get')
             ->with('identifier')
             ->willReturn($invalidContentTypeIdentifier);
@@ -249,21 +249,21 @@ class ImageAssetTest extends FieldTypeTest
             ->willReturn($invalidContentType);
 
         $this->contentServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with($destinationContentId)
             ->willReturn($destinationContent);
 
         $this->assetMapperMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isAsset')
             ->with($destinationContent)
             ->willReturn(false);
 
         $validationErrors = $this->doValidate([], new ImageAsset\Value($destinationContentId));
 
-        $this->assertIsArray($validationErrors);
-        $this->assertEquals([
+        self::assertIsArray($validationErrors);
+        self::assertEquals([
             new ValidationError(
                 'Content %type% is not a valid asset target',
                 null,
@@ -301,13 +301,13 @@ class ImageAssetTest extends FieldTypeTest
         $destinationContent = $this->createMock(Content::class);
 
         $this->contentServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with($destinationContentId)
             ->willReturn($destinationContent);
 
         $this->assetMapperMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isAsset')
             ->with($destinationContent)
             ->willReturn(true);
@@ -318,7 +318,7 @@ class ImageAssetTest extends FieldTypeTest
             ->willReturn($fileSize);
 
         $this->assetMapperMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAssetValue')
             ->with($destinationContent)
             ->willReturn($assetValueMock);
@@ -339,7 +339,7 @@ class ImageAssetTest extends FieldTypeTest
             ->willReturn($fieldDefinitionMock);
 
         $validationErrors = $this->doValidate([], new ImageAsset\Value($destinationContentId));
-        $this->assertEquals(
+        self::assertEquals(
             $expectedValidationErrors,
             $validationErrors
         );
@@ -414,7 +414,7 @@ class ImageAssetTest extends FieldTypeTest
 
     public function testIsSearchable()
     {
-        $this->assertTrue($this->getFieldTypeUnderTest()->isSearchable());
+        self::assertTrue($this->getFieldTypeUnderTest()->isSearchable());
     }
 
     /**
@@ -425,7 +425,7 @@ class ImageAssetTest extends FieldTypeTest
         $destinationContentId = 7;
         $fieldType = $this->createFieldTypeUnderTest();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 Relation::ASSET => [$destinationContentId],
             ],

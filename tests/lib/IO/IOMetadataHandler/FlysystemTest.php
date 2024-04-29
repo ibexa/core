@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO\IOMetadataHandler;
 
 use DateTime;
@@ -58,13 +59,13 @@ class FlysystemTest extends TestCase
 
         $spiBinaryFile = $this->handler->create($spiCreateStruct);
 
-        $this->assertInstanceOf(SPIBinaryFile::class, $spiBinaryFile);
-        $this->assertEquals($expectedSpiBinaryFile, $spiBinaryFile);
+        self::assertInstanceOf(SPIBinaryFile::class, $spiBinaryFile);
+        self::assertEquals($expectedSpiBinaryFile, $spiBinaryFile);
     }
 
     public function testDelete()
     {
-        $this->filesystem->expects($this->never())->method('delete');
+        $this->filesystem->expects(self::never())->method('delete');
         $this->handler->delete('prefix/my/file.png');
     }
 
@@ -90,8 +91,8 @@ class FlysystemTest extends TestCase
 
         $spiBinaryFile = $this->handler->load($filePath);
 
-        $this->assertInstanceOf(SPIBinaryFile::class, $spiBinaryFile);
-        $this->assertEquals($expectedSpiBinaryFile, $spiBinaryFile);
+        self::assertInstanceOf(SPIBinaryFile::class, $spiBinaryFile);
+        self::assertEquals($expectedSpiBinaryFile, $spiBinaryFile);
     }
 
     public function testLoadNotFound(): void
@@ -114,7 +115,7 @@ class FlysystemTest extends TestCase
     public function testExists(string $filePath, bool $exists): void
     {
         $this->filesystem
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('fileExists')
             ->with($filePath)
             // Note: test proper proxying of Flysystem call as this is a unit test

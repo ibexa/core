@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
@@ -33,7 +34,7 @@ class APIFieldTypeTest extends TestCase
         $validatorConfig = ['foo' => 'bar'];
         $validationErrors = [];
         $this->innerFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateValidatorConfiguration')
             ->with($validatorConfig)
             ->willReturn($validationErrors);
@@ -50,7 +51,7 @@ class APIFieldTypeTest extends TestCase
             $this->createMock(ValidationError::class),
         ];
         $this->innerFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateValidatorConfiguration')
             ->with($validatorConfig)
             ->willReturn($validationErrors);
@@ -63,7 +64,7 @@ class APIFieldTypeTest extends TestCase
         $fieldSettings = ['foo' => 'bar'];
         $validationErrors = [];
         $this->innerFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateFieldSettings')
             ->with($fieldSettings)
             ->willReturn($validationErrors);
@@ -80,7 +81,7 @@ class APIFieldTypeTest extends TestCase
             $this->createMock(ValidationError::class),
         ];
         $this->innerFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateFieldSettings')
             ->with($fieldSettings)
             ->willReturn($validationErrors);
@@ -94,7 +95,7 @@ class APIFieldTypeTest extends TestCase
         $value = $this->getMockForAbstractClass(Value::class);
         $validationErrors = [];
         $this->innerFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validate')
             ->with($fieldDefinition, $value)
             ->willReturn($validationErrors);
@@ -112,7 +113,7 @@ class APIFieldTypeTest extends TestCase
             $this->createMock(ValidationError::class),
         ];
         $this->innerFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validate')
             ->with($fieldDefinition, $value)
             ->willReturn($validationErrors);

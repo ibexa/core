@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoader;
@@ -40,12 +41,12 @@ class ScaleHeightDownOnlyFilterLoaderTest extends TestCase
         $height = 123;
         $image = $this->createMock(ImageInterface::class);
         $this->innerLoader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
-            ->with($image, $this->equalTo(['size' => [null, $height], 'mode' => 'inset']))
-            ->will($this->returnValue($image));
+            ->with($image, self::equalTo(['size' => [null, $height], 'mode' => 'inset']))
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image, [$height]));
+        self::assertSame($image, $this->loader->load($image, [$height]));
     }
 }
 

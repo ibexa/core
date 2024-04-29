@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -210,7 +211,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      */
     protected function getFullTextIndexedFieldData()
     {
-        $this->markTestSkipped(
+        self::markTestSkipped(
             'Skipped by default, override in the concrete test case as required by the field type.'
         );
     }
@@ -248,7 +249,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
     protected function checkCustomFieldsSupport()
     {
         if (get_class($this->getSetupFactory()) === Legacy::class) {
-            $this->markTestSkipped('Legacy Search Engine does not support custom fields');
+            self::markTestSkipped('Legacy Search Engine does not support custom fields');
         }
     }
 
@@ -297,7 +298,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());
 
         if (!$fieldType->isSearchable()) {
-            $this->markTestSkipped("Field type '{$this->getTypeName()}' is not searchable.");
+            self::markTestSkipped("Field type '{$this->getTypeName()}' is not searchable.");
         }
 
         $this->checkSearchEngineSupport();
@@ -370,6 +371,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindEqualsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -389,6 +391,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotEqualsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -408,6 +411,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindEqualsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -427,6 +431,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotEqualsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -446,6 +451,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindInOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -465,6 +471,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotInOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -486,6 +493,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindInTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -505,6 +513,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotInTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -526,6 +535,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindInOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -552,6 +562,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should be empty.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotInOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -580,6 +591,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindGreaterThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -599,6 +611,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotGreaterThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -618,6 +631,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should be empty.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindGreaterThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -637,6 +651,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotGreaterThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -656,6 +671,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindGreaterThanOrEqualOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -675,6 +691,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should be empty.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotGreaterThanOrEqual($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -694,6 +711,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindGreaterThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -713,6 +731,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotGreaterThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -732,6 +751,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should be empty.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindLowerThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -751,6 +771,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotLowerThanOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -770,6 +791,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindLowerThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -789,6 +811,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotLowerThanTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -808,6 +831,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindLowerThanOrEqualOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -827,6 +851,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotLowerThanOrEqualOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -846,6 +871,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindLowerThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -865,6 +891,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should be empty.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotLowerThanOrEqualTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -884,6 +911,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindBetweenOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -910,6 +938,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotBetweenOneTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -938,6 +967,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should be empty.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindBetweenTwoOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -964,6 +994,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain both Content One and Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotBetweenTwoOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -992,6 +1023,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindContainsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1011,6 +1043,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotContainsOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1030,6 +1063,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content Two.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindContainsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1049,6 +1083,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * The result should contain Content One.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotContainsTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1064,6 +1099,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * Tests search with LIKE operator, with NO wildcard.
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindLikeOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1080,6 +1116,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * Tests search with LIKE operator, with wildcard at the end (on strings).
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotLikeOne($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1099,6 +1136,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * Tests search with LIKE operator, with wildcard at the start (on strings).
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindLikeTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1116,6 +1154,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * Tests search with LIKE operator, with wildcard in the middle (on strings).
      *
      * @dataProvider findProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFindNotLikeTwo($valueOne, $valueTwo, $filter, $content, $modifyField, array $context)
@@ -1238,6 +1277,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * Tests Content Search sort with Field sort clause on a field of specific field type.
      *
      * @dataProvider sortProvider
+     *
      * @depends testCreateTestContent
      */
     public function testSort($ascending, $content, $modifyField, array $context)
@@ -1288,6 +1328,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
 
     /**
      * @dataProvider fullTextFindProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFullTextFindOne($valueOne, $valueTwo, $filter, $content, array $context)
@@ -1301,6 +1342,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
 
     /**
      * @dataProvider fullTextFindProvider
+     *
      * @depends testCreateTestContent
      */
     public function testFullTextFindTwo($valueOne, $valueTwo, $filter, $content, array $context)
@@ -1497,29 +1539,29 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         $contentIdList = $this->getResultContentIdList($searchResult);
 
         if ($includesOne && $includesTwo) {
-            $this->assertEquals(2, $searchResult->totalCount);
-            $this->assertNotEquals($contentIdList[0], $contentIdList[1]);
+            self::assertEquals(2, $searchResult->totalCount);
+            self::assertNotEquals($contentIdList[0], $contentIdList[1]);
 
-            $this->assertThat(
+            self::assertThat(
                 $contentIdList[0],
-                $this->logicalOr($this->equalTo($contentOneId), $this->equalTo($contentTwoId))
+                self::logicalOr(self::equalTo($contentOneId), self::equalTo($contentTwoId))
             );
 
-            $this->assertThat(
+            self::assertThat(
                 $contentIdList[1],
-                $this->logicalOr($this->equalTo($contentOneId), $this->equalTo($contentTwoId))
+                self::logicalOr(self::equalTo($contentOneId), self::equalTo($contentTwoId))
             );
         } elseif (!$includesOne && !$includesTwo) {
-            $this->assertEquals(0, $searchResult->totalCount);
+            self::assertEquals(0, $searchResult->totalCount);
         } else {
-            $this->assertEquals(1, $searchResult->totalCount);
+            self::assertEquals(1, $searchResult->totalCount);
 
             if ($includesOne) {
-                $this->assertEquals($contentOneId, $contentIdList[0]);
+                self::assertEquals($contentOneId, $contentIdList[0]);
             }
 
             if ($includesTwo) {
-                $this->assertEquals($contentTwoId, $contentIdList[0]);
+                self::assertEquals($contentTwoId, $contentIdList[0]);
             }
         }
     }
@@ -1548,9 +1590,9 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
             $indexTwo = 0;
         }
 
-        $this->assertEquals(2, $searchResult->totalCount);
-        $this->assertEquals($contentOneId, $contentIdList[$indexOne]);
-        $this->assertEquals($contentTwoId, $contentIdList[$indexTwo]);
+        self::assertEquals(2, $searchResult->totalCount);
+        self::assertEquals($contentOneId, $contentIdList[$indexOne]);
+        self::assertEquals($contentTwoId, $contentIdList[$indexTwo]);
     }
 }
 

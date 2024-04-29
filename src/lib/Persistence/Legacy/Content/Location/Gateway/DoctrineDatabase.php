@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\Connection;
@@ -229,6 +230,7 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->execute();
 
         $results = $statement->fetchAll($onlyIds ? (FetchMode::COLUMN | PDO::FETCH_GROUP) : FetchMode::ASSOCIATIVE);
+
         // array_map() is used to map all elements stored as $results[$i][0] to $results[$i]
         return $onlyIds
             ? array_map(static function (array $result) {

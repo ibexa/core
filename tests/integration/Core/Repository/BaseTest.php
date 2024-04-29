@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use ArrayObject;
@@ -55,13 +56,13 @@ abstract class BaseTest extends TestCase
             // Use setup factory instance here w/o clearing data in case test don't need to
             $this->getSetupFactory()->getRepository(false);
         } catch (PDOException $e) {
-            $this->fail(
+            self::fail(
                 'The communication with the database cannot be established. ' .
                 "This is required in order to perform the tests.\n\n" .
                 'Exception: ' . $e
             );
         } catch (Exception $e) {
-            $this->fail(
+            self::fail(
                 'Cannot create a repository with predefined user. ' .
                 'Check the UserService or RoleService implementation. ' .
                 PHP_EOL . PHP_EOL .
@@ -302,7 +303,7 @@ abstract class BaseTest extends TestCase
             $this->sortItems($expectedValue);
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedValue,
             $actualValue,
             sprintf('Object property "%s" incorrect.', $propertyName)

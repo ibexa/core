@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Identifier;
 
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
@@ -25,6 +26,7 @@ class ContentTypeTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
@@ -37,7 +39,7 @@ class ContentTypeTest extends BaseTest
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchLocation($this->generateLocationMock())
         );
@@ -83,10 +85,10 @@ class ContentTypeTest extends BaseTest
     {
         $location = $this->getLocationMock();
         $location
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getContentInfo')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     $this->getContentInfoMock(['contentTypeId' => 42])
                 )
             );
@@ -96,6 +98,7 @@ class ContentTypeTest extends BaseTest
 
     /**
      * @dataProvider matchContentInfoProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
@@ -108,7 +111,7 @@ class ContentTypeTest extends BaseTest
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchContentInfo(
                 $this->getContentInfoMock(['contentTypeId' => 42])
@@ -163,18 +166,18 @@ class ContentTypeTest extends BaseTest
             )
             ->getMockForAbstractClass();
         $contentTypeServiceMock = $this->createMock(ContentTypeService::class);
-        $contentTypeServiceMock->expects($this->once())
+        $contentTypeServiceMock->expects(self::once())
             ->method('loadContentType')
             ->with(42)
             ->will(
-                $this->returnValue($contentTypeMock)
+                self::returnValue($contentTypeMock)
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getContentTypeService')
-            ->will($this->returnValue($contentTypeServiceMock));
+            ->will(self::returnValue($contentTypeServiceMock));
 
         return $repository;
     }

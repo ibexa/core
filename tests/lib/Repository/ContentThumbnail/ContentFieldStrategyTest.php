@@ -50,19 +50,19 @@ class ContentFieldStrategyTest extends TestCase
             $this->getFieldTypeBasedThumbnailStrategy('example'),
         ]));
 
-        $this->assertTrue($contentFieldStrategy->hasStrategy('example'));
-        $this->assertFalse($contentFieldStrategy->hasStrategy('something_else'));
+        self::assertTrue($contentFieldStrategy->hasStrategy('example'));
+        self::assertFalse($contentFieldStrategy->hasStrategy('something_else'));
     }
 
     public function testAddStrategy(): void
     {
         $contentFieldStrategy = new ContentFieldStrategy(new ArrayIterator());
 
-        $this->assertFalse($contentFieldStrategy->hasStrategy('example'));
+        self::assertFalse($contentFieldStrategy->hasStrategy('example'));
 
         $contentFieldStrategy->addStrategy('example', $this->getFieldTypeBasedThumbnailStrategy('example'));
 
-        $this->assertTrue($contentFieldStrategy->hasStrategy('example'));
+        self::assertTrue($contentFieldStrategy->hasStrategy('example'));
     }
 
     public function testSetStrategies(): void
@@ -71,16 +71,16 @@ class ContentFieldStrategyTest extends TestCase
             $this->getFieldTypeBasedThumbnailStrategy('previous'),
         ]));
 
-        $this->assertTrue($contentFieldStrategy->hasStrategy('previous'));
+        self::assertTrue($contentFieldStrategy->hasStrategy('previous'));
 
         $contentFieldStrategy->setStrategies([
             $this->getFieldTypeBasedThumbnailStrategy('new-example-1'),
             $this->getFieldTypeBasedThumbnailStrategy('new-example-2'),
         ]);
 
-        $this->assertFalse($contentFieldStrategy->hasStrategy('previous'));
-        $this->assertTrue($contentFieldStrategy->hasStrategy('new-example-1'));
-        $this->assertTrue($contentFieldStrategy->hasStrategy('new-example-2'));
+        self::assertFalse($contentFieldStrategy->hasStrategy('previous'));
+        self::assertTrue($contentFieldStrategy->hasStrategy('new-example-1'));
+        self::assertTrue($contentFieldStrategy->hasStrategy('new-example-2'));
     }
 
     public function testGetThumbnailFound(): void
@@ -96,8 +96,8 @@ class ContentFieldStrategyTest extends TestCase
 
         $thumbnail = $contentFieldStrategy->getThumbnail($field);
 
-        $this->assertInstanceOf(Thumbnail::class, $thumbnail);
-        $this->assertEquals('example-value', $thumbnail->resource);
+        self::assertInstanceOf(Thumbnail::class, $thumbnail);
+        self::assertEquals('example-value', $thumbnail->resource);
     }
 
     public function testGetThumbnailNotFound(): void

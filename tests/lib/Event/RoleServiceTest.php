@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\Events\Role\AddPolicyByRoleDraftEvent;
@@ -64,11 +65,11 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforePublishRoleDraftEvent::class, 0],
             [PublishRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testPublishRoleDraftStopPropagationInBeforeEvents()
@@ -94,10 +95,10 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforePublishRoleDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforePublishRoleDraftEvent::class, 0],
             [PublishRoleDraftEvent::class, 0],
         ]);
@@ -123,11 +124,11 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeAssignRoleToUserEvent::class, 0],
             [AssignRoleToUserEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testAssignRoleToUserStopPropagationInBeforeEvents()
@@ -155,10 +156,10 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeAssignRoleToUserEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [AssignRoleToUserEvent::class, 0],
             [BeforeAssignRoleToUserEvent::class, 0],
         ]);
@@ -185,12 +186,12 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($updatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($updatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateRoleDraftEvent::class, 0],
             [UpdateRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnUpdateRoleDraftResultInBeforeEvents()
@@ -219,13 +220,13 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUpdatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateRoleDraftEvent::class, 10],
             [BeforeUpdateRoleDraftEvent::class, 0],
             [UpdateRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testUpdateRoleDraftStopPropagationInBeforeEvents()
@@ -256,11 +257,11 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUpdatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateRoleDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeUpdateRoleDraftEvent::class, 0],
             [UpdateRoleDraftEvent::class, 0],
         ]);
@@ -286,11 +287,11 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeAssignRoleToUserGroupEvent::class, 0],
             [AssignRoleToUserGroupEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testAssignRoleToUserGroupStopPropagationInBeforeEvents()
@@ -318,10 +319,10 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeAssignRoleToUserGroupEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [AssignRoleToUserGroupEvent::class, 0],
             [BeforeAssignRoleToUserGroupEvent::class, 0],
         ]);
@@ -349,12 +350,12 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($updatedPolicyDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($updatedPolicyDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdatePolicyByRoleDraftEvent::class, 0],
             [UpdatePolicyByRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnUpdatePolicyByRoleDraftResultInBeforeEvents()
@@ -384,13 +385,13 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUpdatedPolicyDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedPolicyDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdatePolicyByRoleDraftEvent::class, 10],
             [BeforeUpdatePolicyByRoleDraftEvent::class, 0],
             [UpdatePolicyByRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testUpdatePolicyByRoleDraftStopPropagationInBeforeEvents()
@@ -422,11 +423,11 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUpdatedPolicyDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedPolicyDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdatePolicyByRoleDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeUpdatePolicyByRoleDraftEvent::class, 0],
             [UpdatePolicyByRoleDraftEvent::class, 0],
         ]);
@@ -452,12 +453,12 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($roleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($roleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateRoleEvent::class, 0],
             [CreateRoleEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateRoleResultInBeforeEvents()
@@ -485,13 +486,13 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateRoleEvent::class, 10],
             [BeforeCreateRoleEvent::class, 0],
             [CreateRoleEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateRoleStopPropagationInBeforeEvents()
@@ -521,11 +522,11 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateRoleEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateRoleEvent::class, 0],
             [CreateRoleEvent::class, 0],
         ]);
@@ -552,12 +553,12 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($updatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($updatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeRemovePolicyByRoleDraftEvent::class, 0],
             [RemovePolicyByRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnRemovePolicyByRoleDraftResultInBeforeEvents()
@@ -586,13 +587,13 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUpdatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeRemovePolicyByRoleDraftEvent::class, 10],
             [BeforeRemovePolicyByRoleDraftEvent::class, 0],
             [RemovePolicyByRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testRemovePolicyByRoleDraftStopPropagationInBeforeEvents()
@@ -623,11 +624,11 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUpdatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeRemovePolicyByRoleDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeRemovePolicyByRoleDraftEvent::class, 0],
             [RemovePolicyByRoleDraftEvent::class, 0],
         ]);
@@ -654,12 +655,12 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($updatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($updatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeAddPolicyByRoleDraftEvent::class, 0],
             [AddPolicyByRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnAddPolicyByRoleDraftResultInBeforeEvents()
@@ -688,13 +689,13 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUpdatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeAddPolicyByRoleDraftEvent::class, 10],
             [BeforeAddPolicyByRoleDraftEvent::class, 0],
             [AddPolicyByRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testAddPolicyByRoleDraftStopPropagationInBeforeEvents()
@@ -725,11 +726,11 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUpdatedRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeAddPolicyByRoleDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [AddPolicyByRoleDraftEvent::class, 0],
             [BeforeAddPolicyByRoleDraftEvent::class, 0],
         ]);
@@ -753,11 +754,11 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteRoleEvent::class, 0],
             [DeleteRoleEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteRoleStopPropagationInBeforeEvents()
@@ -783,10 +784,10 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteRoleEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteRoleEvent::class, 0],
             [DeleteRoleEvent::class, 0],
         ]);
@@ -810,11 +811,11 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteRoleDraftEvent::class, 0],
             [DeleteRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteRoleDraftStopPropagationInBeforeEvents()
@@ -840,10 +841,10 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteRoleDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteRoleDraftEvent::class, 0],
             [DeleteRoleDraftEvent::class, 0],
         ]);
@@ -867,11 +868,11 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRemoveRoleAssignmentEvent::class, 0],
             [RemoveRoleAssignmentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testRemoveRoleAssignmentStopPropagationInBeforeEvents()
@@ -897,10 +898,10 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRemoveRoleAssignmentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeRemoveRoleAssignmentEvent::class, 0],
             [RemoveRoleAssignmentEvent::class, 0],
         ]);
@@ -926,12 +927,12 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($roleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($roleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateRoleDraftEvent::class, 0],
             [CreateRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateRoleDraftResultInBeforeEvents()
@@ -959,13 +960,13 @@ class RoleServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateRoleDraftEvent::class, 10],
             [BeforeCreateRoleDraftEvent::class, 0],
             [CreateRoleDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateRoleDraftStopPropagationInBeforeEvents()
@@ -995,11 +996,11 @@ class RoleServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventRoleDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventRoleDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateRoleDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateRoleDraftEvent::class, 0],
             [CreateRoleDraftEvent::class, 0],
         ]);

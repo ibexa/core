@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\Core\Features\Context;
 
 use Behat\Behat\Context\Context;
@@ -69,6 +70,7 @@ class UserContext implements Context
                     return $user;
                 }
             }
+
             // user not found in $parentGroupId
             return null;
         }
@@ -319,6 +321,7 @@ class UserContext implements Context
                 /* PASSWORD_HASH_PLAINTEXT */
                 return $password;
         }
+
         /* PASSWORD_HASH_MD5_PASSWORD (1) */
         return md5($password);
     }
@@ -416,6 +419,7 @@ class UserContext implements Context
 
     /**
      * @Given a User with name :username already exists
+     *
      * @Then User with name :username exists
      *
      * Checks that user ':username' exists.

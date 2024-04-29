@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType;
@@ -562,7 +563,7 @@ abstract class BaseFieldTypeTest extends TestCase
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->getEmptyValueExpectation(),
             $fieldType->getEmptyValue()
         );
@@ -580,7 +581,7 @@ abstract class BaseFieldTypeTest extends TestCase
 
         $outputValue = $fieldType->acceptValue($inputValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedOutputValue,
             $outputValue,
             'acceptValue() did not convert properly.'
@@ -597,7 +598,7 @@ abstract class BaseFieldTypeTest extends TestCase
 
         $acceptedEmptyValue = $fieldType->acceptValue($emptyValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $emptyValue,
             $acceptedEmptyValue,
             'acceptValue() did not convert properly.'
@@ -636,13 +637,13 @@ abstract class BaseFieldTypeTest extends TestCase
         $this->assertIsValidHashValue($actualResult);
 
         if (is_object($expectedResult) || is_array($expectedResult)) {
-            $this->assertEquals(
+            self::assertEquals(
                 $expectedResult,
                 $actualResult,
                 'toHash() method did not create expected result.'
             );
         } else {
-            $this->assertSame(
+            self::assertSame(
                 $expectedResult,
                 $actualResult,
                 'toHash() method did not create expected result.'
@@ -665,13 +666,13 @@ abstract class BaseFieldTypeTest extends TestCase
         $actualResult = $fieldType->fromHash($inputHash);
 
         if (is_object($expectedResult) || is_array($expectedResult)) {
-            $this->assertEquals(
+            self::assertEquals(
                 $expectedResult,
                 $actualResult,
                 'fromHash() method did not create expected result.'
             );
         } else {
-            $this->assertSame(
+            self::assertSame(
                 $expectedResult,
                 $actualResult,
                 'fromHash() method did not create expected result.'
@@ -683,7 +684,7 @@ abstract class BaseFieldTypeTest extends TestCase
     {
         $fieldType = $this->getFieldTypeUnderTest();
 
-        $this->assertTrue(
+        self::assertTrue(
             $fieldType->isEmptyValue($fieldType->getEmptyValue())
         );
     }
@@ -699,11 +700,11 @@ abstract class BaseFieldTypeTest extends TestCase
 
         $validationResult = $fieldType->validateFieldSettings($inputSettings);
 
-        $this->assertIsArray(
+        self::assertIsArray(
             $validationResult,
             'The method validateFieldSettings() must return an array.'
         );
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $validationResult,
             'validateFieldSettings() did not consider the input settings valid.'
@@ -721,19 +722,19 @@ abstract class BaseFieldTypeTest extends TestCase
 
         $validationResult = $fieldType->validateFieldSettings($inputSettings);
 
-        $this->assertIsArray(
+        self::assertIsArray(
             $validationResult,
             'The method validateFieldSettings() must return an array.'
         );
 
-        $this->assertNotEquals(
+        self::assertNotEquals(
             [],
             $validationResult,
             'validateFieldSettings() did consider the input settings valid, which should be invalid.'
         );
 
         foreach ($validationResult as $actualResultElement) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 ValidationError::class,
                 $actualResultElement,
                 'Validation result of incorrect type.'
@@ -752,11 +753,11 @@ abstract class BaseFieldTypeTest extends TestCase
 
         $validationResult = $fieldType->validateValidatorConfiguration($inputConfiguration);
 
-        $this->assertIsArray(
+        self::assertIsArray(
             $validationResult,
             'The method validateValidatorConfiguration() must return an array.'
         );
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $validationResult,
             'validateValidatorConfiguration() did not consider the input configuration valid.'
@@ -774,19 +775,19 @@ abstract class BaseFieldTypeTest extends TestCase
 
         $validationResult = $fieldType->validateValidatorConfiguration($inputConfiguration);
 
-        $this->assertIsArray(
+        self::assertIsArray(
             $validationResult,
             'The method validateValidatorConfiguration() must return an array.'
         );
 
-        $this->assertNotEquals(
+        self::assertNotEquals(
             [],
             $validationResult,
             'validateValidatorConfiguration() did consider the input settings valid, which should be invalid.'
         );
 
         foreach ($validationResult as $actualResultElement) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 ValidationError::class,
                 $actualResultElement,
                 'Validation result of incorrect type.'
@@ -834,7 +835,7 @@ abstract class BaseFieldTypeTest extends TestCase
         $hash = $fieldType->fieldSettingsToHash($inputSettings);
         $restoredSettings = $fieldType->fieldSettingsFromHash($hash);
 
-        $this->assertEquals($inputSettings, $restoredSettings);
+        self::assertEquals($inputSettings, $restoredSettings);
     }
 
     /**
@@ -849,7 +850,7 @@ abstract class BaseFieldTypeTest extends TestCase
         $hash = $fieldType->validatorConfigurationToHash($inputConfiguration);
         $restoredConfiguration = $fieldType->validatorConfigurationFromHash($hash);
 
-        $this->assertEquals($inputConfiguration, $restoredConfiguration);
+        self::assertEquals($inputConfiguration, $restoredConfiguration);
     }
 
     /**
@@ -881,7 +882,7 @@ abstract class BaseFieldTypeTest extends TestCase
 
             case 'resource':
             case 'object':
-                $this->fail(
+                self::fail(
                     sprintf(
                         'Value for $hash[%s] is of invalid type "%s".',
                         implode('][', $keyChain),
@@ -898,8 +899,8 @@ abstract class BaseFieldTypeTest extends TestCase
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
-        $this->assertIsArray($validationErrors);
-        $this->assertEmpty($validationErrors, "Got value:\n" . var_export($validationErrors, true));
+        self::assertIsArray($validationErrors);
+        self::assertEmpty($validationErrors, "Got value:\n" . var_export($validationErrors, true));
     }
 
     /**
@@ -909,8 +910,8 @@ abstract class BaseFieldTypeTest extends TestCase
     {
         $validationErrors = $this->doValidate($fieldDefinitionData, $value);
 
-        $this->assertIsArray($validationErrors);
-        $this->assertEquals($errors, $validationErrors);
+        self::assertIsArray($validationErrors);
+        self::assertEquals($errors, $validationErrors);
     }
 
     protected function doValidate($fieldDefinitionData, $value)

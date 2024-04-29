@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader;
@@ -58,12 +59,12 @@ class CropFilterLoaderTest extends TestCase
 
         $image = $this->createMock(ImageInterface::class);
         $this->innerLoader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
             ->with($image, ['size' => [$width, $height], 'start' => [$offsetX, $offsetY]])
-            ->will($this->returnValue($image));
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image, [$width, $height, $offsetX, $offsetY]));
+        self::assertSame($image, $this->loader->load($image, [$width, $height, $offsetX, $offsetY]));
     }
 }
 

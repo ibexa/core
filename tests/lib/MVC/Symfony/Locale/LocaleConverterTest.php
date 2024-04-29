@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Locale;
 
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverter;
@@ -54,7 +55,7 @@ final class LocaleConverterTest extends TestCase
     {
         if ($expected === null) {
             $this->logger
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('warning');
         }
 
@@ -80,7 +81,7 @@ final class LocaleConverterTest extends TestCase
     {
         if ($expected === null) {
             $this->logger
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('warning');
         }
 
@@ -94,7 +95,7 @@ final class LocaleConverterTest extends TestCase
     {
         if ($expected === null) {
             $this->logger
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('warning');
         }
 

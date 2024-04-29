@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\EventListener;
 
 use DateTime;
@@ -44,7 +45,7 @@ class StreamFileListenerTest extends TestCase
 
         $this->configureIoUrlPrefix('var/test/storage');
         $this->ioServiceMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('loadBinaryFileByUri');
 
         $this->eventListener->onKernelRequest($event);
@@ -59,7 +60,7 @@ class StreamFileListenerTest extends TestCase
 
         $this->configureIoUrlPrefix('http://foo.com/var/test/storage');
         $this->ioServiceMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('loadBinaryFileByUri');
 
         $this->eventListener->onKernelRequest($event);
@@ -78,10 +79,10 @@ class StreamFileListenerTest extends TestCase
         $binaryFile = new BinaryFile(['mtime' => new DateTime()]);
 
         $this->ioServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFileByUri')
             ->with($uri)
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
         $this->eventListener->onKernelRequest($event);
 
@@ -110,10 +111,10 @@ class StreamFileListenerTest extends TestCase
         $binaryFile = new BinaryFile(['mtime' => new DateTime()]);
 
         $this->ioServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBinaryFileByUri')
             ->with(sprintf('http://%s%s', $host, $uri))
-            ->will($this->returnValue($binaryFile));
+            ->will(self::returnValue($binaryFile));
 
         $this->eventListener->onKernelRequest($event);
 

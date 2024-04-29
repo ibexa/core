@@ -34,7 +34,7 @@ class StaticStrategyTest extends TestCase
             $fieldMocks,
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             new Thumbnail([
                 'resource' => $resource,
             ]),

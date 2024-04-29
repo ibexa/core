@@ -30,12 +30,12 @@ class ThumbnailChainStrategyTest extends TestCase
         ];
 
         $firstStrategyMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getThumbnail')
             ->willReturn(null);
 
         $secondStrategyMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getThumbnail')
             ->willReturn(new Thumbnail());
 
@@ -49,7 +49,7 @@ class ThumbnailChainStrategyTest extends TestCase
             $fieldMocks
         );
 
-        $this->assertInstanceOf(Thumbnail::class, $result);
+        self::assertInstanceOf(Thumbnail::class, $result);
     }
 
     public function testThumbnailStrategyChainBreakOnThumbnailFound(): void
@@ -66,19 +66,19 @@ class ThumbnailChainStrategyTest extends TestCase
         ];
 
         $firstStrategyMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getThumbnail')
             ->willReturn(null);
 
         $secondStrategyMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getThumbnail')
             ->willReturn(new Thumbnail([
                 'resource' => 'second',
             ]));
 
         $thirdStrategyMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getThumbnail')
             ->willReturn(new Thumbnail([
                 'resource' => 'third',
@@ -95,8 +95,8 @@ class ThumbnailChainStrategyTest extends TestCase
             $fieldMocks
         );
 
-        $this->assertInstanceOf(Thumbnail::class, $result);
-        $this->assertEquals(new Thumbnail(['resource' => 'second']), $result);
+        self::assertInstanceOf(Thumbnail::class, $result);
+        self::assertEquals(new Thumbnail(['resource' => 'second']), $result);
     }
 }
 

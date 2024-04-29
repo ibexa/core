@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateTimeImmutable;
@@ -361,7 +362,7 @@ class UserTest extends FieldTypeTest
         if (null !== $loadByLoginBehaviorCallback) {
             $loadByLoginBehaviorCallback(
                 $userHandlerMock
-                    ->expects($this->once())
+                    ->expects(self::once())
                     ->method('loadByLogin')
                     ->with($userValue->login)
             );
@@ -404,7 +405,7 @@ class UserTest extends FieldTypeTest
         $userHandlerMock = $this->createMock(UserHandler::class);
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByLogin')
             ->with($validateUserValue->login)
             ->willThrowException(new NotFoundException('', ''));
@@ -451,7 +452,7 @@ class UserTest extends FieldTypeTest
         $userHandlerMock = $this->createMock(UserHandler::class);
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByLogin')
             ->with($validateUserValue->login)
             ->willThrowException(new NotFoundException('', ''));
@@ -497,13 +498,13 @@ class UserTest extends FieldTypeTest
         $userHandlerMock = $this->createMock(UserHandler::class);
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByLogin')
             ->with($validateUserValue->login)
             ->willThrowException(new NotFoundException('', ''));
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByEmail')
             ->with($validateUserValue->email)
             ->willReturn($existingUser);
@@ -624,13 +625,13 @@ class UserTest extends FieldTypeTest
         $userHandlerMock = $this->createMock(UserHandler::class);
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByLogin')
             ->with($validateUserValue->login)
             ->willThrowException(new NotFoundException('', ''));
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByEmail')
             ->with($validateUserValue->email)
             ->willThrowException(new NotFoundException('', ''));

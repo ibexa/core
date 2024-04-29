@@ -46,8 +46,8 @@ class VisibleOnlyTest extends CriterionHandlerTest
         $queryBuilder = $this->createDoctrineQueryBuilder();
 
         $actual = $handler->handle($converter, $queryBuilder, $criterion);
-        $this->assertEquals($expected, $actual);
-        $this->assertSame($expectedQueryParameters, $queryBuilder->getParameters());
+        self::assertEquals($expected, $actual);
+        self::assertSame($expectedQueryParameters, $queryBuilder->getParameters());
     }
 
     /**
@@ -62,7 +62,7 @@ class VisibleOnlyTest extends CriterionHandlerTest
 
         $expressionBuilder = new ExpressionBuilder($connection);
         $connection
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getExpressionBuilder')
             ->willReturn($expressionBuilder);
 

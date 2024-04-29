@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
@@ -139,7 +140,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             CountryValue::class,
             $field->value
         );
@@ -220,7 +221,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             CountryValue::class,
             $field->value
         );
@@ -256,7 +257,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             CountryValue::class,
             $field->value
         );

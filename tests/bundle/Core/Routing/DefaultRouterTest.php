@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Routing;
 
 use Ibexa\Bundle\Core\Routing\DefaultRouter;
@@ -86,7 +87,7 @@ class DefaultRouterTest extends TestCase
             ->method('getMatcher')
             ->willReturn($matcher);
 
-        $this->assertSame($matchedParameters, $router->matchRequest($request));
+        self::assertSame($matchedParameters, $router->matchRequest($request));
     }
 
     public function testMatchRequestRegularPathinfo()
@@ -96,7 +97,7 @@ class DefaultRouterTest extends TestCase
 
         $request = Request::create($pathinfo);
 
-        $this->configResolver->expects($this->never())->method('getParameter');
+        $this->configResolver->expects(self::never())->method('getParameter');
 
         /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\Routing\DefaultRouter $router */
         $router = $this->generateRouter(['getMatcher']);
@@ -112,7 +113,7 @@ class DefaultRouterTest extends TestCase
             ->method('getMatcher')
             ->willReturn($matcher);
 
-        $this->assertSame($matchedParameters, $router->matchRequest($request));
+        self::assertSame($matchedParameters, $router->matchRequest($request));
     }
 
     /**
@@ -134,7 +135,7 @@ class DefaultRouterTest extends TestCase
             ->method('getGenerator')
             ->willReturn($generator);
 
-        $this->assertSame($url, $router->generate(__METHOD__));
+        self::assertSame($url, $router->generate(__METHOD__));
     }
 
     public function providerGenerateNoSiteAccess()
@@ -189,7 +190,7 @@ class DefaultRouterTest extends TestCase
             } else {
                 // Non-siteaccess aware route, it's not supposed to be analysed
                 $matcher
-                    ->expects($this->never())
+                    ->expects(self::never())
                     ->method('analyseLink');
             }
         } else {
@@ -216,7 +217,7 @@ class DefaultRouterTest extends TestCase
         $router->setContext($requestContext);
         $router->setNonSiteAccessAwareRoutes($nonSiteAccessAwareRoutes);
 
-        $this->assertSame($expectedUrl, $router->generate($routeName, [], $referenceType));
+        self::assertSame($expectedUrl, $router->generate($routeName, [], $referenceType));
     }
 
     public function providerGenerateWithSiteAccess()
@@ -285,7 +286,7 @@ class DefaultRouterTest extends TestCase
         $refGenerator->setAccessible(true);
         $refGenerator->setValue($router, $generator);
 
-        $this->assertSame(
+        self::assertSame(
             $urlGenerated,
             $router->generate($routeName, ['siteaccess' => $siteAccessName], DefaultRouter::ABSOLUTE_PATH)
         );

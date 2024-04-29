@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use DateTime;
@@ -147,7 +148,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             TimeValue::class,
             $field->value
         );
@@ -189,7 +190,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             TimeValue::class,
             $field->value
         );
@@ -236,7 +237,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             TimeValue::class,
             $field->value
         );

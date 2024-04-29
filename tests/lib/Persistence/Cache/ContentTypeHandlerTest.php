@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIType;
@@ -411,22 +412,22 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
 
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $innerHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($method)
             ->with(...$arguments)
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(3))
+            ->expects(self::exactly(3))
             ->method('generateTag')
             ->withConsecutive(
                 ['type', [5], false],
@@ -440,7 +441,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
             );
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(3))
+            ->expects(self::exactly(3))
             ->method('generateKey')
             ->withConsecutive(
                 ['content_type', [], true],
@@ -454,18 +455,18 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTest
             );
 
         $this->cacheMock
-            ->expects(!empty($tags) ? $this->once() : $this->never())
+            ->expects(!empty($tags) ? self::once() : self::never())
             ->method('invalidateTags')
             ->with($tags);
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with($cacheItem->getKey())
             ->willReturn($cacheItem);
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteItems')
             ->with(['ibx-ctlbg-3', 'ibx-ctlbg-4'])
             ->willReturn(true);

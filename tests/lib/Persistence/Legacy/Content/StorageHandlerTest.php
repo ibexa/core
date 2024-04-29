@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Contracts\Core\FieldType\FieldStorage;
@@ -34,18 +35,18 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects($this->once())
+        $storageMock->expects(self::once())
             ->method('storeFieldData')
             ->with(
-                $this->isInstanceOf(VersionInfo::class),
-                $this->isInstanceOf(Field::class),
-                $this->equalTo($this->getContextMock())
+                self::isInstanceOf(VersionInfo::class),
+                self::isInstanceOf(Field::class),
+                self::equalTo($this->getContextMock())
             );
 
-        $storageRegistryMock->expects($this->once())
+        $storageRegistryMock->expects(self::once())
             ->method('getStorage')
-            ->with($this->equalTo('foobar'))
-            ->will($this->returnValue($storageMock));
+            ->with(self::equalTo('foobar'))
+            ->will(self::returnValue($storageMock));
 
         $field = new Field();
         $field->type = 'foobar';
@@ -60,21 +61,21 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects($this->once())
+        $storageMock->expects(self::once())
             ->method('hasFieldData')
-            ->will($this->returnValue(true));
-        $storageMock->expects($this->once())
+            ->will(self::returnValue(true));
+        $storageMock->expects(self::once())
             ->method('getFieldData')
             ->with(
-                $this->isInstanceOf(VersionInfo::class),
-                $this->isInstanceOf(Field::class),
-                $this->equalTo($this->getContextMock())
+                self::isInstanceOf(VersionInfo::class),
+                self::isInstanceOf(Field::class),
+                self::equalTo($this->getContextMock())
             );
 
-        $storageRegistryMock->expects($this->once())
+        $storageRegistryMock->expects(self::once())
             ->method('getStorage')
-            ->with($this->equalTo('foobar'))
-            ->will($this->returnValue($storageMock));
+            ->with(self::equalTo('foobar'))
+            ->will(self::returnValue($storageMock));
 
         $field = new Field();
         $field->id = 123;
@@ -90,16 +91,16 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects($this->once())
+        $storageMock->expects(self::once())
             ->method('hasFieldData')
-            ->will($this->returnValue(false));
-        $storageMock->expects($this->never())
+            ->will(self::returnValue(false));
+        $storageMock->expects(self::never())
             ->method('getFieldData');
 
-        $storageRegistryMock->expects($this->once())
+        $storageRegistryMock->expects(self::once())
             ->method('getStorage')
-            ->with($this->equalTo('foobar'))
-            ->will($this->returnValue($storageMock));
+            ->with(self::equalTo('foobar'))
+            ->will(self::returnValue($storageMock));
 
         $field = new Field();
         $field->id = 123;
@@ -139,18 +140,18 @@ class StorageHandlerTest extends TestCase
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
 
-        $storageMock->expects($this->once())
+        $storageMock->expects(self::once())
             ->method('deleteFieldData')
             ->with(
-                $this->isInstanceOf(VersionInfo::class),
-                $this->equalTo([1, 2, 3]),
-                $this->equalTo($this->getContextMock())
+                self::isInstanceOf(VersionInfo::class),
+                self::equalTo([1, 2, 3]),
+                self::equalTo($this->getContextMock())
             );
 
-        $storageRegistryMock->expects($this->once())
+        $storageRegistryMock->expects(self::once())
             ->method('getStorage')
-            ->with($this->equalTo('foobar'))
-            ->will($this->returnValue($storageMock));
+            ->with(self::equalTo('foobar'))
+            ->will(self::returnValue($storageMock));
 
         $handler = $this->getStorageHandler();
         $handler->deleteFieldData('foobar', new VersionInfo(), [1, 2, 3]);

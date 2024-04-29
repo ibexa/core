@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\FieldType;
@@ -12,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\FieldType;
  * Test case for operations in the FieldTypeService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService
+ *
  * @group field-type
  */
 class FieldTypeServiceTest extends BaseTest
@@ -33,10 +35,10 @@ class FieldTypeServiceTest extends BaseTest
         /* END: Use Case */
 
         // Require at least 1 field type
-        $this->assertNotCount(0, $fieldTypes);
+        self::assertNotCount(0, $fieldTypes);
 
         foreach ($fieldTypes as $fieldType) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 FieldType::class,
                 $fieldType
             );
@@ -65,7 +67,7 @@ class FieldTypeServiceTest extends BaseTest
             FieldType::class,
             $fieldType
         );
-        $this->assertEquals(
+        self::assertEquals(
             'ezurl',
             $fieldType->getFieldTypeIdentifier()
         );
@@ -106,7 +108,7 @@ class FieldTypeServiceTest extends BaseTest
         $typeExists = $fieldTypeService->hasFieldType('ezurl');
         /* END: Use Case */
 
-        $this->assertTrue($typeExists);
+        self::assertTrue($typeExists);
     }
 
     /**
@@ -125,7 +127,7 @@ class FieldTypeServiceTest extends BaseTest
         $typeExists = $fieldTypeService->hasFieldType('sindelfingen');
         /* END: Use Case */
 
-        $this->assertFalse($typeExists);
+        self::assertFalse($typeExists);
     }
 }
 
