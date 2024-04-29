@@ -24,13 +24,13 @@
       <directory>tests/bundle/Debug</directory>
     </testsuite>
     <testsuite name="bundle_installer">
-      <directory>tests/bundle/Installer</directory>
+      <directory>tests/bundle/RepositoryInstaller</directory>
     </testsuite>
     <testsuite name="bundle_io">
       <directory>tests/bundle/IO</directory>
     </testsuite>
     <testsuite name="bundle_lse">
-      <directory>tests/bundle/LegacySearchEngineBundle</directory>
+      <directory>tests/bundle/LegacySearchEngine</directory>
     </testsuite>
   </testsuites>
 </phpunit>
