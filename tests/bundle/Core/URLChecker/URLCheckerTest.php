@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\URLChecker;
 
 use Ibexa\Bundle\Core\URLChecker\URLChecker;
@@ -32,7 +33,7 @@ class URLCheckerTest extends TestCase
     {
         $this->urlService = $this->createMock(URLService::class);
         $this->urlService
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('createUpdateStruct')
             ->willReturnCallback(static function () {
                 return new URLUpdateStruct();
@@ -48,7 +49,7 @@ class URLCheckerTest extends TestCase
         $groups = $this->createGroupedUrls(['http', 'https']);
 
         $this->urlService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findUrls')
             ->with($query)
             ->willReturn($this->createSearchResults($groups));
@@ -60,7 +61,7 @@ class URLCheckerTest extends TestCase
 
         foreach ($handlers as $scheme => $handler) {
             $handler
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('validate')
                 ->willReturnCallback(function (array $urls) use ($scheme, $groups) {
                     $this->assertEqualsCanonicalizing($groups[$scheme], $urls);
@@ -79,13 +80,13 @@ class URLCheckerTest extends TestCase
         $groups = $this->createGroupedUrls(['http', 'https'], 10);
 
         $this->urlService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findUrls')
             ->with($query)
             ->willReturn($this->createSearchResults($groups));
 
         $this->logger
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('error')
             ->with('Unsupported URL schema: https');
 
@@ -95,7 +96,7 @@ class URLCheckerTest extends TestCase
 
         foreach ($handlers as $scheme => $handler) {
             $handler
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('validate')
                 ->willReturnCallback(function (array $urls) use ($scheme, $groups) {
                     $this->assertEqualsCanonicalizing($groups[$scheme], $urls);

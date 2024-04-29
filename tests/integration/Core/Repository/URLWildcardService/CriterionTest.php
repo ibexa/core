@@ -19,6 +19,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * Test case criterion for URLWildcard.
  *
  * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
+ *
  * @group url-wildcard
  */
 class CriterionTest extends BaseTest

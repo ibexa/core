@@ -48,7 +48,7 @@ final class ContentServiceTest extends BaseParallelTestCase
         $version1 = $contentService->loadVersionInfo($version1->contentInfo, 2);
         $version2 = $contentService->loadVersionInfo($version2->contentInfo, 3);
 
-        $this->assertTrue(
+        self::assertTrue(
             $version1->isPublished() && $version2->isDraft() || $version1->isDraft() && $version2->isPublished(),
             'One of the versions should be published and the other should be draft'
         );

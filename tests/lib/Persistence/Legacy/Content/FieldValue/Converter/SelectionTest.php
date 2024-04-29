@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
@@ -48,7 +49,7 @@ class SelectionTest extends TestCase
 
         $this->converter->toStorageValue($fieldValue, $actualStorageFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedStorageFieldValue,
             $actualStorageFieldValue
         );
@@ -72,7 +73,7 @@ class SelectionTest extends TestCase
 
         $this->converter->toStorageValue($fieldValue, $actualStorageFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedStorageFieldValue,
             $actualStorageFieldValue
         );
@@ -96,7 +97,7 @@ class SelectionTest extends TestCase
 
         $this->converter->toFieldValue($storageFieldValue, $actualFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldValue,
             $actualFieldValue
         );
@@ -120,7 +121,7 @@ class SelectionTest extends TestCase
 
         $this->converter->toFieldValue($storageFieldValue, $actualFieldValue);
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedFieldValue,
             $actualFieldValue
         );
@@ -163,7 +164,7 @@ EOT;
 
         $this->converter->toStorageFieldDefinition($fieldDefinition, $actualStorageFieldDefinition);
 
-        $this->assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
+        self::assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
     }
 
     /**
@@ -201,7 +202,7 @@ EOT;
 
         $this->converter->toStorageFieldDefinition($fieldDefinition, $actualStorageFieldDefinition);
 
-        $this->assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
+        self::assertEquals($expectedStorageFieldDefinition, $actualStorageFieldDefinition);
     }
 
     /**
@@ -270,7 +271,7 @@ EOT;
 
         $this->converter->toFieldDefinition($storageFieldDefinition, $actualFieldDefinition);
 
-        $this->assertEquals($expectedFieldDefinition, $actualFieldDefinition);
+        self::assertEquals($expectedFieldDefinition, $actualFieldDefinition);
     }
 
     /**
@@ -323,7 +324,7 @@ EOT;
 
         $this->converter->toFieldDefinition($storageFieldDefinition, $actualFieldDefinition);
 
-        $this->assertEquals($expectedFieldDefinition, $actualFieldDefinition);
+        self::assertEquals($expectedFieldDefinition, $actualFieldDefinition);
     }
 }
 

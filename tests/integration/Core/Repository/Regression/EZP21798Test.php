@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
@@ -89,7 +90,7 @@ class EZP21798Test extends BaseTest
             }
         } while ($numPolicies > 0 && !$found);
 
-        $this->assertTrue($found, "Couldn't find policy with module 'content' and function 'read'");
+        self::assertTrue($found, "Couldn't find policy with module 'content' and function 'read'");
 
         $newPolicy = $roleService->newPolicyUpdateStruct();
         $newLimitation = new SectionLimitation();

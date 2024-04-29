@@ -21,8 +21,8 @@ final class BatchIteratorTest extends TestCase
         $iterator = new BatchIterator($adapter);
         $iterator->setBatchSize(7);
 
-        $this->assertEquals($expectedData, iterator_to_array($iterator));
-        $this->assertEquals(15, $adapter->getFetchCounter());
+        self::assertEquals($expectedData, iterator_to_array($iterator));
+        self::assertEquals(15, $adapter->getFetchCounter());
     }
 
     public function testIterateOverResultSetSmallerThenBatchSize(): void
@@ -33,8 +33,8 @@ final class BatchIteratorTest extends TestCase
         $iterator = new BatchIterator($adapter);
         $iterator->setBatchSize(100);
 
-        $this->assertEquals($expectedData, iterator_to_array($iterator));
-        $this->assertEquals(1, $adapter->getFetchCounter());
+        self::assertEquals($expectedData, iterator_to_array($iterator));
+        self::assertEquals(1, $adapter->getFetchCounter());
     }
 
     public function testIterateOverEmptyResultSet(): void
@@ -44,8 +44,8 @@ final class BatchIteratorTest extends TestCase
         $iterator = new BatchIterator($adapter);
         $iterator->setBatchSize(10);
 
-        $this->assertEquals([], iterator_to_array($iterator));
-        $this->assertEquals(1, $adapter->getFetchCounter());
+        self::assertEquals([], iterator_to_array($iterator));
+        self::assertEquals(1, $adapter->getFetchCounter());
     }
 }
 

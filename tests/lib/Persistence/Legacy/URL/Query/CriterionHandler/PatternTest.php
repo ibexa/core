@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\ParameterType;
@@ -36,17 +37,17 @@ class PatternTest extends CriterionHandlerTest
         $expected = 'url LIKE :pattern';
         $expressionBuilder = $this->createMock(ExpressionBuilder::class);
         $expressionBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('like')
             ->with('url', ':pattern')
             ->willReturn($expected);
         $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('expr')
             ->willReturn($expressionBuilder);
         $queryBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createNamedParameter')
             ->with('%' . $criterion->pattern . '%', ParameterType::STRING, ':pattern')
             ->willReturn(':pattern');
@@ -56,7 +57,7 @@ class PatternTest extends CriterionHandlerTest
         $handler = new PatternHandler();
         $actual = $handler->handle($converter, $queryBuilder, $criterion);
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 }
 

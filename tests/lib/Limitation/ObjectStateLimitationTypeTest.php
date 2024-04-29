@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
@@ -185,14 +186,14 @@ class ObjectStateLimitationTypeTest extends Base
                 ->willReturnMap($getContentStateMap);
         } else {
             $this->getPersistenceMock()
-                 ->expects($this->never())
-                 ->method($this->anything());
+                 ->expects(self::never())
+                 ->method(self::anything());
         }
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();

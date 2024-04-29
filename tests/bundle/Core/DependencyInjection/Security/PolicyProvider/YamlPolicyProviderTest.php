@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Security\PolicyProvider;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigBuilderInterface;
@@ -31,12 +32,12 @@ class YamlPolicyProviderTest extends TestCase
         $configBuilder = $this->createMock(ConfigBuilderInterface::class);
         foreach ($files as $file) {
             $configBuilder
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('addResource')
-                ->with($this->equalTo(new FileResource($file)));
+                ->with(self::equalTo(new FileResource($file)));
         }
         $configBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addConfig')
             ->with($expectedConfig);
 
@@ -67,14 +68,14 @@ class YamlPolicyProviderTest extends TestCase
 
         $configBuilder = $this->createMock(ConfigBuilderInterface::class);
         $configBuilder
-            ->expects($this->exactly(count($files)))
+            ->expects(self::exactly(count($files)))
             ->method('addResource')
             ->willReturnMap([
-                [$this->equalTo(new FileResource($file1)), null],
-                [$this->equalTo(new FileResource($file2)), null],
+                [self::equalTo(new FileResource($file1)), null],
+                [self::equalTo(new FileResource($file2)), null],
             ]);
         $configBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addConfig')
             ->with($expectedConfig);
 

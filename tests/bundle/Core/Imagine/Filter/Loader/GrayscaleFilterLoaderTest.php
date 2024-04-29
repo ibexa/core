@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\GrayscaleFilterLoader;
@@ -18,16 +19,16 @@ class GrayscaleFilterLoaderTest extends TestCase
         $image = $this->createMock(ImageInterface::class);
         $effects = $this->createMock(EffectsInterface::class);
         $image
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('effects')
-            ->will($this->returnValue($effects));
+            ->will(self::returnValue($effects));
         $effects
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('grayscale')
-            ->will($this->returnValue($effects));
+            ->will(self::returnValue($effects));
 
         $loader = new GrayscaleFilterLoader();
-        $this->assertSame($image, $loader->load($image));
+        self::assertSame($image, $loader->load($image));
     }
 }
 

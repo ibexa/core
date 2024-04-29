@@ -58,12 +58,12 @@ class SymfonySerializerAdapterTest extends TestCase
         $data = ['value' => 'test'];
 
         $this->normalizer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('normalize')
             ->with($value, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($data);
 
-        $this->assertEquals($data, $this->adapter->normalize($value, self::TEST_CONTEXT));
+        self::assertEquals($data, $this->adapter->normalize($value, self::TEST_CONTEXT));
     }
 
     public function testDenormalize(): void
@@ -72,12 +72,12 @@ class SymfonySerializerAdapterTest extends TestCase
         $value = $this->createMock(Value::class);
 
         $this->denomalizer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('denormalize')
             ->with($data, Value::class, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($value);
 
-        $this->assertEquals($value, $this->adapter->denormalize($data, Value::class, self::TEST_CONTEXT));
+        self::assertEquals($value, $this->adapter->denormalize($data, Value::class, self::TEST_CONTEXT));
     }
 
     public function testEncode(): void
@@ -86,12 +86,12 @@ class SymfonySerializerAdapterTest extends TestCase
         $json = '{"value": "test"}';
 
         $this->encoder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('encode')
             ->with($data, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($json);
 
-        $this->assertEquals($json, $this->adapter->encode($data, self::TEST_CONTEXT));
+        self::assertEquals($json, $this->adapter->encode($data, self::TEST_CONTEXT));
     }
 
     public function testDecode(): void
@@ -100,12 +100,12 @@ class SymfonySerializerAdapterTest extends TestCase
         $json = '{"value": "test"}';
 
         $this->decoder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('decode')
             ->with($json, self::TEST_FORMAT, self::TEST_CONTEXT)
             ->willReturn($data);
 
-        $this->assertEquals($data, $this->adapter->decode($json, self::TEST_CONTEXT));
+        self::assertEquals($data, $this->adapter->decode($json, self::TEST_CONTEXT));
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
@@ -56,7 +57,7 @@ class AbstractTestCase extends LanguageAwareTestCase
     protected function assertSearchResults($expectedIds, $searchResult)
     {
         $ids = $this->getIds($searchResult);
-        $this->assertEquals($expectedIds, $ids);
+        self::assertEquals($expectedIds, $ids);
     }
 
     protected function getIds($searchResult)

@@ -93,7 +93,7 @@ class ParameterProviderTest extends TestCase
 
         $actual = $this->parameterProvider->getViewParameters($this->createField($destinationContentId));
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 
     public function testGetViewParametersHandleNotFoundException(): void
@@ -109,7 +109,7 @@ class ParameterProviderTest extends TestCase
         };
 
         $this->repository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sudo')
             ->with($closure)
             ->willThrowException($this->createMock(NotFoundException::class));
@@ -118,7 +118,7 @@ class ParameterProviderTest extends TestCase
             $this->createField($destinationContentId)
         );
 
-        $this->assertEquals([
+        self::assertEquals([
             'available' => false,
         ], $actual);
     }
@@ -139,14 +139,14 @@ class ParameterProviderTest extends TestCase
         ;
 
         $this->permissionsResolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('canUser')
             ->with('content', 'read', $contentInfo)
             ->willReturn(false)
         ;
 
         $this->permissionsResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('canUser')
             ->with('content', 'view_embed', $contentInfo)
             ->willReturn(false)
@@ -156,7 +156,7 @@ class ParameterProviderTest extends TestCase
             $this->createField($destinationContentId)
         );
 
-        $this->assertEquals([
+        self::assertEquals([
             'available' => false,
         ], $actual);
     }
@@ -180,7 +180,7 @@ class ParameterProviderTest extends TestCase
             $this->createField($destinationContentId)
         );
 
-        $this->assertEquals([
+        self::assertEquals([
             'available' => null,
         ], $actual);
     }

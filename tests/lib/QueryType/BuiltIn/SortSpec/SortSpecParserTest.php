@@ -28,7 +28,7 @@ final class SortSpecParserTest extends TestCase
         $lexer = new SortSpecLexerStub($input);
         $parser = new SortSpecParser($this->createMock(SortClauseParserInterface::class), $lexer);
 
-        $this->assertEquals($expectedDirection, $parser->parseSortDirection());
+        self::assertEquals($expectedDirection, $parser->parseSortDirection());
     }
 
     public function dataProviderForParseSortDirection(): iterable
@@ -77,7 +77,7 @@ final class SortSpecParserTest extends TestCase
             ->with($parser, self::EXAMPLE_SORT_CLAUSE_ID)
             ->willReturnOnConsecutiveCalls($sortClauseA, $sortClauseB);
 
-        $this->assertEquals(
+        self::assertEquals(
             [$sortClauseA, $sortClauseB],
             $parser->parseSortClausesList()
         );
@@ -95,12 +95,12 @@ final class SortSpecParserTest extends TestCase
 
         $sortClause = $this->createMock(SortClause::class);
         $sortClauseArgsParser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('parse')
             ->with($parser, self::EXAMPLE_SORT_CLAUSE_ID)
             ->willReturn($sortClause);
 
-        $this->assertEquals($sortClause, $parser->parseSortClause());
+        self::assertEquals($sortClause, $parser->parseSortClause());
     }
 
     public function testMatch(): void
@@ -108,15 +108,15 @@ final class SortSpecParserTest extends TestCase
         $token = new Token(Token::TYPE_ID, self::EXAMPLE_SORT_CLAUSE_ID);
 
         $lexer = $this->createMock(SortSpecLexerInterface::class);
-        $lexer->expects($this->once())->method('peek')->willReturn($token);
-        $lexer->expects($this->once())->method('consume')->willReturn($token);
+        $lexer->expects(self::once())->method('peek')->willReturn($token);
+        $lexer->expects(self::once())->method('consume')->willReturn($token);
 
         $parser = new SortSpecParser(
             $this->createMock(SortClauseParserInterface::class),
             $lexer
         );
 
-        $this->assertEquals($token, $parser->match(Token::TYPE_ID));
+        self::assertEquals($token, $parser->match(Token::TYPE_ID));
     }
 
     public function testMatchAny(): void
@@ -124,15 +124,15 @@ final class SortSpecParserTest extends TestCase
         $token = new Token(Token::TYPE_ASC);
 
         $lexer = $this->createMock(SortSpecLexerInterface::class);
-        $lexer->expects($this->once())->method('peek')->willReturn($token);
-        $lexer->expects($this->once())->method('consume')->willReturn($token);
+        $lexer->expects(self::once())->method('peek')->willReturn($token);
+        $lexer->expects(self::once())->method('consume')->willReturn($token);
 
         $parser = new SortSpecParser(
             $this->createMock(SortClauseParserInterface::class),
             $lexer
         );
 
-        $this->assertEquals($token, $parser->matchAnyOf(Token::TYPE_ASC, Token::TYPE_DESC));
+        self::assertEquals($token, $parser->matchAnyOf(Token::TYPE_ASC, Token::TYPE_DESC));
     }
 }
 

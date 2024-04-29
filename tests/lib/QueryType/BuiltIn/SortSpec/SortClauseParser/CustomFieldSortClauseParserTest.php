@@ -42,7 +42,7 @@ final class CustomFieldSortClauseParserTest extends TestCase
 
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);
 
-        $this->assertEquals(
+        self::assertEquals(
             new CustomField(
                 self::EXAMPLE_SEARCH_INDEX_FIELD,
                 Query::SORT_ASC
@@ -53,7 +53,7 @@ final class CustomFieldSortClauseParserTest extends TestCase
 
     public function testSupports(): void
     {
-        $this->assertTrue($this->parser->supports('custom_field'));
+        self::assertTrue($this->parser->supports('custom_field'));
     }
 }
 

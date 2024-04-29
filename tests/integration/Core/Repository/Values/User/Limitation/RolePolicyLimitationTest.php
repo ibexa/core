@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -23,7 +24,7 @@ class RolePolicyLimitationTest extends BaseLimitationTest
     {
         // get actual locations count for the given subtree when user is (by default) an admin
         $actualSubtreeLocationsCount = $this->getSubtreeLocationsCount('/1/2/');
-        $this->assertGreaterThan(0, $actualSubtreeLocationsCount);
+        self::assertGreaterThan(0, $actualSubtreeLocationsCount);
 
         return [
             [$actualSubtreeLocationsCount, 'content', '*'],
@@ -90,10 +91,10 @@ class RolePolicyLimitationTest extends BaseLimitationTest
         $this->refreshSearch($repository);
 
         // check if searching by subtree returns the same result as for an admin
-        $this->assertEquals($expectedSubtreeLocationsCount, $this->getSubtreeLocationsCount($subtreePathString));
+        self::assertEquals($expectedSubtreeLocationsCount, $this->getSubtreeLocationsCount($subtreePathString));
 
         // check if searching by subtree which is not a part of role assignment limitation does not return results
-        $this->assertEquals(0, $this->getSubtreeLocationsCount('/1/5/'));
+        self::assertEquals(0, $this->getSubtreeLocationsCount('/1/5/'));
     }
 
     /**

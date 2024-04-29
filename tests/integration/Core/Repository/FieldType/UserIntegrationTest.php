@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
@@ -169,7 +170,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             UserValue::class,
             $field->value
         );
@@ -187,7 +188,7 @@ class UserIntegrationTest extends BaseIntegrationTest
             $field->value
         );
 
-        $this->assertNotNull($field->value->contentId);
+        self::assertNotNull($field->value->contentId);
     }
 
     public function provideInvalidCreationFieldData()
@@ -199,7 +200,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         $failingValue = null,
         ?string $expectedException = null
     ): void {
-        $this->markTestSkipped('Values are ignored on creation.');
+        self::markTestSkipped('Values are ignored on creation.');
     }
 
     /**
@@ -230,7 +231,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             UserValue::class,
             $field->value
         );
@@ -248,7 +249,7 @@ class UserIntegrationTest extends BaseIntegrationTest
             $field->value
         );
 
-        $this->assertNotNull($field->value->contentId);
+        self::assertNotNull($field->value->contentId);
     }
 
     public function provideInvalidUpdateFieldData()
@@ -272,7 +273,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             UserValue::class,
             $field->value
         );
@@ -406,7 +407,7 @@ class UserIntegrationTest extends BaseIntegrationTest
 
     public function testCreateContentWithEmptyFieldValue()
     {
-        $this->markTestSkipped('User field will never be created empty');
+        self::markTestSkipped('User field will never be created empty');
     }
 
     public function providerForTestIsEmptyValue()
@@ -444,8 +445,8 @@ class UserIntegrationTest extends BaseIntegrationTest
 
         $content = $contentService->loadContent($content->id);
 
-        $this->assertCount($countBeforeRemoval - 1, $content->getFields());
-        $this->assertNull($content->getFieldValue($userFieldDefinition->identifier));
+        self::assertCount($countBeforeRemoval - 1, $content->getFields());
+        self::assertNull($content->getFieldValue($userFieldDefinition->identifier));
     }
 
     public function testAddFieldDefinition()
@@ -473,7 +474,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      */
     public function testCopiedFieldType($content)
     {
-        $this->markTestSkipped('Users cannot be copied, content is not passed to test.');
+        self::markTestSkipped('Users cannot be copied, content is not passed to test.');
     }
 
     /**
@@ -481,7 +482,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      */
     public function testCopiedExternalData(Field $field)
     {
-        $this->markTestSkipped('Users cannot be copied, field is not passed to test.');
+        self::markTestSkipped('Users cannot be copied, field is not passed to test.');
     }
 
     /**
@@ -507,7 +508,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         $contentType = $contentTypeService->loadContentType($contentType->id);
         $userFieldDefinition = $this->getUserFieldDefinition($contentType);
 
-        $this->assertNull($userFieldDefinition->fieldSettings[Type::PASSWORD_TTL_WARNING_SETTING]);
+        self::assertNull($userFieldDefinition->fieldSettings[Type::PASSWORD_TTL_WARNING_SETTING]);
     }
 
     /**
@@ -522,7 +523,7 @@ class UserIntegrationTest extends BaseIntegrationTest
         $fieldDefinition = $contentType->getFirstFieldDefinitionOfType('ezuser');
 
         if ($fieldDefinition === null) {
-            $this->fail("'ezuser' field definition was not found");
+            self::fail("'ezuser' field definition was not found");
         }
 
         return $fieldDefinition;

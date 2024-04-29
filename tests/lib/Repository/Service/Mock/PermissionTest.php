@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Contracts\Core\Limitation\Type;
@@ -109,17 +110,17 @@ class PermissionTest extends BaseServiceMockTest
         $mockedService = $this->getPermissionResolverMock(null);
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with($this->equalTo(10), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->with(self::equalTo(10), self::equalTo(true))
+            ->will(self::returnValue($roleAssignments));
 
         foreach ($roleAssignments as $at => $roleAssignment) {
             $userHandlerMock
-                ->expects($this->at($at + 1))
+                ->expects(self::at($at + 1))
                 ->method('loadRole')
                 ->with($roleAssignment->roleId)
-                ->will($this->returnValue($roles[$roleAssignment->roleId]));
+                ->will(self::returnValue($roles[$roleAssignment->roleId]));
         }
 
         $result = $mockedService->hasAccess('dummy-module', 'dummy-function');
@@ -180,17 +181,17 @@ class PermissionTest extends BaseServiceMockTest
         $service = $this->getPermissionResolverMock(null);
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with($this->equalTo(10), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->with(self::equalTo(10), self::equalTo(true))
+            ->will(self::returnValue($roleAssignments));
 
         foreach ($roleAssignments as $at => $roleAssignment) {
             $userHandlerMock
-                ->expects($this->at($at + 1))
+                ->expects(self::at($at + 1))
                 ->method('loadRole')
                 ->with($roleAssignment->roleId)
-                ->will($this->returnValue($roles[$roleAssignment->roleId]));
+                ->will(self::returnValue($roles[$roleAssignment->roleId]));
         }
 
         $result = $service->hasAccess('dummy-module2', 'dummy-function2');
@@ -208,13 +209,13 @@ class PermissionTest extends BaseServiceMockTest
         $service = $this->getPermissionResolverMock(null);
         $repositoryMock = $this->getRepositoryMock();
         $repositoryMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPermissionResolver')
-            ->will($this->returnValue($service));
+            ->will(self::returnValue($service));
 
         $userHandlerMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $result = $service->sudo(
             static function (Repository $repo) {
@@ -293,22 +294,22 @@ class PermissionTest extends BaseServiceMockTest
         $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
 
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentUserReference')
-            ->will($this->returnValue(new UserReference(14)));
+            ->will(self::returnValue(new UserReference(14)));
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with($this->isType('integer'), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->with(self::isType('integer'), self::equalTo(true))
+            ->will(self::returnValue($roleAssignments));
 
         foreach ($roleAssignments as $at => $roleAssignment) {
             $userHandlerMock
-                ->expects($this->at($at + 1))
+                ->expects(self::at($at + 1))
                 ->method('loadRole')
                 ->with($roleAssignment->roleId)
-                ->will($this->returnValue($roles[$roleAssignment->roleId]));
+                ->will(self::returnValue($roles[$roleAssignment->roleId]));
         }
 
         $permissionSets = [];
@@ -318,11 +319,11 @@ class PermissionTest extends BaseServiceMockTest
             $permissionSet = ['limitation' => null];
             foreach ($roles[$roleAssignment->roleId]->policies as $k => $policy) {
                 $policyName = 'policy-' . $i . '-' . $k;
-                $return = $this->returnValue($policyName);
+                $return = self::returnValue($policyName);
                 $permissionSet['policies'][] = $policyName;
 
                 $roleDomainMapper
-                    ->expects($this->at($count++))
+                    ->expects(self::at($count++))
                     ->method('buildDomainPolicyObject')
                     ->with($policy)
                     ->will($return);
@@ -409,22 +410,22 @@ class PermissionTest extends BaseServiceMockTest
         $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
 
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentUserReference')
-            ->will($this->returnValue(new UserReference(14)));
+            ->will(self::returnValue(new UserReference(14)));
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with($this->isType('integer'), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->with(self::isType('integer'), self::equalTo(true))
+            ->will(self::returnValue($roleAssignments));
 
         foreach ($roleAssignments as $at => $roleAssignment) {
             $userHandlerMock
-                ->expects($this->at($at + 1))
+                ->expects(self::at($at + 1))
                 ->method('loadRole')
                 ->with($roleAssignment->roleId)
-                ->will($this->returnValue($roles[$roleAssignment->roleId]));
+                ->will(self::returnValue($roles[$roleAssignment->roleId]));
         }
 
         $count = 0;
@@ -434,14 +435,14 @@ class PermissionTest extends BaseServiceMockTest
             foreach ($roles[$roleAssignment->roleId]->policies as $k => $policy) {
                 $policyName = 'policy-' . $i . '-' . $k;
                 if ($policy->limitations === 'notfound') {
-                    $return = $this->throwException(new LimitationNotFoundException('notfound'));
+                    $return = self::throwException(new LimitationNotFoundException('notfound'));
                 } else {
-                    $return = $this->returnValue($policyName);
+                    $return = self::returnValue($policyName);
                     $permissionSet['policies'][] = $policyName;
                 }
 
                 $roleDomainMapper
-                    ->expects($this->at($count++))
+                    ->expects(self::at($count++))
                     ->method('buildDomainPolicyObject')
                     ->with($policy)
                     ->will($return);
@@ -589,22 +590,22 @@ class PermissionTest extends BaseServiceMockTest
         $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
 
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentUserReference')
-            ->will($this->returnValue(new UserReference(14)));
+            ->will(self::returnValue(new UserReference(14)));
 
         $userHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
-            ->with($this->isType('integer'), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->with(self::isType('integer'), self::equalTo(true))
+            ->will(self::returnValue($roleAssignments));
 
         foreach ($roleAssignments as $at => $roleAssignment) {
             $userHandlerMock
-                ->expects($this->at($at + 1))
+                ->expects(self::at($at + 1))
                 ->method('loadRole')
                 ->with($roleAssignment->roleId)
-                ->will($this->returnValue($roles[$roleAssignment->roleId]));
+                ->will(self::returnValue($roles[$roleAssignment->roleId]));
         }
 
         $permissionSets = [];
@@ -615,23 +616,23 @@ class PermissionTest extends BaseServiceMockTest
                 $policyName = "policy-{$i}-{$k}";
                 $permissionSet['policies'][] = $policyName;
                 $roleDomainMapper
-                    ->expects($this->at($k))
+                    ->expects(self::at($k))
                     ->method('buildDomainPolicyObject')
                     ->with($policy)
-                    ->will($this->returnValue($policyName));
+                    ->will(self::returnValue($policyName));
             }
 
             $permissionSet['limitation'] = "limitation-{$i}";
             $limitationTypeMock
-                ->expects($this->at($i))
+                ->expects(self::at($i))
                 ->method('buildValue')
                 ->with($roleAssignment->values)
-                ->will($this->returnValue($permissionSet['limitation']));
+                ->will(self::returnValue($permissionSet['limitation']));
             $limitationService
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('getLimitationType')
                 ->with($roleAssignment->limitationIdentifier)
-                ->will($this->returnValue($limitationTypeMock));
+                ->will(self::returnValue($limitationTypeMock));
 
             $permissionSets[] = $permissionSet;
         }
@@ -692,10 +693,10 @@ class PermissionTest extends BaseServiceMockTest
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
 
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
-            ->with($this->equalTo('test-module'), $this->equalTo('test-function'))
-            ->will($this->returnValue($permissionSets));
+            ->with(self::equalTo('test-module'), self::equalTo('test-function'))
+            ->will(self::returnValue($permissionSets));
 
         /** @var $valueObject \Ibexa\Contracts\Core\Repository\Values\ValueObject */
         $valueObject = $this->getMockForAbstractClass(ValueObject::class);
@@ -727,9 +728,9 @@ class PermissionTest extends BaseServiceMockTest
             ->getMock();
 
         $policyMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getLimitations')
-            ->will($this->returnValue('*'));
+            ->will(self::returnValue('*'));
         $permissionSets = [
             [
                 'limitation' => null,
@@ -737,15 +738,15 @@ class PermissionTest extends BaseServiceMockTest
             ],
         ];
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
-            ->with($this->equalTo('test-module'), $this->equalTo('test-function'))
-            ->will($this->returnValue($permissionSets));
+            ->with(self::equalTo('test-module'), self::equalTo('test-function'))
+            ->will(self::returnValue($permissionSets));
 
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentUserReference')
-            ->will($this->returnValue(new UserReference(14)));
+            ->will(self::returnValue(new UserReference(14)));
 
         /** @var $valueObject \Ibexa\Contracts\Core\Repository\Values\ValueObject */
         $valueObject = $this->getMockForAbstractClass(ValueObject::class);
@@ -767,15 +768,15 @@ class PermissionTest extends BaseServiceMockTest
     {
         $roleLimitationMock = $this->createMock(Limitation::class);
         $roleLimitationMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getIdentifier')
-            ->will($this->returnValue('test-role-limitation-identifier'));
+            ->will(self::returnValue('test-role-limitation-identifier'));
 
         $policyLimitationMock = $this->createMock(Limitation::class);
         $policyLimitationMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getIdentifier')
-            ->will($this->returnValue('test-policy-limitation-identifier'));
+            ->will(self::returnValue('test-policy-limitation-identifier'));
 
         $policyMock = $this->getMockBuilder(Policy::class)
             ->setMethods(['getLimitations'])
@@ -783,9 +784,9 @@ class PermissionTest extends BaseServiceMockTest
             ->getMock();
 
         $policyMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getLimitations')
-            ->will($this->returnValue([$policyLimitationMock, $policyLimitationMock]));
+            ->will(self::returnValue([$policyLimitationMock, $policyLimitationMock]));
 
         $permissionSet = [
             'limitation' => clone $roleLimitationMock,
@@ -899,30 +900,30 @@ class PermissionTest extends BaseServiceMockTest
 
         $permissionSets = $this->getPermissionSetsMock();
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
-            ->with($this->equalTo('test-module'), $this->equalTo('test-function'))
-            ->will($this->returnValue($permissionSets));
+            ->with(self::equalTo('test-module'), self::equalTo('test-function'))
+            ->will(self::returnValue($permissionSets));
 
         $userRef = new UserReference(14);
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentUserReference')
-            ->will($this->returnValue(new UserReference(14)));
+            ->will(self::returnValue(new UserReference(14)));
 
         $invocation = 0;
         for ($i = 0; $i < count($permissionSets); ++$i) {
             $limitation = $this->createMock(Type::class);
             $limitation
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('evaluate')
                 ->with($permissionSets[$i]['limitation'], $userRef, $valueObject, [$valueObject])
-                ->will($this->returnValue($roleLimitationEvaluations[$i]));
+                ->will(self::returnValue($roleLimitationEvaluations[$i]));
             $limitationServiceMock
-                ->expects($this->at($invocation++))
+                ->expects(self::at($invocation++))
                 ->method('getLimitationType')
                 ->with('test-role-limitation-identifier')
-                ->will($this->returnValue($limitation));
+                ->will(self::returnValue($limitation));
 
             if (!$roleLimitationEvaluations[$i]) {
                 continue;
@@ -936,15 +937,15 @@ class PermissionTest extends BaseServiceMockTest
                     $limitationsPass = true;
                     $limitation = $this->createMock(Type::class);
                     $limitation
-                        ->expects($this->once())
+                        ->expects(self::once())
                         ->method('evaluate')
                         ->with($limitations[$k], $userRef, $valueObject, [$valueObject])
-                        ->will($this->returnValue($policyLimitationEvaluations[$i][$j][$k]));
+                        ->will(self::returnValue($policyLimitationEvaluations[$i][$j][$k]));
                     $limitationServiceMock
-                        ->expects($this->at($invocation++))
+                        ->expects(self::at($invocation++))
                         ->method('getLimitationType')
                         ->with('test-policy-limitation-identifier')
-                        ->will($this->returnValue($limitation));
+                        ->will(self::returnValue($limitation));
 
                     if (!$policyLimitationEvaluations[$i][$j][$k]) {
                         $limitationsPass = false;
@@ -979,9 +980,9 @@ class PermissionTest extends BaseServiceMockTest
         $userReferenceMock = $this->getUserReferenceMock();
 
         $userReferenceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserId')
-            ->will($this->returnValue(42));
+            ->will(self::returnValue(42));
 
         $permissionResolverMock->setCurrentUserReference($userReferenceMock);
 

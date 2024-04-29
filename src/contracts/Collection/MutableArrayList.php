@@ -12,6 +12,7 @@ namespace Ibexa\Contracts\Core\Collection;
  * @template TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\ArrayList<TValue>
+ *
  * @template-implements \Ibexa\Contracts\Core\Collection\MutableListInterface<TValue>
  */
 class MutableArrayList extends ArrayList implements MutableListInterface

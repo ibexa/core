@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Event;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -17,7 +18,7 @@ class ContentCacheClearEventTest extends TestCase
     {
         $contentInfo = new ContentInfo();
         $event = new ContentCacheClearEvent($contentInfo);
-        $this->assertSame($contentInfo, $event->getContentInfo());
+        self::assertSame($contentInfo, $event->getContentInfo());
     }
 
     public function testAddLocationsToClear()
@@ -28,7 +29,7 @@ class ContentCacheClearEventTest extends TestCase
         $event->addLocationToClear($locations[0]);
         $event->addLocationToClear($locations[1]);
 
-        $this->assertSame($locations, $event->getLocationsToClear());
+        self::assertSame($locations, $event->getLocationsToClear());
     }
 
     public function setLocationsToClear()
@@ -38,11 +39,11 @@ class ContentCacheClearEventTest extends TestCase
         $initialLocations = [new Location(), new Location()];
         $event->addLocationToClear($initialLocations[0]);
         $event->addLocationToClear($initialLocations[1]);
-        $this->assertSame($initialLocations, $event->getLocationsToClear());
+        self::assertSame($initialLocations, $event->getLocationsToClear());
 
         $otherLocations = [new Location(), new Location()];
         $event->setLocationsToClear($otherLocations);
-        $this->assertSame($otherLocations, $event->getLocationsToClear());
+        self::assertSame($otherLocations, $event->getLocationsToClear());
     }
 }
 

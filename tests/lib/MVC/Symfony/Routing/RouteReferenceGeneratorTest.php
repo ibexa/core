@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
@@ -40,16 +41,16 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($currentRouteName, $currentRouteParams), $request);
         $this->dispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
+            ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 
         $generator = new RouteReferenceGenerator($this->dispatcher);
         $generator->setRequestStack($requestStack);
         $reference = $generator->generate();
-        $this->assertInstanceOf(RouteReference::class, $reference);
-        $this->assertSame($currentRouteName, $reference->getRoute());
-        $this->assertSame($currentRouteParams, $reference->getParams());
+        self::assertInstanceOf(RouteReference::class, $reference);
+        self::assertSame($currentRouteName, $reference->getRoute());
+        self::assertSame($currentRouteParams, $reference->getParams());
     }
 
     public function testGenerateNullResourceAndPassedParams()
@@ -67,16 +68,16 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($currentRouteName, $expectedParams), $request);
         $this->dispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
+            ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 
         $generator = new RouteReferenceGenerator($this->dispatcher);
         $generator->setRequestStack($requestStack);
         $reference = $generator->generate(null, $passedParams);
-        $this->assertInstanceOf(RouteReference::class, $reference);
-        $this->assertSame($currentRouteName, $reference->getRoute());
-        $this->assertSame($expectedParams, $reference->getParams());
+        self::assertInstanceOf(RouteReference::class, $reference);
+        self::assertSame($currentRouteName, $reference->getRoute());
+        self::assertSame($expectedParams, $reference->getParams());
     }
 
     /**
@@ -95,16 +96,16 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference($resource, $params), $request);
         $this->dispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
+            ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 
         $generator = new RouteReferenceGenerator($this->dispatcher);
         $generator->setRequestStack($requestStack);
         $reference = $generator->generate($resource, $params);
-        $this->assertInstanceOf(RouteReference::class, $reference);
-        $this->assertSame($resource, $reference->getRoute());
-        $this->assertSame($params, $reference->getParams());
+        self::assertInstanceOf(RouteReference::class, $reference);
+        self::assertSame($resource, $reference->getRoute());
+        self::assertSame($params, $reference->getParams());
     }
 
     public function testGenerateNullResourceWithoutRoute()
@@ -118,14 +119,14 @@ class RouteReferenceGeneratorTest extends TestCase
 
         $event = new RouteReferenceGenerationEvent(new RouteReference(null, []), $request);
         $this->dispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
+            ->with(self::equalTo($event), MVCEvents::ROUTE_REFERENCE_GENERATION);
 
         $generator = new RouteReferenceGenerator($this->dispatcher);
         $generator->setRequestStack($requestStack);
         $reference = $generator->generate();
-        $this->assertInstanceOf(RouteReference::class, $reference);
+        self::assertInstanceOf(RouteReference::class, $reference);
     }
 
     public function generateGenerator()

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventSubscriber;
 
 use Ibexa\Bundle\Core\EventSubscriber\CrowdinRequestLocaleSubscriber;
@@ -28,7 +29,7 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
         $subscriber = new CrowdinRequestLocaleSubscriber();
         $subscriber->setInContextAcceptLanguage($event);
 
-        $this->assertEquals(
+        self::assertEquals(
             $shouldHaveCustomLocale,
             'ach_UG' === $event->getRequest()->getPreferredLanguage(),
             'The custom ach_UG locale was expected to be set by the event subscriber'

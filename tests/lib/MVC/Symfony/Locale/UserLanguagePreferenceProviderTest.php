@@ -72,7 +72,7 @@ class UserLanguagePreferenceProviderTest extends TestCase
         );
         $this
             ->requestStackMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 
@@ -80,7 +80,7 @@ class UserLanguagePreferenceProviderTest extends TestCase
         $userPreferenceServiceMock
             ->method('getUserPreference')
             ->with(self::LANGUAGE_PREFERENCE_NAME)
-            ->will($this->throwException(new NotFoundException('User Preference', self::LANGUAGE_PREFERENCE_NAME)));
+            ->will(self::throwException(new NotFoundException('User Preference', self::LANGUAGE_PREFERENCE_NAME)));
 
         $userLanguagePreferenceProvider = new UserLanguagePreferenceProvider(
             $this->requestStackMock,
@@ -111,7 +111,7 @@ class UserLanguagePreferenceProviderTest extends TestCase
         );
         $this
             ->requestStackMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentRequest')
             ->willReturn($request);
 

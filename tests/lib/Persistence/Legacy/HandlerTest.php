@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy;
 
 use Ibexa\Contracts\Core\Container;
@@ -36,11 +37,11 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $contentHandler = $handler->contentHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPIContentHandler::class,
             $contentHandler
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             ContentHandler::class,
             $contentHandler
         );
@@ -50,7 +51,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->contentHandler(),
             $handler->contentHandler()
         );
@@ -61,7 +62,7 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $contentTypeHandler = $handler->contentTypeHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPIContentTypeHandler::class,
             $contentTypeHandler
         );
@@ -72,7 +73,7 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $contentLanguageHandler = $handler->contentLanguageHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPILanguageHandler::class,
             $contentLanguageHandler
         );
@@ -82,7 +83,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->contentTypeHandler(),
             $handler->contentTypeHandler()
         );
@@ -93,11 +94,11 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $locationHandler = $handler->locationHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPILocationHandler::class,
             $locationHandler
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             LocationHandler::class,
             $locationHandler
         );
@@ -107,7 +108,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->locationHandler(),
             $handler->locationHandler()
         );
@@ -118,11 +119,11 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $userHandler = $handler->userHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPIUserHandler::class,
             $userHandler
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             UserHandler::class,
             $userHandler
         );
@@ -132,7 +133,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->userHandler(),
             $handler->userHandler()
         );
@@ -143,11 +144,11 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $sectionHandler = $handler->sectionHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPISectionHandler::class,
             $sectionHandler
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SectionHandler::class,
             $sectionHandler
         );
@@ -157,7 +158,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->sectionHandler(),
             $handler->sectionHandler()
         );
@@ -168,11 +169,11 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $urlAliasHandler = $handler->urlAliasHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPIUrlAliasHandler::class,
             $urlAliasHandler
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             UrlAliasHandler::class,
             $urlAliasHandler
         );
@@ -182,7 +183,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->urlAliasHandler(),
             $handler->urlAliasHandler()
         );
@@ -192,7 +193,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->notificationHandler(),
             $handler->notificationHandler()
         );
@@ -203,11 +204,11 @@ class HandlerTest extends TestCase
         $handler = $this->getHandlerFixture();
         $transactionHandler = $handler->transactionHandler();
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SPITransactionHandler::class,
             $transactionHandler
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             TransactionHandler::class,
             $transactionHandler
         );
@@ -217,7 +218,7 @@ class HandlerTest extends TestCase
     {
         $handler = $this->getHandlerFixture();
 
-        $this->assertSame(
+        self::assertSame(
             $handler->transactionHandler(),
             $handler->transactionHandler()
         );

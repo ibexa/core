@@ -50,26 +50,26 @@ class HandlerTest extends TestCase
         ]);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createBookmarkFromCreateStruct')
             ->with($createStruct)
             ->willReturn($bookmark);
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('insertBookmark')
             ->with($bookmark)
             ->willReturn(self::BOOKMARK_ID);
 
         $this->handler->create($createStruct);
 
-        $this->assertEquals($bookmark->id, self::BOOKMARK_ID);
+        self::assertEquals($bookmark->id, self::BOOKMARK_ID);
     }
 
     public function testDelete()
     {
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteBookmark')
             ->with(self::BOOKMARK_ID);
 
@@ -96,18 +96,18 @@ class HandlerTest extends TestCase
         ]);
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBookmarkDataByUserIdAndLocationId')
             ->with($userId, [$locationId])
             ->willReturn($rows);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('extractBookmarksFromRows')
             ->with($rows)
             ->willReturn([$object]);
 
-        $this->assertEquals([$locationId => $object], $this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
+        self::assertEquals([$locationId => $object], $this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
     }
 
     public function testLoadByUserIdAndLocationIdNonExistingBookmark()
@@ -116,18 +116,18 @@ class HandlerTest extends TestCase
         $locationId = 54;
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadBookmarkDataByUserIdAndLocationId')
             ->with($userId, [$locationId])
             ->willReturn([]);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('extractBookmarksFromRows')
             ->with([])
             ->willReturn([]);
 
-        $this->assertEmpty($this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
+        self::assertEmpty($this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
     }
 
     public function testLoadUserBookmarks()
@@ -167,18 +167,18 @@ class HandlerTest extends TestCase
         ];
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUserBookmarks')
             ->with($userId, $offset, $limit)
             ->willReturn($rows);
 
         $this->mapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('extractBookmarksFromRows')
             ->with($rows)
             ->willReturn($objects);
 
-        $this->assertEquals($objects, $this->handler->loadUserBookmarks($userId, $offset, $limit));
+        self::assertEquals($objects, $this->handler->loadUserBookmarks($userId, $offset, $limit));
     }
 
     public function testLocationSwapped()
@@ -187,7 +187,7 @@ class HandlerTest extends TestCase
         $location2Id = 2;
 
         $this->gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('locationSwapped')
             ->with($location1Id, $location2Id);
 

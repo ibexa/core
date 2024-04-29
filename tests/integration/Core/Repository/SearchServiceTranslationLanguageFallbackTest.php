@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use DateTime;
@@ -19,6 +20,7 @@ use RuntimeException;
  * Test case for field filtering operations in the SearchService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SearchService
+ *
  * @group integration
  * @group search
  * @group language_fallback
@@ -1707,6 +1709,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 
     /**
      * @dataProvider providerForTestFind
+     *
      * @depends      testCreateTestContent
      *
      * @param array $languageSettings
@@ -1733,7 +1736,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             $languageSettings
         );
 
-        $this->assertEquals(count($contentDataList), $searchResult->totalCount);
+        self::assertEquals(count($contentDataList), $searchResult->totalCount);
 
         foreach ($contentDataList as $index => $contentData) {
             list($contentNo, $translationLanguageCode, $indexMap) = $contentData;
@@ -1742,12 +1745,12 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $content */
             $content = $searchResult->searchHits[$index]->valueObject;
 
-            $this->assertEquals(
+            self::assertEquals(
                 $data[$contentNo]['content']->id,
                 $content->id
             );
             $this->assertIndexName($indexMap, $searchResult->searchHits[$index]);
-            $this->assertEquals(
+            self::assertEquals(
                 $translationLanguageCode,
                 $searchResult->searchHits[$index]->matchedTranslation
             );
@@ -1756,6 +1759,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 
     /**
      * @dataProvider providerForTestFind
+     *
      * @depends      testCreateTestContent
      *
      * @param array $languageSettings
@@ -1787,7 +1791,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             $languageSettings
         );
 
-        $this->assertEquals(count($contentDataList), $searchResult->totalCount);
+        self::assertEquals(count($contentDataList), $searchResult->totalCount);
 
         foreach ($contentDataList as $index => $contentData) {
             list($contentNo, $translationLanguageCode, $indexMap) = $contentData;
@@ -1796,12 +1800,12 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
             $location = $searchResult->searchHits[$index]->valueObject;
 
-            $this->assertEquals(
+            self::assertEquals(
                 $data[$contentNo]['locations'][0]->id,
                 $location->id
             );
             $this->assertIndexName($indexMap, $searchResult->searchHits[$index]);
-            $this->assertEquals(
+            self::assertEquals(
                 $translationLanguageCode,
                 $searchResult->searchHits[$index]->matchedTranslation
             );
@@ -1810,6 +1814,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 
     /**
      * @dataProvider providerForTestFind
+     *
      * @depends      testCreateTestContent
      *
      * @param array $languageSettings
@@ -1837,7 +1842,7 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             $languageSettings
         );
 
-        $this->assertEquals(count($contentDataList) * 2, $searchResult->totalCount);
+        self::assertEquals(count($contentDataList) * 2, $searchResult->totalCount);
 
         foreach ($contentDataList as $index => $contentData) {
             list($contentNo, $translationLanguageCode, $indexMap) = $contentData;
@@ -1846,12 +1851,12 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
             $location = $searchResult->searchHits[$index]->valueObject;
 
-            $this->assertEquals(
+            self::assertEquals(
                 $data[$contentNo]['locations'][0]->id,
                 $location->id
             );
             $this->assertIndexName($indexMap, $searchResult->searchHits[$index]);
-            $this->assertEquals(
+            self::assertEquals(
                 $translationLanguageCode,
                 $searchResult->searchHits[$index]->matchedTranslation
             );
@@ -1865,12 +1870,12 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
             /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
             $location = $searchResult->searchHits[$realIndex]->valueObject;
 
-            $this->assertEquals(
+            self::assertEquals(
                 $data[$contentNo]['locations'][1]->id,
                 $location->id
             );
             $this->assertIndexName($indexMap, $searchResult->searchHits[$realIndex]);
-            $this->assertEquals(
+            self::assertEquals(
                 $translationLanguageCode,
                 $searchResult->searchHits[$realIndex]->matchedTranslation
             );
@@ -1882,9 +1887,9 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         $indexName = $this->getIndexName($indexMap);
 
         if ($indexName === null) {
-            $this->assertNull($searchHit->index);
+            self::assertNull($searchHit->index);
         } else {
-            $this->assertRegExp('~^' . $indexName . '$~', $searchHit->index);
+            self::assertRegExp('~^' . $indexName . '$~', $searchHit->index);
         }
     }
 

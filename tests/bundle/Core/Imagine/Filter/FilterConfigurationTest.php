@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
@@ -34,13 +35,13 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->set('bar', $barConfig);
 
         $this->configResolver
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
-        $this->assertSame($fooConfig, $this->filterConfiguration->get('foo'));
-        $this->assertSame($barConfig, $this->filterConfiguration->get('bar'));
+        self::assertSame($fooConfig, $this->filterConfiguration->get('foo'));
+        self::assertSame($barConfig, $this->filterConfiguration->get('bar'));
     }
 
     public function testGetNoEzVariationInvalidImagineFilter()
@@ -53,10 +54,10 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->set('bar', $barConfig);
 
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $this->filterConfiguration->get('foobar');
     }
@@ -72,10 +73,10 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => null,
         ];
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue($variations));
+            ->will(self::returnValue($variations));
 
         self::assertSame(
             [
@@ -101,12 +102,12 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['filters' => $filters],
         ];
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue($variations));
+            ->will(self::returnValue($variations));
 
-        $this->assertSame(
+        self::assertSame(
             [
                 'cache' => 'ibexa',
                 'data_loader' => 'ibexa',
@@ -131,12 +132,12 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['filters' => $filters, 'reference' => $reference],
         ];
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue($variations));
+            ->will(self::returnValue($variations));
 
-        $this->assertSame(
+        self::assertSame(
             [
                 'cache' => 'ibexa',
                 'data_loader' => 'ibexa',
@@ -159,12 +160,12 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['reference' => $reference],
         ];
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue($variations));
+            ->will(self::returnValue($variations));
 
-        $this->assertSame(
+        self::assertSame(
             [
                 'cache' => 'ibexa',
                 'data_loader' => 'ibexa',
@@ -190,12 +191,12 @@ class FilterConfigurationTest extends TestCase
             'some_variation' => ['reference' => $reference, 'filters' => $filters],
         ];
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue($variations));
+            ->will(self::returnValue($variations));
 
-        $this->assertSame(
+        self::assertSame(
             [
                 'cache' => 'ibexa',
                 'data_loader' => 'ibexa',
@@ -222,12 +223,12 @@ class FilterConfigurationTest extends TestCase
         $eZVariationConfig = ['filters' => $filters, 'reference' => $reference];
         $variations = ['some_variation' => $eZVariationConfig];
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('image_variations')
-            ->will($this->returnValue($variations));
+            ->will(self::returnValue($variations));
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'foo' => $fooConfig,
                 'bar' => $barConfig,

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as LimitationType;
@@ -74,6 +75,7 @@ class SectionLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValue
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation $limitation
@@ -100,6 +102,7 @@ class SectionLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValueException
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
@@ -133,17 +136,17 @@ class SectionLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('sectionHandler')
-                ->will($this->returnValue($this->sectionHandlerMock));
+                ->will(self::returnValue($this->sectionHandlerMock));
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->sectionHandlerMock
-                    ->expects($this->at($key))
+                    ->expects(self::at($key))
                     ->method('load')
                     ->with($value)
                     ->will(
-                        $this->returnValue(
+                        self::returnValue(
                             new SPISection(['id' => $value])
                         )
                     );
@@ -179,21 +182,21 @@ class SectionLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('sectionHandler')
-                ->will($this->returnValue($this->sectionHandlerMock));
+                ->will(self::returnValue($this->sectionHandlerMock));
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->sectionHandlerMock
-                    ->expects($this->at($key))
+                    ->expects(self::at($key))
                     ->method('load')
                     ->with($value)
-                    ->will($this->throwException(new NotFoundException('Section', $value)));
+                    ->will(self::throwException(new NotFoundException('Section', $value)));
             }
         } else {
             $this->getPersistenceMock()
-                ->expects($this->never())
-                ->method($this->anything());
+                ->expects(self::never())
+                ->method(self::anything());
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -228,21 +231,21 @@ class SectionLimitationTypeTest extends Base
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
 
         $contentMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVersionInfo')
-            ->will($this->returnValue($versionInfoMock));
+            ->will(self::returnValue($versionInfoMock));
 
         $versionInfoMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentInfo')
-            ->will($this->returnValue(new ContentInfo(['sectionId' => 2])));
+            ->will(self::returnValue(new ContentInfo(['sectionId' => 2])));
 
         $versionInfoMock2 = $this->createMock(APIVersionInfo::class);
 
         $versionInfoMock2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentInfo')
-            ->will($this->returnValue(new ContentInfo(['sectionId' => 2])));
+            ->will(self::returnValue(new ContentInfo(['sectionId' => 2])));
 
         return [
             // ContentInfo, with targets, no access
@@ -360,12 +363,12 @@ class SectionLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $this->getPersistenceMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $value = $limitationType->evaluate(
             $limitation,
@@ -407,12 +410,12 @@ class SectionLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $this->getPersistenceMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $v = $limitationType->evaluate(
             $limitation,

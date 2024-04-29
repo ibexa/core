@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search;
 
 use ArrayObject;
@@ -28,10 +29,10 @@ class FieldNameResolverTest extends TestCase
         $criterionMock = $this->getCriterionMock();
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'content_type_identifier_1' => [
                             'field_definition_identifier_1' => [
@@ -56,8 +57,8 @@ class FieldNameResolverTest extends TestCase
             'field_name'
         );
 
-        $this->assertIsArray($fieldNames);
-        $this->assertEmpty($fieldNames);
+        self::assertIsArray($fieldNames);
+        self::assertEmpty($fieldNames);
     }
 
     public function testGetFieldNames()
@@ -66,10 +67,10 @@ class FieldNameResolverTest extends TestCase
         $criterionMock = $this->getCriterionMock();
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'content_type_identifier_1' => [
                             'field_definition_identifier_1' => [
@@ -92,10 +93,10 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('getIndexFieldName')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     APICriterion::class
                 ),
                 'content_type_identifier_1',
@@ -103,13 +104,13 @@ class FieldNameResolverTest extends TestCase
                 'field_type_identifier_1',
                 null
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
+            ->will(self::returnValue(['index_field_name_1' => null]));
 
         $mockedFieldNameResolver
-            ->expects($this->at(2))
+            ->expects(self::at(2))
             ->method('getIndexFieldName')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     APICriterion::class
                 ),
                 'content_type_identifier_2',
@@ -117,15 +118,15 @@ class FieldNameResolverTest extends TestCase
                 'field_type_identifier_2',
                 null
             )
-            ->will($this->returnValue(['index_field_name_2' => null]));
+            ->will(self::returnValue(['index_field_name_2' => null]));
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
             'field_definition_identifier_1'
         );
 
-        $this->assertIsArray($fieldNames);
-        $this->assertEquals(
+        self::assertIsArray($fieldNames);
+        self::assertEquals(
             [
                 'index_field_name_1',
                 'index_field_name_2',
@@ -140,10 +141,10 @@ class FieldNameResolverTest extends TestCase
         $criterionMock = $this->getCriterionMock();
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'content_type_identifier_1' => [
                             'field_definition_identifier_1' => [
@@ -166,10 +167,10 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('getIndexFieldName')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     APICriterion::class
                 ),
                 'content_type_identifier_1',
@@ -177,13 +178,13 @@ class FieldNameResolverTest extends TestCase
                 'field_type_identifier_1',
                 'field_name'
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
+            ->will(self::returnValue(['index_field_name_1' => null]));
 
         $mockedFieldNameResolver
-            ->expects($this->at(2))
+            ->expects(self::at(2))
             ->method('getIndexFieldName')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     APICriterion::class
                 ),
                 'content_type_identifier_2',
@@ -191,7 +192,7 @@ class FieldNameResolverTest extends TestCase
                 'field_type_identifier_2',
                 'field_name'
             )
-            ->will($this->returnValue(['index_field_name_2' => null]));
+            ->will(self::returnValue(['index_field_name_2' => null]));
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
@@ -200,8 +201,8 @@ class FieldNameResolverTest extends TestCase
             'field_name'
         );
 
-        $this->assertIsArray($fieldNames);
-        $this->assertEquals(
+        self::assertIsArray($fieldNames);
+        self::assertEquals(
             [
                 'index_field_name_1',
                 'index_field_name_2',
@@ -216,10 +217,10 @@ class FieldNameResolverTest extends TestCase
         $criterionMock = $this->getCriterionMock();
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'content_type_identifier_1' => [
                             'field_definition_identifier_1' => [
@@ -242,10 +243,10 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('getIndexFieldName')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     APICriterion::class
                 ),
                 'content_type_identifier_2',
@@ -253,7 +254,7 @@ class FieldNameResolverTest extends TestCase
                 'field_type_identifier_2',
                 null
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
+            ->will(self::returnValue(['index_field_name_1' => null]));
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
@@ -262,8 +263,8 @@ class FieldNameResolverTest extends TestCase
             null
         );
 
-        $this->assertIsArray($fieldNames);
-        $this->assertEquals(
+        self::assertIsArray($fieldNames);
+        self::assertEquals(
             [
                 'index_field_name_1',
             ],
@@ -277,10 +278,10 @@ class FieldNameResolverTest extends TestCase
         $criterionMock = $this->getCriterionMock();
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'content_type_identifier_1' => [
                             'field_definition_identifier_1' => [
@@ -303,10 +304,10 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('getIndexFieldName')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     APICriterion::class
                 ),
                 'content_type_identifier_2',
@@ -314,7 +315,7 @@ class FieldNameResolverTest extends TestCase
                 'field_type_identifier_2',
                 'field_name'
             )
-            ->will($this->returnValue(['index_field_name_1' => null]));
+            ->will(self::returnValue(['index_field_name_1' => null]));
 
         $fieldNames = $mockedFieldNameResolver->getFieldNames(
             $criterionMock,
@@ -323,8 +324,8 @@ class FieldNameResolverTest extends TestCase
             'field_name'
         );
 
-        $this->assertIsArray($fieldNames);
-        $this->assertEquals(
+        self::assertIsArray($fieldNames);
+        self::assertEquals(
             [
                 'index_field_name_1',
             ],
@@ -338,10 +339,10 @@ class FieldNameResolverTest extends TestCase
         $sortClauseMock = $this->getSortClauseMock();
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'content_type_identifier' => [
                             'field_definition_identifier' => [
@@ -354,10 +355,10 @@ class FieldNameResolverTest extends TestCase
             );
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIndexFieldName')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     APISortClause::class
                 ),
                 'content_type_identifier',
@@ -365,7 +366,7 @@ class FieldNameResolverTest extends TestCase
                 'field_type_identifier',
                 'field_name'
             )
-            ->will($this->returnValue(['index_field_name' => null]));
+            ->will(self::returnValue(['index_field_name' => null]));
 
         $fieldName = $mockedFieldNameResolver->getSortFieldName(
             $sortClauseMock,
@@ -374,7 +375,7 @@ class FieldNameResolverTest extends TestCase
             'field_name'
         );
 
-        $this->assertEquals('index_field_name', $fieldName);
+        self::assertEquals('index_field_name', $fieldName);
     }
 
     public function testGetSortFieldNameReturnsNull()
@@ -383,10 +384,10 @@ class FieldNameResolverTest extends TestCase
         $sortClauseMock = $this->getSortClauseMock();
 
         $mockedFieldNameResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSearchableFieldMap')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'content_type_identifier' => [
                             'field_definition_identifier' => [
@@ -405,7 +406,7 @@ class FieldNameResolverTest extends TestCase
             'field_name'
         );
 
-        $this->assertNull($fieldName);
+        self::assertNull($fieldName);
     }
 
     public function testGetIndexFieldNameCustomField()
@@ -414,14 +415,14 @@ class FieldNameResolverTest extends TestCase
 
         $customFieldMock = $this->createMock(CustomFieldInterface::class);
         $customFieldMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCustomField')
             ->with(
                 'content_type_identifier',
                 'field_definition_identifier'
             )
             ->will(
-                $this->returnValue('custom_field_name')
+                self::returnValue('custom_field_name')
             );
 
         $customFieldName = $mockedFieldNameResolver->getIndexFieldName(
@@ -433,7 +434,7 @@ class FieldNameResolverTest extends TestCase
             false
         );
 
-        $this->assertEquals('custom_field_name', key($customFieldName));
+        self::assertEquals('custom_field_name', key($customFieldName));
     }
 
     public function testGetIndexFieldNameNamedField()
@@ -443,28 +444,28 @@ class FieldNameResolverTest extends TestCase
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
 
         $this->fieldRegistryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->with('field_type_identifier')
             ->will(
-                $this->returnValue($indexFieldType)
+                self::returnValue($indexFieldType)
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIndexDefinition')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'field_name' => $searchFieldTypeMock,
                     ]
                 )
             );
 
-        $indexFieldType->expects($this->never())->method('getDefaultSortField');
+        $indexFieldType->expects(self::never())->method('getDefaultSortField');
 
         $this->fieldNameGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
             ->with(
                 'field_name',
@@ -472,18 +473,18 @@ class FieldNameResolverTest extends TestCase
                 'content_type_identifier'
             )
             ->will(
-                $this->returnValue('generated_field_name')
+                self::returnValue('generated_field_name')
             );
 
         $this->fieldNameGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTypedName')
             ->with(
                 'generated_field_name',
-                $this->isInstanceOf(SPIFieldType::class)
+                self::isInstanceOf(SPIFieldType::class)
             )
             ->will(
-                $this->returnValue('generated_typed_field_name')
+                self::returnValue('generated_typed_field_name')
             );
 
         $fieldName = $mockedFieldNameResolver->getIndexFieldName(
@@ -495,7 +496,7 @@ class FieldNameResolverTest extends TestCase
             true
         );
 
-        $this->assertEquals('generated_typed_field_name', key($fieldName));
+        self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
     public function testGetIndexFieldNameDefaultMatchField()
@@ -505,25 +506,25 @@ class FieldNameResolverTest extends TestCase
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
 
         $this->fieldRegistryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->with('field_type_identifier')
             ->will(
-                $this->returnValue($indexFieldType)
+                self::returnValue($indexFieldType)
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getDefaultMatchField')
             ->will(
-                $this->returnValue('field_name')
+                self::returnValue('field_name')
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIndexDefinition')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'field_name' => $searchFieldTypeMock,
                     ]
@@ -531,7 +532,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $this->fieldNameGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
             ->with(
                 'field_name',
@@ -539,18 +540,18 @@ class FieldNameResolverTest extends TestCase
                 'content_type_identifier'
             )
             ->will(
-                $this->returnValue('generated_field_name')
+                self::returnValue('generated_field_name')
             );
 
         $this->fieldNameGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTypedName')
             ->with(
                 'generated_field_name',
-                $this->isInstanceOf(SPIFieldType::class)
+                self::isInstanceOf(SPIFieldType::class)
             )
             ->will(
-                $this->returnValue('generated_typed_field_name')
+                self::returnValue('generated_typed_field_name')
             );
 
         $fieldName = $mockedFieldNameResolver->getIndexFieldName(
@@ -562,7 +563,7 @@ class FieldNameResolverTest extends TestCase
             false
         );
 
-        $this->assertEquals('generated_typed_field_name', key($fieldName));
+        self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
     public function testGetIndexFieldNameDefaultSortField()
@@ -572,25 +573,25 @@ class FieldNameResolverTest extends TestCase
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
 
         $this->fieldRegistryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->with('field_type_identifier')
             ->will(
-                $this->returnValue($indexFieldType)
+                self::returnValue($indexFieldType)
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getDefaultSortField')
             ->will(
-                $this->returnValue('field_name')
+                self::returnValue('field_name')
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIndexDefinition')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'field_name' => $searchFieldTypeMock,
                     ]
@@ -598,7 +599,7 @@ class FieldNameResolverTest extends TestCase
             );
 
         $this->fieldNameGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
             ->with(
                 'field_name',
@@ -606,18 +607,18 @@ class FieldNameResolverTest extends TestCase
                 'content_type_identifier'
             )
             ->will(
-                $this->returnValue('generated_field_name')
+                self::returnValue('generated_field_name')
             );
 
         $this->fieldNameGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTypedName')
             ->with(
                 'generated_field_name',
-                $this->isInstanceOf(SPIFieldType::class)
+                self::isInstanceOf(SPIFieldType::class)
             )
             ->will(
-                $this->returnValue('generated_typed_field_name')
+                self::returnValue('generated_typed_field_name')
             );
 
         $fieldName = $mockedFieldNameResolver->getIndexFieldName(
@@ -629,7 +630,7 @@ class FieldNameResolverTest extends TestCase
             true
         );
 
-        $this->assertEquals('generated_typed_field_name', key($fieldName));
+        self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
     public function testGetIndexFieldNameDefaultMatchFieldThrowsRuntimeException()
@@ -641,25 +642,25 @@ class FieldNameResolverTest extends TestCase
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
 
         $this->fieldRegistryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->with('field_type_identifier')
             ->will(
-                $this->returnValue($indexFieldType)
+                self::returnValue($indexFieldType)
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getDefaultMatchField')
             ->will(
-                $this->returnValue('non_existent_field_name')
+                self::returnValue('non_existent_field_name')
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIndexDefinition')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'field_name' => $searchFieldTypeMock,
                     ]
@@ -685,25 +686,25 @@ class FieldNameResolverTest extends TestCase
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
 
         $this->fieldRegistryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->with('field_type_identifier')
             ->will(
-                $this->returnValue($indexFieldType)
+                self::returnValue($indexFieldType)
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getDefaultSortField')
             ->will(
-                $this->returnValue('non_existent_field_name')
+                self::returnValue('non_existent_field_name')
             );
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIndexDefinition')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'field_name' => $searchFieldTypeMock,
                     ]
@@ -731,20 +732,20 @@ class FieldNameResolverTest extends TestCase
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
 
         $this->fieldRegistryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->with('field_type_identifier')
             ->will(
-                $this->returnValue($indexFieldType)
+                self::returnValue($indexFieldType)
             );
 
-        $indexFieldType->expects($this->never())->method('getDefaultField');
+        $indexFieldType->expects(self::never())->method('getDefaultField');
 
         $indexFieldType
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIndexDefinition')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [
                         'field_name' => $searchFieldTypeMock,
                     ]

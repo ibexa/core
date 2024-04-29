@@ -30,7 +30,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
         $normalizer = new CompoundMatcherNormalizer();
         $normalizer->setSerializer(new SerializerStub());
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'subMatchers' => [
                     'foo' => ['data' => 'foo'],
@@ -48,8 +48,8 @@ final class CompoundMatcherNormalizerTest extends TestCase
     {
         $normalizer = new CompoundMatcherNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(Compound::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(Compound::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 
     public function testSupportsDenormalization(): void
@@ -66,8 +66,8 @@ final class CompoundMatcherNormalizerTest extends TestCase
             ]
         );
 
-        $this->assertTrue($normalizer->supportsDenormalization($data, Compound::class, 'json'));
-        $this->assertFalse($normalizer->supportsDenormalization($data, Matcher::class, 'json'));
+        self::assertTrue($normalizer->supportsDenormalization($data, Compound::class, 'json'));
+        self::assertFalse($normalizer->supportsDenormalization($data, Matcher::class, 'json'));
     }
 }
 

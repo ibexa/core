@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -35,16 +36,16 @@ class UserTest extends TestCase
 
         $roles = ['ROLE_USER'];
         $apiUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserId')
-            ->will($this->returnValue(42));
+            ->will(self::returnValue(42));
 
         $user = new User($apiUser, $roles);
-        $this->assertSame($apiUser, $user->getAPIUser());
-        $this->assertSame($login, $user->getUsername());
-        $this->assertSame($passwordHash, $user->getPassword());
-        $this->assertSame($roles, $user->getRoles());
-        $this->assertNull($user->getSalt());
+        self::assertSame($apiUser, $user->getAPIUser());
+        self::assertSame($login, $user->getUsername());
+        self::assertSame($passwordHash, $user->getPassword());
+        self::assertSame($roles, $user->getRoles());
+        self::assertNull($user->getSalt());
     }
 
     public function testIsEqualTo()
@@ -52,42 +53,42 @@ class UserTest extends TestCase
         $userId = 123;
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserId')
-            ->will($this->returnValue($userId));
+            ->will(self::returnValue($userId));
         $roles = ['ROLE_USER'];
 
         $user = new User($apiUser, $roles);
 
         $apiUser2 = $this->createMock(APIUser::class);
         $apiUser2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserId')
-            ->will($this->returnValue($userId));
+            ->will(self::returnValue($userId));
         $user2 = new User($apiUser2, []);
 
-        $this->assertTrue($user->isEqualTo($user2));
+        self::assertTrue($user->isEqualTo($user2));
     }
 
     public function testIsNotEqualTo()
     {
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserId')
-            ->will($this->returnValue(123));
+            ->will(self::returnValue(123));
         $roles = ['ROLE_USER'];
 
         $user = new User($apiUser, $roles);
 
         $apiUser2 = $this->createMock(APIUser::class);
         $apiUser2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserId')
-            ->will($this->returnValue(456));
+            ->will(self::returnValue(456));
         $user2 = new User($apiUser2, []);
 
-        $this->assertFalse($user->isEqualTo($user2));
+        self::assertFalse($user->isEqualTo($user2));
     }
 
     public function testIsEqualToNotSameUserType()
@@ -95,10 +96,10 @@ class UserTest extends TestCase
         $user = new User($this->createMock(APIUser::class));
         $user2 = $this->createMock(ReferenceUserInterface::class);
         $user2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAPIUserReference')
             ->willReturn(new UserReference(456));
-        $this->assertFalse($user->isEqualTo($user2));
+        self::assertFalse($user->isEqualTo($user2));
     }
 
     public function testSetAPIUser()
@@ -108,7 +109,7 @@ class UserTest extends TestCase
 
         $user = new User($apiUserA);
         $user->setAPIUser($apiUserB);
-        $this->assertSame($apiUserB, $user->getAPIUser());
+        self::assertSame($apiUserB, $user->getAPIUser());
     }
 
     public function testToString()
@@ -120,13 +121,13 @@ class UserTest extends TestCase
             ->getMockForAbstractClass();
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('__get')
             ->with('contentInfo')
-            ->will($this->returnValue($userContentInfo));
+            ->will(self::returnValue($userContentInfo));
 
         $user = new User($apiUser);
-        $this->assertSame($fullName, (string)$user);
+        self::assertSame($fullName, (string)$user);
     }
 }
 

@@ -389,7 +389,7 @@ class LanguageLimitationTest extends BaseTest
 
         $permissionResolver->setCurrentUserReference($admin);
         $content = $contentService->loadContent($draft->contentInfo->id);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 self::ENG_US => 'Published US',
                 self::GER_DE => 'Draft 1 DE',

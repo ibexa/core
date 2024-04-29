@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType\Url;
 
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
@@ -24,18 +25,18 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUrlIdMap')
             ->with(['http://ibexa.co'])
-            ->will($this->returnValue(['http://ibexa.co' => 12]));
+            ->will(self::returnValue(['http://ibexa.co' => 12]));
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('linkUrl')
             ->with(12, 42, 24);
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('unlinkUrl')
             ->with(
                 42,
@@ -46,8 +47,8 @@ class UrlStorageTest extends TestCase
         $storage = $this->getPartlyMockedStorage($gateway);
         $result = $storage->storeFieldData($versionInfo, $field, $this->getContext());
 
-        $this->assertTrue($result);
-        $this->assertEquals(12, $field->value->data['urlId']);
+        self::assertTrue($result);
+        self::assertEquals(12, $field->value->data['urlId']);
     }
 
     public function testStoreFieldDataWithNewUrl()
@@ -58,24 +59,24 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUrlIdMap')
             ->with(['http://ibexa.co'])
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('insertUrl')
             ->with('http://ibexa.co')
-            ->will($this->returnValue(12));
+            ->will(self::returnValue(12));
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('linkUrl')
             ->with(12, 42, 24);
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('unlinkUrl')
             ->with(
                 42,
@@ -86,8 +87,8 @@ class UrlStorageTest extends TestCase
         $storage = $this->getPartlyMockedStorage($gateway);
         $result = $storage->storeFieldData($versionInfo, $field, $this->getContext());
 
-        $this->assertTrue($result);
-        $this->assertEquals(12, $field->value->data['urlId']);
+        self::assertTrue($result);
+        self::assertEquals(12, $field->value->data['urlId']);
     }
 
     public function testStoreFieldDataWithEmptyUrl()
@@ -98,26 +99,26 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getUrlIdMap');
 
         $gateway
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('insertUrl');
 
         $gateway
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('linkUrl');
 
         $gateway
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('unlinkUrl');
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $result = $storage->storeFieldData($versionInfo, $field, $this->getContext());
 
-        $this->assertFalse($result);
-        $this->assertNull($field->value->data);
+        self::assertFalse($result);
+        self::assertNull($field->value->data);
     }
 
     public function testGetFieldData()
@@ -128,15 +129,15 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIdUrlMap')
             ->with([12])
-            ->will($this->returnValue([12 => 'http://ibexa.co']));
+            ->will(self::returnValue([12 => 'http://ibexa.co']));
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $storage->getFieldData($versionInfo, $field, $this->getContext());
 
-        $this->assertEquals('http://ibexa.co', $field->value->externalData);
+        self::assertEquals('http://ibexa.co', $field->value->externalData);
     }
 
     public function testGetFieldDataNotFound()
@@ -147,21 +148,21 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getIdUrlMap')
             ->with([12])
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $logger = $this->getLoggerMock();
         $logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error')
             ->with("URL with ID '12' not found");
 
         $storage->getFieldData($versionInfo, $field, $this->getContext());
 
-        $this->assertEquals('', $field->value->externalData);
+        self::assertEquals('', $field->value->externalData);
     }
 
     public function testGetFieldDataWithEmptyUrlId()
@@ -172,18 +173,18 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getIdUrlMap');
 
         $logger = $this->getLoggerMock();
         $logger
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('error');
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $storage->getFieldData($versionInfo, $field, $this->getContext());
 
-        $this->assertNull($field->value->externalData);
+        self::assertNull($field->value->externalData);
     }
 
     public function testDeleteFieldData()
@@ -194,7 +195,7 @@ class UrlStorageTest extends TestCase
 
         foreach ($fieldIds as $index => $id) {
             $gateway
-                ->expects($this->at($index))
+                ->expects(self::at($index))
                 ->method('unlinkUrl')
                 ->with($id, 24);
         }
@@ -207,7 +208,7 @@ class UrlStorageTest extends TestCase
     {
         $storage = $this->getPartlyMockedStorage($this->getGatewayMock());
 
-        $this->assertTrue($storage->hasFieldData());
+        self::assertTrue($storage->hasFieldData());
     }
 
     /**

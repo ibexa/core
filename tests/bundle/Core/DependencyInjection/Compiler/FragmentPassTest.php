@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\FragmentPass;
@@ -43,45 +44,45 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertTrue($this->container->hasDefinition('fragment.listener'));
+        self::assertTrue($this->container->hasDefinition('fragment.listener'));
         $fragmentListenerDef = $this->container->getDefinition('fragment.listener');
 
         $factoryArray = $fragmentListenerDef->getFactory();
-        $this->assertInstanceOf(Reference::class, $factoryArray[0]);
-        $this->assertEquals('buildFragmentListener', $factoryArray[1]);
-        $this->assertEquals(FragmentListenerFactory::class, $factoryArray[0]);
+        self::assertInstanceOf(Reference::class, $factoryArray[0]);
+        self::assertEquals('buildFragmentListener', $factoryArray[1]);
+        self::assertEquals(FragmentListenerFactory::class, $factoryArray[0]);
 
-        $this->assertTrue($this->container->hasDefinition('fragment.renderer.inline.inner'));
-        $this->assertSame($inlineRendererDef, $this->container->getDefinition('fragment.renderer.inline.inner'));
-        $this->assertFalse($inlineRendererDef->isPublic());
-        $this->assertTrue($this->container->hasDefinition('fragment.renderer.esi.inner'));
-        $this->assertSame($esiRendererDef, $this->container->getDefinition('fragment.renderer.esi.inner'));
-        $this->assertFalse($esiRendererDef->isPublic());
-        $this->assertTrue($this->container->hasDefinition('fragment.renderer.hinclude.inner'));
-        $this->assertSame($hincludeRendererDef, $this->container->getDefinition('fragment.renderer.hinclude.inner'));
-        $this->assertFalse($hincludeRendererDef->isPublic());
+        self::assertTrue($this->container->hasDefinition('fragment.renderer.inline.inner'));
+        self::assertSame($inlineRendererDef, $this->container->getDefinition('fragment.renderer.inline.inner'));
+        self::assertFalse($inlineRendererDef->isPublic());
+        self::assertTrue($this->container->hasDefinition('fragment.renderer.esi.inner'));
+        self::assertSame($esiRendererDef, $this->container->getDefinition('fragment.renderer.esi.inner'));
+        self::assertFalse($esiRendererDef->isPublic());
+        self::assertTrue($this->container->hasDefinition('fragment.renderer.hinclude.inner'));
+        self::assertSame($hincludeRendererDef, $this->container->getDefinition('fragment.renderer.hinclude.inner'));
+        self::assertFalse($hincludeRendererDef->isPublic());
 
         $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.inline', DecoratedFragmentRenderer::class);
         $decoratedInlineDef = $this->container->getDefinition('fragment.renderer.inline');
-        $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedInlineDef->getTags());
-        $this->assertEquals(
+        self::assertSame(['kernel.fragment_renderer' => [[]]], $decoratedInlineDef->getTags());
+        self::assertEquals(
             [new Reference('fragment.renderer.inline.inner')],
             $decoratedInlineDef->getArguments()
         );
-        $this->assertSame(InlineFragmentRenderer::class, $decoratedInlineDef->getClass());
+        self::assertSame(InlineFragmentRenderer::class, $decoratedInlineDef->getClass());
 
         $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.esi', DecoratedFragmentRenderer::class);
         $decoratedEsiDef = $this->container->getDefinition('fragment.renderer.esi');
-        $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedEsiDef->getTags());
-        $this->assertEquals(
+        self::assertSame(['kernel.fragment_renderer' => [[]]], $decoratedEsiDef->getTags());
+        self::assertEquals(
             [new Reference('fragment.renderer.esi.inner')],
             $decoratedEsiDef->getArguments()
         );
 
         $this->assertContainerBuilderHasServiceDefinitionWithParent('fragment.renderer.hinclude', DecoratedFragmentRenderer::class);
         $decoratedHincludeDef = $this->container->getDefinition('fragment.renderer.hinclude');
-        $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedHincludeDef->getTags());
-        $this->assertEquals(
+        self::assertSame(['kernel.fragment_renderer' => [[]]], $decoratedHincludeDef->getTags());
+        self::assertEquals(
             [new Reference('fragment.renderer.hinclude.inner')],
             $decoratedHincludeDef->getArguments()
         );

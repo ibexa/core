@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -39,7 +40,7 @@ class MapperTest extends TestCase
 
         $group = $mapper->createGroupFromCreateStruct($createStruct);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Group::class,
             $group
         );
@@ -94,7 +95,7 @@ class MapperTest extends TestCase
         $type = $mapper->createTypeFromCreateStruct($struct);
 
         foreach ($struct as $propName => $propVal) {
-            $this->assertEquals(
+            self::assertEquals(
                 $struct->$propName,
                 $type->$propName,
                 "Property \${$propName} not equal"
@@ -204,7 +205,7 @@ class MapperTest extends TestCase
 
         // Iterate through struct, since it has fewer props
         foreach ($struct as $propName => $propVal) {
-            $this->assertEquals(
+            self::assertEquals(
                 $struct->$propName,
                 $type->$propName,
                 "Property \${$propName} not equal"
@@ -287,7 +288,7 @@ class MapperTest extends TestCase
         $groupFixtureSystem->identifier = 'System';
         $groupFixtureSystem->isSystem = true;
 
-        $this->assertEquals(
+        self::assertEquals(
             [$groupFixtureMedia, $groupFixtureSystem],
             $groups
         );
@@ -300,7 +301,7 @@ class MapperTest extends TestCase
         $mapper = $this->getNonConvertingMapper();
         $types = $mapper->extractTypesFromRows($rows);
 
-        $this->assertCount(
+        self::assertCount(
             1,
             $types,
             'Incorrect number of types extracted'
@@ -332,7 +333,7 @@ class MapperTest extends TestCase
             $types[0]
         );
 
-        $this->assertCount(
+        self::assertCount(
             4,
             $types[0]->fieldDefinitions,
             'Incorrect number of field definitions'
@@ -377,13 +378,13 @@ class MapperTest extends TestCase
     public function testToStorageFieldDefinition()
     {
         $converterMock = $this->createMock(Converter::class);
-        $converterMock->expects($this->once())
+        $converterMock->expects(self::once())
             ->method('toStorageFieldDefinition')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     FieldDefinition::class
                 ),
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     StorageFieldDefinition::class
                 )
             );
@@ -415,14 +416,14 @@ class MapperTest extends TestCase
         $fieldDef->fieldType = 'some_type';
 
         $converterMock = $this->createMock(Converter::class);
-        $converterMock->expects($this->once())
+        $converterMock->expects(self::once())
             ->method('toFieldDefinition')
             ->with($storageFieldDef, $fieldDef);
 
         $converterRegistry = new ConverterRegistry(['some_type' => $converterMock]);
         $storageDispatcher = $this->getStorageDispatcherMock();
         $storageDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadFieldConstraintsData')
             ->with($fieldDef);
 
@@ -452,14 +453,14 @@ class MapperTest extends TestCase
             ->getMock();
 
         // Dedicatedly tested test
-        $mapper->expects($this->atLeastOnce())
+        $mapper->expects(self::atLeastOnce())
             ->method('toFieldDefinition')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     StorageFieldDefinition::class
                 )
             )->will(
-                $this->returnCallback(
+                self::returnCallback(
                     static function () {
                         return new FieldDefinition();
                     }

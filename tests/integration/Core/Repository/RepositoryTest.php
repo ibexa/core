@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
@@ -28,6 +29,7 @@ use Ibexa\Contracts\Core\Repository\UserService;
  * Test case for operations in the Repository using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\Repository
+ *
  * @group integration
  */
 class RepositoryTest extends BaseTest
@@ -37,7 +39,7 @@ class RepositoryTest extends BaseTest
      */
     public function testGetRepository()
     {
-        $this->assertInstanceOf(Repository::class, $this->getSetupFactory()->getRepository(true));
+        self::assertInstanceOf(Repository::class, $this->getSetupFactory()->getRepository(true));
     }
 
     /**
@@ -137,7 +139,7 @@ class RepositoryTest extends BaseTest
     public function testGetNotificationService()
     {
         $repository = $this->getRepository();
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             NotificationService::class,
             $repository->getNotificationService()
         );

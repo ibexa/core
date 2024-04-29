@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -12,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimi
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -59,7 +61,7 @@ class ParentContentTypeLimitationTest extends BaseLimitationTest
         $content = $contentService->publishVersion($draft->versionInfo);
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             'An awesome wiki page',
             $content->getFieldValue('title')->text
         );

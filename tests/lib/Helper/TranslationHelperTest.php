@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -106,12 +107,12 @@ class TranslationHelperTest extends TestCase
     {
         $content = $this->generateContent();
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('languages')
-            ->will($this->returnValue($prioritizedLanguages));
+            ->will(self::returnValue($prioritizedLanguages));
 
-        $this->assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentName($content));
+        self::assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentName($content));
     }
 
     /**
@@ -125,18 +126,18 @@ class TranslationHelperTest extends TestCase
         $versionInfo = $this->generateVersionInfo();
         $contentInfo = new ContentInfo(['id' => 123]);
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('languages')
-            ->will($this->returnValue($prioritizedLanguages));
+            ->will(self::returnValue($prioritizedLanguages));
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadVersionInfo')
             ->with($contentInfo)
-            ->will($this->returnValue($versionInfo));
+            ->will(self::returnValue($versionInfo));
 
-        $this->assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo));
+        self::assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo));
     }
 
     public function getTranslatedNameProvider()
@@ -155,17 +156,17 @@ class TranslationHelperTest extends TestCase
         $versionInfo = $this->generateVersionInfo();
         $contentInfo = new ContentInfo(['id' => 123]);
         $this->configResolver
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getParameter');
 
         $this->contentService
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('loadVersionInfo')
             ->with($contentInfo)
-            ->will($this->returnValue($versionInfo));
+            ->will(self::returnValue($versionInfo));
 
-        $this->assertSame('My name in english', $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, 'eng-GB'));
-        $this->assertSame('Mon nom en français', $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, 'eng-US'));
+        self::assertSame('My name in english', $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, 'eng-GB'));
+        self::assertSame('Mon nom en français', $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, 'eng-US'));
     }
 
     public function testGetTranslatedNameByContentInfoForcedLanguageMainLanguage()
@@ -180,14 +181,14 @@ class TranslationHelperTest extends TestCase
             ]
         );
         $this->configResolver
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getParameter');
 
         $this->contentService
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('loadContentByContentInfo');
 
-        $this->assertSame(
+        self::assertSame(
             $name,
             $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, $mainLanguage)
         );
@@ -197,11 +198,11 @@ class TranslationHelperTest extends TestCase
     {
         $content = $this->generateContent();
         $this->configResolver
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getParameter');
 
-        $this->assertSame('My name in english', $this->translationHelper->getTranslatedContentName($content, 'eng-GB'));
-        $this->assertSame('Mon nom en français', $this->translationHelper->getTranslatedContentName($content, 'eng-US'));
+        self::assertSame('My name in english', $this->translationHelper->getTranslatedContentName($content, 'eng-GB'));
+        self::assertSame('Mon nom en français', $this->translationHelper->getTranslatedContentName($content, 'eng-US'));
     }
 
     /**
@@ -214,12 +215,12 @@ class TranslationHelperTest extends TestCase
     {
         $content = $this->generateContent();
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('languages')
-            ->will($this->returnValue($prioritizedLanguages));
+            ->will(self::returnValue($prioritizedLanguages));
 
-        $this->assertSame($this->translatedFields[$expectedLocale], $this->translationHelper->getTranslatedField($content, 'test'));
+        self::assertSame($this->translatedFields[$expectedLocale], $this->translationHelper->getTranslatedField($content, 'test'));
     }
 
     public function getTranslatedFieldProvider()
@@ -236,10 +237,10 @@ class TranslationHelperTest extends TestCase
     public function testGetTranslationSiteAccessUnkownLanguage()
     {
         $this->configResolver
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('getParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, []],
                         ['related_siteaccesses', null, null, []],
@@ -248,10 +249,10 @@ class TranslationHelperTest extends TestCase
             );
 
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('error');
 
-        $this->assertNull($this->translationHelper->getTranslationSiteAccess('eng-DE'));
+        self::assertNull($this->translationHelper->getTranslationSiteAccess('eng-DE'));
     }
 
     /**
@@ -260,10 +261,10 @@ class TranslationHelperTest extends TestCase
     public function testGetTranslationSiteAccess($language, array $translationSiteAccesses, array $relatedSiteAccesses, $expectedResult)
     {
         $this->configResolver
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('getParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, $translationSiteAccesses],
                         ['related_siteaccesses', null, null, $relatedSiteAccesses],
@@ -271,7 +272,7 @@ class TranslationHelperTest extends TestCase
                 )
             );
 
-        $this->assertSame($expectedResult, $this->translationHelper->getTranslationSiteAccess($language));
+        self::assertSame($expectedResult, $this->translationHelper->getTranslationSiteAccess($language));
     }
 
     public function getTranslationSiteAccessProvider()
@@ -295,10 +296,10 @@ class TranslationHelperTest extends TestCase
     public function testGetAvailableLanguagesWithTranslationSiteAccesses()
     {
         $this->configResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, ['fre', 'esl']],
                         ['related_siteaccesses', null, null, ['fre', 'esl', 'heb']],
@@ -310,16 +311,16 @@ class TranslationHelperTest extends TestCase
             );
 
         $expectedLanguages = ['eng-GB', 'esl-ES', 'fre-FR'];
-        $this->assertSame($expectedLanguages, $this->translationHelper->getAvailableLanguages());
+        self::assertSame($expectedLanguages, $this->translationHelper->getAvailableLanguages());
     }
 
     public function testGetAvailableLanguagesWithoutTranslationSiteAccesses()
     {
         $this->configResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, []],
                         ['related_siteaccesses', null, null, ['fre', 'esl', 'heb']],
@@ -332,7 +333,7 @@ class TranslationHelperTest extends TestCase
             );
 
         $expectedLanguages = ['eng-GB', 'esl-ES', 'fre-FR', 'heb-IL'];
-        $this->assertSame($expectedLanguages, $this->translationHelper->getAvailableLanguages());
+        self::assertSame($expectedLanguages, $this->translationHelper->getAvailableLanguages());
     }
 }
 

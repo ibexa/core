@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer;
@@ -34,7 +35,7 @@ final class SimplifiedRequestNormalizerTest extends TestCase
 
         $normalizer = new SimplifiedRequestNormalizer();
 
-        $this->assertEquals([
+        self::assertEquals([
             'scheme' => 'http',
             'host' => 'www.example.com',
             'port' => 8080,
@@ -49,8 +50,8 @@ final class SimplifiedRequestNormalizerTest extends TestCase
     {
         $normalizer = new SimplifiedRequestNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization(new SimplifiedRequest()));
-        $this->assertFalse($normalizer->supportsNormalization(new stdClass()));
+        self::assertTrue($normalizer->supportsNormalization(new SimplifiedRequest()));
+        self::assertFalse($normalizer->supportsNormalization(new stdClass()));
     }
 }
 

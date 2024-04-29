@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use function count;
@@ -87,8 +88,8 @@ class MapperTest extends LanguageAwareTestCase
             ],
             $versionInfo
         );
-        $this->assertGreaterThanOrEqual($time, $versionInfo->creationDate);
-        $this->assertGreaterThanOrEqual($time, $versionInfo->modificationDate);
+        self::assertGreaterThanOrEqual($time, $versionInfo->creationDate);
+        self::assertGreaterThanOrEqual($time, $versionInfo->modificationDate);
     }
 
     /**
@@ -123,16 +124,16 @@ class MapperTest extends LanguageAwareTestCase
     public function testConvertToStorageValue()
     {
         $convMock = $this->createMock(Converter::class);
-        $convMock->expects($this->once())
+        $convMock->expects(self::once())
             ->method('toStorageValue')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     FieldValue::class
                 ),
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     StorageFieldValue::class
                 )
-            )->will($this->returnValue(new StorageFieldValue()));
+            )->will(self::returnValue(new StorageFieldValue()));
 
         $reg = new Registry(['some-type' => $convMock]);
 
@@ -143,7 +144,7 @@ class MapperTest extends LanguageAwareTestCase
         $mapper = new Mapper($reg, $this->getLanguageHandler());
         $res = $mapper->convertToStorageValue($field);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             StorageFieldValue::class,
             $res
         );
@@ -155,14 +156,14 @@ class MapperTest extends LanguageAwareTestCase
         $nameRowsFixture = $this->getNamesExtractFixture();
 
         $convMock = $this->createMock(Converter::class);
-        $convMock->expects($this->exactly(count($rowsFixture)))
+        $convMock->expects(self::exactly(count($rowsFixture)))
             ->method('toFieldValue')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     StorageFieldValue::class
                 )
             )->will(
-                $this->returnValue(
+                self::returnValue(
                     new FieldValue()
                 )
             );
@@ -181,7 +182,7 @@ class MapperTest extends LanguageAwareTestCase
         $mapper = new Mapper($reg, $this->getLanguageHandler());
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 $this->getContentExtractReference(),
             ],
@@ -192,9 +193,9 @@ class MapperTest extends LanguageAwareTestCase
     public function testExtractContentFromRowsMultipleVersions()
     {
         $convMock = $this->createMock(Converter::class);
-        $convMock->expects($this->any())
+        $convMock->expects(self::any())
             ->method('toFieldValue')
-            ->will($this->returnValue(new FieldValue()));
+            ->will(self::returnValue(new FieldValue()));
 
         $reg = new Registry(
             [
@@ -209,25 +210,25 @@ class MapperTest extends LanguageAwareTestCase
         $mapper = new Mapper($reg, $this->getLanguageHandler());
         $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
 
-        $this->assertCount(
+        self::assertCount(
             2,
             $result
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             11,
             $result[0]->versionInfo->contentInfo->id
         );
-        $this->assertEquals(
+        self::assertEquals(
             11,
             $result[1]->versionInfo->contentInfo->id
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             1,
             $result[0]->versionInfo->versionNo
         );
-        $this->assertEquals(
+        self::assertEquals(
             2,
             $result[1]->versionInfo->versionNo
         );
@@ -242,7 +243,7 @@ class MapperTest extends LanguageAwareTestCase
 
         $struct = $mapper->createCreateStructFromContent($content);
 
-        $this->assertInstanceOf(CreateStruct::class, $struct);
+        self::assertInstanceOf(CreateStruct::class, $struct);
 
         return [
             'original' => $content,
@@ -279,7 +280,7 @@ class MapperTest extends LanguageAwareTestCase
      */
     public function testCreateCreateStructFromContentParentLocationsEmpty($data)
     {
-        $this->assertEquals(
+        self::assertEquals(
             [],
             $data['result']->locations
         );
@@ -290,7 +291,7 @@ class MapperTest extends LanguageAwareTestCase
      */
     public function testCreateCreateStructFromContentFieldCount($data)
     {
-        $this->assertEquals(
+        self::assertEquals(
             count($data['original']->fields),
             count($data['result']->fields)
         );
@@ -302,7 +303,7 @@ class MapperTest extends LanguageAwareTestCase
     public function testCreateCreateStructFromContentFieldsNoId($data)
     {
         foreach ($data['result']->fields as $field) {
-            $this->assertNull($field->id);
+            self::assertNull($field->id);
         }
     }
 
@@ -314,7 +315,7 @@ class MapperTest extends LanguageAwareTestCase
 
         $res = $mapper->extractRelationsFromRows($rows);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->getRelationExtractReference(),
             $res
         );
@@ -330,7 +331,7 @@ class MapperTest extends LanguageAwareTestCase
 
         $struct = $mapper->createCreateStructFromContent($content, true);
 
-        $this->assertInstanceOf(CreateStruct::class, $struct);
+        self::assertInstanceOf(CreateStruct::class, $struct);
         $this->assertStructsEqual($content->versionInfo->contentInfo, $struct, ['sectionId', 'ownerId']);
         self::assertNotEquals($content->versionInfo->contentInfo->remoteId, $struct->remoteId);
         self::assertSame($content->versionInfo->contentInfo->contentTypeId, $struct->typeId);
@@ -570,10 +571,10 @@ class MapperTest extends LanguageAwareTestCase
 
         if (!isset($this->languageHandler)) {
             $this->languageHandler = $this->createMock(Language\Handler::class);
-            $this->languageHandler->expects($this->any())
+            $this->languageHandler->expects(self::any())
                 ->method('load')
                 ->will(
-                    $this->returnCallback(
+                    self::returnCallback(
                         static function ($id) use ($languages) {
                             foreach ($languages as $language) {
                                 if ($language->id == $id) {
@@ -583,10 +584,10 @@ class MapperTest extends LanguageAwareTestCase
                         }
                     )
                 );
-            $this->languageHandler->expects($this->any())
+            $this->languageHandler->expects(self::any())
                 ->method('loadByLanguageCode')
                 ->will(
-                    $this->returnCallback(
+                    self::returnCallback(
                         static function ($languageCode) use ($languages) {
                             foreach ($languages as $language) {
                                 if ($language->languageCode == $languageCode) {
@@ -596,7 +597,7 @@ class MapperTest extends LanguageAwareTestCase
                         }
                     )
                 );
-            $this->languageHandler->expects($this->any())
+            $this->languageHandler->expects(self::any())
                 ->method('loadAll')
                 ->willReturn($languages);
         }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Converter;
 
 use Ibexa\Bundle\Core\Converter\LocationParamConverter;
@@ -34,13 +35,13 @@ class LocationParamConverterTest extends AbstractParamConverterTest
     public function testSupports()
     {
         $config = $this->createConfiguration(self::LOCATION_CLASS);
-        $this->assertTrue($this->converter->supports($config));
+        self::assertTrue($this->converter->supports($config));
 
         $config = $this->createConfiguration(__CLASS__);
-        $this->assertFalse($this->converter->supports($config));
+        self::assertFalse($this->converter->supports($config));
 
         $config = $this->createConfiguration();
-        $this->assertFalse($this->converter->supports($config));
+        self::assertFalse($this->converter->supports($config));
     }
 
     public function testApplyLocation()
@@ -49,17 +50,17 @@ class LocationParamConverterTest extends AbstractParamConverterTest
         $valueObject = $this->createMock(Location::class);
 
         $this->locationServiceMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadLocation')
             ->with($id)
-            ->will($this->returnValue($valueObject));
+            ->will(self::returnValue($valueObject));
 
         $request = new Request([], [], [self::PROPERTY_NAME => $id]);
         $config = $this->createConfiguration(self::LOCATION_CLASS, 'location');
 
         $this->converter->apply($request, $config);
 
-        $this->assertInstanceOf(self::LOCATION_CLASS, $request->attributes->get('location'));
+        self::assertInstanceOf(self::LOCATION_CLASS, $request->attributes->get('location'));
     }
 
     public function testApplyLocationOptionalWithEmptyAttribute()
@@ -67,12 +68,12 @@ class LocationParamConverterTest extends AbstractParamConverterTest
         $request = new Request([], [], [self::PROPERTY_NAME => null]);
         $config = $this->createConfiguration(self::LOCATION_CLASS, 'location');
 
-        $config->expects($this->once())
+        $config->expects(self::once())
             ->method('isOptional')
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
 
-        $this->assertFalse($this->converter->apply($request, $config));
-        $this->assertNull($request->attributes->get('location'));
+        self::assertFalse($this->converter->apply($request, $config));
+        self::assertNull($request->attributes->get('location'));
     }
 }
 

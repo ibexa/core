@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\Update\Handler;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -37,22 +38,22 @@ class DoctrineDatabaseTest extends TestCase
 
         $updaterMock = $this->getContentUpdaterMock();
 
-        $updaterMock->expects($this->once())
+        $updaterMock->expects(self::once())
             ->method('determineActions')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Type::class
                 ),
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Type::class
                 )
-            )->will($this->returnValue([]));
+            )->will(self::returnValue([]));
 
-        $updaterMock->expects($this->once())
+        $updaterMock->expects(self::once())
             ->method('applyUpdates')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo([])
+                self::equalTo(23),
+                self::equalTo([])
             );
 
         $types = $this->getTypeFixtures();
@@ -66,11 +67,11 @@ class DoctrineDatabaseTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('delete')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(0)
+                self::equalTo(23),
+                self::equalTo(0)
             );
 
         $types = $this->getTypeFixtures();
@@ -85,9 +86,9 @@ class DoctrineDatabaseTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $updaterMock = $this->getContentUpdaterMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('publishTypeAndFields')
-            ->with($this->equalTo(23), $this->equalTo(1), $this->equalTo(0));
+            ->with(self::equalTo(23), self::equalTo(1), self::equalTo(0));
 
         $types = $this->getTypeFixtures();
 

@@ -26,7 +26,7 @@ final class RegexURINormalizerTest extends TestCase
             'itemNumber' => 2,
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'siteAccessesConfiguration' => [
                     'regex' => '/^Foo(.*)/(.*)/',
@@ -41,8 +41,8 @@ final class RegexURINormalizerTest extends TestCase
     {
         $normalizer = new RegexURINormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(URI::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(URI::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

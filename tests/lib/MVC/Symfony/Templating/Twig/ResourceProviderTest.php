@@ -34,13 +34,13 @@ class ResourceProviderTest extends TestCase
         $templates = array_column($resources, 'template');
         $priorities = array_column($resources, 'priority');
 
-        $this->assertEquals('templates/fields_override1.html.twig', array_shift($templates));
-        $this->assertEquals('templates/fields_override2.html.twig', array_shift($templates));
-        $this->assertEquals('templates/fields_default.html.twig', array_shift($templates));
+        self::assertEquals('templates/fields_override1.html.twig', array_shift($templates));
+        self::assertEquals('templates/fields_override2.html.twig', array_shift($templates));
+        self::assertEquals('templates/fields_default.html.twig', array_shift($templates));
 
-        $this->assertEquals(10, array_shift($priorities));
-        $this->assertEquals(20, array_shift($priorities));
-        $this->assertEquals(0, array_shift($priorities));
+        self::assertEquals(10, array_shift($priorities));
+        self::assertEquals(20, array_shift($priorities));
+        self::assertEquals(0, array_shift($priorities));
     }
 
     public function testGetFieldEditResources(): void
@@ -49,13 +49,13 @@ class ResourceProviderTest extends TestCase
         $templates = array_column($resources, 'template');
         $priorities = array_column($resources, 'priority');
 
-        $this->assertEquals('templates/fields_override1.html.twig', array_shift($templates));
-        $this->assertEquals('templates/fields_override2.html.twig', array_shift($templates));
-        $this->assertEquals('templates/fields_default.html.twig', array_shift($templates));
+        self::assertEquals('templates/fields_override1.html.twig', array_shift($templates));
+        self::assertEquals('templates/fields_override2.html.twig', array_shift($templates));
+        self::assertEquals('templates/fields_default.html.twig', array_shift($templates));
 
-        $this->assertEquals(10, array_shift($priorities));
-        $this->assertEquals(20, array_shift($priorities));
-        $this->assertEquals(0, array_shift($priorities));
+        self::assertEquals(10, array_shift($priorities));
+        self::assertEquals(20, array_shift($priorities));
+        self::assertEquals(0, array_shift($priorities));
     }
 
     public function testGetFieldDefinitionViewResources(): void
@@ -64,13 +64,13 @@ class ResourceProviderTest extends TestCase
         $templates = array_column($resources, 'template');
         $priorities = array_column($resources, 'priority');
 
-        $this->assertEquals('templates/settings_override1.html.twig', array_shift($templates));
-        $this->assertEquals('templates/settings_override2.html.twig', array_shift($templates));
-        $this->assertEquals('templates/settings_default.html.twig', array_shift($templates));
+        self::assertEquals('templates/settings_override1.html.twig', array_shift($templates));
+        self::assertEquals('templates/settings_override2.html.twig', array_shift($templates));
+        self::assertEquals('templates/settings_default.html.twig', array_shift($templates));
 
-        $this->assertEquals(10, array_shift($priorities));
-        $this->assertEquals(20, array_shift($priorities));
-        $this->assertEquals(0, array_shift($priorities));
+        self::assertEquals(10, array_shift($priorities));
+        self::assertEquals(20, array_shift($priorities));
+        self::assertEquals(0, array_shift($priorities));
     }
 
     public function testGetFieldDefinitionEditResources(): void
@@ -79,13 +79,13 @@ class ResourceProviderTest extends TestCase
         $templates = array_column($resources, 'template');
         $priorities = array_column($resources, 'priority');
 
-        $this->assertEquals('templates/settings_override1.html.twig', array_shift($templates));
-        $this->assertEquals('templates/settings_override2.html.twig', array_shift($templates));
-        $this->assertEquals('templates/settings_default.html.twig', array_shift($templates));
+        self::assertEquals('templates/settings_override1.html.twig', array_shift($templates));
+        self::assertEquals('templates/settings_override2.html.twig', array_shift($templates));
+        self::assertEquals('templates/settings_default.html.twig', array_shift($templates));
 
-        $this->assertEquals(10, array_shift($priorities));
-        $this->assertEquals(20, array_shift($priorities));
-        $this->assertEquals(0, array_shift($priorities));
+        self::assertEquals(10, array_shift($priorities));
+        self::assertEquals(20, array_shift($priorities));
+        self::assertEquals(0, array_shift($priorities));
     }
 
     /**

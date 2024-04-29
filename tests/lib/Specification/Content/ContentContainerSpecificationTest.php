@@ -23,7 +23,7 @@ final class ContentContainerSpecificationTest extends TestCase
     {
         $contentTypeSpecification = new ContentContainerSpecification();
 
-        $this->assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
+        self::assertInstanceOf(ContentSpecification::class, $contentTypeSpecification);
     }
 
     /**
@@ -42,11 +42,11 @@ final class ContentContainerSpecificationTest extends TestCase
             ->getMockForAbstractClass();
 
         $contentMock = $this->createMock(Content::class);
-        $contentMock->expects($this->once())
+        $contentMock->expects(self::once())
             ->method('getContentType')
             ->willReturn($contentTypeMock);
 
-        $this->assertEquals(
+        self::assertEquals(
             $contentContainerSpecification->isSatisfiedBy($contentMock),
             $shouldBeSatisfied
         );

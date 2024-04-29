@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
@@ -64,7 +65,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
 
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $contentHandlerMock = $this->createMock(ContentHandler::class);
@@ -83,18 +84,18 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturn($locationHandlerMock);
 
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $innerHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('recover')
             ->with($originalLocationId, $targetLocationId)
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('generateTag')
             ->withConsecutive(
                 ['content', [$contentId], false],
@@ -106,7 +107,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             );
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with($tags);
 
@@ -126,7 +127,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
 
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $contentHandlerMock = $this->createMock(ContentHandler::class);
@@ -145,18 +146,18 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturn($locationHandlerMock);
 
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $innerHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('trashSubtree')
             ->with($locationId)
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('generateTag')
             ->withConsecutive(
                 ['content', [$contentId], false],
@@ -165,7 +166,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturnOnConsecutiveCalls(...$tags);
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with($tags);
 
@@ -185,13 +186,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
 
         $trashed = new Trashed(['id' => $trashedId, 'contentId' => $contentId]);
         $innerHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteTrashItem')
             ->with($trashedId)
             ->willReturn(new TrashItemDeleteResult(['trashItemId' => $trashedId, 'contentId' => $contentId]));
 
         $innerHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadTrashItem')
             ->with($trashedId)
             ->willReturn($trashed);
@@ -203,7 +204,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $contentHandlerMock = $this->createMock(ContentHandler::class);
 
         $contentHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadReverseRelations')
             ->with($contentId)
             ->willReturn([new Relation(['sourceContentId' => $relationSourceContentId])]);
@@ -219,7 +220,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         ];
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(3))
+            ->expects(self::exactly(3))
             ->method('generateTag')
             ->withConsecutive(
                 ['content', [$relationSourceContentId], false],
@@ -233,7 +234,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             );
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with($tags);
 
@@ -253,7 +254,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $innerHandler = $this->createMock($this->getHandlerClassName());
 
         $innerHandler
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('findTrashItems')
             ->willReturn(new Location\Trash\TrashResult([
                 'items' => [new Trashed(['id' => $trashedId, 'contentId' => $contentId])],
@@ -268,7 +269,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $contentHandlerMock = $this->createMock(ContentHandler::class);
 
         $contentHandlerMock
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('loadReverseRelations')
             ->with($contentId)
             ->willReturn([new Relation(['sourceContentId' => $relationSourceContentId])]);
@@ -291,13 +292,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
 
         //one set of arguments and tags for each relation
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(6))
+            ->expects(self::exactly(6))
             ->method('generateTag')
             ->withConsecutive(...array_merge($cacheIdentifierGeneratorArguments, $cacheIdentifierGeneratorArguments))
             ->willReturnOnConsecutiveCalls(...array_merge($tags, $tags));
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('invalidateTags')
             ->with($tags);
 

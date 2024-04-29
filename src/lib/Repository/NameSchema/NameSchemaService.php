@@ -54,7 +54,7 @@ class NameSchemaService implements NameSchemaServiceInterface
     protected FieldTypeRegistry $fieldTypeRegistry;
 
     /**
-     * @param array{limit?: integer, sequence?: string} $settings
+     * @param array{limit?: int, sequence?: string} $settings
      */
     protected array $settings;
 
@@ -63,7 +63,7 @@ class NameSchemaService implements NameSchemaServiceInterface
     private SchemaIdentifierExtractorInterface $schemaIdentifierExtractor;
 
     /**
-     * @param array{limit?: integer, sequence?: string} $settings
+     * @param array{limit?: int, sequence?: string} $settings
      */
     public function __construct(
         FieldTypeRegistry $fieldTypeRegistry,

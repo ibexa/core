@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -81,6 +82,7 @@ class SiteAccessLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestAcceptValue
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation $limitation
@@ -104,6 +106,7 @@ class SiteAccessLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestAcceptValueException
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
@@ -161,6 +164,7 @@ class SiteAccessLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestValidateError
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation $limitation
@@ -217,6 +221,7 @@ class SiteAccessLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestEvaluate
      */
     public function testEvaluate(
@@ -226,7 +231,7 @@ class SiteAccessLimitationTypeTest extends Base
         SiteAccessLimitationType $limitationType
     ) {
         $userMock = $this->getUserMock();
-        $userMock->expects($this->never())->method($this->anything());
+        $userMock->expects(self::never())->method(self::anything());
 
         $value = $limitationType->evaluate(
             $limitation,
@@ -259,6 +264,7 @@ class SiteAccessLimitationTypeTest extends Base
 
     /**
      * @depends testConstruct
+     *
      * @dataProvider providerForTestEvaluateInvalidArgument
      */
     public function testEvaluateInvalidArgument(
@@ -269,7 +275,7 @@ class SiteAccessLimitationTypeTest extends Base
         $this->expectException(InvalidArgumentException::class);
 
         $userMock = $this->getUserMock();
-        $userMock->expects($this->never())->method($this->anything());
+        $userMock->expects(self::never())->method(self::anything());
 
         $limitationType->evaluate(
             $limitation,

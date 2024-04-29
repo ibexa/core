@@ -21,6 +21,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  * Test case for delete content translation with the SearchService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SearchService
+ *
  * @group integration
  * @group search
  */
@@ -95,12 +96,12 @@ final class DeleteTranslationTest extends BaseTest
         $this->refreshSearch($repository);
 
         $searchResult = $this->findContent('Kontakt', 'ger-DE');
-        $this->assertEquals(1, $searchResult->totalCount);
+        self::assertEquals(1, $searchResult->totalCount);
 
         $contentService->deleteTranslation($testContent->contentInfo, 'ger-DE');
         $this->refreshSearch($repository);
         $searchResult = $this->findContent('Kontakt', 'ger-DE');
-        $this->assertEquals(
+        self::assertEquals(
             0,
             $searchResult->totalCount,
             'Found reference to the deleted Content translation'
@@ -108,7 +109,7 @@ final class DeleteTranslationTest extends BaseTest
 
         // check if unrelated items were not affected
         $searchResult = $this->findContent('OtherGerContent', 'ger-DE');
-        $this->assertEquals(1, $searchResult->totalCount, 'Unrelated translation was deleted');
+        self::assertEquals(1, $searchResult->totalCount, 'Unrelated translation was deleted');
     }
 
     /**
@@ -129,12 +130,12 @@ final class DeleteTranslationTest extends BaseTest
 
         $searchResult = $this->findContent('Kontakt', 'ger-DE');
 
-        $this->assertEquals(1, $searchResult->totalCount);
+        self::assertEquals(1, $searchResult->totalCount);
         $contentService->deleteTranslation($testContent->contentInfo, 'ger-DE');
 
         $this->refreshSearch($repository);
         $searchResult = $this->findContent('Kontakt', 'ger-DE');
-        $this->assertEquals(0, $searchResult->totalCount);
+        self::assertEquals(0, $searchResult->totalCount);
     }
 
     /**

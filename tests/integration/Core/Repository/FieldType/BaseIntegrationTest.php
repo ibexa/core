@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository;
@@ -282,7 +283,7 @@ abstract class BaseIntegrationTest extends BaseTest
             $this->getValidFieldConfiguration()
         );
 
-        $this->assertNotNull($contentType->id);
+        self::assertNotNull($contentType->id);
 
         return $contentType;
     }
@@ -383,22 +384,24 @@ abstract class BaseIntegrationTest extends BaseTest
 
     /**
      * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
+     *
      * @dataProvider providerForTestIsEmptyValue
      */
     public function testIsEmptyValue($value)
     {
-        $this->assertTrue($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
+        self::assertTrue($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
 
     abstract public function providerForTestIsEmptyValue();
 
     /**
      * @covers \Ibexa\Core\FieldType\FieldType::isEmptyValue
+     *
      * @dataProvider providerForTestIsNotEmptyValue
      */
     public function testIsNotEmptyValue($value)
     {
-        $this->assertFalse($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
+        self::assertFalse($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
 
     abstract public function providerForTestIsNotEmptyValue();
@@ -408,7 +411,7 @@ abstract class BaseIntegrationTest extends BaseTest
      */
     public function testContentTypeField($contentType)
     {
-        $this->assertSame(
+        self::assertSame(
             $this->getTypeName(),
             $contentType->fieldDefinitions[1]->fieldTypeIdentifier
         );
@@ -432,7 +435,7 @@ abstract class BaseIntegrationTest extends BaseTest
      */
     public function testLoadContentTypeFieldType($contentType)
     {
-        $this->assertSame(
+        self::assertSame(
             $this->getTypeName(),
             $contentType->fieldDefinitions[1]->fieldTypeIdentifier
         );
@@ -446,7 +449,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $fieldTypeService = $repository->getFieldTypeService();
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->getSettingsSchema(),
             $fieldType->getSettingsSchema()
         );
@@ -457,17 +460,17 @@ abstract class BaseIntegrationTest extends BaseTest
      */
     public function testLoadContentTypeFieldData(FieldDefinition $fieldDefinition)
     {
-        $this->assertEquals(
+        self::assertEquals(
             $this->getTypeName(),
             $fieldDefinition->fieldTypeIdentifier,
             'Loaded fieldTypeIdentifier does not match.'
         );
-        $this->assertEquals(
+        self::assertEquals(
             $this->getValidFieldSettings(),
             $fieldDefinition->fieldSettings,
             'Loaded fieldSettings do not match.'
         );
-        $this->assertEquals(
+        self::assertEquals(
             $this->getValidValidatorConfiguration(),
             $fieldDefinition->validatorConfiguration,
             'Loaded validatorConfiguration does not match.'
@@ -493,7 +496,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $fieldTypeService = $repository->getFieldTypeService();
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->getValidatorSchema(),
             $fieldType->getValidatorConfigurationSchema()
         );
@@ -605,7 +608,7 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
@@ -616,7 +619,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $draft = $this->testCreateContent();
 
         if (!$draft->getVersionInfo()->isDraft()) {
-            $this->markTestSkipped('Provided content object is not a draft.');
+            self::markTestSkipped('Provided content object is not a draft.');
         }
 
         $repository = $this->getRepository();
@@ -636,7 +639,7 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
@@ -644,7 +647,7 @@ abstract class BaseIntegrationTest extends BaseTest
      */
     public function testPublishedName(Content $content)
     {
-        $this->assertEquals(
+        self::assertEquals(
             $content->getFieldValue('name') . ' ' . $this->getFieldName(),
             $content->contentInfo->name
         );
@@ -676,7 +679,7 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
@@ -720,11 +723,12 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
      * @depends testCreateContentWithEmptyFieldValue
+     *
      * @group xx
      */
     public function testLoadEmptyFieldValue()
@@ -748,7 +752,7 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
@@ -765,7 +769,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $refProperty->setAccessible(true);
         $spiFieldType = $refProperty->getValue($fieldType);
 
-        $this->assertEquals(
+        self::assertEquals(
             $fieldType->getEmptyValue(),
             $spiFieldType->acceptValue($field->value)
         );
@@ -818,7 +822,7 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
@@ -848,7 +852,7 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
@@ -875,7 +879,7 @@ abstract class BaseIntegrationTest extends BaseTest
 
         $copied = $contentService->copyContent($content->contentInfo, $locationCreate);
 
-        $this->assertNotSame(
+        self::assertNotSame(
             $content->contentInfo->id,
             $copied->contentInfo->id
         );
@@ -894,7 +898,7 @@ abstract class BaseIntegrationTest extends BaseTest
             }
         }
 
-        $this->fail('Custom field not found.');
+        self::fail('Custom field not found.');
     }
 
     /**
@@ -973,8 +977,8 @@ abstract class BaseIntegrationTest extends BaseTest
     {
         $content = $this->removeFieldDefinition();
 
-        $this->assertCount(1, $content->getFields());
-        $this->assertNull($content->getFieldValue('data'));
+        self::assertCount(1, $content->getFields());
+        self::assertNull($content->getFieldValue('data'));
     }
 
     protected function addFieldDefinition()
@@ -1010,9 +1014,9 @@ abstract class BaseIntegrationTest extends BaseTest
     {
         $content = $this->addFieldDefinition();
 
-        $this->assertCount(2, $content->getFields());
+        self::assertCount(2, $content->getFields());
 
-        $this->assertTrue(
+        self::assertTrue(
             $this->getRepository()->getFieldTypeService()->getFieldType(
                 $this->getTypeName()
             )->isEmptyValue(
@@ -1030,7 +1034,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $fieldTypeService = $repository->getFieldTypeService();
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedHash,
             $fieldType->toHash($value)
         );
@@ -1038,7 +1042,9 @@ abstract class BaseIntegrationTest extends BaseTest
 
     /**
      * @depends testCreateContent
+     *
      * @dataProvider provideFromHashData
+     *
      * @todo: Requires correct registered FieldTypeService, needs to be
      *        maintained!
      */
@@ -1048,7 +1054,7 @@ abstract class BaseIntegrationTest extends BaseTest
         $fieldTypeService = $repository->getFieldTypeService();
         $fieldType = $fieldTypeService->getFieldType($this->getTypeName());
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedValue,
             $fieldType->fromHash($hash)
         );

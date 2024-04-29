@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
@@ -115,11 +116,11 @@ class HandlerLocationSortTest extends AbstractTestCase
             ->setMethods(['createLocationsFromRows'])
             ->getMock();
         $mapperMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('createLocationsFromRows')
-            ->with($this->isType('array'))
+            ->with(self::isType('array'))
             ->will(
-                $this->returnCallback(
+                self::returnCallback(
                     static function ($rows) {
                         $locations = [];
                         foreach ($rows as $row) {
@@ -154,7 +155,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         );
 
         $ids = $this->getIds($locations);
-        $this->assertEqualsCanonicalizing(
+        self::assertEqualsCanonicalizing(
             [179, 180, 181, 182, 183],
             $ids
         );
@@ -330,7 +331,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         foreach ($idMapSet as $idSet) {
             $locationIdsSubset = array_slice($locationIds, $index, $count = count($idSet));
             $index += $count;
-            $this->assertEqualsCanonicalizing(
+            self::assertEqualsCanonicalizing(
                 $idSet,
                 $locationIdsSubset
             );
@@ -492,13 +493,13 @@ class HandlerLocationSortTest extends AbstractTestCase
             $expectedCount += count($set);
         }
 
-        $this->assertEquals($expectedCount, $result->totalCount);
+        self::assertEquals($expectedCount, $result->totalCount);
 
         $index = 0;
         foreach ($idMapSet as $idSet) {
             $locationIdsSubset = array_slice($locationIds, $index, $count = count($idSet));
             $index += $count;
-            $this->assertEqualsCanonicalizing(
+            self::assertEqualsCanonicalizing(
                 $idSet,
                 $locationIdsSubset
             );
@@ -567,7 +568,7 @@ class HandlerLocationSortTest extends AbstractTestCase
         foreach ($idMapSet as $idSet) {
             $locationIdsSubset = array_slice($locationIds, $index, $count = count($idSet));
             $index += $count;
-            $this->assertEqualsCanonicalizing(
+            self::assertEqualsCanonicalizing(
                 $idSet,
                 $locationIdsSubset
             );
@@ -596,7 +597,7 @@ class HandlerLocationSortTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [75, 73, 74, 71],
             array_map(
                 static function ($hit) {

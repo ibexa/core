@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection\Compiler;
 
 use ArrayObject;
@@ -79,9 +80,9 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         );
 
         $this->binarydataConfigurationFactoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParentServiceId')
-            ->will($this->returnValue('test.io.binarydata_handler.test_handler'));
+            ->will(self::returnValue('test.io.binarydata_handler.test_handler'));
 
         $this->compile();
 
@@ -99,9 +100,9 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         );
 
         $this->metadataConfigurationFactoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParentServiceId')
-            ->will($this->returnValue('test.io.metadata_handler.test_handler'));
+            ->will(self::returnValue('test.io.metadata_handler.test_handler'));
 
         $this->compile();
 

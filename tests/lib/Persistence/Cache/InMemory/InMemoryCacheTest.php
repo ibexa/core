@@ -46,50 +46,50 @@ class InMemoryCacheTest extends TestCase
 
     public function testGetByKey(): void
     {
-        $this->assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('first'));
 
         $obj = new \stdClass();
         $this->cache->setMulti([$obj], static function ($o) { return ['first']; });
 
-        $this->assertSame($obj, $this->cache->get('first'));
+        self::assertSame($obj, $this->cache->get('first'));
 
         // Test TTL
         $GLOBALS['override_time'] = \microtime(true) + 4;
-        $this->assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('first'));
     }
 
     public function testGetBySecondaryIndex(): void
     {
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('secondary'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('secondary'));
 
         $obj = new \stdClass();
         $this->cache->setMulti([$obj], static function ($o) { return ['first', 'secondary']; });
 
-        $this->assertSame($obj, $this->cache->get('first'));
-        $this->assertSame($obj, $this->cache->get('secondary'));
+        self::assertSame($obj, $this->cache->get('first'));
+        self::assertSame($obj, $this->cache->get('secondary'));
 
         // Test TTL
         $GLOBALS['override_time'] = \microtime(true) + 4;
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('secondary'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('secondary'));
     }
 
     public function testGetByList(): void
     {
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('list'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('list'));
 
         $obj = new \stdClass();
         $this->cache->setMulti([$obj], static function ($o) { return ['first']; }, 'list');
 
-        $this->assertSame($obj, $this->cache->get('first'));
-        $this->assertSame([$obj], $this->cache->get('list'));
+        self::assertSame($obj, $this->cache->get('first'));
+        self::assertSame([$obj], $this->cache->get('list'));
 
         // Test TTL
         $GLOBALS['override_time'] = \microtime(true) + 4;
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('list'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('list'));
     }
 
     public function testDeleted(): void
@@ -97,21 +97,21 @@ class InMemoryCacheTest extends TestCase
         $obj = new \stdClass();
         $this->cache->setMulti([$obj], static function ($o) { return ['first', 'second']; }, 'list');
 
-        $this->assertSame($obj, $this->cache->get('first'));
-        $this->assertSame($obj, $this->cache->get('second'));
-        $this->assertSame([$obj], $this->cache->get('list'));
+        self::assertSame($obj, $this->cache->get('first'));
+        self::assertSame($obj, $this->cache->get('second'));
+        self::assertSame([$obj], $this->cache->get('list'));
 
         // Delete primary, her we expect secondary index to also start returning null
         $this->cache->deleteMulti(['first']);
 
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('second'));
-        $this->assertSame([$obj], $this->cache->get('list'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('second'));
+        self::assertSame([$obj], $this->cache->get('list'));
 
         // Delete list
         $this->cache->deleteMulti(['list']);
 
-        $this->assertNull($this->cache->get('list'));
+        self::assertNull($this->cache->get('list'));
     }
 
     public function testClear(): void
@@ -119,16 +119,16 @@ class InMemoryCacheTest extends TestCase
         $obj = new \stdClass();
         $this->cache->setMulti([$obj], static function ($o) { return ['first', 'second']; }, 'list');
 
-        $this->assertSame($obj, $this->cache->get('first'));
-        $this->assertSame($obj, $this->cache->get('second'));
-        $this->assertSame([$obj], $this->cache->get('list'));
+        self::assertSame($obj, $this->cache->get('first'));
+        self::assertSame($obj, $this->cache->get('second'));
+        self::assertSame([$obj], $this->cache->get('list'));
 
         // Clear all cache
         $this->cache->clear();
 
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('second'));
-        $this->assertNull($this->cache->get('list'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('second'));
+        self::assertNull($this->cache->get('list'));
     }
 
     public function testSetWhenReachingSetLimit(): void
@@ -136,9 +136,9 @@ class InMemoryCacheTest extends TestCase
         $obj = new \stdClass();
         $this->cache->setMulti([$obj, $obj], static function ($o) { return ['first', 'second']; }, 'list');
 
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('second'));
-        $this->assertNull($this->cache->get('list'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('second'));
+        self::assertNull($this->cache->get('list'));
     }
 
     public function testSetWhenReachingTotalLimit(): void
@@ -153,14 +153,14 @@ class InMemoryCacheTest extends TestCase
         $this->cache->setMulti([$obj], static function ($o) { return ['seventh']; });
         $this->cache->setMulti([$obj], static function ($o) { return ['eight']; });
 
-        $this->assertNull($this->cache->get('first'));
-        $this->assertNull($this->cache->get('second'));
-        $this->assertSame($obj, $this->cache->get('third'));
-        $this->assertSame($obj, $this->cache->get('fourth'));
-        $this->assertSame($obj, $this->cache->get('fifth'));
-        $this->assertSame($obj, $this->cache->get('sixth'));
-        $this->assertSame($obj, $this->cache->get('seventh'));
-        $this->assertSame($obj, $this->cache->get('eight'));
+        self::assertNull($this->cache->get('first'));
+        self::assertNull($this->cache->get('second'));
+        self::assertSame($obj, $this->cache->get('third'));
+        self::assertSame($obj, $this->cache->get('fourth'));
+        self::assertSame($obj, $this->cache->get('fifth'));
+        self::assertSame($obj, $this->cache->get('sixth'));
+        self::assertSame($obj, $this->cache->get('seventh'));
+        self::assertSame($obj, $this->cache->get('eight'));
     }
 
     /**
@@ -183,14 +183,14 @@ class InMemoryCacheTest extends TestCase
         $this->cache->setMulti([$obj], static function ($o) { return ['seventh']; });
         $this->cache->setMulti([$obj], static function ($o) { return ['eight']; });
 
-        $this->assertSame($obj, $this->cache->get('first'));
-        $this->assertNull($this->cache->get('second'));
-        $this->assertSame($obj, $this->cache->get('third'));
-        $this->assertNull($this->cache->get('fourth'));
-        $this->assertSame($obj, $this->cache->get('fifth'));
-        $this->assertSame($obj, $this->cache->get('sixth'));
-        $this->assertSame($obj, $this->cache->get('seventh'));
-        $this->assertSame($obj, $this->cache->get('eight'));
+        self::assertSame($obj, $this->cache->get('first'));
+        self::assertNull($this->cache->get('second'));
+        self::assertSame($obj, $this->cache->get('third'));
+        self::assertNull($this->cache->get('fourth'));
+        self::assertSame($obj, $this->cache->get('fifth'));
+        self::assertSame($obj, $this->cache->get('sixth'));
+        self::assertSame($obj, $this->cache->get('seventh'));
+        self::assertSame($obj, $this->cache->get('eight'));
     }
 }
 class_alias(InMemoryCacheTest::class, 'eZ\Publish\Core\Persistence\Cache\InMemory\InMemoryCacheTest');

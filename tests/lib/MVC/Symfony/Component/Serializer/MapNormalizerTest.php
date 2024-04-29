@@ -22,7 +22,7 @@ final class MapNormalizerTest extends TestCase
         $matcher = $this->createMock(MapMatcher::class);
         $matcher->method('getMapKey')->willReturn('foo');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'key' => 'foo',
                 'map' => [],
@@ -36,8 +36,8 @@ final class MapNormalizerTest extends TestCase
     {
         $normalizer = new MapNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(MapMatcher::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(MapMatcher::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

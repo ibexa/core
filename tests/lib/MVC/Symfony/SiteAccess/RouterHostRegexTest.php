@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -74,7 +75,7 @@ class RouterHostRegexTest extends RouterBaseTest
     public function testGetName()
     {
         $matcher = new HostRegexMatcher(['host' => 'foo'], []);
-        $this->assertSame('host:regexp', $matcher->getName());
+        self::assertSame('host:regexp', $matcher->getName());
     }
 
     /**

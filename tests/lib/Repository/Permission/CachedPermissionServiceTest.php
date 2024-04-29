@@ -75,13 +75,13 @@ class CachedPermissionServiceTest extends TestCase
     {
         if ($expectedReturn !== null) {
             $this->getPermissionResolverMock([$method])
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method($method)
                 ->with(...$arguments)
                 ->willReturn($expectedReturn);
         } else {
             $this->getPermissionResolverMock([$method])
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method($method)
                 ->with(...$arguments);
         }
@@ -89,7 +89,7 @@ class CachedPermissionServiceTest extends TestCase
         $cachedService = $this->getCachedPermissionService();
 
         $actualReturn = $cachedService->$method(...$arguments);
-        $this->assertSame($expectedReturn, $actualReturn);
+        self::assertSame($expectedReturn, $actualReturn);
     }
 
     public function testGetPermissionsCriterionPassTrough()
@@ -100,7 +100,7 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPermissionsCriterion')
             ->with('content', 'remove')
             ->willReturn($criterionMock);
@@ -108,7 +108,7 @@ class CachedPermissionServiceTest extends TestCase
         $cachedService = $this->getCachedPermissionService();
 
         $actualReturn = $cachedService->getPermissionsCriterion('content', 'remove');
-        $this->assertSame($criterionMock, $actualReturn);
+        self::assertSame($criterionMock, $actualReturn);
     }
 
     public function testGetPermissionsCriterionCaching()
@@ -119,7 +119,7 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
             ->willReturn($criterionMock);
@@ -127,15 +127,15 @@ class CachedPermissionServiceTest extends TestCase
         $cachedService = $this->getCachedPermissionService(2);
 
         $actualReturn = $cachedService->getPermissionsCriterion('content', 'read');
-        $this->assertSame($criterionMock, $actualReturn);
+        self::assertSame($criterionMock, $actualReturn);
 
         // +1
         $actualReturn = $cachedService->getPermissionsCriterion('content', 'read');
-        $this->assertSame($criterionMock, $actualReturn);
+        self::assertSame($criterionMock, $actualReturn);
 
         // +3, time() will be called twice and cache will be updated
         $actualReturn = $cachedService->getPermissionsCriterion('content', 'read');
-        $this->assertSame($criterionMock, $actualReturn);
+        self::assertSame($criterionMock, $actualReturn);
     }
 
     public function testSetCurrentUserReferenceCacheClear(): void
@@ -146,7 +146,7 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
             ->willReturn($criterionMock);
@@ -154,7 +154,7 @@ class CachedPermissionServiceTest extends TestCase
         $cachedService = $this->getCachedPermissionService(2);
 
         $actualReturn = $cachedService->getPermissionsCriterion('content', 'read');
-        $this->assertSame($criterionMock, $actualReturn);
+        self::assertSame($criterionMock, $actualReturn);
 
         $userRef = $this
             ->getMockBuilder(UserReference::class)

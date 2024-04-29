@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\IORepositoryResolver;
@@ -86,17 +87,17 @@ class PlaceholderAliasGeneratorTest extends TestCase
         $expectedVariation = $this->createMock(ImageVariation::class);
 
         $this->ioResolver
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('resolve')
             ->with($field->value->id, IORepositoryResolver::VARIATION_ORIGINAL);
 
         $this->placeholderProvider
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getPlaceholder')
             ->with($field->value, $this->placeholderOptions);
 
         $this->innerAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariation')
             ->with($field, $versionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
@@ -108,7 +109,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
             $parameters
         );
 
-        $this->assertEquals($expectedVariation, $actualVariation);
+        self::assertEquals($expectedVariation, $actualVariation);
     }
 
     /**
@@ -119,12 +120,12 @@ class PlaceholderAliasGeneratorTest extends TestCase
         $expectedVariation = $this->createMock(ImageVariation::class);
 
         $this->ioResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with($field->value->id, IORepositoryResolver::VARIATION_ORIGINAL);
 
         $this->innerAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariation')
             ->with($field, $versionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
@@ -141,7 +142,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
             $parameters
         );
 
-        $this->assertEquals($expectedVariation, $actualVariation);
+        self::assertEquals($expectedVariation, $actualVariation);
     }
 
     /**
@@ -154,25 +155,25 @@ class PlaceholderAliasGeneratorTest extends TestCase
         $expectedVariation = $this->createMock(ImageVariation::class);
 
         $this->ioResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with($field->value->id, IORepositoryResolver::VARIATION_ORIGINAL)
             ->willThrowException($this->createMock(NotResolvableException::class));
 
         $this->placeholderProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPlaceholder')
             ->with($field->value, $this->placeholderOptions)
             ->willReturn($placeholderPath);
 
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->with($placeholderPath)
             ->willReturn($binaryCreateStruct);
 
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createBinaryFile')
             ->with($binaryCreateStruct);
 
@@ -182,7 +183,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         );
 
         $this->innerAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariation')
             ->with($field, $versionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
@@ -194,8 +195,8 @@ class PlaceholderAliasGeneratorTest extends TestCase
             $parameters
         );
 
-        $this->assertEquals($field->value->id, $binaryCreateStruct->id);
-        $this->assertEquals($expectedVariation, $actualVariation);
+        self::assertEquals($field->value->id, $binaryCreateStruct->id);
+        self::assertEquals($expectedVariation, $actualVariation);
     }
 
     /**
@@ -215,7 +216,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         $binaryFile = $this->createMock(BinaryFile::class);
 
         $this->ioResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with($field->value->id, IORepositoryResolver::VARIATION_ORIGINAL)
             ->willReturn('/path/to/original/image.png');
@@ -231,19 +232,19 @@ class PlaceholderAliasGeneratorTest extends TestCase
             ->willThrowException($this->createMock(NotFoundException::class));
 
         $this->placeholderProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPlaceholder')
             ->with($field->value, $this->placeholderOptions)
             ->willReturn($placeholderPath);
 
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->with($placeholderPath)
             ->willReturn($binaryCreateStruct);
 
         $this->ioService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createBinaryFile')
             ->with($binaryCreateStruct);
 
@@ -253,7 +254,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
         );
 
         $this->innerAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariation')
             ->with($field, $versionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
@@ -265,8 +266,8 @@ class PlaceholderAliasGeneratorTest extends TestCase
             $parameters
         );
 
-        $this->assertEquals($field->value->id, $binaryCreateStruct->id);
-        $this->assertEquals($expectedVariation, $actualVariation);
+        self::assertEquals($field->value->id, $binaryCreateStruct->id);
+        self::assertEquals($expectedVariation, $actualVariation);
     }
 
     /**
@@ -274,7 +275,7 @@ class PlaceholderAliasGeneratorTest extends TestCase
      */
     public function testSupportsValue(Value $value, bool $isSupported)
     {
-        $this->assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
+        self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
     }
 
     public function supportsValueProvider(): array

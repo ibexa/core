@@ -69,19 +69,19 @@ class AliasGeneratorTest extends TestCase
         $expectedVariation = new Variation();
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with($assetField->value->destinationContentId)
             ->willReturn($imageContent);
 
         $this->assetMapper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAssetField')
             ->with($imageContent)
             ->willReturn($imageField);
 
         $this->innerAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariation')
             ->with($imageField, $imageVersionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
@@ -93,7 +93,7 @@ class AliasGeneratorTest extends TestCase
             $parameters
         );
 
-        $this->assertEquals($expectedVariation, $actualVariation);
+        self::assertEquals($expectedVariation, $actualVariation);
     }
 
     public function testGetVariationOfNonImageAsset()
@@ -111,15 +111,15 @@ class AliasGeneratorTest extends TestCase
         $expectedVariation = new Variation();
 
         $this->contentService
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('loadContent');
 
         $this->assetMapper
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getAssetField');
 
         $this->innerAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVariation')
             ->with($imageField, $imageVersionInfo, $variationName, $parameters)
             ->willReturn($expectedVariation);
@@ -131,13 +131,13 @@ class AliasGeneratorTest extends TestCase
             $parameters
         );
 
-        $this->assertEquals($expectedVariation, $actualVariation);
+        self::assertEquals($expectedVariation, $actualVariation);
     }
 
     public function testSupport()
     {
-        $this->assertTrue($this->aliasGenerator->supportsValue(new ImageAsset\Value()));
-        $this->assertFalse($this->aliasGenerator->supportsValue(new Image\Value()));
+        self::assertTrue($this->aliasGenerator->supportsValue(new ImageAsset\Value()));
+        self::assertFalse($this->aliasGenerator->supportsValue(new Image\Value()));
     }
 }
 

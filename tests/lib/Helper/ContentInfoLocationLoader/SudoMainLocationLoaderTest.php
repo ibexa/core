@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper\ContentInfoLocationLoader;
 
 use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
@@ -36,7 +37,7 @@ class SudoMainLocationLoaderTest extends TestCase
         $contentInfo = new ContentInfo();
 
         $this->getLocationServiceMock()
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('loadLocation');
 
         $this->loader->loadLocation($contentInfo);
@@ -48,22 +49,22 @@ class SudoMainLocationLoaderTest extends TestCase
         $location = new Location();
 
         $this->getRepositoryMock()
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPermissionResolver')
-            ->will($this->returnValue($this->getPermissionResolverMock()));
+            ->will(self::returnValue($this->getPermissionResolverMock()));
 
         $this->getRepositoryMock()
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getLocationService')
-            ->will($this->returnValue($this->getLocationServiceMock()));
+            ->will(self::returnValue($this->getLocationServiceMock()));
 
         $this->getLocationServiceMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadLocation')
             ->with(42)
-            ->will($this->returnValue($location));
+            ->will(self::returnValue($location));
 
-        $this->assertSame($location, $this->loader->loadLocation($contentInfo));
+        self::assertSame($location, $this->loader->loadLocation($contentInfo));
     }
 
     public function testLoadLocationError()
@@ -74,24 +75,24 @@ class SudoMainLocationLoaderTest extends TestCase
         $location = new Location();
 
         $this->getRepositoryMock()
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPermissionResolver')
-            ->will($this->returnValue($this->getPermissionResolverMock()));
+            ->will(self::returnValue($this->getPermissionResolverMock()));
 
         $this->getRepositoryMock()
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getLocationService')
-            ->will($this->returnValue($this->getLocationServiceMock()));
+            ->will(self::returnValue($this->getLocationServiceMock()));
 
         $this->getLocationServiceMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadLocation')
             ->with(42)
             ->will(
-                $this->throwException(new NotFoundException('main location of content', 42))
+                self::throwException(new NotFoundException('main location of content', 42))
             );
 
-        $this->assertSame($location, $this->loader->loadLocation($contentInfo));
+        self::assertSame($location, $this->loader->loadLocation($contentInfo));
     }
 
     /**

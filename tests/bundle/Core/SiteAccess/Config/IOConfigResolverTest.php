@@ -62,7 +62,7 @@ class IOConfigResolverTest extends TestCase
             $complexConfigProcessor
         );
 
-        $this->assertEquals('var/demo_site/storage', $ioConfigResolver->getUrlPrefix());
+        self::assertEquals('var/demo_site/storage', $ioConfigResolver->getUrlPrefix());
     }
 
     public function testGetLegacyUrlPrefix(): void
@@ -92,7 +92,7 @@ class IOConfigResolverTest extends TestCase
             $complexConfigProcessor
         );
 
-        $this->assertEquals('var/demo_site/legacy_storage', $ioConfigResolver->getLegacyUrlPrefix());
+        self::assertEquals('var/demo_site/legacy_storage', $ioConfigResolver->getLegacyUrlPrefix());
     }
 
     public function testGetRootDir(): void
@@ -122,7 +122,7 @@ class IOConfigResolverTest extends TestCase
             $complexConfigProcessor
         );
 
-        $this->assertEquals('/path/to/ibexa/web/var/demo_site/legacy_storage', $ioConfigResolver->getRootDir());
+        self::assertEquals('/path/to/ibexa/web/var/demo_site/legacy_storage', $ioConfigResolver->getRootDir());
     }
 }
 

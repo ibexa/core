@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
@@ -41,7 +42,7 @@ class FloatValueValidatorTest extends TestCase
      */
     public function testConstructor()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Validator::class,
             new FloatValueValidator()
         );
@@ -63,8 +64,8 @@ class FloatValueValidatorTest extends TestCase
         $validator->initializeWithConstraints(
             $constraints
         );
-        $this->assertSame($constraints['minFloatValue'], $validator->minFloatValue);
-        $this->assertSame($constraints['maxFloatValue'], $validator->maxFloatValue);
+        self::assertSame($constraints['minFloatValue'], $validator->minFloatValue);
+        self::assertSame($constraints['maxFloatValue'], $validator->maxFloatValue);
     }
 
     /**
@@ -85,7 +86,7 @@ class FloatValueValidatorTest extends TestCase
             ],
         ];
         $validator = new FloatValueValidator();
-        $this->assertSame($constraintsSchema, $validator->getConstraintsSchema());
+        self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
     /**
@@ -103,8 +104,8 @@ class FloatValueValidatorTest extends TestCase
         $validator = new FloatValueValidator();
         $validator->minFloatValue = $constraints['minFloatValue'];
         $validator->maxFloatValue = $constraints['maxFloatValue'];
-        $this->assertSame($constraints['minFloatValue'], $validator->minFloatValue);
-        $this->assertSame($constraints['maxFloatValue'], $validator->maxFloatValue);
+        self::assertSame($constraints['minFloatValue'], $validator->minFloatValue);
+        self::assertSame($constraints['maxFloatValue'], $validator->maxFloatValue);
     }
 
     /**
@@ -155,6 +156,7 @@ class FloatValueValidatorTest extends TestCase
      * Tests validating a correct value.
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
@@ -163,8 +165,8 @@ class FloatValueValidatorTest extends TestCase
         $validator = new FloatValueValidator();
         $validator->minFloatValue = 10 / 7;
         $validator->maxFloatValue = 11 / 7;
-        $this->assertTrue($validator->validate(new FloatValue($value)));
-        $this->assertSame([], $validator->getMessage());
+        self::assertTrue($validator->validate(new FloatValue($value)));
+        self::assertSame([], $validator->getMessage());
     }
 
     public function providerForValidateOK()
@@ -182,6 +184,7 @@ class FloatValueValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator::validate
      */
     public function testValidateWrongValues($value, $message, $values)
@@ -189,22 +192,22 @@ class FloatValueValidatorTest extends TestCase
         $validator = new FloatValueValidator();
         $validator->minFloatValue = $this->getMinFloatValue();
         $validator->maxFloatValue = $this->getMaxFloatValue();
-        $this->assertFalse($validator->validate(new FloatValue($value)));
+        self::assertFalse($validator->validate(new FloatValue($value)));
         $messages = $validator->getMessage();
-        $this->assertCount(1, $messages);
-        $this->assertInstanceOf(
+        self::assertCount(1, $messages);
+        self::assertInstanceOf(
             ValidationError::class,
             $messages[0]
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Message::class,
             $messages[0]->getTranslatableMessage()
         );
-        $this->assertEquals(
+        self::assertEquals(
             $message,
             $messages[0]->getTranslatableMessage()->message
         );
-        $this->assertEquals(
+        self::assertEquals(
             $values,
             $messages[0]->getTranslatableMessage()->values
         );
@@ -224,13 +227,14 @@ class FloatValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
     {
         $validator = new FloatValueValidator();
 
-        $this->assertEmpty(
+        self::assertEmpty(
             $validator->validateConstraints($constraints)
         );
     }
@@ -270,6 +274,7 @@ class FloatValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
@@ -278,15 +283,15 @@ class FloatValueValidatorTest extends TestCase
         $messages = $validator->validateConstraints($constraints);
 
         foreach ($expectedMessages as $index => $expectedMessage) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 Message::class,
                 $messages[0]->getTranslatableMessage()
             );
-            $this->assertEquals(
+            self::assertEquals(
                 $expectedMessage,
                 $messages[$index]->getTranslatableMessage()->message
             );
-            $this->assertEquals(
+            self::assertEquals(
                 $values[$index],
                 $messages[$index]->getTranslatableMessage()->values
             );

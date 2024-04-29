@@ -42,7 +42,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
 
     public function testGetSubscribedEvents(): void
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 ConsoleEvents::COMMAND => [['onConsoleCommand', 128]],
             ],
@@ -95,14 +95,14 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
     private function assertOutputNotContainsDeprecationWarning(BufferedOutput $output): void
     {
         // Output buffer should be empty
-        $this->assertEquals('', $output->fetch());
+        self::assertEquals('', $output->fetch());
     }
 
     private function assertOutputContainsDeprecationWarning(BufferedOutput $output): void
     {
         $outputString = trim(preg_replace(self::MORE_THAN_2_WHITESPACES_AND_NEW_LINES, ' ', $output->fetch()));
 
-        $this->assertEquals(
+        self::assertEquals(
             '[WARNING] Command alias "ezplatform:command" is deprecated since 3.3 and will be removed in in 4.0. Use "ibexa:command" instead.',
             $outputString
         );

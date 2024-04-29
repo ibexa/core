@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\Events\URLAlias\BeforeCreateGlobalUrlAliasEvent;
@@ -45,12 +46,12 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($urlAlias, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($urlAlias, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateGlobalUrlAliasEvent::class, 0],
             [CreateGlobalUrlAliasEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateGlobalUrlAliasResultInBeforeEvents()
@@ -82,13 +83,13 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUrlAlias, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUrlAlias, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateGlobalUrlAliasEvent::class, 10],
             [BeforeCreateGlobalUrlAliasEvent::class, 0],
             [CreateGlobalUrlAliasEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateGlobalUrlAliasStopPropagationInBeforeEvents()
@@ -122,11 +123,11 @@ class URLAliasServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUrlAlias, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUrlAlias, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateGlobalUrlAliasEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateGlobalUrlAliasEvent::class, 0],
             [CreateGlobalUrlAliasEvent::class, 0],
         ]);
@@ -150,11 +151,11 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRefreshSystemUrlAliasesForLocationEvent::class, 0],
             [RefreshSystemUrlAliasesForLocationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testRefreshSystemUrlAliasesForLocationStopPropagationInBeforeEvents()
@@ -180,10 +181,10 @@ class URLAliasServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRefreshSystemUrlAliasesForLocationEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeRefreshSystemUrlAliasesForLocationEvent::class, 0],
             [RefreshSystemUrlAliasesForLocationEvent::class, 0],
         ]);
@@ -213,12 +214,12 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($urlAlias, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($urlAlias, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateUrlAliasEvent::class, 0],
             [CreateUrlAliasEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateUrlAliasResultInBeforeEvents()
@@ -250,13 +251,13 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUrlAlias, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUrlAlias, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateUrlAliasEvent::class, 10],
             [BeforeCreateUrlAliasEvent::class, 0],
             [CreateUrlAliasEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateUrlAliasStopPropagationInBeforeEvents()
@@ -290,11 +291,11 @@ class URLAliasServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUrlAlias, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUrlAlias, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateUrlAliasEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateUrlAliasEvent::class, 0],
             [CreateUrlAliasEvent::class, 0],
         ]);
@@ -318,11 +319,11 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRemoveAliasesEvent::class, 0],
             [RemoveAliasesEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testRemoveAliasesStopPropagationInBeforeEvents()
@@ -348,10 +349,10 @@ class URLAliasServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRemoveAliasesEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeRemoveAliasesEvent::class, 0],
             [RemoveAliasesEvent::class, 0],
         ]);

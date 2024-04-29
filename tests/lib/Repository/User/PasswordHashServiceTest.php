@@ -27,7 +27,7 @@ final class PasswordHashServiceTest extends TestCase
 
     public function testGetSupportedHashTypes(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             [
                 User::PASSWORD_HASH_BCRYPT,
                 User::PASSWORD_HASH_PHP_DEFAULT,
@@ -38,8 +38,8 @@ final class PasswordHashServiceTest extends TestCase
 
     public function testIsHashTypeSupported(): void
     {
-        $this->assertTrue($this->passwordHashService->isHashTypeSupported(User::DEFAULT_PASSWORD_HASH));
-        $this->assertFalse($this->passwordHashService->isHashTypeSupported(self::NON_EXISTING_PASSWORD_HASH));
+        self::assertTrue($this->passwordHashService->isHashTypeSupported(User::DEFAULT_PASSWORD_HASH));
+        self::assertFalse($this->passwordHashService->isHashTypeSupported(self::NON_EXISTING_PASSWORD_HASH));
     }
 
     public function testCreatePasswordHashExceptionHidesSensitiveParameter(): void
@@ -67,12 +67,7 @@ final class PasswordHashServiceTest extends TestCase
             self::assertArrayHasKey('args', $stackTrace[0]);
 
             // SensitiveParameter was introduced in PHP 8.2, in older versions it is ignored
-            if (\PHP_VERSION_ID < 80200) {
-                self::assertEquals($password, $stackTrace[0]['args'][0]);
-            } else {
-                // @phpstan-ignore-next-line This class is PHP 8.2+ only, but older PHP never reaches this else-block.
-                self::assertInstanceOf(\SensitiveParameterValue::class, $stackTrace[0]['args'][0]);
-            }
+            self::assertInstanceOf(\SensitiveParameterValue::class, $stackTrace[0]['args'][0]);
         }
 
         ini_set('zend.exception_ignore_args', (string)$ignoreArgs);

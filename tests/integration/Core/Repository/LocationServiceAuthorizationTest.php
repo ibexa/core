@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -16,7 +17,9 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
  * Test case for operations in the LocationService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\LocationService
+ *
  * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
+ *
  * @group integration
  * @group authorization
  */
@@ -26,6 +29,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the createLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testCreateLocation
      */
     public function testCreateLocationThrowsUnauthorizedException()
@@ -68,6 +72,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the createLocation() method. Tests a case when user doesn't have content/manage_locations policy for the new location ID.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::createLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testCreateLocation
      */
     public function testCreateLocationThrowsUnauthorizedExceptionDueToLackOfContentManageLocationsPolicy()
@@ -128,6 +133,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the loadLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocation
      */
     public function testLoadLocationThrowsUnauthorizedException()
@@ -177,6 +183,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the loadLocationByRemoteId() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocationByRemoteId()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocationByRemoteId
      */
     public function testLoadLocationByRemoteIdThrowsUnauthorizedException()
@@ -206,6 +213,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the loadLocations() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::loadLocations()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testLoadLocations
      */
     public function testLoadLocationsNoAccess()
@@ -218,8 +226,8 @@ class LocationServiceAuthorizationTest extends BaseTest
 
         // this should return one location for admin
         $locations = $locationService->loadLocations($editorGroupContentInfo);
-        $this->assertCount(1, $locations);
-        $this->assertInstanceOf(Location::class, $locations[0]);
+        self::assertCount(1, $locations);
+        self::assertInstanceOf(Location::class, $locations[0]);
 
         $user = $this->createUserVersion1();
 
@@ -228,13 +236,14 @@ class LocationServiceAuthorizationTest extends BaseTest
 
         // This should return empty array given current user does not have read access
         $locations = $locationService->loadLocations($editorGroupContentInfo);
-        $this->assertEmpty($locations);
+        self::assertEmpty($locations);
     }
 
     /**
      * Test for the updateLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::updateLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testUpdateLocation
      */
     public function testUpdateLocationThrowsUnauthorizedException()
@@ -274,6 +283,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the swapLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::swapLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testSwapLocation
      */
     public function testSwapLocationThrowsUnauthorizedException()
@@ -315,6 +325,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the hideLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::hideLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testHideLocation
      */
     public function testHideLocationThrowsUnauthorizedException()
@@ -345,6 +356,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the unhideLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::unhideLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testUnhideLocation
      */
     public function testUnhideLocationThrowsUnauthorizedException()
@@ -378,6 +390,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the deleteLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::deleteLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testDeleteLocation
      */
     public function testDeleteLocationThrowsUnauthorizedException()
@@ -441,6 +454,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the deleteLocation() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::deleteLocation()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testDeleteLocation
      */
     public function testDeleteLocationWithSubtreeThrowsUnauthorizedException()
@@ -539,6 +553,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the copySubtree() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::copySubtree()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testCopySubtree
      */
     public function testCopySubtreeThrowsUnauthorizedException()
@@ -583,6 +598,7 @@ class LocationServiceAuthorizationTest extends BaseTest
      * Test for the moveSubtree() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LocationService::moveSubtree()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\LocationServiceTest::testMoveSubtree
      */
     public function testMoveSubtreeThrowsUnauthorizedException()

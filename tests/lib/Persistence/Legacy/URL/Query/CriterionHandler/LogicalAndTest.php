@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
@@ -21,8 +22,8 @@ class LogicalAndTest extends CriterionHandlerTest
     {
         $handler = new LogicalAndHandler();
 
-        $this->assertTrue($handler->accept($this->createMock(LogicalAnd::class)));
-        $this->assertFalse($handler->accept($this->createMock(Criterion::class)));
+        self::assertTrue($handler->accept($this->createMock(LogicalAnd::class)));
+        self::assertFalse($handler->accept($this->createMock(Criterion::class)));
     }
 
     /**
@@ -58,7 +59,7 @@ class LogicalAndTest extends CriterionHandlerTest
             new LogicalAnd([$foo, $bar])
         );
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 }
 

@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Exception\OutOfBoundsException;
  * @template TValue
  *
  * @template-extends \Ibexa\Contracts\Core\Collection\AbstractInMemoryCollection<TValue>
+ *
  * @template-implements \Ibexa\Contracts\Core\Collection\MapInterface<TKey, TValue>
  */
 class ArrayMap extends AbstractInMemoryCollection implements MapInterface

@@ -26,7 +26,7 @@ final class HostTextNormalizerTest extends TestCase
             'suffix' => 'bar',
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'siteAccessesConfiguration' => [
                     'prefix' => 'foo',
@@ -41,8 +41,8 @@ final class HostTextNormalizerTest extends TestCase
     {
         $normalizer = new HostTextNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(HostText::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(HostText::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
@@ -49,25 +50,25 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
     public function testRollback()
     {
         $this->loggerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('logCall');
 
         $this->cacheMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('clear');
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('rollbackTransaction');
 
         $innerHandlerMock = $this->createMock(TransactionHandler::class);
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('transactionHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('rollback');
 
         $handler = $this->persistenceCacheHandler->transactionHandler();
@@ -77,21 +78,21 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
     public function testCommitStopsCacheTransaction()
     {
         $this->loggerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('logCall');
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('commitTransaction');
 
         $innerHandlerMock = $this->createMock(TransactionHandler::class);
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('transactionHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('commit');
 
         $handler = $this->persistenceCacheHandler->transactionHandler();
@@ -101,21 +102,21 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
     public function testBeginTransactionStartsCacheTransaction()
     {
         $this->loggerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('logCall');
 
         $this->cacheMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
 
         $innerHandlerMock = $this->createMock(TransactionHandler::class);
         $this->persistenceHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('transactionHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
 
         $handler = $this->persistenceCacheHandler->transactionHandler();

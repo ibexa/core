@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
@@ -36,7 +37,7 @@ class FileSizeValidatorTest extends TestCase
      */
     public function testConstructor()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Validator::class,
             new FileSizeValidator()
         );
@@ -57,7 +58,7 @@ class FileSizeValidatorTest extends TestCase
         $validator->initializeWithConstraints(
             $constraints
         );
-        $this->assertSame($constraints['maxFileSize'], $validator->maxFileSize);
+        self::assertSame($constraints['maxFileSize'], $validator->maxFileSize);
     }
 
     /**
@@ -74,7 +75,7 @@ class FileSizeValidatorTest extends TestCase
             ],
         ];
         $validator = new FileSizeValidator();
-        $this->assertSame($constraintsSchema, $validator->getConstraintsSchema());
+        self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
     /**
@@ -90,7 +91,7 @@ class FileSizeValidatorTest extends TestCase
         ];
         $validator = new FileSizeValidator();
         $validator->maxFileSize = $constraints['maxFileSize'];
-        $this->assertSame($constraints['maxFileSize'], $validator->maxFileSize);
+        self::assertSame($constraints['maxFileSize'], $validator->maxFileSize);
     }
 
     /**
@@ -143,16 +144,17 @@ class FileSizeValidatorTest extends TestCase
      * @param int $size
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
     public function testValidateCorrectValues($size)
     {
-        $this->markTestSkipped('BinaryFile field type does not use this validator anymore.');
+        self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
         $validator->maxFileSize = 4096;
-        $this->assertTrue($validator->validate($this->getBinaryFileValue($size)));
-        $this->assertSame([], $validator->getMessage());
+        self::assertTrue($validator->validate($this->getBinaryFileValue($size)));
+        self::assertSame([], $validator->getMessage());
     }
 
     /**
@@ -162,7 +164,7 @@ class FileSizeValidatorTest extends TestCase
      */
     protected function getBinaryFileValue($size)
     {
-        $this->markTestSkipped('BinaryFile field type does not use this validator anymore.');
+        self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $value = new BinaryFileValue($this->createMock(IOServiceInterface::class));
         $value->file = new BinaryFile(['size' => $size]);
 
@@ -182,33 +184,34 @@ class FileSizeValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validate
      */
     public function testValidateWrongValues($size, $message, $values)
     {
-        $this->markTestSkipped('BinaryFile field type does not use this validator anymore.');
+        self::markTestSkipped('BinaryFile field type does not use this validator anymore.');
         $validator = new FileSizeValidator();
         $validator->maxFileSize = $this->getMaxFileSize();
-        $this->assertFalse($validator->validate($this->getBinaryFileValue($size)));
+        self::assertFalse($validator->validate($this->getBinaryFileValue($size)));
         $messages = $validator->getMessage();
-        $this->assertCount(1, $messages);
-        $this->assertInstanceOf(
+        self::assertCount(1, $messages);
+        self::assertInstanceOf(
             ValidationError::class,
             $messages[0]
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Plural::class,
             $messages[0]->getTranslatableMessage()
         );
-        $this->assertEquals(
+        self::assertEquals(
             $message[0],
             $messages[0]->getTranslatableMessage()->singular
         );
-        $this->assertEquals(
+        self::assertEquals(
             $message[1],
             $messages[0]->getTranslatableMessage()->plural
         );
-        $this->assertEquals(
+        self::assertEquals(
             $values,
             $messages[0]->getTranslatableMessage()->values
         );
@@ -232,13 +235,14 @@ class FileSizeValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
     {
         $validator = new FileSizeValidator();
 
-        $this->assertEmpty(
+        self::assertEmpty(
             $validator->validateConstraints($constraints)
         );
     }
@@ -260,6 +264,7 @@ class FileSizeValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
@@ -267,15 +272,15 @@ class FileSizeValidatorTest extends TestCase
         $validator = new FileSizeValidator();
         $messages = $validator->validateConstraints($constraints);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Message::class,
             $messages[0]->getTranslatableMessage()
         );
-        $this->assertEquals(
+        self::assertEquals(
             $expectedMessages[0],
             $messages[0]->getTranslatableMessage()->message
         );
-        $this->assertEquals(
+        self::assertEquals(
             $values,
             $messages[0]->getTranslatableMessage()->values
         );

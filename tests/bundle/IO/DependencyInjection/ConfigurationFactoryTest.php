@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\IO\DependencyInjection;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractContainerBuilderTestCase;
@@ -46,7 +47,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
     {
         $node = new ArrayNodeDefinition('handler');
         $this->factory->addConfiguration($node);
-        $this->assertInstanceOf(ArrayNodeDefinition::class, $node);
+        self::assertInstanceOf(ArrayNodeDefinition::class, $node);
 
         // @todo customized testing of configuration node ?
     }

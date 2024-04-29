@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation;
@@ -81,7 +82,7 @@ class EZP22840RoleLimitations extends BaseTest
         $permissionResolver->setCurrentUserReference($user);
 
         // try to login
-        $this->assertTrue(
+        self::assertTrue(
             $permissionResolver->canUser('user', 'login', new SiteAccess('test')),
             'Could not verify that user can login with section limitation'
         );

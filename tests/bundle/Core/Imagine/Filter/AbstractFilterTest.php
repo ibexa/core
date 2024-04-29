@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter;
@@ -27,10 +28,10 @@ class AbstractFilterTest extends TestCase
 
     public function testGetSetOptions()
     {
-        $this->assertSame([], $this->filter->getOptions());
+        self::assertSame([], $this->filter->getOptions());
         $options = ['foo' => 'bar', 'some' => ['thing']];
         $this->filter->setOptions($options);
-        $this->assertSame($options, $this->filter->getOptions());
+        self::assertSame($options, $this->filter->getOptions());
     }
 
     /**
@@ -38,11 +39,11 @@ class AbstractFilterTest extends TestCase
      */
     public function testGetSetOptionNoDefaultValue($optionName, $value)
     {
-        $this->assertFalse($this->filter->hasOption($optionName));
-        $this->assertNull($this->filter->getOption($optionName));
+        self::assertFalse($this->filter->hasOption($optionName));
+        self::assertNull($this->filter->getOption($optionName));
         $this->filter->setOption($optionName, $value);
-        $this->assertTrue($this->filter->hasOption($optionName));
-        $this->assertSame($value, $this->filter->getOption($optionName));
+        self::assertTrue($this->filter->hasOption($optionName));
+        self::assertSame($value, $this->filter->getOption($optionName));
     }
 
     public function getSetOptionNoDefaulValueProvider()
@@ -62,11 +63,11 @@ class AbstractFilterTest extends TestCase
      */
     public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue)
     {
-        $this->assertFalse($this->filter->hasOption($optionName));
-        $this->assertSame($defaultValue, $this->filter->getOption($optionName, $defaultValue));
+        self::assertFalse($this->filter->hasOption($optionName));
+        self::assertSame($defaultValue, $this->filter->getOption($optionName, $defaultValue));
         $this->filter->setOption($optionName, $value);
-        $this->assertTrue($this->filter->hasOption($optionName));
-        $this->assertSame($value, $this->filter->getOption($optionName));
+        self::assertTrue($this->filter->hasOption($optionName));
+        self::assertSame($value, $this->filter->getOption($optionName));
     }
 
     public function getSetOptionWithDefaulValueProvider()

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -65,11 +66,11 @@ class ContentUpdaterTest extends TestCase
         $toType = $this->getToTypeFixture();
 
         $converterRegMock = $this->getConverterRegistryMock();
-        $converterRegMock->expects($this->once())
+        $converterRegMock->expects(self::once())
             ->method('getConverter')
             ->with('ezstring')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     ($converterMock = $this->createMock(Converter::class))
                 )
             );
@@ -78,7 +79,7 @@ class ContentUpdaterTest extends TestCase
 
         $actions = $updater->determineActions($fromType, $toType);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new ContentUpdater\Action\RemoveField(
                     $this->getContentGatewayMock(),
@@ -108,10 +109,10 @@ class ContentUpdaterTest extends TestCase
             '',
             false
         );
-        $actionA->expects($this->at(0))
+        $actionA->expects(self::at(0))
             ->method('apply')
             ->with(11);
-        $actionA->expects($this->at(1))
+        $actionA->expects(self::at(1))
             ->method('apply')
             ->with(22);
         $actionB = $this->getMockForAbstractClass(
@@ -120,21 +121,21 @@ class ContentUpdaterTest extends TestCase
             '',
             false
         );
-        $actionB->expects($this->at(0))
+        $actionB->expects(self::at(0))
             ->method('apply')
             ->with(11);
-        $actionB->expects($this->at(1))
+        $actionB->expects(self::at(1))
             ->method('apply')
             ->with(22);
 
         $actions = [$actionA, $actionB];
 
         $this->getContentGatewayMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentIdsByContentTypeId')
             ->with(23)
             ->will(
-                $this->returnValue([11, 22])
+                self::returnValue([11, 22])
             );
 
         $updater->applyUpdates(23, $actions);

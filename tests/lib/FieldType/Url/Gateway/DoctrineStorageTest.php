@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType\Url\Gateway;
 
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
@@ -24,7 +25,7 @@ class DoctrineStorageTest extends TestCase
 
         $gateway = $this->getStorageGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 23 => '/content/view/sitemap/2',
                 24 => '/content/view/tagcloud/2',
@@ -44,7 +45,7 @@ class DoctrineStorageTest extends TestCase
 
         $gateway = $this->getStorageGateway();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 '/content/view/sitemap/2' => 23,
                 '/content/view/tagcloud/2' => 24,
@@ -96,13 +97,13 @@ class DoctrineStorageTest extends TestCase
             ],
         ];
 
-        $this->assertGreaterThanOrEqual($time, $result[0]['created']);
-        $this->assertGreaterThanOrEqual($time, $result[0]['modified']);
+        self::assertGreaterThanOrEqual($time, $result[0]['created']);
+        self::assertGreaterThanOrEqual($time, $result[0]['modified']);
 
         unset($result[0]['created']);
         unset($result[0]['modified']);
 
-        $this->assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
     }
 
     /**
@@ -139,7 +140,7 @@ class DoctrineStorageTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
     }
 
     /**
@@ -169,7 +170,7 @@ class DoctrineStorageTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
 
         // Check that orphaned URLs are correctly removed
         $query = $this->connection->createQueryBuilder();
@@ -191,7 +192,7 @@ class DoctrineStorageTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, $result);
+        self::assertEquals($expected, $result);
     }
 
     protected function getStorageGateway(): Gateway

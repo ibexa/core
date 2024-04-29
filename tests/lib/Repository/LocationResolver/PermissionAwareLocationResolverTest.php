@@ -45,7 +45,7 @@ final class PermissionAwareLocationResolverTest extends TestCase
             ->method('loadLocation')
             ->willReturn($location);
 
-        $this->assertSame($location, $this->locationResolver->resolveLocation($contentInfo));
+        self::assertSame($location, $this->locationResolver->resolveLocation($contentInfo));
     }
 
     /**
@@ -66,7 +66,7 @@ final class PermissionAwareLocationResolverTest extends TestCase
             ->method('loadLocations')
             ->willReturn([$location1, $location2]);
 
-        $this->assertSame($location1, $this->locationResolver->resolveLocation($contentInfo));
+        self::assertSame($location1, $this->locationResolver->resolveLocation($contentInfo));
     }
 
     /**

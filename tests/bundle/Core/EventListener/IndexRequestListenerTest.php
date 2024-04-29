@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\IndexRequestListener;
@@ -54,7 +55,7 @@ class IndexRequestListenerTest extends TestCase
 
     public function testSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 KernelEvents::REQUEST => [
                     ['onKernelRequestIndex', 40],
@@ -70,14 +71,14 @@ class IndexRequestListenerTest extends TestCase
     public function testOnKernelRequestIndexOnIndexPage($requestPath, $configuredIndexPath, $expectedIndexPath)
     {
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('index_page')
-            ->will($this->returnValue($configuredIndexPath));
+            ->will(self::returnValue($configuredIndexPath));
         $this->request->attributes->set('semanticPathinfo', $requestPath);
         $this->indexRequestEventListener->onKernelRequestIndex($this->event);
-        $this->assertEquals($expectedIndexPath, $this->request->attributes->get('semanticPathinfo'));
-        $this->assertTrue($this->request->attributes->get('needsRedirect'));
+        self::assertEquals($expectedIndexPath, $this->request->attributes->get('semanticPathinfo'));
+        self::assertTrue($this->request->attributes->get('needsRedirect'));
     }
 
     public function indexPageProvider()
@@ -97,7 +98,7 @@ class IndexRequestListenerTest extends TestCase
     {
         $this->request->attributes->set('semanticPathinfo', '/anyContent');
         $this->indexRequestEventListener->onKernelRequestIndex($this->event);
-        $this->assertFalse($this->request->attributes->has('needsRedirect'));
+        self::assertFalse($this->request->attributes->has('needsRedirect'));
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\IO;
 
 use Ibexa\Core\IO\UrlDecorator;
@@ -32,16 +33,16 @@ class UrlRedecoratorTest extends TestCase
     public function testRedecorateFromSource()
     {
         $this->sourceDecoratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('undecorate')
             ->with('http://static.example.com/images/file.png')
-            ->will($this->returnValue('images/file.png'));
+            ->will(self::returnValue('images/file.png'));
 
         $this->targetDecoratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('decorate')
             ->with('images/file.png')
-            ->will($this->returnValue('/var/test/storage/images/file.png'));
+            ->will(self::returnValue('/var/test/storage/images/file.png'));
 
         self::assertEquals(
             '/var/test/storage/images/file.png',
@@ -52,16 +53,16 @@ class UrlRedecoratorTest extends TestCase
     public function testRedecorateFromTarget()
     {
         $this->targetDecoratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('undecorate')
             ->with('/var/test/storage/images/file.png')
-            ->will($this->returnValue('images/file.png'));
+            ->will(self::returnValue('images/file.png'));
 
         $this->sourceDecoratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('decorate')
             ->with('images/file.png')
-            ->will($this->returnValue('http://static.example.com/images/file.png'));
+            ->will(self::returnValue('http://static.example.com/images/file.png'));
 
         self::assertEquals(
             'http://static.example.com/images/file.png',

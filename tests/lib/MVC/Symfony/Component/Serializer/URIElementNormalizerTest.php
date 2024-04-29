@@ -27,7 +27,7 @@ final class URIElementNormalizerTest extends TestCase
         $matcher->setRequest(SimplifiedRequest::fromUrl('http://ezpublish.dev/foo/bar'));
         $matcher->match();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'elementNumber' => 2,
                 'uriElements' => ['foo', 'bar'],
@@ -40,8 +40,8 @@ final class URIElementNormalizerTest extends TestCase
     {
         $normalizer = new URIElementNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(URIElement::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(URIElement::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

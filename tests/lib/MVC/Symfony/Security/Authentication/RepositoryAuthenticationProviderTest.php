@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass;
@@ -74,15 +75,15 @@ class RepositoryAuthenticationProviderTest extends TestCase
         $password = 'some_encoded_password';
         $user = $this->createMock(UserInterface::class);
         $user
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPassword')
-            ->will($this->returnValue($password));
+            ->will(self::returnValue($password));
 
         $tokenUser = $this->createMock(UserInterface::class);
         $tokenUser
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPassword')
-            ->will($this->returnValue($password));
+            ->will(self::returnValue($password));
         $token = new UsernamePasswordToken($tokenUser, 'foo', 'bar');
 
         $method = new \ReflectionMethod($this->authProvider, 'checkAuthentication');
@@ -99,9 +100,9 @@ class RepositoryAuthenticationProviderTest extends TestCase
             ->setMethods(['getUserId'])
             ->getMockForAbstractClass();
         $apiUser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUserId')
-            ->will($this->returnValue(456));
+            ->will(self::returnValue(456));
         $tokenUser = new User($apiUser);
         $token = new UsernamePasswordToken($tokenUser, 'foo', 'bar');
 
@@ -111,9 +112,9 @@ class RepositoryAuthenticationProviderTest extends TestCase
 
         $user = $this->createMock(User::class);
         $user
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getAPIUser')
-            ->will($this->returnValue($renewedApiUser));
+            ->will(self::returnValue($renewedApiUser));
 
         $method = new \ReflectionMethod($this->authProvider, 'checkAuthentication');
         $method->setAccessible(true);
@@ -133,12 +134,12 @@ class RepositoryAuthenticationProviderTest extends TestCase
 
         $user = $this->createMock(User::class);
         $user
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAPIUser')
-            ->will($this->returnValue($apiUser));
+            ->will(self::returnValue($apiUser));
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setCurrentUserReference')
             ->with($apiUser);
 
@@ -160,7 +161,7 @@ class RepositoryAuthenticationProviderTest extends TestCase
         $token = new UsernamePasswordToken($userName, $password, 'bar');
 
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('checkUserCredentials')
             ->with($apiUser, $password)
             ->willReturn(false);
@@ -182,13 +183,13 @@ class RepositoryAuthenticationProviderTest extends TestCase
             ->willReturn($apiUser);
 
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('checkUserCredentials')
             ->with($apiUser, $password)
             ->willReturn(true);
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setCurrentUserReference')
             ->with($apiUser);
 
@@ -213,7 +214,7 @@ class RepositoryAuthenticationProviderTest extends TestCase
             ->willReturn($user);
 
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('checkUserCredentials')
             ->with($apiUser, $password)
             ->willThrowException(new UnsupportedPasswordHashType(self::UNSUPPORTED_USER_PASSWORD_HASH_TYPE));

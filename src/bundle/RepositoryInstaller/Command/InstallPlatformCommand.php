@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
@@ -88,7 +89,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         $schemaManager = $this->connection->getSchemaManager();
         if (!empty($schemaManager->listTables())) {
             $io = new SymfonyStyle($input, $output);
-            if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?', )) {
+            if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
                 return 0;
             }
         }

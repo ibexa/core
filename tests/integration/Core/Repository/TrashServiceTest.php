@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use DateTime;
@@ -28,6 +29,7 @@ use Ibexa\Core\Repository\Values\Content\TrashItem;
  * Test case for operations in the TrashService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\TrashService
+ *
  * @group integration
  * @group trash
  */
@@ -44,7 +46,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $trashItem = $this->createTrashItem();
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             TrashItem::class,
             $trashItem
         );
@@ -130,13 +132,13 @@ class TrashServiceTest extends BaseTrashServiceTest
         foreach ($remoteIds as $remoteId) {
             try {
                 $locationService->loadLocationByRemoteId($remoteId);
-                $this->fail("Location '{$remoteId}' should exist.'");
+                self::fail("Location '{$remoteId}' should exist.'");
             } catch (NotFoundException $e) {
                 // echo $e->getFile(), ' +', $e->getLine(), PHP_EOL;
             }
         }
 
-        $this->assertGreaterThan(
+        self::assertGreaterThan(
             0,
             count($remoteIds),
             "There should be at least one 'Community' child location."
@@ -163,7 +165,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $this->refreshSearch($repository);
 
-        $this->assertEquals(
+        self::assertEquals(
             $childCount - 1,
             $locationService->getLocationChildCount($location)
         );
@@ -235,36 +237,36 @@ class TrashServiceTest extends BaseTrashServiceTest
         $trashItemReloaded = $trashService->loadTrashItem($trashItem->id);
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             APITrashItem::class,
             $trashItemReloaded
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $trashItem->pathString,
             $trashItemReloaded->pathString
         );
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             DateTime::class,
             $trashItemReloaded->trashed
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $trashItem->trashed->getTimestamp(),
             $trashItemReloaded->trashed->getTimestamp()
         );
 
-        $this->assertGreaterThan(
+        self::assertGreaterThan(
             0,
             $trashItemReloaded->trashed->getTimestamp()
         );
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Content::class,
             $content = $trashItemReloaded->getContent()
         );
-        $this->assertEquals($trashItem->contentId, $content->contentInfo->id);
+        self::assertEquals($trashItem->contentId, $content->contentInfo->id);
     }
 
     /**
@@ -313,19 +315,19 @@ class TrashServiceTest extends BaseTrashServiceTest
         );
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             APILocation::class,
             $location
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $location,
             $locationReloaded
         );
 
         try {
             $trashService->loadTrashItem($trashItem->id);
-            $this->fail('Trash item was not removed after being recovered.');
+            self::fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
         }
@@ -402,7 +404,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $createdLocationAlias = $urlAliasService->lookup('/Media');
 
-        $this->assertNotEquals(
+        self::assertNotEquals(
             $trashedLocationAlias->destination,
             $createdLocationAlias->destination,
             'Destination for /media url should changed'
@@ -412,10 +414,10 @@ class TrashServiceTest extends BaseTrashServiceTest
         $recoveredLocationAlias = $urlAliasService->lookup('/Media2');
         $recoveredLocationAliasReverse = $urlAliasService->reverseLookup($recoveredLocation);
 
-        $this->assertEquals($recoveredLocationAlias->destination, $recoveredLocationAliasReverse->destination);
+        self::assertEquals($recoveredLocationAlias->destination, $recoveredLocationAliasReverse->destination);
 
-        $this->assertNotEquals($recoveredLocationAliasReverse->destination, $trashedLocationAlias->destination);
-        $this->assertNotEquals($recoveredLocationAliasReverse->destination, $createdLocationAlias->destination);
+        self::assertNotEquals($recoveredLocationAliasReverse->destination, $trashedLocationAlias->destination);
+        self::assertNotEquals($recoveredLocationAliasReverse->destination, $createdLocationAlias->destination);
     }
 
     /**
@@ -438,7 +440,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $trashService->recover($trashItem);
 
-        $this->assertGreaterThan(
+        self::assertGreaterThan(
             0,
             count($remoteIds),
             "There should be at least one 'Community' child location."
@@ -448,7 +450,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         foreach ($remoteIds as $remoteId) {
             try {
                 $locationService->loadLocationByRemoteId($remoteId);
-                $this->fail(
+                self::fail(
                     sprintf(
                         'Location with remote ID "%s" unexpectedly restored.',
                         $remoteId
@@ -461,7 +463,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         try {
             $trashService->loadTrashItem($trashItem->id);
-            $this->fail('Trash item was not removed after being recovered.');
+            self::fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
         }
@@ -512,7 +514,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         try {
             $trashService->loadTrashItem($trashItem->id);
-            $this->fail('Trash item was not removed after being recovered.');
+            self::fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
         }
@@ -544,14 +546,14 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $this->refreshSearch($repository);
 
-        $this->assertEquals(
+        self::assertEquals(
             $childCount + 1,
             $locationService->getLocationChildCount($location)
         );
 
         try {
             $trashService->loadTrashItem($trashItem->id);
-            $this->fail('Trash item was not removed after being recovered.');
+            self::fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
         }
@@ -589,14 +591,14 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $this->refreshSearch($repository);
 
-        $this->assertEquals(
+        self::assertEquals(
             $childCount + 1,
             $locationService->getLocationChildCount($location)
         );
 
         try {
             $trashService->loadTrashItem($trashItem->id);
-            $this->fail('Trash item was not removed after being recovered.');
+            self::fail('Trash item was not removed after being recovered.');
         } catch (NotFoundException $e) {
             // All well
         }
@@ -650,7 +652,7 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         $searchResult = $trashService->findTrashItems($query);
 
-        $this->assertEquals($expectedCount, $searchResult->totalCount);
+        self::assertEquals($expectedCount, $searchResult->totalCount);
     }
 
     /**
@@ -717,7 +719,7 @@ class TrashServiceTest extends BaseTrashServiceTest
             $ascResultsIds[] = $result->contentInfo->id;
         }
 
-        $this->assertGreaterThanOrEqual($expectedCount, count($ascResultsIds));
+        self::assertGreaterThanOrEqual($expectedCount, count($ascResultsIds));
 
         foreach ($sortClausesClasses as $sortClauseClass) {
             $descQuery->sortClauses[] = new $sortClauseClass(Query::SORT_DESC);
@@ -728,12 +730,12 @@ class TrashServiceTest extends BaseTrashServiceTest
             $descResultsIds[] = $result->contentInfo->id;
         }
 
-        $this->assertNotSame($descResultsIds, $ascResultsIds);
+        self::assertNotSame($descResultsIds, $ascResultsIds);
 
         krsort($descResultsIds);
         $descResultsIds = array_values($descResultsIds);
 
-        $this->assertSame($descResultsIds, $ascResultsIds);
+        self::assertSame($descResultsIds, $ascResultsIds);
     }
 
     /**
@@ -755,15 +757,15 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Load all trashed locations
         $searchResult = $trashService->findTrashItems($query);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SearchResult::class,
             $searchResult
         );
 
         // 4 trashed locations from the sub tree, but only 2 in results
-        $this->assertCount(2, $searchResult->items);
-        $this->assertEquals(4, $searchResult->count);
-        $this->assertEquals(4, $searchResult->totalCount);
+        self::assertCount(2, $searchResult->items);
+        self::assertEquals(4, $searchResult->count);
+        self::assertEquals(4, $searchResult->totalCount);
     }
 
     /**
@@ -803,13 +805,13 @@ class TrashServiceTest extends BaseTrashServiceTest
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SearchResult::class,
             $searchResult
         );
 
         // 0 trashed locations found, though 4 exist
-        $this->assertEquals(0, $searchResult->count);
+        self::assertEquals(0, $searchResult->count);
     }
 
     /**
@@ -859,12 +861,12 @@ class TrashServiceTest extends BaseTrashServiceTest
         // Load all trashed locations
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             SearchResult::class,
             $searchResult
         );
 
-        $this->assertEquals(1, count($searchResult->items));
+        self::assertEquals(1, count($searchResult->items));
     }
 
     /**
@@ -891,7 +893,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
 
-        $this->assertEquals(0, $searchResult->count);
+        self::assertEquals(0, $searchResult->count);
 
         // Try to load content
         $this->expectException(NotFoundException::class);
@@ -935,7 +937,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
 
-        $this->assertEquals(0, $searchResult->totalCount);
+        self::assertEquals(0, $searchResult->totalCount);
 
         // Try to load content
         $this->expectException(NotFoundException::class);
@@ -983,8 +985,8 @@ class TrashServiceTest extends BaseTrashServiceTest
             $searchResult->items
         );
 
-        $this->assertEquals(4, $searchResult->count);
-        $this->assertTrue(
+        self::assertEquals(4, $searchResult->count);
+        self::assertTrue(
             in_array($demoDesignLocationId, $foundIds)
         );
 
@@ -1277,9 +1279,9 @@ class TrashServiceTest extends BaseTrashServiceTest
     {
         try {
             $this->getRepository()->getURLAliasService()->lookup($urlPath);
-            $this->fail(sprintf('Alias [%s] should not exist', $urlPath));
+            self::fail(sprintf('Alias [%s] should not exist', $urlPath));
         } catch (NotFoundException $e) {
-            $this->assertTrue(true);
+            self::assertTrue(true);
         }
     }
 

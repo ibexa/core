@@ -26,7 +26,7 @@ final class URITextNormalizerTest extends TestCase
             'suffix' => 'bar',
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'siteAccessesConfiguration' => [
                     'prefix' => 'foo',
@@ -41,8 +41,8 @@ final class URITextNormalizerTest extends TestCase
     {
         $normalizer = new URITextNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(URIText::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(URIText::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

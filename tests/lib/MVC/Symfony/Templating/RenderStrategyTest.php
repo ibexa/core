@@ -52,7 +52,7 @@ class RenderStrategyTest extends TestCase
 
         $valueObject = new class() extends ValueObject {
         };
-        $this->assertFalse($renderStrategy->supports($valueObject));
+        self::assertFalse($renderStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);
         $renderStrategy->render($valueObject, new RenderOptions());
@@ -67,7 +67,7 @@ class RenderStrategyTest extends TestCase
 
         $valueObject = new class() extends ValueObject {
         };
-        $this->assertFalse($renderStrategy->supports($valueObject));
+        self::assertFalse($renderStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);
         $renderStrategy->render($valueObject, new RenderOptions());
@@ -81,8 +81,8 @@ class RenderStrategyTest extends TestCase
 
         $valueObject = new class() extends ValueObject {
         };
-        $this->assertTrue($renderStrategy->supports($valueObject));
-        $this->assertSame('some_rendered_content', $renderStrategy->render($valueObject, new RenderOptions()));
+        self::assertTrue($renderStrategy->supports($valueObject));
+        self::assertSame('some_rendered_content', $renderStrategy->render($valueObject, new RenderOptions()));
     }
 
     public function testMultipleStrategiesSameValueObjectType(): void
@@ -96,8 +96,8 @@ class RenderStrategyTest extends TestCase
             $this->createRenderStrategy('other_rendered_content', $valueObjectClass),
         ]);
 
-        $this->assertTrue($renderStrategy->supports($valueObject));
-        $this->assertSame('some_rendered_content', $renderStrategy->render($valueObject, new RenderOptions()));
+        self::assertTrue($renderStrategy->supports($valueObject));
+        self::assertSame('some_rendered_content', $renderStrategy->render($valueObject, new RenderOptions()));
     }
 
     public function testMultipleStrategies(): void
@@ -111,8 +111,8 @@ class RenderStrategyTest extends TestCase
             $this->createRenderStrategy('other_rendered_content', $valueObjectClass),
         ]);
 
-        $this->assertTrue($renderStrategy->supports($valueObject));
-        $this->assertSame('other_rendered_content', $renderStrategy->render($valueObject, new RenderOptions()));
+        self::assertTrue($renderStrategy->supports($valueObject));
+        self::assertSame('other_rendered_content', $renderStrategy->render($valueObject, new RenderOptions()));
     }
 }
 

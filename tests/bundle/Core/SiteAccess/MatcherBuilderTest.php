@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\SiteAccess;
 
 use Ibexa\Bundle\Core\SiteAccess\Matcher as CoreMatcher;
@@ -30,12 +31,12 @@ class MatcherBuilderTest extends TestCase
     public function testBuildMatcherNoService()
     {
         $this->siteAccessMatcherRegistry
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getMatcher');
         $matcherBuilder = new MatcherBuilder($this->siteAccessMatcherRegistry);
         $matcher = $this->createMock(Matcher::class);
         $builtMatcher = $matcherBuilder->buildMatcher('\\' . get_class($matcher), [], new SimplifiedRequest());
-        $this->assertInstanceOf(get_class($matcher), $builtMatcher);
+        self::assertInstanceOf(get_class($matcher), $builtMatcher);
     }
 
     public function testBuildMatcherServiceWrongInterface()
@@ -44,10 +45,10 @@ class MatcherBuilderTest extends TestCase
 
         $serviceId = 'foo';
         $this->siteAccessMatcherRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getMatcher')
             ->with($serviceId)
-            ->will($this->returnValue($this->createMock(Matcher::class)));
+            ->will(self::returnValue($this->createMock(Matcher::class)));
         $matcherBuilder = new MatcherBuilder($this->siteAccessMatcherRegistry);
         $matcherBuilder->buildMatcher("@$serviceId", [], new SimplifiedRequest());
     }
@@ -57,19 +58,19 @@ class MatcherBuilderTest extends TestCase
         $serviceId = 'foo';
         $matcher = $this->createMock(CoreMatcher::class);
         $this->siteAccessMatcherRegistry
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getMatcher')
             ->with($serviceId)
-            ->will($this->returnValue($matcher));
+            ->will(self::returnValue($matcher));
 
         $matchingConfig = ['foo' => 'bar'];
         $request = new SimplifiedRequest();
         $matcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setMatchingConfiguration')
             ->with($matchingConfig);
         $matcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setRequest')
             ->with($request);
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Values\User;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
@@ -43,17 +44,17 @@ class UserGroupTest extends TestCase
         $contentMock = $this->createMock(Content::class);
         $versionInfoMock = $this->createMock(VersionInfo::class);
 
-        $contentMock->expects($this->once())
+        $contentMock->expects(self::once())
             ->method('getVersionInfo')
             ->willReturn($versionInfoMock);
 
-        $versionInfoMock->expects($this->once())
+        $versionInfoMock->expects(self::once())
             ->method('getName')
             ->willReturn($name);
 
         $object = new UserGroup(['content' => $contentMock]);
 
-        $this->assertEquals($name, $object->getName());
+        self::assertEquals($name, $object->getName());
     }
 
     /**

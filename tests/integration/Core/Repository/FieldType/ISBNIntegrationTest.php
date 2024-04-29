@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
@@ -130,14 +131,14 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             ISBNValue::class,
             $field->value
         );
 
         $expectedData = '9789722514095';
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedData,
             $field->value
         );
@@ -184,13 +185,13 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertUpdatedFieldDataLoadedCorrect(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             ISBNValue::class,
             $field->value
         );
 
         $expectedData = '978-972-25-1409-5';
-        $this->assertEquals(
+        self::assertEquals(
             $expectedData,
             $field->value
         );
@@ -211,14 +212,14 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTest
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             ISBNValue::class,
             $field->value
         );
 
         $expectedData = '9789722514095';
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedData,
             $field->value
         );

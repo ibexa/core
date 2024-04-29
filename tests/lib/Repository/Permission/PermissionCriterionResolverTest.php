@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Permission;
 
 use Ibexa\Contracts\Core\Limitation\Type;
@@ -32,13 +33,13 @@ class PermissionCriterionResolverTest extends TestCase
             ->getMockBuilder(Limitation::class)
             ->getMockForAbstractClass();
         $limitationMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getIdentifier')
-            ->will($this->returnValue('limitationIdentifier'));
+            ->will(self::returnValue('limitationIdentifier'));
 
         $targetOnlyLimitationMock = $this->createMock(Limitation::class);
         $targetOnlyLimitationMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getIdentifier')
             ->willReturn('targetOnlyLimitationIdentifier');
 
@@ -242,30 +243,30 @@ class PermissionCriterionResolverTest extends TestCase
         );
 
         $limitationTypeMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getCriterion')
             ->with(
-                $this->isInstanceOf(Limitation::class),
-                $this->equalTo($userMock)
+                self::isInstanceOf(Limitation::class),
+                self::equalTo($userMock)
             )
-            ->will($this->returnValue($criterionMock));
+            ->will(self::returnValue($criterionMock));
 
         $targetOnlyLimitationTypeMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getCriterion');
 
         $targetOnlyLimitationTypeMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getCriterionByTarget')
             ->with(
-                $this->isInstanceOf(Limitation::class),
-                $this->equalTo($userMock),
-                $this->anything()
+                self::isInstanceOf(Limitation::class),
+                self::equalTo($userMock),
+                self::anything()
             )
             ->willReturn($criterionMock);
 
         $limitationServiceMock
-            ->expects($this->exactly($limitationCount))
+            ->expects(self::exactly($limitationCount))
             ->method('getLimitationType')
             ->willReturnMap([
                 ['limitationIdentifier', $limitationTypeMock],
@@ -273,15 +274,15 @@ class PermissionCriterionResolverTest extends TestCase
             ]);
 
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
-            ->with($this->equalTo('content'), $this->equalTo('read'))
-            ->will($this->returnValue($permissionSets));
+            ->with(self::equalTo('content'), self::equalTo('read'))
+            ->will(self::returnValue($permissionSets));
 
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrentUserReference')
-            ->will($this->returnValue($userMock));
+            ->will(self::returnValue($userMock));
     }
 
     /**
@@ -300,7 +301,7 @@ class PermissionCriterionResolverTest extends TestCase
 
         $permissionsCriterion = $criterionResolver->getPermissionsCriterion('content', 'read', []);
 
-        $this->assertEquals($expectedCriterion, $permissionsCriterion);
+        self::assertEquals($expectedCriterion, $permissionsCriterion);
     }
 
     public function providerForTestGetPermissionsCriterionBooleanPermissionSets()
@@ -320,16 +321,16 @@ class PermissionCriterionResolverTest extends TestCase
     {
         $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
         $permissionResolverMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
-            ->with($this->equalTo('testModule'), $this->equalTo('testFunction'))
-            ->will($this->returnValue($permissionSets));
+            ->with(self::equalTo('testModule'), self::equalTo('testFunction'))
+            ->will(self::returnValue($permissionSets));
 
         $criterionResolver = $this->getPermissionCriterionResolverMock(null);
 
         $permissionsCriterion = $criterionResolver->getPermissionsCriterion('testModule', 'testFunction');
 
-        $this->assertEquals($permissionSets, $permissionsCriterion);
+        self::assertEquals($permissionSets, $permissionsCriterion);
     }
 
     /**

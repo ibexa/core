@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
@@ -63,7 +64,7 @@ class ContextualizerTest extends TestCase
     public function testSetContextualParameter($parameterName, $scope, $value)
     {
         $this->container
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setParameter')
             ->with("$this->namespace.$scope.$parameterName", $value);
 
@@ -119,15 +120,15 @@ class ContextualizerTest extends TestCase
         $this->contextualizer->mapSetting('an_integer', $config);
         $this->contextualizer->mapSetting('a_bool', $config);
 
-        $this->assertSame($fooSa1, $container->getParameter("$this->namespace.sa1.foo"));
-        $this->assertSame($planetsSa1, $container->getParameter("$this->namespace.sa1.planets"));
-        $this->assertSame($intSa1, $container->getParameter("$this->namespace.sa1.an_integer"));
-        $this->assertSame($boolSa1, $container->getParameter("$this->namespace.sa1.a_bool"));
+        self::assertSame($fooSa1, $container->getParameter("$this->namespace.sa1.foo"));
+        self::assertSame($planetsSa1, $container->getParameter("$this->namespace.sa1.planets"));
+        self::assertSame($intSa1, $container->getParameter("$this->namespace.sa1.an_integer"));
+        self::assertSame($boolSa1, $container->getParameter("$this->namespace.sa1.a_bool"));
 
-        $this->assertSame($fooSa2, $container->getParameter("$this->namespace.sa2.foo"));
-        $this->assertSame($planetsSa2, $container->getParameter("$this->namespace.sa2.planets"));
-        $this->assertSame($intSa2, $container->getParameter("$this->namespace.sa2.an_integer"));
-        $this->assertSame($boolSa2, $container->getParameter("$this->namespace.sa2.a_bool"));
+        self::assertSame($fooSa2, $container->getParameter("$this->namespace.sa2.foo"));
+        self::assertSame($planetsSa2, $container->getParameter("$this->namespace.sa2.planets"));
+        self::assertSame($intSa2, $container->getParameter("$this->namespace.sa2.an_integer"));
+        self::assertSame($boolSa2, $container->getParameter("$this->namespace.sa2.a_bool"));
     }
 
     public function testMapConfigArray()
@@ -214,19 +215,19 @@ class ContextualizerTest extends TestCase
 
         $this->contextualizer->mapConfigArray('foo_setting', $config);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa1'],
             $containerBuilder->getParameter("$this->namespace.sa1.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa2'],
             $containerBuilder->getParameter("$this->namespace.sa2.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa3'],
             $containerBuilder->getParameter("$this->namespace.sa3.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa_group1'],
             $containerBuilder->getParameter("$this->namespace.sa_group1.foo_setting")
         );
@@ -324,19 +325,19 @@ class ContextualizerTest extends TestCase
 
         $this->contextualizer->mapConfigArray('foo_setting', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa1'],
             $containerBuilder->getParameter("$this->namespace.sa1.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa2'],
             $containerBuilder->getParameter("$this->namespace.sa2.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa3'],
             $containerBuilder->getParameter("$this->namespace.sa3.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa_group1'],
             $containerBuilder->getParameter("$this->namespace.sa_group1.foo_setting")
         );
@@ -377,19 +378,19 @@ class ContextualizerTest extends TestCase
 
         $this->contextualizer->mapConfigArray('foo_setting', $config, ContextualizerInterface::UNIQUE);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa1'],
             $containerBuilder->getParameter("$this->namespace.sa1.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa2'],
             $containerBuilder->getParameter("$this->namespace.sa2.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa3'],
             $containerBuilder->getParameter("$this->namespace.sa3.foo_setting")
         );
-        $this->assertSame(
+        self::assertSame(
             $expectedMergedSettings['sa_group1'],
             $containerBuilder->getParameter("$this->namespace.sa_group1.foo_setting")
         );
@@ -397,42 +398,42 @@ class ContextualizerTest extends TestCase
 
     public function testGetSetContainer()
     {
-        $this->assertSame($this->container, $this->contextualizer->getContainer());
+        self::assertSame($this->container, $this->contextualizer->getContainer());
         $containerBuilder = new ContainerBuilder();
         $this->contextualizer->setContainer($containerBuilder);
-        $this->assertSame($containerBuilder, $this->contextualizer->getContainer());
+        self::assertSame($containerBuilder, $this->contextualizer->getContainer());
     }
 
     public function testGetSetSANodeName()
     {
         $nodeName = 'foobarbaz';
-        $this->assertSame($this->saNodeName, $this->contextualizer->getSiteAccessNodeName());
+        self::assertSame($this->saNodeName, $this->contextualizer->getSiteAccessNodeName());
         $this->contextualizer->setSiteAccessNodeName($nodeName);
-        $this->assertSame($nodeName, $this->contextualizer->getSiteAccessNodeName());
+        self::assertSame($nodeName, $this->contextualizer->getSiteAccessNodeName());
     }
 
     public function testGetSetNamespace()
     {
         $ns = 'ibexa';
-        $this->assertSame($this->namespace, $this->contextualizer->getNamespace());
+        self::assertSame($this->namespace, $this->contextualizer->getNamespace());
         $this->contextualizer->setNamespace($ns);
-        $this->assertSame($ns, $this->contextualizer->getNamespace());
+        self::assertSame($ns, $this->contextualizer->getNamespace());
     }
 
     public function testGetSetAvailableSiteAccesses()
     {
-        $this->assertSame($this->availableSAs, $this->contextualizer->getAvailableSiteAccesses());
+        self::assertSame($this->availableSAs, $this->contextualizer->getAvailableSiteAccesses());
         $sa = ['foo', 'bar', 'baz'];
         $this->contextualizer->setAvailableSiteAccesses($sa);
-        $this->assertSame($sa, $this->contextualizer->getAvailableSiteAccesses());
+        self::assertSame($sa, $this->contextualizer->getAvailableSiteAccesses());
     }
 
     public function testGetSetGroupsBySA()
     {
-        $this->assertSame($this->groupsBySA, $this->contextualizer->getGroupsBySiteAccess());
+        self::assertSame($this->groupsBySA, $this->contextualizer->getGroupsBySiteAccess());
         $groups = ['foo' => ['bar', 'baz'], 'group2' => ['some', 'thing']];
         $this->contextualizer->setGroupsBySiteAccess($groups);
-        $this->assertSame($groups, $this->contextualizer->getGroupsBySiteAccess());
+        self::assertSame($groups, $this->contextualizer->getGroupsBySiteAccess());
     }
 
     /**
@@ -478,21 +479,21 @@ class ContextualizerTest extends TestCase
         ];
 
         $this->container
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('hasParameter')
-            ->will($this->returnValueMap($hasParameterMap));
+            ->will(self::returnValueMap($hasParameterMap));
 
         $this->container
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getParameter')
-            ->will($this->returnValueMap($getParameterMap));
+            ->will(self::returnValueMap($getParameterMap));
 
         $this->container
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('setParameter')
             ->with(
-                $this->equalTo("$this->namespace.$siteaccess.$testId"),
-                $this->equalTo($expected)
+                self::equalTo("$this->namespace.$siteaccess.$testId"),
+                self::equalTo($expected)
             );
 
         if ($customSANodeKey !== null) {

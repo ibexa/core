@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
@@ -48,7 +49,7 @@ class EZP21771EzStringTest extends BaseTest
         $content = $contentService->loadContent($draft->versionInfo->contentInfo->id);
 
         // finaly test if the value is done right
-        $this->assertEquals(
+        self::assertEquals(
             $content->versionInfo->names,
             ['eng-GB' => '12345678901']
         );

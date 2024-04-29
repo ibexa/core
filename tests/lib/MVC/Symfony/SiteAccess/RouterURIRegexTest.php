@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -75,7 +76,7 @@ class RouterURIRegexTest extends RouterBaseTest
     public function testGetName()
     {
         $matcher = new RegexMatcher([], []);
-        $this->assertSame('uri:regexp', $matcher->getName());
+        self::assertSame('uri:regexp', $matcher->getName());
     }
 
     public function testSerialize()
@@ -93,7 +94,7 @@ class RouterURIRegexTest extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/foo/bar/baz']));
         $serializedSA2 = serialize($sa);
 
-        $this->assertSame($serializedSA1, $serializedSA2);
+        self::assertSame($serializedSA1, $serializedSA2);
     }
 
     protected function createRouter(): Router

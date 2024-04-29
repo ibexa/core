@@ -33,7 +33,7 @@ final class RepositoryConfigParserTest extends TestCase
     ): RepositoryConfigParserInterface {
         $configParser = $this->createMock(RepositoryConfigParserInterface::class);
         $configParser
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('addSemanticConfig')
             ->with($nodeBuilder);
 

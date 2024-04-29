@@ -33,7 +33,7 @@ class BookmarkServiceTest extends BaseTest
         $isBookmarked = $repository->getBookmarkService()->isBookmarked($location);
         /* END: Use Case */
 
-        $this->assertTrue($isBookmarked);
+        self::assertTrue($isBookmarked);
     }
 
     /**
@@ -48,7 +48,7 @@ class BookmarkServiceTest extends BaseTest
         $isBookmarked = $repository->getBookmarkService()->isBookmarked($location);
         /* END: Use Case */
 
-        $this->assertFalse($isBookmarked);
+        self::assertFalse($isBookmarked);
     }
 
     /**
@@ -68,12 +68,13 @@ class BookmarkServiceTest extends BaseTest
         $afterCreateBookmark = $bookmarkService->isBookmarked($location);
         /* END: Use Case */
 
-        $this->assertFalse($beforeCreateBookmark);
-        $this->assertTrue($afterCreateBookmark);
+        self::assertFalse($beforeCreateBookmark);
+        self::assertTrue($afterCreateBookmark);
     }
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
+     *
      * @depends testCreateBookmark
      */
     public function testCreateBookmarkThrowsInvalidArgumentException()
@@ -109,12 +110,13 @@ class BookmarkServiceTest extends BaseTest
         $afterDeleteBookmark = $bookmarkService->isBookmarked($location);
         /* END: Use Case */
 
-        $this->assertTrue($beforeDeleteBookmark);
-        $this->assertFalse($afterDeleteBookmark);
+        self::assertTrue($beforeDeleteBookmark);
+        self::assertFalse($afterDeleteBookmark);
     }
 
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
+     *
      * @depends testDeleteBookmark
      */
     public function testDeleteBookmarkThrowsInvalidArgumentException()
@@ -143,10 +145,10 @@ class BookmarkServiceTest extends BaseTest
         $bookmarks = $repository->getBookmarkService()->loadBookmarks(1, 3);
         /* END: Use Case */
 
-        $this->assertInstanceOf(BookmarkList::class, $bookmarks);
-        $this->assertEquals($bookmarks->totalCount, 5);
+        self::assertInstanceOf(BookmarkList::class, $bookmarks);
+        self::assertEquals($bookmarks->totalCount, 5);
         // Assert bookmarks order: recently added should be first
-        $this->assertEquals([15, 13, 12], array_map(static function ($location) {
+        self::assertEquals([15, 13, 12], array_map(static function ($location) {
             return $location->id;
         }, $bookmarks->items));
     }

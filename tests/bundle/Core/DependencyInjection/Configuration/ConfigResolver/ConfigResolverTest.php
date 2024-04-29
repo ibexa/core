@@ -48,7 +48,7 @@ abstract class ConfigResolverTest extends TestCase
     {
         $resolver = $this->getResolver(self::DEFAULT_NAMESPACE);
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasParameter')
             ->with(sprintf('%s.%s.undefined', $this->getNamespace(), $this->getScope()))
             ->willReturn(false);
@@ -65,17 +65,17 @@ abstract class ConfigResolverTest extends TestCase
     {
         $globalScopeParameter = sprintf('%s.%s.%s', $this->getNamespace(), $this->getScope(), $paramName);
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasParameter')
             ->with($globalScopeParameter)
             ->willReturn(true);
         $this->containerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with($globalScopeParameter)
             ->willReturn($expectedValue);
 
-        $this->assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
+        self::assertSame($expectedValue, $this->getResolver()->getParameter($paramName));
     }
 
     public function parameterProvider(): array
@@ -109,9 +109,9 @@ abstract class ConfigResolverTest extends TestCase
     {
         $newDefaultNamespace = 'new';
         $configResolver = $this->getResolver();
-        $this->assertSame(self::DEFAULT_NAMESPACE, $configResolver->getDefaultNamespace());
+        self::assertSame(self::DEFAULT_NAMESPACE, $configResolver->getDefaultNamespace());
         $configResolver->setDefaultNamespace($newDefaultNamespace);
-        $this->assertSame($newDefaultNamespace, $configResolver->getDefaultNamespace());
+        self::assertSame($newDefaultNamespace, $configResolver->getDefaultNamespace());
     }
 }
 

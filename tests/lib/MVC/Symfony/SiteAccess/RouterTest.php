@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
@@ -36,10 +37,10 @@ class RouterTest extends RouterBaseTest
     {
         $router = $this->createRouter();
         $sa = $router->match($request);
-        $this->assertInstanceOf(SiteAccess::class, $sa);
-        $this->assertSame($siteAccess, $sa->name);
+        self::assertInstanceOf(SiteAccess::class, $sa);
+        self::assertSame($siteAccess, $sa->name);
         // SiteAccess must be serializable as a whole. See https://issues.ibexa.co/browse/EZP-21613
-        $this->assertIsString(serialize($sa));
+        self::assertIsString(serialize($sa));
         $router->setSiteAccess();
     }
 
@@ -74,9 +75,9 @@ class RouterTest extends RouterBaseTest
         $router = $this->createRouter();
         putenv('EZPUBLISH_SITEACCESS=' . self::ENV_SA_NAME);
         $sa = $router->match(new SimplifiedRequest());
-        $this->assertInstanceOf(SiteAccess::class, $sa);
-        $this->assertSame(self::ENV_SA_NAME, $sa->name);
-        $this->assertSame('env', $sa->matchingType);
+        self::assertInstanceOf(SiteAccess::class, $sa);
+        self::assertSame(self::ENV_SA_NAME, $sa->name);
+        self::assertSame('env', $sa->matchingType);
         $router->setSiteAccess();
     }
 
@@ -92,9 +93,9 @@ class RouterTest extends RouterBaseTest
                 ]
             )
         );
-        $this->assertInstanceOf(SiteAccess::class, $sa);
-        $this->assertSame(self::HEADERBASED_SA_NAME, $sa->name);
-        $this->assertSame('header', $sa->matchingType);
+        self::assertInstanceOf(SiteAccess::class, $sa);
+        self::assertSame(self::HEADERBASED_SA_NAME, $sa->name);
+        self::assertSame('header', $sa->matchingType);
         $router->setSiteAccess();
     }
 
@@ -201,15 +202,15 @@ class RouterTest extends RouterBaseTest
         $matcherInitialSA = $this->createMock(SiteAccess\URILexer::class);
         $router->setSiteAccess(new SiteAccess('test', 'test', $matcherInitialSA));
         $matcherInitialSA
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('analyseURI');
 
         $matcher = $this->createMock(VersatileMatcher::class);
         $matcherBuilder
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('buildMatcher')
             ->will(
-                $this->onConsecutiveCalls(
+                self::onConsecutiveCalls(
                     $this->createMock(Matcher::class),
                     $matcher
                 )
@@ -217,15 +218,15 @@ class RouterTest extends RouterBaseTest
 
         $reverseMatchedMatcher = $this->createMock(VersatileMatcher::class);
         $matcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('reverseMatch')
             ->with($matchedSiteAccess)
-            ->will($this->returnValue($reverseMatchedMatcher));
+            ->will(self::returnValue($reverseMatchedMatcher));
 
         $siteAccess = $router->matchByName($matchedSiteAccess);
-        $this->assertInstanceOf(SiteAccess::class, $siteAccess);
-        $this->assertSame($reverseMatchedMatcher, $siteAccess->matcher);
-        $this->assertSame($matchedSiteAccess, $siteAccess->name);
+        self::assertInstanceOf(SiteAccess::class, $siteAccess);
+        self::assertSame($reverseMatchedMatcher, $siteAccess->matcher);
+        self::assertSame($matchedSiteAccess, $siteAccess->name);
     }
 
     public function testMatchByNameNoVersatileMatcher()
@@ -249,15 +250,15 @@ class RouterTest extends RouterBaseTest
         $router->setSiteAccess(new SiteAccess('test', 'test'));
         $request = $router->getRequest();
         $matcherBuilder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('buildMatcher')
             ->with($matcherClass, $matcherConfig, $request)
-            ->will($this->returnValue($this->createMock(Matcher::class)));
+            ->will(self::returnValue($this->createMock(Matcher::class)));
 
         $logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('notice');
-        $this->assertEquals(new SiteAccess($defaultSiteAccess, 'default'), $router->matchByName($defaultSiteAccess));
+        self::assertEquals(new SiteAccess($defaultSiteAccess, 'default'), $router->matchByName($defaultSiteAccess));
     }
 
     protected function createRouter($debug = false): Router

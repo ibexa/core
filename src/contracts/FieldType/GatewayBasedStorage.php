@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Contracts\Core\FieldType;
 
 use Ibexa\Contracts\Core\Persistence\Content\Field;
@@ -20,12 +21,14 @@ abstract class GatewayBasedStorage implements FieldStorage
      * Field Type External Storage Gateway.
      *
      * @var \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface
+     *
      * @phpstan-var T
      */
     protected $gateway;
 
     /**
      * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
+     *
      * @phpstan-param T $gateway
      */
     public function __construct(StorageGatewayInterface $gateway)

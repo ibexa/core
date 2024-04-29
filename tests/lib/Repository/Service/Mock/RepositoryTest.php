@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
@@ -24,7 +25,7 @@ class RepositoryTest extends BaseServiceMockTest
         $persistenceHandlerMock = $this->getPersistenceMock();
 
         $persistenceHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'beginTransaction'
         );
@@ -43,7 +44,7 @@ class RepositoryTest extends BaseServiceMockTest
         $persistenceHandlerMock = $this->getPersistenceMock();
 
         $persistenceHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'commit'
         );
@@ -64,11 +65,11 @@ class RepositoryTest extends BaseServiceMockTest
         $persistenceHandlerMock = $this->getPersistenceMock();
 
         $persistenceHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'commit'
         )->will(
-            $this->throwException(new \Exception())
+            self::throwException(new \Exception())
         );
 
         $mockedRepository->commit();
@@ -85,7 +86,7 @@ class RepositoryTest extends BaseServiceMockTest
         $persistenceHandlerMock = $this->getPersistenceMock();
 
         $persistenceHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'rollback'
         );
@@ -106,11 +107,11 @@ class RepositoryTest extends BaseServiceMockTest
         $persistenceHandlerMock = $this->getPersistenceMock();
 
         $persistenceHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'rollback'
         )->will(
-            $this->throwException(new \Exception())
+            self::throwException(new \Exception())
         );
 
         $mockedRepository->rollback();

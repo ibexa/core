@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -79,7 +80,7 @@ class EZP28799SubtreeSearchTest extends BaseTest
         $searchService = $this->getRepository()->getSearchService();
         $result = $searchService->findContent($query);
 
-        $this->assertSame(0, $result->totalCount);
+        self::assertSame(0, $result->totalCount);
     }
 
     public function testNegativeSubtree()
@@ -100,7 +101,7 @@ class EZP28799SubtreeSearchTest extends BaseTest
         $searchService = $this->getRepository()->getSearchService();
         $result = $searchService->findContent($query);
 
-        $this->assertSame(0, $result->totalCount);
+        self::assertSame(0, $result->totalCount);
     }
 }
 

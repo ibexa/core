@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Voter;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -32,7 +33,7 @@ class CoreVoterTest extends TestCase
     public function testSupportsAttribute($attribute, $expectedResult)
     {
         $voter = new CoreVoter($this->permissionResolver);
-        $this->assertSame($expectedResult, $voter->supportsAttribute($attribute));
+        self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
 
     public function supportsAttributeProvider()
@@ -60,7 +61,7 @@ class CoreVoterTest extends TestCase
     public function testSupportsClass($class)
     {
         $voter = new CoreVoter($this->permissionResolver);
-        $this->assertTrue($voter->supportsClass($class));
+        self::assertTrue($voter->supportsClass($class));
     }
 
     public function supportsClassProvider()
@@ -79,7 +80,7 @@ class CoreVoterTest extends TestCase
     public function testVoteInvalidAttribute(array $attributes)
     {
         $voter = new CoreVoter($this->permissionResolver);
-        $this->assertSame(
+        self::assertSame(
             VoterInterface::ACCESS_ABSTAIN,
             $voter->vote(
                 $this->createMock(TokenInterface::class),
@@ -117,17 +118,17 @@ class CoreVoterTest extends TestCase
         $voter = new CoreVoter($this->permissionResolver);
         if ($repositoryCanUser !== null) {
             $this->permissionResolver
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('hasAccess')
                 ->with($attribute->module, $attribute->function)
-                ->will($this->returnValue($repositoryCanUser));
+                ->will(self::returnValue($repositoryCanUser));
         } else {
             $this->permissionResolver
-                ->expects($this->never())
+                ->expects(self::never())
                 ->method('hasAccess');
         }
 
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $voter->vote(
                 $this->createMock(TokenInterface::class),

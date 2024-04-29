@@ -51,7 +51,7 @@ class SerializableConverterTest extends TestCase
         $fieldValue->sortKey = 'key';
 
         $this->serializer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('encode')
             ->with($fieldValue->data)
             ->willReturn(self::EXAMPLE_JSON);
@@ -60,21 +60,21 @@ class SerializableConverterTest extends TestCase
 
         $this->converter->toStorageValue($fieldValue, $storageValue);
 
-        $this->assertEquals(self::EXAMPLE_JSON, $storageValue->dataText);
-        $this->assertEquals('key', $storageValue->sortKeyString);
+        self::assertEquals(self::EXAMPLE_JSON, $storageValue->dataText);
+        self::assertEquals('key', $storageValue->sortKeyString);
     }
 
     public function testEmptyToStorageValue(): void
     {
         $this->serializer
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('encode');
 
         $storageValue = new StorageFieldValue();
 
         $this->converter->toStorageValue(new FieldValue(), $storageValue);
 
-        $this->assertNull($storageValue->dataText);
+        self::assertNull($storageValue->dataText);
     }
 
     public function testToFieldValue(): void
@@ -84,7 +84,7 @@ class SerializableConverterTest extends TestCase
         $storageValue->dataText = self::EXAMPLE_JSON;
 
         $this->serializer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('decode')
             ->with(self::EXAMPLE_JSON)
             ->willReturn(self::EXAMPLE_DATA);
@@ -93,22 +93,22 @@ class SerializableConverterTest extends TestCase
 
         $this->converter->toFieldValue($storageValue, $fieldValue);
 
-        $this->assertEquals('key', $fieldValue->sortKey);
-        $this->assertEquals(self::EXAMPLE_DATA, $fieldValue->data);
-        $this->assertNull($fieldValue->externalData);
+        self::assertEquals('key', $fieldValue->sortKey);
+        self::assertEquals(self::EXAMPLE_DATA, $fieldValue->data);
+        self::assertNull($fieldValue->externalData);
     }
 
     public function testEmptyToFieldValue(): void
     {
         $this->serializer
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('decode');
 
         $fieldValue = new FieldValue();
 
         $this->converter->toFieldValue(new StorageFieldValue(), $fieldValue);
 
-        $this->assertNull($fieldValue->data);
+        self::assertNull($fieldValue->data);
     }
 
     public function testToStorageFieldDefinition(): void
@@ -121,7 +121,7 @@ class SerializableConverterTest extends TestCase
         ]);
 
         $this->serializer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('encode')
             ->with(self::EXAMPLE_DATA)
             ->willReturn(self::EXAMPLE_JSON);
@@ -130,20 +130,20 @@ class SerializableConverterTest extends TestCase
 
         $this->converter->toStorageFieldDefinition($fieldDefinition, $storageFieldDefinition);
 
-        $this->assertEquals(self::EXAMPLE_JSON, $storageFieldDefinition->dataText5);
+        self::assertEquals(self::EXAMPLE_JSON, $storageFieldDefinition->dataText5);
     }
 
     public function testEmptyToStorageFieldDefinition(): void
     {
         $this->serializer
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('encode');
 
         $storageFieldDefinition = new StorageFieldDefinition();
 
         $this->converter->toStorageFieldDefinition(new FieldDefinition(), $storageFieldDefinition);
 
-        $this->assertNull($storageFieldDefinition->dataText5);
+        self::assertNull($storageFieldDefinition->dataText5);
     }
 
     public function testToFieldDefinition(): void
@@ -152,7 +152,7 @@ class SerializableConverterTest extends TestCase
         $storageFieldDefinition->dataText5 = self::EXAMPLE_JSON;
 
         $this->serializer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('decode')
             ->with(self::EXAMPLE_JSON)
             ->willReturn(self::EXAMPLE_DATA);
@@ -161,7 +161,7 @@ class SerializableConverterTest extends TestCase
 
         $this->converter->toFieldDefinition($storageFieldDefinition, $fieldDefinition);
 
-        $this->assertEquals(
+        self::assertEquals(
             new FieldSettings(self::EXAMPLE_DATA),
             $fieldDefinition->fieldTypeConstraints->fieldSettings
         );
@@ -170,14 +170,14 @@ class SerializableConverterTest extends TestCase
     public function testEmptyToFieldDefinition(): void
     {
         $this->serializer
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('decode');
 
         $fieldDefinition = new FieldDefinition();
 
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), $fieldDefinition);
 
-        $this->assertNull($fieldDefinition->fieldTypeConstraints->fieldSettings);
+        self::assertNull($fieldDefinition->fieldTypeConstraints->fieldSettings);
     }
 }
 

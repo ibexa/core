@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\PlaceholderProvider;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider\GenericProvider;
@@ -27,7 +28,7 @@ class GenericProviderTest extends TestCase
 
         $imagine = $this->createMock(ImagineInterface::class);
         $imagine
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('font')
             ->willReturnCallback(function ($fontpath, $fontsize, ColorInterface $foreground) use ($options, $font) {
                 $this->assertEquals($options['fontpath'], $fontpath);
@@ -38,14 +39,14 @@ class GenericProviderTest extends TestCase
             });
 
         $font
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('box')
             ->willReturn($this->createMock(BoxInterface::class));
 
         $image = $this->createMock(ImageInterface::class);
 
         $imagine
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('create')
             ->willReturnCallback(function (BoxInterface $size, ColorInterface $background) use ($value, $options, $image) {
                 $this->assertSizeEquals([$value->width, $value->height], $size);
@@ -56,12 +57,12 @@ class GenericProviderTest extends TestCase
 
         $drawer = $this->createMock(DrawerInterface::class);
         $image
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('draw')
             ->willReturn($drawer);
 
         $drawer
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('text')
             ->with($expectedText, $font);
 
@@ -92,13 +93,13 @@ class GenericProviderTest extends TestCase
 
     private function assertSizeEquals(array $expected, BoxInterface $actual)
     {
-        $this->assertEquals($expected[0], $actual->getWidth());
-        $this->assertEquals($expected[1], $actual->getHeight());
+        self::assertEquals($expected[0], $actual->getWidth());
+        self::assertEquals($expected[1], $actual->getHeight());
     }
 
     private function assertColorEquals($expected, ColorInterface $actual)
     {
-        $this->assertEquals(strtolower($expected), strtolower((string)$actual));
+        self::assertEquals(strtolower($expected), strtolower((string)$actual));
     }
 }
 

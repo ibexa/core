@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Cache;
 
 use Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver;
@@ -40,7 +41,7 @@ class ResolverFactoryTest extends TestCase
     public function testCreateProxyCacheResolver()
     {
         $this->configResolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
@@ -48,20 +49,20 @@ class ResolverFactoryTest extends TestCase
         $host = 'http://ibexa.co';
 
         $this->configResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);
 
         $expected = new ProxyResolver($this->resolver, [$host]);
 
-        $this->assertEquals($expected, $this->factory->createCacheResolver());
+        self::assertEquals($expected, $this->factory->createCacheResolver());
     }
 
     public function testCreateRelativeCacheResolver()
     {
         $this->configResolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('hasParameter')
             ->with('image_host')
             ->willReturn(true);
@@ -69,14 +70,14 @@ class ResolverFactoryTest extends TestCase
         $host = '/';
 
         $this->configResolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('getParameter')
             ->with('image_host')
             ->willReturn($host);
 
         $expected = new RelativeResolver($this->resolver);
 
-        $this->assertEquals($expected, $this->factory->createCacheResolver());
+        self::assertEquals($expected, $this->factory->createCacheResolver());
     }
 }
 

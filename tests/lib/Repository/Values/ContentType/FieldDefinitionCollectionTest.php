@@ -26,9 +26,9 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals($a, $collection->get('A'));
-        $this->assertEquals($b, $collection->get('B'));
-        $this->assertEquals($c, $collection->get('C'));
+        self::assertEquals($a, $collection->get('A'));
+        self::assertEquals($b, $collection->get('B'));
+        self::assertEquals($c, $collection->get('C'));
     }
 
     public function testGetThrowsOutOfBoundsExceptionForNonExistingFieldDefinition(): void
@@ -49,9 +49,9 @@ final class FieldDefinitionCollectionTest extends TestCase
             $this->createFieldDefinitions('A', 'B', 'C')
         );
 
-        $this->assertTrue($collection->has('A'));
-        $this->assertTrue($collection->has('B'));
-        $this->assertTrue($collection->has('C'));
+        self::assertTrue($collection->has('A'));
+        self::assertTrue($collection->has('B'));
+        self::assertTrue($collection->has('C'));
     }
 
     public function testHasReturnFalseForNonExistingFieldDefinition(): void
@@ -60,14 +60,14 @@ final class FieldDefinitionCollectionTest extends TestCase
             $this->createFieldDefinitions('A', 'B', 'C')
         );
 
-        $this->assertFalse($collection->has('Z'));
+        self::assertFalse($collection->has('Z'));
     }
 
     public function testIsEmptyReturnsTrueForEmptyCollection(): void
     {
         $collection = new FieldDefinitionCollection();
 
-        $this->assertTrue($collection->isEmpty());
+        self::assertTrue($collection->isEmpty());
     }
 
     public function testIsEmptyReturnsFalseForNonEmptyCollection(): void
@@ -76,7 +76,7 @@ final class FieldDefinitionCollectionTest extends TestCase
             $this->createFieldDefinition('Example'),
         ]);
 
-        $this->assertFalse($collection->isEmpty());
+        self::assertFalse($collection->isEmpty());
     }
 
     public function testFirstThrowsOutOfBoundsExceptionForEmptyCollection(): void
@@ -94,7 +94,7 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals($a, $collection->first());
+        self::assertEquals($a, $collection->first());
     }
 
     public function testLastReturnsFieldDefinitionForNonEmptyCollection(): void
@@ -103,7 +103,7 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals($c, $collection->last());
+        self::assertEquals($c, $collection->last());
     }
 
     public function testLastThrowsOutOfBoundsExceptionForEmptyCollection(): void
@@ -121,8 +121,8 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$fieldDefinition]);
 
-        $this->assertEquals($fieldDefinition, $collection->first());
-        $this->assertEquals($fieldDefinition, $collection->last());
+        self::assertEquals($fieldDefinition, $collection->first());
+        self::assertEquals($fieldDefinition, $collection->last());
     }
 
     public function testCountForNonEmptyCollection(): void
@@ -131,14 +131,14 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals(3, $collection->count());
+        self::assertEquals(3, $collection->count());
     }
 
     public function testCountReturnsZeroForEmptyCollection(): void
     {
         $collection = new FieldDefinitionCollection();
 
-        $this->assertEquals(0, $collection->count());
+        self::assertEquals(0, $collection->count());
     }
 
     public function testMap(): void
@@ -149,7 +149,7 @@ final class FieldDefinitionCollectionTest extends TestCase
             return strtolower($fieldDefinition->identifier);
         };
 
-        $this->assertEquals(['a', 'b', 'c'], $collection->map($closure));
+        self::assertEquals(['a', 'b', 'c'], $collection->map($closure));
     }
 
     public function testFilter(): void
@@ -158,17 +158,17 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals(
+        self::assertEquals(
             new FieldDefinitionCollection([$a, $c]),
             $collection->filter($this->getIdentifierIsEqualPredicate('A', 'C'))
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             new FieldDefinitionCollection(),
             $collection->filter($this->getContraction())
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             new FieldDefinitionCollection([$a, $b, $c]),
             $collection->filter($this->getTautology())
         );
@@ -180,7 +180,7 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals(
+        self::assertEquals(
             new FieldDefinitionCollection([$a, $b]),
             $collection->filterByType('ezstring')
         );
@@ -192,7 +192,7 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals(
+        self::assertEquals(
             new FieldDefinitionCollection([$c]),
             $collection->filterByType('seo')
         );
@@ -202,22 +202,22 @@ final class FieldDefinitionCollectionTest extends TestCase
     {
         $collection = new FieldDefinitionCollection($this->createFieldDefinitions('A', 'B', 'C'));
 
-        $this->assertTrue($collection->all($this->getIdentifierIsEqualPredicate('A', 'B', 'C')));
-        $this->assertFalse($collection->all($this->getIdentifierIsEqualPredicate('A')));
+        self::assertTrue($collection->all($this->getIdentifierIsEqualPredicate('A', 'B', 'C')));
+        self::assertFalse($collection->all($this->getIdentifierIsEqualPredicate('A')));
 
-        $this->assertTrue($collection->all($this->getTautology()));
-        $this->assertFalse($collection->all($this->getContraction()));
+        self::assertTrue($collection->all($this->getTautology()));
+        self::assertFalse($collection->all($this->getContraction()));
     }
 
     public function testAny(): void
     {
         $collection = new FieldDefinitionCollection($this->createFieldDefinitions('A', 'B', 'C'));
 
-        $this->assertTrue($collection->any($this->getIdentifierIsEqualPredicate('A')));
-        $this->assertFalse($collection->any($this->getIdentifierIsEqualPredicate('Z')));
+        self::assertTrue($collection->any($this->getIdentifierIsEqualPredicate('A')));
+        self::assertFalse($collection->any($this->getIdentifierIsEqualPredicate('Z')));
 
-        $this->assertTrue($collection->any($this->getTautology()));
-        $this->assertFalse($collection->any($this->getContraction()));
+        self::assertTrue($collection->any($this->getTautology()));
+        self::assertFalse($collection->any($this->getContraction()));
     }
 
     public function testAnyOfType(): void
@@ -226,8 +226,8 @@ final class FieldDefinitionCollectionTest extends TestCase
             $this->createFieldDefinitionsWith('fieldTypeIdentifier', ['ezstring', 'ezstring', 'ezimage'])
         );
 
-        $this->assertTrue($collection->anyOfType('ezstring'));
-        $this->assertFalse($collection->anyOfType('ezrichtext'));
+        self::assertTrue($collection->anyOfType('ezstring'));
+        self::assertFalse($collection->anyOfType('ezrichtext'));
     }
 
     public function testAnyInGroup(): void
@@ -236,8 +236,8 @@ final class FieldDefinitionCollectionTest extends TestCase
             $this->createFieldDefinitionsWith('fieldGroup', ['default', 'default', 'seo'])
         );
 
-        $this->assertTrue($collection->anyInGroup('default'));
-        $this->assertFalse($collection->anyInGroup('comments'));
+        self::assertTrue($collection->anyInGroup('default'));
+        self::assertFalse($collection->anyInGroup('comments'));
     }
 
     public function testPartition(): void
@@ -246,7 +246,7 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection([$a, $b, $c]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new FieldDefinitionCollection([$a, $c]),
                 new FieldDefinitionCollection([$b]),
@@ -254,7 +254,7 @@ final class FieldDefinitionCollectionTest extends TestCase
             $collection->partition($this->getIdentifierIsEqualPredicate('A', 'C'))
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new FieldDefinitionCollection([$a, $b, $c]),
                 new FieldDefinitionCollection(),
@@ -262,7 +262,7 @@ final class FieldDefinitionCollectionTest extends TestCase
             $collection->partition($this->getTautology())
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new FieldDefinitionCollection(),
                 new FieldDefinitionCollection([$a, $b, $c]),
@@ -277,7 +277,7 @@ final class FieldDefinitionCollectionTest extends TestCase
 
         $collection = new FieldDefinitionCollection($fieldDefinitions);
 
-        $this->assertEquals($fieldDefinitions, $collection->toArray());
+        self::assertEquals($fieldDefinitions, $collection->toArray());
     }
 
     private function createFieldDefinitions(string ...$identifiers): array

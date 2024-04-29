@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -11,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation
+ *
  * @group integration
  * @group limitation
  */
@@ -68,7 +70,7 @@ class SectionLimitationTest extends BaseLimitationTest
         $images = $contentService->loadContentByRemoteId('e7ff633c6b8e0fd3531e74c6e712bead');
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             'Images',
             $images->getFieldValue('name')->text
         );

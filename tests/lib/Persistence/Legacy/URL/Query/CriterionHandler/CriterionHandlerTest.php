@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
@@ -28,7 +29,7 @@ abstract class CriterionHandlerTest extends TestCase
      */
     protected function assertHandlerAcceptsCriterion(CriterionHandler $handler, $criterionClass)
     {
-        $this->assertTrue($handler->accept($this->createMock($criterionClass)));
+        self::assertTrue($handler->accept($this->createMock($criterionClass)));
     }
 
     /**
@@ -39,7 +40,7 @@ abstract class CriterionHandlerTest extends TestCase
      */
     protected function assertHandlerRejectsCriterion(CriterionHandler $handler, $criterionClass)
     {
-        $this->assertFalse($handler->accept($this->createMock($criterionClass)));
+        self::assertFalse($handler->accept($this->createMock($criterionClass)));
     }
 
     /**
@@ -63,23 +64,23 @@ abstract class CriterionHandlerTest extends TestCase
         );
         $expressionBuilder = $this->createMock(ExpressionBuilder::class);
         $expressionBuilder
-            ->expects($this->any())
+            ->expects(self::any())
             ->method($expressionBuilderMethod)
             ->with($fooExpr, $barExpr)
             ->willReturn($compositeExpression);
         $queryBuilder
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('expr')
             ->willReturn($expressionBuilder);
 
         $converter = $this->createMock(CriteriaConverter::class);
         $converter
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('convertCriteria')
             ->with($queryBuilder, $foo)
             ->willReturn($fooExpr);
         $converter
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('convertCriteria')
             ->with($queryBuilder, $bar)
             ->willReturn($barExpr);

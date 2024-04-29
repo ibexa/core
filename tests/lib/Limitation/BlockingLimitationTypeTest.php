@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -44,6 +45,7 @@ class BlockingLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValue
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation $limitation
@@ -66,6 +68,7 @@ class BlockingLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValueException
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
@@ -124,8 +127,8 @@ class BlockingLimitationTypeTest extends Base
     public function testValidateError(BlockingLimitation $limitation, $errorCount)
     {
         $this->getPersistenceMock()
-                ->expects($this->never())
-                ->method($this->anything());
+                ->expects(self::never())
+                ->method(self::anything());
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
         $limitationType = $this->testConstruct();
@@ -201,13 +204,13 @@ class BlockingLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $value = $limitationType->evaluate(
             $limitation,
@@ -249,13 +252,13 @@ class BlockingLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $v = $limitationType->evaluate(
             $limitation,

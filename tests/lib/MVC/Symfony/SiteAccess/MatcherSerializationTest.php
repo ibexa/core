@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
@@ -25,7 +26,7 @@ class MatcherSerializationTest extends TestCase
         $unserializedMatcher = $this->deserializeMatcher($serializedMatcher, get_class($matcher));
         $expected = $expected ?? $matcher;
 
-        $this->assertEquals($expected, $unserializedMatcher);
+        self::assertEquals($expected, $unserializedMatcher);
     }
 
     /**

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\SiteAccessListener;
@@ -33,7 +34,7 @@ class SiteAccessListenerTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 MVCEvents::SITEACCESS => ['onSiteAccessMatch', 255],
             ],
@@ -74,10 +75,10 @@ class SiteAccessListenerTest extends TestCase
             $semanticPathinfo = substr($uri, $semanticPathinfoPos);
             $matcher = $this->createMock(SiteAccess\URILexer::class);
             $matcher
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('analyseURI')
                 ->with($uri)
-                ->will($this->returnValue($semanticPathinfo));
+                ->will(self::returnValue($semanticPathinfo));
         } else {
             $matcher = $this->createMock(SiteAccess\Matcher::class);
         }

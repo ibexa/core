@@ -36,7 +36,7 @@ final class PagerfantaTest extends TestCase
 
         $this->adapter->method('getAggregations')->willReturn($aggregations);
 
-        $this->assertEquals(
+        self::assertEquals(
             $aggregations,
             $this->pagerfanta->getAggregations()
         );
@@ -46,7 +46,7 @@ final class PagerfantaTest extends TestCase
     {
         $this->adapter->method('getTime')->willReturn(self::EXAMPLE_TIME_RESULT);
 
-        $this->assertEquals(
+        self::assertEquals(
             self::EXAMPLE_TIME_RESULT,
             $this->pagerfanta->getTime()
         );
@@ -56,7 +56,7 @@ final class PagerfantaTest extends TestCase
     {
         $this->adapter->method('getTimedOut')->willReturn(true);
 
-        $this->assertTrue(
+        self::assertTrue(
             $this->pagerfanta->getTimedOut()
         );
     }
@@ -65,7 +65,7 @@ final class PagerfantaTest extends TestCase
     {
         $this->adapter->method('getMaxScore')->willReturn(self::EXAMPLE_MAX_SCORE_RESULT);
 
-        $this->assertEquals(
+        self::assertEquals(
             self::EXAMPLE_MAX_SCORE_RESULT,
             $this->pagerfanta->getMaxScore()
         );

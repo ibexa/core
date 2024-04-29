@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Image;
@@ -19,7 +20,7 @@ class ImageTest extends AbstractParserTestCase
         parent::setUp();
 
         if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
-            $this->markTestSkipped('Missing or mis-configured Imagemagick convert path.');
+            self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
         }
     }
 

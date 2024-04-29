@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View;
 
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderInterface;
@@ -18,12 +19,12 @@ class ParameterProviderRegistryTest extends TestCase
     public function testSetHasParameterProvider()
     {
         $registry = new ParameterProviderRegistry();
-        $this->assertFalse($registry->hasParameterProvider('foo'));
+        self::assertFalse($registry->hasParameterProvider('foo'));
         $registry->setParameterProvider(
             $this->createMock(ParameterProviderInterface::class),
             'foo'
         );
-        $this->assertTrue($registry->hasParameterProvider('foo'));
+        self::assertTrue($registry->hasParameterProvider('foo'));
     }
 
     public function testGetParameterProviderFail()
@@ -39,7 +40,7 @@ class ParameterProviderRegistryTest extends TestCase
         $provider = $this->createMock(ParameterProviderInterface::class);
         $registry = new ParameterProviderRegistry();
         $registry->setParameterProvider($provider, 'foo');
-        $this->assertSame($provider, $registry->getParameterProvider('foo'));
+        self::assertSame($provider, $registry->getParameterProvider('foo'));
     }
 }
 

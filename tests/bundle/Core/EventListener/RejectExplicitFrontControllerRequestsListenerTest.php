@@ -34,7 +34,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
 
     public function testSubscribedEvents(): void
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 KernelEvents::REQUEST => [
                     ['onKernelRequest', 255],
@@ -46,6 +46,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
 
     /**
      * @dataProvider validRequestDataProvider
+     *
      * @doesNotPerformAssertions
      */
     public function testOnKernelRequest(Request $request): void

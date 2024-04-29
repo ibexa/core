@@ -79,15 +79,15 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         $item = $this->createCacheItem('first');
 
         $this->innerPool
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItem')
             ->with('first')
             ->willReturn($item);
 
-        $this->inMemory->expects($this->never())->method($this->anything());
+        $this->inMemory->expects(self::never())->method(self::anything());
 
         $returnedItem = $this->cache->getItem('first');
-        $this->assertSame($item, $returnedItem);
+        self::assertSame($item, $returnedItem);
     }
 
     public function testGetItems()
@@ -98,15 +98,15 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         ];
 
         $this->innerPool
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItems')
             ->with(['first', 'second'])
             ->willReturn($items);
 
-        $this->inMemory->expects($this->never())->method($this->anything());
+        $this->inMemory->expects(self::never())->method(self::anything());
 
         $returnedItems = $this->cache->getItems(['first', 'second']);
-        $this->assertSame($items, $returnedItems);
+        self::assertSame($items, $returnedItems);
     }
 
     /**
@@ -120,28 +120,28 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         ];
 
         $this->innerPool
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getItems')
             ->with(['first', 'second'])
             ->willReturn($this->arrayAsGenerator($items));
 
-        $this->inMemory->expects($this->never())->method($this->anything());
+        $this->inMemory->expects(self::never())->method(self::anything());
 
         $returnedItems = iterator_to_array($this->cache->getItems(['first', 'second']));
-        $this->assertSame($items, $returnedItems);
+        self::assertSame($items, $returnedItems);
     }
 
     public function testHasItem()
     {
         $this->innerPool
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasItem')
             ->with('first')
             ->willReturn(true);
 
-        $this->inMemory->expects($this->never())->method($this->anything());
+        $this->inMemory->expects(self::never())->method(self::anything());
 
-        $this->assertTrue($this->cache->hasItem('first'));
+        self::assertTrue($this->cache->hasItem('first'));
     }
 
     /**
@@ -150,18 +150,18 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     public function testDelete(string $method, $argument)
     {
         $this->innerPool
-            ->expects($this->once())
+            ->expects(self::once())
             ->method($method)
             ->with($argument)
             ->willReturn(true);
 
         $this->inMemory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteMulti')
             ->with(is_array($argument) ? $argument : [$argument]);
 
         // invalidate it
-        $this->assertTrue($this->cache->$method($argument));
+        self::assertTrue($this->cache->$method($argument));
     }
 
     public function providerForDelete(): array
@@ -182,23 +182,23 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     {
         if ($argument) {
             $this->innerPool
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method($method)
                 ->with($argument)
                 ->willReturn(true);
         } else {
             $this->innerPool
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method($method)
                 ->willReturn(true);
         }
 
         $this->inMemory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('clear');
 
         // invalidate it
-        $this->assertTrue($this->cache->$method($argument));
+        self::assertTrue($this->cache->$method($argument));
     }
 
     public function providerForClearAndInvalidation(): array

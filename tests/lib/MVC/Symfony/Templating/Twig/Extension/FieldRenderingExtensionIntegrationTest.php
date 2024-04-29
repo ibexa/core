@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -140,10 +141,10 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
     {
         $mock = $this->createMock(ConfigResolverInterface::class);
         // Signature: ConfigResolverInterface->getParameter( $paramName, $namespace = null, $scope = null )
-        $mock->expects($this->any())
+        $mock->expects(self::any())
             ->method('getParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         [
                             'languages',

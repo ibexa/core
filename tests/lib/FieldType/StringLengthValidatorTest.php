@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
@@ -42,7 +43,7 @@ class StringLengthValidatorTest extends TestCase
      */
     public function testConstructor()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Validator::class,
             new StringLengthValidator()
         );
@@ -64,8 +65,8 @@ class StringLengthValidatorTest extends TestCase
         $validator->initializeWithConstraints(
             $constraints
         );
-        $this->assertSame($constraints['minStringLength'], $validator->minStringLength);
-        $this->assertSame($constraints['maxStringLength'], $validator->maxStringLength);
+        self::assertSame($constraints['minStringLength'], $validator->minStringLength);
+        self::assertSame($constraints['maxStringLength'], $validator->maxStringLength);
     }
 
     /**
@@ -86,7 +87,7 @@ class StringLengthValidatorTest extends TestCase
             ],
         ];
         $validator = new StringLengthValidator();
-        $this->assertSame($constraintsSchema, $validator->getConstraintsSchema());
+        self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
     /**
@@ -104,8 +105,8 @@ class StringLengthValidatorTest extends TestCase
         $validator = new StringLengthValidator();
         $validator->minStringLength = $constraints['minStringLength'];
         $validator->maxStringLength = $constraints['maxStringLength'];
-        $this->assertSame($constraints['minStringLength'], $validator->minStringLength);
-        $this->assertSame($constraints['maxStringLength'], $validator->maxStringLength);
+        self::assertSame($constraints['minStringLength'], $validator->minStringLength);
+        self::assertSame($constraints['maxStringLength'], $validator->maxStringLength);
     }
 
     /**
@@ -156,6 +157,7 @@ class StringLengthValidatorTest extends TestCase
      * Tests validating a correct value.
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
@@ -164,8 +166,8 @@ class StringLengthValidatorTest extends TestCase
         $validator = new StringLengthValidator();
         $validator->minStringLength = 5;
         $validator->maxStringLength = 10;
-        $this->assertTrue($validator->validate(new TextLineValue($value)));
-        $this->assertSame([], $validator->getMessage());
+        self::assertTrue($validator->validate(new TextLineValue($value)));
+        self::assertSame([], $validator->getMessage());
     }
 
     public function providerForValidateOK()
@@ -182,6 +184,7 @@ class StringLengthValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator::validate
      */
     public function testValidateWrongValues($value, $messageSingular, $messagePlural, $values)
@@ -189,26 +192,26 @@ class StringLengthValidatorTest extends TestCase
         $validator = new StringLengthValidator();
         $validator->minStringLength = $this->getMinStringLength();
         $validator->maxStringLength = $this->getMaxStringLength();
-        $this->assertFalse($validator->validate(new TextLineValue($value)));
+        self::assertFalse($validator->validate(new TextLineValue($value)));
         $messages = $validator->getMessage();
-        $this->assertCount(1, $messages);
-        $this->assertInstanceOf(
+        self::assertCount(1, $messages);
+        self::assertInstanceOf(
             ValidationError::class,
             $messages[0]
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Plural::class,
             $messages[0]->getTranslatableMessage()
         );
-        $this->assertEquals(
+        self::assertEquals(
             $messageSingular,
             $messages[0]->getTranslatableMessage()->singular
         );
-        $this->assertEquals(
+        self::assertEquals(
             $messagePlural,
             $messages[0]->getTranslatableMessage()->plural
         );
-        $this->assertEquals(
+        self::assertEquals(
             $values,
             $messages[0]->getTranslatableMessage()->values
         );
@@ -248,13 +251,14 @@ class StringLengthValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
     {
         $validator = new StringLengthValidator();
 
-        $this->assertEmpty(
+        self::assertEmpty(
             $validator->validateConstraints($constraints)
         );
     }
@@ -294,6 +298,7 @@ class StringLengthValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
@@ -302,15 +307,15 @@ class StringLengthValidatorTest extends TestCase
         $messages = $validator->validateConstraints($constraints);
 
         foreach ($expectedMessages as $index => $expectedMessage) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 Message::class,
                 $messages[0]->getTranslatableMessage()
             );
-            $this->assertEquals(
+            self::assertEquals(
                 $expectedMessage,
                 $messages[$index]->getTranslatableMessage()->message
             );
-            $this->assertEquals(
+            self::assertEquals(
                 $values[$index],
                 $messages[$index]->getTranslatableMessage()->values
             );

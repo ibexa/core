@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
@@ -130,10 +131,10 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     {
         $mock = $this->createMock(ConfigResolverInterface::class);
         // Signature: ConfigResolverInterface->getParameter( $paramName, $namespace = null, $scope = null )
-        $mock->expects($this->any())
+        $mock->expects(self::any())
             ->method('getParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         [
                             'languages',
@@ -163,9 +164,9 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         $field = new Field(['fieldDefIdentifier' => 'testfield', 'value' => null]);
 
         $this->fieldHelperMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isFieldEmpty')
-            ->will($this->returnValue($isEmpty));
+            ->will(self::returnValue($isEmpty));
 
         return $field;
     }
@@ -177,9 +178,9 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     {
         $mock = $this->createMock(Repository::class);
 
-        $mock->expects($this->any())
+        $mock->expects(self::any())
             ->method('getContentTypeService')
-            ->will($this->returnValue($this->getContentTypeServiceMock()));
+            ->will(self::returnValue($this->getContentTypeServiceMock()));
 
         return $mock;
     }
@@ -191,10 +192,10 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     {
         $mock = $this->createMock(ContentTypeService::class);
 
-        $mock->expects($this->any())
+        $mock->expects(self::any())
             ->method('loadContentType')
             ->will(
-                $this->returnCallback(
+                self::returnCallback(
                     function ($contentTypeId) {
                         return new ContentType(
                             [

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
@@ -66,7 +67,7 @@ class EZP20018LanguageTest extends BaseTest
 
         $setupFactory = $this->getSetupFactory();
         if ($setupFactory instanceof LegacySetupFactory) {
-            $this->markTestSkipped('Skipped on Solr as it is not clear that SPI search should have to validate Criterion values, in this case language code');
+            self::markTestSkipped('Skipped on Solr as it is not clear that SPI search should have to validate Criterion values, in this case language code');
         }
 
         $query = new Query();
@@ -83,8 +84,8 @@ class EZP20018LanguageTest extends BaseTest
         $query->filter = new LanguageCode(['por-PT'], false);
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
-        $this->assertEquals(1, $results->totalCount);
-        $this->assertCount(1, $results->searchHits);
+        self::assertEquals(1, $results->totalCount);
+        self::assertCount(1, $results->searchHits);
     }
 
     /**
@@ -97,8 +98,8 @@ class EZP20018LanguageTest extends BaseTest
         $query->limit = 50;
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
-        $this->assertEquals(16, $results->totalCount);
-        $this->assertEquals($results->totalCount, count($results->searchHits));
+        self::assertEquals(16, $results->totalCount);
+        self::assertEquals($results->totalCount, count($results->searchHits));
     }
 
     /**
@@ -110,8 +111,8 @@ class EZP20018LanguageTest extends BaseTest
         $query->filter = new LanguageCode(['eng-GB'], false);
         $results = $this->getRepository()->getSearchService()->findContent($query);
 
-        $this->assertEquals(2, $results->totalCount);
-        $this->assertEquals($results->totalCount, count($results->searchHits));
+        self::assertEquals(2, $results->totalCount);
+        self::assertEquals($results->totalCount, count($results->searchHits));
     }
 }
 

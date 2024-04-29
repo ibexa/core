@@ -22,7 +22,7 @@ abstract class BaseParallelTestCase extends BaseTest
         $dbms = $connection->getDatabasePlatform()->getName();
 
         if ($dbms == 'sqlite') {
-            $this->markTestSkipped('Can not run parallel test on sqlite');
+            self::markTestSkipped('Can not run parallel test on sqlite');
         }
     }
 

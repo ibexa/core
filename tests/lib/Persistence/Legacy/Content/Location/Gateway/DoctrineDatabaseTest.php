@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location\Gateway;
 
 use Doctrine\DBAL\FetchMode;
@@ -126,7 +127,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $locationsData = $gateway->loadParentLocationsDataForDraftContent(226);
 
-        $this->assertCount(1, $locationsData);
+        self::assertCount(1, $locationsData);
 
         $locationRow = reset($locationsData);
 
@@ -141,7 +142,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         $locationsData = $gateway->loadLocationDataByContent(75, 3);
 
-        $this->assertCount(0, $locationsData);
+        self::assertCount(0, $locationsData);
     }
 
     public function testMoveSubtreePathUpdate()
@@ -613,12 +614,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocation
+     *
      * @dataProvider getCreateLocationValues
      */
     public function testCreateLocationValues($field, $value)
     {
         if ($value === null) {
-            $this->markTestIncomplete('Proper value setting yet unknown.');
+            self::markTestIncomplete('Proper value setting yet unknown.');
         }
 
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -672,12 +674,13 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocation
+     *
      * @dataProvider getCreateLocationReturnValues
      */
     public function testCreateLocationReturnValues($field, $value)
     {
         if ($value === null) {
-            $this->markTestIncomplete('Proper value setting yet unknown.');
+            self::markTestIncomplete('Proper value setting yet unknown.');
         }
 
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -701,8 +704,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ]
         );
 
-        $this->assertTrue($location instanceof Location);
-        $this->assertEquals($value, $location->$field);
+        self::assertTrue($location instanceof Location);
+        self::assertEquals($value, $location->$field);
     }
 
     public static function getUpdateLocationData()
@@ -821,6 +824,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocation
+     *
      * @dataProvider getNodeAssignmentValues
      *
      * @param string $field
@@ -994,6 +998,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
     /**
      * @depends      testCreateLocationNodeAssignmentCreation
+     *
      * @dataProvider getConvertNodeAssignmentsLocationValues
      */
     public function testConvertNodeAssignments($field, $value)
@@ -1044,7 +1049,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         if ($field === 'modified_subnode') {
             $statement = $query->execute();
             $result = $statement->fetch(FetchMode::ASSOCIATIVE);
-            $this->assertGreaterThanOrEqual($value, $result);
+            self::assertGreaterThanOrEqual($value, $result);
         } else {
             $this->assertQueryResult(
                 [[$value]],
@@ -1369,11 +1374,11 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getLocationGateway();
         $childrenRows = $gateway->getChildren(213);
 
-        $this->assertCount(2, $childrenRows);
-        $this->assertCount(16, $childrenRows[0]);
-        $this->assertEquals(214, $childrenRows[0]['node_id']);
-        $this->assertCount(16, $childrenRows[1]);
-        $this->assertEquals(215, $childrenRows[1]['node_id']);
+        self::assertCount(2, $childrenRows);
+        self::assertCount(16, $childrenRows[0]);
+        self::assertEquals(214, $childrenRows[0]['node_id']);
+        self::assertCount(16, $childrenRows[1]);
+        self::assertEquals(215, $childrenRows[1]['node_id']);
     }
 
     /**
@@ -1418,9 +1423,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway = $this->getLocationGateway();
         $data = $gateway->getFallbackMainNodeData(12, 13);
 
-        $this->assertEquals(228, $data['node_id']);
-        $this->assertEquals(1, $data['contentobject_version']);
-        $this->assertEquals(227, $data['parent_node_id']);
+        self::assertEquals(228, $data['node_id']);
+        self::assertEquals(1, $data['contentobject_version']);
+        self::assertEquals(227, $data['parent_node_id']);
     }
 
     /**
@@ -1435,7 +1440,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
 
         try {
             $gateway->getBasicNodeData(13);
-            $this->fail('Location was not deleted!');
+            self::fail('Location was not deleted!');
         } catch (NotFoundException $e) {
             // Do nothing
         }

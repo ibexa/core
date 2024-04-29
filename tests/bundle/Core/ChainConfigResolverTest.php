@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
@@ -26,14 +27,14 @@ class ChainConfigResolverTest extends TestCase
 
     public function testPriority()
     {
-        $this->assertEquals([], $this->chainResolver->getAllResolvers());
+        self::assertEquals([], $this->chainResolver->getAllResolvers());
 
         list($low, $high) = $this->createResolverMocks();
 
         $this->chainResolver->addResolver($low, 10);
         $this->chainResolver->addResolver($high, 100);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 $high,
                 $low,
@@ -55,10 +56,10 @@ class ChainConfigResolverTest extends TestCase
             ['sortResolvers']
         );
         $resolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('sortResolvers')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [$high, $medium, $low]
                 )
             );
@@ -69,7 +70,7 @@ class ChainConfigResolverTest extends TestCase
         $expectedSortedRouters = [$high, $medium, $low];
         // Let's get all routers 5 times, we should only sort once.
         for ($i = 0; $i < 5; ++$i) {
-            $this->assertSame($expectedSortedRouters, $resolver->getAllResolvers());
+            self::assertSame($expectedSortedRouters, $resolver->getAllResolvers());
         }
     }
 
@@ -86,19 +87,19 @@ class ChainConfigResolverTest extends TestCase
             ['sortResolvers']
         );
         $resolver
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('sortResolvers')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [$high, $medium, $low]
                 )
             );
         // The second time sortResolvers() is called, we're supposed to get the newly added router ($highest)
         $resolver
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('sortResolvers')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [$highest, $high, $medium, $low]
                 )
             );
@@ -106,14 +107,14 @@ class ChainConfigResolverTest extends TestCase
         $resolver->addResolver($low, 10);
         $resolver->addResolver($medium, 50);
         $resolver->addResolver($high, 100);
-        $this->assertSame(
+        self::assertSame(
             [$high, $medium, $low],
             $resolver->getAllResolvers()
         );
 
         // Now adding another resolver on the fly, sorting must have been reset
         $resolver->addResolver($highest, 101);
-        $this->assertSame(
+        self::assertSame(
             [$highest, $high, $medium, $low],
             $resolver->getAllResolvers()
         );
@@ -131,7 +132,7 @@ class ChainConfigResolverTest extends TestCase
         $namespace = 'foo';
         foreach ($this->createResolverMocks() as $i => $resolver) {
             $resolver
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('setDefaultNamespace')
                 ->with($namespace);
             $this->chainResolver->addResolver($resolver, $i);
@@ -149,10 +150,10 @@ class ChainConfigResolverTest extends TestCase
         $scope = 'scope';
         foreach ($this->createResolverMocks() as $resolver) {
             $resolver
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('getParameter')
                 ->with($paramName, $namespace, $scope)
-                ->will($this->throwException(new ParameterNotFoundException($paramName, $namespace)));
+                ->will(self::throwException(new ParameterNotFoundException($paramName, $namespace)));
             $this->chainResolver->addResolver($resolver);
         }
 
@@ -171,13 +172,13 @@ class ChainConfigResolverTest extends TestCase
     {
         $resolver = $this->createMock(ConfigResolverInterface::class);
         $resolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with($paramName, $namespace, $scope)
-            ->will($this->returnValue($expectedValue));
+            ->will(self::returnValue($expectedValue));
 
         $this->chainResolver->addResolver($resolver);
-        $this->assertSame($expectedValue, $this->chainResolver->getParameter($paramName, $namespace, $scope));
+        self::assertSame($expectedValue, $this->chainResolver->getParameter($paramName, $namespace, $scope));
     }
 
     public function getParameterProvider()
@@ -198,27 +199,27 @@ class ChainConfigResolverTest extends TestCase
 
         $resolver1 = $this->createMock(ConfigResolverInterface::class);
         $resolver1
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasParameter')
             ->with($paramName, $namespace, $scope)
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
         $this->chainResolver->addResolver($resolver1);
 
         $resolver2 = $this->createMock(ConfigResolverInterface::class);
         $resolver2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasParameter')
             ->with($paramName, $namespace, $scope)
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
         $this->chainResolver->addResolver($resolver2);
 
         $resolver3 = $this->createMock(ConfigResolverInterface::class);
         $resolver3
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('hasParameter');
         $this->chainResolver->addResolver($resolver3);
 
-        $this->assertTrue($this->chainResolver->hasParameter($paramName, $namespace, $scope));
+        self::assertTrue($this->chainResolver->hasParameter($paramName, $namespace, $scope));
     }
 
     public function testHasParameterFalse()
@@ -229,13 +230,13 @@ class ChainConfigResolverTest extends TestCase
 
         $resolver = $this->createMock(ConfigResolverInterface::class);
         $resolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasParameter')
             ->with($paramName, $namespace, $scope)
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
         $this->chainResolver->addResolver($resolver);
 
-        $this->assertFalse($this->chainResolver->hasParameter($paramName, $namespace, $scope));
+        self::assertFalse($this->chainResolver->hasParameter($paramName, $namespace, $scope));
     }
 
     /**

@@ -36,7 +36,7 @@ class TrashServiceDecoratorTest extends TestCase
 
         $parameters = [1];
 
-        $serviceMock->expects($this->once())->method('loadTrashItem')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('loadTrashItem')->with(...$parameters);
 
         $decoratedService->loadTrashItem(...$parameters);
     }
@@ -48,7 +48,7 @@ class TrashServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Location::class)];
 
-        $serviceMock->expects($this->once())->method('trash')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('trash')->with(...$parameters);
 
         $decoratedService->trash(...$parameters);
     }
@@ -63,7 +63,7 @@ class TrashServiceDecoratorTest extends TestCase
             $this->createMock(Location::class),
         ];
 
-        $serviceMock->expects($this->once())->method('recover')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('recover')->with(...$parameters);
 
         $decoratedService->recover(...$parameters);
     }
@@ -75,7 +75,7 @@ class TrashServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects($this->once())->method('emptyTrash')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('emptyTrash')->with(...$parameters);
 
         $decoratedService->emptyTrash(...$parameters);
     }
@@ -87,7 +87,7 @@ class TrashServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(TrashItem::class)];
 
-        $serviceMock->expects($this->once())->method('deleteTrashItem')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('deleteTrashItem')->with(...$parameters);
 
         $decoratedService->deleteTrashItem(...$parameters);
     }
@@ -99,7 +99,7 @@ class TrashServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(Query::class)];
 
-        $serviceMock->expects($this->once())->method('findTrashItems')->with(...$parameters);
+        $serviceMock->expects(self::once())->method('findTrashItems')->with(...$parameters);
 
         $decoratedService->findTrashItems(...$parameters);
     }

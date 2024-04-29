@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\ContentDownloadRouteReferenceListener;
@@ -101,9 +102,9 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
 
         $this
             ->translationHelperMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslatedField')
-            ->will($this->returnValue($content->getField('file', 'eng-GB')));
+            ->will(self::returnValue($content->getField('file', 'eng-GB')));
         $eventListener->onRouteReferenceGeneration($event);
 
         self::assertEquals('42', $routeReference->get(ContentDownloadRouteReferenceListener::OPT_CONTENT_ID));

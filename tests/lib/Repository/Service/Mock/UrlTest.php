@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use DateTime;
@@ -93,12 +94,12 @@ class UrlTest extends BaseServiceMockTest
         ]);
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with($query)
             ->willReturn($results);
 
-        $this->assertEquals($expected, $this->createUrlService()->findUrls($query));
+        self::assertEquals($expected, $this->createUrlService()->findUrls($query));
     }
 
     public function testUpdateUrlUnauthorized()
@@ -126,7 +127,7 @@ class UrlTest extends BaseServiceMockTest
 
         $urlService = $this->createUrlService(['isUnique']);
         $urlService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isUnique')
             ->with($url->id, $struct->url)
             ->willReturn(false);
@@ -151,13 +152,13 @@ class UrlTest extends BaseServiceMockTest
 
         $urlService = $this->createUrlService(['isUnique']);
         $urlService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isUnique')
             ->with($apiUrl->id, $apiStruct->url)
             ->willReturn(true);
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('updateUrl')
             ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct) {
                 $this->assertEquals($apiUrl->id, $id);
@@ -185,7 +186,7 @@ class UrlTest extends BaseServiceMockTest
                 ])
             );
 
-        $this->assertEquals(new URL([
+        self::assertEquals(new URL([
             'id' => $apiUrl->id,
             'url' => $apiStruct->url,
             'isValid' => true,
@@ -217,7 +218,7 @@ class UrlTest extends BaseServiceMockTest
         $urlService = $this->createUrlService(['isUnique']);
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('updateUrl')
             ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct) {
                 $this->assertEquals($apiUrl->id, $id);
@@ -245,7 +246,7 @@ class UrlTest extends BaseServiceMockTest
                 ])
             );
 
-        $this->assertEquals(new URL([
+        self::assertEquals(new URL([
             'id' => $apiUrl->id,
             'url' => $apiUrl->url,
             'isValid' => $apiStruct->isValid,
@@ -265,7 +266,7 @@ class UrlTest extends BaseServiceMockTest
         );
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadById')
             ->with(self::URL_ID)
             ->willReturn(new SpiUrl([
@@ -284,14 +285,14 @@ class UrlTest extends BaseServiceMockTest
         $this->configureUrlViewPermission($url, true);
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadById')
             ->with(self::URL_ID)
             ->willReturn(new SpiUrl([
                 'id' => self::URL_ID,
             ]));
 
-        $this->assertEquals($url, $this->createUrlService()->loadById(self::URL_ID));
+        self::assertEquals($url, $this->createUrlService()->loadById(self::URL_ID));
     }
 
     public function testLoadByUrlUnauthorized()
@@ -308,7 +309,7 @@ class UrlTest extends BaseServiceMockTest
         );
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByUrl')
             ->with($url)
             ->willReturn(new SpiUrl([
@@ -329,14 +330,14 @@ class UrlTest extends BaseServiceMockTest
         $this->configureUrlViewPermission($apiUrl, true);
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadByUrl')
             ->with($url)
             ->willReturn(new SpiUrl([
                 'url' => $url,
             ]));
 
-        $this->assertEquals($apiUrl, $this->createUrlService()->loadByUrl($url));
+        self::assertEquals($apiUrl, $this->createUrlService()->loadByUrl($url));
     }
 
     /**
@@ -349,7 +350,7 @@ class UrlTest extends BaseServiceMockTest
         if (!empty($usages)) {
             $searchService = $this->createMock(SearchService::class);
             $searchService
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('findContentInfo')
                 ->willReturnCallback(function ($query) use ($expectedQuery, $usages) {
                     $this->assertEquals($expectedQuery, $query);
@@ -367,23 +368,23 @@ class UrlTest extends BaseServiceMockTest
                 });
 
             $this->getRepositoryMock()
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('getSearchService')
                 ->willReturn($searchService);
         }
 
         $this->urlHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findUsages')
             ->with($url->id)
             ->willReturn($usages);
 
         $usageSearchResult = $this->createUrlService()->findUsages($url, $offset, $limit);
 
-        $this->assertInstanceOf(UsageSearchResult::class, $usageSearchResult);
-        $this->assertEquals(count($usages), $usageSearchResult->totalCount);
+        self::assertInstanceOf(UsageSearchResult::class, $usageSearchResult);
+        self::assertEquals(count($usages), $usageSearchResult->totalCount);
         foreach ($usageSearchResult as $contentInfo) {
-            $this->assertContains($contentInfo->id, $usages);
+            self::assertContains($contentInfo->id, $usages);
         }
     }
 
@@ -420,13 +421,13 @@ class UrlTest extends BaseServiceMockTest
 
     public function testCreateUpdateStruct()
     {
-        $this->assertEquals(new URLUpdateStruct(), $this->createUrlService()->createUpdateStruct());
+        self::assertEquals(new URLUpdateStruct(), $this->createUrlService()->createUpdateStruct());
     }
 
     protected function configureUrlViewPermissionForHasAccess($hasAccess = false)
     {
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
             ->with('url', 'view')
             ->willReturn($hasAccess);
@@ -435,33 +436,33 @@ class UrlTest extends BaseServiceMockTest
     protected function configureUrlViewPermission($object, $hasAccess = false)
     {
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('canUser')
             ->with(
-                $this->equalTo('url'),
-                $this->equalTo('view'),
-                $this->equalTo($object)
+                self::equalTo('url'),
+                self::equalTo('view'),
+                self::equalTo($object)
             )
-            ->will($this->returnValue($hasAccess));
+            ->will(self::returnValue($hasAccess));
     }
 
     protected function configureUrlUpdatePermission($object, $hasAccess = false)
     {
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('canUser')
             ->with(
-                $this->equalTo('url'),
-                $this->equalTo('update'),
-                $this->equalTo($object)
+                self::equalTo('url'),
+                self::equalTo('update'),
+                self::equalTo($object)
             )
-            ->will($this->returnValue($hasAccess));
+            ->will(self::returnValue($hasAccess));
     }
 
     protected function configurePermissions(array $permissions)
     {
         $this->permissionResolver
-            ->expects($this->exactly(count($permissions)))
+            ->expects(self::exactly(count($permissions)))
             ->method('canUser')
             ->withConsecutive(...$permissions)
             ->willReturn(true);

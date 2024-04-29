@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\ConfigScopeListener;
@@ -39,7 +40,7 @@ class ConfigScopeListenerTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 MVCEvents::CONFIG_SCOPE_CHANGE => ['onConfigScopeChange', 100],
                 MVCEvents::CONFIG_SCOPE_RESTORE => ['onConfigScopeChange', 100],
@@ -53,17 +54,17 @@ class ConfigScopeListenerTest extends TestCase
         $siteAccess = new SiteAccess('test');
         $event = new ScopeChangeEvent($siteAccess);
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setDefaultScope')
             ->with($siteAccess->name);
         $this->viewManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setSiteAccess')
             ->with($siteAccess);
 
         foreach ($this->viewProviders as $viewProvider) {
             $viewProvider
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('setSiteAccess')
                 ->with($siteAccess);
         }
@@ -71,7 +72,7 @@ class ConfigScopeListenerTest extends TestCase
         $listener = new ConfigScopeListener([$this->configResolver], $this->viewManager);
         $listener->setViewProviders($this->viewProviders);
         $listener->onConfigScopeChange($event);
-        $this->assertSame($siteAccess, $event->getSiteAccess());
+        self::assertSame($siteAccess, $event->getSiteAccess());
     }
 }
 

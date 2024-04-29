@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as SPIHandler;
@@ -69,6 +70,7 @@ class NewObjectStateLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValue
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewObjectStateLimitation $limitation
@@ -92,6 +94,7 @@ class NewObjectStateLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValueException
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
@@ -125,13 +128,13 @@ class NewObjectStateLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('objectStateHandler')
-                ->will($this->returnValue($this->objectStateHandlerMock));
+                ->will(self::returnValue($this->objectStateHandlerMock));
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->objectStateHandlerMock
-                    ->expects($this->at($key))
+                    ->expects(self::at($key))
                     ->method('load')
                     ->with($value);
             }
@@ -166,21 +169,21 @@ class NewObjectStateLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('objectStateHandler')
-                ->will($this->returnValue($this->objectStateHandlerMock));
+                ->will(self::returnValue($this->objectStateHandlerMock));
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->objectStateHandlerMock
-                    ->expects($this->at($key))
+                    ->expects(self::at($key))
                     ->method('load')
                     ->with($value)
-                    ->will($this->throwException(new NotFoundException('contentType', $value)));
+                    ->will(self::throwException(new NotFoundException('contentType', $value)));
             }
         } else {
             $this->getPersistenceMock()
-                ->expects($this->never())
-                ->method($this->anything());
+                ->expects(self::never())
+                ->method(self::anything());
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -270,13 +273,13 @@ class NewObjectStateLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $value = $limitationType->evaluate(
             $limitation,
@@ -331,13 +334,13 @@ class NewObjectStateLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $v = $limitationType->evaluate(
             $limitation,

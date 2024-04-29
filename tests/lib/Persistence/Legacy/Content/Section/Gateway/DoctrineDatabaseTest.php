@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Section\Gateway;
 
 use Ibexa\Core\Persistence\Legacy\Content\Section\Gateway;
@@ -90,7 +91,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->loadSectionData(2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'id' => '2',
@@ -145,7 +146,7 @@ class DoctrineDatabaseTest extends TestCase
                 'name' => 'Restricted',
             ],
         ];
-        $this->assertEquals(
+        self::assertEquals(
             $expected,
             $result
         );
@@ -157,7 +158,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->loadSectionDataByIdentifier('users');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'id' => '2',
@@ -179,7 +180,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->countContentObjectsInSection(2);
 
-        $this->assertSame(
+        self::assertSame(
             7,
             $result
         );
@@ -195,7 +196,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->countRoleAssignmentsUsingSection(2);
 
-        $this->assertSame(
+        self::assertSame(
             1,
             $result
         );
@@ -246,7 +247,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->assignSectionToContent(4, 10);
 
-        $this->assertSame(
+        self::assertSame(
             $beforeCount + 1,
             $gateway->countContentObjectsInSection(4)
         );

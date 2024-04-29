@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -79,7 +80,7 @@ class RouterURIElement2Test extends RouterBaseTest
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $uri])
         );
-        $this->assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
+        self::assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
     }
 
     /**
@@ -95,7 +96,7 @@ class RouterURIElement2Test extends RouterBaseTest
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $uri])
         );
-        $this->assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
+        self::assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
     }
 
     /**
@@ -111,7 +112,7 @@ class RouterURIElement2Test extends RouterBaseTest
         $matcher->setRequest(
             new SimplifiedRequest(['pathinfo' => $fullUri])
         );
-        $this->assertSame($fullUri, $matcher->analyseLink($linkUri));
+        self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
 
     public function analyseProvider()
@@ -142,10 +143,10 @@ class RouterURIElement2Test extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => $originalPathinfo]));
 
         $result = $matcher->reverseMatch($siteAccessName);
-        $this->assertInstanceOf(URIElement::class, $result);
-        $this->assertSame("/{$expectedSiteAccessPath}{$originalPathinfo}", $result->getRequest()->pathinfo);
-        $this->assertSame("/$expectedSiteAccessPath/some/linked/uri", $result->analyseLink('/some/linked/uri'));
-        $this->assertSame('/foo/bar/baz', $result->analyseURI("/$expectedSiteAccessPath/foo/bar/baz"));
+        self::assertInstanceOf(URIElement::class, $result);
+        self::assertSame("/{$expectedSiteAccessPath}{$originalPathinfo}", $result->getRequest()->pathinfo);
+        self::assertSame("/$expectedSiteAccessPath/some/linked/uri", $result->analyseLink('/some/linked/uri'));
+        self::assertSame('/foo/bar/baz', $result->analyseURI("/$expectedSiteAccessPath/foo/bar/baz"));
     }
 
     public function reverseMatchProvider()
@@ -160,7 +161,7 @@ class RouterURIElement2Test extends RouterBaseTest
     {
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/my/siteaccess/foo/bar']));
-        $this->assertNull($matcher->reverseMatch('another_siteaccess_again_dont_tell_me'));
+        self::assertNull($matcher->reverseMatch('another_siteaccess_again_dont_tell_me'));
     }
 
     public function testSerialize()
@@ -173,7 +174,7 @@ class RouterURIElement2Test extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/foo/bar/baz']));
         $serializedSA2 = serialize($sa);
 
-        $this->assertSame($serializedSA1, $serializedSA2);
+        self::assertSame($serializedSA1, $serializedSA2);
     }
 
     protected function createRouter(): Router

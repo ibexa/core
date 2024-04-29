@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\Events\Language\BeforeCreateLanguageEvent;
@@ -41,11 +42,11 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteLanguageEvent::class, 0],
             [DeleteLanguageEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteLanguageStopPropagationInBeforeEvents()
@@ -71,10 +72,10 @@ class LanguageServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteLanguageEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteLanguageEvent::class, 0],
             [DeleteLanguageEvent::class, 0],
         ]);
@@ -100,12 +101,12 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($language, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($language, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateLanguageEvent::class, 0],
             [CreateLanguageEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateLanguageResultInBeforeEvents()
@@ -133,13 +134,13 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateLanguageEvent::class, 10],
             [BeforeCreateLanguageEvent::class, 0],
             [CreateLanguageEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateLanguageStopPropagationInBeforeEvents()
@@ -169,11 +170,11 @@ class LanguageServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateLanguageEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateLanguageEvent::class, 0],
             [CreateLanguageEvent::class, 0],
         ]);
@@ -200,12 +201,12 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($updatedLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($updatedLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateLanguageNameEvent::class, 0],
             [UpdateLanguageNameEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnUpdateLanguageNameResultInBeforeEvents()
@@ -234,13 +235,13 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventUpdatedLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateLanguageNameEvent::class, 10],
             [BeforeUpdateLanguageNameEvent::class, 0],
             [UpdateLanguageNameEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testUpdateLanguageNameStopPropagationInBeforeEvents()
@@ -271,11 +272,11 @@ class LanguageServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventUpdatedLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventUpdatedLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateLanguageNameEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeUpdateLanguageNameEvent::class, 0],
             [UpdateLanguageNameEvent::class, 0],
         ]);
@@ -301,12 +302,12 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($disabledLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($disabledLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeDisableLanguageEvent::class, 0],
             [DisableLanguageEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnDisableLanguageResultInBeforeEvents()
@@ -334,13 +335,13 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventDisabledLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventDisabledLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeDisableLanguageEvent::class, 10],
             [BeforeDisableLanguageEvent::class, 0],
             [DisableLanguageEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDisableLanguageStopPropagationInBeforeEvents()
@@ -370,11 +371,11 @@ class LanguageServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventDisabledLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventDisabledLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeDisableLanguageEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDisableLanguageEvent::class, 0],
             [DisableLanguageEvent::class, 0],
         ]);
@@ -400,12 +401,12 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($enabledLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($enabledLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeEnableLanguageEvent::class, 0],
             [EnableLanguageEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnEnableLanguageResultInBeforeEvents()
@@ -433,13 +434,13 @@ class LanguageServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventEnabledLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventEnabledLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeEnableLanguageEvent::class, 10],
             [BeforeEnableLanguageEvent::class, 0],
             [EnableLanguageEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testEnableLanguageStopPropagationInBeforeEvents()
@@ -469,11 +470,11 @@ class LanguageServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventEnabledLanguage, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventEnabledLanguage, $result);
+        self::assertSame($calledListeners, [
             [BeforeEnableLanguageEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeEnableLanguageEvent::class, 0],
             [EnableLanguageEvent::class, 0],
         ]);

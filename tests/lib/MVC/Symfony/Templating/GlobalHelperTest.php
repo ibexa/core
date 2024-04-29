@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Templating;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -60,7 +61,7 @@ class GlobalHelperTest extends TestCase
         $request->attributes->set('siteaccess', $siteAccess);
         $this->helper->setRequestStack($requestStack);
 
-        $this->assertSame($siteAccess, $this->helper->getSiteaccess());
+        self::assertSame($siteAccess, $this->helper->getSiteaccess());
     }
 
     public function testGetViewParameters()
@@ -76,7 +77,7 @@ class GlobalHelperTest extends TestCase
         $requestStack->push($request);
         $this->helper->setRequestStack($requestStack);
 
-        $this->assertSame($viewParameters, $this->helper->getViewParameters());
+        self::assertSame($viewParameters, $this->helper->getViewParameters());
     }
 
     public function testGetViewParametersString()
@@ -88,7 +89,7 @@ class GlobalHelperTest extends TestCase
         $requestStack->push($request);
         $this->helper->setRequestStack($requestStack);
 
-        $this->assertSame($viewParametersString, $this->helper->getViewParametersString());
+        self::assertSame($viewParametersString, $this->helper->getViewParametersString());
     }
 
     public function testGetRequestedUriString()
@@ -100,7 +101,7 @@ class GlobalHelperTest extends TestCase
         $requestStack->push($request);
         $this->helper->setRequestStack($requestStack);
 
-        $this->assertSame($semanticPathinfo, $this->helper->getRequestedUriString());
+        self::assertSame($semanticPathinfo, $this->helper->getRequestedUriString());
     }
 
     public function testGetSystemUriStringNoUrlAlias()
@@ -112,7 +113,7 @@ class GlobalHelperTest extends TestCase
         $requestStack = new RequestStack();
         $requestStack->push($request);
         $this->helper->setRequestStack($requestStack);
-        $this->assertSame($semanticPathinfo, $this->helper->getSystemUriString());
+        self::assertSame($semanticPathinfo, $this->helper->getSystemUriString());
     }
 
     public function testGetSystemUriString()
@@ -130,33 +131,33 @@ class GlobalHelperTest extends TestCase
         $requestStack->push($request);
 
         $this->router
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with('ibexa.content.view', [
                 'contentId' => $contentId,
                 'locationId' => $locationId,
                 'viewType' => $viewType,
             ])
-            ->will($this->returnValue($expectedSystemUriString));
+            ->will(self::returnValue($expectedSystemUriString));
 
         $this->helper->setRequestStack($requestStack);
 
-        $this->assertSame($expectedSystemUriString, $this->helper->getSystemUriString());
+        self::assertSame($expectedSystemUriString, $this->helper->getSystemUriString());
     }
 
     public function testGetConfigResolver()
     {
-        $this->assertSame($this->configResolver, $this->helper->getConfigResolver());
+        self::assertSame($this->configResolver, $this->helper->getConfigResolver());
     }
 
     public function testGetRootLocation()
     {
         $rootLocationId = 2;
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('content.tree_root.location_id')
-            ->will($this->returnValue($rootLocationId));
+            ->will(self::returnValue($rootLocationId));
 
         $rootLocation = $this
             ->getMockBuilder(Location::class)
@@ -164,12 +165,12 @@ class GlobalHelperTest extends TestCase
             ->getMock();
 
         $this->locationService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadLocation')
             ->with($rootLocationId)
-            ->will($this->returnValue($rootLocation));
+            ->will(self::returnValue($rootLocation));
 
-        $this->assertSame($rootLocation, $this->helper->getRootLocation());
+        self::assertSame($rootLocation, $this->helper->getRootLocation());
     }
 
     public function testGetTranslationSiteAccess()
@@ -177,23 +178,23 @@ class GlobalHelperTest extends TestCase
         $language = 'fre-FR';
         $siteaccess = 'fre';
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTranslationSiteAccess')
             ->with($language)
-            ->will($this->returnValue($siteaccess));
+            ->will(self::returnValue($siteaccess));
 
-        $this->assertSame($siteaccess, $this->helper->getTranslationSiteAccess($language));
+        self::assertSame($siteaccess, $this->helper->getTranslationSiteAccess($language));
     }
 
     public function testGetAvailableLanguages()
     {
         $languages = ['fre-FR', 'eng-GB', 'esl-ES'];
         $this->translationHelper
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAvailableLanguages')
-            ->will($this->returnValue($languages));
+            ->will(self::returnValue($languages));
 
-        $this->assertSame($languages, $this->helper->getAvailableLanguages());
+        self::assertSame($languages, $this->helper->getAvailableLanguages());
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -105,11 +106,11 @@ class HandlerContentSortTest extends AbstractTestCase
             )
             ->setMethods(['extractContentInfoFromRows'])
             ->getMock();
-        $mapperMock->expects($this->any())
+        $mapperMock->expects(self::any())
             ->method('extractContentInfoFromRows')
-            ->with($this->isType('array'))
+            ->with(self::isType('array'))
             ->will(
-                $this->returnCallback(
+                self::returnCallback(
                     static function ($rows) {
                         $contentInfoObjs = [];
                         foreach ($rows as $row) {
@@ -179,7 +180,7 @@ class HandlerContentSortTest extends AbstractTestCase
             },
             $result->searchHits
         );
-        $this->assertEqualsCanonicalizing(
+        self::assertEqualsCanonicalizing(
             [4, 10, 11, 12, 13, 14, 42, 226],
             $ids
         );
@@ -202,7 +203,7 @@ class HandlerContentSortTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [4, 12, 13, 42, 10, 14, 11, 226],
             array_map(
                 static function ($hit) {
@@ -230,7 +231,7 @@ class HandlerContentSortTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [4, 10, 11, 12, 13, 14, 226, 42],
             array_map(
                 static function ($hit) {
@@ -279,7 +280,7 @@ class HandlerContentSortTest extends AbstractTestCase
         foreach ($idMapSet as $idSet) {
             $contentIdsSubset = array_slice($contentIds, $index, $count = count($idSet));
             $index += $count;
-            $this->assertEqualsCanonicalizing(
+            self::assertEqualsCanonicalizing(
                 $idSet,
                 $contentIdsSubset
             );
@@ -326,13 +327,13 @@ class HandlerContentSortTest extends AbstractTestCase
             $expectedCount += count($set);
         }
 
-        $this->assertEquals($expectedCount, $result->totalCount);
+        self::assertEquals($expectedCount, $result->totalCount);
 
         $index = 0;
         foreach ($idMapSet as $idSet) {
             $contentIdsSubset = array_slice($contentIds, $index, $count = count($idSet));
             $index += $count;
-            $this->assertEqualsCanonicalizing(
+            self::assertEqualsCanonicalizing(
                 $idSet,
                 $contentIdsSubset
             );
@@ -356,7 +357,7 @@ class HandlerContentSortTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [226, 14, 12, 10, 42, 57, 13, 50, 49, 41, 11, 51, 62, 4, 58, 59, 61, 60, 64, 63, 200, 66, 201],
             array_map(
                 static function ($hit) {
@@ -429,7 +430,7 @@ class HandlerContentSortTest extends AbstractTestCase
         foreach ($idMapSet as $idSet) {
             $contentIdsSubset = array_slice($contentIds, $index, $count = count($idSet));
             $index += $count;
-            $this->assertEqualsCanonicalizing(
+            self::assertEqualsCanonicalizing(
                 $idSet,
                 $contentIdsSubset
             );
@@ -458,7 +459,7 @@ class HandlerContentSortTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [73, 71, 72, 69],
             array_map(
                 static function ($hit) {

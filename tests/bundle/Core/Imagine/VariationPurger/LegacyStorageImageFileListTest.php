@@ -74,10 +74,10 @@ class LegacyStorageImageFileListTest extends TestCase
 
     private function configureRowReaderMock(array $fileList)
     {
-        $mockInvocator = $this->rowReaderMock->expects($this->any())->method('getRow');
+        $mockInvocator = $this->rowReaderMock->expects(self::any())->method('getRow');
         call_user_func_array([$mockInvocator, 'willReturnOnConsecutiveCalls'], $fileList);
 
-        $this->rowReaderMock->expects($this->any())->method('getCount')->willReturn(count($fileList));
+        $this->rowReaderMock->expects(self::any())->method('getCount')->willReturn(count($fileList));
     }
 }
 

@@ -56,8 +56,8 @@ final class LocationEventSubscriberTest extends TestCase
 
         $this->configurePersistenceHandler($spiContent, $spiLocation);
 
-        $this->searchHandler->expects($this->atLeastOnce())->method('indexContent')->with($spiContent);
-        $this->searchHandler->expects($this->atLeastOnce())->method('indexLocation')->with($spiLocation);
+        $this->searchHandler->expects(self::atLeastOnce())->method('indexContent')->with($spiContent);
+        $this->searchHandler->expects(self::atLeastOnce())->method('indexLocation')->with($spiLocation);
 
         $this->subscriber->onCreateLocation(
             new CreateLocationEvent(

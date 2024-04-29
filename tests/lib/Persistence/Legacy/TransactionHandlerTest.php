@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy;
 
 use Doctrine\DBAL\Connection;
@@ -38,14 +39,14 @@ class TransactionHandlerTest extends TestCase
     {
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
         $this->getContentTypeHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
         $this->getLanguageHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $handler->beginTransaction();
     }
@@ -54,14 +55,14 @@ class TransactionHandlerTest extends TestCase
     {
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('commit');
         $this->getContentTypeHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
         $this->getLanguageHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $handler->commit();
     }
@@ -73,15 +74,15 @@ class TransactionHandlerTest extends TestCase
 
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('commit')
-            ->will($this->throwException(new Exception('test')));
+            ->will(self::throwException(new Exception('test')));
         $this->getContentTypeHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
         $this->getLanguageHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $handler->commit();
     }
@@ -90,13 +91,13 @@ class TransactionHandlerTest extends TestCase
     {
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('rollback');
         $this->getContentTypeHandlerMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('clearCache');
         $this->getLanguageHandlerMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('clearCache');
 
         $handler->rollback();
@@ -109,15 +110,15 @@ class TransactionHandlerTest extends TestCase
 
         $handler = $this->getTransactionHandler();
         $this->getConnectionMock()
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('rollback')
-            ->will($this->throwException(new Exception('test')));
+            ->will(self::throwException(new Exception('test')));
         $this->getContentTypeHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
         $this->getLanguageHandlerMock()
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $handler->rollback();
     }

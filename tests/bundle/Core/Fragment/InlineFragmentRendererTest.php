@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
@@ -31,18 +32,18 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
         $options = ['foo' => 'bar'];
         $expectedReturn = '/_fragment?foo=bar';
         $this->innerRenderer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($reference, $request, $options)
-            ->will($this->returnValue($expectedReturn));
+            ->will(self::returnValue($expectedReturn));
 
         $renderer = new InlineFragmentRenderer($this->innerRenderer);
-        $this->assertSame($expectedReturn, $renderer->render($reference, $request, $options));
-        $this->assertTrue(isset($reference->attributes['serialized_siteaccess']));
+        self::assertSame($expectedReturn, $renderer->render($reference, $request, $options));
+        self::assertTrue(isset($reference->attributes['serialized_siteaccess']));
         $serializedSiteAccess = json_encode($siteAccess);
-        $this->assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
-        $this->assertTrue(isset($reference->attributes['serialized_siteaccess_matcher']));
-        $this->assertSame(
+        self::assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
+        self::assertTrue(isset($reference->attributes['serialized_siteaccess_matcher']));
+        self::assertSame(
             $this->getSerializer()->serialize(
                 $siteAccess->matcher,
                 'json',
@@ -50,20 +51,20 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
             ),
             $reference->attributes['serialized_siteaccess_matcher']
         );
-        $this->assertTrue(isset($reference->attributes['semanticPathinfo']));
-        $this->assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
-        $this->assertTrue(isset($reference->attributes['viewParametersString']));
-        $this->assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
+        self::assertTrue(isset($reference->attributes['semanticPathinfo']));
+        self::assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
+        self::assertTrue(isset($reference->attributes['viewParametersString']));
+        self::assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
     }
 
     public function testRendererControllerReferenceWithCompoundMatcher(): ControllerReference
     {
         $reference = parent::testRendererControllerReferenceWithCompoundMatcher();
 
-        $this->assertArrayHasKey('semanticPathinfo', $reference->attributes);
-        $this->assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
-        $this->assertArrayHasKey('viewParametersString', $reference->attributes);
-        $this->assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
+        self::assertArrayHasKey('semanticPathinfo', $reference->attributes);
+        self::assertSame('/foo/bar', $reference->attributes['semanticPathinfo']);
+        self::assertArrayHasKey('viewParametersString', $reference->attributes);
+        self::assertSame('/(foo)/bar', $reference->attributes['viewParametersString']);
 
         return $reference;
     }

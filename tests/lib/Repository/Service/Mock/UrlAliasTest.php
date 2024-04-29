@@ -73,15 +73,15 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $urlAliasHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUrlAlias')
             ->with(self::EXAMPLE_ID)
             ->willReturn(new SPIUrlAlias());
 
         $mockedService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('extractPath')
-            ->with($this->isInstanceOf(SPIUrlAlias::class), null)
+            ->with(self::isInstanceOf(SPIUrlAlias::class), null)
             ->willReturn('path');
 
         $urlAlias = $mockedService->load(self::EXAMPLE_ID);
@@ -99,10 +99,10 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $urlAliasHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUrlAlias')
             ->with(self::EXAMPLE_ID)
-            ->will($this->throwException(new NotFoundException('UrlAlias', self::EXAMPLE_ID)));
+            ->will(self::throwException(new NotFoundException('UrlAlias', self::EXAMPLE_ID)));
 
         $this->expectException(ApiNotFoundException::class);
         $mockedService->load(self::EXAMPLE_ID);
@@ -154,7 +154,7 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->urlAliasHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUrlAlias')
             ->with(self::EXAMPLE_ID)
             ->willReturn($spiUrlAlias);
@@ -172,10 +172,10 @@ class UrlAliasTest extends BaseServiceMockTest
         $aliasList = [new URLAlias(['isCustom' => false])];
         $mockedService = $this->getPartlyMockedURLAliasServiceService();
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )
             ->willReturn(true);
 
@@ -192,10 +192,10 @@ class UrlAliasTest extends BaseServiceMockTest
         $aliasList = [new URLAlias(['isCustom' => true])];
         $spiAliasList = [new SPIUrlAlias(['isCustom' => true])];
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )->willReturn(true);
 
         $repositoryMock = $this->getRepositoryMock();
@@ -205,14 +205,14 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('commit');
 
         $urlAliasHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('removeURLAliases')
             ->with($spiAliasList);
 
@@ -227,10 +227,10 @@ class UrlAliasTest extends BaseServiceMockTest
         $aliasList = [new URLAlias(['isCustom' => true])];
         $spiAliasList = [new SPIUrlAlias(['isCustom' => true])];
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )->willReturn(true);
 
         $repositoryMock = $this->getRepositoryMock();
@@ -240,17 +240,17 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('rollback');
 
         $urlAliasHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('removeURLAliases')
             ->with($spiAliasList)
-            ->will($this->throwException(new Exception('Handler threw an exception')));
+            ->will(self::throwException(new Exception('Handler threw an exception')));
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Handler threw an exception');
@@ -744,11 +744,11 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->urlAliasHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('listURLAliasesForLocation')
             ->with(
-                $this->equalTo(42),
-                $this->equalTo(false)
+                self::equalTo(42),
+                self::equalTo(false)
             )
             ->willReturn([$spiUrlAlias]);
 
@@ -800,11 +800,11 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->urlAliasHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('listURLAliasesForLocation')
             ->with(
-                $this->equalTo(42),
-                $this->equalTo(false)
+                self::equalTo(42),
+                self::equalTo(false)
             )
             ->willReturn([$spiUrlAlias]);
 
@@ -2391,13 +2391,13 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'listGlobalURLAliases'
         )->with(
-            $this->equalTo(null),
-            $this->equalTo(0),
-            $this->equalTo(-1)
+            self::equalTo(null),
+            self::equalTo(0),
+            self::equalTo(-1)
         )->willReturn(
             [
                     new SPIUrlAlias(
@@ -2431,13 +2431,13 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasService = $this->getPartlyMockedURLAliasServiceService();
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'listGlobalURLAliases'
         )->with(
-            $this->equalTo(null),
-            $this->equalTo(0),
-            $this->equalTo(-1)
+            self::equalTo(null),
+            self::equalTo(0),
+            self::equalTo(-1)
         )->willReturn(
             [
                     new SPIUrlAlias(
@@ -2470,13 +2470,13 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasService = $this->getPartlyMockedURLAliasServiceService();
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'listGlobalURLAliases'
         )->with(
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(self::EXAMPLE_OFFSET),
-            $this->equalTo(self::EXAMPLE_LIMIT)
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(self::EXAMPLE_OFFSET),
+            self::equalTo(self::EXAMPLE_LIMIT)
         )->willReturn(
             []
         );
@@ -2500,13 +2500,13 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasService = $this->getPartlyMockedURLAliasServiceService();
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'lookup'
         )->with(
-            $this->equalTo('url')
+            self::equalTo('url')
         )->will(
-            $this->throwException(new NotFoundException('UrlAlias', 'url'))
+            self::throwException(new NotFoundException('UrlAlias', 'url'))
         );
 
         $urlAliasService->lookup('url');
@@ -2541,11 +2541,11 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'lookup'
         )->with(
-            $this->equalTo($url)
+            self::equalTo($url)
         )->willReturn(
             new SPIUrlAlias(
                 [
@@ -2597,11 +2597,11 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'lookup'
         )->with(
-            $this->equalTo('jedan/dva')
+            self::equalTo('jedan/dva')
         )->willReturn(
             new SPIUrlAlias(
                 [
@@ -2671,11 +2671,11 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'lookup'
         )->with(
-            $this->equalTo('jedan/two')
+            self::equalTo('jedan/two')
         )->willReturn(
             new SPIUrlAlias(
                 [
@@ -2716,15 +2716,15 @@ class UrlAliasTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLAliasServiceService(['listLocationAliases']);
         $location = $this->getLocationStub();
         $mockedService->expects(
-            $this->once()
+            self::once()
         )->method(
             'listLocationAliases'
         )->with(
-            $this->equalTo($location),
-            $this->equalTo(false),
-            $this->equalTo(null),
-            $this->equalTo($showAllTranslations = true),
-            $this->equalTo($prioritizedLanguageList = ['LANGUAGES!'])
+            self::equalTo($location),
+            self::equalTo(false),
+            self::equalTo(null),
+            self::equalTo($showAllTranslations = true),
+            self::equalTo($prioritizedLanguageList = ['LANGUAGES!'])
         )->willReturn(
             []
         );
@@ -2748,13 +2748,13 @@ class UrlAliasTest extends BaseServiceMockTest
         $location = $this->getLocationStub();
 
         $urlAliasService->expects(
-            $this->once()
+            self::once()
         )->method(
             'listLocationAliases'
         )->with(
-            $this->equalTo($location),
-            $this->equalTo(false),
-            $this->equalTo($languageCode)
+            self::equalTo($location),
+            self::equalTo(false),
+            self::equalTo($languageCode)
         )->willReturn(
             [
                     new UrlAlias(
@@ -2856,11 +2856,11 @@ class UrlAliasTest extends BaseServiceMockTest
     {
         $location = $this->getLocationStub();
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('canUser')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator'),
-                $this->equalTo($location)
+                self::equalTo('content'),
+                self::equalTo('urltranslator'),
+                self::equalTo($location)
             )
             ->willReturn(true);
 
@@ -2871,22 +2871,22 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('commit');
 
         $urlAliasHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'createCustomUrlAlias'
         )->with(
-            $this->equalTo($location->id),
-            $this->equalTo(self::EXAMPLE_PATH),
-            $this->equalTo(true),
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(true)
+            self::equalTo($location->id),
+            self::equalTo(self::EXAMPLE_PATH),
+            self::equalTo(true),
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(true)
         )->willReturn(
             new SPIUrlAlias()
         );
@@ -2913,12 +2913,12 @@ class UrlAliasTest extends BaseServiceMockTest
         $location = $this->getLocationStub();
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('canUser')
             ->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator'),
-                $this->equalTo($location)
+                self::equalTo('content'),
+                self::equalTo('urltranslator'),
+                self::equalTo($location)
             )
             ->willReturn(true);
 
@@ -2929,24 +2929,24 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('rollback');
 
         $urlAliasHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'createCustomUrlAlias'
         )->with(
-            $this->equalTo($location->id),
-            $this->equalTo(self::EXAMPLE_PATH),
-            $this->equalTo(true),
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(true)
+            self::equalTo($location->id),
+            self::equalTo(self::EXAMPLE_PATH),
+            self::equalTo(true),
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(true)
         )->will(
-            $this->throwException(new Exception('Handler threw an exception'))
+            self::throwException(new Exception('Handler threw an exception'))
         );
 
         $mockedService->createUrlAlias(
@@ -2972,27 +2972,27 @@ class UrlAliasTest extends BaseServiceMockTest
         $handlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('canUser')
             ->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator'),
-                $this->equalTo($location)
+                self::equalTo('content'),
+                self::equalTo('urltranslator'),
+                self::equalTo($location)
             )
             ->willReturn(true);
 
         $handlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'createCustomUrlAlias'
         )->with(
-            $this->equalTo($location->id),
-            $this->equalTo(self::EXAMPLE_PATH),
-            $this->equalTo(true),
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(true)
+            self::equalTo($location->id),
+            self::equalTo(self::EXAMPLE_PATH),
+            self::equalTo(true),
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(true)
         )->will(
-            $this->throwException(new ForbiddenException('Forbidden!'))
+            self::throwException(new ForbiddenException('Forbidden!'))
         );
 
         $mockedService->createUrlAlias(
@@ -3012,11 +3012,11 @@ class UrlAliasTest extends BaseServiceMockTest
         $resource = 'module:content/search';
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
             ->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )
             ->willReturn(true);
 
@@ -3027,22 +3027,22 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('commit');
 
         $urlAliasHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'createGlobalUrlAlias'
         )->with(
-            $this->equalTo($resource),
-            $this->equalTo(self::EXAMPLE_PATH),
-            $this->equalTo(true),
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(true)
+            self::equalTo($resource),
+            self::equalTo(self::EXAMPLE_PATH),
+            self::equalTo(true),
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(true)
         )->willReturn(
             new SPIUrlAlias()
         );
@@ -3069,11 +3069,11 @@ class UrlAliasTest extends BaseServiceMockTest
         $resource = 'module:content/search';
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
             ->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )
             ->willReturn(true);
 
@@ -3084,24 +3084,24 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasHandlerMock = $this->getPersistenceMock()->urlAliasHandler();
 
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('beginTransaction');
         $repositoryMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('rollback');
 
         $urlAliasHandlerMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'createGlobalUrlAlias'
         )->with(
-            $this->equalTo($resource),
-            $this->equalTo(self::EXAMPLE_PATH),
-            $this->equalTo(true),
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(true)
+            self::equalTo($resource),
+            self::equalTo(self::EXAMPLE_PATH),
+            self::equalTo(true),
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(true)
         )->will(
-            $this->throwException(new Exception('Handler threw an exception'))
+            self::throwException(new Exception('Handler threw an exception'))
         );
 
         $mockedService->createGlobalUrlAlias(
@@ -3122,10 +3122,10 @@ class UrlAliasTest extends BaseServiceMockTest
 
         $mockedService = $this->getPartlyMockedURLAliasServiceService();
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )
             ->willReturn(true);
 
@@ -3149,26 +3149,26 @@ class UrlAliasTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLAliasServiceService();
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')
             ->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )
             ->willReturn(true);
 
         $this->urlAliasHandler->expects(
-            $this->once()
+            self::once()
         )->method(
             'createGlobalUrlAlias'
         )->with(
-            $this->equalTo($resource),
-            $this->equalTo(self::EXAMPLE_PATH),
-            $this->equalTo(true),
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(true)
+            self::equalTo($resource),
+            self::equalTo(self::EXAMPLE_PATH),
+            self::equalTo(true),
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(true)
         )->will(
-            $this->throwException(new ForbiddenException('Forbidden!'))
+            self::throwException(new ForbiddenException('Forbidden!'))
         );
 
         $mockedService->createGlobalUrlAlias(
@@ -3195,17 +3195,17 @@ class UrlAliasTest extends BaseServiceMockTest
         $locationServiceMock = $this->createMock(LocationService::class);
 
         $locationServiceMock->expects(
-            $this->exactly(2)
+            self::exactly(2)
         )->method(
             'loadLocation'
         )->with(
-            $this->equalTo(42)
+            self::equalTo(42)
         )->willReturn(
             $location
         );
 
         $repositoryMock->expects(
-            $this->exactly(2)
+            self::exactly(2)
         )->method(
             'getLocationService'
         )->willReturn(
@@ -3213,24 +3213,24 @@ class UrlAliasTest extends BaseServiceMockTest
         );
 
         $this->permissionResolver
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('canUser')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator'),
-                $this->equalTo($location)
+                self::equalTo('content'),
+                self::equalTo('urltranslator'),
+                self::equalTo($location)
             )
             ->willReturn(true);
 
         $mockedService->expects(
-            $this->exactly(2)
+            self::exactly(2)
         )->method(
             'createUrlAlias'
         )->with(
-            $this->equalTo($location),
-            $this->equalTo(self::EXAMPLE_PATH),
-            $this->equalTo(self::EXAMPLE_LANGUAGE_CODE),
-            $this->equalTo(true),
-            $this->equalTo(true)
+            self::equalTo($location),
+            self::equalTo(self::EXAMPLE_PATH),
+            self::equalTo(self::EXAMPLE_LANGUAGE_CODE),
+            self::equalTo(true),
+            self::equalTo(true)
         );
 
         $mockedService->createGlobalUrlAlias(
@@ -3324,11 +3324,11 @@ class UrlAliasTest extends BaseServiceMockTest
         $mockedService = $this->getPartlyMockedURLAliasServiceService();
         $location = $this->getLocationStub();
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('canUser')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator'),
-                $this->equalTo($location)
+                self::equalTo('content'),
+                self::equalTo('urltranslator'),
+                self::equalTo($location)
             )
             ->willReturn(false);
 
@@ -3351,10 +3351,10 @@ class UrlAliasTest extends BaseServiceMockTest
 
         $mockedService = $this->getPartlyMockedURLAliasServiceService();
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )
             ->willReturn(false);
 
@@ -3379,10 +3379,10 @@ class UrlAliasTest extends BaseServiceMockTest
         $aliasList = [new URLAlias(['isCustom' => true])];
         $mockedService = $this->getPartlyMockedURLAliasServiceService();
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('hasAccess')->with(
-                $this->equalTo('content'),
-                $this->equalTo('urltranslator')
+                self::equalTo('content'),
+                self::equalTo('urltranslator')
             )
             ->willReturn(false);
 
@@ -3403,11 +3403,11 @@ class UrlAliasTest extends BaseServiceMockTest
     private function configureListURLAliasesForLocation(array $spiUrlAliases): void
     {
         $this->urlAliasHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('listURLAliasesForLocation')
             ->with(
-                $this->equalTo(42),
-                $this->equalTo(false)
+                self::equalTo(42),
+                self::equalTo(false)
             )
             ->willReturn($spiUrlAliases);
     }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Exception;
@@ -19,6 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
  * Test case for operations in the SectionService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SectionService
+ *
  * @group integration
  * @group section
  */
@@ -51,14 +53,14 @@ class SectionServiceTest extends BaseTest
             );
 
             if (false === is_object($contentInfo)) {
-                $this->markTestSkipped(
+                self::markTestSkipped(
                     'This test cannot be executed, because the utilized ' .
                     'ContentService::loadContentInfoByRemoteId() does not ' .
                     'return an object.'
                 );
             }
         } catch (Exception $e) {
-            $this->markTestSkipped(
+            self::markTestSkipped(
                 'This test cannot be executed, because the utilized ' .
                 'ContentService::loadContentInfoByRemoteId() failed with ' .
                 PHP_EOL . PHP_EOL .
@@ -85,13 +87,14 @@ class SectionServiceTest extends BaseTest
         $sectionCreate = $sectionService->newSectionCreateStruct();
         /* END: Use Case */
 
-        $this->assertInstanceOf(SectionCreateStruct::class, $sectionCreate);
+        self::assertInstanceOf(SectionCreateStruct::class, $sectionCreate);
     }
 
     /**
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testNewSectionCreateStruct
      */
     public function testCreateSection()
@@ -108,13 +111,14 @@ class SectionServiceTest extends BaseTest
         $section = $sectionService->createSection($sectionCreate);
         /* END: Use Case */
 
-        $this->assertInstanceOf(Section::class, $section);
+        self::assertInstanceOf(Section::class, $section);
     }
 
     /**
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testNewSectionCreateStruct
      */
     public function testCreateSectionForUserWithSectionLimitation()
@@ -145,14 +149,15 @@ class SectionServiceTest extends BaseTest
         $section = $sectionService->createSection($sectionCreate);
         /* END: Use Case */
 
-        $this->assertInstanceOf(Section::class, $section);
-        $this->assertSame(self::SECTION_UNIQUE_KEY, $section->identifier);
+        self::assertInstanceOf(Section::class, $section);
+        self::assertSame(self::SECTION_UNIQUE_KEY, $section->identifier);
     }
 
     /**
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testCreateSection
      */
     public function testCreateSectionThrowsInvalidArgumentException()
@@ -183,6 +188,7 @@ class SectionServiceTest extends BaseTest
      * Test for the loadSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSection()
+     *
      * @depends testCreateSection
      */
     public function testLoadSection()
@@ -198,7 +204,7 @@ class SectionServiceTest extends BaseTest
         $section = $sectionService->loadSection($sectionId);
         /* END: Use Case */
 
-        $this->assertEquals('users', $section->identifier);
+        self::assertEquals('users', $section->identifier);
     }
 
     /**
@@ -237,13 +243,14 @@ class SectionServiceTest extends BaseTest
         $sectionUpdate = $sectionService->newSectionUpdateStruct();
         /* END: Use Case */
 
-        $this->assertInstanceOf(SectionUpdateStruct::class, $sectionUpdate);
+        self::assertInstanceOf(SectionUpdateStruct::class, $sectionUpdate);
     }
 
     /**
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSection
      * @depends testNewSectionUpdateStruct
@@ -269,18 +276,19 @@ class SectionServiceTest extends BaseTest
         /* END: Use Case */
 
         // Verify that service returns an instance of Section
-        $this->assertInstanceOf(Section::class, $updatedSection);
+        self::assertInstanceOf(Section::class, $updatedSection);
 
         // Verify that the service also persists the changes
         $updatedSection = $sectionService->loadSection($standardSectionId);
 
-        $this->assertEquals('New section name', $updatedSection->name);
+        self::assertEquals('New section name', $updatedSection->name);
     }
 
     /**
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSection
      * @depends testNewSectionUpdateStruct
@@ -321,7 +329,7 @@ class SectionServiceTest extends BaseTest
         /* END: Use Case */
 
         // Verify that service returns an instance of Section
-        $this->assertInstanceOf(Section::class, $updatedSection);
+        self::assertInstanceOf(Section::class, $updatedSection);
 
         // Load section as an administrator
         $administratorUser = $userService->loadUser($administratorUserId);
@@ -330,14 +338,15 @@ class SectionServiceTest extends BaseTest
         // Verify that the service also persists the changes
         $updatedSection = $sectionService->loadSection($section->id);
 
-        $this->assertEquals('New section name', $updatedSection->name);
-        $this->assertEquals('newUniqueKey', $updatedSection->identifier);
+        self::assertEquals('New section name', $updatedSection->name);
+        self::assertEquals('newUniqueKey', $updatedSection->identifier);
     }
 
     /**
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionKeepsSectionIdentifierOnNameUpdate()
@@ -358,13 +367,14 @@ class SectionServiceTest extends BaseTest
         $updatedSection = $sectionService->updateSection($section, $sectionUpdate);
         /* END: Use Case */
 
-        $this->assertEquals('standard', $updatedSection->identifier);
+        self::assertEquals('standard', $updatedSection->identifier);
     }
 
     /**
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionWithSectionIdentifierOnNameUpdate()
@@ -388,13 +398,14 @@ class SectionServiceTest extends BaseTest
         $updatedSection = $sectionService->updateSection($section, $sectionUpdate);
         /* END: Use Case */
 
-        $this->assertEquals('standard', $updatedSection->identifier);
+        self::assertEquals('standard', $updatedSection->identifier);
     }
 
     /**
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionKeepsSectionNameOnIdentifierUpdate()
@@ -416,13 +427,14 @@ class SectionServiceTest extends BaseTest
         $updatedSection = $sectionService->updateSection($section, $sectionUpdate);
         /* END: Use Case */
 
-        $this->assertEquals('Standard', $updatedSection->name);
+        self::assertEquals('Standard', $updatedSection->name);
     }
 
     /**
      * Test for the updateSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
+     *
      * @depends testUpdateSection
      */
     public function testUpdateSectionThrowsInvalidArgumentException()
@@ -460,6 +472,7 @@ class SectionServiceTest extends BaseTest
      * Test for the loadSections() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
+     *
      * @depends testCreateSection
      */
     public function testLoadSections()
@@ -475,13 +488,14 @@ class SectionServiceTest extends BaseTest
         }
         /* END: Use Case */
 
-        $this->assertCount(6, $sections);
+        self::assertCount(6, $sections);
     }
 
     /**
      * Test for the loadSections() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
+     *
      * @depends testCreateSection
      */
     public function testLoadSectionsReturnsDefaultSectionsByDefault()
@@ -490,7 +504,7 @@ class SectionServiceTest extends BaseTest
 
         $sectionService = $repository->getSectionService();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 new Section(
                     [
@@ -543,6 +557,7 @@ class SectionServiceTest extends BaseTest
      * Test for the loadSectionByIdentifier() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSectionByIdentifier()
+     *
      * @depends testCreateSection
      */
     public function testLoadSectionByIdentifier()
@@ -561,7 +576,7 @@ class SectionServiceTest extends BaseTest
         $section = $sectionService->loadSectionByIdentifier(self::SECTION_UNIQUE_KEY);
         /* END: Use Case */
 
-        $this->assertEquals($sectionId, $section->id);
+        self::assertEquals($sectionId, $section->id);
     }
 
     /**
@@ -606,7 +621,7 @@ class SectionServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             2, // Taken from the fixture
             $numberOfAssignedContent
         );
@@ -635,7 +650,7 @@ class SectionServiceTest extends BaseTest
         );
         /* END: Use Case */
 
-        $this->assertTrue(
+        self::assertTrue(
             // Taken from the fixture
             $isSectionUsed
         );
@@ -645,6 +660,7 @@ class SectionServiceTest extends BaseTest
      * Test for the assignSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSection()
+     *
      * @depends testCountAssignedContents
      */
     public function testAssignSection()
@@ -684,13 +700,13 @@ class SectionServiceTest extends BaseTest
         $sectionService->assignSection($contentInfo, $section);
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             $beforeStandardCount + 1,
             $sectionService->countAssignedContents(
                 $sectionService->loadSection($standardSectionId)
             )
         );
-        $this->assertEquals(
+        self::assertEquals(
             $beforeMediaCount - 1,
             $sectionService->countAssignedContents(
                 $sectionService->loadSection($mediaSectionId)
@@ -702,6 +718,7 @@ class SectionServiceTest extends BaseTest
      * Test for the assignSectionToSubtree() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSectionToSubtree()
+     *
      * @depends testCreateSection
      */
     public function testAssignSectionToSubtree()
@@ -736,13 +753,13 @@ class SectionServiceTest extends BaseTest
         $sectionService->assignSectionToSubtree($location, $section);
 
         /* END: Use Case */
-        $this->assertEquals(
+        self::assertEquals(
             $beforeStandardCount + 4,
             $sectionService->countAssignedContents(
                 $sectionService->loadSection($standardSectionId)
             )
         );
-        $this->assertEquals(
+        self::assertEquals(
             $beforeMediaCount - 4,
             $sectionService->countAssignedContents(
                 $sectionService->loadSection($mediaSectionId)
@@ -754,6 +771,7 @@ class SectionServiceTest extends BaseTest
      * Test for the countAssignedContents() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::countAssignedContents()
+     *
      * @depends testCreateSection
      */
     public function testCountAssignedContentsReturnsZeroByDefault()
@@ -773,13 +791,14 @@ class SectionServiceTest extends BaseTest
         $assignedContents = $sectionService->countAssignedContents($section);
         /* END: Use Case */
 
-        $this->assertSame(0, $assignedContents);
+        self::assertSame(0, $assignedContents);
     }
 
     /**
      * Test for the isSectionUsed() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::isSectionUsed()
+     *
      * @depends testCreateSection
      */
     public function testIsSectionUsedReturnsZeroByDefault()
@@ -799,13 +818,14 @@ class SectionServiceTest extends BaseTest
         $isSectionUsed = $sectionService->isSectionUsed($section);
         /* END: Use Case */
 
-        $this->assertFalse($isSectionUsed);
+        self::assertFalse($isSectionUsed);
     }
 
     /**
      * Test for the deleteSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
+     *
      * @depends testLoadSections
      */
     public function testDeleteSection()
@@ -825,13 +845,14 @@ class SectionServiceTest extends BaseTest
         $sectionService->deleteSection($section);
         /* END: Use Case */
 
-        $this->assertCount(6, $sectionService->loadSections());
+        self::assertCount(6, $sectionService->loadSections());
     }
 
     /**
      * Test for the deleteSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
+     *
      * @depends testDeleteSection
      */
     public function testDeleteSectionThrowsNotFoundException()
@@ -861,6 +882,7 @@ class SectionServiceTest extends BaseTest
      * Test for the deleteSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
+     *
      * @depends testAssignSection
      */
     public function testDeleteSectionThrowsBadStateException()
@@ -898,6 +920,7 @@ class SectionServiceTest extends BaseTest
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSectionByIdentifier
      */
@@ -936,13 +959,14 @@ class SectionServiceTest extends BaseTest
         }
         /* END: Use Case */
 
-        $this->assertTrue(isset($e), 'Can still load section after rollback.');
+        self::assertTrue(isset($e), 'Can still load section after rollback.');
     }
 
     /**
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testCreateSection
      * @depends testLoadSectionByIdentifier
      */
@@ -977,13 +1001,14 @@ class SectionServiceTest extends BaseTest
         $section = $sectionService->loadSectionByIdentifier(self::SECTION_UNIQUE_KEY);
         /* END: Use Case */
 
-        $this->assertEquals(self::SECTION_UNIQUE_KEY, $section->identifier);
+        self::assertEquals(self::SECTION_UNIQUE_KEY, $section->identifier);
     }
 
     /**
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testUpdateSection
      * @depends testLoadSectionByIdentifier
      */
@@ -1020,13 +1045,14 @@ class SectionServiceTest extends BaseTest
         $updatedStandard = $sectionService->loadSectionByIdentifier('standard');
         /* END: Use Case */
 
-        $this->assertEquals('Standard', $updatedStandard->name);
+        self::assertEquals('Standard', $updatedStandard->name);
     }
 
     /**
      * Test for the createSection() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
+     *
      * @depends testUpdateSection
      * @depends testLoadSectionByIdentifier
      */
@@ -1063,7 +1089,7 @@ class SectionServiceTest extends BaseTest
         $updatedStandard = $sectionService->loadSectionByIdentifier('standard');
         /* END: Use Case */
 
-        $this->assertEquals('My Standard', $updatedStandard->name);
+        self::assertEquals('My Standard', $updatedStandard->name);
     }
 }
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Debug\Collector;
 
 use Exception;
@@ -29,12 +30,12 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->will(self::returnValue($name));
 
         $this->mainCollector->addCollector($collector);
-        $this->assertSame($collector, $this->mainCollector->getCollector($name));
+        self::assertSame($collector, $this->mainCollector->getCollector($name));
     }
 
     public function testGetInvalidCollector()
@@ -43,7 +44,7 @@ class IbexaCoreCollectorTest extends TestCase
 
         $collector = $this->getDataCollectorMock();
         $this->mainCollector->addCollector($collector);
-        $this->assertSame($collector, $this->mainCollector->getCollector('foo'));
+        self::assertSame($collector, $this->mainCollector->getCollector('foo'));
     }
 
     public function testGetAllCollectors()
@@ -51,15 +52,15 @@ class IbexaCoreCollectorTest extends TestCase
         $collector1 = $this->getDataCollectorMock();
         $nameCollector1 = 'collector1';
         $collector1
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($nameCollector1));
+            ->will(self::returnValue($nameCollector1));
         $collector2 = $this->getDataCollectorMock();
         $nameCollector2 = 'collector2';
         $collector2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($nameCollector2));
+            ->will(self::returnValue($nameCollector2));
 
         $allCollectors = [
             $nameCollector1 => $collector1,
@@ -70,7 +71,7 @@ class IbexaCoreCollectorTest extends TestCase
             $this->mainCollector->addCollector($collector);
         }
 
-        $this->assertSame($allCollectors, $this->mainCollector->getAllCollectors());
+        self::assertSame($allCollectors, $this->mainCollector->getAllCollectors());
     }
 
     public function testGetToolbarTemplateNothing()
@@ -78,11 +79,11 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->will(self::returnValue($name));
         $this->mainCollector->addCollector($collector);
-        $this->assertNull($this->mainCollector->getToolbarTemplate($name));
+        self::assertNull($this->mainCollector->getToolbarTemplate($name));
     }
 
     public function testGetToolbarTemplate()
@@ -90,13 +91,13 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->will(self::returnValue($name));
         $toolbarTemplate = 'toolbar.html.twig';
 
         $this->mainCollector->addCollector($collector, 'foo', $toolbarTemplate);
-        $this->assertSame($toolbarTemplate, $this->mainCollector->getToolbarTemplate($name));
+        self::assertSame($toolbarTemplate, $this->mainCollector->getToolbarTemplate($name));
     }
 
     public function testGetPanelTemplateNothing()
@@ -104,11 +105,11 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->will(self::returnValue($name));
         $this->mainCollector->addCollector($collector);
-        $this->assertNull($this->mainCollector->getPanelTemplate($name));
+        self::assertNull($this->mainCollector->getPanelTemplate($name));
     }
 
     public function testGetPanelTemplate()
@@ -116,13 +117,13 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->will(self::returnValue($name));
         $panelTemplate = 'toolbar.html.twig';
 
         $this->mainCollector->addCollector($collector, $panelTemplate, 'foo');
-        $this->assertSame($panelTemplate, $this->mainCollector->getPanelTemplate($name));
+        self::assertSame($panelTemplate, $this->mainCollector->getPanelTemplate($name));
     }
 
     public function testCollect()
@@ -130,15 +131,15 @@ class IbexaCoreCollectorTest extends TestCase
         $collector1 = $this->getDataCollectorMock();
         $nameCollector1 = 'collector1';
         $collector1
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($nameCollector1));
+            ->will(self::returnValue($nameCollector1));
         $collector2 = $this->getDataCollectorMock();
         $nameCollector2 = 'collector2';
         $collector2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($nameCollector2));
+            ->will(self::returnValue($nameCollector2));
 
         $allCollectors = [
             $nameCollector1 => $collector1,
@@ -153,7 +154,7 @@ class IbexaCoreCollectorTest extends TestCase
         foreach ($allCollectors as $name => $collector) {
             $this->mainCollector->addCollector($collector);
             $collector
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('collect')
                 ->with($request, $response, $exception);
         }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Helper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
@@ -48,26 +49,26 @@ class PreviewLocationProviderTest extends TestCase
         $content = $this->getContentMock($contentId);
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with($contentId)
             ->willReturn($content);
 
         $this->locationService
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('loadLocation');
 
         $this->locationHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadParentLocationsForDraftContent')
             ->with($contentId)
-            ->will($this->returnValue([new Location(['id' => $parentLocationId])]));
+            ->will(self::returnValue([new Location(['id' => $parentLocationId])]));
 
         $location = $this->provider->loadMainLocation($contentId);
-        $this->assertInstanceOf(APILocation::class, $location);
-        $this->assertSame($content, $location->getContent());
-        $this->assertNull($location->id);
-        $this->assertEquals($parentLocationId, $location->parentLocationId);
+        self::assertInstanceOf(APILocation::class, $location);
+        self::assertSame($content, $location->getContent());
+        self::assertNull($location->id);
+        self::assertEquals($parentLocationId, $location->parentLocationId);
     }
 
     public function testGetPreviewLocation()
@@ -82,22 +83,22 @@ class PreviewLocationProviderTest extends TestCase
             ->getMockForAbstractClass();
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with($contentId)
             ->willReturn($content);
 
         $this->locationService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadLocation')
             ->with($locationId)
-            ->will($this->returnValue($location));
+            ->will(self::returnValue($location));
 
-        $this->locationHandler->expects($this->never())->method('loadParentLocationsForDraftContent');
+        $this->locationHandler->expects(self::never())->method('loadParentLocationsForDraftContent');
 
         $returnedLocation = $this->provider->loadMainLocation($contentId);
-        $this->assertSame($location, $returnedLocation);
-        $this->assertSame($content, $location->getContent());
+        self::assertSame($location, $returnedLocation);
+        self::assertSame($content, $location->getContent());
     }
 
     public function testGetPreviewLocationNoLocation()
@@ -106,20 +107,20 @@ class PreviewLocationProviderTest extends TestCase
         $content = $this->getContentMock($contentId);
 
         $this->contentService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContent')
             ->with($contentId)
             ->willReturn($content);
 
         $this->locationHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadParentLocationsForDraftContent')
             ->with($contentId)
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
-        $this->locationHandler->expects($this->never())->method('loadLocationsByContent');
+        $this->locationHandler->expects(self::never())->method('loadLocationsByContent');
 
-        $this->assertNull($this->provider->loadMainLocation($contentId));
+        self::assertNull($this->provider->loadMainLocation($contentId));
     }
 
     private function getContentMock(int $contentId, ?int $mainLocationId = null, bool $published = false): Content
@@ -131,12 +132,12 @@ class PreviewLocationProviderTest extends TestCase
         ]);
 
         $versionInfo = $this->createMock(VersionInfo::class);
-        $versionInfo->expects($this->once())
+        $versionInfo->expects(self::once())
             ->method('getContentInfo')
             ->willReturn($contentInfo);
 
         $content = $this->createMock(Content::class);
-        $content->expects($this->once())
+        $content->expects(self::once())
             ->method('getVersionInfo')
             ->willReturn($versionInfo);
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
@@ -64,8 +65,8 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
 
         $urlAliasHistorized = $urlAliasService->lookup($historyPath);
 
-        $this->assertEquals($historyPath, $urlAliasHistorized->path);
-        $this->assertTrue($urlAliasHistorized->isHistory);
+        self::assertEquals($historyPath, $urlAliasHistorized->path);
+        self::assertTrue($urlAliasHistorized->isHistory);
 
         // Reverse lookup once to warm-up URL alias ID cache by Location ID
 
@@ -73,8 +74,8 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
             $locationService->loadLocation($article->contentInfo->mainLocationId)
         );
 
-        $this->assertEquals($activePath, $urlAlias->path);
-        $this->assertFalse($urlAlias->isHistory);
+        self::assertEquals($activePath, $urlAlias->path);
+        self::assertFalse($urlAlias->isHistory);
 
         // Reverse lookup again to trigger return of URL alias object lookup cache by ID,
         // through URL alias ID cache by Location ID
@@ -83,8 +84,8 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
             $locationService->loadLocation($article->contentInfo->mainLocationId)
         );
 
-        $this->assertEquals($activePath, $urlAlias->path);
-        $this->assertFalse($urlAlias->isHistory);
+        self::assertEquals($activePath, $urlAlias->path);
+        self::assertFalse($urlAlias->isHistory);
     }
 
     public function testLookupHistoryUrlReturnsActiveAlias()
@@ -134,30 +135,30 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
             $locationService->loadLocation($article->contentInfo->mainLocationId)
         );
 
-        $this->assertEquals($activePath, $urlAlias->path);
-        $this->assertFalse($urlAlias->isHistory);
+        self::assertEquals($activePath, $urlAlias->path);
+        self::assertFalse($urlAlias->isHistory);
 
         $urlAlias = $urlAliasService->reverseLookup(
             $locationService->loadLocation($article->contentInfo->mainLocationId)
         );
 
-        $this->assertEquals($activePath, $urlAlias->path);
-        $this->assertFalse($urlAlias->isHistory);
+        self::assertEquals($activePath, $urlAlias->path);
+        self::assertFalse($urlAlias->isHistory);
 
         // Lookup history URL one to warm-up URL alias ID cache by URL
 
         $urlAliasHistorized = $urlAliasService->lookup($historyPath);
 
-        $this->assertEquals($historyPath, $urlAliasHistorized->path);
-        $this->assertTrue($urlAliasHistorized->isHistory);
+        self::assertEquals($historyPath, $urlAliasHistorized->path);
+        self::assertTrue($urlAliasHistorized->isHistory);
 
         // Lookup history URL again to trigger return of URL alias object reverse lookup cache by ID,
         // through URL alias ID cache by URL
 
         $urlAliasHistorized = $urlAliasService->lookup($historyPath);
 
-        $this->assertEquals($historyPath, $urlAliasHistorized->path);
-        $this->assertTrue($urlAliasHistorized->isHistory);
+        self::assertEquals($historyPath, $urlAliasHistorized->path);
+        self::assertTrue($urlAliasHistorized->isHistory);
     }
 }
 

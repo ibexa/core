@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy;
 
 use Doctrine\Common\EventManager as DoctrineEventManager;
@@ -248,7 +249,7 @@ abstract class TestCase extends BaseTestCase
             );
         }
         foreach ($properties as $propName => $propVal) {
-            $this->assertSame(
+            self::assertSame(
                 $propVal,
                 $object->$propName,
                 "Incorrect value for \${$propName}"
@@ -276,7 +277,7 @@ abstract class TestCase extends BaseTestCase
             $propertyNames = $this->getPublicPropertyNames($expStruct);
         }
         foreach ($propertyNames as $propName) {
-            $this->assertEquals(
+            self::assertEquals(
                 $expStruct->$propName,
                 $actStruct->$propName,
                 "Properties \${$propName} not same"

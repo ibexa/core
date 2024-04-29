@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -57,18 +58,18 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
 
         $user = $this->createMock(UserInterface::class);
         $user
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getRoles')
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $rememberMeToken = $this
             ->getMockBuilder(RememberMeToken::class)
             ->setConstructorArgs([$user, 'wrong provider secret', 'my secret'])
             ->getMock();
         $rememberMeToken
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getProviderKey')
-            ->will($this->returnValue('wrong provider secret'));
+            ->will(self::returnValue('wrong provider secret'));
 
         $this->authProvider->authenticate($rememberMeToken);
     }
@@ -79,22 +80,22 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
 
         $user = $this->createMock(UserInterface::class);
         $user
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getRoles')
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $rememberMeToken = $this
             ->getMockBuilder(RememberMeToken::class)
             ->setConstructorArgs([$user, 'my provider secret', 'the wrong secret'])
             ->getMock();
         $rememberMeToken
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getProviderKey')
-            ->will($this->returnValue('my provider secret'));
+            ->will(self::returnValue('my provider secret'));
         $rememberMeToken
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getSecret')
-            ->will($this->returnValue('the wrong secret'));
+            ->will(self::returnValue('the wrong secret'));
 
         $this->authProvider->authenticate($rememberMeToken);
     }
@@ -103,15 +104,15 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
     {
         $apiUser = $this->createMock(ApiUser::class);
         $apiUser
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getUserId')
-            ->will($this->returnValue(42));
+            ->will(self::returnValue(42));
 
         $tokenUser = new User($apiUser);
         $rememberMeToken = new RememberMeToken($tokenUser, 'my provider secret', 'my secret');
 
         $authenticatedToken = $this->authProvider->authenticate($rememberMeToken);
-        $this->assertEquals(
+        self::assertEquals(
             [$rememberMeToken->getProviderKey(), $rememberMeToken->getSecret(), $rememberMeToken->getUsername()],
             [$authenticatedToken->getProviderKey(), $authenticatedToken->getSecret(), $authenticatedToken->getUsername()]
         );

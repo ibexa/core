@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\ContentValidator;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -31,7 +32,7 @@ class ContentValidatorStrategyTest extends TestCase
         ]);
 
         $errors = $contentValidatorStrategy->validate(new ObjectState());
-        $this->assertEquals(['test'], $errors);
+        self::assertEquals(['test'], $errors);
     }
 
     public function testSupportsUnknownValidationObject(): void
@@ -39,7 +40,7 @@ class ContentValidatorStrategyTest extends TestCase
         $contentValidatorStrategy = new ContentValidatorStrategy([]);
         $supports = $contentValidatorStrategy->supports(new ObjectState());
 
-        $this->assertFalse($supports);
+        self::assertFalse($supports);
     }
 
     public function testSuportsKnownValidationObject(): void
@@ -50,7 +51,7 @@ class ContentValidatorStrategyTest extends TestCase
 
         $supports = $contentValidatorStrategy->supports(new ObjectState());
 
-        $this->assertTrue($supports);
+        self::assertTrue($supports);
     }
 
     public function testMergeValidationErrors(): void
@@ -71,7 +72,7 @@ class ContentValidatorStrategyTest extends TestCase
         ]);
 
         $errors = $contentValidatorStrategy->validate(new ObjectState());
-        $this->assertEquals([
+        self::assertEquals([
             123 => ['eng-GB' => '123-eng-GB'],
             321 => ['pol-PL' => '321-pol-PL'],
             456 => [

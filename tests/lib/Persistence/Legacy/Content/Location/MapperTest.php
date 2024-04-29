@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Location;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
@@ -103,9 +104,9 @@ class MapperTest extends TestCase
 
         $locations = $mapper->createLocationsFromRows($inputRows);
 
-        $this->assertCount(3, $locations);
+        self::assertCount(3, $locations);
         foreach ($locations as $location) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 SPILocation::class,
                 $location
             );
@@ -122,7 +123,7 @@ class MapperTest extends TestCase
             new Trashed()
         );
 
-        $this->assertTrue($location instanceof Trashed);
+        self::assertTrue($location instanceof Trashed);
         $this->assertPropertiesCorrect(
             $this->locationValues,
             $location
@@ -156,7 +157,7 @@ class MapperTest extends TestCase
             $this->locationRow
         );
 
-        $this->assertNotEquals($this->locationRow['remote_id'], $createStruct->remoteId);
+        self::assertNotEquals($this->locationRow['remote_id'], $createStruct->remoteId);
         $this->assertPropertiesCorrect(
             $this->locationCreateStructValues,
             $createStruct

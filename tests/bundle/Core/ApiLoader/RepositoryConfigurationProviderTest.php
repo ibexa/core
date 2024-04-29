@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
@@ -30,12 +31,12 @@ class RepositoryConfigurationProviderTest extends TestCase
         $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
 
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will($this->returnValue($repositoryAlias));
+            ->will(self::returnValue($repositoryAlias));
 
-        $this->assertSame(
+        self::assertSame(
             ['alias' => $repositoryAlias] + $repositoryConfig,
             $provider->getRepositoryConfig()
         );
@@ -58,12 +59,12 @@ class RepositoryConfigurationProviderTest extends TestCase
         $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
 
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
 
-        $this->assertSame(
+        self::assertSame(
             ['alias' => $repositoryAlias] + $repositoryConfig,
             $provider->getRepositoryConfig()
         );
@@ -79,10 +80,10 @@ class RepositoryConfigurationProviderTest extends TestCase
         $configResolver = $this->getConfigResolverMock();
 
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will($this->returnValue('undefined_repository'));
+            ->will(self::returnValue('undefined_repository'));
 
         $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
         $provider->getRepositoryConfig();

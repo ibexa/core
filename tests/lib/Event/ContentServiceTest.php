@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Event;
 
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
@@ -66,12 +67,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($locations, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($locations, $result);
+        self::assertSame($calledListeners, [
             [BeforeDeleteContentEvent::class, 0],
             [DeleteContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnDeleteContentResultInBeforeEvents()
@@ -99,13 +100,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventLocations, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventLocations, $result);
+        self::assertSame($calledListeners, [
             [BeforeDeleteContentEvent::class, 10],
             [BeforeDeleteContentEvent::class, 0],
             [DeleteContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteContentStopPropagationInBeforeEvents()
@@ -135,11 +136,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventLocations, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventLocations, $result);
+        self::assertSame($calledListeners, [
             [BeforeDeleteContentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteContentEvent::class, 0],
             [DeleteContentEvent::class, 0],
         ]);
@@ -167,12 +168,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($content, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($content, $result);
+        self::assertSame($calledListeners, [
             [BeforeCopyContentEvent::class, 0],
             [CopyContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCopyContentResultInBeforeEvents()
@@ -202,13 +203,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeCopyContentEvent::class, 10],
             [BeforeCopyContentEvent::class, 0],
             [CopyContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCopyContentStopPropagationInBeforeEvents()
@@ -240,11 +241,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeCopyContentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCopyContentEvent::class, 0],
             [CopyContentEvent::class, 0],
         ]);
@@ -271,12 +272,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($content, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($content, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateContentEvent::class, 0],
             [UpdateContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnUpdateContentResultInBeforeEvents()
@@ -305,13 +306,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateContentEvent::class, 10],
             [BeforeUpdateContentEvent::class, 0],
             [UpdateContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testUpdateContentStopPropagationInBeforeEvents()
@@ -342,11 +343,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateContentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeUpdateContentEvent::class, 0],
             [UpdateContentEvent::class, 0],
         ]);
@@ -371,11 +372,11 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteRelationEvent::class, 0],
             [DeleteRelationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteRelationStopPropagationInBeforeEvents()
@@ -402,10 +403,10 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteRelationEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteRelationEvent::class, 0],
             [DeleteRelationEvent::class, 0],
         ]);
@@ -432,12 +433,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($content, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($content, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateContentEvent::class, 0],
             [CreateContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateContentResultInBeforeEvents()
@@ -466,13 +467,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateContentEvent::class, 10],
             [BeforeCreateContentEvent::class, 0],
             [CreateContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateContentStopPropagationInBeforeEvents()
@@ -503,11 +504,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateContentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateContentEvent::class, 0],
             [CreateContentEvent::class, 0],
         ]);
@@ -531,11 +532,11 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeHideContentEvent::class, 0],
             [HideContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testHideContentStopPropagationInBeforeEvents()
@@ -561,10 +562,10 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeHideContentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeHideContentEvent::class, 0],
             [HideContentEvent::class, 0],
         ]);
@@ -588,11 +589,11 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteVersionEvent::class, 0],
             [DeleteVersionEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteVersionStopPropagationInBeforeEvents()
@@ -618,10 +619,10 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteVersionEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteVersionEvent::class, 0],
             [DeleteVersionEvent::class, 0],
         ]);
@@ -648,12 +649,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($relation, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($relation, $result);
+        self::assertSame($calledListeners, [
             [BeforeAddRelationEvent::class, 0],
             [AddRelationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnAddRelationResultInBeforeEvents()
@@ -682,13 +683,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventRelation, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventRelation, $result);
+        self::assertSame($calledListeners, [
             [BeforeAddRelationEvent::class, 10],
             [BeforeAddRelationEvent::class, 0],
             [AddRelationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testAddRelationStopPropagationInBeforeEvents()
@@ -719,11 +720,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventRelation, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventRelation, $result);
+        self::assertSame($calledListeners, [
             [BeforeAddRelationEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [AddRelationEvent::class, 0],
             [BeforeAddRelationEvent::class, 0],
         ]);
@@ -750,12 +751,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($content, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($content, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateContentMetadataEvent::class, 0],
             [UpdateContentMetadataEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnUpdateContentMetadataResultInBeforeEvents()
@@ -784,13 +785,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateContentMetadataEvent::class, 10],
             [BeforeUpdateContentMetadataEvent::class, 0],
             [UpdateContentMetadataEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testUpdateContentMetadataStopPropagationInBeforeEvents()
@@ -821,11 +822,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeUpdateContentMetadataEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeUpdateContentMetadataEvent::class, 0],
             [UpdateContentMetadataEvent::class, 0],
         ]);
@@ -850,11 +851,11 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteTranslationEvent::class, 0],
             [DeleteTranslationEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testDeleteTranslationStopPropagationInBeforeEvents()
@@ -881,10 +882,10 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeDeleteTranslationEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeDeleteTranslationEvent::class, 0],
             [DeleteTranslationEvent::class, 0],
         ]);
@@ -911,12 +912,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($content, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($content, $result);
+        self::assertSame($calledListeners, [
             [BeforePublishVersionEvent::class, 0],
             [PublishVersionEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnPublishVersionResultInBeforeEvents()
@@ -945,13 +946,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforePublishVersionEvent::class, 10],
             [BeforePublishVersionEvent::class, 0],
             [PublishVersionEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testPublishVersionStopPropagationInBeforeEvents()
@@ -982,11 +983,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforePublishVersionEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforePublishVersionEvent::class, 0],
             [PublishVersionEvent::class, 0],
         ]);
@@ -1014,12 +1015,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($contentDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($contentDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateContentDraftEvent::class, 0],
             [CreateContentDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnCreateContentDraftResultInBeforeEvents()
@@ -1049,13 +1050,13 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventContentDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContentDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateContentDraftEvent::class, 10],
             [BeforeCreateContentDraftEvent::class, 0],
             [CreateContentDraftEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testCreateContentDraftStopPropagationInBeforeEvents()
@@ -1087,11 +1088,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventContentDraft, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContentDraft, $result);
+        self::assertSame($calledListeners, [
             [BeforeCreateContentDraftEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeCreateContentDraftEvent::class, 0],
             [CreateContentDraftEvent::class, 0],
         ]);
@@ -1115,11 +1116,11 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRevealContentEvent::class, 0],
             [RevealContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testRevealContentStopPropagationInBeforeEvents()
@@ -1145,10 +1146,10 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($calledListeners, [
+        self::assertSame($calledListeners, [
             [BeforeRevealContentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeRevealContentEvent::class, 0],
             [RevealContentEvent::class, 0],
         ]);

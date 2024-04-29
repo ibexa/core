@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use DateTime;
@@ -44,9 +45,9 @@ class SearchEngineIndexingTest extends BaseTest
 
         $searchResult = $searchService->findContentInfo($query);
 
-        $this->assertEquals(1, $searchResult->totalCount);
+        self::assertEquals(1, $searchResult->totalCount);
         $contentInfo = $searchResult->searchHits[0]->valueObject;
-        $this->assertEquals($content->id, $contentInfo->id);
+        self::assertEquals($content->id, $contentInfo->id);
 
         return $contentInfo;
     }
@@ -73,8 +74,8 @@ class SearchEngineIndexingTest extends BaseTest
 
         $searchResult = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $searchResult->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $searchResult->totalCount);
+        self::assertEquals(
             $contentInfo->mainLocationId,
             $searchResult->searchHits[0]->valueObject->id
         );
@@ -101,7 +102,7 @@ class SearchEngineIndexingTest extends BaseTest
 
         $searchResult = $searchService->findContentInfo($query);
 
-        $this->assertEquals(0, $searchResult->totalCount);
+        self::assertEquals(0, $searchResult->totalCount);
     }
 
     /**
@@ -124,7 +125,7 @@ class SearchEngineIndexingTest extends BaseTest
 
         $searchResult = $searchService->findLocations($query);
 
-        $this->assertEquals(0, $searchResult->totalCount);
+        self::assertEquals(0, $searchResult->totalCount);
     }
 
     /**
@@ -202,8 +203,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\LocationId($contentInfo->mainLocationId);
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContentInfo($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $contentInfo->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -229,7 +230,7 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ParentLocationId($contentInfo->mainLocationId);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(0, $result->totalCount);
+        self::assertEquals(0, $result->totalCount);
     }
 
     /**
@@ -252,7 +253,7 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ContentId($user->id);
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContentInfo($query);
-        $this->assertEquals(0, $result->totalCount);
+        self::assertEquals(0, $result->totalCount);
     }
 
     /**
@@ -275,7 +276,7 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ContentId($userGroup->id);
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContentInfo($query);
-        $this->assertEquals(0, $result->totalCount);
+        self::assertEquals(0, $result->totalCount);
     }
 
     /**
@@ -311,7 +312,7 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ContentId($user->id);
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContentInfo($query);
-        $this->assertEquals(1, $result->totalCount);
+        self::assertEquals(1, $result->totalCount);
     }
 
     /**
@@ -343,7 +344,7 @@ class SearchEngineIndexingTest extends BaseTest
         );
         $result = $searchService->findContentInfo($query);
 
-        $this->assertEquals(1, $result->totalCount);
+        self::assertEquals(1, $result->totalCount);
     }
 
     /**
@@ -373,7 +374,7 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ContentId($userGroup->id);
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContentInfo($query);
-        $this->assertEquals(1, $result->totalCount);
+        self::assertEquals(1, $result->totalCount);
     }
 
     /**
@@ -391,8 +392,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\LocationId($membersLocation->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $membersLocation->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -417,8 +418,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\LocationId($locationId);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertTrue($result->searchHits[0]->valueObject->hidden);
+        self::assertEquals(1, $result->totalCount);
+        self::assertTrue($result->searchHits[0]->valueObject->hidden);
 
         // Check if children locations are invisible
         $this->assertSubtreeInvisibleProperty($searchService, $locationId, true);
@@ -445,8 +446,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\LocationId($locationId);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertFalse($result->searchHits[0]->valueObject->hidden);
+        self::assertEquals(1, $result->totalCount);
+        self::assertFalse($result->searchHits[0]->valueObject->hidden);
 
         // Check if children locations are not invisible
         $this->assertSubtreeInvisibleProperty($searchService, $locationId, false);
@@ -485,8 +486,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ParentLocationId($membersLocation->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $adminsLocation->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -495,8 +496,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ParentLocationId($editorsLocation->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $copiedLocation->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -534,14 +535,14 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ParentLocationId($editorsLocation->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(0, $result->totalCount);
+        self::assertEquals(0, $result->totalCount);
 
         // Found under Members
         $criterion = new Criterion\ParentLocationId($membersLocation->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $adminsLocation->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -553,8 +554,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ParentLocationId($editorsLocation->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $adminsLocation->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -563,7 +564,7 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ParentLocationId($membersLocation->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
-        $this->assertEquals(0, $result->totalCount);
+        self::assertEquals(0, $result->totalCount);
     }
 
     /**
@@ -616,8 +617,8 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ContentId($content->id);
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContent($query);
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $content->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -643,7 +644,7 @@ class SearchEngineIndexingTest extends BaseTest
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(0, $result->totalCount);
+        self::assertEquals(0, $result->totalCount);
 
         $locationUpdateStruct = $locationService->newLocationUpdateStruct();
         $locationUpdateStruct->priority = 4;
@@ -653,8 +654,8 @@ class SearchEngineIndexingTest extends BaseTest
 
         $result = $searchService->findLocations($query);
 
-        $this->assertEquals(1, $result->totalCount);
-        $this->assertEquals(
+        self::assertEquals(1, $result->totalCount);
+        self::assertEquals(
             $locationToUpdate->id,
             $result->searchHits[0]->valueObject->id
         );
@@ -711,8 +712,8 @@ class SearchEngineIndexingTest extends BaseTest
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContent($query);
 
-        $this->assertCount(1, $result->searchHits);
-        $this->assertEquals($publishedContent->contentInfo->id, $result->searchHits[0]->valueObject->contentInfo->id);
+        self::assertCount(1, $result->searchHits);
+        self::assertEquals($publishedContent->contentInfo->id, $result->searchHits[0]->valueObject->contentInfo->id);
 
         // Searching for children of locationId=2 should also hit this content
         $criterion = new Criterion\ParentLocationId(2);
@@ -724,7 +725,7 @@ class SearchEngineIndexingTest extends BaseTest
                 return;
             }
         }
-        $this->fail('Parent location sub-items do not contain published content');
+        self::fail('Parent location sub-items do not contain published content');
     }
 
     /**
@@ -746,14 +747,14 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\LocationId($location->id);
         $query = new LocationQuery(['filter' => $criterion]);
         $locations = $searchService->findLocations($query);
-        $this->assertEquals(0, $locations->totalCount);
+        self::assertEquals(0, $locations->totalCount);
 
         $trashItem = $trashService->loadTrashItem($location->id);
         $trashService->recover($trashItem);
         $this->refreshSearch($repository);
 
         $locations = $searchService->findLocations($query);
-        $this->assertEquals(0, $locations->totalCount);
+        self::assertEquals(0, $locations->totalCount);
         $this->assertContentIdSearch($publishedContent->contentInfo->id, 1);
     }
 
@@ -772,12 +773,12 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\FullText('copyTest');
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContent($query);
-        $this->assertCount(1, $result->searchHits);
+        self::assertCount(1, $result->searchHits);
 
         $copiedContent = $contentService->copyContent($publishedContent->contentInfo, $locationService->newLocationCreateStruct(2));
         $this->refreshSearch($repository);
         $result = $searchService->findContent($query);
-        $this->assertCount(2, $result->searchHits);
+        self::assertCount(2, $result->searchHits);
 
         $this->assertContentIdSearch($publishedContent->contentInfo->id, 1);
         $this->assertContentIdSearch($copiedContent->contentInfo->id, 1);
@@ -815,6 +816,7 @@ class SearchEngineIndexingTest extends BaseTest
      * @param string $text Content Item field value text (to be indexed)
      * @param string $searchForText text based on which Content Item should be found
      * @param array $ignoreForSetupFactories list of SetupFactories to be ignored
+     *
      * @dataProvider getSpecialFullTextCases
      */
     public function testIndexingSpecialFullTextCases($text, $searchForText)
@@ -957,13 +959,13 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\FullText('descriptionToBeRemoved');
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContent($query);
-        $this->assertEquals(0, $results->totalCount);
+        self::assertEquals(0, $results->totalCount);
 
         // Should be found
         $criterion = new Criterion\FullText('testRemovedContentFieldValueIsNotFound');
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContent($query);
-        $this->assertEquals(1, $results->totalCount);
+        self::assertEquals(1, $results->totalCount);
     }
 
     /**
@@ -979,7 +981,7 @@ class SearchEngineIndexingTest extends BaseTest
         $query = new LocationQuery(['filter' => $criterion]);
         $result = $searchService->findLocations($query);
         foreach ($result->searchHits as $searchHit) {
-            $this->assertEquals($expected, $searchHit->valueObject->invisible, sprintf('Location %s is not hidden', $searchHit->valueObject->id));
+            self::assertEquals($expected, $searchHit->valueObject->invisible, sprintf('Location %s is not hidden', $searchHit->valueObject->id));
             // Perform recursive check for children locations
             $this->assertSubtreeInvisibleProperty($searchService, $searchHit->valueObject->id, $expected);
         }
@@ -1007,15 +1009,15 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\LocationId($location01->id);
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContent($query);
-        $this->assertEquals(1, $results->totalCount);
-        $this->assertEquals($content02->id, $results->searchHits[0]->valueObject->id);
+        self::assertEquals(1, $results->totalCount);
+        self::assertEquals($content02->id, $results->searchHits[0]->valueObject->id);
 
         // content01 should be at location02
         $criterion = new Criterion\LocationId($location02->id);
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContent($query);
-        $this->assertEquals(1, $results->totalCount);
-        $this->assertEquals($content01->id, $results->searchHits[0]->valueObject->id);
+        self::assertEquals(1, $results->totalCount);
+        self::assertEquals($content01->id, $results->searchHits[0]->valueObject->id);
     }
 
     /**
@@ -1046,27 +1048,27 @@ class SearchEngineIndexingTest extends BaseTest
         $criterion = new Criterion\ContentId($publishedContent->id);
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContentInfo($query);
-        $this->assertEquals(1, $results->totalCount);
-        $this->assertEquals($publishedContent->contentInfo->id, $results->searchHits[0]->valueObject->id);
+        self::assertEquals(1, $results->totalCount);
+        self::assertEquals($publishedContent->contentInfo->id, $results->searchHits[0]->valueObject->id);
 
         // find Content using updated RemoteId
         $criterion = new Criterion\RemoteId($newContentMetadataUpdateStruct->remoteId);
         $query = new Query(['filter' => $criterion]);
         $results = $searchService->findContent($query);
-        $this->assertEquals(1, $results->totalCount);
+        self::assertEquals(1, $results->totalCount);
         $foundContentInfo = $results->searchHits[0]->valueObject->contentInfo;
         /** @var \Ibexa\Core\Repository\Values\Content\Content $foundContentInfo */
-        $this->assertEquals($publishedContent->id, $foundContentInfo->id);
-        $this->assertEquals($newContentMetadataUpdateStruct->publishedDate->getTimestamp(), $foundContentInfo->publishedDate->getTimestamp());
-        $this->assertEquals($newLocation->id, $foundContentInfo->mainLocationId);
-        $this->assertEquals($newContentMetadataUpdateStruct->remoteId, $foundContentInfo->remoteId);
+        self::assertEquals($publishedContent->id, $foundContentInfo->id);
+        self::assertEquals($newContentMetadataUpdateStruct->publishedDate->getTimestamp(), $foundContentInfo->publishedDate->getTimestamp());
+        self::assertEquals($newLocation->id, $foundContentInfo->mainLocationId);
+        self::assertEquals($newContentMetadataUpdateStruct->remoteId, $foundContentInfo->remoteId);
 
         // find Content using old main location
         $criterion = new Criterion\LocationId($originalMainLocationId);
         $query = new LocationQuery(['filter' => $criterion]);
         $results = $searchService->findLocations($query);
-        $this->assertEquals(1, $results->totalCount);
-        $this->assertEquals($newContentMetadataUpdateStruct->remoteId, $results->searchHits[0]->valueObject->contentInfo->remoteId);
+        self::assertEquals(1, $results->totalCount);
+        self::assertEquals($newContentMetadataUpdateStruct->remoteId, $results->searchHits[0]->valueObject->contentInfo->remoteId);
     }
 
     /**
@@ -1345,12 +1347,12 @@ class SearchEngineIndexingTest extends BaseTest
         $query = new Query(['filter' => $criterion]);
         $result = $searchService->findContent($query);
 
-        $this->assertEquals($expectedCount, $result->totalCount);
+        self::assertEquals($expectedCount, $result->totalCount);
         if ($expectedCount == 0) {
             return;
         }
 
-        $this->assertEquals(
+        self::assertEquals(
             $contentId,
             $result->searchHits[0]->valueObject->id
         );

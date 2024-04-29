@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query;
 
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -36,29 +37,29 @@ class CriteriaConverterTest extends TestCase
         $selectQuery = $this->createMock(QueryBuilder::class);
 
         $fooCriterionHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('accept')
             ->with($barCriterion)
             ->willReturn(false);
 
         $fooCriterionHandler
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('handle');
 
         $barCriterionHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('accept')
             ->with($barCriterion)
             ->willReturn(true);
 
         $sqlExpression = 'SQL EXPRESSION';
         $barCriterionHandler
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('handle')
             ->with($criteriaConverter, $selectQuery, $barCriterion)
             ->willReturn($sqlExpression);
 
-        $this->assertEquals(
+        self::assertEquals(
             $sqlExpression,
             $criteriaConverter->convertCriteria(
                 $selectQuery,

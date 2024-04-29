@@ -22,7 +22,7 @@ class SiteAccessMatcherRegistryTest extends TestCase
         $matcher = $this->getMatcherMock();
         $registry = new SiteAccessMatcherRegistry([self::MATCHER_NAME => $matcher]);
 
-        $this->assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
+        self::assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
     }
 
     public function testSetMatcher(): void
@@ -32,7 +32,7 @@ class SiteAccessMatcherRegistryTest extends TestCase
 
         $registry->setMatcher(self::MATCHER_NAME, $matcher);
 
-        $this->assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
+        self::assertSame($matcher, $registry->getMatcher(self::MATCHER_NAME));
     }
 
     public function testSetMatcherOverride(): void
@@ -43,7 +43,7 @@ class SiteAccessMatcherRegistryTest extends TestCase
 
         $registry->setMatcher(self::MATCHER_NAME, $newMatcher);
 
-        $this->assertSame($newMatcher, $registry->getMatcher(self::MATCHER_NAME));
+        self::assertSame($newMatcher, $registry->getMatcher(self::MATCHER_NAME));
     }
 
     public function testGetMatcherNotFound(): void

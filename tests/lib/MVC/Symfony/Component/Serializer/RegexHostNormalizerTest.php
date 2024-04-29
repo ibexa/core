@@ -26,7 +26,7 @@ final class RegexHostNormalizerTest extends TestCase
             'itemNumber' => 2,
         ]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'siteAccessesConfiguration' => [
                     'regex' => '/^Foo(.*)/(.*)/',
@@ -41,8 +41,8 @@ final class RegexHostNormalizerTest extends TestCase
     {
         $normalizer = new RegexHostNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(Host::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(Host::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

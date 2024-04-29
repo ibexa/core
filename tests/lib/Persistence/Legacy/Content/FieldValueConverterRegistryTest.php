@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
@@ -22,7 +23,7 @@ class FieldValueConverterRegistryTest extends TestCase
         $converter = $this->getFieldValueConverterMock();
         $registry = new Registry([self::TYPE_NAME => $converter]);
 
-        $this->assertSame($converter, $registry->getConverter(self::TYPE_NAME));
+        self::assertSame($converter, $registry->getConverter(self::TYPE_NAME));
     }
 
     public function testGetStorage()
@@ -32,7 +33,7 @@ class FieldValueConverterRegistryTest extends TestCase
 
         $res = $registry->getConverter(self::TYPE_NAME);
 
-        $this->assertSame(
+        self::assertSame(
             $converter,
             $res
         );

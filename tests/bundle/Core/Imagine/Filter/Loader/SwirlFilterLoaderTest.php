@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
@@ -30,16 +31,16 @@ class SwirlFilterLoaderTest extends TestCase
     {
         $image = $this->createMock(ImageInterface::class);
         $this->filter
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('setOption');
 
         $this->filter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('apply')
             ->with($image)
-            ->will($this->returnValue($image));
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image));
+        self::assertSame($image, $this->loader->load($image));
     }
 
     /**
@@ -49,17 +50,17 @@ class SwirlFilterLoaderTest extends TestCase
     {
         $image = $this->createMock(ImageInterface::class);
         $this->filter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setOption')
             ->with('degrees', $degrees);
 
         $this->filter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('apply')
             ->with($image)
-            ->will($this->returnValue($image));
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image, [$degrees]));
+        self::assertSame($image, $this->loader->load($image, [$degrees]));
     }
 
     public function loadWithOptionProvider()

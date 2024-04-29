@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
@@ -31,15 +32,15 @@ class FragmentListenerFactoryTest extends TestCase
         $factory = new FragmentListenerFactory();
         $factory->setRequestStack($requestStack);
         $listener = $factory->buildFragmentListener($uriSigner, $baseFragmentPath, $listenerClass);
-        $this->assertInstanceOf($listenerClass, $listener);
+        self::assertInstanceOf($listenerClass, $listener);
 
         $refListener = new ReflectionObject($listener);
         $refFragmentPath = $refListener->getProperty('fragmentPath');
         $refFragmentPath->setAccessible(true);
         if ($isFragmentCandidate) {
-            $this->assertSame($requestUri, $refFragmentPath->getValue($listener));
+            self::assertSame($requestUri, $refFragmentPath->getValue($listener));
         } else {
-            $this->assertSame($baseFragmentPath, $refFragmentPath->getValue($listener));
+            self::assertSame($baseFragmentPath, $refFragmentPath->getValue($listener));
         }
     }
 
@@ -66,7 +67,7 @@ class FragmentListenerFactoryTest extends TestCase
             FragmentListener::class
         );
 
-        $this->assertNull($listener);
+        self::assertNull($listener);
     }
 }
 

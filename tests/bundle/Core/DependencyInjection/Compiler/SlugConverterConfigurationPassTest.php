@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SlugConverterConfigurationPass;
@@ -63,10 +64,10 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         $configurationPropertyRef->setAccessible(true);
         $configuration = $configurationPropertyRef->getValue($this->container->get(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class));
 
-        $this->assertEquals('urlalias', $configuration['transformation']);
-        $this->assertEquals('underscore', $configuration['wordSeparatorName']);
-        $this->assertEquals($expectedCommands, $configuration['transformationGroups']['urlalias']['commands']);
-        $this->assertEquals('url_cleanup', $configuration['transformationGroups']['urlalias']['cleanupMethod']);
+        self::assertEquals('urlalias', $configuration['transformation']);
+        self::assertEquals('underscore', $configuration['wordSeparatorName']);
+        self::assertEquals($expectedCommands, $configuration['transformationGroups']['urlalias']['commands']);
+        self::assertEquals('url_cleanup', $configuration['transformationGroups']['urlalias']['cleanupMethod']);
     }
 
     public function configurationProvider()

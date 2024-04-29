@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
@@ -382,7 +383,7 @@ class RelationTest extends FieldTypeTest
     public function testGetRelations()
     {
         $ft = $this->createFieldTypeUnderTest();
-        $this->assertEquals(
+        self::assertEquals(
             [
                 Relation::FIELD => [70],
             ],

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\OriginalRequestListener;
@@ -18,7 +19,7 @@ class OriginalRequestListenerTest extends TestCase
 {
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 KernelEvents::REQUEST => ['onKernelRequest', 200],
             ],
@@ -37,7 +38,7 @@ class OriginalRequestListenerTest extends TestCase
 
         $listener = new OriginalRequestListener();
         $listener->onKernelRequest($event);
-        $this->assertFalse($request->attributes->has('_ez_original_request'));
+        self::assertFalse($request->attributes->has('_ez_original_request'));
     }
 
     public function testOnKernelRequestNoOriginalRequest()
@@ -51,7 +52,7 @@ class OriginalRequestListenerTest extends TestCase
 
         $listener = new OriginalRequestListener();
         $listener->onKernelRequest($event);
-        $this->assertFalse($request->attributes->has('_ez_original_request'));
+        self::assertFalse($request->attributes->has('_ez_original_request'));
     }
 
     public function testOnKernelRequestWithOriginalRequest()
@@ -79,7 +80,7 @@ class OriginalRequestListenerTest extends TestCase
 
         $listener = new OriginalRequestListener();
         $listener->onKernelRequest($event);
-        $this->assertEquals($expectedOriginalRequest, $request->attributes->get('_ez_original_request'));
+        self::assertEquals($expectedOriginalRequest, $request->attributes->get('_ez_original_request'));
 
         ClockMock::withClockMock(false);
     }

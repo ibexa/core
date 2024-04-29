@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\SearchService;
@@ -20,6 +21,7 @@ use RuntimeException;
  * Test case for full text search in the SearchService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\SearchService
+ *
  * @group integration
  * @group search
  * @group fulltext
@@ -35,7 +37,7 @@ class SearchServiceFulltextTest extends BaseTest
                 ->getRepository(false)
                 ->getSearchService()->supports(SearchService::CAPABILITY_ADVANCED_FULLTEXT)
         ) {
-            $this->markTestSkipped('Engine says it does not support advance fulltext format');
+            self::markTestSkipped('Engine says it does not support advance fulltext format');
         }
     }
 
@@ -180,12 +182,13 @@ class SearchServiceFulltextTest extends BaseTest
      * @param array $idMap
      *
      * @depends testPrepareContent
+     *
      * @dataProvider providerForTestFulltextSearchSolr7
      */
     public function testFulltextContentSearchSolr7(string $searchString, array $expectedKeys, array $idMap): void
     {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
-            $this->markTestSkipped('This test is only relevant for Solr >= 7');
+            self::markTestSkipped('This test is only relevant for Solr >= 7');
         }
 
         $this->doTestFulltextContentSearch($searchString, $expectedKeys, $idMap);
@@ -210,12 +213,13 @@ class SearchServiceFulltextTest extends BaseTest
      * @param array $idMap
      *
      * @depends testPrepareContent
+     *
      * @dataProvider providerForTestFulltextSearchSolr7
      */
     public function testFulltextLocationSearchSolr7($searchString, array $expectedKeys, array $idMap): void
     {
         if (false === $this->isSolrMajorVersionInRange('7.0.0', '8.0.0')) {
-            $this->markTestSkipped('This test is only relevant for Solr >= 7');
+            self::markTestSkipped('This test is only relevant for Solr >= 7');
         }
 
         $this->doTestFulltextLocationSearch($searchString, $expectedKeys, $idMap);
@@ -241,7 +245,7 @@ class SearchServiceFulltextTest extends BaseTest
      */
     public function assertFulltextSearch(SearchResult $searchResult, array $expectedKeys, array $idMap)
     {
-        $this->assertEquals(
+        self::assertEquals(
             array_reduce(
                 $expectedKeys,
                 static function ($carry, $item) {
@@ -257,7 +261,7 @@ class SearchServiceFulltextTest extends BaseTest
         $expectedIds = $this->mapKeysToIds($expectedKeys, $idMap);
         $actualIds = $this->mapSearchResultToIds($searchResult);
 
-        $this->assertEquals($expectedIds, $actualIds);
+        self::assertEquals($expectedIds, $actualIds);
     }
 
     /**

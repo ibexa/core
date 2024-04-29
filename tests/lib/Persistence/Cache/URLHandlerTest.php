@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\URL\Handler as SpiURLHandler;
@@ -72,7 +73,7 @@ class URLHandlerTest extends AbstractCacheHandlerTest
         $updateStruct = new URLUpdateStruct();
         $updateStruct->url = 'http://ibexa.co';
 
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandlerMock = $this->createMock(SpiURLHandler::class);
         $this->persistenceHandlerMock
@@ -80,19 +81,19 @@ class URLHandlerTest extends AbstractCacheHandlerTest
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findUsages')
             ->with($urlId)
             ->willReturn([2, 3, 5]);
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('updateUrl')
             ->with($urlId, $updateStruct)
             ->willReturn(true);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(4))
+            ->expects(self::exactly(4))
             ->method('generateTag')
             ->withConsecutive(
                 ['url', [1], false],
@@ -108,12 +109,12 @@ class URLHandlerTest extends AbstractCacheHandlerTest
             );
 
         $this->cacheMock
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('invalidateTags')
             ->with(['url-1']);
 
         $this->cacheMock
-            ->expects($this->at(1))
+            ->expects(self::at(1))
             ->method('invalidateTags')
             ->with(['c-2', 'c-3', 'c-5']);
 
@@ -126,7 +127,7 @@ class URLHandlerTest extends AbstractCacheHandlerTest
         $urlId = 1;
         $updateStruct = new URLUpdateStruct();
 
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandlerMock = $this->createMock(SpiURLHandler::class);
         $this->persistenceHandlerMock
@@ -134,19 +135,19 @@ class URLHandlerTest extends AbstractCacheHandlerTest
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('updateUrl')
             ->with($urlId, $updateStruct)
             ->willReturn(true);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generateTag')
             ->with('url', [1], false)
             ->willReturn('url-1');
 
         $this->cacheMock
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('invalidateTags')
             ->with(['url-1']);
 

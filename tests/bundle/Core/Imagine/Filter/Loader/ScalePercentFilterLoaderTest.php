@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScalePercentFilterLoader;
@@ -60,17 +61,17 @@ class ScalePercentFilterLoaderTest extends TestCase
         $box = new Box($origWidth, $origHeight);
         $image = $this->createMock(ImageInterface::class);
         $image
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getSize')
-            ->will($this->returnValue($box));
+            ->will(self::returnValue($box));
 
         $this->innerLoader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
-            ->with($image, $this->equalTo(['size' => [$expectedWidth, $expectedHeight]]))
-            ->will($this->returnValue($image));
+            ->with($image, self::equalTo(['size' => [$expectedWidth, $expectedHeight]]))
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image, [$widthPercent, $heightPercent]));
+        self::assertSame($image, $this->loader->load($image, [$widthPercent, $heightPercent]));
     }
 }
 

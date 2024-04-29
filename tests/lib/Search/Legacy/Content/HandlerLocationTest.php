@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
@@ -176,11 +177,11 @@ class HandlerLocationTest extends AbstractTestCase
             ->setMethods(['createLocationsFromRows'])
             ->getMock();
         $mapperMock
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('createLocationsFromRows')
-            ->with($this->isType('array'))
+            ->with(self::isType('array'))
             ->will(
-                $this->returnCallback(
+                self::returnCallback(
                     static function ($rows) {
                         $locations = [];
                         foreach ($rows as $row) {
@@ -211,8 +212,8 @@ class HandlerLocationTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(1, $searchResult->totalCount);
-        $this->assertCount(1, $searchResult->searchHits);
+        self::assertEquals(1, $searchResult->totalCount);
+        self::assertCount(1, $searchResult->searchHits);
     }
 
     public function testFindWithZeroLimit()
@@ -229,8 +230,8 @@ class HandlerLocationTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(1, $searchResult->totalCount);
-        $this->assertEquals([], $searchResult->searchHits);
+        self::assertEquals(1, $searchResult->totalCount);
+        self::assertEquals([], $searchResult->searchHits);
     }
 
     /**
@@ -250,8 +251,8 @@ class HandlerLocationTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(1, $searchResult->totalCount);
-        $this->assertCount(1, $searchResult->searchHits);
+        self::assertEquals(1, $searchResult->totalCount);
+        self::assertCount(1, $searchResult->searchHits);
     }
 
     /**
@@ -271,8 +272,8 @@ class HandlerLocationTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(1, $searchResult->totalCount);
-        $this->assertEquals([], $searchResult->searchHits);
+        self::assertEquals(1, $searchResult->totalCount);
+        self::assertEquals([], $searchResult->searchHits);
     }
 
     public function testLocationIdFilter()
@@ -1055,8 +1056,8 @@ class HandlerLocationTest extends AbstractTestCase
             )
         );
 
-        $this->assertCount(10, $result->searchHits);
-        $this->assertEquals(186, $result->totalCount);
+        self::assertCount(10, $result->searchHits);
+        self::assertEquals(186, $result->totalCount);
         $this->assertSearchResults(
             [2, 5, 12, 13, 14, 15, 43, 44, 45, 48],
             $result
@@ -1147,9 +1148,9 @@ class HandlerLocationTest extends AbstractTestCase
             )
         );
 
-        $this->assertEquals(26, $result->totalCount);
-        $this->assertCount(10, $result->searchHits);
-        $this->assertCount(
+        self::assertEquals(26, $result->totalCount);
+        self::assertCount(10, $result->searchHits);
+        self::assertCount(
             10,
             array_map(
                 static function ($hit) {

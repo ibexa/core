@@ -25,7 +25,7 @@ final class StorageDispatcherTest extends TestCase
     {
         $storage = $this->createMock(FieldConstraintsStorage::class);
         $storage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('publishFieldConstraintsData')
             ->with(self::EXAMPLE_FIELD_DEFINITION_ID);
 
@@ -46,7 +46,7 @@ final class StorageDispatcherTest extends TestCase
 
         $storage = $this->createMock(FieldConstraintsStorage::class);
         $storage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('storeFieldConstraintsData')
             ->with(self::EXAMPLE_FIELD_DEFINITION_ID, $status, $constraints);
 
@@ -81,7 +81,7 @@ final class StorageDispatcherTest extends TestCase
 
         $storage = $this->createMock(FieldConstraintsStorage::class);
         $storage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFieldConstraintsData')
             ->with(self::EXAMPLE_FIELD_DEFINITION_ID)
             ->willReturn($constraints);
@@ -125,7 +125,7 @@ final class StorageDispatcherTest extends TestCase
     {
         $storage = $this->createMock(FieldConstraintsStorage::class);
         $storage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteFieldConstraintsData')
             ->with(self::EXAMPLE_FIELD_DEFINITION_ID);
 
@@ -156,7 +156,7 @@ final class StorageDispatcherTest extends TestCase
         $registry = $this->createMock(StorageRegistryInterface::class);
         $registry->method('hasStorage')->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)->willReturn(false);
         $registry
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getStorage')
             ->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER);
 

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigParser;
@@ -36,13 +37,13 @@ class ConfigParserTest extends TestCase
             $this->getConfigurationParserMock(),
         ];
         $configParser = new ConfigParser($innerParsers);
-        $this->assertSame($innerParsers, $configParser->getConfigParsers());
+        self::assertSame($innerParsers, $configParser->getConfigParsers());
     }
 
     public function testGetSetInnerParsers()
     {
         $configParser = new ConfigParser();
-        $this->assertSame([], $configParser->getConfigParsers());
+        self::assertSame([], $configParser->getConfigParsers());
 
         $innerParsers = [
             $this->getConfigurationParserMock(),
@@ -50,7 +51,7 @@ class ConfigParserTest extends TestCase
             $this->getConfigurationParserMock(),
         ];
         $configParser->setConfigParsers($innerParsers);
-        $this->assertSame($innerParsers, $configParser->getConfigParsers());
+        self::assertSame($innerParsers, $configParser->getConfigParsers());
     }
 
     public function testMapConfig()
@@ -71,7 +72,7 @@ class ConfigParserTest extends TestCase
         foreach ($parsers as $parser) {
             /* @var \PHPUnit\Framework\MockObject\MockObject $parser */
             $parser
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('mapConfig')
                 ->with($scopeSettings, $currentScope, $contextualizer);
         }
@@ -96,11 +97,11 @@ class ConfigParserTest extends TestCase
         foreach ($parsers as $parser) {
             /* @var \PHPUnit\Framework\MockObject\MockObject $parser */
             $parser
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('preMap')
                 ->with($config, $contextualizer);
             $parser
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('postMap')
                 ->with($config, $contextualizer);
         }
@@ -122,7 +123,7 @@ class ConfigParserTest extends TestCase
         foreach ($parsers as $parser) {
             /* @var \PHPUnit\Framework\MockObject\MockObject $parser */
             $parser
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('addSemanticConfig')
                 ->with($nodeBuilder);
         }

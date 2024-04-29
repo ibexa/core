@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\EventListener;
 
 use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
@@ -52,7 +53,7 @@ class SiteAccessMatchListenerTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [KernelEvents::REQUEST => ['onKernelRequest', 45]],
             SiteAccessMatchListener::getSubscribedEvents()
         );
@@ -85,18 +86,18 @@ class SiteAccessMatchListenerTest extends TestCase
         );
 
         $this->saRouter
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('match');
 
         $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
         $this->eventDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
+            ->with(self::equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
 
         $this->listener->onKernelRequest($event);
-        $this->assertEquals($siteAccess, $request->attributes->get('siteaccess'));
-        $this->assertFalse($request->attributes->has('serialized_siteaccess'));
+        self::assertEquals($siteAccess, $request->attributes->get('siteaccess'));
+        self::assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
     public function testOnKernelRequestSerializedSAWithCompoundMatcher()
@@ -141,18 +142,18 @@ class SiteAccessMatchListenerTest extends TestCase
         );
 
         $this->saRouter
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('match');
 
         $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
         $this->eventDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
+            ->with(self::equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
 
         $this->listener->onKernelRequest($event);
-        $this->assertEquals($siteAccess, $request->attributes->get('siteaccess'));
-        $this->assertFalse($request->attributes->has('serialized_siteaccess'));
+        self::assertEquals($siteAccess, $request->attributes->get('siteaccess'));
+        self::assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
     public function testOnKernelRequestSiteAccessPresent()
@@ -167,17 +168,17 @@ class SiteAccessMatchListenerTest extends TestCase
         );
 
         $this->saRouter
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('match');
 
         $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
         $this->eventDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
+            ->with(self::equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
 
         $this->listener->onKernelRequest($event);
-        $this->assertSame($siteAccess, $request->attributes->get('siteaccess'));
+        self::assertSame($siteAccess, $request->attributes->get('siteaccess'));
     }
 
     public function testOnKernelRequest()
@@ -207,19 +208,19 @@ class SiteAccessMatchListenerTest extends TestCase
         );
 
         $this->saRouter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('match')
-            ->with($this->equalTo($simplifiedRequest))
-            ->will($this->returnValue($siteAccess));
+            ->with(self::equalTo($simplifiedRequest))
+            ->will(self::returnValue($siteAccess));
 
         $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
         $this->eventDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
+            ->with(self::equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
 
         $this->listener->onKernelRequest($event);
-        $this->assertSame($siteAccess, $request->attributes->get('siteaccess'));
+        self::assertSame($siteAccess, $request->attributes->get('siteaccess'));
     }
 
     public function testOnKernelRequestUserHashWithOriginalRequest()
@@ -251,19 +252,19 @@ class SiteAccessMatchListenerTest extends TestCase
         );
 
         $this->saRouter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('match')
-            ->with($this->equalTo($simplifiedRequest))
-            ->will($this->returnValue($siteAccess));
+            ->with(self::equalTo($simplifiedRequest))
+            ->will(self::returnValue($siteAccess));
 
         $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
         $this->eventDispatcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
+            ->with(self::equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
 
         $this->listener->onKernelRequest($event);
-        $this->assertSame($siteAccess, $request->attributes->get('siteaccess'));
+        self::assertSame($siteAccess, $request->attributes->get('siteaccess'));
     }
 }
 

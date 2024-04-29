@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
@@ -41,7 +42,7 @@ class IntegerValueValidatorTest extends TestCase
      */
     public function testConstructor()
     {
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Validator::class,
             new IntegerValueValidator()
         );
@@ -63,8 +64,8 @@ class IntegerValueValidatorTest extends TestCase
         $validator->initializeWithConstraints(
             $constraints
         );
-        $this->assertSame($constraints['minIntegerValue'], $validator->minIntegerValue);
-        $this->assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
+        self::assertSame($constraints['minIntegerValue'], $validator->minIntegerValue);
+        self::assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
     }
 
     /**
@@ -85,7 +86,7 @@ class IntegerValueValidatorTest extends TestCase
             ],
         ];
         $validator = new IntegerValueValidator();
-        $this->assertSame($constraintsSchema, $validator->getConstraintsSchema());
+        self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
     /**
@@ -103,8 +104,8 @@ class IntegerValueValidatorTest extends TestCase
         $validator = new IntegerValueValidator();
         $validator->minIntegerValue = $constraints['minIntegerValue'];
         $validator->maxIntegerValue = $constraints['maxIntegerValue'];
-        $this->assertSame($constraints['minIntegerValue'], $validator->minIntegerValue);
-        $this->assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
+        self::assertSame($constraints['minIntegerValue'], $validator->minIntegerValue);
+        self::assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
     }
 
     /**
@@ -155,6 +156,7 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validating a correct value.
      *
      * @dataProvider providerForValidateOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator::validate
      * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
@@ -163,8 +165,8 @@ class IntegerValueValidatorTest extends TestCase
         $validator = new IntegerValueValidator();
         $validator->minIntegerValue = 10;
         $validator->maxIntegerValue = 15;
-        $this->assertTrue($validator->validate(new IntegerValue($value)));
-        $this->assertSame([], $validator->getMessage());
+        self::assertTrue($validator->validate(new IntegerValue($value)));
+        self::assertSame([], $validator->getMessage());
     }
 
     public function providerForValidateOK()
@@ -184,6 +186,7 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator::validate
      */
     public function testValidateWrongValues($value, $message, $values)
@@ -191,22 +194,22 @@ class IntegerValueValidatorTest extends TestCase
         $validator = new IntegerValueValidator();
         $validator->minIntegerValue = $this->getMinIntegerValue();
         $validator->maxIntegerValue = $this->getMaxIntegerValue();
-        $this->assertFalse($validator->validate(new IntegerValue($value)));
+        self::assertFalse($validator->validate(new IntegerValue($value)));
         $messages = $validator->getMessage();
-        $this->assertCount(1, $messages);
-        $this->assertInstanceOf(
+        self::assertCount(1, $messages);
+        self::assertInstanceOf(
             ValidationError::class,
             $messages[0]
         );
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Message::class,
             $messages[0]->getTranslatableMessage()
         );
-        $this->assertEquals(
+        self::assertEquals(
             $message,
             $messages[0]->getTranslatableMessage()->message
         );
-        $this->assertEquals(
+        self::assertEquals(
             $values,
             $messages[0]->getTranslatableMessage()->values
         );
@@ -226,13 +229,14 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsOK
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsCorrectValues($constraints)
     {
         $validator = new IntegerValueValidator();
 
-        $this->assertEmpty(
+        self::assertEmpty(
             $validator->validateConstraints($constraints)
         );
     }
@@ -272,6 +276,7 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validation of constraints.
      *
      * @dataProvider providerForValidateConstraintsKO
+     *
      * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
     public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
@@ -280,15 +285,15 @@ class IntegerValueValidatorTest extends TestCase
         $messages = $validator->validateConstraints($constraints);
 
         foreach ($expectedMessages as $index => $expectedMessage) {
-            $this->assertInstanceOf(
+            self::assertInstanceOf(
                 Message::class,
                 $messages[0]->getTranslatableMessage()
             );
-            $this->assertEquals(
+            self::assertEquals(
                 $expectedMessage,
                 $messages[$index]->getTranslatableMessage()->message
             );
-            $this->assertEquals(
+            self::assertEquals(
                 $values[$index],
                 $messages[$index]->getTranslatableMessage()->values
             );

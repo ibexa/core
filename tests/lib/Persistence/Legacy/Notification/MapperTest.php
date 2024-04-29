@@ -74,7 +74,7 @@ class MapperTest extends TestCase
             ]),
         ];
 
-        $this->assertEquals($objects, $this->mapper->extractNotificationsFromRows($rows));
+        self::assertEquals($objects, $this->mapper->extractNotificationsFromRows($rows));
     }
 
     public function testExtractNotificationsFromRowsThrowsRuntimeException()
@@ -101,7 +101,7 @@ class MapperTest extends TestCase
             'isPending' => false,
         ]);
 
-        $this->assertEquals(new Notification([
+        self::assertEquals(new Notification([
             'isPending' => false,
         ]), $this->mapper->createNotificationFromUpdateStruct($updateStruct));
     }

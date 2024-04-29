@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Routing;
 
 use Ibexa\Core\MVC\Symfony\Routing\Generator;
@@ -66,23 +67,23 @@ class GeneratorTest extends TestCase
 
         $uri = '/some/thing';
         $this->generator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('doGenerate')
             ->with($urlResource, $parameters)
-            ->will($this->returnValue($uri));
+            ->will(self::returnValue($uri));
 
         $fullUri = $baseUrl . $uri;
         $matcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('analyseLink')
             ->with($uri)
-            ->will($this->returnValue($uri));
+            ->will(self::returnValue($uri));
 
         if ($referenceType === UrlGeneratorInterface::ABSOLUTE_URL) {
             $fullUri = $requestContext->getScheme() . '://' . $requestContext->getHost() . $baseUrl . $uri;
         }
 
-        $this->assertSame($fullUri, $this->generator->generate($urlResource, $parameters, $referenceType));
+        self::assertSame($fullUri, $this->generator->generate($urlResource, $parameters, $referenceType));
     }
 
     /**
@@ -99,17 +100,17 @@ class GeneratorTest extends TestCase
 
         $uri = '/some/thing';
         $this->generator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('doGenerate')
             ->with($urlResource, $parameters)
-            ->will($this->returnValue($uri));
+            ->will(self::returnValue($uri));
 
         $fullUri = $baseUrl . $uri;
         $matcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('analyseLink')
             ->with($uri)
-            ->will($this->returnValue($uri));
+            ->will(self::returnValue($uri));
 
         if ($referenceType === UrlGeneratorInterface::ABSOLUTE_URL) {
             $fullUri = $requestContext->getScheme() . '://' . $requestContext->getHost() . $baseUrl . $uri;
@@ -117,14 +118,14 @@ class GeneratorTest extends TestCase
 
         $siteAccessName = 'fake';
         $this->siteAccessRouter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('matchByName')
             ->with($siteAccessName)
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
         $this->logger
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('notice');
-        $this->assertSame($fullUri, $this->generator->generate($urlResource, $parameters + ['siteaccess' => $siteAccessName], $referenceType));
+        self::assertSame($fullUri, $this->generator->generate($urlResource, $parameters + ['siteaccess' => $siteAccessName], $referenceType));
     }
 }
 

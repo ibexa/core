@@ -35,12 +35,12 @@ final class DefaultSortClauseParserTest extends TestCase
         $parser = $this->createMock(SortSpecParserInterface::class);
         $parser->method('parseSortDirection')->willReturn(Query::SORT_ASC);
 
-        $this->assertEquals(
+        self::assertEquals(
             new Location\Depth(Query::SORT_ASC),
             $this->defaultSortClauseParser->parse($parser, 'depth')
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             new Location\Priority(Query::SORT_ASC),
             $this->defaultSortClauseParser->parse($parser, 'priority')
         );
@@ -62,11 +62,11 @@ final class DefaultSortClauseParserTest extends TestCase
 
     public function testSupports(): void
     {
-        $this->assertTrue($this->defaultSortClauseParser->supports('depth'));
-        $this->assertTrue($this->defaultSortClauseParser->supports('priority'));
-        $this->assertTrue($this->defaultSortClauseParser->supports('id'));
+        self::assertTrue($this->defaultSortClauseParser->supports('depth'));
+        self::assertTrue($this->defaultSortClauseParser->supports('priority'));
+        self::assertTrue($this->defaultSortClauseParser->supports('id'));
 
-        $this->assertFalse($this->defaultSortClauseParser->supports('unsupported'));
+        self::assertFalse($this->defaultSortClauseParser->supports('unsupported'));
     }
 }
 

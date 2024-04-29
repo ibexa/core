@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
@@ -30,7 +31,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         $matcher = $this->createMock(SiteAccess\URILexer::class);
         $siteAccess = new SiteAccess('test', 'test', $matcher);
         $matcher
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('analyseLink');
 
         $renderer = new DecoratedFragmentRenderer($this->innerRenderer);
@@ -43,14 +44,14 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         $matcher = $this->createMock(SiteAccess\URILexer::class);
         $siteAccess = new SiteAccess('test', 'test', $matcher);
         $matcher
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('analyseLink')
             ->with('/foo')
-            ->will($this->returnValue('/bar/foo'));
+            ->will(self::returnValue('/bar/foo'));
 
         $innerRenderer = $this->createMock(RoutableFragmentRenderer::class);
         $innerRenderer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setFragmentPath')
             ->with('/bar/foo');
         $renderer = new DecoratedFragmentRenderer($innerRenderer);
@@ -62,12 +63,12 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
     {
         $name = 'test';
         $this->innerRenderer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->will(self::returnValue($name));
 
         $renderer = new DecoratedFragmentRenderer($this->innerRenderer);
-        $this->assertSame($name, $renderer->getName());
+        self::assertSame($name, $renderer->getName());
     }
 
     public function testRendererAbsoluteUrl()
@@ -77,13 +78,13 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         $options = ['foo' => 'bar'];
         $expectedReturn = '/_fragment?foo=bar';
         $this->innerRenderer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($url, $request, $options)
-            ->will($this->returnValue($expectedReturn));
+            ->will(self::returnValue($expectedReturn));
 
         $renderer = new DecoratedFragmentRenderer($this->innerRenderer);
-        $this->assertSame($expectedReturn, $renderer->render($url, $request, $options));
+        self::assertSame($expectedReturn, $renderer->render($url, $request, $options));
     }
 
     public function testRendererControllerReference()
@@ -100,18 +101,18 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         $options = ['foo' => 'bar'];
         $expectedReturn = '/_fragment?foo=bar';
         $this->innerRenderer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($reference, $request, $options)
-            ->will($this->returnValue($expectedReturn));
+            ->will(self::returnValue($expectedReturn));
 
         $renderer = new DecoratedFragmentRenderer($this->innerRenderer);
-        $this->assertSame($expectedReturn, $renderer->render($reference, $request, $options));
-        $this->assertTrue(isset($reference->attributes['serialized_siteaccess']));
+        self::assertSame($expectedReturn, $renderer->render($reference, $request, $options));
+        self::assertTrue(isset($reference->attributes['serialized_siteaccess']));
         $serializedSiteAccess = json_encode($siteAccess);
-        $this->assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
-        $this->assertTrue(isset($reference->attributes['serialized_siteaccess_matcher']));
-        $this->assertSame(
+        self::assertSame($serializedSiteAccess, $reference->attributes['serialized_siteaccess']);
+        self::assertTrue(isset($reference->attributes['serialized_siteaccess_matcher']));
+        self::assertSame(
             $this->getSerializer()->serialize(
                 $siteAccess->matcher,
                 'json',

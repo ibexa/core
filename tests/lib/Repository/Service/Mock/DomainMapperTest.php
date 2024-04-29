@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use DateTime;
@@ -42,11 +43,11 @@ class DomainMapperTest extends BaseServiceMockTest
     public function testBuildVersionInfo(SPIVersionInfo $spiVersionInfo)
     {
         $languageHandlerMock = $this->getLanguageHandlerMock();
-        $languageHandlerMock->expects($this->never())->method('load');
+        $languageHandlerMock->expects(self::never())->method('load');
 
         $versionInfo = $this->getContentDomainMapper()->buildVersionInfoDomainObject($spiVersionInfo);
 
-        $this->assertInstanceOf(APIVersionInfo::class, $versionInfo);
+        self::assertInstanceOf(APIVersionInfo::class, $versionInfo);
     }
 
     public function testBuildLocationWithContentForRootLocation()
@@ -86,10 +87,10 @@ class DomainMapperTest extends BaseServiceMockTest
             ]),
         ]);
 
-        $this->assertInstanceOf(APILocation::class, $apiRootLocation);
-        $this->assertEquals($spiRootLocation->id, $apiRootLocation->id);
-        $this->assertEquals($expectedContentInfo->id, $apiRootLocation->getContentInfo()->id);
-        $this->assertEquals($expectedContent, $apiRootLocation->getContent());
+        self::assertInstanceOf(APILocation::class, $apiRootLocation);
+        self::assertEquals($spiRootLocation->id, $apiRootLocation->id);
+        self::assertEquals($expectedContentInfo->id, $apiRootLocation->getContentInfo()->id);
+        self::assertEquals($expectedContent, $apiRootLocation->getContent());
     }
 
     public function testBuildLocationWithContentThrowsInvalidArgumentException()
@@ -106,7 +107,7 @@ class DomainMapperTest extends BaseServiceMockTest
     {
         $spiRootLocation = new Location(['id' => 1, 'parentId' => 1]);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->getContentDomainMapper()->buildLocationWithContent($spiRootLocation, null),
             $this->getContentDomainMapper()->buildLocation($spiRootLocation)
         );
@@ -229,7 +230,7 @@ class DomainMapperTest extends BaseServiceMockTest
     ) {
         $contentHandlerMock = $this->getContentHandlerMock();
         $contentHandlerMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadContentInfoList')
             ->with($contentIds)
             ->willReturn($contentInfoList);
@@ -241,17 +242,17 @@ class DomainMapperTest extends BaseServiceMockTest
 
         $spiResult = clone $result;
         $missingLocations = $this->getContentDomainMapper()->buildLocationDomainObjectsOnSearchResult($result, $languageFilter);
-        $this->assertIsArray($missingLocations);
+        self::assertIsArray($missingLocations);
 
         if (!$missing) {
-            $this->assertEmpty($missingLocations);
+            self::assertEmpty($missingLocations);
         } else {
-            $this->assertNotEmpty($missingLocations);
+            self::assertNotEmpty($missingLocations);
         }
 
-        $this->assertCount($missing, $missingLocations);
-        $this->assertEquals($spiResult->totalCount - $missing, $result->totalCount);
-        $this->assertCount(count($spiResult->searchHits) - $missing, $result->searchHits);
+        self::assertCount($missing, $missingLocations);
+        self::assertEquals($spiResult->totalCount - $missing, $result->totalCount);
+        self::assertCount(count($spiResult->searchHits) - $missing, $result->searchHits);
     }
 
     /**

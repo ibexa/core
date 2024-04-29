@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine\Filter\Loader;
 
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleExactFilterLoader;
@@ -52,12 +53,12 @@ class ScaleExactFilterLoaderTest extends TestCase
         $options = [123, 456];
         $image = $this->createMock(ImageInterface::class);
         $this->innerLoader
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('load')
             ->with($image, ['size' => $options])
-            ->will($this->returnValue($image));
+            ->will(self::returnValue($image));
 
-        $this->assertSame($image, $this->loader->load($image, $options));
+        self::assertSame($image, $this->loader->load($image, $options));
     }
 }
 

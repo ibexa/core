@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
@@ -42,41 +43,42 @@ class ParentContentTypeTest extends BaseTest
         $parentLocation = $this->getLocationMock([
             'parentLocationId' => self::EXAMPLE_PARENT_LOCATION_ID,
         ]);
-        $parentLocation->expects($this->once())
+        $parentLocation->expects(self::once())
             ->method('getContentInfo')
             ->will(
-                $this->returnValue($parentContentInfo)
+                self::returnValue($parentContentInfo)
             );
 
         $locationServiceMock = $this->createMock(LocationService::class);
 
-        $locationServiceMock->expects($this->atLeastOnce())
+        $locationServiceMock->expects(self::atLeastOnce())
             ->method('loadLocation')
             ->will(
-                $this->returnValue($parentLocation)
+                self::returnValue($parentLocation)
             );
         // The following is used in the case of a match by contentInfo
-        $locationServiceMock->expects($this->any())
+        $locationServiceMock->expects(self::any())
             ->method('loadLocation')
             ->will(
-                $this->returnValue($this->getLocationMock())
+                self::returnValue($this->getLocationMock())
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getLocationService')
-            ->will($this->returnValue($locationServiceMock));
+            ->will(self::returnValue($locationServiceMock));
         $repository
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getPermissionResolver')
-            ->will($this->returnValue($this->getPermissionResolverMock()));
+            ->will(self::returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
@@ -89,7 +91,7 @@ class ParentContentTypeTest extends BaseTest
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchLocation($this->getLocationMock(['parentLocationId' => self::EXAMPLE_LOCATION_ID]))
         );
@@ -123,6 +125,7 @@ class ParentContentTypeTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentContentType::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
@@ -136,7 +139,7 @@ class ParentContentTypeTest extends BaseTest
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
 
-        $this->assertSame(
+        self::assertSame(
             $expectedResult,
             $this->matcher->matchContentInfo($this->getContentInfoMock([
                 'mainLocationId' => self::EXAMPLE_LOCATION_ID,

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Target\Builder\VersionBuilder;
@@ -72,6 +73,7 @@ class ContentTypeLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValue
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation $limitation
@@ -95,6 +97,7 @@ class ContentTypeLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValueException
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
@@ -128,13 +131,13 @@ class ContentTypeLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('contentTypeHandler')
-                ->will($this->returnValue($this->contentTypeHandlerMock));
+                ->will(self::returnValue($this->contentTypeHandlerMock));
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->contentTypeHandlerMock
-                    ->expects($this->at($key))
+                    ->expects(self::at($key))
                     ->method('load')
                     ->with($value);
             }
@@ -169,21 +172,21 @@ class ContentTypeLimitationTypeTest extends Base
     {
         if (!empty($limitation->limitationValues)) {
             $this->getPersistenceMock()
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('contentTypeHandler')
-                ->will($this->returnValue($this->contentTypeHandlerMock));
+                ->will(self::returnValue($this->contentTypeHandlerMock));
 
             foreach ($limitation->limitationValues as $key => $value) {
                 $this->contentTypeHandlerMock
-                    ->expects($this->at($key))
+                    ->expects(self::at($key))
                     ->method('load')
                     ->with($value)
-                    ->will($this->throwException(new NotFoundException('contentType', $value)));
+                    ->will(self::throwException(new NotFoundException('contentType', $value)));
             }
         } else {
             $this->getPersistenceMock()
-                ->expects($this->never())
-                ->method($this->anything());
+                ->expects(self::never())
+                ->method(self::anything());
         }
 
         // Need to create inline instead of depending on testConstruct() to get correct mock instance
@@ -218,21 +221,21 @@ class ContentTypeLimitationTypeTest extends Base
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
 
         $contentMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVersionInfo')
-            ->will($this->returnValue($versionInfoMock));
+            ->will(self::returnValue($versionInfoMock));
 
         $versionInfoMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentInfo')
-            ->will($this->returnValue(new ContentInfo(['contentTypeId' => 66])));
+            ->will(self::returnValue(new ContentInfo(['contentTypeId' => 66])));
 
         $versionInfoMock2 = $this->createMock(APIVersionInfo::class);
 
         $versionInfoMock2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentInfo')
-            ->will($this->returnValue(new ContentInfo(['contentTypeId' => 66])));
+            ->will(self::returnValue(new ContentInfo(['contentTypeId' => 66])));
 
         return [
             // ContentInfo, no access
@@ -315,13 +318,13 @@ class ContentTypeLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $value = $limitationType->evaluate(
             $limitation,
@@ -370,13 +373,13 @@ class ContentTypeLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $v = $limitationType->evaluate(
             $limitation,

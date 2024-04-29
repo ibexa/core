@@ -44,7 +44,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $data = $this->loadBookmark($id);
 
-        $this->assertEquals([
+        self::assertEquals([
             'id' => $id,
             'name' => 'Lorem ipsum dolor...',
             'node_id' => '54',
@@ -56,12 +56,12 @@ class DoctrineDatabaseTest extends TestCase
     {
         $this->getGateway()->deleteBookmark(self::EXISTING_BOOKMARK_ID);
 
-        $this->assertEmpty($this->loadBookmark(self::EXISTING_BOOKMARK_ID));
+        self::assertEmpty($this->loadBookmark(self::EXISTING_BOOKMARK_ID));
     }
 
     public function testLoadBookmarkDataById()
     {
-        $this->assertEquals(
+        self::assertEquals(
             [self::EXISTING_BOOKMARK_DATA],
             $this->getGateway()->loadBookmarkDataById(self::EXISTING_BOOKMARK_ID)
         );
@@ -74,7 +74,7 @@ class DoctrineDatabaseTest extends TestCase
             [(int) self::EXISTING_BOOKMARK_DATA['node_id']]
         );
 
-        $this->assertEquals([self::EXISTING_BOOKMARK_DATA], $data);
+        self::assertEquals([self::EXISTING_BOOKMARK_DATA], $data);
     }
 
     /**
@@ -82,7 +82,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testLoadUserBookmarks(int $userId, int $offset, int $limit, array $expected)
     {
-        $this->assertEquals($expected, $this->getGateway()->loadUserBookmarks($userId, $offset, $limit));
+        self::assertEquals($expected, $this->getGateway()->loadUserBookmarks($userId, $offset, $limit));
     }
 
     /**
@@ -90,7 +90,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     public function testCountUserBookmarks(int $userId, int $offset, int $limit, array $expected)
     {
-        $this->assertEquals(count($expected), $this->getGateway()->countUserBookmarks($userId));
+        self::assertEquals(count($expected), $this->getGateway()->countUserBookmarks($userId));
     }
 
     public function dataProviderForLoadUserBookmarks(): array
@@ -134,8 +134,8 @@ class DoctrineDatabaseTest extends TestCase
         $bookmark1AfterSwap = $this->loadBookmark($bookmark1Id);
         $bookmark2AfterSwap = $this->loadBookmark($bookmark2Id);
 
-        $this->assertEquals($bookmark1BeforeSwap['node_id'], $bookmark2AfterSwap['node_id']);
-        $this->assertEquals($bookmark2BeforeSwap['node_id'], $bookmark1AfterSwap['node_id']);
+        self::assertEquals($bookmark1BeforeSwap['node_id'], $bookmark2AfterSwap['node_id']);
+        self::assertEquals($bookmark2BeforeSwap['node_id'], $bookmark1AfterSwap['node_id']);
     }
 
     /**

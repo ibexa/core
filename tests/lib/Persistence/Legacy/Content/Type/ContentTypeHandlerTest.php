@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type;
@@ -57,37 +58,37 @@ class ContentTypeHandlerTest extends TestCase
         $createStruct = new GroupCreateStruct();
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('createGroupFromCreateStruct')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     GroupCreateStruct::class
                 )
             )
             ->will(
-                $this->returnValue(new Group())
+                self::returnValue(new Group())
             );
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('insertGroup')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Group::class
                 )
             )
-            ->will($this->returnValue(23));
+            ->will(self::returnValue(23));
 
         $handler = $this->getHandler();
         $group = $handler->createGroup(
             new GroupCreateStruct()
         );
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Group::class,
             $group
         );
-        $this->assertEquals(
+        self::assertEquals(
             23,
             $group->id
         );
@@ -101,10 +102,10 @@ class ContentTypeHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('updateGroup')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     GroupUpdateStruct::class
                 )
             );
@@ -119,19 +120,19 @@ class ContentTypeHandlerTest extends TestCase
             ])
             ->getMock();
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('loadGroup')
             ->with(
-                $this->equalTo(23)
+                self::equalTo(23)
             )->will(
-                $this->returnValue(new Group())
+                self::returnValue(new Group())
             );
 
         $res = $handlerMock->updateGroup(
             $updateStruct
         );
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Group::class,
             $res
         );
@@ -140,13 +141,13 @@ class ContentTypeHandlerTest extends TestCase
     public function testDeleteGroupSuccess()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('countTypesInGroup')
-            ->with($this->equalTo(23))
-            ->will($this->returnValue(0));
-        $gatewayMock->expects($this->once())
+            ->with(self::equalTo(23))
+            ->will(self::returnValue(0));
+        $gatewayMock->expects(self::once())
             ->method('deleteGroup')
-            ->with($this->equalTo(23));
+            ->with(self::equalTo(23));
 
         $handler = $this->getHandler();
         $handler->deleteGroup(23);
@@ -158,11 +159,11 @@ class ContentTypeHandlerTest extends TestCase
         $this->expectExceptionMessage('Group with ID "23" is not empty.');
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('countTypesInGroup')
-            ->with($this->equalTo(23))
-            ->will($this->returnValue(42));
-        $gatewayMock->expects($this->never())
+            ->with(self::equalTo(23))
+            ->will(self::returnValue(42));
+        $gatewayMock->expects(self::never())
             ->method('deleteGroup');
 
         $handler = $this->getHandler();
@@ -172,21 +173,21 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadGroup()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadGroupData')
-            ->with($this->equalTo([23]))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo([23]))
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractGroupsFromRows')
-            ->with($this->equalTo([]))
-            ->will($this->returnValue([new Group()]));
+            ->with(self::equalTo([]))
+            ->will(self::returnValue([new Group()]));
 
         $handler = $this->getHandler();
         $res = $handler->loadGroup(23);
 
-        $this->assertEquals(
+        self::assertEquals(
             new Group(),
             $res
         );
@@ -195,21 +196,21 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadGroupByIdentifier()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadGroupDataByIdentifier')
-            ->with($this->equalTo('content'))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo('content'))
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractGroupsFromRows')
-            ->with($this->equalTo([]))
-            ->will($this->returnValue([new Group()]));
+            ->with(self::equalTo([]))
+            ->will(self::returnValue([new Group()]));
 
         $handler = $this->getHandler();
         $res = $handler->loadGroupByIdentifier('content');
 
-        $this->assertEquals(
+        self::assertEquals(
             new Group(),
             $res
         );
@@ -218,20 +219,20 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadAllGroups()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadAllGroupsData')
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractGroupsFromRows')
-            ->with($this->equalTo([]))
-            ->will($this->returnValue([new Group()]));
+            ->with(self::equalTo([]))
+            ->will(self::returnValue([new Group()]));
 
         $handler = $this->getHandler();
         $res = $handler->loadAllGroups();
 
-        $this->assertEquals(
+        self::assertEquals(
             [new Group()],
             $res
         );
@@ -240,21 +241,21 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadContentTypes()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypesDataForGroup')
-            ->with($this->equalTo(23), $this->equalTo(0))
-            ->will($this->returnValue([]));
+            ->with(self::equalTo(23), self::equalTo(0))
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
-            ->with($this->equalTo([]))
-            ->will($this->returnValue([new Type()]));
+            ->with(self::equalTo([]))
+            ->will(self::returnValue([new Type()]));
 
         $handler = $this->getHandler();
         $res = $handler->loadContentTypes(23, 0);
 
-        $this->assertEquals(
+        self::assertEquals(
             [new Type()],
             $res
         );
@@ -263,21 +264,21 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadContentTypeList(): void
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypesListData')
-            ->with($this->equalTo([23, 24]))
+            ->with(self::equalTo([23, 24]))
             ->willReturn([]);
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
-            ->with($this->equalTo([]))
+            ->with(self::equalTo([]))
             ->willReturn([23 => new Type()]);
 
         $handler = $this->getHandler();
         $types = $handler->loadContentTypeList([23, 24]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [23 => new Type()],
             $types,
             'Types not loaded correctly'
@@ -287,7 +288,7 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadContentTypesByFieldDefinitionIdentifier(): void
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypesDataByFieldDefinitionIdentifier')
             ->with('ezstring')
             ->willReturn([]);
@@ -311,20 +312,20 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoad()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypeData')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(23),
+                self::equalTo(1)
             )
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
-            ->with($this->equalTo([]))
+            ->with(self::equalTo([]))
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [new Type()]
                 )
             );
@@ -332,7 +333,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getHandler();
         $type = $handler->load(23, 1);
 
-        $this->assertEquals(
+        self::assertEquals(
             new Type(),
             $type,
             'Type not loaded correctly'
@@ -344,20 +345,20 @@ class ContentTypeHandlerTest extends TestCase
         $this->expectException(Exception\TypeNotFound::class);
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypeData')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(23),
+                self::equalTo(1)
             )
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
-            ->with($this->equalTo([]))
+            ->with(self::equalTo([]))
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     []
                 )
             );
@@ -369,19 +370,19 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadDefaultVersion()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypeData')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(0)
+                self::equalTo(23),
+                self::equalTo(0)
             )
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [new Type()]
                 )
             );
@@ -389,7 +390,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getHandler();
         $type = $handler->load(23);
 
-        $this->assertEquals(
+        self::assertEquals(
             new Type(),
             $type,
             'Type not loaded correctly'
@@ -399,19 +400,19 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadByIdentifier()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypeDataByIdentifier')
             ->with(
-                $this->equalTo('blogentry'),
-                $this->equalTo(0)
+                self::equalTo('blogentry'),
+                self::equalTo(0)
             )
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [new Type()]
                 )
             );
@@ -419,7 +420,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getHandler();
         $type = $handler->loadByIdentifier('blogentry');
 
-        $this->assertEquals(
+        self::assertEquals(
             new Type(),
             $type,
             'Type not loaded correctly'
@@ -429,19 +430,19 @@ class ContentTypeHandlerTest extends TestCase
     public function testLoadByRemoteId()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadTypeDataByRemoteId')
             ->with(
-                $this->equalTo('someLongHash'),
-                $this->equalTo(0)
+                self::equalTo('someLongHash'),
+                self::equalTo(0)
             )
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractTypesFromRows')
             ->will(
-                $this->returnValue(
+                self::returnValue(
                     [new Type()]
                 )
             );
@@ -449,7 +450,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getHandler();
         $type = $handler->loadByRemoteId('someLongHash');
 
-        $this->assertEquals(
+        self::assertEquals(
             new Type(),
             $type,
             'Type not loaded correctly'
@@ -469,64 +470,64 @@ class ContentTypeHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('insertType')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Type::class
                 )
             )
-            ->will($this->returnValue(23));
-        $gatewayMock->expects($this->once())
+            ->will(self::returnValue(23));
+        $gatewayMock->expects(self::once())
             ->method('insertGroupAssignment')
             ->with(
-                $this->equalTo(42),
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(42),
+                self::equalTo(23),
+                self::equalTo(1)
             );
-        $gatewayMock->expects($this->exactly(2))
+        $gatewayMock->expects(self::exactly(2))
             ->method('insertFieldDefinition')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1),
-                $this->isInstanceOf(FieldDefinition::class),
-                $this->isInstanceOf(StorageFieldDefinition::class)
+                self::equalTo(23),
+                self::equalTo(1),
+                self::isInstanceOf(FieldDefinition::class),
+                self::isInstanceOf(StorageFieldDefinition::class)
             )
-            ->will($this->returnValue(42));
+            ->will(self::returnValue(42));
 
-        $mapperMock->expects($this->exactly(2))
+        $mapperMock->expects(self::exactly(2))
             ->method('toStorageFieldDefinition')
             ->with(
-                $this->isInstanceOf(FieldDefinition::class),
-                $this->isInstanceOf(StorageFieldDefinition::class)
+                self::isInstanceOf(FieldDefinition::class),
+                self::isInstanceOf(StorageFieldDefinition::class)
             );
 
         $handler = $this->getHandler();
         $type = $handler->create($createStructFix);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Type::class,
             $type,
             'Incorrect type returned from create()'
         );
-        $this->assertEquals(
+        self::assertEquals(
             23,
             $type->id,
             'Incorrect ID for Type.'
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             42,
             $type->fieldDefinitions[0]->id,
             'Field definition ID not set correctly'
         );
-        $this->assertEquals(
+        self::assertEquals(
             42,
             $type->fieldDefinitions[1]->id,
             'Field definition ID not set correctly'
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $createStructClone,
             $createStructFix,
             'Create struct manipulated'
@@ -536,12 +537,12 @@ class ContentTypeHandlerTest extends TestCase
     public function testUpdate()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('updateType')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1),
-                $this->isInstanceOf(
+                self::equalTo(23),
+                self::equalTo(1),
+                self::isInstanceOf(
                     Type::class
                 )
             );
@@ -556,17 +557,17 @@ class ContentTypeHandlerTest extends TestCase
             ])
             ->getMock();
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('load')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(23),
+                self::equalTo(1)
             )
-            ->will($this->returnValue(new Type()));
+            ->will(self::returnValue(new Type()));
 
         $res = $handlerMock->update(23, 1, new UpdateStruct());
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Type::class,
             $res
         );
@@ -577,33 +578,33 @@ class ContentTypeHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
 
         $gatewayMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'countInstancesOfType'
         )->with(
-            $this->equalTo(23)
+            self::equalTo(23)
         )->will(
-            $this->returnValue(0)
+            self::returnValue(0)
         );
 
-        $gatewayMock->expects($this->once())->method('loadTypeData')->with(23, 0)->willReturn([]);
+        $gatewayMock->expects(self::once())->method('loadTypeData')->with(23, 0)->willReturn([]);
 
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())->method('extractTypesFromRows')->with([])->willReturn([new Type()]);
+        $mapperMock->expects(self::once())->method('extractTypesFromRows')->with([])->willReturn([new Type()]);
 
         $gatewayMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'delete'
         )->with(
-            $this->equalTo(23),
-            $this->equalTo(0)
+            self::equalTo(23),
+            self::equalTo(0)
         );
 
         $handler = $this->getHandler();
         $res = $handler->delete(23, 0);
 
-        $this->assertTrue($res);
+        self::assertTrue($res);
     }
 
     public function testDeleteThrowsBadStateException()
@@ -613,16 +614,16 @@ class ContentTypeHandlerTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
 
         $gatewayMock->expects(
-            $this->once()
+            self::once()
         )->method(
             'countInstancesOfType'
         )->with(
-            $this->equalTo(23)
+            self::equalTo(23)
         )->will(
-            $this->returnValue(1)
+            self::returnValue(1)
         );
 
-        $gatewayMock->expects($this->never())->method('delete');
+        $gatewayMock->expects(self::never())->method('delete');
 
         $handler = $this->getHandler();
         $res = $handler->delete(23, 0);
@@ -635,14 +636,14 @@ class ContentTypeHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('createCreateStructFromType')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Type::class
                 )
             )->will(
-                $this->returnValue(new CreateStruct())
+                self::returnValue(new CreateStruct())
             );
 
         $handlerMock = $this->getMockBuilder(Handler::class)
@@ -655,29 +656,30 @@ class ContentTypeHandlerTest extends TestCase
             ])
             ->getMock();
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('load')
             ->with(
-                $this->equalTo($contentTypeId, Type::STATUS_DEFINED)
+                self::equalTo($contentTypeId),
+                self::equalTo(Type::STATUS_DEFINED),
             )->will(
-                $this->returnValue(
+                self::returnValue(
                     new Type()
                 )
             );
 
         $typeDraft = new Type();
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('internalCreate')
             ->with(
-                $this->isInstanceOf(CreateStruct::class),
-                $this->equalTo($contentTypeId)
+                self::isInstanceOf(CreateStruct::class),
+                self::equalTo($contentTypeId)
             )->will(
-                $this->returnValue($typeDraft)
+                self::returnValue($typeDraft)
             );
 
         $res = $handlerMock->createDraft($userId, $contentTypeId);
 
-        $this->assertSame(
+        self::assertSame(
             $typeDraft,
             $res
         );
@@ -687,10 +689,10 @@ class ContentTypeHandlerTest extends TestCase
     {
         $gatewayMock = $this->getGatewayMock();
         $mapperMock = $this->getMapperMock(['createCreateStructFromType']);
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('createCreateStructFromType')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Type::class
                 )
             )->willReturn(
@@ -714,10 +716,11 @@ class ContentTypeHandlerTest extends TestCase
             'status' => Type::STATUS_DEFINED,
         ]);
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('load')
             ->with(
-                $this->equalTo($type->id, Type::STATUS_DEFINED)
+                self::equalTo($type->id),
+                self::equalTo(Type::STATUS_DEFINED),
             )->willReturn(
                 $type
             );
@@ -726,28 +729,28 @@ class ContentTypeHandlerTest extends TestCase
         $typeCopy->id = 24;
         $typeCopy->identifier = 'copy_of' . $type->identifier . '_' . $type->id;
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('internalCreate')
             ->with(
-                $this->isInstanceOf(CreateStruct::class),
+                self::isInstanceOf(CreateStruct::class),
             )->willReturn(
                 $typeCopy
             );
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('update')
             ->with(
-                $this->equalTo($typeCopy->id),
-                $this->equalTo(Type::STATUS_DEFINED),
-                $this->isInstanceOf(UpdateStruct::class)
+                self::equalTo($typeCopy->id),
+                self::equalTo(Type::STATUS_DEFINED),
+                self::isInstanceOf(UpdateStruct::class)
             )
             ->will(
-                $this->returnValue($typeCopy)
+                self::returnValue($typeCopy)
             );
 
         $res = $handlerMock->copy($userId, $type->id, Type::STATUS_DEFINED);
 
-        $this->assertEquals(
+        self::assertEquals(
             $typeCopy,
             $res
         );
@@ -756,12 +759,12 @@ class ContentTypeHandlerTest extends TestCase
     public function testLink()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('insertGroupAssignment')
             ->with(
-                $this->equalTo(3),
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(3),
+                self::equalTo(23),
+                self::equalTo(1)
             );
 
         $mapperMock = $this->getMapperMock();
@@ -769,25 +772,25 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getHandler();
         $res = $handler->link(3, 23, 1);
 
-        $this->assertTrue($res);
+        self::assertTrue($res);
     }
 
     public function testUnlinkSuccess()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('countGroupsForType')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
-            )->will($this->returnValue(2));
+                self::equalTo(23),
+                self::equalTo(1)
+            )->will(self::returnValue(2));
 
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('deleteGroupAssignment')
             ->with(
-                $this->equalTo(3),
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(3),
+                self::equalTo(23),
+                self::equalTo(1)
             );
 
         $mapperMock = $this->getMapperMock();
@@ -795,7 +798,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getHandler();
         $res = $handler->unlink(3, 23, 1);
 
-        $this->assertTrue($res);
+        self::assertTrue($res);
     }
 
     public function testUnlinkFailure()
@@ -804,14 +807,14 @@ class ContentTypeHandlerTest extends TestCase
         $this->expectExceptionMessage('Type with ID "23" in status "1" cannot be unlinked from its last group.');
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('countGroupsForType')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(23),
+                self::equalTo(1)
             )
             // Only 1 group assigned
-            ->will($this->returnValue(1));
+            ->will(self::returnValue(1));
 
         $mapperMock = $this->getMapperMock();
 
@@ -827,32 +830,32 @@ class ContentTypeHandlerTest extends TestCase
                 'extractMultilingualData',
             ]
         );
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractFieldFromRow')
             ->with(
-                $this->equalTo([])
+                self::equalTo([])
             )->will(
-                $this->returnValue(new FieldDefinition())
+                self::returnValue(new FieldDefinition())
             );
 
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('extractMultilingualData')
             ->with(
-                $this->equalTo([
+                self::equalTo([
                     [],
                 ])
             )->will(
-                $this->returnValue([])
+                self::returnValue([])
             );
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('loadFieldDefinition')
             ->with(
-                $this->equalTo(42),
-                $this->equalTo(Type::STATUS_DEFINED)
+                self::equalTo(42),
+                self::equalTo(Type::STATUS_DEFINED)
             )->will(
-                $this->returnValue([
+                self::returnValue([
                     [],
                 ])
             );
@@ -860,7 +863,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getHandler();
         $fieldDefinition = $handler->getFieldDefinition(42, Type::STATUS_DEFINED);
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             FieldDefinition::class,
             $fieldDefinition
         );
@@ -871,45 +874,45 @@ class ContentTypeHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock(
             ['toStorageFieldDefinition']
         );
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('toStorageFieldDefinition')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     FieldDefinition::class
                 ),
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     StorageFieldDefinition::class
                 )
             );
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('insertFieldDefinition')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1),
-                $this->isInstanceOf(
+                self::equalTo(23),
+                self::equalTo(1),
+                self::isInstanceOf(
                     FieldDefinition::class
                 ),
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     StorageFieldDefinition::class
                 )
             )->will(
-                $this->returnValue(42)
+                self::returnValue(42)
             );
 
         $fieldDef = new FieldDefinition();
 
         $storageDispatcherMock = $this->getStorageDispatcherMock();
         $storageDispatcherMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('storeFieldConstraintsData')
             ->with($fieldDef);
 
         $handler = $this->getHandler();
         $handler->addFieldDefinition(23, 1, $fieldDef);
 
-        $this->assertEquals(
+        self::assertEquals(
             42,
             $fieldDef->id
         );
@@ -918,17 +921,17 @@ class ContentTypeHandlerTest extends TestCase
     public function testGetContentCount()
     {
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('countInstancesOfType')
             ->with(
-                $this->equalTo(23)
+                self::equalTo(23)
             )->will(
-                $this->returnValue(42)
+                self::returnValue(42)
             );
 
         $handler = $this->getHandler();
 
-        $this->assertEquals(
+        self::assertEquals(
             42,
             $handler->getContentCount(23)
         );
@@ -938,17 +941,17 @@ class ContentTypeHandlerTest extends TestCase
     {
         $storageDispatcherMock = $this->getStorageDispatcherMock();
         $storageDispatcherMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('deleteFieldConstraintsData')
             ->with('ezstring', 42);
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('deleteFieldDefinition')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1),
-                $this->equalTo(42)
+                self::equalTo(23),
+                self::equalTo(1),
+                self::equalTo(42)
             );
 
         $handler = $this->getHandler();
@@ -962,25 +965,25 @@ class ContentTypeHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock(
             ['toStorageFieldDefinition']
         );
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('toStorageFieldDefinition')
             ->with(
-                $this->identicalTo($fieldDef),
-                $this->isInstanceOf(StorageFieldDefinition::class)
+                self::identicalTo($fieldDef),
+                self::isInstanceOf(StorageFieldDefinition::class)
             );
 
         $gatewayMock = $this->getGatewayMock();
-        $gatewayMock->expects($this->once())
+        $gatewayMock->expects(self::once())
             ->method('updateFieldDefinition')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1),
+                self::equalTo(23),
+                self::equalTo(1),
                 $fieldDef
             );
 
         $storageDispatcherMock = $this->getStorageDispatcherMock();
         $storageDispatcherMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('storeFieldConstraintsData')
             ->with($fieldDef);
 
@@ -993,34 +996,34 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getPartlyMockedHandler(['load']);
         $updateHandlerMock = $this->getUpdateHandlerMock();
 
-        $handler->expects($this->exactly(2))
+        $handler->expects(self::exactly(2))
             ->method('load')
             ->with(
-                $this->equalTo(23),
-                $this->logicalOr(
-                    $this->equalTo(0),
-                    $this->equalTo(1)
+                self::equalTo(23),
+                self::logicalOr(
+                    self::equalTo(0),
+                    self::equalTo(1)
                 )
             )->will(
-                $this->returnValue(new Type())
+                self::returnValue(new Type())
             );
 
-        $updateHandlerMock->expects($this->once())
+        $updateHandlerMock->expects(self::once())
             ->method('updateContentObjects')
             ->with(
-                $this->isInstanceOf(Type::class),
-                $this->isInstanceOf(Type::class)
+                self::isInstanceOf(Type::class),
+                self::isInstanceOf(Type::class)
             );
-        $updateHandlerMock->expects($this->once())
+        $updateHandlerMock->expects(self::once())
             ->method('deleteOldType')
             ->with(
-                $this->isInstanceOf(Type::class)
+                self::isInstanceOf(Type::class)
             );
-        $updateHandlerMock->expects($this->once())
+        $updateHandlerMock->expects(self::once())
             ->method('publishNewType')
             ->with(
-                $this->isInstanceOf(Type::class),
-                $this->equalTo(0)
+                self::isInstanceOf(Type::class),
+                self::equalTo(0)
             );
 
         $handler->publish(23);
@@ -1031,33 +1034,33 @@ class ContentTypeHandlerTest extends TestCase
         $handler = $this->getPartlyMockedHandler(['load']);
         $updateHandlerMock = $this->getUpdateHandlerMock();
 
-        $handler->expects($this->at(0))
+        $handler->expects(self::at(0))
             ->method('load')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(23),
+                self::equalTo(1)
             )->will(
-                $this->returnValue(new Type())
+                self::returnValue(new Type())
             );
 
-        $handler->expects($this->at(1))
+        $handler->expects(self::at(1))
             ->method('load')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(0)
+                self::equalTo(23),
+                self::equalTo(0)
             )->will(
-                $this->throwException(new Exception\TypeNotFound(23, 0))
+                self::throwException(new Exception\TypeNotFound(23, 0))
             );
 
-        $updateHandlerMock->expects($this->never())
+        $updateHandlerMock->expects(self::never())
             ->method('updateContentObjects');
-        $updateHandlerMock->expects($this->never())
+        $updateHandlerMock->expects(self::never())
             ->method('deleteOldType');
-        $updateHandlerMock->expects($this->once())
+        $updateHandlerMock->expects(self::once())
             ->method('publishNewType')
             ->with(
-                $this->isInstanceOf(Type::class),
-                $this->equalTo(0)
+                self::isInstanceOf(Type::class),
+                self::equalTo(0)
             );
 
         $handler->publish(23);
@@ -1194,15 +1197,15 @@ class ContentTypeHandlerTest extends TestCase
     public function testRemoveContentTypeTranslation()
     {
         $mapperMock = $this->getMapperMock();
-        $mapperMock->expects($this->once())
+        $mapperMock->expects(self::once())
             ->method('createUpdateStructFromType')
             ->with(
-                $this->isInstanceOf(
+                self::isInstanceOf(
                     Type::class
                 )
             )
             ->will(
-                $this->returnValue(new UpdateStruct())
+                self::returnValue(new UpdateStruct())
             );
 
         $handlerMock = $this->getMockBuilder(Handler::class)
@@ -1215,28 +1218,28 @@ class ContentTypeHandlerTest extends TestCase
             ])
             ->getMock();
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('load')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1)
+                self::equalTo(23),
+                self::equalTo(1)
             )
-            ->will($this->returnValue(new Type(['id' => 23])));
+            ->will(self::returnValue(new Type(['id' => 23])));
 
-        $handlerMock->expects($this->once())
+        $handlerMock->expects(self::once())
             ->method('update')
             ->with(
-                $this->equalTo(23),
-                $this->equalTo(1),
-                $this->isInstanceOf(
+                self::equalTo(23),
+                self::equalTo(1),
+                self::isInstanceOf(
                     UpdateStruct::class
                 )
             )
-            ->will($this->returnValue(new Type()));
+            ->will(self::returnValue(new Type()));
 
         $res = $handlerMock->removeContentTypeTranslation(23, 'eng-GB');
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             Type::class,
             $res
         );

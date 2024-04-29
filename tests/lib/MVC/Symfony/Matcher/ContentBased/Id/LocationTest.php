@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -24,6 +25,7 @@ class LocationTest extends BaseTest
 
     /**
      * @dataProvider matchLocationProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
@@ -34,7 +36,7 @@ class LocationTest extends BaseTest
     public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame($expectedResult, $this->matcher->matchLocation($location));
+        self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
 
     public function matchLocationProvider()
@@ -65,6 +67,7 @@ class LocationTest extends BaseTest
 
     /**
      * @dataProvider matchContentInfoProvider
+     *
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
@@ -75,7 +78,7 @@ class LocationTest extends BaseTest
     public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult)
     {
         $this->matcher->setMatchingConfig($matchingConfig);
-        $this->assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
+        self::assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
     }
 
     public function matchContentInfoProvider()

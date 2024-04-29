@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\EventListener;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -78,7 +79,7 @@ class SecurityListenerTest extends TestCase
 
     public function testGetSubscribedEvents()
     {
-        $this->assertSame(
+        self::assertSame(
             [
                 SecurityEvents::INTERACTIVE_LOGIN => [
                     ['onInteractiveLogin', 10],
@@ -95,13 +96,13 @@ class SecurityListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($user));
+            ->will(self::returnValue($user));
         $event = new BaseInteractiveLoginEvent(new Request(), $token);
 
         $this->eventDispatcher
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('dispatch');
 
         $this->listener->onInteractiveLogin($event);
@@ -112,13 +113,13 @@ class SecurityListenerTest extends TestCase
         $user = 'foobar';
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($user));
+            ->will(self::returnValue($user));
         $event = new BaseInteractiveLoginEvent(new Request(), $token);
 
         $this->eventDispatcher
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('dispatch');
 
         $this->listener->onInteractiveLogin($event);
@@ -129,43 +130,43 @@ class SecurityListenerTest extends TestCase
         $user = $this->createMock(SymfonyUserInterface::class);
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($user));
+            ->will(self::returnValue($user));
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRoleNames')
-            ->will($this->returnValue(['ROLE_USER']));
+            ->will(self::returnValue(['ROLE_USER']));
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAttributes')
-            ->will($this->returnValue(['foo' => 'bar']));
+            ->will(self::returnValue(['foo' => 'bar']));
 
         $event = new BaseInteractiveLoginEvent(new Request(), $token);
 
         $anonymousUserId = 10;
         $this->configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('anonymous_user_id')
-            ->will($this->returnValue($anonymousUserId));
+            ->will(self::returnValue($anonymousUserId));
 
         $apiUser = $this->createMock(APIUser::class);
         $this->userService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('loadUser')
             ->with($anonymousUserId)
-            ->will($this->returnValue($apiUser));
+            ->will(self::returnValue($apiUser));
 
         $this->permissionResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setCurrentUserReference')
             ->with($apiUser);
 
         $this->tokenStorage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setToken')
-            ->with($this->isInstanceOf(InteractiveLoginToken::class));
+            ->with(self::isInstanceOf(InteractiveLoginToken::class));
 
         $this->listener->onInteractiveLogin($event);
     }
@@ -177,19 +178,19 @@ class SecurityListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($user));
+            ->will(self::returnValue($user));
 
         $request = new Request();
         $siteAccess = new SiteAccess('test');
         $request->attributes->set('siteaccess', $siteAccess);
 
         $this->authChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isGranted')
-            ->with($this->equalTo(new Attribute('user', 'login', ['valueObject' => $siteAccess])))
-            ->will($this->returnValue(false));
+            ->with(self::equalTo(new Attribute('user', 'login', ['valueObject' => $siteAccess])))
+            ->will(self::returnValue(false));
 
         $this->listener->checkSiteAccessPermission(new BaseInteractiveLoginEvent($request, $token));
     }
@@ -199,19 +200,19 @@ class SecurityListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($user));
+            ->will(self::returnValue($user));
 
         $request = new Request();
         $siteAccess = new SiteAccess('test');
         $request->attributes->set('siteaccess', $siteAccess);
 
         $this->authChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isGranted')
-            ->with($this->equalTo(new Attribute('user', 'login', ['valueObject' => $siteAccess])))
-            ->will($this->returnValue(true));
+            ->with(self::equalTo(new Attribute('user', 'login', ['valueObject' => $siteAccess])))
+            ->will(self::returnValue(true));
 
         // Nothing should happen or should be returned.
         $this->listener->checkSiteAccessPermission(new BaseInteractiveLoginEvent($request, $token));
@@ -222,16 +223,16 @@ class SecurityListenerTest extends TestCase
         $user = $this->createMock(SymfonyUserInterface::class);
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($user));
+            ->will(self::returnValue($user));
 
         $request = new Request();
         $siteAccess = new SiteAccess('test');
         $request->attributes->set('siteaccess', $siteAccess);
 
         $this->authChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('isGranted');
 
         $this->listener->checkSiteAccessPermission(new BaseInteractiveLoginEvent($request, $token));
@@ -242,12 +243,12 @@ class SecurityListenerTest extends TestCase
         $user = $this->createMock(UserInterface::class);
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUser')
-            ->will($this->returnValue($user));
+            ->will(self::returnValue($user));
 
         $this->authChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('isGranted');
 
         $this->listener->checkSiteAccessPermission(new BaseInteractiveLoginEvent(new Request(), $token));
@@ -262,10 +263,10 @@ class SecurityListenerTest extends TestCase
         );
 
         $this->tokenStorage
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getToken');
         $this->authChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('isGranted');
 
         $this->listener->onKernelRequest($event);
@@ -279,14 +280,14 @@ class SecurityListenerTest extends TestCase
             HttpKernelInterface::MASTER_REQUEST
         );
         $this->configResolver
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getParameter');
 
         $this->tokenStorage
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getToken');
         $this->authChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('isGranted');
 
         $this->listener->onKernelRequest($event);
@@ -301,10 +302,10 @@ class SecurityListenerTest extends TestCase
         );
 
         $this->tokenStorage
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('getToken');
         $this->authChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('isGranted');
 
         $this->listener->onKernelRequest($event);
@@ -321,11 +322,11 @@ class SecurityListenerTest extends TestCase
         );
 
         $this->tokenStorage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getToken')
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
         $this->authChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('isGranted');
 
         $this->listener->onKernelRequest($event);
@@ -343,11 +344,11 @@ class SecurityListenerTest extends TestCase
         );
 
         $this->tokenStorage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getToken')
-            ->will($this->returnValue(null));
+            ->will(self::returnValue(null));
         $this->authChecker
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('isGranted');
 
         $this->listener->onKernelRequest($event);
@@ -367,18 +368,18 @@ class SecurityListenerTest extends TestCase
 
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getUsername')
-            ->will($this->returnValue('foo'));
+            ->will(self::returnValue('foo'));
 
         $this->tokenStorage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->will(self::returnValue($token));
         $this->authChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isGranted')
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
 
         $this->listener->onKernelRequest($event);
     }
@@ -395,18 +396,18 @@ class SecurityListenerTest extends TestCase
 
         $token = $this->createMock(TokenInterface::class);
         $token
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getUsername')
-            ->will($this->returnValue('foo'));
+            ->will(self::returnValue('foo'));
 
         $this->tokenStorage
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getToken')
-            ->will($this->returnValue($token));
+            ->will(self::returnValue($token));
         $this->authChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isGranted')
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
 
         // Nothing should happen or should be returned.
         $this->listener->onKernelRequest($event);

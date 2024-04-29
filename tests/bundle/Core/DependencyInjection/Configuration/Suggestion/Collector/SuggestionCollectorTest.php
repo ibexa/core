@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollector;
@@ -20,8 +21,8 @@ class SuggestionCollectorTest extends TestCase
             $collector->addSuggestion($suggestion);
         }
 
-        $this->assertTrue($collector->hasSuggestions());
-        $this->assertSame($suggestions, $collector->getSuggestions());
+        self::assertTrue($collector->hasSuggestions());
+        self::assertSame($suggestions, $collector->getSuggestions());
     }
 }
 

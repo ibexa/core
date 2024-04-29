@@ -80,7 +80,7 @@ final class ContentFilteringAdapterTest extends TestCase
             self::EXAMPLE_LANGUAGE_FILTER
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             $expectedContentList,
             $adapter->getSlice(10, 20)
         );

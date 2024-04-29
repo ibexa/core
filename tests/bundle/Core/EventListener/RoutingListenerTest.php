@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\RoutingListener;
@@ -41,7 +42,7 @@ class RoutingListenerTest extends TestCase
     public function testGetSubscribedEvents()
     {
         $listener = new RoutingListener($this->configResolver, $this->urlAliasRouter, $this->urlAliasGenerator);
-        $this->assertSame(
+        self::assertSame(
             [
                 MVCEvents::SITEACCESS => ['onSiteAccessMatch', 200],
             ],
@@ -54,10 +55,10 @@ class RoutingListenerTest extends TestCase
         $rootLocationId = 123;
         $excludedUriPrefixes = ['/foo/bar', '/baz'];
         $this->configResolver
-            ->expects($this->any())
+            ->expects(self::any())
             ->method('getParameter')
             ->will(
-                $this->returnValueMap(
+                self::returnValueMap(
                     [
                         ['content.tree_root.location_id', null, null, $rootLocationId],
                         ['content.tree_root.excluded_uri_prefixes', null, null, $excludedUriPrefixes],
@@ -66,15 +67,15 @@ class RoutingListenerTest extends TestCase
             );
 
         $this->urlAliasRouter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setRootLocationId')
             ->with($rootLocationId);
         $this->urlAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setRootLocationId')
             ->with($rootLocationId);
         $this->urlAliasGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('setExcludedUriPrefixes')
             ->with($excludedUriPrefixes);
 

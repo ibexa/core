@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
@@ -31,28 +32,28 @@ class StorageConnectionFactoryTest extends TestCase
 
         $configResolver = $this->getConfigResolverMock();
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will($this->returnValue($repositoryAlias));
+            ->will(self::returnValue($repositoryAlias));
 
         $container = $this->getContainerMock();
         $container
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('has')
             ->with("doctrine.dbal.{$doctrineConnection}_connection")
-            ->will($this->returnValue(true));
+            ->will(self::returnValue(true));
         $container
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('get')
             ->with("doctrine.dbal.{$doctrineConnection}_connection")
-            ->will($this->returnValue($this->getMockBuilder('Doctrine\DBAL\Connection')->disableOriginalConstructor()->getMock()));
+            ->will(self::returnValue($this->getMockBuilder('Doctrine\DBAL\Connection')->disableOriginalConstructor()->getMock()));
 
         $repositoryConfigurationProvider = new RepositoryConfigurationProvider($configResolver, $repositories);
         $factory = new StorageConnectionFactory($repositoryConfigurationProvider);
         $factory->setContainer($container);
         $connection = $factory->getConnection();
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             'Doctrine\DBAL\Connection',
             $connection
         );
@@ -82,10 +83,10 @@ class StorageConnectionFactoryTest extends TestCase
 
         $configResolver = $this->getConfigResolverMock();
         $configResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will($this->returnValue('inexistent_repository'));
+            ->will(self::returnValue('inexistent_repository'));
 
         $repositoryConfigurationProvider = new RepositoryConfigurationProvider($configResolver, $repositories);
         $factory = new StorageConnectionFactory($repositoryConfigurationProvider);
@@ -106,21 +107,21 @@ class StorageConnectionFactoryTest extends TestCase
             ],
         ];
         $repositoryConfigurationProviderMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRepositoryConfig')
-            ->will($this->returnValue($repositoryConfig));
+            ->will(self::returnValue($repositoryConfig));
 
         $container = $this->getContainerMock();
         $container
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('has')
             ->with('doctrine.dbal.my_doctrine_connection_connection')
-            ->will($this->returnValue(false));
+            ->will(self::returnValue(false));
         $container
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getParameter')
             ->with('doctrine.connections')
-            ->will($this->returnValue([]));
+            ->will(self::returnValue([]));
         $factory = new StorageConnectionFactory($repositoryConfigurationProviderMock);
         $factory->setContainer($container);
         $factory->getConnection();

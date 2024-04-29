@@ -75,7 +75,7 @@ final class GatewayFactoryTest extends TestCase
             $connectionMock = $this
                 ->createMock(Connection::class);
             $connectionMock
-                ->expects($this->any())
+                ->expects(self::any())
                 ->method('getDatabasePlatform')
                 ->willReturn($databasePlatform);
 

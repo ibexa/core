@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -75,7 +76,7 @@ class RouterURITextTest extends RouterBaseTest
     public function testGetName()
     {
         $matcher = new URITextMatcher([], []);
-        $this->assertSame('uri:text', $matcher->getName());
+        self::assertSame('uri:text', $matcher->getName());
     }
 
     public function testAnalyseURI()
@@ -90,7 +91,7 @@ class RouterURITextTest extends RouterBaseTest
         );
         $matcher->setRequest(SimplifiedRequest::fromUrl('http://phoenix-rises.fm/footestbar/blabla'));
 
-        $this->assertSame($semanticURI, $matcher->analyseURI($siteAccessURI . $semanticURI));
+        self::assertSame($semanticURI, $matcher->analyseURI($siteAccessURI . $semanticURI));
     }
 
     public function testAnalyseLink()
@@ -105,7 +106,7 @@ class RouterURITextTest extends RouterBaseTest
         );
         $matcher->setRequest(SimplifiedRequest::fromUrl('http://phoenix-rises.fm/footestbar/blabla'));
 
-        $this->assertSame($siteAccessURI . $semanticURI, $matcher->analyseLink($semanticURI));
+        self::assertSame($siteAccessURI . $semanticURI, $matcher->analyseLink($semanticURI));
     }
 
     public function testReverseMatch()
@@ -120,10 +121,10 @@ class RouterURITextTest extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => $semanticURI]));
 
         $result = $matcher->reverseMatch('something');
-        $this->assertInstanceOf(URIText::class, $result);
+        self::assertInstanceOf(URIText::class, $result);
         $request = $result->getRequest();
-        $this->assertInstanceOf(SimplifiedRequest::class, $request);
-        $this->assertSame("/foosomethingbar{$semanticURI}", $request->pathinfo);
+        self::assertInstanceOf(SimplifiedRequest::class, $request);
+        self::assertSame("/foosomethingbar{$semanticURI}", $request->pathinfo);
     }
 
     protected function createRouter(): Router

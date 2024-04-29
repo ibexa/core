@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
@@ -73,7 +74,7 @@ class RouterHostTextTest extends RouterBaseTest
     public function testGetName()
     {
         $matcher = new HostTextMatcher(['host' => 'foo'], []);
-        $this->assertSame('host:text', $matcher->getName());
+        self::assertSame('host:text', $matcher->getName());
     }
 
     public function testReverseMatch()
@@ -88,10 +89,10 @@ class RouterHostTextTest extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest(['host' => 'www.my_siteaccess.com']));
 
         $result = $matcher->reverseMatch('foobar');
-        $this->assertInstanceOf(HostTextMatcher::class, $result);
+        self::assertInstanceOf(HostTextMatcher::class, $result);
         $request = $result->getRequest();
-        $this->assertInstanceOf(SimplifiedRequest::class, $request);
-        $this->assertSame('www.foobar.com', $request->host);
+        self::assertInstanceOf(SimplifiedRequest::class, $request);
+        self::assertSame('www.foobar.com', $request->host);
     }
 
     protected function createRouter(): Router

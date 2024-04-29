@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\PlaceholderProvider;
@@ -30,8 +31,8 @@ class PlaceholderProviderRegistryTest extends TestCase
 
         $registry = new PlaceholderProviderRegistry($providers);
 
-        $this->assertSame($providers[self::FOO], $registry->getProvider(self::FOO));
-        $this->assertSame($providers[self::BAR], $registry->getProvider(self::BAR));
+        self::assertSame($providers[self::FOO], $registry->getProvider(self::FOO));
+        self::assertSame($providers[self::BAR], $registry->getProvider(self::BAR));
     }
 
     /**
@@ -44,7 +45,7 @@ class PlaceholderProviderRegistryTest extends TestCase
         $registry = new PlaceholderProviderRegistry();
         $registry->addProvider(self::FOO, $provider);
 
-        $this->assertSame($provider, $registry->getProvider(self::FOO));
+        self::assertSame($provider, $registry->getProvider(self::FOO));
     }
 
     public function testSupports()
@@ -53,8 +54,8 @@ class PlaceholderProviderRegistryTest extends TestCase
             'supported' => $this->getPlaceholderProviderMock(),
         ]);
 
-        $this->assertTrue($registry->supports('supported'));
-        $this->assertFalse($registry->supports('unsupported'));
+        self::assertTrue($registry->supports('supported'));
+        self::assertFalse($registry->supports('unsupported'));
     }
 
     public function testGetProviderKnown()
@@ -65,7 +66,7 @@ class PlaceholderProviderRegistryTest extends TestCase
             self::FOO => $provider,
         ]);
 
-        $this->assertEquals($provider, $registry->getProvider(self::FOO));
+        self::assertEquals($provider, $registry->getProvider(self::FOO));
     }
 
     public function testGetProviderUnknown()

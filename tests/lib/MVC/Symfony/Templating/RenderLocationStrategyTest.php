@@ -32,7 +32,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
 
         $valueObject = new class() extends ValueObject {
         };
-        $this->assertFalse($renderLocationStrategy->supports($valueObject));
+        self::assertFalse($renderLocationStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);
         $renderLocationStrategy->render($valueObject, new RenderOptions());
@@ -49,9 +49,9 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
         );
 
         $locationMock = $this->createMock(Location::class);
-        $this->assertTrue($renderLocationStrategy->supports($locationMock));
+        self::assertTrue($renderLocationStrategy->supports($locationMock));
 
-        $this->assertSame(
+        self::assertSame(
             'inline_rendered',
             $renderLocationStrategy->render($locationMock, new RenderOptions())
         );
@@ -65,7 +65,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
         );
 
         $locationMock = $this->createMock(Location::class);
-        $this->assertTrue($renderLocationStrategy->supports($locationMock));
+        self::assertTrue($renderLocationStrategy->supports($locationMock));
 
         $this->expectException(InvalidArgumentException::class);
         $renderLocationStrategy->render($locationMock, new RenderOptions());
@@ -83,9 +83,9 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
         );
 
         $locationMock = $this->createMock(Location::class);
-        $this->assertTrue($renderLocationStrategy->supports($locationMock));
+        self::assertTrue($renderLocationStrategy->supports($locationMock));
 
-        $this->assertSame(
+        self::assertSame(
             'method_b_rendered',
             $renderLocationStrategy->render($locationMock, new RenderOptions([
                 'method' => 'method_b',
@@ -107,7 +107,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             ->method('getName')
             ->willReturn('method_b');
 
-        $controllerReferenceCallback = $this->callback(function (ControllerReference $controllerReference) {
+        $controllerReferenceCallback = self::callback(function (ControllerReference $controllerReference) {
             $this->assertInstanceOf(ControllerReference::class, $controllerReference);
             $this->assertEquals('ibexa_content::viewAction', $controllerReference->controller);
             $this->assertSame([
@@ -119,14 +119,14 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             return true;
         });
 
-        $requestCallback = $this->callback(function (Request $request) use ($siteAccess, $content): bool {
+        $requestCallback = self::callback(function (Request $request) use ($siteAccess, $content): bool {
             $this->assertSame('TEST/1.0', $request->headers->get('Surrogate-Capability'));
 
             return true;
         });
 
         $fragmentRendererMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('render')
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));
@@ -143,7 +143,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTest
             $request
         );
 
-        $this->assertSame('some_rendered_content', $renderLocationStrategy->render(
+        self::assertSame('some_rendered_content', $renderLocationStrategy->render(
             $location,
             new RenderOptions([
                 'method' => 'method_b',

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -16,6 +17,7 @@ use Ibexa\Core\Repository\TrashService;
  * Test case for operations in the TrashService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\TrashService
+ *
  * @group integration
  * @group authorization
  */
@@ -25,6 +27,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the loadTrashItem() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::loadTrashItem()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testLoadTrashItem
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
@@ -146,6 +149,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the recover() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::recover()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testRecover
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
@@ -177,6 +181,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the recover() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::recover($trashItem, $newParentLocation)
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testRecover
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
@@ -216,6 +221,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the emptyTrash() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::emptyTrash()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testEmptyTrash
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */
@@ -247,6 +253,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTest
      * Test for the deleteTrashItem() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\TrashService::deleteTrashItem()
+     *
      * @depends Ibexa\Tests\Integration\Core\Repository\TrashServiceTest::testDeleteTrashItem
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
      */

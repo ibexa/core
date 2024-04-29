@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Limitation;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
@@ -68,6 +69,7 @@ class ParentDepthLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValue
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
@@ -91,6 +93,7 @@ class ParentDepthLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestAcceptValueException
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
@@ -117,6 +120,7 @@ class ParentDepthLimitationTypeTest extends Base
 
     /**
      * @dataProvider providerForTestValidatePass
+     *
      * @depends testConstruct
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
@@ -155,21 +159,21 @@ class ParentDepthLimitationTypeTest extends Base
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
 
         $contentMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getVersionInfo')
-            ->will($this->returnValue($versionInfoMock));
+            ->will(self::returnValue($versionInfoMock));
 
         $versionInfoMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentInfo')
-            ->will($this->returnValue(new ContentInfo(['published' => true])));
+            ->will(self::returnValue(new ContentInfo(['published' => true])));
 
         $versionInfoMock2 = $this->createMock(APIVersionInfo::class);
 
         $versionInfoMock2
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getContentInfo')
-            ->will($this->returnValue(new ContentInfo(['published' => true])));
+            ->will(self::returnValue(new ContentInfo(['published' => true])));
 
         return [
             // ContentInfo, with targets, no access
@@ -290,42 +294,42 @@ class ParentDepthLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         if (empty($persistenceLocations)) {
             $persistenceMock
-                ->expects($this->never())
-                ->method($this->anything());
+                ->expects(self::never())
+                ->method(self::anything());
         } elseif ($object instanceof ContentCreateStruct) {
             $this->getPersistenceMock()
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('locationHandler')
-                ->will($this->returnValue($this->locationHandlerMock));
+                ->will(self::returnValue($this->locationHandlerMock));
 
             foreach ($targets as $target) {
                 $this->locationHandlerMock
-                    ->expects($this->once())
+                    ->expects(self::once())
                     ->method('load')
                     ->with($target->parentLocationId)
-                    ->will($this->returnValue($persistenceLocations[$target->parentLocationId]));
+                    ->will(self::returnValue($persistenceLocations[$target->parentLocationId]));
             }
         } else {
             $this->getPersistenceMock()
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('locationHandler')
-                ->will($this->returnValue($this->locationHandlerMock));
+                ->will(self::returnValue($this->locationHandlerMock));
 
             $this->locationHandlerMock
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method(
                     $object instanceof ContentInfo && $object->published ?
                         'loadLocationsByContent' :
                         'loadParentLocationsForDraftContent'
                 )
                 ->with($object->id)
-                ->will($this->returnValue($persistenceLocations));
+                ->will(self::returnValue($persistenceLocations));
         }
 
         $value = $limitationType->evaluate(
@@ -392,13 +396,13 @@ class ParentDepthLimitationTypeTest extends Base
 
         $userMock = $this->getUserMock();
         $userMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $persistenceMock = $this->getPersistenceMock();
         $persistenceMock
-            ->expects($this->never())
-            ->method($this->anything());
+            ->expects(self::never())
+            ->method(self::anything());
 
         $v = $limitationType->evaluate(
             $limitation,

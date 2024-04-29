@@ -27,7 +27,7 @@ final class HostElementNormalizerTest extends TestCase
         $matcher->setRequest(SimplifiedRequest::fromUrl('http://ibexa.dev/foo/bar'));
         $matcher->match();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'elementNumber' => 2,
                 'hostElements' => [
@@ -43,8 +43,8 @@ final class HostElementNormalizerTest extends TestCase
     {
         $normalizer = new HostElementNormalizer();
 
-        $this->assertTrue($normalizer->supportsNormalization($this->createMock(HostElement::class)));
-        $this->assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
+        self::assertTrue($normalizer->supportsNormalization($this->createMock(HostElement::class)));
+        self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
 

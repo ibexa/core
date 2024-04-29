@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
@@ -103,7 +104,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->loadLanguageListData([2]);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'id' => '2',
@@ -122,7 +123,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $result = $gateway->loadAllLanguagesData();
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 [
                     'id' => '2',

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
@@ -12,7 +13,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
  * Test case for operations in the LanguageService using in memory storage.
  *
  * @covers \Ibexa\Contracts\Core\Repository\LanguageService
+ *
  * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUser
+ *
  * @group integration
  * @group authorization
  */
@@ -22,6 +25,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      * Test for the createLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::createLanguage()
+     *
      * @depends testCreateLanguage
      */
     public function testCreateLanguageThrowsUnauthorizedException()
@@ -55,6 +59,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      * Test for the updateLanguageName() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::updateLanguageName()
+     *
      * @depends testUpdateLanguageName
      */
     public function testUpdateLanguageNameThrowsUnauthorizedException()
@@ -92,6 +97,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      * Test for the enableLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::enableLanguage()
+     *
      * @depends testEnableLanguage
      */
     public function testEnableLanguageThrowsUnauthorizedException()
@@ -127,6 +133,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      * Test for the disableLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::disableLanguage()
+     *
      * @depends testDisableLanguage
      */
     public function testDisableLanguageThrowsUnauthorizedException()
@@ -162,6 +169,7 @@ class LanguageServiceAuthorizationTest extends BaseTest
      * Test for the deleteLanguage() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\LanguageService::deleteLanguage()
+     *
      * @depends testDeleteLanguage
      */
     public function testDeleteLanguageThrowsUnauthorizedException()

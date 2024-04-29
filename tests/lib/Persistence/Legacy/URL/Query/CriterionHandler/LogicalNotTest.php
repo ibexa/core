@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\URL\Query\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -40,7 +41,7 @@ class LogicalNotTest extends CriterionHandlerTest
 
         $converter = $this->createMock(CriteriaConverter::class);
         $converter
-            ->expects($this->at(0))
+            ->expects(self::at(0))
             ->method('convertCriteria')
             ->with($queryBuilder, $foo)
             ->willReturn($fooExpr);
@@ -52,7 +53,7 @@ class LogicalNotTest extends CriterionHandlerTest
             new LogicalNot($foo)
         );
 
-        $this->assertEquals($expected, $actual);
+        self::assertEquals($expected, $actual);
     }
 }
 

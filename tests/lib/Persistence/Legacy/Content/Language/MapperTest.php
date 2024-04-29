@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
@@ -39,7 +40,7 @@ class MapperTest extends TestCase
 
         $result = $mapper->extractLanguagesFromRows($rows);
 
-        $this->assertEquals(
+        self::assertEquals(
             $this->getExtractReference(),
             $result
         );

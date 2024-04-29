@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
@@ -17,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
  * Test case for operations in the URLWildcardService.
  *
  * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService
+ *
  * @group url-wildcard
  */
 class URLWildcardServiceTest extends BaseTest
@@ -39,7 +41,7 @@ class URLWildcardServiceTest extends BaseTest
         $urlWildcard = $urlWildcardService->create('/articles/*', '/content/{1}');
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLWildcard::class,
             $urlWildcard
         );
@@ -53,11 +55,12 @@ class URLWildcardServiceTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
+     *
      * @depends testCreate
      */
     public function testCreateSetsIdPropertyOnURLWildcard(URLWildcard $urlWildcard)
     {
-        $this->assertNotNull($urlWildcard->id);
+        self::assertNotNull($urlWildcard->id);
     }
 
     /**
@@ -66,6 +69,7 @@ class URLWildcardServiceTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
+     *
      * @depends testCreate
      */
     public function testCreateSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard)
@@ -84,6 +88,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the create() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
+     *
      * @depends testCreate
      */
     public function testCreateWithOptionalForwardParameter()
@@ -111,6 +116,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the create() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
+     *
      * @depends testCreate
      */
     public function testCreateThrowsInvalidArgumentExceptionOnDuplicateSourceUrl()
@@ -135,6 +141,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the create() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
+     *
      * @depends testCreate
      */
     public function testCreateThrowsContentValidationExceptionWhenPatternsAndPlaceholdersNotMatch()
@@ -156,6 +163,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the create() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::create()
+     *
      * @depends testCreate
      */
     public function testCreateThrowsContentValidationExceptionWhenPlaceholdersNotValidNumberSequence()
@@ -179,6 +187,7 @@ class URLWildcardServiceTest extends BaseTest
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
+     *
      * @depends testCreate
      */
     public function testLoad()
@@ -195,7 +204,7 @@ class URLWildcardServiceTest extends BaseTest
         $urlWildcard = $urlWildcardService->load($urlWildcardId);
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLWildcard::class,
             $urlWildcard
         );
@@ -209,6 +218,7 @@ class URLWildcardServiceTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
+     *
      * @depends testLoad
      */
     public function testLoadSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard)
@@ -229,6 +239,7 @@ class URLWildcardServiceTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::load()
+     *
      * @depends testLoad
      */
     public function testLoadThrowsNotFoundException(URLWildcard $urlWildcard)
@@ -273,7 +284,7 @@ class URLWildcardServiceTest extends BaseTest
 
         $urlWildcardUpdated = $urlWildcardService->load($urlWildcard->id);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 $urlWildcard->id,
                 $updateStruct->sourceUrl,
@@ -293,6 +304,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the remove() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::remove()
+     *
      * @depends testLoad
      */
     public function testRemove()
@@ -322,6 +334,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the loadAll() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
+     *
      * @depends testCreate
      */
     public function testLoadAll()
@@ -339,7 +352,7 @@ class URLWildcardServiceTest extends BaseTest
         $allUrlWildcards = $urlWildcardService->loadAll();
         /* END: Use Case */
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 $urlWildcardOne,
                 $urlWildcardTwo,
@@ -352,6 +365,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the loadAll() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
+     *
      * @depends testLoadAll
      */
     public function testLoadAllWithOffsetParameter()
@@ -369,13 +383,14 @@ class URLWildcardServiceTest extends BaseTest
         $allUrlWildcards = $urlWildcardService->loadAll(1);
         /* END: Use Case */
 
-        $this->assertEquals([$urlWildcardTwo], $allUrlWildcards);
+        self::assertEquals([$urlWildcardTwo], $allUrlWildcards);
     }
 
     /**
      * Test for the loadAll() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
+     *
      * @depends testLoadAll
      */
     public function testLoadAllWithOffsetAndLimitParameter()
@@ -393,13 +408,14 @@ class URLWildcardServiceTest extends BaseTest
         $allUrlWildcards = $urlWildcardService->loadAll(0, 1);
         /* END: Use Case */
 
-        $this->assertEquals([$urlWildcardOne], $allUrlWildcards);
+        self::assertEquals([$urlWildcardOne], $allUrlWildcards);
     }
 
     /**
      * Test for the loadAll() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::loadAll()
+     *
      * @depends testLoadAll
      */
     public function testLoadAllReturnsEmptyArrayByDefault()
@@ -413,7 +429,7 @@ class URLWildcardServiceTest extends BaseTest
         $allUrlWildcards = $urlWildcardService->loadAll();
         /* END: Use Case */
 
-        $this->assertSame([], $allUrlWildcards);
+        self::assertSame([], $allUrlWildcards);
     }
 
     /**
@@ -422,6 +438,7 @@ class URLWildcardServiceTest extends BaseTest
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
+     *
      * @depends testCreate
      */
     public function testTranslate()
@@ -438,7 +455,7 @@ class URLWildcardServiceTest extends BaseTest
         $result = $urlWildcardService->translate('/articles/2012/05/sindelfingen');
         /* END: Use Case */
 
-        $this->assertInstanceOf(
+        self::assertInstanceOf(
             URLWildcardTranslationResult::class,
             $result
         );
@@ -452,6 +469,7 @@ class URLWildcardServiceTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult $result
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
+     *
      * @depends testTranslate
      */
     public function testTranslateSetsPropertiesOnTranslationResult(URLWildcardTranslationResult $result)
@@ -469,6 +487,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the translate() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
+     *
      * @depends testTranslate
      */
     public function testTranslateWithForwardSetToTrue()
@@ -498,6 +517,7 @@ class URLWildcardServiceTest extends BaseTest
      * Test for the translate() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
+     *
      * @depends testTranslate
      */
     public function testTranslateReturnsLongestMatchingWildcard()
@@ -515,13 +535,14 @@ class URLWildcardServiceTest extends BaseTest
         $result = $urlWildcardService->translate('/articles/2012/05/sindelfingen/42');
         /* END: Use Case */
 
-        $this->assertEquals('/content/42/bar/2012', $result->uri);
+        self::assertEquals('/content/42/bar/2012', $result->uri);
     }
 
     /**
      * Test for the translate() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLWildcardService::translate()
+     *
      * @depends testTranslate
      */
     public function testTranslateThrowsNotFoundExceptionWhenNotAliasOrWildcardMatches()
@@ -544,7 +565,7 @@ class URLWildcardServiceTest extends BaseTest
         $repository = $this->getRepository();
         $urlWildcardService = $repository->getURLWildcardService();
 
-        $this->assertSame(0, $urlWildcardService->countAll());
+        self::assertSame(0, $urlWildcardService->countAll());
     }
 
     public function testCountAll(): void
@@ -554,7 +575,7 @@ class URLWildcardServiceTest extends BaseTest
 
         $urlWildcardService->create('/articles/*', '/content/{1}');
 
-        $this->assertSame(1, $urlWildcardService->countAll());
+        self::assertSame(1, $urlWildcardService->countAll());
     }
 }
 
