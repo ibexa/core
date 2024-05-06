@@ -34,7 +34,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * @experimental
+ * @internal For core tests only. Use \Ibexa\Contracts\Test\Core\IbexaTestKernel from ibexa/test-core instead.
  *
  * Baseline test kernel that dependent packages can extend for their integration tests.
  *
