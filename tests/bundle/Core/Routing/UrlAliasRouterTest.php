@@ -18,7 +18,6 @@ use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\MVC\Symfony\Routing\UrlAliasRouterTest as BaseUrlAliasRouterTest;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 
@@ -59,7 +58,6 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
     protected function resetConfigResolver()
     {
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
-        $this->container = $this->createMock(ContainerInterface::class);
         $this->router->setConfigResolver($this->configResolver);
     }
 

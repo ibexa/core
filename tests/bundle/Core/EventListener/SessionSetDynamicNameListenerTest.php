@@ -15,7 +15,6 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\SessionInterface as SymfonySessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface;
@@ -36,9 +35,6 @@ class SessionSetDynamicNameListenerTest extends TestCase
     {
         parent::setUp();
         $this->configResolver = $this->getMockBuilder(ConfigResolverInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->session = $this->getMockBuilder(SymfonySessionInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->sessionStorage = $this->getMockBuilder(NativeSessionStorage::class)
