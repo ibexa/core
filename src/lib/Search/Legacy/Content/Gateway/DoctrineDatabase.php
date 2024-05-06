@@ -12,6 +12,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -216,8 +217,9 @@ final class DoctrineDatabase extends Gateway
         array $languageFilter
     ): array {
         $query = $this->connection->createQueryBuilder();
+        $expr = $query->expr();
         $query->select(
-            'DISTINCT c.*, main_tree.main_node_id AS main_tree_main_node_id',
+            'DISTINCT c.*, main_tree.main_node_id AS main_tree_main_node_id, ct.identifier AS content_type_identifier',
         );
 
         if ($sort !== null) {
@@ -236,9 +238,18 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_tree',
-                $query->expr()->andX(
+                $expr->and(
                     'main_tree.contentobject_id = c.id',
                     'main_tree.main_node_id = main_tree.node_id'
+                )
+            )
+            ->innerJoin(
+                'c',
+                'ezcontentclass',
+                'ct',
+                $expr->and(
+                    $expr->eq('c.contentclass_id', 'ct.id'),
+                    $expr->eq('ct.version', Type::STATUS_DEFINED)
                 )
             );
 
