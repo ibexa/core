@@ -15,7 +15,6 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -33,7 +32,6 @@ class RoutingListenerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->container = $this->createMock(ContainerInterface::class);
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->urlAliasRouter = $this->createMock(UrlAliasRouter::class);
         $this->urlAliasGenerator = $this->createMock(UrlAliasGenerator::class);

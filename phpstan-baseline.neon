@@ -8156,11 +8156,6 @@ parameters:
 			path: src/lib/Base/Exceptions/InvalidArgumentType.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Core\\\\Base\\\\Exceptions\\\\LimitationValidationException\\:\\:\\$validationErrors\\.$#"
-			count: 1
-			path: src/lib/Base/Exceptions/LimitationValidationException.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Exceptions\\\\LimitationValidationException\\:\\:addParameter\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Base/Exceptions/LimitationValidationException.php
@@ -23876,11 +23871,6 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Configuration/Parser/ImageTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\LanguagesTest\\:\\:\\$minimalConfig\\.$#"
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/Parser/LanguagesTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\LanguagesTest\\:\\:getMinimalConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Configuration/Parser/LanguagesTest.php
@@ -24846,11 +24836,6 @@ parameters:
 			path: tests/bundle/Core/EventListener/RequestEventListenerTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RoutingListenerTest\\:\\:\\$container\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/RoutingListenerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RoutingListenerTest\\:\\:testGetSubscribedEvents\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/RoutingListenerTest.php
@@ -24899,11 +24884,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionInitByPostListenerTest\\:\\:testOnSiteAccessMatchSubRequest\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/SessionInitByPostListenerTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:\\$session\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:onSiteAccessMatchProvider\\(\\) has no return type specified\\.$#"
@@ -26029,11 +26009,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\JsRouting\\\\ExposedRoutesExtractorTest\\:\\:getDataForTestGetBaseUrl\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/bundle/Core/Routing/JsRouting/ExposedRoutesExtractorTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\UrlAliasRouterTest\\:\\:\\$container\\.$#"
-			count: 1
-			path: tests/bundle/Core/Routing/UrlAliasRouterTest.php
 
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\UrlAliasRouter\\:\\:setConfigResolver\\(\\)\\.$#"
@@ -49091,11 +49066,6 @@ parameters:
 			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
 
 		-
-			message: "#^Access to an undefined property Symfony\\\\Component\\\\Cache\\\\CacheItem\\:\\:\\$defaultLifetime\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Cache\\\\AbstractBaseHandlerTest\\:\\:getCacheItem\\(\\) has parameter \\$key with no type specified\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Cache/AbstractBaseHandlerTest.php
@@ -49369,16 +49339,6 @@ parameters:
 			message: "#^Unable to resolve the template type T in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:createMock\\(\\)$#"
 			count: 3
 			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
-
-		-
-			message: "#^Access to an undefined property Symfony\\\\Component\\\\Cache\\\\CacheItem\\:\\:\\$defaultLifetime\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Cache/Adapter/InMemoryClearingProxyAdapterTest.php
-
-		-
-			message: "#^Access to an undefined property Symfony\\\\Component\\\\Cache\\\\CacheItem\\:\\:\\$prevTags\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Cache/Adapter/InMemoryClearingProxyAdapterTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Cache\\\\Adapter\\\\InMemoryClearingProxyAdapterTest\\:\\:arrayAsGenerator\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"

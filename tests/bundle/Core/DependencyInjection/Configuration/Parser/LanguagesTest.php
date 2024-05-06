@@ -20,7 +20,7 @@ class LanguagesTest extends AbstractParserTestCase
 
     protected function getMinimalConfiguration(): array
     {
-        return $this->minimalConfig = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_minimal.yml'));
+        return Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_minimal.yml'));
     }
 
     public function testLanguagesSingleSiteaccess()
