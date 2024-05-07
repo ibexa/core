@@ -1517,16 +1517,12 @@ class ContentService implements ContentServiceInterface
         $publishedContent = $this->internalLoadContentById($versionInfo->getContentInfo()->getId());
         $publishedVersionInfo = $publishedContent->getVersionInfo();
 
-        if (
-            !$publishedVersionInfo->isPublished()
-            || ($versionInfo->versionNo >= $publishedVersionInfo->versionNo)
-        ) {
+        if (!$publishedVersionInfo->isPublished()) {
             return;
         }
 
-        $publishedContentFieldsInMainLanguage = $publishedContent->getFieldsByLanguage(
-            $publishedContent->getVersionInfo()->getContentInfo()->getMainLanguageCode()
-        );
+        $mainLanguageCode = $publishedContent->getVersionInfo()->getContentInfo()->getMainLanguageCode();
+        $publishedContentFieldsInMainLanguage = $publishedContent->getFieldsByLanguage($mainLanguageCode);
 
         $fieldValues = [];
         $persistenceFields = [];
@@ -1545,7 +1541,12 @@ class ContentService implements ContentServiceInterface
                 $fieldDefinition->fieldTypeIdentifier
             );
 
-            $newValue = $publishedContentFieldsInMainLanguage[$field->fieldDefIdentifier]->getValue();
+            $newValue = (
+                $versionInfo->versionNo >= $publishedVersionInfo->versionNo
+                && $versionInfo->initialLanguageCode === $mainLanguageCode
+            )
+                ? $field->getValue()
+                : $publishedContentFieldsInMainLanguage[$field->fieldDefIdentifier]->getValue();
             $fieldValues[$fieldDefinition->identifier][$field->languageCode] = $newValue;
 
             $persistenceFields[] = new SPIField(
