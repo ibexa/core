@@ -74,5 +74,3 @@ class ViewProvidersPassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(ViewProvidersPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\ViewProvidersPassTest');

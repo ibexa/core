@@ -223,5 +223,3 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         $this->listener->reindex();
     }
 }
-
-class_alias(BackgroundIndexingTerminateListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\BackgroundIndexingTerminateListenerTest');

@@ -198,5 +198,3 @@ class ParameterProviderTest extends TestCase
         ]);
     }
 }
-
-class_alias(ParameterProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\Tests\ImageAsset\ParameterProviderTest');

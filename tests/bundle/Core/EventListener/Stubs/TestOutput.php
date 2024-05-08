@@ -26,5 +26,3 @@ class TestOutput extends Output
         $this->output .= $message . ($newline ? "\n" : '');
     }
 }
-
-class_alias(TestOutput::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\Stubs\TestOutput');

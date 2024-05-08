@@ -62,5 +62,3 @@ class LogicalAndTest extends CriterionHandlerTest
         self::assertEquals($expected, $actual);
     }
 }
-
-class_alias(LogicalAndTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriterionHandler\LogicalAndTest');

@@ -138,5 +138,3 @@ class IOConfigurationPassTest extends AbstractCompilerPassTestCase
         $this->compile();
     }
 }
-
-class_alias(IOConfigurationPassTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\Compiler\IOConfigurationPassTest');

@@ -303,5 +303,3 @@ class CommonTest extends AbstractParserTestCase
         ];
     }
 }
-
-class_alias(CommonTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\CommonTest');

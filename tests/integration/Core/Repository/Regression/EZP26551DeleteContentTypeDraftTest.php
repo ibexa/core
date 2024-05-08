@@ -51,5 +51,3 @@ class EZP26551DeleteContentTypeDraftTest extends BaseTest
         }
     }
 }
-
-class_alias(EZP26551DeleteContentTypeDraftTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP26551DeleteContentTypeDraftTest');

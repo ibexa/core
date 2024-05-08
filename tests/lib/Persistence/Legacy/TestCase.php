@@ -347,5 +347,3 @@ abstract class TestCase extends BaseTestCase
         );
     }
 }
-
-class_alias(TestCase::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\TestCase');

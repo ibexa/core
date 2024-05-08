@@ -115,5 +115,3 @@ class ContentValidatorStrategyTest extends TestCase
         };
     }
 }
-
-class_alias(ContentValidatorStrategyTest::class, 'eZ\Publish\Core\Repository\Tests\ContentValidator\ContentValidatorStrategyTest');

@@ -189,5 +189,3 @@ class RouterURIElementTest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterURIElementTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterURIElementTest');

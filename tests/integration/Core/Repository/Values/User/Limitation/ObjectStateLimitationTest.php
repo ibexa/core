@@ -307,5 +307,3 @@ class ObjectStateLimitationTest extends BaseLimitationTest
         );
     }
 }
-
-class_alias(ObjectStateLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\ObjectStateLimitationTest');

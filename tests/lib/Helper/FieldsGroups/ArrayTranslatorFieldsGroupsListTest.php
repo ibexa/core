@@ -144,5 +144,3 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
             ->getMockForAbstractClass();
     }
 }
-
-class_alias(ArrayTranslatorFieldsGroupsListTest::class, 'eZ\Publish\Core\Helper\Tests\FieldsGroups\ArrayTranslatorFieldsGroupsListTest');

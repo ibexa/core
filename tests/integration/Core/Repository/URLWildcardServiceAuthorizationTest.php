@@ -78,5 +78,3 @@ class URLWildcardServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
-
-class_alias(URLWildcardServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\URLWildcardServiceAuthorizationTest');

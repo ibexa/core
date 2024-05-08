@@ -3504,5 +3504,3 @@ class UserServiceTest extends BaseTest
         self::assertSame($expectedUser->email, $actualUser->email);
     }
 }
-
-class_alias(UserServiceTest::class, 'eZ\Publish\API\Repository\Tests\UserServiceTest');

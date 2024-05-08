@@ -4714,5 +4714,3 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
         $contentTypeDraft = $contentTypeService->loadContentTypeDraft($draft->id);
     }
 }
-
-class_alias(ContentTypeServiceTest::class, 'eZ\Publish\API\Repository\Tests\ContentTypeServiceTest');

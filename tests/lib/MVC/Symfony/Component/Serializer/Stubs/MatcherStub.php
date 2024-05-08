@@ -42,5 +42,3 @@ final class MatcherStub implements Matcher
         return $this->data;
     }
 }
-
-class_alias(MatcherStub::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\Stubs\MatcherStub');

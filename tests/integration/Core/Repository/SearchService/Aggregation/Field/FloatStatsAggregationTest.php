@@ -44,5 +44,3 @@ final class FloatStatsAggregationTest extends AbstractAggregationTest
         $this->refreshSearch($this->getRepository());
     }
 }
-
-class_alias(FloatStatsAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\Field\FloatStatsAggregationTest');

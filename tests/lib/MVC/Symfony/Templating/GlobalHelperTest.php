@@ -197,5 +197,3 @@ class GlobalHelperTest extends TestCase
         self::assertSame($languages, $this->helper->getAvailableLanguages());
     }
 }
-
-class_alias(GlobalHelperTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\GlobalHelperTest');

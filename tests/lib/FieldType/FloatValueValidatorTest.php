@@ -385,5 +385,3 @@ class FloatValueValidatorTest extends TestCase
         ];
     }
 }
-
-class_alias(FloatValueValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\FloatValueValidatorTest');

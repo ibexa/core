@@ -41,5 +41,3 @@ class ViewManager implements ViewManagerInterface, SiteAccessAware
     {
     }
 }
-
-class_alias(ViewManager::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\Stubs\ViewManager');

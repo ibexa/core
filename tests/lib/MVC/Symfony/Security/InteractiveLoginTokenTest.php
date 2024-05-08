@@ -52,5 +52,3 @@ class InteractiveLoginTokenTest extends TestCase
         self::assertEquals($token, $unserializedToken);
     }
 }
-
-class_alias(InteractiveLoginTokenTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\InteractiveLoginTokenTest');

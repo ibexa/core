@@ -51,5 +51,3 @@ class ISBNTest extends TestCase
         ];
     }
 }
-
-class_alias(ISBNTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\ISBNTest');

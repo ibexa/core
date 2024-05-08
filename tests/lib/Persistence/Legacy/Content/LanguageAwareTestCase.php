@@ -154,5 +154,3 @@ abstract class LanguageAwareTestCase extends TestCase
         ];
     }
 }
-
-class_alias(LanguageAwareTestCase::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageAwareTestCase');

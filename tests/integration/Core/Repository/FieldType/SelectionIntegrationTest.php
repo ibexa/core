@@ -390,5 +390,3 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 }
-
-class_alias(SelectionIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\SelectionIntegrationTest');

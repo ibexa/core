@@ -52,5 +52,3 @@ abstract class BaseFlysystemTest extends ConfigurationFactoryTest
         );
     }
 }
-
-class_alias(BaseFlysystemTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactory\BaseFlysystemTest');

@@ -376,5 +376,3 @@ class ObjectStateServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
-
-class_alias(ObjectStateServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\ObjectStateServiceAuthorizationTest');

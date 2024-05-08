@@ -95,5 +95,3 @@ class DynamicSettingParserTest extends TestCase
         ];
     }
 }
-
-class_alias(DynamicSettingParserTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParserTest');

@@ -38,5 +38,3 @@ final class BatchIteratorTestAdapter implements BatchIteratorAdapter
         return $this->fetchCounter;
     }
 }
-
-class_alias(BatchIteratorTestAdapter::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorTestAdapter');

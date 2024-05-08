@@ -315,5 +315,3 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(TextBlockIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\TextBlockIntegrationTest');

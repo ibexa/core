@@ -42,5 +42,3 @@ final class ParentLocationQueryBuilderTest extends BaseCriterionVisitorQueryBuil
         return [new ParentLocationIdQueryBuilder()];
     }
 }
-
-class_alias(ParentLocationQueryBuilderTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Filter\CriterionQueryBuilder\Location\ParentLocationQueryBuilderTest');

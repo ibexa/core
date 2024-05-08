@@ -146,5 +146,3 @@ class UserPreferenceServiceTest extends BaseTest
         self::assertEquals(5, $userPreferenceCount);
     }
 }
-
-class_alias(UserPreferenceServiceTest::class, 'eZ\Publish\API\Repository\Tests\UserPreferenceServiceTest');

@@ -260,5 +260,3 @@ class ChainConfigResolverTest extends TestCase
             ->getMock();
     }
 }
-
-class_alias(ChainConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ChainConfigResolverTest');

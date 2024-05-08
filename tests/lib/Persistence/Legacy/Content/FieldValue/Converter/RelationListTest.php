@@ -292,5 +292,3 @@ EOT;
         );
     }
 }
-
-class_alias(RelationListTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\RelationListTest');

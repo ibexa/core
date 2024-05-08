@@ -42,5 +42,3 @@ final class ConsoleCommandPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(ConsoleCommandPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\ConsoleCommandPassTest');

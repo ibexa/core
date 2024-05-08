@@ -161,5 +161,3 @@ class EZP26367UrlAliasHistoryRedirectLoopTest extends BaseTest
         self::assertTrue($urlAliasHistorized->isHistory);
     }
 }
-
-class_alias(EZP26367UrlAliasHistoryRedirectLoopTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP26367UrlAliasHistoryRedirectLoopTest');

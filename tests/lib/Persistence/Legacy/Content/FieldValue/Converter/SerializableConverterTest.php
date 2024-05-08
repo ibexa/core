@@ -180,5 +180,3 @@ class SerializableConverterTest extends TestCase
         self::assertNull($fieldDefinition->fieldTypeConstraints->fieldSettings);
     }
 }
-
-class_alias(SerializableConverterTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\SerializableConverterTest');

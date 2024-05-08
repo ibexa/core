@@ -1245,5 +1245,3 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 }
-
-class_alias(ContentTypeHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Type\ContentTypeHandlerTest');

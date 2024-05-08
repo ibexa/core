@@ -66,5 +66,3 @@ class EntityManagerFactoryServiceLocatorPassTest extends AbstractCompilerPassTes
         );
     }
 }
-
-class_alias(EntityManagerFactoryServiceLocatorPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\EntityManagerFactoryServiceLocatorPassTest');

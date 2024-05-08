@@ -116,5 +116,3 @@ class ContentLimitationsMixIntegrationTest extends BaseLimitationIntegrationTest
         ];
     }
 }
-
-class_alias(ContentLimitationsMixIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\ContentLimitationsMixIntegrationTest');

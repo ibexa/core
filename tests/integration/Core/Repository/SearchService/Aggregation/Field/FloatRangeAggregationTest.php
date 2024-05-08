@@ -52,5 +52,3 @@ final class FloatRangeAggregationTest extends AbstractAggregationTest
         $this->refreshSearch($this->getRepository());
     }
 }
-
-class_alias(FloatRangeAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\Field\FloatRangeAggregationTest');

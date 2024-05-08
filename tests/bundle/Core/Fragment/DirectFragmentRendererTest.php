@@ -181,5 +181,3 @@ final class DirectFragmentRendererTest extends TestCase
         );
     }
 }
-
-class_alias(DirectFragmentRendererTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Fragment\DirectFragmentRendererTest');

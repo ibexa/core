@@ -82,5 +82,3 @@ class RoutingListenerTest extends TestCase
         $listener->onSiteAccessMatch($event);
     }
 }
-
-class_alias(RoutingListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\RoutingListenerTest');

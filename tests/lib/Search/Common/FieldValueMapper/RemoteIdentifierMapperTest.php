@@ -140,5 +140,3 @@ final class RemoteIdentifierMapperTest extends TestCase
         ];
     }
 }
-
-class_alias(RemoteIdentifierMapperTest::class, 'eZ\Publish\Core\Search\Tests\Common\FieldValueMapper\RemoteIdentifierMapperTest');

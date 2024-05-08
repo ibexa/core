@@ -656,5 +656,3 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         return $this->gatewayMock;
     }
 }
-
-class_alias(ObjectStateHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\ObjectState\ObjectStateHandlerTest');

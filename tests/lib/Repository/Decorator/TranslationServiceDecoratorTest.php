@@ -57,5 +57,3 @@ class TranslationServiceDecoratorTest extends TestCase
         $decoratedService->translateString(...$parameters);
     }
 }
-
-class_alias(TranslationServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\TranslationServiceDecoratorTest');

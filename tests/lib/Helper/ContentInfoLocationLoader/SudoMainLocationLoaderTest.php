@@ -169,5 +169,3 @@ class SudoMainLocationLoaderTest extends TestCase
             ->getMock();
     }
 }
-
-class_alias(SudoMainLocationLoaderTest::class, 'eZ\Publish\Core\Helper\Tests\ContentInfoLocationLoader\SudoMainLocationLoaderTest');

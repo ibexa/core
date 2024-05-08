@@ -103,5 +103,3 @@ class BookmarkHandlerTest extends AbstractCacheHandlerTest
         ];
     }
 }
-
-class_alias(BookmarkHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\BookmarkHandlerTest');

@@ -124,5 +124,3 @@ class EZP21089Test extends BaseTest
         );
     }
 }
-
-class_alias(EZP21089Test::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP21089Test');

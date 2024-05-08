@@ -48,5 +48,3 @@ final class DeprecationErrorCollector
         return true;
     }
 }
-
-class_alias(DeprecationErrorCollector::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\TaggedServiceIdsIterator\DeprecationErrorCollector');

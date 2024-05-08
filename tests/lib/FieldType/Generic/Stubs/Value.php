@@ -29,5 +29,3 @@ final class Value implements ValueInterface
         return (string)$this->value;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\SPI\FieldType\Generic\Tests\Stubs\Value');

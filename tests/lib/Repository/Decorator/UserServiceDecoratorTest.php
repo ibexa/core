@@ -466,5 +466,3 @@ class UserServiceDecoratorTest extends TestCase
         $decoratedService->validatePassword(...$parameters);
     }
 }
-
-class_alias(UserServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\UserServiceDecoratorTest');

@@ -413,5 +413,3 @@ class ParentDepthLimitationTypeTest extends Base
         var_dump($v); // intentional, debug in case no exception above
     }
 }
-
-class_alias(ParentDepthLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\ParentDepthLimitationTypeTest');

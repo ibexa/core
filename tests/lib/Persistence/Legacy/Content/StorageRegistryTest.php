@@ -59,5 +59,3 @@ class StorageRegistryTest extends TestCase
         return $this->createMock(FieldStorage::class);
     }
 }
-
-class_alias(StorageRegistryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\StorageRegistryTest');

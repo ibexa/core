@@ -108,5 +108,3 @@ class URLServiceDecoratorTest extends TestCase
         $decoratedService->updateUrl(...$parameters);
     }
 }
-
-class_alias(URLServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\URLServiceDecoratorTest');

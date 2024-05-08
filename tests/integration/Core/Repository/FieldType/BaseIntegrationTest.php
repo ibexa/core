@@ -1222,5 +1222,3 @@ abstract class BaseIntegrationTest extends BaseTest
         }
     }
 }
-
-class_alias(BaseIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\BaseIntegrationTest');

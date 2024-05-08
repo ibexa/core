@@ -34,5 +34,3 @@ final class ContentInfoSearchAdapterTest extends AbstractSearchAdapterTest
         return 'findContentInfo';
     }
 }
-
-class_alias(ContentInfoSearchAdapterTest::class, 'eZ\Publish\API\Repository\Tests\Iterator\BatchIteratorAdapter\ContentInfoSearchAdapterTest');

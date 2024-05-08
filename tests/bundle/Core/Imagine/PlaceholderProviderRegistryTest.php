@@ -85,5 +85,3 @@ class PlaceholderProviderRegistryTest extends TestCase
         return $this->createMock(PlaceholderProvider::class);
     }
 }
-
-class_alias(PlaceholderProviderRegistryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\PlaceholderProviderRegistryTest');

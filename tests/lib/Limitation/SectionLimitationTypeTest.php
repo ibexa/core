@@ -491,5 +491,3 @@ class SectionLimitationTypeTest extends Base
         $limitationType->valueSchema();
     }
 }
-
-class_alias(SectionLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\SectionLimitationTypeTest');

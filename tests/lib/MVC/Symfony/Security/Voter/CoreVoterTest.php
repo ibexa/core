@@ -212,5 +212,3 @@ class CoreVoterTest extends TestCase
         ];
     }
 }
-
-class_alias(CoreVoterTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\Voter\CoreVoterTest');

@@ -478,5 +478,3 @@ class ContentViewBuilderTest extends TestCase
         );
     }
 }
-
-class_alias(ContentViewBuilderTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\Builder\ContentViewBuilderTest');

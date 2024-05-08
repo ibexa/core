@@ -39,5 +39,3 @@ class ValidationErrorOccurs extends AllValidationErrorsOccur
         return "contain the message '{$this->expectedValidationErrorMessage}'";
     }
 }
-
-class_alias(ValidationErrorOccurs::class, 'eZ\Publish\API\Repository\Tests\PHPUnitConstraint\ValidationErrorOccurs');

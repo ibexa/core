@@ -85,5 +85,3 @@ class UrlTest extends TestCase
         $this->converter->toFieldDefinition(new StorageFieldDefinition(), new PersistenceFieldDefinition());
     }
 }
-
-class_alias(UrlTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\UrlTest');

@@ -31,5 +31,3 @@ final class LanguageTermAggregationTest extends AbstractAggregationTest
         yield $builder->build();
     }
 }
-
-class_alias(LanguageTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\LanguageTermAggregationTest');

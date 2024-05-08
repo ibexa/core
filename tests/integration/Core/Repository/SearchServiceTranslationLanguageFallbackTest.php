@@ -1918,5 +1918,3 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         return $indexesToMatchData;
     }
 }
-
-class_alias(SearchServiceTranslationLanguageFallbackTest::class, 'eZ\Publish\API\Repository\Tests\SearchServiceTranslationLanguageFallbackTest');

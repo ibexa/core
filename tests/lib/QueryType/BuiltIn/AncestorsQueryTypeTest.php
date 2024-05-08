@@ -188,5 +188,3 @@ final class AncestorsQueryTypeTest extends AbstractQueryTypeTest
         return ['filter', 'offset', 'limit', 'sort', 'location', 'content'];
     }
 }
-
-class_alias(AncestorsQueryTypeTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\AncestorsQueryTypeTest');

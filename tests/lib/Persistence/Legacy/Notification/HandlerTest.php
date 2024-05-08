@@ -209,5 +209,3 @@ class HandlerTest extends TestCase
         $this->handler->delete($notification);
     }
 }
-
-class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\HandlerTest');

@@ -306,5 +306,3 @@ class SectionServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
-
-class_alias(SectionServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\SectionServiceAuthorizationTest');

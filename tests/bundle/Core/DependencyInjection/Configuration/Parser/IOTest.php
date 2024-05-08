@@ -63,5 +63,3 @@ class IOTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('io.binarydata_handler', 'group_cluster', self::EMPTY_SA_GROUP);
     }
 }
-
-class_alias(IOTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\IOTest');

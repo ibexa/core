@@ -86,5 +86,3 @@ class ContentViewTest extends AbstractViewTest
         return $this->valueParams;
     }
 }
-
-class_alias(ContentViewTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\ContentViewTest');

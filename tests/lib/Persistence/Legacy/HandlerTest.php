@@ -272,5 +272,3 @@ class HandlerTest extends TestCase
         return self::$container;
     }
 }
-
-class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\HandlerTest');

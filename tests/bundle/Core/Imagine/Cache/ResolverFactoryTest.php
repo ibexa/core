@@ -80,5 +80,3 @@ class ResolverFactoryTest extends TestCase
         self::assertEquals($expected, $this->factory->createCacheResolver());
     }
 }
-
-class_alias(ResolverFactoryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Cache\ResolverFactoryTest');

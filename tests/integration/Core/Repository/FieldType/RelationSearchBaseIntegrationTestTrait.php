@@ -167,5 +167,3 @@ trait RelationSearchBaseIntegrationTestTrait
         );
     }
 }
-
-class_alias(RelationSearchBaseIntegrationTestTrait::class, 'eZ\Publish\API\Repository\Tests\FieldType\RelationSearchBaseIntegrationTestTrait');

@@ -347,5 +347,3 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         return '1970-01-03T00:00:00Z';
     }
 }
-
-class_alias(DateIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\DateIntegrationTest');

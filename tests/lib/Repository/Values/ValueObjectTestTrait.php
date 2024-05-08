@@ -29,5 +29,3 @@ trait ValueObjectTestTrait
         }
     }
 }
-
-class_alias(ValueObjectTestTrait::class, 'eZ\Publish\API\Repository\Tests\Values\ValueObjectTestTrait');

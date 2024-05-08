@@ -25,5 +25,3 @@ class InteractiveLoginEventTest extends TestCase
         self::assertSame($apiUser, $event->getAPIUser());
     }
 }
-
-class_alias(InteractiveLoginEventTest::class, 'eZ\Publish\Core\MVC\Symfony\Event\Tests\InteractiveLoginEventTest');

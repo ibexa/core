@@ -150,5 +150,3 @@ class RenderContentStrategyTest extends BaseRenderStrategyTest
         ));
     }
 }
-
-class_alias(RenderContentStrategyTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\RenderContentStrategyTest');

@@ -28,5 +28,3 @@ class ViewProvider implements ViewProviderInterface, SiteAccessAware
     {
     }
 }
-
-class_alias(ViewProvider::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\Stubs\ViewProvider');

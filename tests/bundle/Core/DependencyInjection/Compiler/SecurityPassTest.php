@@ -83,5 +83,3 @@ class SecurityPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(SecurityPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\SecurityPassTest');

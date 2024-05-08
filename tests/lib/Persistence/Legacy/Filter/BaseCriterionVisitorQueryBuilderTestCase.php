@@ -103,5 +103,3 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
         ];
     }
 }
-
-class_alias(BaseCriterionVisitorQueryBuilderTestCase::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Filter\BaseCriterionVisitorQueryBuilderTestCase');

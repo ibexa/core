@@ -104,5 +104,3 @@ class CheckboxTest extends TestCase
         self::assertNull($fieldDef->fieldTypeConstraints->fieldSettings);
     }
 }
-
-class_alias(CheckboxTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\CheckboxTest');

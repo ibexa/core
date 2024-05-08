@@ -281,5 +281,3 @@ class FieldTypeMockTest extends TestCase
         ];
     }
 }
-
-class_alias(FieldTypeMockTest::class, 'eZ\Publish\Core\FieldType\Tests\FieldTypeMockTest');

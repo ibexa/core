@@ -1080,5 +1080,3 @@ class PermissionTest extends BaseServiceMockTest
         return $this->repositoryMock;
     }
 }
-
-class_alias(PermissionTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\PermissionTest');

@@ -99,5 +99,3 @@ class ThumbnailChainStrategyTest extends TestCase
         self::assertEquals(new Thumbnail(['resource' => 'second']), $result);
     }
 }
-
-class_alias(ThumbnailChainStrategyTest::class, 'eZ\Publish\Core\Repository\Tests\ContentThumbnail\ThumbnailChainStrategyTest');

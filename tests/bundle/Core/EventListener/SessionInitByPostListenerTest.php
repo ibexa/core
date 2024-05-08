@@ -127,5 +127,3 @@ class SessionInitByPostListenerTest extends TestCase
         $this->listener->onSiteAccessMatch($event);
     }
 }
-
-class_alias(SessionInitByPostListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\SessionInitByPostListenerTest');

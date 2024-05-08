@@ -36,5 +36,3 @@ class GatewayBasedStorageHandler extends GatewayBasedStorage
     {
     }
 }
-
-class_alias(GatewayBasedStorageHandler::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Stubs\GatewayBasedStorageHandler');

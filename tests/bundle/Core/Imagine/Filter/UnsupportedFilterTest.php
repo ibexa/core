@@ -21,5 +21,3 @@ class UnsupportedFilterTest extends AbstractFilterTest
         $filter->apply($this->createMock(ImageInterface::class));
     }
 }
-
-class_alias(UnsupportedFilterTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\UnsupportedFilterTest');

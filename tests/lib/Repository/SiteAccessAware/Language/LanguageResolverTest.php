@@ -77,5 +77,3 @@ class LanguageResolverTest extends TestCase
         ];
     }
 }
-
-class_alias(LanguageResolverTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\Language\LanguageResolverTest');

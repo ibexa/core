@@ -101,5 +101,3 @@ abstract class AbstractQueryTypeTest extends TestCase
 
     abstract protected function getExpectedSupportedParameters(): array;
 }
-
-class_alias(AbstractQueryTypeTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\AbstractQueryTypeTest');

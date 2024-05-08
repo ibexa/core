@@ -61,5 +61,3 @@ class LanguageServiceTest extends AbstractServiceTest
         return [];
     }
 }
-
-class_alias(LanguageServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\LanguageServiceTest');

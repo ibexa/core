@@ -44,5 +44,3 @@ final class URIElementNormalizerTest extends TestCase
         self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
-
-class_alias(URIElementNormalizerTest::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\URIElementNormalizerTest');

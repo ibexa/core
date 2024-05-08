@@ -98,5 +98,3 @@ class RandomSortClauseHandlerFactoryTest extends TestCase
         ];
     }
 }
-
-class_alias(RandomSortClauseHandlerFactoryTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Gateway\RandomSortClauseHandlerFactoryTest');

@@ -291,5 +291,3 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
         return new Mapper($languageMaskGenerator);
     }
 }
-
-class_alias(UrlAliasMapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlAlias\UrlAliasMapperTest');

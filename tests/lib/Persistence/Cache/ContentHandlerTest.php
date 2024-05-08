@@ -471,5 +471,3 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         $handler->deleteContent(2);
     }
 }
-
-class_alias(ContentHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\ContentHandlerTest');

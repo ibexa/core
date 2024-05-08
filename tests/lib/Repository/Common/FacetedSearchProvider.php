@@ -266,5 +266,3 @@ trait FacetedSearchProvider
         ];
     }
 }
-
-class_alias(FacetedSearchProvider::class, 'eZ\Publish\API\Repository\Tests\Common\FacetedSearchProvider');

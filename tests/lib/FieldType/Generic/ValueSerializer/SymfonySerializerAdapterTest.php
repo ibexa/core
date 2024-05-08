@@ -108,5 +108,3 @@ class SymfonySerializerAdapterTest extends TestCase
         self::assertEquals($data, $this->adapter->decode($json, self::TEST_CONTEXT));
     }
 }
-
-class_alias(SymfonySerializerAdapterTest::class, 'eZ\Publish\Core\FieldType\Tests\Generic\ValueSerializer\SymfonySerializerAdapterTest');

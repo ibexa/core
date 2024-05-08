@@ -370,5 +370,3 @@ class BookmarkTest extends BaseServiceMockTest
             ->getMock();
     }
 }
-
-class_alias(BookmarkTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\BookmarkTest');

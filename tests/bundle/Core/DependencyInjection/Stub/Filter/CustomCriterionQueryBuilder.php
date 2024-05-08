@@ -29,5 +29,3 @@ class CustomCriterionQueryBuilder implements CriterionQueryBuilder
         return null;
     }
 }
-
-class_alias(CustomCriterionQueryBuilder::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder');

@@ -153,5 +153,3 @@ final class ScoreTest extends AbstractSortClauseTest
         $this->refreshSearch($repository);
     }
 }
-
-class_alias(ScoreTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\SortClause\ScoreTest');

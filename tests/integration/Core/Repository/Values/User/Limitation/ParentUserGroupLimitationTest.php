@@ -136,5 +136,3 @@ class ParentUserGroupLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(ParentUserGroupLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\ParentUserGroupLimitationTest');

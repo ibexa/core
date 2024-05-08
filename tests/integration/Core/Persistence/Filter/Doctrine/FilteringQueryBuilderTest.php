@@ -65,5 +65,3 @@ class FilteringQueryBuilderTest extends TestCase
         $this->queryBuilder->joinOnce('f', 'bar', 'b', 'f.bar_id = b.id');
     }
 }
-
-class_alias(FilteringQueryBuilderTest::class, 'eZ\Publish\SPI\Tests\Persistence\Filter\Doctrine\FilteringQueryBuilderTest');

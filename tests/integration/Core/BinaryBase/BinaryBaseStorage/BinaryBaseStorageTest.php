@@ -169,5 +169,3 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
         return new DoctrineStorage($this->getDatabaseConnection());
     }
 }
-
-class_alias(BinaryBaseStorageTest::class, 'eZ\Publish\Core\FieldType\Tests\Integration\BinaryBase\BinaryBaseStorage\BinaryBaseStorageTest');

@@ -21,5 +21,3 @@ abstract class BaseGatewayTest extends BaseTest
         $this->repository = (new Legacy())->getRepository(true);
     }
 }
-
-class_alias(BaseGatewayTest::class, 'eZ\Publish\SPI\Tests\BaseGatewayTest');

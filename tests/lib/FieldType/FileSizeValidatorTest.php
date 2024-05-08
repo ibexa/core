@@ -312,5 +312,3 @@ class FileSizeValidatorTest extends TestCase
         ];
     }
 }
-
-class_alias(FileSizeValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\FileSizeValidatorTest');

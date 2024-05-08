@@ -106,5 +106,3 @@ final class SearchHitAdapterFactoryTest extends TestCase
         ];
     }
 }
-
-class_alias(SearchHitAdapterFactoryTest::class, 'eZ\Publish\Core\Pagination\Tests\AdapterFactory\SearchHitAdapterFactoryTest');

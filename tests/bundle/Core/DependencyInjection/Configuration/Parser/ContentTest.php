@@ -128,5 +128,3 @@ class ContentTest extends AbstractParserTestCase
         ];
     }
 }
-
-class_alias(ContentTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\ContentTest');

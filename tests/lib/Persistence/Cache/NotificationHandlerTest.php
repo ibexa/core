@@ -207,5 +207,3 @@ class NotificationHandlerTest extends AbstractCacheHandlerTest
         ];
     }
 }
-
-class_alias(NotificationHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\NotificationHandlerTest');

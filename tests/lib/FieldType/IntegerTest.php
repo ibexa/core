@@ -606,5 +606,3 @@ class IntegerTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(IntegerTest::class, 'eZ\Publish\Core\FieldType\Tests\IntegerTest');

@@ -107,5 +107,3 @@ abstract class AbstractAggregationTest extends BaseTest
         return $query;
     }
 }
-
-class_alias(AbstractAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\AbstractAggregationTest');

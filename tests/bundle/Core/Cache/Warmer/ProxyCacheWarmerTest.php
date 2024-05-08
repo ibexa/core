@@ -41,5 +41,3 @@ final class ProxyCacheWarmerTest extends TestCase
         $this->proxyCacheWarmer->warmUp('/cache/dir');
     }
 }
-
-class_alias(ProxyCacheWarmerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Cache\Warmer\ProxyCacheWarmerTest');

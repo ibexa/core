@@ -338,5 +338,3 @@ class UrlIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(UrlIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\UrlIntegrationTest');

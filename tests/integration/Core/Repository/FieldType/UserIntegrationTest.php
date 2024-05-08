@@ -529,5 +529,3 @@ class UserIntegrationTest extends BaseIntegrationTest
         return $fieldDefinition;
     }
 }
-
-class_alias(UserIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\UserIntegrationTest');

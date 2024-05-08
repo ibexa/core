@@ -62,5 +62,3 @@ final class UserMetadataTermAggregationTest extends AbstractAggregationTest
         return $builder->build();
     }
 }
-
-class_alias(UserMetadataTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\UserMetadataTermAggregationTest');

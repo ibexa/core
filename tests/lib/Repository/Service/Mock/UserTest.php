@@ -144,5 +144,3 @@ class UserTest extends BaseServiceMockTest
         $repository->expects(self::once())->method('getContentService')->willReturn($contentService);
     }
 }
-
-class_alias(UserTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\UserTest');
