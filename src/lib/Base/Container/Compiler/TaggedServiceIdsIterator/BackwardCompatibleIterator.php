@@ -58,5 +58,3 @@ final class BackwardCompatibleIterator implements IteratorAggregate
         yield from [];
     }
 }
-
-class_alias(BackwardCompatibleIterator::class, 'eZ\Publish\Core\Base\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIterator');

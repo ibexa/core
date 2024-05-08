@@ -35,5 +35,3 @@ class UserReference implements APIUserReference
         return $this->userId;
     }
 }
-
-class_alias(UserReference::class, 'eZ\Publish\Core\Repository\Values\User\UserReference');

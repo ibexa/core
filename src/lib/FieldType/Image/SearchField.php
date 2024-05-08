@@ -124,5 +124,3 @@ class SearchField implements Indexable
             : Orientation::PORTRAIT;
     }
 }
-
-class_alias(SearchField::class, 'eZ\Publish\Core\FieldType\Image\SearchField');

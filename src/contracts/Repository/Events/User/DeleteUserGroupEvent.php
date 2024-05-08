@@ -37,5 +37,3 @@ final class DeleteUserGroupEvent extends AfterEvent
         return $this->locations;
     }
 }
-
-class_alias(DeleteUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\DeleteUserGroupEvent');

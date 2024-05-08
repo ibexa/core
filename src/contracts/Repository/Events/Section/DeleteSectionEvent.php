@@ -27,5 +27,3 @@ final class DeleteSectionEvent extends AfterEvent
         return $this->section;
     }
 }
-
-class_alias(DeleteSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\DeleteSectionEvent');

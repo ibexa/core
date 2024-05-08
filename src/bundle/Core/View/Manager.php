@@ -37,5 +37,3 @@ class Manager extends BaseManager implements SiteAccessAware
         }
     }
 }
-
-class_alias(Manager::class, 'eZ\Bundle\EzPublishCoreBundle\View\Manager');

@@ -23,5 +23,3 @@ interface IsEmptyValue
      */
     public function isEmptyValue(FieldValue $fieldValue): bool;
 }
-
-class_alias(IsEmptyValue::class, 'eZ\Publish\SPI\Persistence\FieldType\IsEmptyValue');

@@ -39,5 +39,3 @@ final class PriorityQueryBuilder extends BaseLocationCriterionQueryBuilder
         );
     }
 }
-
-class_alias(PriorityQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\PriorityQueryBuilder');

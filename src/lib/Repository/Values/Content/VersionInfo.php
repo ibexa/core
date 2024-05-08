@@ -117,5 +117,3 @@ class VersionInfo extends APIVersionInfo
         return $this->names[$this->initialLanguageCode];
     }
 }
-
-class_alias(VersionInfo::class, 'eZ\Publish\Core\Repository\Values\Content\VersionInfo');

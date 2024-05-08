@@ -13,5 +13,3 @@ class FieldTemplates extends Templates
     public const INFO = 'Template settings for fields rendered by the ibexa_render_field() Twig function';
     public const INFO_TEMPLATE_KEY = 'Template file where to find block definition to display fields';
 }
-
-class_alias(FieldTemplates::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\FieldTemplates');

@@ -58,5 +58,3 @@ final class GroupIdQueryBuilder extends BaseQueryBuilder
         );
     }
 }
-
-class_alias(GroupIdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder');

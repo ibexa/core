@@ -21,5 +21,3 @@ class MultipleBooleanField extends FieldType
      */
     protected $type = 'ez_mboolean';
 }
-
-class_alias(MultipleBooleanField::class, 'eZ\Publish\SPI\Search\FieldType\MultipleBooleanField');

@@ -30,5 +30,3 @@ class MatchNone extends Criterion implements FilteringCriterion, TrashCriterion
         return [];
     }
 }
-
-class_alias(MatchNone::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\MatchNone');

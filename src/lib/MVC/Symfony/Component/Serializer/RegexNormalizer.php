@@ -25,5 +25,3 @@ final class RegexNormalizer extends AbstractPropertyWhitelistNormalizer
         return ['regex', 'itemNumber', 'matchedSiteAccess'];
     }
 }
-
-class_alias(RegexNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\RegexNormalizer');

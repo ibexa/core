@@ -94,5 +94,3 @@ class EmailAddressConverter implements Converter
         return 'sort_key_string';
     }
 }
-
-class_alias(EmailAddressConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\EmailAddressConverter');

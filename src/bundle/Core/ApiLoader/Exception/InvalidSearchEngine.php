@@ -12,5 +12,3 @@ use InvalidArgumentException;
 class InvalidSearchEngine extends InvalidArgumentException
 {
 }
-
-class_alias(InvalidSearchEngine::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\Exception\InvalidSearchEngine');

@@ -50,5 +50,3 @@ class RoutingListener implements EventSubscriberInterface
         $this->urlAliasGenerator->setExcludedUriPrefixes($this->configResolver->getParameter('content.tree_root.excluded_uri_prefixes'));
     }
 }
-
-class_alias(RoutingListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\RoutingListener');

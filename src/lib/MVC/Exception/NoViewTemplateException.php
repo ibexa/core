@@ -34,5 +34,3 @@ class NoViewTemplateException extends Exception
         return $this->view;
     }
 }
-
-class_alias(NoViewTemplateException::class, 'eZ\Publish\Core\MVC\Exception\NoViewTemplateException');

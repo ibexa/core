@@ -19,5 +19,3 @@ interface VariationPurger
      */
     public function purge(array $aliasNames);
 }
-
-class_alias(VariationPurger::class, 'eZ\Publish\SPI\Variation\VariationPurger');

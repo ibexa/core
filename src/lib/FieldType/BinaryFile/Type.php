@@ -121,5 +121,3 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
         ];
     }
 }
-
-class_alias(Type::class, 'eZ\Publish\Core\FieldType\BinaryFile\Type');

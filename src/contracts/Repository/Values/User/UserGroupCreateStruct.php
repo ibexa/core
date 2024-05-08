@@ -16,5 +16,3 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 abstract class UserGroupCreateStruct extends ContentCreateStruct
 {
 }
-
-class_alias(UserGroupCreateStruct::class, 'eZ\Publish\API\Repository\Values\User\UserGroupCreateStruct');

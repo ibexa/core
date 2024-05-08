@@ -21,5 +21,3 @@ class DocumentField extends FieldType
      */
     protected $type = 'ez_document';
 }
-
-class_alias(DocumentField::class, 'eZ\Publish\SPI\Search\FieldType\DocumentField');

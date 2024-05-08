@@ -124,5 +124,3 @@ class CheckURLsCommand extends Command implements BackwardCompatibleCommand
         return ['ezplatform:check-urls'];
     }
 }
-
-class_alias(CheckURLsCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\CheckURLsCommand');

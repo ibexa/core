@@ -22,5 +22,3 @@ class ParentOwnerLimitation extends Limitation
         return Limitation::PARENTOWNER;
     }
 }
-
-class_alias(ParentOwnerLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\ParentOwnerLimitation');

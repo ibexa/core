@@ -36,5 +36,3 @@ abstract class BaseQueryBuilder implements CriterionQueryBuilder
         return null;
     }
 }
-
-class_alias(BaseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\BaseQueryBuilder');

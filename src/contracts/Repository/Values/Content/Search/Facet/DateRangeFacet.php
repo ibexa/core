@@ -24,5 +24,3 @@ class DateRangeFacet extends Facet
      */
     public $entries;
 }
-
-class_alias(DateRangeFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\DateRangeFacet');

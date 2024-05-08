@@ -62,5 +62,3 @@ class DefinitionBased extends TransformationProcessor
         return $this->compiledRules;
     }
 }
-
-class_alias(DefinitionBased::class, 'eZ\Publish\Core\Persistence\TransformationProcessor\DefinitionBased');

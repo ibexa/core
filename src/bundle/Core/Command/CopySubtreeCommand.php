@@ -189,5 +189,3 @@ class CopySubtreeCommand extends Command implements BackwardCompatibleCommand
         return ['ezplatform:copy-subtree'];
     }
 }
-
-class_alias(CopySubtreeCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\CopySubtreeCommand');

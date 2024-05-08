@@ -52,5 +52,3 @@ final class GroupQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(GroupQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\Metadata\GroupQueryBuilder');

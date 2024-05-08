@@ -77,5 +77,3 @@ class NullStorage implements FieldStorage
         return;
     }
 }
-
-class_alias(NullStorage::class, 'eZ\Publish\Core\FieldType\NullStorage');

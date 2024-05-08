@@ -47,5 +47,3 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
         return new ArrayIterator($this->contentItems);
     }
 }
-
-class_alias(ContentList::class, 'eZ\Publish\API\Repository\Values\Content\ContentList');

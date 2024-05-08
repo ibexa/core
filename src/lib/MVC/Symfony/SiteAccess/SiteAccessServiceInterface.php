@@ -36,5 +36,3 @@ interface SiteAccessServiceInterface
      */
     public function getSiteAccessesRelation(?SiteAccess $siteAccess = null): array;
 }
-
-class_alias(SiteAccessServiceInterface::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface');

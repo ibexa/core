@@ -65,5 +65,3 @@ final class BeforeTrashEvent extends BeforeEvent
         return $this->resultSet;
     }
 }
-
-class_alias(BeforeTrashEvent::class, 'eZ\Publish\API\Repository\Events\Trash\BeforeTrashEvent');

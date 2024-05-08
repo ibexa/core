@@ -480,5 +480,3 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         return ['ezplatform:reindex'];
     }
 }
-
-class_alias(ReindexCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\ReindexCommand');

@@ -90,5 +90,3 @@ class UserMetadata extends CriterionHandler
         throw new RuntimeException("Invalid target Criterion: '" . $criterion->target . "'");
     }
 }
-
-class_alias(UserMetadata::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserMetadata');

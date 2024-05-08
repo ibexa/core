@@ -47,5 +47,3 @@ class LoadStruct extends ValueObject
      */
     public $languages = [];
 }
-
-class_alias(LoadStruct::class, 'eZ\Publish\SPI\Persistence\Content\LoadStruct');

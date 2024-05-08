@@ -38,5 +38,3 @@ class MatchAll extends CriterionHandler
         return '1 = 1';
     }
 }
-
-class_alias(MatchAll::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MatchAll');

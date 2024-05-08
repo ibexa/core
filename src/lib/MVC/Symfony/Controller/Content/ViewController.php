@@ -178,5 +178,3 @@ class ViewController extends Controller
         }
     }
 }
-
-class_alias(ViewController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Content\ViewController');

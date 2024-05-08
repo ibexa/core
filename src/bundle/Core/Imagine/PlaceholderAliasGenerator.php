@@ -117,5 +117,3 @@ class PlaceholderAliasGenerator implements VariationHandler
         return true;
     }
 }
-
-class_alias(PlaceholderAliasGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderAliasGenerator');

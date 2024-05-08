@@ -202,5 +202,3 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
         return ['ezplatform:delete-content-translation'];
     }
 }
-
-class_alias(DeleteContentTranslationCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\DeleteContentTranslationCommand');

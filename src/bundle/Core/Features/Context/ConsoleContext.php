@@ -209,5 +209,3 @@ class ConsoleContext implements Context
         return $this->defaultSiteaccess;
     }
 }
-
-class_alias(ConsoleContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\ConsoleContext');

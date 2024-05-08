@@ -47,5 +47,3 @@ final class UpdateUserGroupEvent extends AfterEvent
         return $this->updatedUserGroup;
     }
 }
-
-class_alias(UpdateUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\UpdateUserGroupEvent');

@@ -58,5 +58,3 @@ final class AncestorQueryBuilder extends BaseLocationCriterionQueryBuilder
         );
     }
 }
-
-class_alias(AncestorQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\AncestorQueryBuilder');

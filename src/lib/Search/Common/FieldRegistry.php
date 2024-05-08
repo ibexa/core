@@ -50,5 +50,3 @@ class FieldRegistry
         return $this->types[$name];
     }
 }
-
-class_alias(FieldRegistry::class, 'eZ\Publish\Core\Search\Common\FieldRegistry');

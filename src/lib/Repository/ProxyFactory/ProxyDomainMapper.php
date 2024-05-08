@@ -228,5 +228,3 @@ final class ProxyDomainMapper implements ProxyDomainMapperInterface
         return $this->proxyGenerator->createProxy(User::class, $initializer);
     }
 }
-
-class_alias(ProxyDomainMapper::class, 'eZ\Publish\Core\Repository\ProxyFactory\ProxyDomainMapper');

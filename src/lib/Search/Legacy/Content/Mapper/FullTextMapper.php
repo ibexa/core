@@ -133,5 +133,3 @@ class FullTextMapper
         return !empty($fullTextFields) ? array_values($fullTextFields)[0] : null;
     }
 }
-
-class_alias(FullTextMapper::class, 'eZ\Publish\Core\Search\Legacy\Content\Mapper\FullTextMapper');

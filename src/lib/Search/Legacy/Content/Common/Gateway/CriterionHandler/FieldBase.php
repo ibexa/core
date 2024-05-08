@@ -181,5 +181,3 @@ abstract class FieldBase extends CriterionHandler
         );
     }
 }
-
-class_alias(FieldBase::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase');

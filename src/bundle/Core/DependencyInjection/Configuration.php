@@ -565,5 +565,3 @@ EOT;
             ->end();
     }
 }
-
-class_alias(Configuration::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration');

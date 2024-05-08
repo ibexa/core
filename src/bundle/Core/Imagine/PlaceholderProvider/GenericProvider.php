@@ -103,5 +103,3 @@ class GenericProvider implements PlaceholderProvider
         return $resolver->resolve($options);
     }
 }
-
-class_alias(GenericProvider::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderProvider\GenericProvider');

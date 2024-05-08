@@ -132,5 +132,3 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         $this->searchHandler->indexLocation($this->persistenceHandler->locationHandler()->load($contentInfo->mainLocationId));
     }
 }
-
-class_alias(ContentEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\ContentEventSubscriber');

@@ -26,5 +26,3 @@ final class BeforeDeleteRoleDraftEvent extends BeforeEvent
         return $this->roleDraft;
     }
 }
-
-class_alias(BeforeDeleteRoleDraftEvent::class, 'eZ\Publish\API\Repository\Events\Role\BeforeDeleteRoleDraftEvent');

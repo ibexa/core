@@ -20,5 +20,3 @@ final class PhpArrayFileFixture extends BaseInMemoryCachedFileFixture
         return require $this->getFilePath();
     }
 }
-
-class_alias(PhpArrayFileFixture::class, 'eZ\Publish\SPI\Tests\Persistence\PhpArrayFileFixture');

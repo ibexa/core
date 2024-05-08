@@ -189,5 +189,3 @@ class Type extends ValueObject
      */
     public $languageCodes = [];
 }
-
-class_alias(Type::class, 'eZ\Publish\SPI\Persistence\Content\Type');

@@ -710,5 +710,3 @@ class Handler implements BaseContentTypeHandler
         $this->contentTypeGateway->removeByUserAndVersion($userId, $status);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Handler');

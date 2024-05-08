@@ -22,5 +22,3 @@ abstract class PathGenerator
      */
     abstract public function getStoragePathForField($fieldId, $versionNo, $languageCode);
 }
-
-class_alias(PathGenerator::class, 'eZ\Publish\Core\FieldType\Image\PathGenerator');

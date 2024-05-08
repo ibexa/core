@@ -39,5 +39,3 @@ class AnonymousAuthenticationProvider extends BaseAnonymousProvider
         return $token;
     }
 }
-
-class_alias(AnonymousAuthenticationProvider::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authentication\AnonymousAuthenticationProvider');

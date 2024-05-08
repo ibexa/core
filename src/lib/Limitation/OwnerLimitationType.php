@@ -189,5 +189,3 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(OwnerLimitationType::class, 'eZ\Publish\Core\Limitation\OwnerLimitationType');

@@ -118,5 +118,3 @@ class Flysystem implements IOMetadataHandler, LoggerAwareInterface
         return $spiBinaryFile;
     }
 }
-
-class_alias(Flysystem::class, 'eZ\Publish\Core\IO\IOMetadataHandler\Flysystem');

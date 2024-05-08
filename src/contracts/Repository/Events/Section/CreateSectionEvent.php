@@ -38,5 +38,3 @@ final class CreateSectionEvent extends AfterEvent
         return $this->section;
     }
 }
-
-class_alias(CreateSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\CreateSectionEvent');

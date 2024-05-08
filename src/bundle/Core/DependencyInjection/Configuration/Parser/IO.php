@@ -133,5 +133,3 @@ class IO extends AbstractParser
         }
     }
 }
-
-class_alias(IO::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\IO');

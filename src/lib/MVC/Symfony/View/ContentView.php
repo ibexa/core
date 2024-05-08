@@ -112,5 +112,3 @@ class ContentView extends BaseView implements View, ContentValueView, LocationVa
         return $this->isEmbed;
     }
 }
-
-class_alias(ContentView::class, 'eZ\Publish\Core\MVC\Symfony\View\ContentView');

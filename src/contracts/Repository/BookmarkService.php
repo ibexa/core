@@ -62,5 +62,3 @@ interface BookmarkService
      */
     public function isBookmarked(Location $location): bool;
 }
-
-class_alias(BookmarkService::class, 'eZ\Publish\API\Repository\BookmarkService');

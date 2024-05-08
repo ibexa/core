@@ -46,5 +46,3 @@ class IsUserBased extends CriterionHandler
             : "NOT({$queryExpression})";
     }
 }
-
-class_alias(IsUserBased::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsUserBased');

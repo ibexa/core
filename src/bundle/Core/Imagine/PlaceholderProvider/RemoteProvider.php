@@ -74,5 +74,3 @@ class RemoteProvider implements PlaceholderProvider
         return $resolver->resolve($options);
     }
 }
-
-class_alias(RemoteProvider::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderProvider\RemoteProvider');

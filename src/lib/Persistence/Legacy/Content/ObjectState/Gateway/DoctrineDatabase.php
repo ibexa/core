@@ -767,5 +767,3 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase');

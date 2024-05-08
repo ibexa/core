@@ -43,5 +43,3 @@ class BorderFilterLoader implements LoaderInterface
         return $border->apply($image);
     }
 }
-
-class_alias(BorderFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\BorderFilterLoader');

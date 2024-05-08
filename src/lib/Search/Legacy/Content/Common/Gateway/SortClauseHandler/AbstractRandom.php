@@ -49,5 +49,3 @@ abstract class AbstractRandom extends SortClauseHandler
 
     abstract public function getDriverName(): string;
 }
-
-class_alias(AbstractRandom::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom');

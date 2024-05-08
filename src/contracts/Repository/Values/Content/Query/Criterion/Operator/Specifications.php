@@ -93,5 +93,3 @@ class Specifications
         $this->valueCount = $valueCount;
     }
 }
-
-class_alias(Specifications::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Operator\Specifications');

@@ -42,5 +42,3 @@ interface TargetAwareType extends Type
         array $targets = null
     ): ?bool;
 }
-
-class_alias(TargetAwareType::class, 'eZ\Publish\SPI\Limitation\TargetAwareType');

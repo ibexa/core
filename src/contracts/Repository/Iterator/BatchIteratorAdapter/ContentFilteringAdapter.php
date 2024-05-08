@@ -39,5 +39,3 @@ final class ContentFilteringAdapter implements BatchIteratorAdapter
         return $this->contentService->find($filter, $this->languages)->getIterator();
     }
 }
-
-class_alias(ContentFilteringAdapter::class, 'eZ\Publish\API\Repository\Iterator\BatchIteratorAdapter\ContentFilteringAdapter');

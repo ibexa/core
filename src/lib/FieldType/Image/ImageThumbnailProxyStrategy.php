@@ -55,5 +55,3 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
         return $this->proxyGenerator->createProxy(Thumbnail::class, $initializer);
     }
 }
-
-class_alias(ImageThumbnailProxyStrategy::class, 'eZ\Publish\Core\FieldType\Image\ImageThumbnailProxyStrategy');

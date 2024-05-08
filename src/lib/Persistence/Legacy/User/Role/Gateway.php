@@ -167,5 +167,3 @@ abstract class Gateway
      */
     abstract public function removePolicyLimitations(int $policyId): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\User\Role\Gateway');

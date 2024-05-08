@@ -67,5 +67,3 @@ class Languages extends AbstractParser
         );
     }
 }
-
-class_alias(Languages::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\Languages');

@@ -88,5 +88,3 @@ final class ContentViewTwigVariablesSubscriber implements EventSubscriberInterfa
         return substr($twigVariable, strlen(self::EXPRESSION_INDICATOR));
     }
 }
-
-class_alias(ContentViewTwigVariablesSubscriber::class, 'eZ\Publish\Core\MVC\Symfony\EventListener\ContentViewTwigVariablesSubscriber');

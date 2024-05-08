@@ -53,5 +53,3 @@ class SectionIdentifier extends Base
         );
     }
 }
-
-class_alias(SectionIdentifier::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\SectionIdentifier');

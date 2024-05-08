@@ -53,5 +53,3 @@ class LocationList extends ValueObject implements IteratorAggregate, TotalCountA
         return $this->totalCount;
     }
 }
-
-class_alias(LocationList::class, 'eZ\Publish\API\Repository\Values\Content\LocationList');

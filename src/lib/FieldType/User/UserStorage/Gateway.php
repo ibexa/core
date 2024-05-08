@@ -56,5 +56,3 @@ abstract class Gateway extends StorageGateway
      */
     abstract public function countUsersWithUnsupportedHashType(array $supportedHashTypes): int;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\User\UserStorage\Gateway');

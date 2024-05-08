@@ -47,5 +47,3 @@ final class IsUserBasedQueryBuilder extends BaseUserCriterionQueryBuilder
             : $databasePlatform->getIsNullExpression('user_storage.contentobject_id');
     }
 }
-
-class_alias(IsUserBasedQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\IsUserBasedQueryBuilder');

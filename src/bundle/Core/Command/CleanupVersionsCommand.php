@@ -307,5 +307,3 @@ EOT
         return ['ezplatform:content:cleanup-versions'];
     }
 }
-
-class_alias(CleanupVersionsCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\CleanupVersionsCommand');

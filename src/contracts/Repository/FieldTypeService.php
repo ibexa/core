@@ -42,5 +42,3 @@ interface FieldTypeService
      */
     public function hasFieldType(string $identifier): bool;
 }
-
-class_alias(FieldTypeService::class, 'eZ\Publish\API\Repository\FieldTypeService');

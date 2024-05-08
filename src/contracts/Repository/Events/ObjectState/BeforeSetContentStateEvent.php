@@ -46,5 +46,3 @@ final class BeforeSetContentStateEvent extends BeforeEvent
         return $this->objectState;
     }
 }
-
-class_alias(BeforeSetContentStateEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\BeforeSetContentStateEvent');

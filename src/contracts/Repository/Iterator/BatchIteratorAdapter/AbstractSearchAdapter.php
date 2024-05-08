@@ -51,5 +51,3 @@ abstract class AbstractSearchAdapter implements BatchIteratorAdapter
 
     abstract protected function executeSearch(Query $query): SearchResult;
 }
-
-class_alias(AbstractSearchAdapter::class, 'eZ\Publish\API\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapter');

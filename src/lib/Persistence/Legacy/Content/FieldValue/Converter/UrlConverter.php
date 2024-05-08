@@ -97,5 +97,3 @@ class UrlConverter implements Converter
         return false;
     }
 }
-
-class_alias(UrlConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter');

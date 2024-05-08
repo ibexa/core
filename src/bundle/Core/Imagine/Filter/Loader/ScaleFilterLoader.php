@@ -42,5 +42,3 @@ class ScaleFilterLoader extends FilterLoaderWrapped
         return $this->innerLoader->load($image, [$method => $value]);
     }
 }
-
-class_alias(ScaleFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\ScaleFilterLoader');

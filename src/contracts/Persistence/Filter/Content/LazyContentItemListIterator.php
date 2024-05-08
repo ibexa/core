@@ -31,5 +31,3 @@ class LazyContentItemListIterator extends LazyListIterator
         yield from parent::getIterator();
     }
 }
-
-class_alias(LazyContentItemListIterator::class, 'eZ\Publish\SPI\Persistence\Filter\Content\LazyContentItemListIterator');

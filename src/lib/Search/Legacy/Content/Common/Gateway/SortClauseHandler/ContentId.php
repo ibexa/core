@@ -44,5 +44,3 @@ class ContentId extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(ContentId::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\ContentId');

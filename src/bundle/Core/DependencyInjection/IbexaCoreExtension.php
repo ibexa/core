@@ -1027,5 +1027,3 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         ]);
     }
 }
-
-class_alias(IbexaCoreExtension::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\EzPublishCoreExtension');

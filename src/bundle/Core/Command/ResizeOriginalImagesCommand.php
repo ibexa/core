@@ -315,5 +315,3 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
         return ['ezplatform:images:resize-original'];
     }
 }
-
-class_alias(ResizeOriginalImagesCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\ResizeOriginalImagesCommand');

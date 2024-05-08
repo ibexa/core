@@ -39,5 +39,3 @@ class Value extends BaseValue
         return (string)$this->destinationContentId;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Relation\Value');

@@ -50,5 +50,3 @@ final class BeforeCreateSectionEvent extends BeforeEvent
         return $this->section instanceof Section;
     }
 }
-
-class_alias(BeforeCreateSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\BeforeCreateSectionEvent');

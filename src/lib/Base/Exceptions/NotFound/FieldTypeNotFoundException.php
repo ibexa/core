@@ -42,5 +42,3 @@ class FieldTypeNotFoundException extends RuntimeException implements Httpable, T
         parent::__construct($this->getBaseTranslation(), self::INTERNAL_ERROR, $previous);
     }
 }
-
-class_alias(FieldTypeNotFoundException::class, 'eZ\Publish\Core\Base\Exceptions\NotFound\FieldTypeNotFoundException');

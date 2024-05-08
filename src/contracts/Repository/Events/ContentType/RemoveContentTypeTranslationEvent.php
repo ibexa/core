@@ -47,5 +47,3 @@ final class RemoveContentTypeTranslationEvent extends AfterEvent
         return $this->languageCode;
     }
 }
-
-class_alias(RemoveContentTypeTranslationEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\RemoveContentTypeTranslationEvent');

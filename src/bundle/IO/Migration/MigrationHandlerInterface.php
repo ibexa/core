@@ -27,5 +27,3 @@ interface MigrationHandlerInterface
         $toBinarydataHandlerIdentifier
     );
 }
-
-class_alias(MigrationHandlerInterface::class, 'eZ\Bundle\EzPublishIOBundle\Migration\MigrationHandlerInterface');

@@ -22,5 +22,3 @@ class LocationLimitation extends Limitation
         return Limitation::LOCATION;
     }
 }
-
-class_alias(LocationLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\LocationLimitation');

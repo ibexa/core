@@ -222,5 +222,3 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(UserGroupLimitationType::class, 'eZ\Publish\Core\Limitation\UserGroupLimitationType');

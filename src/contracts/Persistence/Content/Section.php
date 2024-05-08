@@ -32,5 +32,3 @@ class Section extends ValueObject
      */
     public $name;
 }
-
-class_alias(Section::class, 'eZ\Publish\SPI\Persistence\Content\Section');

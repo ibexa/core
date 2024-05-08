@@ -24,5 +24,3 @@ abstract class Facet extends ValueObject
      */
     public $name;
 }
-
-class_alias(Facet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet');

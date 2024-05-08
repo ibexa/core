@@ -111,5 +111,3 @@ interface FieldDefinitionCollection extends Countable, IteratorAggregate, ArrayA
      */
     public function toArray(): array;
 }
-
-class_alias(FieldDefinitionCollection::class, 'eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCollection');

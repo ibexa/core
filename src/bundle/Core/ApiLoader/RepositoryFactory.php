@@ -134,5 +134,3 @@ class RepositoryFactory implements ContainerAwareInterface
         );
     }
 }
-
-class_alias(RepositoryFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\RepositoryFactory');

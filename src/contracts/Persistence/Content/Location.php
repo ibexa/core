@@ -130,5 +130,3 @@ class Location extends ValueObject
      */
     public $sortOrder;
 }
-
-class_alias(Location::class, 'eZ\Publish\SPI\Persistence\Content\Location');

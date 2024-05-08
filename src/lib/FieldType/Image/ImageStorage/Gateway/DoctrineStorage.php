@@ -492,5 +492,3 @@ class DoctrineStorage extends Gateway
         return (bool)$statement->fetchOne();
     }
 }
-
-class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage');

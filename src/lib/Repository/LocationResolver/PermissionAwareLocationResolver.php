@@ -57,5 +57,3 @@ final class PermissionAwareLocationResolver implements LocationResolver
         return $location;
     }
 }
-
-class_alias(PermissionAwareLocationResolver::class, 'eZ\Publish\Core\Repository\LocationResolver\PermissionAwareLocationResolver');

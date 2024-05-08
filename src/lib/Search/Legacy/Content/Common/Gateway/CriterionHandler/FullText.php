@@ -280,5 +280,3 @@ class FullText extends CriterionHandler
         return $this->stopWordThresholdValue = (int)($count * $this->configuration['stopWordThresholdFactor']);
     }
 }
-
-class_alias(FullText::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FullText');

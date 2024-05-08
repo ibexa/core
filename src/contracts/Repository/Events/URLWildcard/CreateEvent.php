@@ -54,5 +54,3 @@ final class CreateEvent extends AfterEvent
         return $this->urlWildcard;
     }
 }
-
-class_alias(CreateEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\CreateEvent');

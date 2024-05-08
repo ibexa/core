@@ -49,5 +49,3 @@ final class BeforeDeleteUserGroupEvent extends BeforeEvent
         return is_array($this->locations);
     }
 }
-
-class_alias(BeforeDeleteUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeDeleteUserGroupEvent');

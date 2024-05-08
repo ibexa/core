@@ -194,5 +194,3 @@ class BasicContentContext implements Context
         return '<?xml version="1.0" encoding="UTF-8"?><section xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ezxhtml="http://ibexa.co/xmlns/dxp/docbook/xhtml" xmlns:ezcustom="http://ibexa.co/xmlns/dxp/docbook/custom" version="5.0-variant ezpublish-1.0"><para>This is a paragraph.</para></section>';
     }
 }
-
-class_alias(BasicContentContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\BasicContentContext');

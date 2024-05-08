@@ -26,5 +26,3 @@ final class BeforeDeleteContentTypeGroupEvent extends BeforeEvent
         return $this->contentTypeGroup;
     }
 }
-
-class_alias(BeforeDeleteContentTypeGroupEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeDeleteContentTypeGroupEvent');

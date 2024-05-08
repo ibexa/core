@@ -26,5 +26,3 @@ interface FileListerInterface extends MigrationHandlerInterface
      */
     public function loadMetadataList($limit = null, $offset = null);
 }
-
-class_alias(FileListerInterface::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileListerInterface');

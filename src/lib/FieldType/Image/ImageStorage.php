@@ -211,5 +211,3 @@ class ImageStorage extends GatewayBasedStorage
         );
     }
 }
-
-class_alias(ImageStorage::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage');

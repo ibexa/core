@@ -58,5 +58,3 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
         return array_key_exists($module, $policyMap) && array_key_exists($function, $policyMap[$module]);
     }
 }
-
-class_alias(PoliciesConfigBuilder::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider\PoliciesConfigBuilder');

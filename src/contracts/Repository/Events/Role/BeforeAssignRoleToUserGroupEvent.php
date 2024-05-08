@@ -46,5 +46,3 @@ final class BeforeAssignRoleToUserGroupEvent extends BeforeEvent
         return $this->roleLimitation;
     }
 }
-
-class_alias(BeforeAssignRoleToUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\Role\BeforeAssignRoleToUserGroupEvent');

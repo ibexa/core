@@ -50,5 +50,3 @@ class LimitationValidationException extends APILimitationValidationException imp
         return $this->errors;
     }
 }
-
-class_alias(LimitationValidationException::class, 'eZ\Publish\Core\Base\Exceptions\LimitationValidationException');

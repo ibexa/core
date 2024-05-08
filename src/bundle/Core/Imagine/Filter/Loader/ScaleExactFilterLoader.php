@@ -27,5 +27,3 @@ class ScaleExactFilterLoader extends FilterLoaderWrapped
         return $this->innerLoader->load($image, ['size' => $options]);
     }
 }
-
-class_alias(ScaleExactFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\ScaleExactFilterLoader');

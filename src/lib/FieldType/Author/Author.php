@@ -36,5 +36,3 @@ class Author extends ValueObject
      */
     public $email;
 }
-
-class_alias(Author::class, 'eZ\Publish\Core\FieldType\Author\Author');

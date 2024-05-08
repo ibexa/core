@@ -77,5 +77,3 @@ class UnauthorizedContentDraftListItem implements ContentDraftListItemInterface
         return false;
     }
 }
-
-class_alias(UnauthorizedContentDraftListItem::class, 'eZ\Publish\API\Repository\Values\Content\DraftList\Item\UnauthorizedContentDraftListItem');

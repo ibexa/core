@@ -47,5 +47,3 @@ abstract class Gateway
      */
     abstract public function loadUserPreferences(int $userId, int $offset = 0, int $limit = -1): array;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\UserPreference\Gateway');

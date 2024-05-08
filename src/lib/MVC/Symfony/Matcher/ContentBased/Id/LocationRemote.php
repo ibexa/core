@@ -46,5 +46,3 @@ class LocationRemote extends MultipleValued
         return isset($this->values[$view->getLocation()->remoteId]);
     }
 }
-
-class_alias(LocationRemote::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Id\LocationRemote');

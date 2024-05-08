@@ -28,5 +28,3 @@ class Path extends Location implements FilteringSortClause, TrashSortClause
         parent::__construct('location_path', $sortDirection);
     }
 }
-
-class_alias(Path::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Path');

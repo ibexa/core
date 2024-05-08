@@ -94,5 +94,3 @@ interface Handler
      */
     public function delete($id);
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Language\Handler');

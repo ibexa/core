@@ -21,5 +21,3 @@ interface SortClauseVisitor
      */
     public function visitSortClauses(FilteringQueryBuilder $queryBuilder, array $sortClauses): void;
 }
-
-class_alias(SortClauseVisitor::class, 'eZ\Publish\SPI\Persistence\Filter\SortClauseVisitor');

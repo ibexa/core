@@ -71,5 +71,3 @@ abstract class ContentTypeGroup extends ValueObject implements MultiLanguageName
      */
     public $isSystem = false;
 }
-
-class_alias(ContentTypeGroup::class, 'eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroup');

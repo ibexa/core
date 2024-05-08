@@ -64,5 +64,3 @@ interface Handler
      */
     public function loadByUrl($url);
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\URL\Handler');

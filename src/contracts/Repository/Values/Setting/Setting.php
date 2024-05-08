@@ -26,5 +26,3 @@ class Setting extends ValueObject
     /** @var mixed */
     protected $value;
 }
-
-class_alias(Setting::class, 'eZ\Publish\API\Repository\Values\Setting\Setting');

@@ -49,5 +49,3 @@ final class SetContentStateEvent extends AfterEvent
         return $this->objectState;
     }
 }
-
-class_alias(SetContentStateEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\SetContentStateEvent');

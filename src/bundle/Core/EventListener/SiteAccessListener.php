@@ -148,5 +148,3 @@ class SiteAccessListener implements EventSubscriberInterface
         return $viewParameters;
     }
 }
-
-class_alias(SiteAccessListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\SiteAccessListener');

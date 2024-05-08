@@ -179,5 +179,3 @@ class NotificationService implements NotificationServiceInterface
             ->getUserId();
     }
 }
-
-class_alias(NotificationService::class, 'eZ\Publish\Core\Repository\NotificationService');

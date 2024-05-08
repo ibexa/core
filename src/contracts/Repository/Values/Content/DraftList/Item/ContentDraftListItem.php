@@ -45,5 +45,3 @@ class ContentDraftListItem implements ContentDraftListItemInterface
         return $this->versionInfo instanceof VersionInfo;
     }
 }
-
-class_alias(ContentDraftListItem::class, 'eZ\Publish\API\Repository\Values\Content\DraftList\Item\ContentDraftListItem');

@@ -25,5 +25,3 @@ class Configured extends BaseConfigured implements SiteAccessAware
         }
     }
 }
-
-class_alias(Configured::class, 'eZ\Bundle\EzPublishCoreBundle\View\Provider\Configured');

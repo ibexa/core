@@ -40,5 +40,3 @@ class LogicalOr implements CriterionHandler
         return $queryBuilder->expr()->orX(...$subexpressions);
     }
 }
-
-class_alias(LogicalOr::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\LogicalOr');

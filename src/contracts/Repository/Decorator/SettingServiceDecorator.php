@@ -54,5 +54,3 @@ abstract class SettingServiceDecorator implements SettingService
         return $this->innerService->newSettingUpdateStruct($properties);
     }
 }
-
-class_alias(SettingServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\SettingServiceDecorator');

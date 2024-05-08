@@ -35,5 +35,3 @@ class FieldTarget extends Target
         $this->fieldIdentifier = $fieldIdentifier;
     }
 }
-
-class_alias(FieldTarget::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target\FieldTarget');

@@ -48,5 +48,3 @@ final class CreateUserEvent extends AfterEvent
         return $this->user;
     }
 }
-
-class_alias(CreateUserEvent::class, 'eZ\Publish\API\Repository\Events\User\CreateUserEvent');

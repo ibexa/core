@@ -24,5 +24,3 @@ class SectionFacet extends Facet
      */
     public $entries;
 }
-
-class_alias(SectionFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\SectionFacet');

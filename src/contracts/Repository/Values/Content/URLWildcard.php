@@ -48,5 +48,3 @@ class URLWildcard extends ValueObject
      */
     protected $forward;
 }
-
-class_alias(URLWildcard::class, 'eZ\Publish\API\Repository\Values\Content\URLWildcard');

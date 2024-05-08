@@ -53,5 +53,3 @@ class Controller extends AbstractController
         );
     }
 }
-
-class_alias(Controller::class, 'eZ\Bundle\EzPublishCoreBundle\Controller');

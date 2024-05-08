@@ -21,5 +21,3 @@ final class NonConfigurableValidationError extends AbstractValidationError
         );
     }
 }
-
-class_alias(NonConfigurableValidationError::class, 'eZ\Publish\SPI\FieldType\ValidationError\NonConfigurableValidationError');

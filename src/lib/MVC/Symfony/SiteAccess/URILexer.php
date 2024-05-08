@@ -31,5 +31,3 @@ interface URILexer
      */
     public function analyseLink($linkUri);
 }
-
-class_alias(URILexer::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\URILexer');

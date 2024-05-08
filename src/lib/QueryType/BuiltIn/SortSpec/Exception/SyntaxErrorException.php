@@ -27,5 +27,3 @@ final class SyntaxErrorException extends RuntimeException
         return new self($message);
     }
 }
-
-class_alias(SyntaxErrorException::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Exception\SyntaxErrorException');

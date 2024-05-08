@@ -200,5 +200,3 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         }
     }
 }
-
-class_alias(UserEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\UserEventSubscriber');

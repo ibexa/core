@@ -44,5 +44,3 @@ class UserEmail extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(UserEmail::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\UserEmail');

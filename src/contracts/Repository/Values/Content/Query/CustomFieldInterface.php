@@ -39,5 +39,3 @@ interface CustomFieldInterface
      */
     public function getCustomField(string $type, string $field): ?string;
 }
-
-class_alias(CustomFieldInterface::class, 'eZ\Publish\API\Repository\Values\Content\Query\CustomFieldInterface');

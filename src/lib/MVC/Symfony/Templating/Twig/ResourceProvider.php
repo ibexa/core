@@ -43,5 +43,3 @@ final class ResourceProvider implements ResourceProviderInterface
         return $this->configResolver->getParameter('fielddefinition_edit_templates');
     }
 }
-
-class_alias(ResourceProvider::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\ResourceProvider');

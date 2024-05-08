@@ -37,5 +37,3 @@ final class DeleteUserEvent extends AfterEvent
         return $this->locations;
     }
 }
-
-class_alias(DeleteUserEvent::class, 'eZ\Publish\API\Repository\Events\User\DeleteUserEvent');

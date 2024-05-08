@@ -157,5 +157,3 @@ class CachedPermissionService implements PermissionService
         return $this->permissionCriterionResolver->getQueryPermissionsCriterion();
     }
 }
-
-class_alias(CachedPermissionService::class, 'eZ\Publish\Core\Repository\Permission\CachedPermissionService');

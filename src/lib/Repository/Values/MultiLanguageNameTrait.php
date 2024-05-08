@@ -47,5 +47,3 @@ trait MultiLanguageNameTrait
             : reset($this->names);
     }
 }
-
-class_alias(MultiLanguageNameTrait::class, 'eZ\Publish\Core\Repository\Values\MultiLanguageNameTrait');

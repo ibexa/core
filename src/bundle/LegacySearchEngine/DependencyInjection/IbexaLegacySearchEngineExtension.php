@@ -35,5 +35,3 @@ class IbexaLegacySearchEngineExtension extends Extension
         $loader->load('services.yml');
     }
 }
-
-class_alias(IbexaLegacySearchEngineExtension::class, 'eZ\Bundle\EzPublishLegacySearchEngineBundle\DependencyInjection\EzPublishLegacySearchEngineExtension');

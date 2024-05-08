@@ -57,5 +57,3 @@ class CriterionFieldValueHandlerRegistryPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(CriterionFieldValueHandlerRegistryPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Search\Legacy\CriterionFieldValueHandlerRegistryPass');

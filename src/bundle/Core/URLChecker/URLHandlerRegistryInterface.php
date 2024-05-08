@@ -37,5 +37,3 @@ interface URLHandlerRegistryInterface
      */
     public function getHandler($scheme);
 }
-
-class_alias(URLHandlerRegistryInterface::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\URLHandlerRegistryInterface');

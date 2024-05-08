@@ -60,5 +60,3 @@ abstract class AbstractInMemoryPersistenceHandler extends AbstractInMemoryHandle
         // overload to add init logic if needed in handler
     }
 }
-
-class_alias(AbstractInMemoryPersistenceHandler::class, 'eZ\Publish\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler');

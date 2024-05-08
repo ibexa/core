@@ -98,5 +98,3 @@ final class Version extends ValueObject implements Target
         return $this->translationsToDelete;
     }
 }
-
-class_alias(Version::class, 'eZ\Publish\SPI\Limitation\Target\Version');

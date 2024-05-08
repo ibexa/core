@@ -27,5 +27,3 @@ final class IntegerRangeAggregation extends AbstractFieldRangeAggregation
         return new static($name, $contentTypeIdentifier, $fieldDefinitionIdentifier, $ranges);
     }
 }
-
-class_alias(IntegerRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\IntegerRangeAggregation');

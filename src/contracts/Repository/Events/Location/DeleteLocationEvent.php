@@ -26,5 +26,3 @@ final class DeleteLocationEvent extends AfterEvent
         return $this->location;
     }
 }
-
-class_alias(DeleteLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\DeleteLocationEvent');

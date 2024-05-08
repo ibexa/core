@@ -50,5 +50,3 @@ class IsUserEnabled extends CriterionHandler
         );
     }
 }
-
-class_alias(IsUserEnabled::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsUserEnabled');

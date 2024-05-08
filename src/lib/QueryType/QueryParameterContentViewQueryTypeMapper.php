@@ -103,5 +103,3 @@ class QueryParameterContentViewQueryTypeMapper implements ContentViewQueryTypeMa
         return $queryParameterValue;
     }
 }
-
-class_alias(QueryParameterContentViewQueryTypeMapper::class, 'eZ\Publish\Core\QueryType\QueryParameterContentViewQueryTypeMapper');

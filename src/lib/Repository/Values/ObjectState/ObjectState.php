@@ -87,5 +87,3 @@ class ObjectState extends APIObjectState
         return parent::__isset($property);
     }
 }
-
-class_alias(ObjectState::class, 'eZ\Publish\Core\Repository\Values\ObjectState\ObjectState');

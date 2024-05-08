@@ -40,5 +40,3 @@ interface ContentValidator
         ?array $fieldIdentifiers = null
     ): array;
 }
-
-class_alias(ContentValidator::class, 'eZ\Publish\SPI\Repository\Validator\ContentValidator');

@@ -73,5 +73,3 @@ class MediaConverter extends BinaryFileConverter
         return false;
     }
 }
-
-class_alias(MediaConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\MediaConverter');

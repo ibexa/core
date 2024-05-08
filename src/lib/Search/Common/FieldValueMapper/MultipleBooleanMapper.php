@@ -32,5 +32,3 @@ class MultipleBooleanMapper extends FieldValueMapper
         return $values;
     }
 }
-
-class_alias(MultipleBooleanMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\MultipleBooleanMapper');

@@ -357,5 +357,3 @@ abstract class Type extends FieldType
         return [];
     }
 }
-
-class_alias(Type::class, 'eZ\Publish\SPI\FieldType\Generic\Type');

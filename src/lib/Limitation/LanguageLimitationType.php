@@ -338,5 +338,3 @@ class LanguageLimitationType implements SPITargetAwareLimitationType
         return [];
     }
 }
-
-class_alias(LanguageLimitationType::class, 'eZ\Publish\Core\Limitation\LanguageLimitationType');

@@ -107,5 +107,3 @@ abstract class URLAliasServiceDecorator implements URLAliasService
         return $this->innerService->deleteCorruptedUrlAliases();
     }
 }
-
-class_alias(URLAliasServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\URLAliasServiceDecorator');

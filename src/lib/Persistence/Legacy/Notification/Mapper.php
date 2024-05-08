@@ -69,5 +69,3 @@ class Mapper
         return $notification;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Notification\Mapper');

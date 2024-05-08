@@ -30,5 +30,3 @@ interface Httpable
     public const NOT_IMPLEMENTED = 501;
     public const SERVICE_UNAVAILABLE = 503;
 }
-
-class_alias(Httpable::class, 'eZ\Publish\Core\Base\Exceptions\Httpable');

@@ -16,5 +16,3 @@ use Throwable;
 interface Exception extends Throwable
 {
 }
-
-class_alias(Exception::class, 'eZ\Publish\API\Repository\Exceptions\Exception');

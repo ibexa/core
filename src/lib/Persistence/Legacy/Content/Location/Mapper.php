@@ -101,5 +101,3 @@ class Mapper
         return $struct;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Mapper');

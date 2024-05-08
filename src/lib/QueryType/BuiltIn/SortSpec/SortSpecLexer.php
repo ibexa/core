@@ -152,5 +152,3 @@ final class SortSpecLexer implements SortSpecLexerInterface
         return preg_match('/^' . self::ID_PATTERN . '$/', $value) === 1;
     }
 }
-
-class_alias(SortSpecLexer::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortSpecLexer');

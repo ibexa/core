@@ -13,5 +13,3 @@ interface QueryFactoryInterface
 {
     public function create(string $type, array $parameters = []): Query;
 }
-
-class_alias(QueryFactoryInterface::class, 'eZ\Publish\Core\Query\QueryFactoryInterface');

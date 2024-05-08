@@ -50,5 +50,3 @@ abstract class FieldRangeFacetBuilder extends FacetBuilder
      */
     abstract public function addUnboundedTo($from);
 }
-
-class_alias(FieldRangeFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\FieldRangeFacetBuilder');

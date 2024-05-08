@@ -256,5 +256,3 @@ class MaskGenerator
         );
     }
 }
-
-class_alias(MaskGenerator::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\MaskGenerator');

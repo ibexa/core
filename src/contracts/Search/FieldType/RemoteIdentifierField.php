@@ -23,5 +23,3 @@ final class RemoteIdentifierField extends FieldType
      */
     protected $type = 'ez_id';
 }
-
-class_alias(RemoteIdentifierField::class, 'eZ\Publish\SPI\Search\FieldType\RemoteIdentifierField');

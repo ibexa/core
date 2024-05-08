@@ -41,5 +41,3 @@ class UserFacetBuilder extends FacetBuilder
      */
     public $type = self::OWNER;
 }
-
-class_alias(UserFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\UserFacetBuilder');

@@ -37,5 +37,3 @@ final class HideLocationEvent extends AfterEvent
         return $this->location;
     }
 }
-
-class_alias(HideLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\HideLocationEvent');

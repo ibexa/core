@@ -24,5 +24,3 @@ class NullIndexer implements BackgroundIndexerInterface
     {
     }
 }
-
-class_alias(NullIndexer::class, 'eZ\Publish\Core\Search\Common\BackgroundIndexer\NullIndexer');

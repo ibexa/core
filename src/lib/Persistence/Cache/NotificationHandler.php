@@ -164,5 +164,3 @@ class NotificationHandler extends AbstractHandler implements Handler
         return $this->persistenceHandler->notificationHandler()->loadUserNotifications($userId, $offset, $limit);
     }
 }
-
-class_alias(NotificationHandler::class, 'eZ\Publish\Core\Persistence\Cache\NotificationHandler');

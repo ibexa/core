@@ -18,5 +18,3 @@ use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
 abstract class ForbiddenException extends Exception implements RepositoryException
 {
 }
-
-class_alias(ForbiddenException::class, 'eZ\Publish\API\Repository\Exceptions\ForbiddenException');

@@ -388,5 +388,3 @@ class FieldTypeContext implements Context
         }
     }
 }
-
-class_alias(FieldTypeContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\FieldTypeContext');

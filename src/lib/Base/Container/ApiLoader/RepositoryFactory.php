@@ -139,5 +139,3 @@ class RepositoryFactory implements ContainerAwareInterface
         return $repository->$methodName();
     }
 }
-
-class_alias(RepositoryFactory::class, 'eZ\Publish\Core\Base\Container\ApiLoader\RepositoryFactory');

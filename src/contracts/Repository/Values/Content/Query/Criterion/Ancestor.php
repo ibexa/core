@@ -57,5 +57,3 @@ class Ancestor extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(Ancestor::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Ancestor');

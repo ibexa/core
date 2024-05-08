@@ -43,5 +43,3 @@ class MultipleStringMapper extends StringMapper
         return $values;
     }
 }
-
-class_alias(MultipleStringMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\MultipleStringMapper');

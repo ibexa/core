@@ -17,5 +17,3 @@ interface ConfigProcessor
 
     public function processSettingValue(string $value): string;
 }
-
-class_alias(ConfigProcessor::class, 'eZ\Publish\SPI\SiteAccess\ConfigProcessor');

@@ -49,5 +49,3 @@ final class AddRelationEvent extends AfterEvent
         return $this->destinationContent;
     }
 }
-
-class_alias(AddRelationEvent::class, 'eZ\Publish\API\Repository\Events\Content\AddRelationEvent');

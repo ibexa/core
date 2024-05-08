@@ -89,5 +89,3 @@ class CheckboxConverter implements Converter
         return 'sort_key_int';
     }
 }
-
-class_alias(CheckboxConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter');

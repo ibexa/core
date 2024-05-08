@@ -55,5 +55,3 @@ final class LazyDoctrineRepositoriesPass implements CompilerPassInterface
         );
     }
 }
-
-class_alias(LazyDoctrineRepositoriesPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\LazyDoctrineRepositoriesPass');

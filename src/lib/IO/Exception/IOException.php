@@ -20,5 +20,3 @@ class IOException extends RuntimeException
         parent::__construct($message, 0, $e);
     }
 }
-
-class_alias(IOException::class, 'eZ\Publish\Core\IO\Exception\IOException');

@@ -20,5 +20,3 @@ abstract class ContentTypeFieldDefinitionValidationException extends ForbiddenEx
      */
     abstract public function getFieldErrors();
 }
-
-class_alias(ContentTypeFieldDefinitionValidationException::class, 'eZ\Publish\API\Repository\Exceptions\ContentTypeFieldDefinitionValidationException');

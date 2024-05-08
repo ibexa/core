@@ -68,5 +68,3 @@ class Mapper
         return $bookmark;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Mapper');

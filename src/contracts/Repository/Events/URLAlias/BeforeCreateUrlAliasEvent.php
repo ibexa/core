@@ -82,5 +82,3 @@ final class BeforeCreateUrlAliasEvent extends BeforeEvent
         return $this->urlAlias instanceof URLAlias;
     }
 }
-
-class_alias(BeforeCreateUrlAliasEvent::class, 'eZ\Publish\API\Repository\Events\URLAlias\BeforeCreateUrlAliasEvent');

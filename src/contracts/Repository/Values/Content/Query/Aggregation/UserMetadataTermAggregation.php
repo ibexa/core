@@ -46,5 +46,3 @@ final class UserMetadataTermAggregation extends AbstractTermAggregation
         return $this->type;
     }
 }
-
-class_alias(UserMetadataTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\UserMetadataTermAggregation');

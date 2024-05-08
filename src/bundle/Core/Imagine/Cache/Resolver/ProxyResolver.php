@@ -33,5 +33,3 @@ class ProxyResolver extends ImagineProxyResolver
         return $proxyHost . $relativeUrl;
     }
 }
-
-class_alias(ProxyResolver::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Cache\Resolver\ProxyResolver');

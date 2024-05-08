@@ -51,5 +51,3 @@ class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
         }
     }
 }
-
-class_alias(FieldTypeRegistryPass::class, 'eZ\Publish\Core\Base\Container\Compiler\FieldTypeRegistryPass');

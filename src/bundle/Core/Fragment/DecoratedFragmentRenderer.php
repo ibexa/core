@@ -81,5 +81,3 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
         return $this->innerRenderer->getName();
     }
 }
-
-class_alias(DecoratedFragmentRenderer::class, 'eZ\Bundle\EzPublishCoreBundle\Fragment\DecoratedFragmentRenderer');

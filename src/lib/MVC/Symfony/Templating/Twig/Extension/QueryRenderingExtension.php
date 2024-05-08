@@ -97,5 +97,3 @@ class QueryRenderingExtension extends AbstractExtension
         }
     }
 }
-
-class_alias(QueryRenderingExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\QueryRenderingExtension');

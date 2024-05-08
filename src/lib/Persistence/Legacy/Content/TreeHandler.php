@@ -269,5 +269,3 @@ class TreeHandler
         }
     }
 }
-
-class_alias(TreeHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\TreeHandler');

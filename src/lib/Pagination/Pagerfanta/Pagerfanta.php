@@ -38,5 +38,3 @@ final class Pagerfanta extends BasePagerfanta
         return $this->getAdapter()->getMaxScore();
     }
 }
-
-class_alias(Pagerfanta::class, 'eZ\Publish\Core\Pagination\Pagerfanta\Pagerfanta');

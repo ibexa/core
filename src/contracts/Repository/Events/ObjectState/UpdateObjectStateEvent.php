@@ -48,5 +48,3 @@ final class UpdateObjectStateEvent extends AfterEvent
         return $this->objectStateUpdateStruct;
     }
 }
-
-class_alias(UpdateObjectStateEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\UpdateObjectStateEvent');

@@ -131,5 +131,3 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider impleme
         }
     }
 }
-
-class_alias(RepositoryAuthenticationProvider::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvider');

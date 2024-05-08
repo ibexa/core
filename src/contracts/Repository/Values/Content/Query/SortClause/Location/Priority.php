@@ -28,5 +28,3 @@ class Priority extends Location implements FilteringSortClause, TrashSortClause
         parent::__construct('location_priority', $sortDirection);
     }
 }
-
-class_alias(Priority::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\Priority');

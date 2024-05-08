@@ -77,5 +77,3 @@ class ContentMetadataUpdateStruct extends ValueObject
      */
     public $name;
 }
-
-class_alias(ContentMetadataUpdateStruct::class, 'eZ\Publish\API\Repository\Values\Content\ContentMetadataUpdateStruct');

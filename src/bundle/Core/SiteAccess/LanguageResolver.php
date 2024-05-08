@@ -37,5 +37,3 @@ final class LanguageResolver extends AbstractLanguageResolver
         return $this->configResolver->getParameter('languages');
     }
 }
-
-class_alias(LanguageResolver::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\LanguageResolver');

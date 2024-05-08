@@ -131,5 +131,3 @@ abstract class Gateway
      */
     abstract public function updateObjectStatePriority(int $stateId, int $priority): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Gateway');

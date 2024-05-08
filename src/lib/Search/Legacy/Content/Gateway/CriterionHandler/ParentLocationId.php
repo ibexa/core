@@ -59,5 +59,3 @@ class ParentLocationId extends CriterionHandler
         );
     }
 }
-
-class_alias(ParentLocationId::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway\CriterionHandler\ParentLocationId');

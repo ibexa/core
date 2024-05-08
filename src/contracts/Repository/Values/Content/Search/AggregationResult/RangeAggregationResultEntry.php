@@ -37,5 +37,3 @@ final class RangeAggregationResultEntry extends ValueObject
         return $this->count;
     }
 }
-
-class_alias(RangeAggregationResultEntry::class, 'eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\RangeAggregationResultEntry');

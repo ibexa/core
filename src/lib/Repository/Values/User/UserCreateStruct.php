@@ -52,5 +52,3 @@ class UserCreateStruct extends APIUserCreateStruct
         );
     }
 }
-
-class_alias(UserCreateStruct::class, 'eZ\Publish\Core\Repository\Values\User\UserCreateStruct');

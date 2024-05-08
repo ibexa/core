@@ -29,5 +29,3 @@ class UserTokenUpdateStruct extends ValueObject
      */
     public $time;
 }
-
-class_alias(UserTokenUpdateStruct::class, 'eZ\Publish\API\Repository\Values\User\UserTokenUpdateStruct');

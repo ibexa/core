@@ -95,5 +95,3 @@ class MapLocationDistance extends Criterion implements CustomFieldInterface
         return $this->customFields[$type][$field];
     }
 }
-
-class_alias(MapLocationDistance::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\MapLocationDistance');

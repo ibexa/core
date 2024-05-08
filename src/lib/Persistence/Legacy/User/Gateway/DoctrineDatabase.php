@@ -306,5 +306,3 @@ final class DoctrineDatabase extends Gateway
         return !empty($query->execute()->fetch(FetchMode::ASSOCIATIVE));
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\User\Gateway\DoctrineDatabase');

@@ -259,5 +259,3 @@ interface Handler
      */
     public function countLocationsByContent(int $contentId): int;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Location\Handler');

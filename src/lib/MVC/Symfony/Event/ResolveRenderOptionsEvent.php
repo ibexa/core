@@ -32,5 +32,3 @@ final class ResolveRenderOptionsEvent extends Event
         $this->renderOptions = $renderOptions;
     }
 }
-
-class_alias(ResolveRenderOptionsEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\ResolveRenderOptionsEvent');

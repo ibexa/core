@@ -77,5 +77,3 @@ class UserEmail extends CriterionHandler
         );
     }
 }
-
-class_alias(UserEmail::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserEmail');

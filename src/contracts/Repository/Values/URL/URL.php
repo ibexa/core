@@ -54,5 +54,3 @@ class URL extends ValueObject
      */
     protected $modified;
 }
-
-class_alias(URL::class, 'eZ\Publish\API\Repository\Values\URL\URL');

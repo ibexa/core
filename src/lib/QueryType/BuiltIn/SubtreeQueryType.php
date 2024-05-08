@@ -53,5 +53,3 @@ final class SubtreeQueryType extends AbstractLocationQueryType
         return new Subtree($location->pathString);
     }
 }
-
-class_alias(SubtreeQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\SubtreeQueryType');

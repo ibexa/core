@@ -18,5 +18,3 @@ class SettingUpdateStruct extends Setting
         $this->value = $value;
     }
 }
-
-class_alias(SettingUpdateStruct::class, 'eZ\Publish\API\Repository\Values\Setting\SettingUpdateStruct');

@@ -59,5 +59,3 @@ class Depth extends MultipleValued
         return false;
     }
 }
-
-class_alias(Depth::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Depth');

@@ -24,5 +24,3 @@ class TermFacet extends Facet
      */
     public $entries;
 }
-
-class_alias(TermFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\TermFacet');

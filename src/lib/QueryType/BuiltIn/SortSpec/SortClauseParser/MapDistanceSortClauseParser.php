@@ -44,5 +44,3 @@ final class MapDistanceSortClauseParser implements SortClauseParserInterface
         return $name === self::SUPPORTED_CLAUSE_NAME;
     }
 }
-
-class_alias(MapDistanceSortClauseParser::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\MapDistanceSortClauseParser');

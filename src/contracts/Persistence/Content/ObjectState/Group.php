@@ -66,5 +66,3 @@ class Group extends ValueObject
      */
     public $description;
 }
-
-class_alias(Group::class, 'eZ\Publish\SPI\Persistence\Content\ObjectState\Group');

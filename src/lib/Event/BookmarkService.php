@@ -63,5 +63,3 @@ class BookmarkService extends BookmarkServiceDecorator
         $this->eventDispatcher->dispatch(new DeleteBookmarkEvent(...$eventData));
     }
 }
-
-class_alias(BookmarkService::class, 'eZ\Publish\Core\Event\BookmarkService');

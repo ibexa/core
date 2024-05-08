@@ -189,5 +189,3 @@ class NameSchemaService extends NativeNameSchemaService
         return $fieldTitles;
     }
 }
-
-class_alias(NameSchemaService::class, 'eZ\Publish\Core\Repository\Helper\NameSchemaService');

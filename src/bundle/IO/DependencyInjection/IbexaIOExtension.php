@@ -128,5 +128,3 @@ class IbexaIOExtension extends Extension
         return $configuration;
     }
 }
-
-class_alias(IbexaIOExtension::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\EzPublishIOExtension');

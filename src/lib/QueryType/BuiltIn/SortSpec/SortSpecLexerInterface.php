@@ -35,5 +35,3 @@ interface SortSpecLexerInterface
      */
     public function isEOF(): bool;
 }
-
-class_alias(SortSpecLexerInterface::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortSpecLexerInterface');

@@ -38,5 +38,3 @@ final class AssignSectionEvent extends AfterEvent
         return $this->section;
     }
 }
-
-class_alias(AssignSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\AssignSectionEvent');

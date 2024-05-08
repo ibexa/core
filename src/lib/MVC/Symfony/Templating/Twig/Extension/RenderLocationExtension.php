@@ -65,5 +65,3 @@ final class RenderLocationExtension extends AbstractExtension
         return $this->renderLocationStrategy->render($location, $event->getRenderOptions());
     }
 }
-
-class_alias(RenderLocationExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\RenderLocationExtension');

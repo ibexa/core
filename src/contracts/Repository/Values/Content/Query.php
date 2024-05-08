@@ -103,5 +103,3 @@ class Query extends ValueObject
      */
     public $performCount = true;
 }
-
-class_alias(Query::class, 'eZ\Publish\API\Repository\Values\Content\Query');

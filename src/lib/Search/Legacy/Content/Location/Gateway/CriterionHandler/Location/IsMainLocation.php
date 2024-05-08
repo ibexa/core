@@ -59,5 +59,3 @@ class IsMainLocation extends CriterionHandler
         }
     }
 }
-
-class_alias(IsMainLocation::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\IsMainLocation');

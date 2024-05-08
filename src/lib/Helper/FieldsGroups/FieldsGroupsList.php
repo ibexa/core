@@ -39,5 +39,3 @@ interface FieldsGroupsList
      */
     public function getFieldGroup(FieldDefinition $fieldDefinition): string;
 }
-
-class_alias(FieldsGroupsList::class, 'eZ\Publish\Core\Helper\FieldsGroups\FieldsGroupsList');

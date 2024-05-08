@@ -51,5 +51,3 @@ trait TranslatableBase
         return strtr($this->messageTemplate, $this->parameters);
     }
 }
-
-class_alias(TranslatableBase::class, 'eZ\Publish\Core\Base\TranslatableBase');

@@ -49,5 +49,3 @@ final class BeforeDisableLanguageEvent extends BeforeEvent
         return $this->disabledLanguage instanceof Language;
     }
 }
-
-class_alias(BeforeDisableLanguageEvent::class, 'eZ\Publish\API\Repository\Events\Language\BeforeDisableLanguageEvent');

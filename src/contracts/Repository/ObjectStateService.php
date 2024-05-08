@@ -233,5 +233,3 @@ interface ObjectStateService
      */
     public function newObjectStateUpdateStruct(): ObjectStateUpdateStruct;
 }
-
-class_alias(ObjectStateService::class, 'eZ\Publish\API\Repository\ObjectStateService');

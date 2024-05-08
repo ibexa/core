@@ -45,5 +45,3 @@ abstract class AbstractFilter implements FilterInterface
         return $this->options;
     }
 }
-
-class_alias(AbstractFilter::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\AbstractFilter');

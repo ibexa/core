@@ -126,5 +126,3 @@ class CatalogueMapperFileWriter extends FileWriter
         return $newMessage;
     }
 }
-
-class_alias(CatalogueMapperFileWriter::class, 'eZ\Publish\Core\MVC\Symfony\Translation\CatalogueMapperFileWriter');

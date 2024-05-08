@@ -57,5 +57,3 @@ class FieldRegistryPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(FieldRegistryPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Search\FieldRegistryPass');

@@ -20,5 +20,3 @@ class InvalidBinaryPrefixException extends InvalidBinaryFileIdException
         Exception::__construct($this->getBaseTranslation(), $code);
     }
 }
-
-class_alias(InvalidBinaryPrefixException::class, 'eZ\Publish\Core\IO\Exception\InvalidBinaryPrefixException');

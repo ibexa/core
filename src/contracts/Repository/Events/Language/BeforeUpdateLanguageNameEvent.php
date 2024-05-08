@@ -58,5 +58,3 @@ final class BeforeUpdateLanguageNameEvent extends BeforeEvent
         return $this->updatedLanguage instanceof Language;
     }
 }
-
-class_alias(BeforeUpdateLanguageNameEvent::class, 'eZ\Publish\API\Repository\Events\Language\BeforeUpdateLanguageNameEvent');

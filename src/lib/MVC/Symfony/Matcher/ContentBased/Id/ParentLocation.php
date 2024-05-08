@@ -55,5 +55,3 @@ class ParentLocation extends MultipleValued
         return isset($this->values[$view->getLocation()->parentLocationId]);
     }
 }
-
-class_alias(ParentLocation::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation');

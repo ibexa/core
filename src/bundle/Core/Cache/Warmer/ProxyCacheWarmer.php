@@ -52,5 +52,3 @@ final class ProxyCacheWarmer implements CacheWarmerInterface
         $this->proxyGenerator->warmUp(self::PROXY_CLASSES);
     }
 }
-
-class_alias(ProxyCacheWarmer::class, 'eZ\Bundle\EzPublishCoreBundle\Cache\Warmer\ProxyCacheWarmer');

@@ -36,5 +36,3 @@ abstract class RoleCreateStruct extends ValueObject
      */
     abstract public function addPolicy(PolicyCreateStruct $policyCreateStruct): void;
 }
-
-class_alias(RoleCreateStruct::class, 'eZ\Publish\API\Repository\Values\User\RoleCreateStruct');

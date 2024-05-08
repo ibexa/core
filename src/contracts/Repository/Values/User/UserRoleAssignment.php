@@ -22,5 +22,3 @@ abstract class UserRoleAssignment extends RoleAssignment
      */
     abstract public function getUser(): User;
 }
-
-class_alias(UserRoleAssignment::class, 'eZ\Publish\API\Repository\Values\User\UserRoleAssignment');

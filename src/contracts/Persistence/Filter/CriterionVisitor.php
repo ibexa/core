@@ -22,5 +22,3 @@ interface CriterionVisitor
         FilteringCriterion $criterion
     ): string;
 }
-
-class_alias(CriterionVisitor::class, 'eZ\Publish\SPI\Persistence\Filter\CriterionVisitor');

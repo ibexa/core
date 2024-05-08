@@ -122,5 +122,3 @@ class MapLocationDistance extends Field
             );
     }
 }
-
-class_alias(MapLocationDistance::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\MapLocationDistance');

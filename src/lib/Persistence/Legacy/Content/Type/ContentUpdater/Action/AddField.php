@@ -203,5 +203,3 @@ class AddField extends Action
         return $field;
     }
 }
-
-class_alias(AddField::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField');

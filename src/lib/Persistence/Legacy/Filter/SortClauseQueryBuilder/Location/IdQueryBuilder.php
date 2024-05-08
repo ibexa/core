@@ -26,5 +26,3 @@ final class IdQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return 'location.node_id';
     }
 }
-
-class_alias(IdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\IdQueryBuilder');

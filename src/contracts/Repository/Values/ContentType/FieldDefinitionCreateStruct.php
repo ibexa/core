@@ -120,5 +120,3 @@ class FieldDefinitionCreateStruct extends ValueObject
      */
     public $isSearchable;
 }
-
-class_alias(FieldDefinitionCreateStruct::class, 'eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct');

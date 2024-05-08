@@ -26,5 +26,3 @@ final class DeleteSettingEvent extends AfterEvent
         return $this->setting;
     }
 }
-
-class_alias(DeleteSettingEvent::class, 'eZ\Publish\API\Repository\Events\Setting\DeleteSettingEvent');

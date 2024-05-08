@@ -17,5 +17,3 @@ final class ContentContainerSpecification implements ContentSpecification
         return $content->getContentType()->isContainer;
     }
 }
-
-class_alias(ContentContainerSpecification::class, 'eZ\Publish\SPI\Specification\Content\ContentContainerSpecification');

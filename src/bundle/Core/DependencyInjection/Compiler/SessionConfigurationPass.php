@@ -84,5 +84,3 @@ final class SessionConfigurationPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(SessionConfigurationPass::class, 'EzSystems\EzPlatformCoreBundle\DependencyInjection\Compiler');

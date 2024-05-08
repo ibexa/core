@@ -108,5 +108,3 @@ interface Handler
      */
     public function countRoleAssignmentsUsingSection($sectionId);
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Section\Handler');

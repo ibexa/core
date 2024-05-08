@@ -46,5 +46,3 @@ class PreviewRequestListener implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(PreviewRequestListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\PreviewRequestListener');

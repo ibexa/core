@@ -50,5 +50,3 @@ class OriginalRequestListener implements EventSubscriberInterface
         $request->attributes->set('_ez_original_request', $originalRequest);
     }
 }
-
-class_alias(OriginalRequestListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\OriginalRequestListener');

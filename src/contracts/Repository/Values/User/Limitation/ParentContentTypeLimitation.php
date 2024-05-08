@@ -22,5 +22,3 @@ class ParentContentTypeLimitation extends Limitation
         return Limitation::PARENTCONTENTTYPE;
     }
 }
-
-class_alias(ParentContentTypeLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\ParentContentTypeLimitation');

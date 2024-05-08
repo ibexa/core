@@ -186,5 +186,3 @@ class AssetMapper
         return $this->configResolver->getParameter('fieldtypes.ezimageasset.mappings');
     }
 }
-
-class_alias(AssetMapper::class, 'eZ\Publish\Core\FieldType\ImageAsset\AssetMapper');

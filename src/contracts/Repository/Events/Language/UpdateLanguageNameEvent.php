@@ -47,5 +47,3 @@ final class UpdateLanguageNameEvent extends AfterEvent
         return $this->newName;
     }
 }
-
-class_alias(UpdateLanguageNameEvent::class, 'eZ\Publish\API\Repository\Events\Language\UpdateLanguageNameEvent');

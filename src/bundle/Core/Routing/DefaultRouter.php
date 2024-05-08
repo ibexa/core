@@ -186,5 +186,3 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
         return $context;
     }
 }
-
-class_alias(DefaultRouter::class, 'eZ\Bundle\EzPublishCoreBundle\Routing\DefaultRouter');

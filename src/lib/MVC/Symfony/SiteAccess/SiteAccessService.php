@@ -92,5 +92,3 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware
         return $saRelationMap[$repository][$rootLocationId];
     }
 }
-
-class_alias(SiteAccessService::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessService');

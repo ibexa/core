@@ -41,5 +41,3 @@ class Host extends Map
         return $matcher;
     }
 }
-
-class_alias(Host::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Map\Host');

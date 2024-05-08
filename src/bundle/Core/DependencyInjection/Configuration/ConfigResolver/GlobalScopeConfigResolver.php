@@ -30,5 +30,3 @@ class GlobalScopeConfigResolver extends ContainerConfigResolver
         return parent::getParameter($paramName, $namespace, self::SCOPE_NAME);
     }
 }
-
-class_alias(GlobalScopeConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolver');

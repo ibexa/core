@@ -15,5 +15,3 @@ namespace Ibexa\Core\IO\Values;
 class MissingBinaryFile extends BinaryFile
 {
 }
-
-class_alias(MissingBinaryFile::class, 'eZ\Publish\Core\IO\Values\MissingBinaryFile');

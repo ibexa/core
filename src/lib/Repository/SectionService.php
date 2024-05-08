@@ -456,5 +456,3 @@ class SectionService implements SectionServiceInterface
         );
     }
 }
-
-class_alias(SectionService::class, 'eZ\Publish\Core\Repository\SectionService');

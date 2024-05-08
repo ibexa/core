@@ -203,5 +203,3 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         return $contentInfo;
     }
 }
-
-class_alias(DoctrineGatewayDataMapper::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Gateway\Content\Mapper\DoctrineGatewayDataMapper');

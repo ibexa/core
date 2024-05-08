@@ -96,5 +96,3 @@ class Collection extends Handler
         return $filter;
     }
 }
-
-class_alias(Collection::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Collection');

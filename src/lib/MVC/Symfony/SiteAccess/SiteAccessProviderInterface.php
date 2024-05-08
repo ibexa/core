@@ -22,5 +22,3 @@ interface SiteAccessProviderInterface
 
     public function getSiteAccesses(): Traversable;
 }
-
-class_alias(SiteAccessProviderInterface::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface');

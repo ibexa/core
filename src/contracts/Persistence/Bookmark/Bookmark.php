@@ -42,5 +42,3 @@ class Bookmark extends ValueObject
      */
     public $userId;
 }
-
-class_alias(Bookmark::class, 'eZ\Publish\SPI\Persistence\Bookmark\Bookmark');

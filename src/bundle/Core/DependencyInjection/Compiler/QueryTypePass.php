@@ -43,5 +43,3 @@ final class QueryTypePass implements CompilerPassInterface
         $aggregatorDefinition->addMethodCall('addQueryTypes', [$queryTypes]);
     }
 }
-
-class_alias(QueryTypePass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\QueryTypePass');

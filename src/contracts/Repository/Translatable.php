@@ -21,5 +21,3 @@ interface Translatable
      */
     public function getTranslatableMessage();
 }
-
-class_alias(Translatable::class, 'eZ\Publish\API\Repository\Translatable');

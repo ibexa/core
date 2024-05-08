@@ -31,5 +31,3 @@ class LocationSearchHitAdapter extends AbstractSearchResultAdapter
         return $searchService->findLocations($query, $languageFilter);
     }
 }
-
-class_alias(LocationSearchHitAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\LocationSearchHitAdapter');

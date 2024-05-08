@@ -32,5 +32,3 @@ interface SiteAccessConfigurationFilter
      */
     public function filter(array $siteAccessConfiguration);
 }
-
-class_alias(SiteAccessConfigurationFilter::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\SiteAccessConfigurationFilter');

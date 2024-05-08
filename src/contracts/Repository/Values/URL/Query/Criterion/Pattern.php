@@ -34,5 +34,3 @@ class Pattern extends Matcher
         $this->pattern = $pattern;
     }
 }
-
-class_alias(Pattern::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\Pattern');

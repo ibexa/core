@@ -40,5 +40,3 @@ class Section extends ValueObject
      */
     protected $name;
 }
-
-class_alias(Section::class, 'eZ\Publish\API\Repository\Values\Content\Section');

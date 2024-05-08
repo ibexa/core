@@ -22,5 +22,3 @@ class SubtreeLimitation extends RoleLimitation
         return Limitation::SUBTREE;
     }
 }
-
-class_alias(SubtreeLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\SubtreeLimitation');

@@ -35,5 +35,3 @@ final class FileFixtureFactory
         }
     }
 }
-
-class_alias(FileFixtureFactory::class, 'eZ\Publish\SPI\Tests\Persistence\FileFixtureFactory');

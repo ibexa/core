@@ -65,5 +65,3 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
         $this->assertSession()->elementExists('xpath', "//abbr[@title='$exceptionString']");
     }
 }
-
-class_alias(ExceptionContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\ExceptionContext');

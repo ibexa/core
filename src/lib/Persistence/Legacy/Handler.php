@@ -242,5 +242,3 @@ class Handler implements HandlerInterface
         $this->transactionHandler->rollback();
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Handler');

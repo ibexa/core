@@ -38,5 +38,3 @@ final class CreateContentTypeGroupEvent extends AfterEvent
         return $this->contentTypeGroupCreateStruct;
     }
 }
-
-class_alias(CreateContentTypeGroupEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\CreateContentTypeGroupEvent');

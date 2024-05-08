@@ -26,5 +26,3 @@ class BooleanMapper extends FieldValueMapper
         return (bool)$field->getValue();
     }
 }
-
-class_alias(BooleanMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\BooleanMapper');

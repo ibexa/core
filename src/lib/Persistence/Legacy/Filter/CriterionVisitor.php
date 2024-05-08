@@ -56,5 +56,3 @@ final class CriterionVisitor implements FilteringCriterionVisitor
         );
     }
 }
-
-class_alias(CriterionVisitor::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionVisitor');

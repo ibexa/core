@@ -32,5 +32,3 @@ abstract class Handler
      */
     abstract public function publishNewType(Type $toType, int $newStatus): void;
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Update\Handler');

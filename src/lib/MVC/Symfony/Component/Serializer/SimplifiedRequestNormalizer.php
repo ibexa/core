@@ -35,5 +35,3 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
         return $data instanceof SimplifiedRequest;
     }
 }
-
-class_alias(SimplifiedRequestNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer');

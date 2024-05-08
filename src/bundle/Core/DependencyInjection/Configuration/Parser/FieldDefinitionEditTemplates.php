@@ -13,5 +13,3 @@ class FieldDefinitionEditTemplates extends Templates
     public const INFO = 'Settings for field definition templates';
     public const INFO_TEMPLATE_KEY = 'Template file where to find block definition to display field definition settings';
 }
-
-class_alias(FieldDefinitionEditTemplates::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\FieldDefinitionEditTemplates');

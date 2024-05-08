@@ -27,5 +27,3 @@ class ScaleWidthFilterLoader extends FilterLoaderWrapped
         return $this->innerLoader->load($image, ['widen' => $options[0]]);
     }
 }
-
-class_alias(ScaleWidthFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\ScaleWidthFilterLoader');

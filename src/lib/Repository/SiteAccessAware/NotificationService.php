@@ -100,5 +100,3 @@ class NotificationService implements NotificationServiceInterface
         return $this->service->createNotification($createStruct);
     }
 }
-
-class_alias(NotificationService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\NotificationService');

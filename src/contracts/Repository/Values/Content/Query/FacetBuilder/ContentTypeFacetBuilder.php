@@ -20,5 +20,3 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 class ContentTypeFacetBuilder extends FacetBuilder
 {
 }
-
-class_alias(ContentTypeFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\ContentTypeFacetBuilder');

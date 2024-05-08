@@ -162,5 +162,3 @@ class CreateStruct extends ValueObject
         }
     }
 }
-
-class_alias(CreateStruct::class, 'eZ\Publish\SPI\Persistence\Content\Type\CreateStruct');

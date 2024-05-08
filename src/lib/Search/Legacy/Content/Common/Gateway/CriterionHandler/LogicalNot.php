@@ -41,5 +41,3 @@ class LogicalNot extends CriterionHandler
         );
     }
 }
-
-class_alias(LogicalNot::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalNot');

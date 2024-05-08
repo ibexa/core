@@ -509,5 +509,3 @@ EOT
         return ['ezplatform:timestamps:to-utc'];
     }
 }
-
-class_alias(UpdateTimestampsToUTCCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\UpdateTimestampsToUTCCommand');

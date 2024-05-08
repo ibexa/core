@@ -78,5 +78,3 @@ abstract class Base implements CriterionHandler
         return false;
     }
 }
-
-class_alias(Base::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\Base');

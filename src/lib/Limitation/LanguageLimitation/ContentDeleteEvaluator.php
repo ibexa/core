@@ -38,5 +38,3 @@ final class ContentDeleteEvaluator implements VersionTargetEvaluator
         return $accessVote;
     }
 }
-
-class_alias(ContentDeleteEvaluator::class, 'eZ\Publish\Core\Limitation\LanguageLimitation\ContentDeleteEvaluator');

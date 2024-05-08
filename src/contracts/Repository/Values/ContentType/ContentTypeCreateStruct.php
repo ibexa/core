@@ -127,5 +127,3 @@ abstract class ContentTypeCreateStruct extends ValueObject
      */
     public $creationDate = null;
 }
-
-class_alias(ContentTypeCreateStruct::class, 'eZ\Publish\API\Repository\Values\ContentType\ContentTypeCreateStruct');

@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 abstract class ContentValidationException extends ForbiddenException
 {
 }
-
-class_alias(ContentValidationException::class, 'eZ\Publish\API\Repository\Exceptions\ContentValidationException');

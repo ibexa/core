@@ -137,5 +137,3 @@ interface LanguageService
      */
     public function newLanguageCreateStruct(): LanguageCreateStruct;
 }
-
-class_alias(LanguageService::class, 'eZ\Publish\API\Repository\LanguageService');

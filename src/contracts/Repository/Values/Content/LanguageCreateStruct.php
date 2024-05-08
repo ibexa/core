@@ -38,5 +38,3 @@ class LanguageCreateStruct extends ValueObject
      */
     public $enabled = true;
 }
-
-class_alias(LanguageCreateStruct::class, 'eZ\Publish\API\Repository\Values\Content\LanguageCreateStruct');

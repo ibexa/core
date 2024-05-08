@@ -209,5 +209,3 @@ class BinaryBaseStorage extends GatewayBasedStorage
     {
     }
 }
-
-class_alias(BinaryBaseStorage::class, 'eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage');

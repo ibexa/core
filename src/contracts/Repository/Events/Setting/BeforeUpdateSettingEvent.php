@@ -59,5 +59,3 @@ final class BeforeUpdateSettingEvent extends BeforeEvent
         return $this->updatedSetting instanceof Setting;
     }
 }
-
-class_alias(BeforeUpdateSettingEvent::class, 'eZ\Publish\API\Repository\Events\Setting\BeforeUpdateSettingEvent');

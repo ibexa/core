@@ -34,5 +34,3 @@ interface CompoundInterface extends VersatileMatcher
      */
     public function setSubMatchers(array $subMatchers);
 }
-
-class_alias(CompoundInterface::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\CompoundInterface');

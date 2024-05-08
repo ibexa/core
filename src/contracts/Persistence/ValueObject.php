@@ -17,5 +17,3 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
 abstract class ValueObject extends APIValueObject
 {
 }
-
-class_alias(ValueObject::class, 'eZ\Publish\SPI\Persistence\ValueObject');

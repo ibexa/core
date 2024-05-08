@@ -47,5 +47,3 @@ final class SortClauseParserDispatcher implements SortClauseParserInterface
         return null;
     }
 }
-
-class_alias(SortClauseParserDispatcher::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParserDispatcher');

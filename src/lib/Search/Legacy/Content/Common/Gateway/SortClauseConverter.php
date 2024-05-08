@@ -122,5 +122,3 @@ class SortClauseConverter
         $this->sortColumns = [];
     }
 }
-
-class_alias(SortClauseConverter::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter');

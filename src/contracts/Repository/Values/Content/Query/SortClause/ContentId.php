@@ -36,5 +36,3 @@ class ContentId extends SortClause implements FilteringSortClause
         parent::__construct('content_id', $sortDirection);
     }
 }
-
-class_alias(ContentId::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentId');

@@ -85,5 +85,3 @@ class InteractiveLoginToken extends UsernamePasswordToken
         return parent::isAuthenticated();
     }
 }
-
-class_alias(InteractiveLoginToken::class, 'eZ\Publish\Core\MVC\Symfony\Security\InteractiveLoginToken');

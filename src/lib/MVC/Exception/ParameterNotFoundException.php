@@ -22,5 +22,3 @@ class ParameterNotFoundException extends InvalidArgumentException
         }
     }
 }
-
-class_alias(ParameterNotFoundException::class, 'eZ\Publish\Core\MVC\Exception\ParameterNotFoundException');

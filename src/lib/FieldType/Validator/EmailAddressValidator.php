@@ -104,5 +104,3 @@ class EmailAddressValidator extends Validator
         return false;
     }
 }
-
-class_alias(EmailAddressValidator::class, 'eZ\Publish\Core\FieldType\Validator\EmailAddressValidator');

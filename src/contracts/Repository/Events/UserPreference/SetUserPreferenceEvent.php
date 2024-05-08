@@ -25,5 +25,3 @@ final class SetUserPreferenceEvent extends AfterEvent
         return $this->userPreferenceSetStructs;
     }
 }
-
-class_alias(SetUserPreferenceEvent::class, 'eZ\Publish\API\Repository\Events\UserPreference\SetUserPreferenceEvent');

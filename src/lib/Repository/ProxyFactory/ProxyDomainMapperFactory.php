@@ -28,5 +28,3 @@ final class ProxyDomainMapperFactory implements ProxyDomainMapperFactoryInterfac
         return new ProxyDomainMapper($repository, $this->proxyGenerator);
     }
 }
-
-class_alias(ProxyDomainMapperFactory::class, 'eZ\Publish\Core\Repository\ProxyFactory\ProxyDomainMapperFactory');

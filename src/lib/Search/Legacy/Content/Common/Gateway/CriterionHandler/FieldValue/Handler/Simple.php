@@ -43,5 +43,3 @@ class Simple extends Handler
         return $filter;
     }
 }
-
-class_alias(Simple::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Simple');

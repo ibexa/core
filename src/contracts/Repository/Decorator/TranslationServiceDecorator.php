@@ -35,5 +35,3 @@ abstract class TranslationServiceDecorator implements TranslationService
         return $this->innerService->translateString($translation, $locale);
     }
 }
-
-class_alias(TranslationServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\TranslationServiceDecorator');

@@ -44,5 +44,3 @@ abstract class UserPreferenceServiceDecorator implements UserPreferenceService
         return $this->innerService->getUserPreferenceCount();
     }
 }
-
-class_alias(UserPreferenceServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\UserPreferenceServiceDecorator');

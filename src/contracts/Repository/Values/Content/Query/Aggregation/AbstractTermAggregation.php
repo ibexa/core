@@ -70,5 +70,3 @@ abstract class AbstractTermAggregation implements Aggregation
         return $this;
     }
 }
-
-class_alias(AbstractTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\AbstractTermAggregation');

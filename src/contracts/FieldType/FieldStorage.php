@@ -89,5 +89,3 @@ interface FieldStorage
      */
     public function getIndexData(VersionInfo $versionInfo, Field $field, array $context);
 }
-
-class_alias(FieldStorage::class, 'eZ\Publish\SPI\FieldType\FieldStorage');

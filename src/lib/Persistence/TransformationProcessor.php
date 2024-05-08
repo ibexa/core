@@ -130,5 +130,3 @@ abstract class TransformationProcessor
         return $string;
     }
 }
-
-class_alias(TransformationProcessor::class, 'eZ\Publish\Core\Persistence\TransformationProcessor');

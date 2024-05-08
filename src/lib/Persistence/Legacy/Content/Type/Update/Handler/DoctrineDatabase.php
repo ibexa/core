@@ -54,5 +54,3 @@ final class DoctrineDatabase extends Handler
         );
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase');

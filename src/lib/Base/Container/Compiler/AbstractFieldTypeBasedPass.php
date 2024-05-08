@@ -48,5 +48,3 @@ abstract class AbstractFieldTypeBasedPass implements CompilerPassInterface
 
     abstract public function process(ContainerBuilder $container);
 }
-
-class_alias(AbstractFieldTypeBasedPass::class, 'eZ\Publish\Core\Base\Container\Compiler\AbstractFieldTypeBasedPass');

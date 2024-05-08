@@ -60,5 +60,3 @@ final class BeforeAddRelationEvent extends BeforeEvent
         return $this->relation instanceof Relation;
     }
 }
-
-class_alias(BeforeAddRelationEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeAddRelationEvent');

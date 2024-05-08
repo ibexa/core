@@ -56,5 +56,3 @@ class TemplateRenderer implements Renderer
         );
     }
 }
-
-class_alias(TemplateRenderer::class, 'eZ\Publish\Core\MVC\Symfony\View\Renderer\TemplateRenderer');

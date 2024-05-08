@@ -22,5 +22,3 @@ class OwnerLimitation extends Limitation
         return Limitation::OWNER;
     }
 }
-
-class_alias(OwnerLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\OwnerLimitation');

@@ -109,5 +109,3 @@ interface URLWildcardService
      */
     public function countAll(): int;
 }
-
-class_alias(URLWildcardService::class, 'eZ\Publish\API\Repository\URLWildcardService');

@@ -40,5 +40,3 @@ class Notification extends ValueObject
     /** @var array */
     protected $data = [];
 }
-
-class_alias(Notification::class, 'eZ\Publish\API\Repository\Values\Notification\Notification');

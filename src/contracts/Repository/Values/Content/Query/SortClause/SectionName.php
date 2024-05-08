@@ -28,5 +28,3 @@ class SectionName extends SortClause implements FilteringSortClause, TrashSortCl
         parent::__construct('section_name', $sortDirection);
     }
 }
-
-class_alias(SectionName::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\SectionName');

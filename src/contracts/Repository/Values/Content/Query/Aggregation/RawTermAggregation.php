@@ -27,5 +27,3 @@ final class RawTermAggregation extends AbstractTermAggregation implements RawAgg
         return $this->fieldName;
     }
 }
-
-class_alias(RawTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\RawTermAggregation');

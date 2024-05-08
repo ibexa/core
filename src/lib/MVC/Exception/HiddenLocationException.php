@@ -29,5 +29,3 @@ class HiddenLocationException extends NotFoundHttpException
         return $this->location;
     }
 }
-
-class_alias(HiddenLocationException::class, 'eZ\Publish\Core\MVC\Exception\HiddenLocationException');

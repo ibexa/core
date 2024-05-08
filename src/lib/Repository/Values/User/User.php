@@ -194,5 +194,3 @@ class User extends APIUser
         return $this->content->getDefaultLanguageCode();
     }
 }
-
-class_alias(User::class, 'eZ\Publish\Core\Repository\Values\User\User');

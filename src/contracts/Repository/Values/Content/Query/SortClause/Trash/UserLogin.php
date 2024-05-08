@@ -19,5 +19,3 @@ class UserLogin extends SortClause implements TrashSortClause
         parent::__construct('user_name', $sortDirection);
     }
 }
-
-class_alias(UserLogin::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Trash\UserLogin');

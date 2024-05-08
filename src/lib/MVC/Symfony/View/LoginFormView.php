@@ -46,5 +46,3 @@ final class LoginFormView extends BaseView
         ];
     }
 }
-
-class_alias(LoginFormView::class, 'eZ\Publish\Core\MVC\Symfony\View\LoginFormView');

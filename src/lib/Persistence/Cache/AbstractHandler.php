@@ -138,5 +138,3 @@ abstract class AbstractHandler
         return $list;
     }
 }
-
-class_alias(AbstractHandler::class, 'eZ\Publish\Core\Persistence\Cache\AbstractHandler');

@@ -30,5 +30,3 @@ class OriginalDirectoryVariationPathGenerator implements VariationPathGenerator
         );
     }
 }
-
-class_alias(OriginalDirectoryVariationPathGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGenerator');

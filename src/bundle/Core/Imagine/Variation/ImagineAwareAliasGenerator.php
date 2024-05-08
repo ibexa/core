@@ -120,5 +120,3 @@ class ImagineAwareAliasGenerator implements VariationHandler
         return $this->ioService->loadBinaryFile($variationPath);
     }
 }
-
-class_alias(ImagineAwareAliasGenerator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Variation\ImagineAwareAliasGenerator');

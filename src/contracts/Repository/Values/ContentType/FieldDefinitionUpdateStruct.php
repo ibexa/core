@@ -108,5 +108,3 @@ class FieldDefinitionUpdateStruct extends ValueObject
      */
     public $isSearchable;
 }
-
-class_alias(FieldDefinitionUpdateStruct::class, 'eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionUpdateStruct');

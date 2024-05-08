@@ -44,5 +44,3 @@ class BinaryFileCreateStruct extends ValueObject
      */
     public $mimeType;
 }
-
-class_alias(BinaryFileCreateStruct::class, 'eZ\Publish\Core\IO\Values\BinaryFileCreateStruct');

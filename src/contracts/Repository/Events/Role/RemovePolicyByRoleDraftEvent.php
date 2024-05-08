@@ -48,5 +48,3 @@ final class RemovePolicyByRoleDraftEvent extends AfterEvent
         return $this->updatedRoleDraft;
     }
 }
-
-class_alias(RemovePolicyByRoleDraftEvent::class, 'eZ\Publish\API\Repository\Events\Role\RemovePolicyByRoleDraftEvent');

@@ -46,5 +46,3 @@ class UserPreferenceService extends UserPreferenceServiceDecorator
         );
     }
 }
-
-class_alias(UserPreferenceService::class, 'eZ\Publish\Core\Event\UserPreferenceService');

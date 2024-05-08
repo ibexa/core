@@ -23,5 +23,3 @@ abstract class Value extends ValueObject implements ValueInterface
      */
     abstract public function __toString();
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Value');

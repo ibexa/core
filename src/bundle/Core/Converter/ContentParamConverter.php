@@ -35,5 +35,3 @@ class ContentParamConverter extends RepositoryParamConverter
         return $this->contentService->loadContent($id);
     }
 }
-
-class_alias(ContentParamConverter::class, 'eZ\Bundle\EzPublishCoreBundle\Converter\ContentParamConverter');

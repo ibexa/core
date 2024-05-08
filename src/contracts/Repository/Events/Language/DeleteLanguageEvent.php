@@ -26,5 +26,3 @@ final class DeleteLanguageEvent extends AfterEvent
         return $this->language;
     }
 }
-
-class_alias(DeleteLanguageEvent::class, 'eZ\Publish\API\Repository\Events\Language\DeleteLanguageEvent');

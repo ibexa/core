@@ -35,5 +35,3 @@ class InvalidArgumentException extends APIInvalidArgumentException implements Tr
         parent::__construct($this->getBaseTranslation(), 0, $previous);
     }
 }
-
-class_alias(InvalidArgumentException::class, 'eZ\Publish\Core\Base\Exceptions\InvalidArgumentException');

@@ -22,5 +22,3 @@ class Id extends SortClause
         parent::__construct('id', $sortDirection);
     }
 }
-
-class_alias(Id::class, 'eZ\Publish\API\Repository\Values\URL\Query\SortClause\Id');

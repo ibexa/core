@@ -38,5 +38,3 @@ final class UserIdQueryBuilder extends BaseUserCriterionQueryBuilder
         );
     }
 }
-
-class_alias(UserIdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\UserIdQueryBuilder');

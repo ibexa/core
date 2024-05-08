@@ -79,5 +79,3 @@ class ValidationError implements ValidationErrorInterface
         return $this->target;
     }
 }
-
-class_alias(ValidationError::class, 'eZ\Publish\Core\FieldType\ValidationError');

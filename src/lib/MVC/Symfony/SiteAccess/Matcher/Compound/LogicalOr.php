@@ -54,5 +54,3 @@ class LogicalOr extends Compound
         }
     }
 }
-
-class_alias(LogicalOr::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalOr');

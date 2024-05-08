@@ -70,5 +70,3 @@ class ContentCacheClearEvent extends Event
         $this->locationsToClear = $locationsToClear;
     }
 }
-
-class_alias(ContentCacheClearEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\ContentCacheClearEvent');

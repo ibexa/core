@@ -210,5 +210,3 @@ class RelationProcessor
         }
     }
 }
-
-class_alias(RelationProcessor::class, 'eZ\Publish\Core\Repository\Helper\RelationProcessor');

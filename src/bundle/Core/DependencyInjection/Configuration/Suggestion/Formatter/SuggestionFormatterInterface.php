@@ -19,5 +19,3 @@ interface SuggestionFormatterInterface
 {
     public function format(ConfigSuggestion $configSuggestion);
 }
-
-class_alias(SuggestionFormatterInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Formatter\SuggestionFormatterInterface');

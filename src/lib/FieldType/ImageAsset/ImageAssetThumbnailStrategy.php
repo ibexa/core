@@ -61,5 +61,3 @@ class ImageAssetThumbnailStrategy implements FieldTypeBasedThumbnailStrategy
         );
     }
 }
-
-class_alias(ImageAssetThumbnailStrategy::class, 'eZ\Publish\Core\FieldType\ImageAsset\ImageAssetThumbnailStrategy');

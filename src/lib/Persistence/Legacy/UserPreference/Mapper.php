@@ -47,5 +47,3 @@ class Mapper
         return $userPreference;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\UserPreference\Mapper');

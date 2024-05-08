@@ -11,5 +11,3 @@ namespace Ibexa\Core\MVC\Symfony\View;
 final class QueryView extends BaseView
 {
 }
-
-class_alias(QueryView::class, 'eZ\Publish\Core\MVC\Symfony\View\QueryView');

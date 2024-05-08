@@ -479,5 +479,3 @@ abstract class DoctrineStorage extends Gateway
         return $countMap;
     }
 }
-
-class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway\DoctrineStorage');

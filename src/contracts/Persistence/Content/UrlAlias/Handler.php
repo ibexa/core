@@ -209,5 +209,3 @@ interface Handler
      */
     public function repairBrokenUrlAliasesForLocation(int $locationId);
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\UrlAlias\Handler');

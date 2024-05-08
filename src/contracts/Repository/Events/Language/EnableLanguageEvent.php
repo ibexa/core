@@ -37,5 +37,3 @@ final class EnableLanguageEvent extends AfterEvent
         return $this->language;
     }
 }
-
-class_alias(EnableLanguageEvent::class, 'eZ\Publish\API\Repository\Events\Language\EnableLanguageEvent');

@@ -22,5 +22,3 @@ interface Fixture
      */
     public function load(): array;
 }
-
-class_alias(Fixture::class, 'eZ\Publish\SPI\Tests\Persistence\Fixture');

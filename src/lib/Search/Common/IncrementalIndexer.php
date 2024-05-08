@@ -89,5 +89,3 @@ abstract class IncrementalIndexer extends Indexer
      */
     abstract public function getName();
 }
-
-class_alias(IncrementalIndexer::class, 'eZ\Publish\Core\Search\Common\IncrementalIndexer');

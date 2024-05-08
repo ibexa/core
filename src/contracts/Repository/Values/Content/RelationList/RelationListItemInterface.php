@@ -22,5 +22,3 @@ interface RelationListItemInterface
      */
     public function hasRelation(): bool;
 }
-
-class_alias(RelationListItemInterface::class, 'eZ\Publish\API\Repository\Values\Content\RelationList\RelationListItemInterface');

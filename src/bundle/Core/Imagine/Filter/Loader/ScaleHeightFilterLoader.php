@@ -27,5 +27,3 @@ class ScaleHeightFilterLoader extends FilterLoaderWrapped
         return $this->innerLoader->load($image, ['heighten' => $options[0]]);
     }
 }
-
-class_alias(ScaleHeightFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\ScaleHeightFilterLoader');

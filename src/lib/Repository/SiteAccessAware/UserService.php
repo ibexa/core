@@ -228,5 +228,3 @@ class UserService implements UserServiceInterface
         return $this->service->getPasswordInfo($user);
     }
 }
-
-class_alias(UserService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\UserService');

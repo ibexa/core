@@ -30,5 +30,3 @@ class IsUserEnabled extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(IsUserEnabled::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\IsUserEnabled');

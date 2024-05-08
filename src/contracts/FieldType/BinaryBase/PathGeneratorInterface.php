@@ -15,5 +15,3 @@ interface PathGeneratorInterface
 {
     public function getStoragePathForField(Field $field, VersionInfo $versionInfo);
 }
-
-class_alias(PathGeneratorInterface::class, 'eZ\Publish\SPI\FieldType\BinaryBase\PathGeneratorInterface');

@@ -23,5 +23,3 @@ interface MatcherFactoryInterface
      */
     public function match(View $view);
 }
-
-class_alias(MatcherFactoryInterface::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\MatcherFactoryInterface');

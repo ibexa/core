@@ -48,5 +48,3 @@ final class GatewayFactory
         return $this->fallbackGateway;
     }
 }
-
-class_alias(GatewayFactory::class, 'eZ\Publish\Core\Persistence\Legacy\SharedGateway\GatewayFactory');

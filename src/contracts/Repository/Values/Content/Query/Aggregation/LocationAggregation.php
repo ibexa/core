@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 interface LocationAggregation
 {
 }
-
-class_alias(LocationAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\LocationAggregation');

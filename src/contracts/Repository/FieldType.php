@@ -228,5 +228,3 @@ interface FieldType
      */
     public function validateValue(FieldDefinition $fieldDef, Value $value): iterable;
 }
-
-class_alias(FieldType::class, 'eZ\Publish\API\Repository\FieldType');

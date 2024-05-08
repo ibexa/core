@@ -481,5 +481,3 @@ class MemoryCachingHandler implements BaseContentTypeHandler
         $this->innerHandler->deleteByUserAndStatus($userId, $status);
     }
 }
-
-class_alias(MemoryCachingHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler');

@@ -369,5 +369,3 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
         return $objectStateIdsToVerify;
     }
 }
-
-class_alias(ObjectStateLimitationType::class, 'eZ\Publish\Core\Limitation\ObjectStateLimitationType');

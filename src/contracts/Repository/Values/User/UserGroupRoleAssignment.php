@@ -22,5 +22,3 @@ abstract class UserGroupRoleAssignment extends RoleAssignment
      */
     abstract public function getUserGroup(): UserGroup;
 }
-
-class_alias(UserGroupRoleAssignment::class, 'eZ\Publish\API\Repository\Values\User\UserGroupRoleAssignment');

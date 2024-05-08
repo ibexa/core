@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 class SectionUpdateStruct extends SectionStruct
 {
 }
-
-class_alias(SectionUpdateStruct::class, 'eZ\Publish\API\Repository\Values\Content\SectionUpdateStruct');

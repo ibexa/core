@@ -16,5 +16,3 @@ class Flysystem extends BaseFactory
         return 'ibexa.core.io.metadata_handler.flysystem';
     }
 }
-
-class_alias(Flysystem::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory\MetadataHandler\Flysystem');

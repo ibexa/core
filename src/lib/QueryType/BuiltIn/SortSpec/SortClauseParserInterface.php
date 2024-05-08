@@ -19,5 +19,3 @@ interface SortClauseParserInterface
 
     public function supports(string $name): bool;
 }
-
-class_alias(SortClauseParserInterface::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface');

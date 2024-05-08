@@ -172,5 +172,3 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
         return $permissionCriterion;
     }
 }
-
-class_alias(PermissionCriterionResolver::class, 'eZ\Publish\Core\Repository\Permission\PermissionCriterionResolver');

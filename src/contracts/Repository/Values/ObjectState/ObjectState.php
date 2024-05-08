@@ -58,5 +58,3 @@ abstract class ObjectState extends ValueObject implements MultiLanguageName, Mul
      */
     abstract public function getObjectStateGroup(): ObjectStateGroup;
 }
-
-class_alias(ObjectState::class, 'eZ\Publish\API\Repository\Values\ObjectState\ObjectState');

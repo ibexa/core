@@ -351,5 +351,3 @@ class SearchService implements SearchServiceInterface
         return false;
     }
 }
-
-class_alias(SearchService::class, 'eZ\Publish\Core\Repository\SearchService');

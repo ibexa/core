@@ -76,5 +76,3 @@ class Depth extends Location implements FilteringCriterion
         ];
     }
 }
-
-class_alias(Depth::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Location\Depth');

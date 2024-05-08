@@ -125,5 +125,3 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     {
     }
 }
-
-class_alias(CoreInstaller::class, 'EzSystems\PlatformInstallerBundle\Installer\CoreInstaller');

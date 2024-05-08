@@ -36,5 +36,3 @@ EOT;
         return $message;
     }
 }
-
-class_alias(YamlSuggestionFormatter::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Formatter\YamlSuggestionFormatter');

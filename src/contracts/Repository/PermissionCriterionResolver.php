@@ -40,5 +40,3 @@ interface PermissionCriterionResolver
      */
     public function getQueryPermissionsCriterion(): Criterion;
 }
-
-class_alias(PermissionCriterionResolver::class, 'eZ\Publish\API\Repository\PermissionCriterionResolver');

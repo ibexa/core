@@ -68,5 +68,3 @@ final class SiteAccessDependentMetadataHandler implements IOMetadataHandler
         return $this->getHandler()->deleteDirectory($spiPath);
     }
 }
-
-class_alias(SiteAccessDependentMetadataHandler::class, 'eZ\Publish\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler');

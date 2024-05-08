@@ -403,5 +403,3 @@ interface RoleService
      */
     public function getLimitationTypesByModuleFunction(string $module, string $function): iterable;
 }
-
-class_alias(RoleService::class, 'eZ\Publish\API\Repository\RoleService');

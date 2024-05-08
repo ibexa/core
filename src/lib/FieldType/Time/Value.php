@@ -104,5 +104,3 @@ class Value extends BaseValue
         return $dateTime->format($this->stringFormat);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Time\Value');
