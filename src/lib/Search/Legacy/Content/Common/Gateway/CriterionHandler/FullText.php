@@ -274,7 +274,7 @@ class FullText extends CriterionHandler
             ->select($this->dbPlatform->getCountExpression('id'))
             ->from(ContentGateway::CONTENT_ITEM_TABLE);
 
-        $count = (int)$query->execute()->fetchColumn();
+        $count = (int)$query->execute()->fetchOne();
 
         // Calculate the int stopWordThresholdValue based on count (first column) * factor
         return $this->stopWordThresholdValue = (int)($count * $this->configuration['stopWordThresholdFactor']);

@@ -817,7 +817,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $queryBuilder->execute()->fetchAllAssociative();
     }
 
     public function loadContentInfo(int $contentId): array
@@ -827,7 +827,7 @@ final class DoctrineDatabase extends Gateway
             ->where('c.id = :id')
             ->setParameter('id', $contentId, ParameterType::INTEGER);
 
-        $results = $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        $results = $queryBuilder->execute()->fetchAllAssociative();
         if (empty($results)) {
             throw new NotFound('content', "id: $contentId");
         }
@@ -842,7 +842,7 @@ final class DoctrineDatabase extends Gateway
             ->where('c.id IN (:ids)')
             ->setParameter('ids', $contentIds, Connection::PARAM_INT_ARRAY);
 
-        return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $queryBuilder->execute()->fetchAllAssociative();
     }
 
     public function loadContentInfoByRemoteId(string $remoteId): array
@@ -852,7 +852,7 @@ final class DoctrineDatabase extends Gateway
             ->where('c.remote_id = :id')
             ->setParameter('id', $remoteId, ParameterType::STRING);
 
-        $results = $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        $results = $queryBuilder->execute()->fetchAllAssociative();
         if (empty($results)) {
             throw new NotFound('content', "remote_id: $remoteId");
         }
@@ -867,7 +867,7 @@ final class DoctrineDatabase extends Gateway
             ->where('t.node_id = :id')
             ->setParameter('id', $locationId, ParameterType::INTEGER);
 
-        $results = $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        $results = $queryBuilder->execute()->fetchAllAssociative();
         if (empty($results)) {
             throw new NotFound('content', "node_id: $locationId");
         }
@@ -908,7 +908,7 @@ final class DoctrineDatabase extends Gateway
             $queryBuilder->andWhere($expr->eq('v.version', 'c.current_version'));
         }
 
-        return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $queryBuilder->execute()->fetchAllAssociative();
     }
 
     public function countVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): int
@@ -936,7 +936,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter(':status', $status, ParameterType::INTEGER)
             ->setParameter(':user_id', $userId, ParameterType::INTEGER);
 
-        return (int) $query->execute()->fetchColumn();
+        return (int) $query->execute()->fetchOne();
     }
 
     /**
@@ -954,7 +954,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('user_id', $userId, ParameterType::INTEGER)
             ->orderBy('v.id');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadVersionsForUser(
@@ -983,7 +983,7 @@ final class DoctrineDatabase extends Gateway
         $query->orderBy('v.modified', 'DESC');
         $query->addOrderBy('v.id', 'DESC');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function listVersions(int $contentId, ?int $status = null, int $limit = -1): array
@@ -1005,7 +1005,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->orderBy('v.id');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -1021,7 +1021,7 @@ final class DoctrineDatabase extends Gateway
             ->groupBy('version')
             ->setParameter('contentId', $contentId, ParameterType::INTEGER);
 
-        return array_map('intval', $query->execute()->fetchAll(FetchMode::COLUMN));
+        return array_map('intval', $query->execute()->fetchFirstColumn());
     }
 
     public function getLastVersionNumber(int $contentId): int
@@ -1035,7 +1035,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
@@ -1052,7 +1052,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     /**
@@ -1085,7 +1085,7 @@ final class DoctrineDatabase extends Gateway
         $statement = $query->execute();
 
         $result = [];
-        foreach ($statement->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             if (!isset($result[$row['data_type_string']])) {
                 $result[$row['data_type_string']] = [];
             }
@@ -1526,7 +1526,7 @@ final class DoctrineDatabase extends Gateway
             );
         }
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function loadReverseRelations(int $toContentId, ?int $relationType = null): array
@@ -1566,7 +1566,7 @@ final class DoctrineDatabase extends Gateway
                 ->setParameter('relation_type', $relationType, ParameterType::INTEGER);
         }
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function listReverseRelations(
@@ -1611,7 +1611,7 @@ final class DoctrineDatabase extends Gateway
         }
         $query->orderBy('l.id', 'DESC');
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function insertRelation(RelationCreateStruct $createStruct): int
@@ -1696,7 +1696,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('relation_id', $relationId, ParameterType::INTEGER)
         ;
 
-        $loadedRelationType = $query->execute()->fetchColumn();
+        $loadedRelationType = $query->execute()->fetchOne();
 
         if (!$loadedRelationType) {
             return;
@@ -1749,7 +1749,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return array_map('intval', $statement->fetchAll(FetchMode::COLUMN));
+        return array_map('intval', $statement->fetchFirstColumn());
     }
 
     public function loadVersionedNameData(array $rows): array
@@ -1772,7 +1772,7 @@ final class DoctrineDatabase extends Gateway
 
         $query->where($expr->orX(...$conditions));
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**

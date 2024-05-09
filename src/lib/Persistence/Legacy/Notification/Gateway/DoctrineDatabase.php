@@ -75,7 +75,7 @@ class DoctrineDatabase extends Gateway
 
         $query->setParameter(':id', $notificationId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -111,7 +111,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     /**
@@ -129,7 +129,7 @@ class DoctrineDatabase extends Gateway
             ->setParameter(':is_pending', true, PDO::PARAM_BOOL)
             ->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     /**
@@ -151,7 +151,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'DESC');
         $query->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**

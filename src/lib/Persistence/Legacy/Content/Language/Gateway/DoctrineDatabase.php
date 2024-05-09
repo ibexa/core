@@ -54,7 +54,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        $lastId = (int)$statement->fetchColumn();
+        $lastId = (int)$statement->fetchOne();
 
         // Legacy only supports 8 * PHP_INT_SIZE - 2 languages:
         // One bit cannot be used because PHP uses signed integers and a second one is reserved for the
@@ -124,7 +124,7 @@ final class DoctrineDatabase extends Gateway
             ->where('id IN (:ids)')
             ->setParameter('ids', $ids, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadLanguageListDataByLanguageCode(array $languageCodes): iterable
@@ -134,7 +134,7 @@ final class DoctrineDatabase extends Gateway
             ->where('locale IN (:locale)')
             ->setParameter('locale', $languageCodes, Connection::PARAM_STR_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -152,7 +152,7 @@ final class DoctrineDatabase extends Gateway
 
     public function loadAllLanguagesData(): array
     {
-        return $this->createFindQuery()->execute()->fetchAll();
+        return $this->createFindQuery()->execute()->fetchAllAssociative();
     }
 
     public function deleteLanguage(int $id): void
@@ -221,7 +221,7 @@ final class DoctrineDatabase extends Gateway
                 );
         }
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 }
 

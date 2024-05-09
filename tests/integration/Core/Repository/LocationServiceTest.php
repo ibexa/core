@@ -3399,7 +3399,7 @@ class LocationServiceTest extends BaseTest
 
         self::assertEquals(
             'top_node/parent/move_me',
-            $query->execute()->fetchColumn()
+            $query->execute()->fetchOne()
         );
     }
 

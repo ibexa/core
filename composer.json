@@ -6,6 +6,11 @@
     "suggest": {
         "php-64bit": "For support of more than 30 languages, a 64bit php installation on all involved prod/dev machines is required"
     },
+    "repositories": [{
+        "type": "path",
+        "url": "../doctrine-schema"
+    }
+    ],
     "require": {
         "php": " >=8.3",
         "ext-PDO": "*",
@@ -19,7 +24,7 @@
         "ext-mbstring": "*",
         "ext-xsl": "*",
         "composer/package-versions-deprecated": "^1.11",
-        "doctrine/dbal": "^2.13.0",
+        "doctrine/dbal": "^2.13.0 | ^3",
         "doctrine/doctrine-bundle": "^2.0",
         "doctrine/orm": "^2.7",
         "friendsofphp/proxy-manager-lts": "^1.0",

@@ -208,7 +208,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function countGroupsForType(int $typeId, int $status): int
@@ -231,7 +231,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function deleteGroup(int $groupId): void
@@ -483,7 +483,7 @@ final class DoctrineDatabase extends Gateway
             ->where($query->expr()->in('id', ':ids'))
             ->setParameter('ids', $groupIds, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadGroupDataByIdentifier(string $identifier): array
@@ -496,7 +496,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadAllGroupsData(): array
@@ -510,7 +510,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -543,7 +543,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('gid', $groupId, ParameterType::INTEGER)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function insertFieldDefinition(
@@ -737,7 +737,7 @@ final class DoctrineDatabase extends Gateway
 
         $stmt = $query->execute();
 
-        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+        return $stmt->fetchAllAssociative();
     }
 
     public function deleteFieldDefinition(
@@ -847,7 +847,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('status', $status, ParameterType::INTEGER)
             ->setParameter('language_id', $languageId, ParameterType::INTEGER);
 
-        return 0 < (int)$existQuery->execute()->fetchColumn();
+        return 0 < (int)$existQuery->execute()->fetchOne();
     }
 
     private function updateFieldDefinitionMultilingualData(
@@ -946,7 +946,7 @@ final class DoctrineDatabase extends Gateway
             ->andWhere($query->expr()->eq('c.version', Type::STATUS_DEFINED))
             ->setParameter('ids', $typeIds, Connection::PARAM_INT_ARRAY);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadTypesDataByFieldDefinitionIdentifier(string $identifier): array
@@ -973,7 +973,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('id', $typeId, ParameterType::INTEGER)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadTypeDataByIdentifier(string $identifier, int $status): array
@@ -986,7 +986,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('identifier', $identifier, ParameterType::STRING)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadTypeDataByRemoteId(string $remoteId, int $status): array
@@ -998,7 +998,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('remote', $remoteId, ParameterType::STRING)
             ->setParameter('version', $status, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll();
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -1114,7 +1114,7 @@ final class DoctrineDatabase extends Gateway
 
         $stmt = $query->execute();
 
-        return (int)$stmt->fetchColumn();
+        return (int)$stmt->fetchOne();
     }
 
     public function deleteFieldDefinitionsForType(int $typeId, int $status): void
@@ -1353,7 +1353,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute($query);
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function removeFieldDefinitionTranslation(

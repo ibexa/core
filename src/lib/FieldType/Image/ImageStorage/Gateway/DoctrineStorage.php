@@ -81,7 +81,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $selectQuery->execute();
 
-        return $statement->fetchColumn();
+        return $statement->fetchOne();
     }
 
     /**
@@ -146,7 +146,7 @@ class DoctrineStorage extends Gateway
         $statement = $selectQuery->execute();
 
         $fieldLookup = [];
-        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             $fieldLookup[$row['id']] = $row['data_text'];
         }
 
@@ -250,7 +250,7 @@ class DoctrineStorage extends Gateway
 
         $statement = $selectQuery->execute();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchOne();
     }
 
     public function isImageReferenced(string $uri): bool
@@ -327,7 +327,7 @@ class DoctrineStorage extends Gateway
             ->setParameter(':versionNo', $versionNo, PDO::PARAM_INT)
         ;
 
-        $imageXMLs = $selectQuery->execute()->fetchAll(FetchMode::COLUMN);
+        $imageXMLs = $selectQuery->execute()->fetchFirstColumn();
         foreach ($imageXMLs as $imageXML) {
             $storedFilePath = $this->extractFilesFromXml($imageXML)['original'] ?? null;
             if ($storedFilePath === $path) {

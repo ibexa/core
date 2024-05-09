@@ -84,7 +84,7 @@ class DoctrineDatabase extends Gateway
         $query->setParameter(':userId', $userId, ParameterType::INTEGER);
         $query->setParameter(':name', $name, ParameterType::STRING);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -106,7 +106,7 @@ class DoctrineDatabase extends Gateway
         $query->orderBy(self::COLUMN_ID, 'ASC');
         $query->setParameter(':user_id', $userId, ParameterType::INTEGER);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -123,7 +123,7 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
             ->setParameter(':user_id', $userId, ParameterType::INTEGER);
 
-        return (int) $query->execute()->fetchColumn();
+        return (int) $query->execute()->fetchOne();
     }
 
     private function getColumns(): array

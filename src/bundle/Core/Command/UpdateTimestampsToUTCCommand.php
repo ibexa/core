@@ -320,7 +320,7 @@ EOT
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -358,7 +358,7 @@ EOT
 
         $statement = $query->execute();
 
-        return (int) $statement->fetchColumn();
+        return (int) $statement->fetchOne();
     }
 
     /**

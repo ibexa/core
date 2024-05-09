@@ -94,7 +94,7 @@ final class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function getBasicNodeDataByRemoteId(
@@ -137,7 +137,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -162,7 +162,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadParentLocationsDataForDraftContent(int $contentId): array
@@ -215,7 +215,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array
@@ -229,14 +229,16 @@ final class DoctrineDatabase extends Gateway
             ->addOrderBy('t.node_id');
         $statement = $query->execute();
 
-        $results = $statement->fetchAll($onlyIds ? (FetchMode::COLUMN | PDO::FETCH_GROUP) : FetchMode::ASSOCIATIVE);
+        if ($onlyIds) {
+            $results = $statement->fetchFirstColumn();
 
-        // array_map() is used to map all elements stored as $results[$i][0] to $results[$i]
-        return $onlyIds
-            ? array_map(static function (array $result) {
+            // array_map() is used to map all elements stored as $results[$i][0] to $results[$i]
+            return array_map(static function (array $result) {
                 return $result[0];
-            }, $results)
-            : $results;
+            }, $results);
+        }
+
+        return $statement->fetchAllAssociative();
     }
 
     public function getSubtreeSize(string $path): int
@@ -283,7 +285,7 @@ final class DoctrineDatabase extends Gateway
         );
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     private function getSubtreeNodesData(string $pathString): array
@@ -306,7 +308,7 @@ final class DoctrineDatabase extends Gateway
             );
         $statement = $query->execute();
 
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -619,7 +621,7 @@ final class DoctrineDatabase extends Gateway
                     )
                 )
             );
-        $count = (int)$query->execute()->fetchColumn();
+        $count = (int)$query->execute()->fetchOne();
 
         return $count > 0;
     }
@@ -643,7 +645,7 @@ final class DoctrineDatabase extends Gateway
             );
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     private function buildHiddenSubtreeQuery(string $selectExpr): QueryBuilder
@@ -692,7 +694,7 @@ final class DoctrineDatabase extends Gateway
         ;
         $statement = $queryBuilder->execute();
         $contentObjects = [];
-        foreach ($statement->fetchAll(FetchMode::ASSOCIATIVE) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             $row['is_main_node'] = (int)$row['main_node_id'] === (int)$row['node_id'];
             $contentObjects[$row['node_id']] = $row;
         }
@@ -1014,7 +1016,7 @@ final class DoctrineDatabase extends Gateway
             );
         $statement = $query->execute();
 
-        $result = $statement->fetchColumn();
+        $result = $statement->fetchOne();
 
         return false !== $result ? (int)$result : null;
     }
@@ -1255,7 +1257,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function countTrashed(?Criterion $criterion = null): int
@@ -1267,7 +1269,7 @@ final class DoctrineDatabase extends Gateway
 
         $this->addConditionsByCriterion($criterion, $query);
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     /**
@@ -1312,7 +1314,7 @@ final class DoctrineDatabase extends Gateway
 
         $contentIds = array_map(
             'intval',
-            $selectContentIdsQuery->execute()->fetchAll(FetchMode::COLUMN)
+            $selectContentIdsQuery->execute()->fetchFirstColumn()
         );
 
         if (empty($contentIds)) {
@@ -1353,7 +1355,7 @@ final class DoctrineDatabase extends Gateway
             );
         $stmt = $query->execute();
 
-        return (int)$stmt->fetchColumn();
+        return (int)$stmt->fetchOne();
     }
 
     public function changeMainLocation(
@@ -1428,7 +1430,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**

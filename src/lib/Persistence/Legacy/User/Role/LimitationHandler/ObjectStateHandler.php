@@ -125,7 +125,7 @@ class ObjectStateHandler extends LimitationHandler
         $statement = $query->execute();
 
         $map = [];
-        $groupValues = $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        $groupValues = $statement->fetchAllAssociative();
         foreach ($groupValues as $groupValue) {
             $map[self::STATE_GROUP . $groupValue['identifier']][] = (int)$groupValue['id'];
         }

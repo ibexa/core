@@ -212,7 +212,7 @@ class DoctrineStorage extends Gateway
         $statement = $query->execute();
 
         $existingKeywordMap = [];
-        foreach ($statement->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+        foreach ($statement->fetchAllAssociative() as $row) {
             // filter out keywords that aren't the exact match (e.g. differ by case)
             if (!in_array($row['keyword'], $keywordList)) {
                 continue;
@@ -349,7 +349,7 @@ class DoctrineStorage extends Gateway
             ->where($query->expr()->isNull('attr.id'));
 
         $statement = $query->execute();
-        $ids = $statement->fetchAll(\PDO::FETCH_COLUMN);
+        $ids = $statement->fetchFirstColumn();
 
         if (empty($ids)) {
             return;

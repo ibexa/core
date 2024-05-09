@@ -328,7 +328,7 @@ class RelationListConverter implements Converter
 
         $stmt = $query->execute();
 
-        return $this->groupResultSetById($stmt->fetchAll(FetchMode::ASSOCIATIVE));
+        return $this->groupResultSetById($stmt->fetchAllAssociative());
     }
 
     private static function dbAttributeMap(): array

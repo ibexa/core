@@ -131,7 +131,7 @@ class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $query->execute()->fetchFirstColumn();
     }
 
     /**
@@ -184,7 +184,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -200,7 +200,7 @@ class DoctrineDatabase extends Gateway
             )
         );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -216,7 +216,7 @@ class DoctrineDatabase extends Gateway
             ->from(self::URL_TABLE, 'url')
             ->where($this->criteriaConverter->convertCriteria($query, $criterion));
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     /**

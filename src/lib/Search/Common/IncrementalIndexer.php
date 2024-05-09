@@ -34,7 +34,7 @@ abstract class IncrementalIndexer extends Indexer
         $this->searchHandler->purgeIndex();
 
         $stmt = $this->getContentDbFieldsStmt(['count(id)']);
-        $totalCount = (int) ($stmt->fetchColumn());
+        $totalCount = (int) ($stmt->fetchOne());
         $stmt = $this->getContentDbFieldsStmt(['id']);
 
         $output->writeln("Re-creating search engine index for {$totalCount} content items...");

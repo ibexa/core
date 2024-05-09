@@ -204,7 +204,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoles(int $status = Role::STATUS_DEFINED): array
@@ -216,7 +216,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRolesForContentObjects(
@@ -260,7 +260,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function loadRoleAssignment(int $roleAssignmentId): array
@@ -283,7 +283,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByGroupId(int $groupId, bool $inherited = false): array
@@ -319,7 +319,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadRoleAssignmentsByRoleId(int $roleId): array
@@ -342,7 +342,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     /**
@@ -452,7 +452,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::COLUMN);
+        return $statement->fetchFirstColumn();
     }
 
     public function updateRole(RoleUpdateStruct $role): void
@@ -655,7 +655,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     public function removePolicyLimitations(int $policyId): void
@@ -717,7 +717,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $paths = $query->execute()->fetchAll(FetchMode::COLUMN);
+        $paths = $query->execute()->fetchFirstColumn();
         $nodeIds = array_unique(
             array_reduce(
                 array_map(

@@ -43,7 +43,7 @@ class SearchIndex
             // use array_map as some DBMS-es do not cast integers to strings by default
             ->setParameter('words', array_map('strval', $words), Connection::PARAM_STR_ARRAY);
 
-        return $query->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $query->execute()->fetchAllAssociative();
     }
 
     /**
@@ -206,7 +206,7 @@ class SearchIndex
                 )
             );
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $query->execute()->fetchFirstColumn();
     }
 
     /**

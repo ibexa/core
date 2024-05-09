@@ -194,7 +194,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return (int)$statement->fetchColumn();
+        return (int)$statement->fetchOne();
     }
 
     /**
@@ -260,7 +260,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 }
 

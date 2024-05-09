@@ -277,7 +277,7 @@ EOT
 
         $stmt = $query->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $stmt->fetchFirstColumn();
     }
 
     /**

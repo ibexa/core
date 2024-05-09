@@ -958,7 +958,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 $query->expr()->eq('contentobject_id', 11)
             );
         $statement = $query->execute();
-        $nodeAssignmentsCount = (int)$statement->fetchColumn();
+        $nodeAssignmentsCount = (int)$statement->fetchOne();
 
         $gateway->deleteNodeAssignment(11, 1);
 

@@ -61,7 +61,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateDataByIdentifier(string $identifier, int $groupId): array
@@ -82,7 +82,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateListData(int $groupId): array
@@ -117,7 +117,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateGroupDataByIdentifier(string $identifier): array
@@ -132,7 +132,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function loadObjectStateGroupListData(int $offset, int $limit): array
@@ -484,7 +484,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement->fetchAll(FetchMode::ASSOCIATIVE);
+        return $statement->fetchAllAssociative();
     }
 
     public function getContentCount(int $stateId): int
@@ -502,7 +502,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return (int)$query->execute()->fetchColumn();
+        return (int)$query->execute()->fetchOne();
     }
 
     public function updateObjectStatePriority(int $stateId, int $priority): void
@@ -711,7 +711,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        $priority = $query->execute()->fetchColumn();
+        $priority = $query->execute()->fetchOne();
 
         return null !== $priority ? (int)$priority : null;
     }
