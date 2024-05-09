@@ -12,7 +12,7 @@ return array()
 --EXPECT--
 array (
   0 => 
-  Symfony\Component\HttpKernel\Controller\ControllerReference::__set_state(array(
+  \Symfony\Component\HttpKernel\Controller\ControllerReference::__set_state(array(
      'controller' => 'ibexa_query_render::renderQuery',
      'attributes' => 
     array (

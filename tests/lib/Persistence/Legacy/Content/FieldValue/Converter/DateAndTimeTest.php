@@ -350,7 +350,7 @@ EOT;
      */
     public function testGetDateIntervalFromXML()
     {
-        $dateIntervalReference = DateInterval::createFromDateString('2 years, 1 month, -4 days, 2 hours, 0 minute, 34 seconds');
+        $dateIntervalReference = DateInterval::createFromDateString('2 years, 1 months, -4 days, 2 hours, 0 minutes, 34 seconds');
 
         $refConverter = new ReflectionObject($this->converter);
         $refMethod = $refConverter->getMethod('getDateIntervalFromXML');
