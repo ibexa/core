@@ -44131,11 +44131,6 @@ parameters:
 			path: tests/lib/FieldType/TimeTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\Url\\\\Gateway\\\\DoctrineStorageTest\\:\\:\\$storageGateway\\.$#"
-			count: 1
-			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\Url\\\\Gateway\\\\DoctrineStorageTest\\:\\:testGetIdUrlMap\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/FieldType/Url/Gateway/DoctrineStorageTest.php
