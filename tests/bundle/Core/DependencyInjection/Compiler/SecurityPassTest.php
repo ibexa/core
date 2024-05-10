@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
@@ -16,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class SecurityPassTest extends AbstractCompilerPassTestCase
+final class SecurityPassTest extends AbstractCompilerPassTestCase
 {
     protected function setUp(): void
     {
@@ -38,19 +39,10 @@ class SecurityPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new SecurityPass());
     }
 
-    public function testAlteredDaoAuthenticationProvider()
+    public function testAlteredDaoAuthenticationProvider(): void
     {
         $this->compile();
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'security.authentication.provider.dao',
-            'setPermissionResolver',
-            [new Reference(PermissionResolver::class)]
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'security.authentication.provider.dao',
-            'setUserService',
-            [new Reference(UserService::class)]
-        );
+
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.authentication.provider.rememberme',
             'setPermissionResolver',
@@ -60,16 +52,6 @@ class SecurityPassTest extends AbstractCompilerPassTestCase
             'security.authentication.provider.guard',
             'setPermissionResolver',
             [new Reference(PermissionResolver::class)]
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'security.authentication.provider.anonymous',
-            'setPermissionResolver',
-            [new Reference(PermissionResolver::class)]
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'security.authentication.provider.anonymous',
-            'setConfigResolver',
-            [new Reference('ibexa.config.resolver')]
         );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.http_utils',

@@ -23481,11 +23481,6 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Compiler/RegisterStorageEnginePassTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\SecurityPassTest\\:\\:testAlteredDaoAuthenticationProvider\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Compiler/SecurityPassTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\SlugConverterConfigurationPassTest\\:\\:configurationProvider\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Compiler/SlugConverterConfigurationPassTest.php
