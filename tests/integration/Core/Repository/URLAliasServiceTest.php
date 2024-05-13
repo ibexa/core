@@ -1501,8 +1501,10 @@ class URLAliasServiceTest extends BaseTest
 
         // 2. Create child folder
         $child = $this->createFolder([$languageCode => 'b'], $folderLocationId);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $childLocation */
         $childLocation = $child->getVersionInfo()->getContentInfo()->getMainLocation();
+
+        self::assertInstanceOf(Location::class, $childLocation);
+
         $childLocationId = $childLocation->id;
 
         // 3. Create custom URL alias for child folder
@@ -1520,11 +1522,11 @@ class URLAliasServiceTest extends BaseTest
         $contentService->publishVersion($renamedFolder->getVersionInfo());
 
         // Loading aliases shouldn't throw a `BadStateException`
-        /** @var array<int, \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias>  $childLocationAliases */
         $childLocationAliases = $urlAliasService->listLocationAliases($childLocation);
+        $childLocationAliasesUnpacked = iterator_to_array($childLocationAliases);
 
-        self::assertCount(1, $childLocationAliases);
-        self::assertSame('/c/b', $childLocationAliases[0]->path);
+        self::assertCount(1, $childLocationAliasesUnpacked);
+        self::assertSame('/c/b', $childLocationAliasesUnpacked[0]->path);
 
         // Renamed content should have '/c2' path alias
         $lookupRenamed = $urlAliasService->lookup('c2');
