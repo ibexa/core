@@ -11971,11 +11971,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/Generator/UrlAliasGenerator.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\Generator\\\\UrlAliasGenerator\\:\\:getPathPrefixByRootLocationId\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Routing/Generator/UrlAliasGenerator.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\Generator\\\\UrlAliasGenerator\\:\\:loadLocation\\(\\) should return Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Routing/Generator/UrlAliasGenerator.php
