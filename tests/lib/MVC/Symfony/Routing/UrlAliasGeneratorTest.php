@@ -319,6 +319,84 @@ class UrlAliasGeneratorTest extends TestCase
         ];
     }
 
+    public function testDoGenerateWithSiteAccessLoadsLocationWithLanguages(): void
+    {
+        $siteSiteAccess = 'site';
+        $gerSiteAccess = 'ger';
+        $parameters = ['siteaccess' => $gerSiteAccess];
+
+        $saRootLocations = [
+            $siteSiteAccess => $siteSiteAccessLocationId = 2,
+            $gerSiteAccess => $gerSiteAccessLocationId = 71,
+        ];
+        $treeRootUrlAliases = [
+            $siteSiteAccessLocationId => new URLAlias(['path' => '/']),
+            $gerSiteAccessLocationId => new URLAlias(['path' => '/ger']),
+        ];
+
+        $this->configResolver
+            ->expects(self::any())
+            ->method('getParameter')
+            ->will(
+                self::returnValueMap(
+                    [
+                        ['languages', null, $siteSiteAccess, ['eng-GB']],
+                        ['languages', null, $gerSiteAccess, ['ger-DE']],
+                        [
+                            'content.tree_root.location_id',
+                            null,
+                            $siteSiteAccess,
+                            $saRootLocations[$siteSiteAccess],
+                        ],
+                        [
+                            'content.tree_root.location_id',
+                            null,
+                            $gerSiteAccess,
+                            $saRootLocations[$gerSiteAccess],
+                        ],
+                    ]
+                )
+            );
+
+        $location = new Location(['id' => $gerSiteAccessLocationId]);
+
+        $this->urlAliasService
+            ->expects(self::once())
+            ->method('listLocationAliases')
+            ->with($location, false, null, null, ['ger-DE'])
+            ->willReturn(
+                [
+                    new URLAlias(
+                        ['path' => $gerRootLocationAlias = '/ger-folder'],
+                    ),
+                ],
+            );
+
+        $this->locationService
+            ->expects(self::once())
+            ->method('loadLocation')
+            ->with($gerSiteAccessLocationId, ['ger-DE'])
+            ->willReturn($location);
+
+        $this->urlAliasService
+            ->expects(self::once())
+            ->method('reverseLookup')
+            ->with($location, null, false, ['ger-DE'])
+            ->willReturn($treeRootUrlAliases[$location->id]);
+
+        $this->urlAliasGenerator->setSiteAccess(
+            new SiteAccess(
+                $gerSiteAccess,
+                'default',
+            )
+        );
+
+        self::assertSame(
+            $gerRootLocationAlias,
+            $this->urlAliasGenerator->doGenerate($location, $parameters)
+        );
+    }
+
     public function testDoGenerateNoUrlAlias()
     {
         $location = new Location(['id' => 123, 'contentInfo' => new ContentInfo(['id' => 456])]);
