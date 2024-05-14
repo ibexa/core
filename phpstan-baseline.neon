@@ -231,6 +231,11 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
+			message: "#^Cannot access offset int on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
+
+		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\RegenerateUrlAliasesCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
@@ -327,6 +332,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ResizeOriginalImagesCommand\\:\\:initialize\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
+
+		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
@@ -3586,6 +3596,11 @@ parameters:
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
 
 		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/IORepositoryResolver.php
+
+		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\ImageAsset\\\\AliasGenerator\\:\\:getVariation\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/ImageAsset/AliasGenerator.php
@@ -3646,6 +3661,11 @@ parameters:
 			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
 
 		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
+
+		-
 			message: "#^Parameter \\#1 \\$width of class Imagine\\\\Image\\\\Box constructor expects int, int\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
@@ -3686,8 +3706,13 @@ parameters:
 			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
 
 		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
+
+		-
 			message: "#^Cannot access offset string on Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\PlaceholderProvider\\.$#"
-			count: 2
+			count: 3
 			path: src/bundle/Core/Imagine/PlaceholderProviderRegistry.php
 
 		-
@@ -14952,12 +14977,12 @@ parameters:
 
 		-
 			message: "#^Cannot access offset int\\|string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 1
+			count: 3
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
 			message: "#^Cannot access offset string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 2
+			count: 5
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
@@ -20196,6 +20221,11 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\>\\.$#"
+			count: 1
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
 			message: "#^Cannot call method error\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
@@ -23082,7 +23112,7 @@ parameters:
 
 		-
 			message: "#^Cannot access offset string on iterable\\<string, Ibexa\\\\Contracts\\\\Core\\\\Variation\\\\VariationHandler\\>\\.$#"
-			count: 2
+			count: 3
 			path: src/lib/Variation/VariationHandlerRegistry.php
 
 		-
@@ -27337,6 +27367,11 @@ parameters:
 
 		-
 			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -57983,6 +58018,11 @@ parameters:
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface\\:\\:expects\\(\\)\\.$#"
 			count: 3
+			path: tests/lib/Repository/Service/Mock/ContentTest.php
+
+		-
+			message: "#^Cannot access offset mixed on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\.$#"
+			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
