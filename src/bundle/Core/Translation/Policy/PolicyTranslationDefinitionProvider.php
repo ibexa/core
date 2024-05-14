@@ -21,6 +21,8 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
     public static function getTranslationMessages(): array
     {
         return [
+            (new Message('role.policy.all_modules_all_functions', self::TRANSLATION_DOMAIN))
+                ->setDesc('All modules / All functions'),
             (new Message('role.policy.content', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content'),
             (new Message('role.policy.content.all_functions', self::TRANSLATION_DOMAIN))
@@ -35,6 +37,8 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
                 ->setDesc('Content / Edit'),
             (new Message('role.policy.content.hide', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Hide'),
+            (new Message('role.policy.content.view_embed', self::TRANSLATION_DOMAIN))
+                ->setDesc('Content / View embed'),
             (new Message('role.policy.content.manage_locations', self::TRANSLATION_DOMAIN))
                 ->setDesc('Content / Manage locations'),
             (new Message('role.policy.content.pendinglist', self::TRANSLATION_DOMAIN))
@@ -120,6 +124,15 @@ final class PolicyTranslationDefinitionProvider implements TranslationContainerI
                 ->setDesc('Setup / Setup'),
             (new Message('role.policy.setup.system_info', self::TRANSLATION_DOMAIN))
                 ->setDesc('Setup / System info'),
+
+            (new Message('role.policy.url', self::TRANSLATION_DOMAIN))
+                ->setDesc('URL'),
+            (new Message('role.policy.url.all_functions', self::TRANSLATION_DOMAIN))
+                ->setDesc('URL / All functions'),
+            (new Message('role.policy.url.view', self::TRANSLATION_DOMAIN))
+                ->setDesc('URL / View'),
+            (new Message('role.policy.url.update', self::TRANSLATION_DOMAIN))
+                ->setDesc('URL / Update'),
 
             (new Message('role.policy.user', self::TRANSLATION_DOMAIN))
                 ->setDesc('User'),

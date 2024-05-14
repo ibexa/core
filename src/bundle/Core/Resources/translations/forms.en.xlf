@@ -6,6 +6,11 @@
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="d4690e1d0c7d2cf0468ab5aa04caa891e1b5efbd" resname="role.policy.all_modules_all_functions">
+        <source>All modules / All functions</source>
+        <target state="new">All modules / All functions</target>
+        <note>key: role.policy.all_modules_all_functions</note>
+      </trans-unit>
       <trans-unit id="f52e45b25ff70b3d1d07c57911ceda58dcdf7431" resname="role.policy.class">
         <source>Content type</source>
         <target>Content type</target>
@@ -130,6 +135,11 @@
         <source>Content / Version remove</source>
         <target>Content / Version remove</target>
         <note>key: role.policy.content.versionremove</note>
+      </trans-unit>
+      <trans-unit id="81703573067457c42db3d0c8cce70e1d1e0128a5" resname="role.policy.content.view_embed">
+        <source>Content / View embed</source>
+        <target state="new">Content / View embed</target>
+        <note>key: role.policy.content.view_embed</note>
       </trans-unit>
       <trans-unit id="6ff0bcc1b70d0dbde113af7649393f667612cace" resname="role.policy.role">
         <source>Role</source>
@@ -265,6 +275,26 @@
         <source>State / Assign</source>
         <target>State / Assign</target>
         <note>key: role.policy.state.assign</note>
+      </trans-unit>
+      <trans-unit id="73c3d3a21c7264a991abf4e6ffe68751a1dbdb58" resname="role.policy.url">
+        <source>URL</source>
+        <target state="new">URL</target>
+        <note>key: role.policy.url</note>
+      </trans-unit>
+      <trans-unit id="4b00222e7c5b268480fe9db2de1744d0f25b677f" resname="role.policy.url.all_functions">
+        <source>URL / All functions</source>
+        <target state="new">URL / All functions</target>
+        <note>key: role.policy.url.all_functions</note>
+      </trans-unit>
+      <trans-unit id="4bf7f289b67892bf61f10b4f9a1db7b6dc09e69a" resname="role.policy.url.update">
+        <source>URL / Update</source>
+        <target state="new">URL / Update</target>
+        <note>key: role.policy.url.update</note>
+      </trans-unit>
+      <trans-unit id="a9e0e8261157424542b507b9ae39b4e1193d24cd" resname="role.policy.url.view">
+        <source>URL / View</source>
+        <target state="new">URL / View</target>
+        <note>key: role.policy.url.view</note>
       </trans-unit>
       <trans-unit id="78b9d0d52e636ef2d0d1f919de16154404c2be0f" resname="role.policy.user">
         <source>User</source>
