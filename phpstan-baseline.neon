@@ -231,12 +231,22 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
+			message: "#^Cannot access offset int on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
+
+		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\RegenerateUrlAliasesCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\RegenerateUrlAliasesCommand\\:\\:loadSpecificLocations\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> but returns iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
+
+		-
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\RegenerateUrlAliasesCommand\\:\\:processLocations\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
@@ -322,6 +332,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ResizeOriginalImagesCommand\\:\\:initialize\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
+
+		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
@@ -3566,6 +3581,11 @@ parameters:
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
 
 		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/IORepositoryResolver.php
+
+		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\ImageAsset\\\\AliasGenerator\\:\\:getVariation\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/ImageAsset/AliasGenerator.php
@@ -3626,6 +3646,11 @@ parameters:
 			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
 
 		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
+
+		-
 			message: "#^Parameter \\#1 \\$width of class Imagine\\\\Image\\\\Box constructor expects int, int\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
@@ -3662,6 +3687,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\PlaceholderProvider\\\\RemoteProvider\\:\\:resolveOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
+
+		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
 
@@ -11931,6 +11961,11 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/Generator/RouteReferenceGeneratorInterface.php
 
 		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\>\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Routing/Generator/UrlAliasGenerator.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\Generator\\\\UrlAliasGenerator\\:\\:__construct\\(\\) has parameter \\$unsafeCharMap with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Routing/Generator/UrlAliasGenerator.php
@@ -11942,6 +11977,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\Generator\\\\UrlAliasGenerator\\:\\:doGenerate\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Routing/Generator/UrlAliasGenerator.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\Generator\\\\UrlAliasGenerator\\:\\:getPathPrefixByRootLocationId\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Routing/Generator/UrlAliasGenerator.php
 
@@ -16981,6 +17021,11 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Handler.php
 
 		-
+			message: "#^Cannot access offset int on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\>\\.$#"
+			count: 4
+			path: src/lib/Persistence/Legacy/Content/ObjectState/Mapper.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\ObjectState\\\\Mapper\\:\\:createObjectStateFromData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Mapper.php
@@ -19746,6 +19791,16 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
+			message: "#^Cannot access offset int on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentType\\>\\.$#"
+			count: 1
+			path: src/lib/Repository/ContentService.php
+
+		-
+			message: "#^Cannot access offset string on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\>\\.$#"
+			count: 1
+			path: src/lib/Repository/ContentService.php
+
+		-
 			message: "#^Cannot access property \\$defaultValue on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null\\.$#"
 			count: 2
 			path: src/lib/Repository/ContentService.php
@@ -20082,6 +20137,11 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$mainLanguageCode\\.$#"
+			count: 1
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\>\\.$#"
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
@@ -22969,6 +23029,16 @@ parameters:
 			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
 			count: 1
 			path: src/lib/Token/RandomBytesGenerator.php
+
+		-
+			message: "#^Cannot access offset string on iterable\\<string, Ibexa\\\\Contracts\\\\Core\\\\Variation\\\\VariationHandler\\>\\.$#"
+			count: 3
+			path: src/lib/Variation/VariationHandlerRegistry.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Variation\\\\VariationHandlerRegistry\\:\\:__construct\\(\\) has parameter \\$variationHandlers with no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: src/lib/Variation/VariationHandlerRegistry.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\CacheFactoryTest\\:\\:providerGetService\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -27151,6 +27221,66 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 5
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\.$#"
+			count: 12
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 11
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\.$#"
+			count: 4
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 3
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 2 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 3 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 4 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset 5 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 2
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
 			message: "#^Cannot access property \\$sortField on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|null\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
@@ -27932,6 +28062,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:testPublishVersionInTransactionWithRollback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:testPublishVersionNotCreatingUnlimitedArchives\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -33901,6 +34036,16 @@ parameters:
 			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
 
 		-
+			message: "#^Cannot access offset 'eng\\-NZ' on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LanguageServiceTest.php
+
+		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LanguageServiceTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\LanguageServiceTest\\:\\:loadLanguagesReturnsAnEmptyArrayByDefault\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LanguageServiceTest.php
@@ -34061,6 +34206,11 @@ parameters:
 			path: tests/integration/Core/Repository/Limitation/PermissionResolver/LocationLimitationIntegrationTest.php
 
 		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LocationServiceAuthorizationTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\LocationServiceAuthorizationTest\\:\\:testCopySubtreeThrowsUnauthorizedException\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceAuthorizationTest.php
@@ -34137,6 +34287,21 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: "#^Cannot access offset 5 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 2
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: "#^Cannot access offset int\\|false on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -34522,6 +34687,16 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\LocationServiceTest\\:\\:testUpdateLocationWithSameRemoteId\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_column expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LocationServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_column expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -35081,6 +35256,11 @@ parameters:
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-
+			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\>\\.$#"
+			count: 3
+			path: tests/integration/Core/Repository/PermissionResolverTest.php
+
+		-
 			message: "#^Cannot access property \\$text on Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\|null\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
@@ -35304,6 +35484,11 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Regression\\\\EZP21798Test\\:\\:testRoleChanges\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP21798Test.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 2
+			path: tests/integration/Core/Repository/Regression/EZP21906SearchOneContentMultipleLocationsTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Regression\\\\EZP21906SearchOneContentMultipleLocationsTest\\:\\:searchContentQueryProvider\\(\\) has no return type specified\\.$#"
@@ -35601,6 +35786,16 @@ parameters:
 			path: tests/integration/Core/Repository/RepositoryTest.php
 
 		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/RoleServiceAuthorizationTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserGroupRoleAssignment\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserRoleAssignment\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/RoleServiceAuthorizationTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\RoleServiceAuthorizationTest\\:\\:testAssignRoleToUserGroupThrowsUnauthorizedException\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/RoleServiceAuthorizationTest.php
@@ -35708,6 +35903,21 @@ parameters:
 		-
 			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserGroupRoleAssignment\\:\\:\\$id\\.$#"
 			count: 1
+			path: tests/integration/Core/Repository/RoleServiceTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\RoleAssignment\\>\\.$#"
+			count: 4
+			path: tests/integration/Core/Repository/RoleServiceTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserGroupRoleAssignment\\>\\.$#"
+			count: 4
+			path: tests/integration/Core/Repository/RoleServiceTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserGroupRoleAssignment\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserRoleAssignment\\>\\.$#"
+			count: 2
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
 		-
@@ -35877,6 +36087,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\RoleServiceTest\\:\\:testDeleteRoleDraft\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/RoleServiceTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\RoleServiceTest\\:\\:testGetRoleAssignments\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\RoleAssignment\\> but returns array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\RoleAssignment\\>\\|\\(ArrayAccess&iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\RoleAssignment\\>\\)\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
@@ -38161,6 +38376,11 @@ parameters:
 			path: tests/integration/Core/Repository/TokenServiceTest.php
 
 		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/TrashServiceAuthorizationTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\TrashServiceAuthorizationTest\\:\\:testDeleteTrashItemThrowsUnauthorizedException\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/TrashServiceAuthorizationTest.php
@@ -38391,6 +38611,11 @@ parameters:
 			path: tests/integration/Core/Repository/URLAliasService/CustomUrlAliasForMultilingualContentTest.php
 
 		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/URLAliasService/UrlAliasLookupTest.php
+
+		-
 			message: "#^Cannot access property \\$id on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|null\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/URLAliasService/UrlAliasLookupTest.php
@@ -38424,6 +38649,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$locationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:loadLocation\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/URLAliasServiceAuthorizationTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/URLAliasServiceTest.php
 
 		-
 			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
@@ -39144,6 +39374,11 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\UserServiceAuthorizationTest\\:\\:testUpdateUserThrowsUnauthorizedException\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/UserServiceAuthorizationTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User\\>\\.$#"
+			count: 2
+			path: tests/integration/Core/Repository/UserServiceTest.php
 
 		-
 			message: "#^Cannot call method add\\(\\) on DateTimeImmutable\\|false\\|null\\.$#"
@@ -46996,32 +47231,12 @@ parameters:
 			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
 
 		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getProviderKey\\(\\)\\.$#"
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getFirewallName\\(\\)\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getSecret\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticateUnsupportedToken\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticateWrongProviderKey\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticateWrongSecret\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
 
@@ -57191,6 +57406,16 @@ parameters:
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
 
 		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 1
+			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
+
+		-
+			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			count: 1
+			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
+
+		-
 			message: "#^Cannot access property \\$locations on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
 			count: 2
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
@@ -59249,6 +59474,11 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\SearchTest\\:\\:\\$repositoryMock has no type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/SearchTest.php
+
+		-
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\>\\.$#"
+			count: 3
+			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\UrlAliasTest\\:\\:getPartlyMockedURLAliasServiceService\\(\\) has parameter \\$prioritizedLanguages with no value type specified in iterable type array\\.$#"

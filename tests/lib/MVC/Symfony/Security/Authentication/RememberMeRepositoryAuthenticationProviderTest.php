@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Security\Authentication;
 
@@ -18,13 +19,12 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class RememberMeRepositoryAuthenticationProviderTest extends TestCase
+final class RememberMeRepositoryAuthenticationProviderTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Security\Authentication\RememberMeRepositoryAuthenticationProvider */
-    private $authProvider;
+    private RememberMeRepositoryAuthenticationProvider $authProvider;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $permissionResolver;
+    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver&\PHPUnit\Framework\MockObject\MockObject */
+    private PermissionResolver $permissionResolver;
 
     protected function setUp(): void
     {
@@ -39,7 +39,7 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
         $this->authProvider->setPermissionResolver($this->permissionResolver);
     }
 
-    public function testAuthenticateUnsupportedToken()
+    public function testAuthenticateUnsupportedToken(): void
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage('The token is not supported by this authentication provider.');
@@ -51,7 +51,7 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
         $this->authProvider->authenticate($anonymousToken);
     }
 
-    public function testAuthenticateWrongProviderKey()
+    public function testAuthenticateWrongProviderKey(): void
     {
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage('The token is not supported by this authentication provider.');
@@ -74,7 +74,7 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
         $this->authProvider->authenticate($rememberMeToken);
     }
 
-    public function testAuthenticateWrongSecret()
+    public function testAuthenticateWrongSecret(): void
     {
         $this->expectException(AuthenticationException::class);
 
@@ -100,7 +100,7 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
         $this->authProvider->authenticate($rememberMeToken);
     }
 
-    public function testAuthenticate()
+    public function testAuthenticate(): void
     {
         $apiUser = $this->createMock(ApiUser::class);
         $apiUser
@@ -112,9 +112,10 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
         $rememberMeToken = new RememberMeToken($tokenUser, 'my provider secret', 'my secret');
 
         $authenticatedToken = $this->authProvider->authenticate($rememberMeToken);
+
         self::assertEquals(
-            [$rememberMeToken->getProviderKey(), $rememberMeToken->getSecret(), $rememberMeToken->getUsername()],
-            [$authenticatedToken->getProviderKey(), $authenticatedToken->getSecret(), $authenticatedToken->getUsername()]
+            [$rememberMeToken->getFirewallName(), $rememberMeToken->getSecret()],
+            [$authenticatedToken->getFirewallName(), $authenticatedToken->getSecret()]
         );
     }
 }
