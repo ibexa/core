@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class SensitiveParameterValue not found\\.$#"
+			count: 1
+			path: tests/lib/Repository/User/PasswordHashServiceTest.php
