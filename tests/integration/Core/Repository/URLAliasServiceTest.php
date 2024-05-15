@@ -1064,7 +1064,7 @@ class URLAliasServiceTest extends BaseTest
 
         // 5. Navigate to "Article"
         $urlAliasService->lookup('/My-Folder/My-Article');
-        $aliases = $urlAliasService->listLocationAliases($articleLocation, false);
+        $aliases = iterator_to_array($urlAliasService->listLocationAliases($articleLocation, false));
 
         self::assertEquals('/My-Folder-Modified/My-Article', $aliases[0]->path);
     }

@@ -1589,7 +1589,7 @@ class UserServiceTest extends BaseTest
         $user = $this->createUserVersion1();
 
         // Load the newly created user
-        $usersReloaded = $userService->loadUsersByEmail('user@example.com', Language::ALL);
+        $usersReloaded = iterator_to_array($userService->loadUsersByEmail('user@example.com', Language::ALL));
 
         self::assertCount(1, $usersReloaded);
         $this->assertIsSameUser($user, $usersReloaded[0]);
@@ -1775,7 +1775,7 @@ class UserServiceTest extends BaseTest
         self::assertInstanceOf(User::class, $updatedUser);
 
         // Check that we can load user by email
-        $users = $userService->loadUsersByEmail('user2@example.com');
+        $users = iterator_to_array($userService->loadUsersByEmail('user2@example.com'));
         self::assertCount(1, $users);
         self::assertInstanceOf(User::class, $users[0]);
     }

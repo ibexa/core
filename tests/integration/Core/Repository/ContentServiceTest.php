@@ -665,7 +665,7 @@ class ContentServiceTest extends BaseContentServiceTest
     public function testLoadContentInfoList()
     {
         $mediaFolderId = $this->generateId('object', self::MEDIA_CONTENT_ID);
-        $list = $this->contentService->loadContentInfoList([$mediaFolderId]);
+        $list = iterator_to_array($this->contentService->loadContentInfoList([$mediaFolderId]));
 
         self::assertCount(1, $list);
         self::assertEquals([$mediaFolderId], array_keys($list), 'Array key was not content id');
@@ -867,7 +867,7 @@ class ContentServiceTest extends BaseContentServiceTest
      */
     public function testLoadVersionInfoByIdGetLanguages(VersionInfo $versionInfo): void
     {
-        $actualLanguages = $versionInfo->getLanguages();
+        $actualLanguages = iterator_to_array($versionInfo->getLanguages());
 
         $expectedLanguages = ['eng-US'];
         foreach ($expectedLanguages as $i => $expectedLanguage) {
@@ -2000,12 +2000,12 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @depends testPublishVersionFromContentDraft
      */
-    public function testPublishVersionNotCreatingUnlimitedArchives()
+    public function testPublishVersionNotCreatingUnlimitedArchives(): void
     {
         $content = $this->createContentVersion1();
 
         // load first to make sure list gets updated also (cache)
-        $versionInfoList = $this->contentService->loadVersions($content->contentInfo);
+        $versionInfoList = iterator_to_array($this->contentService->loadVersions($content->contentInfo));
         self::assertCount(1, $versionInfoList);
         self::assertEquals(1, $versionInfoList[0]->versionNo);
 
@@ -2033,7 +2033,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $draftedContentVersion = $this->contentService->createContentDraft($content->contentInfo);
         $this->contentService->publishVersion($draftedContentVersion->getVersionInfo());
 
-        $versionInfoList = $this->contentService->loadVersions($content->contentInfo);
+        $versionInfoList = iterator_to_array($this->contentService->loadVersions($content->contentInfo));
 
         self::assertCount(6, $versionInfoList);
         self::assertEquals(2, $versionInfoList[0]->versionNo);
@@ -2433,7 +2433,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->createContentDraft($demoDesignContentInfo);
 
         // Now $contentDrafts should contain two drafted versions
-        $draftedVersions = $this->contentService->loadContentDrafts();
+        $draftedVersions = iterator_to_array($this->contentService->loadContentDrafts());
 
         $actual = [
             $draftedVersions[0]->status,
@@ -2479,8 +2479,8 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->permissionResolver->setCurrentUserReference($oldCurrentUser);
 
         // Now $contentDrafts for the previous current user and the new user
-        $newCurrentUserDrafts = $this->contentService->loadContentDrafts($user);
-        $oldCurrentUserDrafts = $this->contentService->loadContentDrafts();
+        $newCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDrafts($user));
+        $oldCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDrafts());
 
         self::assertSame([], $oldCurrentUserDrafts);
 
@@ -3178,7 +3178,9 @@ class ContentServiceTest extends BaseContentServiceTest
         // Delete the previously created draft
         $this->contentService->deleteVersion($draft->getVersionInfo());
 
-        $versions = $this->contentService->loadVersions($content->getVersionInfo()->getContentInfo());
+        $versions = iterator_to_array(
+            $this->contentService->loadVersions($content->getVersionInfo()->getContentInfo())
+        );
 
         self::assertCount(1, $versions);
         self::assertEquals(
@@ -3659,7 +3661,7 @@ class ContentServiceTest extends BaseContentServiceTest
     {
         $draft = $this->createContentWithRelations();
 
-        $relations = $this->contentService->loadRelations($draft->getVersionInfo());
+        $relations = iterator_to_array($this->contentService->loadRelations($draft->getVersionInfo()));
 
         usort(
             $relations,
@@ -3732,7 +3734,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $trashService->trash($demoDesignLocation);
 
         // Load all relations
-        $relations = $this->contentService->loadRelations($draft->getVersionInfo());
+        $relations = iterator_to_array($this->contentService->loadRelations($draft->getVersionInfo()));
 
         self::assertCount(1, $relations);
         self::assertEquals(
@@ -3783,7 +3785,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $demoDesign
         );
 
-        $relations = $this->contentService->loadRelations($mediaDraft->getVersionInfo());
+        $relations = iterator_to_array($this->contentService->loadRelations($mediaDraft->getVersionInfo()));
 
         self::assertCount(1, $relations);
         self::assertEquals(
@@ -3970,7 +3972,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->publishVersion($demoDesignDraft->getVersionInfo());
 
         $relations = $this->contentService->loadRelations($versionInfo);
-        $reverseRelations = $this->contentService->loadReverseRelations($contentInfo);
+        $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($contentInfo));
 
         self::assertEquals($contentInfo->id, $relation1->getDestinationContentInfo()->id);
         self::assertEquals($mediaDraft->id, $relation1->getSourceContentInfo()->id);
@@ -4062,7 +4064,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         // Load all relations
         $relations = $this->contentService->loadRelations($versionInfo);
-        $reverseRelations = $this->contentService->loadReverseRelations($contentInfo);
+        $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($contentInfo));
 
         self::assertEquals($contentInfo->id, $relation1->getDestinationContentInfo()->id);
         self::assertEquals($mediaDraft->id, $relation1->getSourceContentInfo()->id);
@@ -4126,7 +4128,7 @@ class ContentServiceTest extends BaseContentServiceTest
         // will not be loaded as reverse relation for "Media" page
 
         $relations = $this->contentService->loadRelations($media->versionInfo);
-        $reverseRelations = $this->contentService->loadReverseRelations($media->contentInfo);
+        $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($media->contentInfo));
 
         self::assertEquals($media->contentInfo->id, $relation1->getDestinationContentInfo()->id);
         self::assertEquals($newDraftVersionInfo->contentInfo->id, $relation1->getSourceContentInfo()->id);
@@ -5998,7 +6000,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->updateFolder($content, [self::ENG_GB => 'Foo3']);
         $this->updateFolder($content, [self::ENG_GB => 'Foo4']);
 
-        $versions = $this->contentService->loadVersions($content->contentInfo);
+        $versions = iterator_to_array($this->contentService->loadVersions($content->contentInfo));
 
         foreach ($versions as $key => $version) {
             if ($version->isDraft()) {
@@ -6518,7 +6520,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $this->contentService->hideContent($publishedContent->contentInfo);
 
-        $locations = $this->locationService->loadLocations($publishedContent->contentInfo);
+        $locations = iterator_to_array($this->locationService->loadLocations($publishedContent->contentInfo));
 
         $childContentCreate = $this->contentService->newContentCreateStruct($contentType, self::ENG_US);
         $childContentCreate->setField('name', 'Child');
@@ -6534,7 +6536,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $publishedChildContent = $this->contentService->publishVersion($childContent->versionInfo);
 
-        $childLocations = $this->locationService->loadLocations($publishedChildContent->contentInfo);
+        $childLocations = iterator_to_array($this->locationService->loadLocations($publishedChildContent->contentInfo));
 
         self::assertTrue($locations[0]->hidden);
         self::assertTrue($locations[0]->invisible);

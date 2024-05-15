@@ -132,7 +132,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->method('setMapping')
             ->withConsecutive([1, 2], [3, 4]);
 
-        $actualLocations = $this->locationService->loadLocations($contentInfo);
+        $actualLocations = iterator_to_array($this->locationService->loadLocations($contentInfo));
 
         $location1 = $actualLocations[0];
         self::assertInstanceOf(Location::class, $location1);
