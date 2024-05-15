@@ -556,9 +556,11 @@ class ContentService implements ContentServiceInterface
             $contentIds,
             $translations
         );
-        $contentTypeList = $this->repository->getContentTypeService()->loadContentTypeList(
-            array_unique($contentTypeIds),
-            $languages
+        $contentTypeList = iterator_to_array(
+            $this->repository->getContentTypeService()->loadContentTypeList(
+                array_unique($contentTypeIds),
+                $languages
+            )
         );
         foreach ($spiContentList as $contentId => $spiContent) {
             $contentInfo = $spiContent->versionInfo->contentInfo;
@@ -1522,7 +1524,9 @@ class ContentService implements ContentServiceInterface
         }
 
         $mainLanguageCode = $publishedContent->getVersionInfo()->getContentInfo()->getMainLanguageCode();
-        $publishedContentFieldsInMainLanguage = $publishedContent->getFieldsByLanguage($mainLanguageCode);
+        $publishedContentFieldsInMainLanguage = iterator_to_array(
+            $publishedContent->getFieldsByLanguage($mainLanguageCode)
+        );
 
         $fieldValues = [];
         $persistenceFields = [];

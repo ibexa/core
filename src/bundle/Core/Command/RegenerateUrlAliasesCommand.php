@@ -185,7 +185,7 @@ EOT
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations
      * @param \Symfony\Component\Console\Helper\ProgressBar $progressBar
      */
-    private function processLocations(array $locations, ProgressBar $progressBar)
+    private function processLocations(array $locations, ProgressBar $progressBar): void
     {
         $contentList = $this->repository->sudo(
             static function (Repository $repository) use ($locations) {
@@ -204,6 +204,7 @@ EOT
                 );
             }
         );
+        $contentList = iterator_to_array($contentList);
         foreach ($locations as $location) {
             try {
                 // ignore missing Content items
