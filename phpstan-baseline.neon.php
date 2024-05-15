@@ -10,7 +10,15 @@ $includes = [];
 if (PHP_VERSION_ID < 80000) {
     $includes[] = __DIR__ . '/phpstan-baseline-7.4.neon';
 } else {
-    $includes[] = __DIR__ . '/phpstan-baseline-8.0.neon';
+    $includes[] = __DIR__ . '/phpstan-baseline-gte-8.0.neon';
+}
+
+if (PHP_VERSION_ID < 80200) {
+    $includes[] = __DIR__ . '/phpstan-baseline-lte-8.1.neon';
+}
+
+if (PHP_VERSION_ID < 80300) {
+    $includes[] = __DIR__ . '/phpstan-baseline-lte-8.2.neon';
 }
 
 $config = [];
