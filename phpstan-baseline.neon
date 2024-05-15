@@ -231,6 +231,11 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
+			message: "#^Cannot access offset int on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
+
+		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\RegenerateUrlAliasesCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
@@ -3687,7 +3692,7 @@ parameters:
 
 		-
 			message: "#^Cannot access offset string on Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\PlaceholderProvider\\.$#"
-			count: 2
+			count: 3
 			path: src/bundle/Core/Imagine/PlaceholderProviderRegistry.php
 
 		-
@@ -14942,12 +14947,12 @@ parameters:
 
 		-
 			message: "#^Cannot access offset int\\|string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 1
+			count: 3
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
 			message: "#^Cannot access offset string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 2
+			count: 5
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
@@ -20186,6 +20191,11 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\>\\.$#"
+			count: 1
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
 			message: "#^Cannot call method error\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
@@ -23072,7 +23082,7 @@ parameters:
 
 		-
 			message: "#^Cannot access offset string on iterable\\<string, Ibexa\\\\Contracts\\\\Core\\\\Variation\\\\VariationHandler\\>\\.$#"
-			count: 2
+			count: 3
 			path: src/lib/Variation/VariationHandlerRegistry.php
 
 		-
@@ -27317,6 +27327,11 @@ parameters:
 
 		-
 			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Cannot access offset mixed on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -57928,6 +57943,11 @@ parameters:
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface\\:\\:expects\\(\\)\\.$#"
 			count: 3
+			path: tests/lib/Repository/Service/Mock/ContentTest.php
+
+		-
+			message: "#^Cannot access offset mixed on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\.$#"
+			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-

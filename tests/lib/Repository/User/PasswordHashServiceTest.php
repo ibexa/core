@@ -66,7 +66,6 @@ final class PasswordHashServiceTest extends TestCase
             self::assertEquals('createPasswordHash', $stackTrace[0]['function']);
             self::assertArrayHasKey('args', $stackTrace[0]);
 
-            // SensitiveParameter was introduced in PHP 8.2, in older versions it is ignored
             self::assertInstanceOf(\SensitiveParameterValue::class, $stackTrace[0]['args'][0]);
         }
 
