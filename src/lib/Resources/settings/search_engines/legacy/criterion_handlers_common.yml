@@ -144,6 +144,12 @@ services:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
 
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsContainer:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
