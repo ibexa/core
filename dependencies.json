@@ -3,12 +3,6 @@
     "packages": [
         {
             "requirement": "dev-ibx-8140-enable-authorization-with-new-authenticator-mechanisms as 5.0.x-dev",
-            "repositoryUrl": "https://github.com/ibexa/core",
-            "package": "ibexa/core",
-            "shouldBeAddedAsVCS": false
-        },
-        {
-            "requirement": "dev-ibx-8140-enable-authorization-with-new-authenticator-mechanisms as 5.0.x-dev",
             "repositoryUrl": "https://github.com/ibexa/rest",
             "package": "ibexa/rest",
             "shouldBeAddedAsVCS": false
