@@ -1,3 +1,4 @@
+@javascript
 Feature: Preview of content drafts
 
     As a content editor
