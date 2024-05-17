@@ -79,7 +79,7 @@ abstract class Content extends ValueObject
      *
      * @param string|null $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[] An array of {@link Field} with field identifier as keys
+     * @return iterable<string, \Ibexa\Contracts\Core\Repository\Values\Content\Field> An array of {@link Field} with field identifier as keys
      */
     abstract public function getFieldsByLanguage(?string $languageCode = null): iterable;
 

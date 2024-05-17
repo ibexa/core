@@ -182,7 +182,7 @@ class LanguageServiceTest extends BaseTest
             $language
         );
 
-        $languages = $languageService->loadLanguageListById([$languageId]);
+        $languages = iterator_to_array($languageService->loadLanguageListById([$languageId]));
 
         self::assertIsIterable($languages);
         self::assertCount(1, $languages);
@@ -377,7 +377,7 @@ class LanguageServiceTest extends BaseTest
             $language
         );
 
-        $languages = $languageService->loadLanguageListByCode(['eng-NZ']);
+        $languages = iterator_to_array($languageService->loadLanguageListByCode(['eng-NZ']));
 
         self::assertIsIterable($languages);
         self::assertCount(1, $languages);

@@ -108,7 +108,7 @@ interface LanguageService
      *
      * @param int[] $languageIds
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language[] list of Languages with id as keys
+     * @return iterable<int, \Ibexa\Contracts\Core\Repository\Values\Content\Language> list of Languages with id as keys
      */
     public function loadLanguageListById(array $languageIds): iterable;
 

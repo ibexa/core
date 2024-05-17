@@ -225,7 +225,7 @@ class LocationServiceAuthorizationTest extends BaseTest
         $editorGroupContentInfo = $repository->getContentService()->loadContentInfo($editorsGroupId);
 
         // this should return one location for admin
-        $locations = $locationService->loadLocations($editorGroupContentInfo);
+        $locations = iterator_to_array($locationService->loadLocations($editorGroupContentInfo));
         self::assertCount(1, $locations);
         self::assertInstanceOf(Location::class, $locations[0]);
 

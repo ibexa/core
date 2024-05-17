@@ -10,20 +10,18 @@ namespace Ibexa\Core\Variation;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
-use Traversable;
 
 final class VariationHandlerRegistry
 {
-    /** @var iterable<string, \Ibexa\Contracts\Core\Variation\VariationHandler> */
-    private iterable $variationHandlers;
+    /** @var array<string, \Ibexa\Contracts\Core\Variation\VariationHandler> */
+    private array $variationHandlers;
 
+    /**
+     * @param iterable<string, \Ibexa\Contracts\Core\Variation\VariationHandler> $variationHandlers
+     */
     public function __construct(iterable $variationHandlers)
     {
-        $handlers = $variationHandlers instanceof Traversable
-            ? iterator_to_array($variationHandlers)
-            : $variationHandlers;
-
-        foreach ($handlers as $identifier => $handler) {
+        foreach ($variationHandlers as $identifier => $handler) {
             $this->setVariationHandler($identifier, $handler);
         }
     }

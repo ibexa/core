@@ -356,18 +356,8 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function array_values expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
 			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function usort expects TArray of array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
-			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
@@ -404,16 +394,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\> given\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/LanguageServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
-			count: 3
-			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
 			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\> given\\.$#"

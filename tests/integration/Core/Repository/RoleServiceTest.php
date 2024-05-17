@@ -1799,7 +1799,7 @@ class RoleServiceTest extends BaseTest
         $role = $roleService->loadRole($roleDraft->id);
         $roleService->assignRoleToUserGroup($role, $userGroup);
 
-        $roleAssignmentsBeforeNewPolicy = $roleService->getRoleAssignments($role)[0];
+        $roleAssignmentsBeforeNewPolicy = [...$roleService->getRoleAssignments($role)][0];
 
         /* Add new policy to existing role */
         $roleUpdateDraft = $roleService->createRoleDraft($role);
@@ -1810,10 +1810,10 @@ class RoleServiceTest extends BaseTest
         $roleService->publishRoleDraft($roleUpdateDraft);
 
         $roleAfterUpdate = $roleService->loadRole($role->id);
-        $roleAssignmentsAfterNewPolicy = $roleService->getRoleAssignments($roleAfterUpdate)[0];
+        $roleAssignmentsAfterNewPolicy = [...$roleService->getRoleAssignments($roleAfterUpdate)][0];
         /* END: Use Case */
 
-        self::assertNotEquals($roleAssignmentsBeforeNewPolicy->id, $roleAssignmentsAfterNewPolicy->id);
+        self::assertNotEquals($roleAssignmentsBeforeNewPolicy->getId(), $roleAssignmentsAfterNewPolicy->getId());
     }
 
     /**
@@ -1840,9 +1840,9 @@ class RoleServiceTest extends BaseTest
         // Assignment to user
         $role = $roleService->loadRole(2);
         $roleService->assignRoleToUser($role, $user);
-        $userRoleAssignments = $roleService->getRoleAssignmentsForUser($user);
+        $userRoleAssignments = iterator_to_array($roleService->getRoleAssignmentsForUser($user));
 
-        $userRoleAssignment = $roleService->loadRoleAssignment($userRoleAssignments[0]->id);
+        $userRoleAssignment = $roleService->loadRoleAssignment($userRoleAssignments[0]->getId());
         /* END: Use Case */
 
         self::assertInstanceOf(UserGroupRoleAssignment::class, $groupRoleAssignment);
@@ -1886,7 +1886,7 @@ class RoleServiceTest extends BaseTest
         $role = $roleService->loadRoleByIdentifier('Editor');
 
         // Load all assigned users and user groups
-        $roleAssignments = $roleService->getRoleAssignments($role);
+        $roleAssignments = iterator_to_array($roleService->getRoleAssignments($role));
 
         /* END: Use Case */
 
@@ -1937,7 +1937,7 @@ class RoleServiceTest extends BaseTest
 
         $loadedRole = $roleService->loadRole($role->id);
 
-        $roleAssignments = $roleService->loadRoleAssignments($loadedRole, 0, 1);
+        $roleAssignments = iterator_to_array($roleService->loadRoleAssignments($loadedRole, 0, 1));
 
         self::assertCount(1, $roleAssignments);
         self::assertInstanceOf(UserRoleAssignment::class, $roleAssignments[0]);
@@ -2800,7 +2800,7 @@ class RoleServiceTest extends BaseTest
         $newAssignmentCount = count($roleService->getRoleAssignmentsForUser($user));
         self::assertEquals($originalAssignmentCount + 1, $newAssignmentCount);
 
-        $assignments = $roleService->getRoleAssignmentsForUser($user);
+        $assignments = iterator_to_array($roleService->getRoleAssignmentsForUser($user));
         $roleService->removeRoleAssignment($assignments[0]);
         $finalAssignmentCount = count($roleService->getRoleAssignmentsForUser($user));
         self::assertEquals($newAssignmentCount - 1, $finalAssignmentCount);
@@ -2822,7 +2822,7 @@ class RoleServiceTest extends BaseTest
 
         try {
             $adminUserGroup = $repository->getUserService()->loadUserGroup(12);
-            $assignments = $roleService->getRoleAssignmentsForUserGroup($adminUserGroup);
+            $assignments = iterator_to_array($roleService->getRoleAssignmentsForUserGroup($adminUserGroup));
             $roleService->removeRoleAssignment($assignments[0]);
         } catch (Exception $e) {
             self::fail(
@@ -2847,7 +2847,7 @@ class RoleServiceTest extends BaseTest
 
         try {
             $editorsUserGroup = $repository->getUserService()->loadUserGroup(13);
-            $assignments = $roleService->getRoleAssignmentsForUserGroup($editorsUserGroup);
+            $assignments = iterator_to_array($roleService->getRoleAssignmentsForUserGroup($editorsUserGroup));
             $roleService->removeRoleAssignment($assignments[0]);
         } catch (Exception $e) {
             self::fail(

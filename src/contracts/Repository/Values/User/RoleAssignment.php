@@ -24,7 +24,12 @@ abstract class RoleAssignment extends ValueObject
      *
      * @var int
      */
-    protected $id;
+    protected int $id;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     /**
      * Returns the limitation of the role assignment.
