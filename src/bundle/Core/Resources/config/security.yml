@@ -44,6 +44,6 @@ services:
     ibexa.security.user_provider.username: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
     ibexa.security.user_provider.email: '@Ibexa\Core\MVC\Symfony\Security\User\EmailProvider'
 
-    Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\AccessDeniedListener:
+    Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\AccessDeniedSubscriber:
         autowire: true
         autoconfigure: true
