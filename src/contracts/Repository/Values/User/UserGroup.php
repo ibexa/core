@@ -12,8 +12,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 /**
  * This class represents a user group.
- *
- * @property-read mixed $parentId
  */
 abstract class UserGroup extends Content
 {

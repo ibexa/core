@@ -15,11 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class represents a object state value.
  *
- * @property-read mixed $id the id of the content type group
- * @property-read string $identifier the identifier of the content type group
- * @property-read int $priority the priority in the group ordering
  * @property-read string $mainLanguageCode the default language of the object state names and descriptions used for fallback.
- * @property-read string[] $languageCodes the available languages
  */
 abstract class ObjectState extends ValueObject implements MultiLanguageName, MultiLanguageDescription
 {

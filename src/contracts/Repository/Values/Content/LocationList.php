@@ -17,10 +17,6 @@ use Traversable;
 /**
  * This class represents a queried location list holding a totalCount and a partial list of locations
  * (by offset/limit parameters and permission filters).
- *
- * @property-read int $totalCount - the total count of found locations (filtered by permissions)
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations - the partial list of
- *                Locations controlled by offset/limit.
  **/
 class LocationList extends ValueObject implements IteratorAggregate, TotalCountAwareInterface
 {
