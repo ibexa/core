@@ -13,6 +13,14 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
  * Version Limitation target. Indicates an intent to create new Version.
+ *
+ * @phpstan-property-read string[] $allLanguageCodesList
+ * @phpstan-property-read int[] $allContentTypeIdsList
+ * @phpstan-property-read int $newStatus
+ * @phpstan-property-read string $forUpdateInitialLanguageCode
+ * @phpstan-property-read string[] $forUpdateLanguageCodesList
+ * @phpstan-property-read string[] $forPublishLanguageCodesList
+ * @phpstan-property-read \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $updatedFields
  */
 final class Version extends ValueObject implements Target
 {
