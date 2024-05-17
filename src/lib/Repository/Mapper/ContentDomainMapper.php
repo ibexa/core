@@ -624,7 +624,9 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         }
 
         $missingContentList = [];
-        $contentList = $this->contentHandler->loadContentList($contentIds, array_unique($translations));
+        $contentList = iterator_to_array(
+            $this->contentHandler->loadContentList($contentIds, array_unique($translations))
+        );
         $contentTypeList = $this->contentTypeHandler->loadContentTypeList(array_unique($contentTypeIds));
         foreach ($result->searchHits as $key => $hit) {
             if (isset($contentList[$hit->valueObject->id])) {

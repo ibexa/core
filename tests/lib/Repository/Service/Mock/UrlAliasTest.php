@@ -753,7 +753,7 @@ class UrlAliasTest extends BaseServiceMockTest
             ->willReturn([$spiUrlAlias]);
 
         $location = $this->getLocationStub();
-        $urlAliases = $urlAliasService->listLocationAliases($location, false, null);
+        $urlAliases = iterator_to_array($urlAliasService->listLocationAliases($location, false));
 
         self::assertCount(1, $urlAliases);
         self::assertInstanceOf(URLAlias::class, $urlAliases[0]);
@@ -809,12 +809,14 @@ class UrlAliasTest extends BaseServiceMockTest
             ->willReturn([$spiUrlAlias]);
 
         $location = $this->getLocationStub();
-        $urlAliases = $urlAliasService->listLocationAliases(
-            $location,
-            false,
-            null,
-            true,
-            ['fre-FR']
+        $urlAliases = iterator_to_array(
+            $urlAliasService->listLocationAliases(
+                $location,
+                false,
+                null,
+                true,
+                ['fre-FR']
+            )
         );
 
         self::assertCount(1, $urlAliases);
@@ -2417,7 +2419,7 @@ class UrlAliasTest extends BaseServiceMockTest
                 ]
         );
 
-        $urlAliases = $urlAliasService->listGlobalAliases();
+        $urlAliases = iterator_to_array($urlAliasService->listGlobalAliases());
 
         self::assertCount(1, $urlAliases);
         self::assertInstanceOf(URLAlias::class, $urlAliases[0]);

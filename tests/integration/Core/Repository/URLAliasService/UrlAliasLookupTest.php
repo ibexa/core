@@ -28,7 +28,7 @@ final class UrlAliasLookupTest extends RepositoryTestCase
             $folderMainLocation->id,
             $urlAlias->destination
         );
-        $systemUrlAliasList = $urlAliasService->listLocationAliases($folderMainLocation, false);
+        $systemUrlAliasList = iterator_to_array($urlAliasService->listLocationAliases($folderMainLocation, false));
         self::assertCount(1, $systemUrlAliasList);
         self::assertEquals($urlAlias, $systemUrlAliasList[0]);
     }

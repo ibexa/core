@@ -187,12 +187,14 @@ class UrlAliasGenerator extends Generator
         if ($siteAccess) {
             // We generate for a different SiteAccess, so potentially in a different language.
             $languages = $this->configResolver->getParameter('languages', null, $siteAccess);
-            $urlAliases = $urlAliasService->listLocationAliases($location, false, null, null, $languages);
+            $urlAliases = iterator_to_array(
+                $urlAliasService->listLocationAliases($location, false, null, null, $languages)
+            );
             // Use the target SiteAccess root location
             $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id', null, $siteAccess);
         } else {
             $languages = null;
-            $urlAliases = $urlAliasService->listLocationAliases($location, false);
+            $urlAliases = iterator_to_array($urlAliasService->listLocationAliases($location, false));
             $rootLocationId = $this->rootLocationId;
         }
 

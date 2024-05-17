@@ -49,7 +49,7 @@ class Mapper
         foreach ($data as $stateTranslation) {
             $languageIds[] = (int)$stateTranslation['ezcobj_state_language_language_id'] & ~1;
         }
-        $languages = $this->languageHandler->loadList($languageIds);
+        $languages = iterator_to_array($this->languageHandler->loadList($languageIds));
 
         $objectState->id = (int)$data[0]['ezcobj_state_id'];
         $objectState->groupId = (int)$data[0]['ezcobj_state_group_id'];
@@ -104,7 +104,7 @@ class Mapper
         foreach ($data as $groupTranslation) {
             $languageIds[] = (int)$groupTranslation['ezcobj_state_group_language_real_language_id'];
         }
-        $languages = $this->languageHandler->loadList($languageIds);
+        $languages = iterator_to_array($this->languageHandler->loadList($languageIds));
 
         $objectStateGroup->id = (int)$data[0]['ezcobj_state_group_id'];
         $objectStateGroup->identifier = $data[0]['ezcobj_state_group_identifier'];

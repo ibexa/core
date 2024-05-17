@@ -38,7 +38,7 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTest
             [$locationService->newLocationCreateStruct(2)]
         );
         $folder1 = $contentService->publishVersion($draft1->versionInfo);
-        $locationsFolder1 = $locationService->loadLocations($folder1->contentInfo);
+        $locationsFolder1 = iterator_to_array($locationService->loadLocations($folder1->contentInfo));
 
         $contentCreateStruct2 = $contentService->newContentCreateStruct(
             $contentTypeService->loadContentTypeByIdentifier('folder'),
@@ -50,7 +50,7 @@ class EZP21906SearchOneContentMultipleLocationsTest extends BaseTest
             [$locationService->newLocationCreateStruct(2)]
         );
         $folder2 = $contentService->publishVersion($draft2->versionInfo);
-        $locationsFolder2 = $locationService->loadLocations($folder2->contentInfo);
+        $locationsFolder2 = iterator_to_array($locationService->loadLocations($folder2->contentInfo));
 
         $feedbackFormContentInfo = $contentService->loadContentInfo(58);
         $locationCreateStruct1 = $locationService->newLocationCreateStruct($locationsFolder1[0]->id);

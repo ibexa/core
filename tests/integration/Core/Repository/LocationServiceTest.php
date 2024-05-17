@@ -686,7 +686,7 @@ class LocationServiceTest extends BaseTest
 
         // 5 is the ID of an existing location, 442 is a non-existing id
         $locationService = $repository->getLocationService();
-        $locations = $locationService->loadLocationList([5, 442]);
+        $locations = iterator_to_array($locationService->loadLocationList([5, 442]));
 
         self::assertIsIterable($locations);
         self::assertCount(1, $locations);
@@ -731,7 +731,7 @@ class LocationServiceTest extends BaseTest
 
         // 5 is the ID of an existing location, 442 is a non-existing id
         $locationService = $repository->getLocationService();
-        $locations = $locationService->loadLocationList([5, 442], ['pol-PL'], true);
+        $locations = iterator_to_array($locationService->loadLocationList([5, 442], ['pol-PL'], true));
 
         self::assertIsIterable($locations);
         self::assertCount(1, $locations);
@@ -751,7 +751,7 @@ class LocationServiceTest extends BaseTest
 
         // 1 is the ID of an root location
         $locationService = $repository->getLocationService();
-        $locations = $locationService->loadLocationList([1]);
+        $locations = iterator_to_array($locationService->loadLocationList([1]));
 
         self::assertIsIterable($locations);
         self::assertCount(1, $locations);
@@ -778,7 +778,7 @@ class LocationServiceTest extends BaseTest
         // Call loadLocation to cache it in memory as it might possibly affect list order
         $locationService->loadLocation($cachedLocationId);
 
-        $locations = $locationService->loadLocationList($locationIdsToLoad);
+        $locations = iterator_to_array($locationService->loadLocationList($locationIdsToLoad));
         $locationIds = array_column($locations, 'id');
 
         self::assertEquals($locationIdsToLoad, $locationIds);
@@ -1723,15 +1723,15 @@ class LocationServiceTest extends BaseTest
         $urlAlias = $urlAliasService->createUrlAlias($location1, '/custom-location1', 'eng-GB', false, true);
         $urlAliasService->createUrlAlias($location1, '/custom-location1', 'pol-PL', false, true);
         $urlAliasService->createUrlAlias($location2, '/custom-location2', 'eng-GB', false, true);
-        $location1UrlAliases = $urlAliasService->listLocationAliases($location1);
-        $location2UrlAliases = $urlAliasService->listLocationAliases($location2);
+        $location1UrlAliases = iterator_to_array($urlAliasService->listLocationAliases($location1));
+        $location2UrlAliases = iterator_to_array($urlAliasService->listLocationAliases($location2));
 
         $locationService->swapLocation($location1, $location2);
         $location1 = $locationService->loadLocation($location1->contentInfo->mainLocationId);
         $location2 = $locationService->loadLocation($location2->contentInfo->mainLocationId);
 
-        $location1UrlAliasesAfterSwap = $urlAliasService->listLocationAliases($location1);
-        $location2UrlAliasesAfterSwap = $urlAliasService->listLocationAliases($location2);
+        $location1UrlAliasesAfterSwap = iterator_to_array($urlAliasService->listLocationAliases($location1));
+        $location2UrlAliasesAfterSwap = iterator_to_array($urlAliasService->listLocationAliases($location2));
 
         $keyUrlAlias = array_search($urlAlias->id, array_column($location1UrlAliasesAfterSwap, 'id'));
 
@@ -3745,8 +3745,7 @@ class LocationServiceTest extends BaseTest
         Location $location,
         URLAliasServiceInterface $urlAliasService
     ): void {
-        $articleAliasesBeforeDelete = $urlAliasService
-            ->listLocationAliases($location);
+        $articleAliasesBeforeDelete = iterator_to_array($urlAliasService->listLocationAliases($location));
 
         self::assertNotEmpty(
             array_filter(

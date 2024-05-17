@@ -9,6 +9,8 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
+use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
 
 /**
  * Test case for operations in the RoleService using in memory storage.
@@ -279,7 +281,9 @@ class RoleServiceAuthorizationTest extends BaseTest
         $permissionResolver->setCurrentUserReference($user);
 
         // This call will fail with an "UnauthorizedException"
-        $roleService->removePolicyByRoleDraft($roleDraft, $roleDraft->getPolicies()[0]);
+        $policyDraft = [...$roleDraft->getPolicies()][0];
+        self::assertInstanceOf(PolicyDraft::class, $policyDraft);
+        $roleService->removePolicyByRoleDraft($roleDraft, $policyDraft);
         /* END: Use Case */
     }
 
@@ -613,11 +617,12 @@ class RoleServiceAuthorizationTest extends BaseTest
         $repository->getPermissionResolver()->setCurrentUserReference($user);
         /* END: Use Case */
 
-        $roleAssignments = $roleService->getRoleAssignmentsForUser($user);
+        $roleAssignments = iterator_to_array($roleService->getRoleAssignmentsForUser($user));
         self::assertCount(1, $roleAssignments);
 
         $roleAssignment = $roleAssignments[0];
-        self::assertSame($user, $roleAssignment->user);
+        self::assertInstanceOf(UserRoleAssignment::class, $roleAssignment);
+        self::assertSame($user, $roleAssignment->getUser());
     }
 
     /**

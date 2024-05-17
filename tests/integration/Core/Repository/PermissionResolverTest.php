@@ -1029,7 +1029,7 @@ class PermissionResolverTest extends BaseTest
             [],
             [
                 new LookupPolicyLimitations(
-                    $role->getPolicies()[1],
+                    [...$role->getPolicies()][1],
                     [
                         new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']]),
                         new Limitation\SectionLimitation(['limitationValues' => [2]]),
@@ -1091,7 +1091,7 @@ class PermissionResolverTest extends BaseTest
             [],
             [
                 new LookupPolicyLimitations(
-                    $role->getPolicies()[1],
+                    [...$role->getPolicies()][1],
                     [
                         1 => new Limitation\SectionLimitation(['limitationValues' => [2]]),
                     ]
@@ -1147,7 +1147,7 @@ class PermissionResolverTest extends BaseTest
             [$roleLimitation],
             [
                 new LookupPolicyLimitations(
-                    $role->getPolicies()[1],
+                    [...$role->getPolicies()][1],
                     [new Limitation\LanguageLimitation(['limitationValues' => ['eng-US']])]
                 ),
             ]
