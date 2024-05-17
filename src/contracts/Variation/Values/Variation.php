@@ -10,6 +10,13 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * Base class for file variations (i.e. image aliases).
+ *
+ * @phpstan-property-read int $fileSize Number of bytes for current variation
+ * @phpstan-property-read string $mimeType The MIME type (for example "image/png")
+ * @phpstan-property-read string $fileName The name of the file (for example "my_image.png")
+ * @phpstan-property-read string $dirPath The path to the file (for example "var/storage/images/test/199-2-eng-GB")
+ * @phpstan-property-read string $uri Complete path + name of image file (for example "var/storage/images/test/199-2-eng-GB/apple.png")
+ * @phpstan-property-read \DateTime $lastModified When the variation was last modified
  */
 class Variation extends ValueObject
 {

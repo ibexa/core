@@ -12,6 +12,11 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class represents a language in the repository.
+ *
+ * @phpstan-property-read mixed $id the language id
+ * @phpstan-property-read string $languageCode the language code in
+ * @phpstan-property-read string $name human readable name of the language
+ * @phpstan-property-read bool $enabled indicates if the language is enabled or not.
  */
 class Language extends ValueObject
 {

@@ -17,7 +17,18 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
  * @property-read int $contentId calls getContentInfo()->id
+ * @phpstan-property-read int $id the id of the location
+ * @phpstan-property-read int $priority Position of the Location among its siblings when sorted using priority
+ * @phpstan-property-read bool $hidden Indicates that the Location entity is hidden (explicitly or hidden by content).
+ * @phpstan-property-read bool $invisible Indicates that the Location is not visible, being either marked as hidden itself, or implicitly hidden by its Content or an ancestor Location
+ * @phpstan-property-read bool $explicitlyHidden Indicates that the Location entity has been explicitly marked as hidden.
+ * @phpstan-property-read string $remoteId a global unique id of the content object
+ * @phpstan-property-read int $parentLocationId the id of the parent location
+ * @phpstan-property-read string $pathString @deprecated use {@see Location::getPathString()} instead.
  * @property-read array $path Same as $pathString but as array, e.g. [ 1, 2, 4, 23 ]
+ * @phpstan-property-read int $depth Depth location has in the location tree
+ * @phpstan-property-read int $sortField Specifies which property the child locations should be sorted on. Valid values are found at {@link Location::SORT_FIELD_*}
+ * @phpstan-property-read int $sortOrder Specifies whether the sort order should be ascending or descending. Valid values are {@link Location::SORT_ORDER_*}
  */
 abstract class Location extends ValueObject
 {

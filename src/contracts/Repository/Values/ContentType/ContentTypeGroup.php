@@ -14,6 +14,13 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class represents a content type group value.
+ *
+ * @phpstan-property-read mixed $id the id of the content type group
+ * @phpstan-property-read string $identifier the identifier of the content type group
+ * @phpstan-property-read \DateTime $creationDate the date of the creation of this content type group
+ * @phpstan-property-read \DateTime $modificationDate the date of the last modification of this content type group
+ * @phpstan-property-read mixed $creatorId the user id of the creator of this content type group
+ * @phpstan-property-read mixed $modifierId the user id of the user which has last modified this content type group
  */
 abstract class ContentTypeGroup extends ValueObject implements MultiLanguageName, MultiLanguageDescription
 {

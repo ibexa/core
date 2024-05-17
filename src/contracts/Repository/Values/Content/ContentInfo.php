@@ -14,6 +14,22 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class provides all version independent information of the Content object.
+ *
+ * @phpstan-property-read int $id @deprecated Use {@see ContentInfo::getId} instead. The unique id of the Content object
+ * @phpstan-property-read int $contentTypeId The unique id of the content type item the Content object is an instance of
+ * @phpstan-property-read string $name the computed name (via name schema) in the main language of the Content object
+ * @phpstan-property-read int $sectionId @deprecated 4.6.2 Use {@see ContentInfo::getSectionId} instead. The section to which the Content object is assigned
+ * @phpstan-property-read int $currentVersionNo Current Version number is the version number of the published version or the version number of a newly created draft (which is 1).
+ * @phpstan-property-read bool $published true if there exists a published version false otherwise
+ * @phpstan-property-read int $ownerId the user id of the owner of the Content object
+ * @phpstan-property-read \DateTime $modificationDate Content object modification date
+ * @phpstan-property-read \DateTime $publishedDate date of the first publish
+ * @phpstan-property-read bool $alwaysAvailable Indicates if the Content object is shown in the mainlanguage if its not present in an other requested language
+ * @phpstan-property-read string $remoteId a global unique id of the Content object
+ * @phpstan-property-read string $mainLanguageCode The main language code of the Content object. If the available flag is set to true the Content is shown in this language if the requested language does not exist.
+ * @phpstan-property-read int|null $mainLocationId @deprecated Use {@see ContentInfo::getMainLocationId} instead
+ * @phpstan-property-read int $status status of the Content object
+ * @phpstan-property-read bool $isHidden status of the Content object
  */
 class ContentInfo extends ValueObject
 {

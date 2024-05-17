@@ -12,6 +12,10 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class represents a section.
+ *
+ * @phpstan-property-read mixed $id the id of the section
+ * @phpstan-property-read string $identifier the identifier of the section
+ * @phpstan-property-read string $name human readable name of the section
  */
 class Section extends ValueObject
 {

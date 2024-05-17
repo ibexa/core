@@ -17,7 +17,22 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups calls getContentTypeGroups
  * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection $fieldDefinitions calls getFieldDefinitions() or on access getFieldDefinition($fieldDefIdentifier)
+ * @phpstan-property-read mixed $id the id of the content type
+ * @phpstan-property-read int $status the status of the content type. One of ContentType::STATUS_DEFINED|ContentType::STATUS_DRAFT|ContentType::STATUS_MODIFIED
+ * @phpstan-property-read string $identifier the identifier of the content type
+ * @phpstan-property-read \DateTime $creationDate the date of the creation of this content type
+ * @phpstan-property-read \DateTime $modificationDate the date of the last modification of this content type
+ * @phpstan-property-read mixed $creatorId the user id of the creator of this content type
+ * @phpstan-property-read mixed $modifierId the user id of the user which has last modified this content type
+ * @phpstan-property-read string $remoteId a global unique id of the content object
+ * @phpstan-property-read string $urlAliasSchema URL alias schema. If nothing is provided, $nameSchema will be used instead.
+ * @phpstan-property-read string $nameSchema  The name schema.
+ * @phpstan-property-read bool $isContainer @deprecated use strict getter {@see ContentType::isContainer} instead.
  * @property-read string $mainLanguageCode the main language of the content type names and description used for fallback.
+ * @phpstan-property-read bool $defaultAlwaysAvailable if an instance of a content type is created the always available flag is set by default this this value.
+ * @phpstan-property-read string[] $languageCodes array of language codes used by content type translations.
+ * @phpstan-property-read int $defaultSortField Specifies which property the child locations should be sorted on by default when created. Valid values are found at {@link Location::SORT_FIELD_*}
+ * @phpstan-property-read int $defaultSortOrder Specifies whether the sort order should be ascending or descending by default when created. Valid values are {@link Location::SORT_ORDER_*}
  */
 abstract class ContentType extends ValueObject implements MultiLanguageName, MultiLanguageDescription
 {

@@ -17,6 +17,18 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @property-read array $fieldSettings calls getFieldSettings()
  * @property-read array $validatorConfiguration calls getValidatorConfiguration()
+ * @phpstan-property-read int $id the id of the field definition
+ * @phpstan-property-read string $identifier the identifier of the field definition
+ * @phpstan-property-read string $fieldGroup the field group name
+ * @phpstan-property-read int $position the position of the field definition in the content type
+ * @phpstan-property-read string $fieldTypeIdentifier String identifier of the field type
+ * @phpstan-property-read bool $isTranslatable indicates if fields of this definition are translatable
+ * @phpstan-property-read bool $isRequired indicates if this field is required in the content object
+ * @phpstan-property-read bool $isSearchable indicates if the field is searchable
+ * @phpstan-property-read bool $isThumbnail indicates if the field can be thumbnail
+ * @phpstan-property-read bool $isInfoCollector indicates if this field is used for information collection
+ * @phpstan-property-read mixed $defaultValue the default value of the field
+ * @phpstan-property-read string $mainLanguageCode main Translation (language code) of a multilingual Field Definition
  */
 abstract class FieldDefinition extends ValueObject implements MultiLanguageName, MultiLanguageDescription
 {

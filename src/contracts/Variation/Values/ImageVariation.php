@@ -6,6 +6,13 @@
  */
 namespace Ibexa\Contracts\Core\Variation\Values;
 
+/**
+ * @phpstan-property-read int|null $width The width as number of pixels (for example "320")
+ * @phpstan-property-read int|null $height The height as number of pixels (for example "256")
+ * @phpstan-property-read string $name The name of the image alias (for example "original")
+ * @phpstan-property-read mixed $info Extra information about the image, depending on the image type
+ * @phpstan-property-read mixed $imageId
+ */
 class ImageVariation extends Variation
 {
     /**

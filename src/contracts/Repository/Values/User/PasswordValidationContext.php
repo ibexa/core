@@ -12,6 +12,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * Context of the password validation.
+ *
+ * @phpstan-property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|null $contentType
+ * @phpstan-property-read \Ibexa\Contracts\Core\Repository\Values\User\User|null $user
  */
 class PasswordValidationContext extends ValueObject
 {

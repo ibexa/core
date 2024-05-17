@@ -17,6 +17,14 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * which the version belongs to.
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
+ * @phpstan-property-read mixed $id the internal id of the version
+ * @phpstan-property-read int $versionNo the version number of this version (which only increments in scope of a single Content object)
+ * @phpstan-property-read \DateTime $modificationDate the last modified date of this version
+ * @phpstan-property-read \DateTime $creationDate the creation date of this version
+ * @phpstan-property-read mixed $creatorId the user id of the user which created this version
+ * @phpstan-property-read int $status the status of this version. One of VersionInfo::STATUS_DRAFT, VersionInfo::STATUS_PUBLISHED, VersionInfo::STATUS_ARCHIVED
+ * @phpstan-property-read string $initialLanguageCode the language code of the version. This value is used to flag a version as a translation to specific language
+ * @phpstan-property-read string[] $languageCodes a collection of all languages which exist in this version.
  */
 abstract class VersionInfo extends ValueObject implements MultiLanguageName
 {

@@ -12,6 +12,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 /**
  * This class represents a user value.
+ *
+ * @phpstan-property-read string $login
+ * @phpstan-property-read string $email
+ * @phpstan-property-read string $passwordHash
+ * @phpstan-property-read string $hashAlgorithm Hash algorithm used to hash the password
+ * @phpstan-property-read \DateTimeInterface|null $passwordUpdatedAt
+ * @phpstan-property-read bool $enabled User can not login if false
+ * @phpstan-property-read int $maxLogin Max number of time user is allowed to login
  */
 abstract class User extends Content implements UserReference
 {

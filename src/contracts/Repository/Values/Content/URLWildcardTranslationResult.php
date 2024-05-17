@@ -12,6 +12,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class represents a result of a translated url wildcard which is not an URLAlias.
+ *
+ * @phpstan-property-read string $uri The found resource uri
+ * @phpstan-property-read bool $forward indicates if the url is redirected or not
  */
 class URLWildcardTranslationResult extends ValueObject
 {
