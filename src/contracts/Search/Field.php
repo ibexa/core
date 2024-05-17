@@ -11,9 +11,9 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 /**
  * Base class for document fields.
  *
- * @phpstan-property-read $name
- * @phpstan-property-read $value
- * @phpstan-property-read $type
+ * @phpstan-property-read string $name
+ * @phpstan-property-read mixed $value
+ * @phpstan-property-read \Ibexa\Contracts\Core\Search\FieldType $type
  */
 class Field extends ValueObject
 {
