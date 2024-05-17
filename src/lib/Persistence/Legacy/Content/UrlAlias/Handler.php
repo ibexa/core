@@ -231,11 +231,9 @@ class Handler implements UrlAliasHandlerInterface
             }
 
             // Row exists, check if it is reusable. There are 3 cases when this is possible:
-            // 1. NOP entry
-            // 2. existing location or custom alias entry
-            // 3. history entry
+            // 1. existing location or custom alias entry
+            // 2. history entry
             if (
-                $row['action'] === Gateway::NOP_ACTION ||
                 $row['action'] === $action ||
                 (int)$row['is_original'] === 0
             ) {
