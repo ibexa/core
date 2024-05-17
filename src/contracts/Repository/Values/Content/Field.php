@@ -12,12 +12,6 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class represents a field of a content object.
- *
- * @property-read mixed $id an internal id of the field
- * @property-read string $fieldDefIdentifier the field definition identifier
- * @property-read mixed $value the value of the field
- * @property-read string $languageCode the language code of the field
- * @property-read string $fieldTypeIdentifier field type identifier
  */
 class Field extends ValueObject
 {

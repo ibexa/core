@@ -10,10 +10,6 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
  * Base class for document fields.
- *
- * @property-read $name
- * @property-read $value
- * @property-read $type
  */
 class Field extends ValueObject
 {

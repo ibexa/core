@@ -13,14 +13,6 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
  * Version Limitation target. Indicates an intent to create new Version.
- *
- * @property-read string[] $allLanguageCodesList
- * @property-read int[] $allContentTypeIdsList
- * @property-read int $newStatus
- * @property-read string $forUpdateInitialLanguageCode
- * @property-read string[] $forUpdateLanguageCodesList
- * @property-read string[] $forPublishLanguageCodesList
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $updatedFields
  */
 final class Version extends ValueObject implements Target
 {
