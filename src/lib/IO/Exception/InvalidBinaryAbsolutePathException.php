@@ -20,5 +20,3 @@ class InvalidBinaryAbsolutePathException extends InvalidBinaryFileIdException
         Exception::__construct($this->getBaseTranslation(), $code);
     }
 }
-
-class_alias(InvalidBinaryAbsolutePathException::class, 'eZ\Publish\Core\IO\Exception\InvalidBinaryAbsolutePathException');

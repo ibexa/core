@@ -140,5 +140,3 @@ class FileSizeExtensionTest extends IntegrationTestCase
         return $this->translatorMock;
     }
 }
-
-class_alias(FileSizeExtensionTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\Extension\FileSizeExtensionTest');

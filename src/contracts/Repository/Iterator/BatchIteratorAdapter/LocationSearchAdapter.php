@@ -33,5 +33,3 @@ final class LocationSearchAdapter extends AbstractSearchAdapter
         );
     }
 }
-
-class_alias(LocationSearchAdapter::class, 'eZ\Publish\API\Repository\Iterator\BatchIteratorAdapter\LocationSearchAdapter');

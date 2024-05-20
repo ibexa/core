@@ -21,5 +21,3 @@ abstract class PolicyDraft extends Policy
      */
     protected $originalId;
 }
-
-class_alias(PolicyDraft::class, 'eZ\Publish\API\Repository\Values\User\PolicyDraft');

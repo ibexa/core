@@ -22,5 +22,3 @@ class SectionLimitation extends RoleLimitation
         return Limitation::SECTION;
     }
 }
-
-class_alias(SectionLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\SectionLimitation');

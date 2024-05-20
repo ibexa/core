@@ -165,5 +165,3 @@ abstract class LocationServiceDecorator implements LocationService
         return $this->innerService->count($filter, $languages);
     }
 }
-
-class_alias(LocationServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\LocationServiceDecorator');

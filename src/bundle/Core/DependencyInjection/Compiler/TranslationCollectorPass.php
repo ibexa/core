@@ -59,5 +59,3 @@ class TranslationCollectorPass implements CompilerPassInterface
         $container->setParameter('available_translations', array_values(array_unique($availableTranslations)));
     }
 }
-
-class_alias(TranslationCollectorPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\TranslationCollectorPass');

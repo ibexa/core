@@ -16,5 +16,3 @@ interface ThumbnailStrategy
 {
     public function getThumbnail(ContentType $contentType, array $fields, ?VersionInfo $versionInfo = null): ?Thumbnail;
 }
-
-class_alias(ThumbnailStrategy::class, 'eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\ThumbnailStrategy');

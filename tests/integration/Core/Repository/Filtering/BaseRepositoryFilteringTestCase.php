@@ -423,5 +423,3 @@ abstract class BaseRepositoryFilteringTestCase extends BaseTest
         return $filterFactory($parentFolder);
     }
 }
-
-class_alias(BaseRepositoryFilteringTestCase::class, 'eZ\Publish\API\Repository\Tests\Filtering\BaseRepositoryFilteringTestCase');

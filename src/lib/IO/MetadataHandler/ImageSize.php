@@ -26,5 +26,3 @@ class ImageSize implements MetadataHandler
         ];
     }
 }
-
-class_alias(ImageSize::class, 'eZ\Publish\Core\IO\MetadataHandler\ImageSize');

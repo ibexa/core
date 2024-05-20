@@ -40,5 +40,3 @@ interface ParameterProviderRegistryInterface
      */
     public function setParameterProvider(ParameterProviderInterface $parameterProvider, $fieldTypeIdentifier);
 }
-
-class_alias(ParameterProviderRegistryInterface::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistryInterface');

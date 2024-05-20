@@ -145,5 +145,3 @@ final class IndexerGateway implements SPIIndexerGateway
         } while (!empty($contentId));
     }
 }
-
-class_alias(IndexerGateway::class, 'eZ\Publish\Core\Search\Legacy\Content\IndexerGateway');

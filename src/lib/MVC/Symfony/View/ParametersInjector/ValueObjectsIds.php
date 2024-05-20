@@ -38,5 +38,3 @@ class ValueObjectsIds implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(ValueObjectsIds::class, 'eZ\Publish\Core\MVC\Symfony\View\ParametersInjector\ValueObjectsIds');

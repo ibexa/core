@@ -103,5 +103,3 @@ abstract class Regex implements Matcher
         $this->element = $element;
     }
 }
-
-class_alias(Regex::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Regex');

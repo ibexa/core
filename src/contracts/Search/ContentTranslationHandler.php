@@ -18,5 +18,3 @@ interface ContentTranslationHandler
      */
     public function deleteTranslation(int $contentId, string $languageCode): void;
 }
-
-class_alias(ContentTranslationHandler::class, 'eZ\Publish\SPI\Search\ContentTranslationHandler');

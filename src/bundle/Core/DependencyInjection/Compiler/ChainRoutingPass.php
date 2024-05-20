@@ -72,5 +72,3 @@ class ChainRoutingPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(ChainRoutingPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ChainRoutingPass');

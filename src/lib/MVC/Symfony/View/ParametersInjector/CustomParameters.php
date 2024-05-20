@@ -31,5 +31,3 @@ class CustomParameters implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(CustomParameters::class, 'eZ\Publish\Core\MVC\Symfony\View\ParametersInjector\CustomParameters');

@@ -121,5 +121,3 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
         $this->persistenceHandler->bookmarkHandler()->locationSwapped($location1Id, $location2Id);
     }
 }
-
-class_alias(BookmarkHandler::class, 'eZ\Publish\Core\Persistence\Cache\BookmarkHandler');

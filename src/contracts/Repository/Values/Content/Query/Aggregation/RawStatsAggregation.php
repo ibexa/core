@@ -25,5 +25,3 @@ final class RawStatsAggregation extends AbstractStatsAggregation implements RawA
         return $this->fieldName;
     }
 }
-
-class_alias(RawStatsAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\RawStatsAggregation');

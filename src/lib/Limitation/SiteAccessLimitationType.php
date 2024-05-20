@@ -184,5 +184,3 @@ class SiteAccessLimitationType implements SPILimitationTypeInterface
         return $siteAccessList;
     }
 }
-
-class_alias(SiteAccessLimitationType::class, 'eZ\Publish\Core\Limitation\SiteAccessLimitationType');

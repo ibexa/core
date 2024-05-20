@@ -121,5 +121,3 @@ class AbstractTestCase extends LanguageAwareTestCase
         return $this->converterRegistry;
     }
 }
-
-class_alias(AbstractTestCase::class, 'eZ\Publish\Core\Search\Legacy\Tests\Content\AbstractTestCase');

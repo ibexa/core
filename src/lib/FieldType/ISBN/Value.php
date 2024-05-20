@@ -36,5 +36,3 @@ class Value extends BaseValue
         return (string)$this->isbn;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\ISBN\Value');

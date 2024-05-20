@@ -16,5 +16,3 @@ interface SuggestionCollectorAwareInterface
      */
     public function setSuggestionCollector(SuggestionCollectorInterface $suggestionCollector);
 }
-
-class_alias(SuggestionCollectorAwareInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorAwareInterface');

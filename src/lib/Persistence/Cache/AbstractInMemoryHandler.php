@@ -277,5 +277,3 @@ abstract class AbstractInMemoryHandler
         return $list;
     }
 }
-
-class_alias(AbstractInMemoryHandler::class, 'eZ\Publish\Core\Persistence\Cache\AbstractInMemoryHandler');

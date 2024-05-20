@@ -156,5 +156,3 @@ final class FixtureImporter
         return null;
     }
 }
-
-class_alias(FixtureImporter::class, 'eZ\Publish\SPI\Tests\Persistence\FixtureImporter');

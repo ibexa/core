@@ -14,5 +14,3 @@ interface FieldAggregation
 
     public function getFieldDefinitionIdentifier(): string;
 }
-
-class_alias(FieldAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\FieldAggregation');

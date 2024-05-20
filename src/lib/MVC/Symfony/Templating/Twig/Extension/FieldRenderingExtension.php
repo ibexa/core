@@ -208,5 +208,3 @@ class FieldRenderingExtension extends AbstractExtension
         return $this->fieldTypeIdentifiers[$key];
     }
 }
-
-class_alias(FieldRenderingExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension');

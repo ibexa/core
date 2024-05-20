@@ -26,5 +26,3 @@ class IsMainLocation extends Location
         parent::__construct('location_is_main', $sortDirection);
     }
 }
-
-class_alias(IsMainLocation::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Location\IsMainLocation');

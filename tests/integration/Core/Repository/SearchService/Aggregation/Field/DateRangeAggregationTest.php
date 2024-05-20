@@ -98,5 +98,3 @@ final class DateRangeAggregationTest extends AbstractAggregationTest
         $this->refreshSearch($this->getRepository());
     }
 }
-
-class_alias(DateRangeAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\Field\DateRangeAggregationTest');

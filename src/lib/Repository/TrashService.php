@@ -437,5 +437,3 @@ class TrashService implements TrashServiceInterface
         return $result->totalCount == 0;
     }
 }
-
-class_alias(TrashService::class, 'eZ\Publish\Core\Repository\TrashService');

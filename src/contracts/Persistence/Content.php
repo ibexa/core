@@ -30,5 +30,3 @@ class Content extends ValueObject
      */
     public $fields;
 }
-
-class_alias(Content::class, 'eZ\Publish\SPI\Persistence\Content');

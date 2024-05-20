@@ -69,5 +69,3 @@ final class MapDistanceSortClauseParserTest extends TestCase
         self::assertTrue($this->mapDistanceSortClauseParser->supports('map_distance'));
     }
 }
-
-class_alias(MapDistanceSortClauseParserTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortClauseParser\MapDistanceSortClauseParserTest');

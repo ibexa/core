@@ -51,5 +51,3 @@ final class FixedSearchResultHitAdapter implements SearchResultAdapter
         return $this->searchResult->maxScore;
     }
 }
-
-class_alias(FixedSearchResultHitAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\FixedSearchResultHitAdapter');

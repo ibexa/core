@@ -31,5 +31,3 @@ abstract class PolicyCreateStruct extends PolicyStruct
      */
     public $function;
 }
-
-class_alias(PolicyCreateStruct::class, 'eZ\Publish\API\Repository\Values\User\PolicyCreateStruct');

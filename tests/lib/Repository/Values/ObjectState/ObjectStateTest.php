@@ -131,5 +131,3 @@ class ObjectStateTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(ObjectStateTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ObjectState\ObjectStateTest');

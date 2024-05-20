@@ -48,5 +48,3 @@ class LocationParamConverter extends RepositoryParamConverter
         return $this->locationService->loadLocation($id, $prioritizedLanguages);
     }
 }
-
-class_alias(LocationParamConverter::class, 'eZ\Bundle\EzPublishCoreBundle\Converter\LocationParamConverter');

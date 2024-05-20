@@ -172,5 +172,3 @@ abstract class Gateway
      */
     abstract public function removeByUserAndVersion(int $userId, int $version): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway');

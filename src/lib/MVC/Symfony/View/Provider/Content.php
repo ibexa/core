@@ -28,5 +28,3 @@ interface Content
      */
     public function getView(ContentInfo $contentInfo, $viewType);
 }
-
-class_alias(Content::class, 'eZ\Publish\Core\MVC\Symfony\View\Provider\Content');

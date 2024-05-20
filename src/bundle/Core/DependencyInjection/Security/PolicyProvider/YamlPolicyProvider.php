@@ -41,5 +41,3 @@ abstract class YamlPolicyProvider implements PolicyProviderInterface
      */
     abstract protected function getFiles();
 }
-
-class_alias(YamlPolicyProvider::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider\YamlPolicyProvider');

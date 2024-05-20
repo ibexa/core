@@ -25,5 +25,3 @@ final class URIElementNormalizer extends AbstractPropertyWhitelistNormalizer
         return ['elementNumber', 'uriElements'];
     }
 }
-
-class_alias(URIElementNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer');

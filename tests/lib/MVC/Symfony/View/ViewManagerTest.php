@@ -344,5 +344,3 @@ class ViewManagerTest extends TestCase
         ];
     }
 }
-
-class_alias(ViewManagerTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\ViewManagerTest');

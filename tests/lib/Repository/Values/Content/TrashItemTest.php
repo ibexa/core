@@ -98,5 +98,3 @@ class TrashItemTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(TrashItemTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\TrashItemTest');

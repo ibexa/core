@@ -61,5 +61,3 @@ final class LookupLimitationResult extends ValueObject
         return $this->lookupPolicyLimitations;
     }
 }
-
-class_alias(LookupLimitationResult::class, 'eZ\Publish\API\Repository\Values\User\LookupLimitationResult');

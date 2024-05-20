@@ -58,5 +58,3 @@ final class SortSpecLexerStub implements SortSpecLexerInterface
         return $this->tokens[$this->position + 1] ?? null;
     }
 }
-
-class_alias(SortSpecLexerStub::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\Tests\SortSpecLexerStub');

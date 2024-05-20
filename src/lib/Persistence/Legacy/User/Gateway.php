@@ -76,5 +76,3 @@ abstract class Gateway
      */
     abstract public function removeRoleAssignmentById(int $roleAssignmentId): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\User\Gateway');

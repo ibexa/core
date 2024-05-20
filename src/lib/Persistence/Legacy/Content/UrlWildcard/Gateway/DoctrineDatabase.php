@@ -282,5 +282,3 @@ final class DoctrineDatabase extends Gateway
         return trim($url, '/');
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Gateway\DoctrineDatabase');

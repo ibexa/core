@@ -285,5 +285,3 @@ class MapLocationDistance extends FieldBase
         return $boundingCoordinates;
     }
 }
-
-class_alias(MapLocationDistance::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MapLocationDistance');

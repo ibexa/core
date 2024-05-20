@@ -74,5 +74,3 @@ class LocationFilteringHandler implements Handler
         return $this->gateway->count($filter->getCriterion());
     }
 }
-
-class_alias(LocationFilteringHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Handler\LocationFilteringHandler');

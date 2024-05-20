@@ -21,5 +21,3 @@ interface Matcher extends BaseMatcher
      */
     public function setMatchingConfiguration($matchingConfiguration);
 }
-
-class_alias(Matcher::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\Matcher');

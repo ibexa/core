@@ -132,5 +132,3 @@ class LocationEventSubscriber extends AbstractSearchEventSubscriber implements E
         $this->indexSubtree($event->getLocation()->id);
     }
 }
-
-class_alias(LocationEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\LocationEventSubscriber');

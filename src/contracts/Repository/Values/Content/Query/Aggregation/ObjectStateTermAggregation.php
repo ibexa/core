@@ -27,5 +27,3 @@ final class ObjectStateTermAggregation extends AbstractTermAggregation
         return $this->objectStateGroupIdentifier;
     }
 }
-
-class_alias(ObjectStateTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\ObjectStateTermAggregation');

@@ -1097,5 +1097,3 @@ class RoleTest extends BaseServiceMockTest
         return $repositoryMock;
     }
 }
-
-class_alias(RoleTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\RoleTest');

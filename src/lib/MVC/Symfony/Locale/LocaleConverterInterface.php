@@ -44,5 +44,3 @@ interface LocaleConverterInterface
      */
     public function convertToRepository(string $posixLocale): ?string;
 }
-
-class_alias(LocaleConverterInterface::class, 'eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverterInterface');

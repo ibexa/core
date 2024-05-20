@@ -157,5 +157,3 @@ final class VersionBuilder
         return $this;
     }
 }
-
-class_alias(VersionBuilder::class, 'eZ\Publish\SPI\Limitation\Target\Builder\VersionBuilder');

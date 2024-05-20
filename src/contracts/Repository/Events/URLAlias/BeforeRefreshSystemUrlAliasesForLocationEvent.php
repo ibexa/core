@@ -26,5 +26,3 @@ final class BeforeRefreshSystemUrlAliasesForLocationEvent extends BeforeEvent
         return $this->location;
     }
 }
-
-class_alias(BeforeRefreshSystemUrlAliasesForLocationEvent::class, 'eZ\Publish\API\Repository\Events\URLAlias\BeforeRefreshSystemUrlAliasesForLocationEvent');

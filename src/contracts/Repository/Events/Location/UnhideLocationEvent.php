@@ -37,5 +37,3 @@ final class UnhideLocationEvent extends AfterEvent
         return $this->location;
     }
 }
-
-class_alias(UnhideLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\UnhideLocationEvent');

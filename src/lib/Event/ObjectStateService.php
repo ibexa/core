@@ -236,5 +236,3 @@ class ObjectStateService extends ObjectStateServiceDecorator
         );
     }
 }
-
-class_alias(ObjectStateService::class, 'eZ\Publish\Core\Event\ObjectStateService');

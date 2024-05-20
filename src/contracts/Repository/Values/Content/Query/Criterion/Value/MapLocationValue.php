@@ -39,5 +39,3 @@ class MapLocationValue extends Value
         $this->longitude = $longitude;
     }
 }
-
-class_alias(MapLocationValue::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Value\MapLocationValue');

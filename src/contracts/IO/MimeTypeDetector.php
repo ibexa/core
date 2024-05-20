@@ -27,5 +27,3 @@ interface MimeTypeDetector
      */
     public function getFromBuffer($buffer);
 }
-
-class_alias(MimeTypeDetector::class, 'eZ\Publish\SPI\IO\MimeTypeDetector');

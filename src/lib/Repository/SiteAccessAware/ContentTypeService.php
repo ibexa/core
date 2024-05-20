@@ -222,5 +222,3 @@ class ContentTypeService implements ContentTypeServiceInterface
         $this->service->deleteUserDrafts($userId);
     }
 }
-
-class_alias(ContentTypeService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\ContentTypeService');

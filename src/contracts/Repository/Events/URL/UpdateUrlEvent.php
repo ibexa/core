@@ -48,5 +48,3 @@ final class UpdateUrlEvent extends AfterEvent
         return $this->updatedUrl;
     }
 }
-
-class_alias(UpdateUrlEvent::class, 'eZ\Publish\API\Repository\Events\URL\UpdateUrlEvent');

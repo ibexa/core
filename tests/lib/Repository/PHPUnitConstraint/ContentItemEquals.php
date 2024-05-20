@@ -155,5 +155,3 @@ class ContentItemEquals extends AbstractPHPUnitConstraint
         );
     }
 }
-
-class_alias(ContentItemEquals::class, 'eZ\Publish\API\Repository\Tests\PHPUnitConstraint\ContentItemEquals');

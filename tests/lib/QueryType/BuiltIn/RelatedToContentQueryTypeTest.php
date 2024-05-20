@@ -156,5 +156,3 @@ final class RelatedToContentQueryTypeTest extends AbstractQueryTypeTest
         return ['filter', 'offset', 'limit', 'sort', 'content', 'field'];
     }
 }
-
-class_alias(RelatedToContentQueryTypeTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\RelatedToContentQueryTypeTest');

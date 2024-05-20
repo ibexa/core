@@ -40,5 +40,3 @@ class BookmarkList extends ValueObject implements IteratorAggregate
         return new ArrayIterator($this->items);
     }
 }
-
-class_alias(BookmarkList::class, 'eZ\Publish\API\Repository\Values\Bookmark\BookmarkList');

@@ -119,5 +119,3 @@ interface Type
      */
     public function valueSchema();
 }
-
-class_alias(Type::class, 'eZ\Publish\SPI\Limitation\Type');

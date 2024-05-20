@@ -30,5 +30,3 @@ class RouterPass implements CompilerPassInterface
             ->setClass(DefaultRouter::class);
     }
 }
-
-class_alias(RouterPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\RouterPass');

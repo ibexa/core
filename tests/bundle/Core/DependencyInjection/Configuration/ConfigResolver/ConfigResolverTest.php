@@ -114,5 +114,3 @@ abstract class ConfigResolverTest extends TestCase
         self::assertSame($newDefaultNamespace, $configResolver->getDefaultNamespace());
     }
 }
-
-class_alias(ConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ConfigResolver\ConfigResolverTest');

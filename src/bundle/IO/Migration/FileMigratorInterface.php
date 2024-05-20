@@ -23,5 +23,3 @@ interface FileMigratorInterface extends MigrationHandlerInterface
      */
     public function migrateFile(BinaryFile $binaryFile);
 }
-
-class_alias(FileMigratorInterface::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileMigratorInterface');

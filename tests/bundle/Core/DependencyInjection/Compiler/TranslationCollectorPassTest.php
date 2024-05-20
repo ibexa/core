@@ -61,5 +61,3 @@ class TranslationCollectorPassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(TranslationCollectorPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\TranslationCollectorPassTest');

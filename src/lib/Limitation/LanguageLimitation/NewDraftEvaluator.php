@@ -28,5 +28,3 @@ final class NewDraftEvaluator implements VersionTargetEvaluator
         return LanguageLimitationType::ACCESS_GRANTED;
     }
 }
-
-class_alias(NewDraftEvaluator::class, 'eZ\Publish\Core\Limitation\LanguageLimitation\NewDraftEvaluator');

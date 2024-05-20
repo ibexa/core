@@ -20,5 +20,3 @@ class IbexaRepositoryInstallerExtension extends Extension
         $loader->load('services.yml');
     }
 }
-
-class_alias(IbexaRepositoryInstallerExtension::class, 'EzSystems\PlatformInstallerBundle\DependencyInjection\EzSystemsPlatformInstallerExtension');

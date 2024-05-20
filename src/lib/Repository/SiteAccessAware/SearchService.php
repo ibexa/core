@@ -103,5 +103,3 @@ class SearchService implements SearchServiceInterface
         return $this->service->supports($capabilityFlag);
     }
 }
-
-class_alias(SearchService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\SearchService');

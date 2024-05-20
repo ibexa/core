@@ -19,5 +19,3 @@ use Stringable;
 abstract class Translation extends ValueObject implements Stringable
 {
 }
-
-class_alias(Translation::class, 'eZ\Publish\API\Repository\Values\Translation');

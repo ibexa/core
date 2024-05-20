@@ -86,5 +86,3 @@ class KeywordConverter implements Converter
         return 'sort_key_string';
     }
 }
-
-class_alias(KeywordConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\KeywordConverter');

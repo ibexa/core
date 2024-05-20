@@ -101,5 +101,3 @@ final class BackwardCompatibleIteratorTest extends TestCase
         ));
     }
 }
-
-class_alias(BackwardCompatibleIteratorTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\TaggedServiceIdsIterator\BackwardCompatibleIteratorTest');

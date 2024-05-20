@@ -58,5 +58,3 @@ final class ObjectStateIdentifierQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(ObjectStateIdentifierQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\ObjectStateIdentifierQueryBuilder');

@@ -66,5 +66,3 @@ class PostSiteAccessMatchEvent extends Event
         return $this->requestType;
     }
 }
-
-class_alias(PostSiteAccessMatchEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent');

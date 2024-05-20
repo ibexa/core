@@ -70,5 +70,3 @@ final class CompoundMatcherNormalizerTest extends TestCase
         self::assertFalse($normalizer->supportsDenormalization($data, Matcher::class, 'json'));
     }
 }
-
-class_alias(CompoundMatcherNormalizerTest::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\CompoundMatcherNormalizerTest');

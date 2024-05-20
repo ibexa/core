@@ -34,5 +34,3 @@ class RelationListItem implements RelationListItemInterface
         return true;
     }
 }
-
-class_alias(RelationListItem::class, 'eZ\Publish\API\Repository\Values\Content\RelationList\Item\RelationListItem');

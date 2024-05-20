@@ -250,5 +250,3 @@ class PersistenceLogger
         return $this->unCachedHandlers;
     }
 }
-
-class_alias(PersistenceLogger::class, 'eZ\Publish\Core\Persistence\Cache\PersistenceLogger');

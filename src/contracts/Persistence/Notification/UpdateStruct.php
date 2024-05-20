@@ -15,5 +15,3 @@ class UpdateStruct extends ValueObject
     /** @var bool */
     public $isPending;
 }
-
-class_alias(UpdateStruct::class, 'eZ\Publish\SPI\Persistence\Notification\UpdateStruct');

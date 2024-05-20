@@ -81,5 +81,3 @@ class UserLanguagePreferenceProvider implements UserLanguagePreferenceProviderIn
         return array_unique(array_merge(...$languageCodes));
     }
 }
-
-class_alias(UserLanguagePreferenceProvider::class, 'eZ\Publish\Core\MVC\Symfony\Locale\UserLanguagePreferenceProvider');

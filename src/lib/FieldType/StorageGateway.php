@@ -29,5 +29,3 @@ abstract class StorageGateway extends SPIStorageGateway
      */
     abstract public function setConnection($connection);
 }
-
-class_alias(StorageGateway::class, 'eZ\Publish\Core\FieldType\StorageGateway');

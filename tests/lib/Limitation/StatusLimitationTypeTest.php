@@ -356,5 +356,3 @@ class StatusLimitationTypeTest extends Base
         self::markTestSkipped('Method valueSchema() is not implemented');
     }
 }
-
-class_alias(StatusLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\StatusLimitationTypeTest');

@@ -36,5 +36,3 @@ abstract class FieldTypeServiceDecorator implements FieldTypeService
         return $this->innerService->hasFieldType($identifier);
     }
 }
-
-class_alias(FieldTypeServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\FieldTypeServiceDecorator');

@@ -36,5 +36,3 @@ final class BeforeAssignSectionToSubtreeEvent extends BeforeEvent
         return $this->section;
     }
 }
-
-class_alias(BeforeAssignSectionToSubtreeEvent::class, 'eZ\Publish\API\Repository\Events\Section\BeforeAssignSectionToSubtreeEvent');

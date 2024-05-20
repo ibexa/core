@@ -124,5 +124,3 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         ];
     }
 }
-
-class_alias(SelectionMultilingualIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\SelectionMultilingualIntegrationTest');

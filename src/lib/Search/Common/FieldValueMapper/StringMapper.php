@@ -51,5 +51,3 @@ class StringMapper extends FieldValueMapper
         );
     }
 }
-
-class_alias(StringMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\StringMapper');

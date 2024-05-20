@@ -12,5 +12,3 @@ interface FieldTypeBasedThumbnailStrategy extends ThumbnailStrategy
 {
     public function getFieldTypeIdentifier(): string;
 }
-
-class_alias(FieldTypeBasedThumbnailStrategy::class, 'eZ\Publish\SPI\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy');

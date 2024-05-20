@@ -49,5 +49,3 @@ final class LocationChildrenTermAggregationTest extends AbstractAggregationTest
         yield $builder->build();
     }
 }
-
-class_alias(LocationChildrenTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\LocationChildrenTermAggregationTest');

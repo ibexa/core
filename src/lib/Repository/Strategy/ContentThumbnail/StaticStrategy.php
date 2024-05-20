@@ -30,5 +30,3 @@ final class StaticStrategy implements ThumbnailStrategy
         ]);
     }
 }
-
-class_alias(StaticStrategy::class, 'eZ\Publish\Core\Repository\Strategy\ContentThumbnail\StaticStrategy');

@@ -21,5 +21,3 @@ interface IOConfigProvider
 
     public function getUrlPrefix(): string;
 }
-
-class_alias(IOConfigProvider::class, 'eZ\Publish\Core\IO\IOConfigProvider');

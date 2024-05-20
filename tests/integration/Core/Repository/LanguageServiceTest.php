@@ -765,5 +765,3 @@ class LanguageServiceTest extends BaseTest
         self::assertEquals('My English', $updatedLanguage->name);
     }
 }
-
-class_alias(LanguageServiceTest::class, 'eZ\Publish\API\Repository\Tests\LanguageServiceTest');

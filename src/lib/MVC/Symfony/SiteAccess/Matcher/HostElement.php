@@ -111,5 +111,3 @@ class HostElement implements VersatileMatcher
         return $this->hostElements = $elements;
     }
 }
-
-class_alias(HostElement::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\HostElement');

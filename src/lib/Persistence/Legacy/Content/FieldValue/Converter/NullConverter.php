@@ -94,5 +94,3 @@ class NullConverter implements Converter
         return false;
     }
 }
-
-class_alias(NullConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\NullConverter');

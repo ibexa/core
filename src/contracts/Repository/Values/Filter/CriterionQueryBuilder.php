@@ -26,5 +26,3 @@ interface CriterionQueryBuilder
      */
     public function buildQueryConstraint(FilteringQueryBuilder $queryBuilder, FilteringCriterion $criterion): ?string;
 }
-
-class_alias(CriterionQueryBuilder::class, 'eZ\Publish\SPI\Repository\Values\Filter\CriterionQueryBuilder');

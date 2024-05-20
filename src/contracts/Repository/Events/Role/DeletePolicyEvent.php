@@ -27,5 +27,3 @@ final class DeletePolicyEvent extends AfterEvent
         return $this->policy;
     }
 }
-
-class_alias(DeletePolicyEvent::class, 'eZ\Publish\API\Repository\Events\Role\DeletePolicyEvent');

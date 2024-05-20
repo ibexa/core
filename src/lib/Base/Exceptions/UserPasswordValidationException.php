@@ -29,5 +29,3 @@ class UserPasswordValidationException extends InvalidArgumentException
         parent::__construct($argumentName, 'The password does not match the following rules: ' . implode(', ', $rules), $previous);
     }
 }
-
-class_alias(UserPasswordValidationException::class, 'eZ\Publish\Core\Base\Exceptions\UserPasswordValidationException');

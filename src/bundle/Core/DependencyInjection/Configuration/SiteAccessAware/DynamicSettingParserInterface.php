@@ -52,5 +52,3 @@ interface DynamicSettingParserInterface
      */
     public function parseDynamicSetting($setting);
 }
-
-class_alias(DynamicSettingParserInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParserInterface');

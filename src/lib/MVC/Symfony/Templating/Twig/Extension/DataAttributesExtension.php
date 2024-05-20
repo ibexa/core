@@ -63,5 +63,3 @@ class DataAttributesExtension extends AbstractExtension
         return rtrim($result);
     }
 }
-
-class_alias(DataAttributesExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\DataAttributesExtension');

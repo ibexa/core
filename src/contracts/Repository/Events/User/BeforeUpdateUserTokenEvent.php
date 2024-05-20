@@ -59,5 +59,3 @@ final class BeforeUpdateUserTokenEvent extends BeforeEvent
         return $this->updatedUser instanceof User;
     }
 }
-
-class_alias(BeforeUpdateUserTokenEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeUpdateUserTokenEvent');

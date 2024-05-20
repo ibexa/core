@@ -78,5 +78,3 @@ class Role extends ValueObject
      */
     public $policies = [];
 }
-
-class_alias(Role::class, 'eZ\Publish\SPI\Persistence\User\Role');

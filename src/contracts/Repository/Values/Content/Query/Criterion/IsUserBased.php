@@ -33,5 +33,3 @@ class IsUserBased extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(IsUserBased::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\IsUserBased');

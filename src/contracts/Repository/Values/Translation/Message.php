@@ -53,5 +53,3 @@ class Message extends Translation
         return strtr($this->message, $this->values);
     }
 }
-
-class_alias(Message::class, 'eZ\Publish\API\Repository\Values\Translation\Message');

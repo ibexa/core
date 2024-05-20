@@ -58,5 +58,3 @@ final class LocationFilteringAdapter implements AdapterInterface
         return $results;
     }
 }
-
-class_alias(LocationFilteringAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\LocationFilteringAdapter');

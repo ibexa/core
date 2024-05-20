@@ -449,5 +449,3 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(MediaIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\MediaIntegrationTest');

@@ -74,5 +74,3 @@ final class ExposedRoutesExtractorTest extends TestCase
         self::assertSame($expectedBaseUrl, $extractor->getBaseUrl());
     }
 }
-
-class_alias(ExposedRoutesExtractorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Routing\JsRouting\ExposedRoutesExtractorTest');

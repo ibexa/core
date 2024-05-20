@@ -104,5 +104,3 @@ class TrashServiceDecoratorTest extends TestCase
         $decoratedService->findTrashItems(...$parameters);
     }
 }
-
-class_alias(TrashServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\TrashServiceDecoratorTest');

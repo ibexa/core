@@ -34,5 +34,3 @@ final class RepositoryConfigFieldsGroupsListFactory
         );
     }
 }
-
-class_alias(RepositoryConfigFieldsGroupsListFactory::class, 'eZ\Publish\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory');

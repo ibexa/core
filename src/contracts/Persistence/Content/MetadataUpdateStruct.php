@@ -69,5 +69,3 @@ class MetadataUpdateStruct extends ValueObject
      */
     public $isHidden;
 }
-
-class_alias(MetadataUpdateStruct::class, 'eZ\Publish\SPI\Persistence\Content\MetadataUpdateStruct');

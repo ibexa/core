@@ -48,5 +48,3 @@ final class CopyRoleEvent extends AfterEvent
         return $this->roleCopyStruct;
     }
 }
-
-class_alias(CopyRoleEvent::class, 'eZ\Publish\API\Repository\Events\Role\CopyRoleEvent');

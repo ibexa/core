@@ -200,5 +200,3 @@ class NewSectionLimitationType extends AbstractPersistenceLimitationType impleme
         return true;
     }
 }
-
-class_alias(NewSectionLimitationType::class, 'eZ\Publish\Core\Limitation\NewSectionLimitationType');

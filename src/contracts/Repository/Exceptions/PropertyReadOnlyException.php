@@ -32,5 +32,3 @@ class PropertyReadOnlyException extends Exception implements RepositoryException
         }
     }
 }
-
-class_alias(PropertyReadOnlyException::class, 'eZ\Publish\API\Repository\Exceptions\PropertyReadOnlyException');

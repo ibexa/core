@@ -65,5 +65,3 @@ final class RenderContentExtension extends AbstractExtension
         return $this->renderContentStrategy->render($content, $event->getRenderOptions());
     }
 }
-
-class_alias(RenderContentExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\RenderContentExtension');

@@ -24,5 +24,3 @@ class CriterionFacet extends Facet
      */
     public $count;
 }
-
-class_alias(CriterionFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\CriterionFacet');

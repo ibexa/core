@@ -49,5 +49,3 @@ final class UserLoginQueryBuilder extends BaseUserCriterionQueryBuilder
         );
     }
 }
-
-class_alias(UserLoginQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\UserLoginQueryBuilder');

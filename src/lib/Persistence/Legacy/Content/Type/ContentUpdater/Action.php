@@ -38,5 +38,3 @@ abstract class Action
      */
     abstract public function apply($contentId);
 }
-
-class_alias(Action::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action');

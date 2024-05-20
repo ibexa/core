@@ -30,5 +30,3 @@ final class MatchAllQueryBuilder implements CriterionQueryBuilder
         return '1=1';
     }
 }
-
-class_alias(MatchAllQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\MatchAllQueryBuilder');

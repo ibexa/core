@@ -63,5 +63,3 @@ class AbsolutePrefixTest extends PrefixTest
         ];
     }
 }
-
-class_alias(AbsolutePrefixTest::class, 'eZ\Publish\Core\IO\Tests\UrlDecorator\AbsolutePrefixTest');

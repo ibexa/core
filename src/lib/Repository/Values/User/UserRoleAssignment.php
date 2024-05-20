@@ -71,5 +71,3 @@ class UserRoleAssignment extends APIUserRoleAssignment
         return $this->user;
     }
 }
-
-class_alias(UserRoleAssignment::class, 'eZ\Publish\Core\Repository\Values\User\UserRoleAssignment');

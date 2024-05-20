@@ -318,5 +318,3 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $this->ioService->onConfigScopeChange($event);
     }
 }
-
-class_alias(ConfigScopeChangeAwareIOServiceTest::class, 'eZ\Publish\Core\IO\Tests\ConfigScopeChangeAwareIOServiceTest');

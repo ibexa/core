@@ -29,5 +29,3 @@ class StubPolicyProvider implements PolicyProviderInterface
         $configBuilder->addConfig($this->policies);
     }
 }
-
-class_alias(StubPolicyProvider::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\StubPolicyProvider');

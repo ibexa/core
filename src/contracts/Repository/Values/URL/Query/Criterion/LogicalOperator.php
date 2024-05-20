@@ -38,5 +38,3 @@ abstract class LogicalOperator extends Criterion
         }
     }
 }
-
-class_alias(LogicalOperator::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\LogicalOperator');

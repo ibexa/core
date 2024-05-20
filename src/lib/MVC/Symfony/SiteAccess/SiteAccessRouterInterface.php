@@ -35,5 +35,3 @@ interface SiteAccessRouterInterface
      */
     public function matchByName($siteAccessName);
 }
-
-class_alias(SiteAccessRouterInterface::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface');

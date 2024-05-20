@@ -17,5 +17,3 @@ final class Type extends BaseType
         return 'generic';
     }
 }
-
-class_alias(Type::class, 'eZ\Publish\SPI\FieldType\Generic\Tests\Stubs\Type');

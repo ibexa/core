@@ -25,5 +25,3 @@ final class ParallelProcessList implements \IteratorAggregate
         return new \ArrayIterator($this->pool);
     }
 }
-
-class_alias(ParallelProcessList::class, 'eZ\Publish\API\Repository\Tests\Parallel\ParallelProcessList');

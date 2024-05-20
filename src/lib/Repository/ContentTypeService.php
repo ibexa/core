@@ -1658,5 +1658,3 @@ class ContentTypeService implements ContentTypeServiceInterface
         $this->contentTypeHandler->deleteByUserAndStatus($userId, ContentType::STATUS_DRAFT);
     }
 }
-
-class_alias(ContentTypeService::class, 'eZ\Publish\Core\Repository\ContentTypeService');

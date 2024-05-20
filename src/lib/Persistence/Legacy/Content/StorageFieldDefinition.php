@@ -116,5 +116,3 @@ class StorageFieldDefinition extends ValueObject
      */
     public $multilingualData = [];
 }
-
-class_alias(StorageFieldDefinition::class, 'eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldDefinition');

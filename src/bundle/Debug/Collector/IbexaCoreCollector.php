@@ -112,5 +112,3 @@ class IbexaCoreCollector extends DataCollector
         ];
     }
 }
-
-class_alias(IbexaCoreCollector::class, 'eZ\Bundle\EzPublishDebugBundle\Collector\EzPublishCoreCollector');

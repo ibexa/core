@@ -439,5 +439,3 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
         self::assertSame(2, $handler->countLocationsByContentId(67));
     }
 }
-
-class_alias(DoctrineDatabaseTrashTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Location\Gateway\DoctrineDatabaseTrashTest');

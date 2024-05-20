@@ -26,5 +26,3 @@ final class BeforeDeleteObjectStateEvent extends BeforeEvent
         return $this->objectState;
     }
 }
-
-class_alias(BeforeDeleteObjectStateEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\BeforeDeleteObjectStateEvent');

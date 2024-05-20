@@ -42,5 +42,3 @@ class Registry
         return isset($this->registry[$alias]);
     }
 }
-
-class_alias(Registry::class, 'eZ\Publish\Core\Notification\Renderer\Registry');

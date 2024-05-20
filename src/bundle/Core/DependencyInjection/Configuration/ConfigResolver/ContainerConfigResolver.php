@@ -70,5 +70,3 @@ abstract class ContainerConfigResolver implements ConfigResolverInterface, Conta
         return "$namespace.$scope.$paramName";
     }
 }
-
-class_alias(ContainerConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver\ContainerConfigResolver');

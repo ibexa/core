@@ -119,5 +119,3 @@ class LanguagesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('translation_siteaccesses', [], self::EMPTY_SA_GROUP);
     }
 }
-
-class_alias(LanguagesTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\LanguagesTest');

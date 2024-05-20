@@ -56,5 +56,3 @@ class FieldValueConverterRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(FieldValueConverterRegistryPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Storage\Legacy\FieldValueConverterRegistryPassTest');

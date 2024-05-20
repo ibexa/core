@@ -61,5 +61,3 @@ class Value extends BaseValue
         return (string)$this->address;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\MapLocation\Value');

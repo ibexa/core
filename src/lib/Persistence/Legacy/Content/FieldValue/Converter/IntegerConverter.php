@@ -148,5 +148,3 @@ class IntegerConverter implements Converter
         return $state;
     }
 }
-
-class_alias(IntegerConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\IntegerConverter');

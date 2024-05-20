@@ -26,5 +26,3 @@ final class DepthQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return 'location.depth';
     }
 }
-
-class_alias(DepthQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\DepthQueryBuilder');

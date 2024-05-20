@@ -38,5 +38,3 @@ class Keyword extends Collection
         return parent::handle($outerQuery, $subQuery, $criterion, 'keyword');
     }
 }
-
-class_alias(Keyword::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Keyword');

@@ -59,5 +59,3 @@ final class BeforeCopyContentTypeEvent extends BeforeEvent
         return $this->contentTypeCopy instanceof ContentType;
     }
 }
-
-class_alias(BeforeCopyContentTypeEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeCopyContentTypeEvent');

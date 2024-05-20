@@ -50,5 +50,3 @@ final class BeforeCreateNotificationEvent extends BeforeEvent
         return $this->notification instanceof Notification;
     }
 }
-
-class_alias(BeforeCreateNotificationEvent::class, 'eZ\Publish\API\Repository\Events\Notification\BeforeCreateNotificationEvent');

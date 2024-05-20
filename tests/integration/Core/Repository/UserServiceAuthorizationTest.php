@@ -522,5 +522,3 @@ class UserServiceAuthorizationTest extends BaseTest
         return $userGroup;
     }
 }
-
-class_alias(UserServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\UserServiceAuthorizationTest');

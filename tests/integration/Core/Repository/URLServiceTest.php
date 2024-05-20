@@ -965,5 +965,3 @@ class URLServiceTest extends BaseURLServiceTest
         ], $usagesSearchResults);
     }
 }
-
-class_alias(URLServiceTest::class, 'eZ\Publish\API\Repository\Tests\URLServiceTest');

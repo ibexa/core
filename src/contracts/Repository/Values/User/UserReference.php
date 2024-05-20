@@ -20,5 +20,3 @@ interface UserReference
      */
     public function getUserId(): int;
 }
-
-class_alias(UserReference::class, 'eZ\Publish\API\Repository\Values\User\UserReference');

@@ -26,5 +26,3 @@ interface NotificationRenderer
      */
     public function generateUrl(Notification $notification): ?string;
 }
-
-class_alias(NotificationRenderer::class, 'eZ\Publish\Core\Notification\Renderer\NotificationRenderer');

@@ -255,5 +255,3 @@ class Manager implements ViewManagerInterface
         return $this->templateEngine->render($templateIdentifier, $params);
     }
 }
-
-class_alias(Manager::class, 'eZ\Publish\Core\MVC\Symfony\View\Manager');

@@ -58,5 +58,3 @@ final class ContentTypeName extends SortClauseHandler
         );
     }
 }
-
-class_alias(ContentTypeName::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Trash\ContentTypeName');

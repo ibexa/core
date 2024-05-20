@@ -48,5 +48,3 @@ final class RenderContentStrategy extends BaseRenderStrategy implements RenderSt
         return $renderer->render($controllerReference, $currentRequest)->getContent();
     }
 }
-
-class_alias(RenderContentStrategy::class, 'eZ\Publish\Core\MVC\Symfony\Templating\RenderContentStrategy');

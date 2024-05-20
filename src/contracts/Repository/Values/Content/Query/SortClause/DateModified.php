@@ -27,5 +27,3 @@ class DateModified extends SortClause implements FilteringSortClause
         parent::__construct('date_modified', $sortDirection);
     }
 }
-
-class_alias(DateModified::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\DateModified');

@@ -25,5 +25,3 @@ final class BeforeSetUserPreferenceEvent extends BeforeEvent
         return $this->userPreferenceSetStructs;
     }
 }
-
-class_alias(BeforeSetUserPreferenceEvent::class, 'eZ\Publish\API\Repository\Events\UserPreference\BeforeSetUserPreferenceEvent');

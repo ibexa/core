@@ -47,5 +47,3 @@ interface Handler
      */
     public function countUserPreferences(int $userId): int;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\UserPreference\Handler');

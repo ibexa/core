@@ -23,5 +23,3 @@ class PriorityQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return 'location.priority';
     }
 }
-
-class_alias(PriorityQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\PriorityQueryBuilder');

@@ -42,5 +42,3 @@ class StaticSiteAccessConfigResolverTest extends ConfigResolverTest
         return self::EXISTING_SA_NAME;
     }
 }
-
-class_alias(StaticSiteAccessConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ConfigResolver\StaticSiteAccessConfigResolverTest');

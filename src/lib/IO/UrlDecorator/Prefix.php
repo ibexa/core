@@ -59,5 +59,3 @@ class Prefix implements UrlDecorator
         return trim(substr($url, strlen($prefix)), '/');
     }
 }
-
-class_alias(Prefix::class, 'eZ\Publish\Core\IO\UrlDecorator\Prefix');

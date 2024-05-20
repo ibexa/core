@@ -36,5 +36,3 @@ class Value extends BaseValue
         return implode(',', $this->destinationContentIds);
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\RelationList\Value');

@@ -63,5 +63,3 @@ class DefaultAuthenticationSuccessHandlerTest extends TestCase
         self::assertSame($defaultPage, $options['default_target_path']);
     }
 }
-
-class_alias(DefaultAuthenticationSuccessHandlerTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\Authentication\DefaultAuthenticationSuccessHandlerTest');

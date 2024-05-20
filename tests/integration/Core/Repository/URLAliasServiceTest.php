@@ -1817,5 +1817,3 @@ class URLAliasServiceTest extends BaseTest
         return count($rows);
     }
 }
-
-class_alias(URLAliasServiceTest::class, 'eZ\Publish\API\Repository\Tests\URLAliasServiceTest');

@@ -54,5 +54,3 @@ class FileInfo implements MimeTypeDetector
         return $this->fileInfo;
     }
 }
-
-class_alias(FileInfo::class, 'eZ\Publish\Core\IO\MimeTypeDetector\FileInfo');

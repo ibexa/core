@@ -22,5 +22,3 @@ final class ExpressionLanguage extends BaseExpressionLanguage
         parent::__construct($cache, $providers);
     }
 }
-
-class_alias(ExpressionLanguage::class, 'eZ\Publish\Core\MVC\Symfony\ExpressionLanguage\ExpressionLanguage');

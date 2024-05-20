@@ -77,5 +77,3 @@ abstract class Gateway
 
     abstract public function countAll(): int;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlWildcard\Gateway');

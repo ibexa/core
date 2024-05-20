@@ -76,5 +76,3 @@ class SlugConverterConfigurationPass implements CompilerPassInterface
         $slugConverterDefinition->setArgument(1, $mergedConfiguration);
     }
 }
-
-class_alias(SlugConverterConfigurationPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\SlugConverterConfigurationPass');

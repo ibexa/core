@@ -55,5 +55,3 @@ final class TwigVariableProviderExtension implements ExpressionFunctionProviderI
             && $variables[self::PROVIDER_REGISTRY_PARAMETER] instanceof VariableProviderRegistry;
     }
 }
-
-class_alias(TwigVariableProviderExtension::class, 'eZ\Publish\Core\MVC\Symfony\ExpressionLanguage\TwigVariableProviderExtension');

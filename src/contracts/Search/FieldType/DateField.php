@@ -21,5 +21,3 @@ class DateField extends FieldType
      */
     protected $type = 'ez_date';
 }
-
-class_alias(DateField::class, 'eZ\Publish\SPI\Search\FieldType\DateField');

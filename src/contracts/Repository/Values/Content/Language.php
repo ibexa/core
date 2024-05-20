@@ -65,5 +65,3 @@ class Language extends ValueObject
         return $this->enabled;
     }
 }
-
-class_alias(Language::class, 'eZ\Publish\API\Repository\Values\Content\Language');

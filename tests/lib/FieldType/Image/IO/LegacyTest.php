@@ -476,5 +476,3 @@ class LegacyTest extends TestCase
         return $mock;
     }
 }
-
-class_alias(LegacyTest::class, 'eZ\Publish\Core\FieldType\Tests\Image\IO\LegacyTest');

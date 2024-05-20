@@ -28,5 +28,3 @@ class DateModifiedSortClauseQueryBuilder implements SortClauseQueryBuilder
         $queryBuilder->addOrderBy('content.modified', $sortClause->direction);
     }
 }
-
-class_alias(DateModifiedSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Content\DateModifiedSortClauseQueryBuilder');

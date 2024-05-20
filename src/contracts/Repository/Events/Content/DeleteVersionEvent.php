@@ -26,5 +26,3 @@ final class DeleteVersionEvent extends AfterEvent
         return $this->versionInfo;
     }
 }
-
-class_alias(DeleteVersionEvent::class, 'eZ\Publish\API\Repository\Events\Content\DeleteVersionEvent');

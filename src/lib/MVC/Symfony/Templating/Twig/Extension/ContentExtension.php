@@ -327,5 +327,3 @@ class ContentExtension extends AbstractExtension
         return null;
     }
 }
-
-class_alias(ContentExtension::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension');

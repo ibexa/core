@@ -55,5 +55,3 @@ class BinaryFile
      */
     public $mimeType;
 }
-
-class_alias(BinaryFile::class, 'eZ\Publish\SPI\IO\BinaryFile');

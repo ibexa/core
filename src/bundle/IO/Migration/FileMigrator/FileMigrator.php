@@ -78,5 +78,3 @@ final class FileMigrator extends MigrationHandler implements FileMigratorInterfa
         return true;
     }
 }
-
-class_alias(FileMigrator::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileMigrator\FileMigrator');

@@ -95,5 +95,3 @@ class SessionSetDynamicNameListener implements EventSubscriberInterface
         return $sessionName;
     }
 }
-
-class_alias(SessionSetDynamicNameListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\SessionSetDynamicNameListener');

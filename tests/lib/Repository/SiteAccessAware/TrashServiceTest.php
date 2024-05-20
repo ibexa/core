@@ -55,5 +55,3 @@ class TrashServiceTest extends AbstractServiceTest
         return [];
     }
 }
-
-class_alias(TrashServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\TrashServiceTest');

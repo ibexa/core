@@ -60,5 +60,3 @@ final class VisibilityQueryBuilder extends BaseLocationCriterionQueryBuilder
         ];
     }
 }
-
-class_alias(VisibilityQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\VisibilityQueryBuilder');

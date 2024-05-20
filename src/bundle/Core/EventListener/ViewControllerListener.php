@@ -80,5 +80,3 @@ class ViewControllerListener implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(ViewControllerListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ViewControllerListener');

@@ -73,5 +73,3 @@ final class SerializableConverter implements ConverterInterface
         return 'sort_key_string';
     }
 }
-
-class_alias(SerializableConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\SerializableConverter');

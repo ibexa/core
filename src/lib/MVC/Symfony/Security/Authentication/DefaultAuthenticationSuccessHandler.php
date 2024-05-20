@@ -50,5 +50,3 @@ class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
         return parent::determineTargetUrl($request);
     }
 }
-
-class_alias(DefaultAuthenticationSuccessHandler::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler');

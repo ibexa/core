@@ -12,5 +12,3 @@ interface Aggregation
 {
     public function getName(): string;
 }
-
-class_alias(Aggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation');

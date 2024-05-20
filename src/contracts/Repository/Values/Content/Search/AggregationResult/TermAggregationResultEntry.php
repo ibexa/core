@@ -39,5 +39,3 @@ final class TermAggregationResultEntry extends ValueObject
         return $this->count;
     }
 }
-
-class_alias(TermAggregationResultEntry::class, 'eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry');

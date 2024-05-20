@@ -77,5 +77,3 @@ final class MVCEvents
      */
     public const CACHE_CLEAR_CONTENT = 'ezpublish.cache_clear.content';
 }
-
-class_alias(MVCEvents::class, 'eZ\Publish\Core\MVC\Symfony\MVCEvents');

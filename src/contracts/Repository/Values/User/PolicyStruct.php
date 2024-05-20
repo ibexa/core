@@ -26,5 +26,3 @@ abstract class PolicyStruct extends ValueObject
      */
     abstract public function addLimitation(Limitation $limitation): void;
 }
-
-class_alias(PolicyStruct::class, 'eZ\Publish\API\Repository\Values\User\PolicyStruct');

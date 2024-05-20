@@ -117,5 +117,3 @@ final class QueryRenderController
         return $view;
     }
 }
-
-class_alias(QueryRenderController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\QueryRenderController');

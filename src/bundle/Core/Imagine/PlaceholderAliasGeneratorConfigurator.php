@@ -44,5 +44,3 @@ class PlaceholderAliasGeneratorConfigurator
         }
     }
 }
-
-class_alias(PlaceholderAliasGeneratorConfigurator::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\PlaceholderAliasGeneratorConfigurator');

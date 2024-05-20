@@ -24,5 +24,3 @@ class InvalidValue extends InvalidArgumentException
         parent::__construct('$value', "'" . var_export($value, true) . "' is not a valid country identifier");
     }
 }
-
-class_alias(InvalidValue::class, 'eZ\Publish\Core\FieldType\Country\Exception\InvalidValue');

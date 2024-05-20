@@ -48,5 +48,3 @@ final class RecoverEvent extends AfterEvent
         return $this->location;
     }
 }
-
-class_alias(RecoverEvent::class, 'eZ\Publish\API\Repository\Events\Trash\RecoverEvent');

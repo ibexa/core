@@ -22,5 +22,3 @@ final class ContentInfoSearchAdapter extends AbstractSearchAdapter
         );
     }
 }
-
-class_alias(ContentInfoSearchAdapter::class, 'eZ\Publish\API\Repository\Iterator\BatchIteratorAdapter\ContentInfoSearchAdapter');

@@ -37,5 +37,3 @@ final class ContentTranslationEvaluator implements VersionTargetEvaluator
             : LanguageLimitationType::ACCESS_GRANTED;
     }
 }
-
-class_alias(ContentTranslationEvaluator::class, 'eZ\Publish\Core\Limitation\LanguageLimitation\ContentTranslationEvaluator');

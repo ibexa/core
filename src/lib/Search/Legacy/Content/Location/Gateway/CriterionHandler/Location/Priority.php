@@ -65,5 +65,3 @@ class Priority extends CriterionHandler
         }
     }
 }
-
-class_alias(Priority::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\Priority');

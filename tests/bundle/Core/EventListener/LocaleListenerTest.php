@@ -123,5 +123,3 @@ class LocaleListenerTest extends TestCase
         ];
     }
 }
-
-class_alias(LocaleListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\LocaleListenerTest');

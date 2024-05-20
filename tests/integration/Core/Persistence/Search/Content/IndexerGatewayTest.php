@@ -133,5 +133,3 @@ final class IndexerGatewayTest extends BaseGatewayTest
         self::assertSame(18, $this->gateway->countAllContent());
     }
 }
-
-class_alias(IndexerGatewayTest::class, 'eZ\Publish\SPI\Tests\Search\Content\IndexerGatewayTest');

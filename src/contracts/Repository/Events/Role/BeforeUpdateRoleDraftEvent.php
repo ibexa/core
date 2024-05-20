@@ -59,5 +59,3 @@ final class BeforeUpdateRoleDraftEvent extends BeforeEvent
         return $this->updatedRoleDraft instanceof RoleDraft;
     }
 }
-
-class_alias(BeforeUpdateRoleDraftEvent::class, 'eZ\Publish\API\Repository\Events\Role\BeforeUpdateRoleDraftEvent');

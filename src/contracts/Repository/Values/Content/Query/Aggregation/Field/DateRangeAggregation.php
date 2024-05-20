@@ -27,5 +27,3 @@ final class DateRangeAggregation extends AbstractFieldRangeAggregation
         return new self($name, $contentTypeIdentifier, $fieldDefinitionIdentifier, $ranges);
     }
 }
-
-class_alias(DateRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\DateRangeAggregation');

@@ -206,5 +206,3 @@ interface SearchService
      */
     public function supports(int $capabilityFlag): bool;
 }
-
-class_alias(SearchService::class, 'eZ\Publish\API\Repository\SearchService');

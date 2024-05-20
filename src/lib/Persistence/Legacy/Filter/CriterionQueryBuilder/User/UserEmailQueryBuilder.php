@@ -49,5 +49,3 @@ final class UserEmailQueryBuilder extends BaseUserCriterionQueryBuilder
         return $expression;
     }
 }
-
-class_alias(UserEmailQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\UserEmailQueryBuilder');

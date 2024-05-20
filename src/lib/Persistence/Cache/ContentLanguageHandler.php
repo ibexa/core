@@ -174,5 +174,3 @@ class ContentLanguageHandler extends AbstractInMemoryPersistenceHandler implemen
         return $return;
     }
 }
-
-class_alias(ContentLanguageHandler::class, 'eZ\Publish\Core\Persistence\Cache\ContentLanguageHandler');

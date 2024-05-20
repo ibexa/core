@@ -164,5 +164,3 @@ class RouterHostElementTest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterHostElementTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterHostElementTest');

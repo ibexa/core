@@ -115,5 +115,3 @@ class EZP20018LanguageTest extends BaseTest
         self::assertEquals($results->totalCount, count($results->searchHits));
     }
 }
-
-class_alias(EZP20018LanguageTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP20018LanguageTest');

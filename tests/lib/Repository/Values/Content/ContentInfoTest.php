@@ -53,5 +53,3 @@ class ContentInfoTest extends TestCase
         self::assertSame(2, $contentInfo->getMainLocationId());
     }
 }
-
-class_alias(ContentInfoTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\ContentInfoTest');

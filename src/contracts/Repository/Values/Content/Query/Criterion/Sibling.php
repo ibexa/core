@@ -33,5 +33,3 @@ class Sibling extends CompositeCriterion implements FilteringCriterion
         return new self($location->id, $location->parentLocationId);
     }
 }
-
-class_alias(Sibling::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Sibling');

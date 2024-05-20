@@ -30,5 +30,3 @@ class DefaultScopeConfigResolver extends ContainerConfigResolver
         return parent::getParameter($paramName, $namespace, self::SCOPE_NAME);
     }
 }
-
-class_alias(DefaultScopeConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolver');

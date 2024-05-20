@@ -16,5 +16,3 @@ interface Configurator
 {
     public function configure(View $view);
 }
-
-class_alias(Configurator::class, 'eZ\Publish\Core\MVC\Symfony\View\Configurator');

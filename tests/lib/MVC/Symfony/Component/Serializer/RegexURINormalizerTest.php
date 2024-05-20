@@ -45,5 +45,3 @@ final class RegexURINormalizerTest extends TestCase
         self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 }
-
-class_alias(RegexURINormalizerTest::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\RegexURINormalizerTest');

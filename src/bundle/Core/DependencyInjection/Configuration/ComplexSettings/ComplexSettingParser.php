@@ -70,5 +70,3 @@ class ComplexSettingParser extends DynamicSettingParser implements ComplexSettin
         return $this->matchDynamicSettings($string);
     }
 }
-
-class_alias(ComplexSettingParser::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParser');

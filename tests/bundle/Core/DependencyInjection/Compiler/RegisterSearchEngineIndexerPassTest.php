@@ -77,5 +77,3 @@ final class RegisterSearchEngineIndexerPassTest extends AbstractCompilerPassTest
         ];
     }
 }
-
-class_alias(RegisterSearchEngineIndexerPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\RegisterSearchEngineIndexerPassTest');

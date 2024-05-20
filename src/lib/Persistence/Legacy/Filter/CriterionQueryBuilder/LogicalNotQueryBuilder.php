@@ -59,5 +59,3 @@ final class LogicalNotQueryBuilder implements CriterionQueryBuilder
         return null !== $constraint ? sprintf('NOT (%s)', $constraint) : null;
     }
 }
-
-class_alias(LogicalNotQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalNotQueryBuilder');

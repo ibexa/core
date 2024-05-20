@@ -263,5 +263,3 @@ class UrlAliasGenerator extends Generator
         return strtr($url, $this->unsafeCharMap);
     }
 }
-
-class_alias(UrlAliasGenerator::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator');

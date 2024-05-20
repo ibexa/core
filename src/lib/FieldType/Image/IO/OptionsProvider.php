@@ -49,5 +49,3 @@ class OptionsProvider
         return $this->getSetting('image.published_images_dir');
     }
 }
-
-class_alias(OptionsProvider::class, 'eZ\Publish\Core\FieldType\Image\IO\OptionsProvider');

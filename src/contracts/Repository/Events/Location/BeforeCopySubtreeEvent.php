@@ -58,5 +58,3 @@ final class BeforeCopySubtreeEvent extends BeforeEvent
         return $this->location instanceof Location;
     }
 }
-
-class_alias(BeforeCopySubtreeEvent::class, 'eZ\Publish\API\Repository\Events\Location\BeforeCopySubtreeEvent');

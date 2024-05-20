@@ -309,5 +309,3 @@ EOT
         return $oldBinaryFilesToDelete;
     }
 }
-
-class_alias(NormalizeImagesPathsCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\NormalizeImagesPathsCommand');

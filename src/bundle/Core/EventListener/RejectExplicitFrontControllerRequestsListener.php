@@ -52,5 +52,3 @@ class RejectExplicitFrontControllerRequestsListener implements EventSubscriberIn
         }
     }
 }
-
-class_alias(RejectExplicitFrontControllerRequestsListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\RejectExplicitFrontControllerRequestsListener');

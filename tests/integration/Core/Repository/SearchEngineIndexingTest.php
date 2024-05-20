@@ -1378,5 +1378,3 @@ class SearchEngineIndexingTest extends BaseTest
         return $locationService->createLocation($membersContentInfo, $locationCreateStruct);
     }
 }
-
-class_alias(SearchEngineIndexingTest::class, 'eZ\Publish\API\Repository\Tests\SearchEngineIndexingTest');

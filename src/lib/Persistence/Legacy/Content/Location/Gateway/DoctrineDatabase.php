@@ -1617,5 +1617,3 @@ final class DoctrineDatabase extends Gateway
         $this->trashSortClauseConverter->applyOrderBy($query);
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase');

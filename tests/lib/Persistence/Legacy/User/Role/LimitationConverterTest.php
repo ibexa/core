@@ -149,5 +149,3 @@ class LimitationConverterTest extends TestCase
         );
     }
 }
-
-class_alias(LimitationConverterTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\User\Role\LimitationConverterTest');

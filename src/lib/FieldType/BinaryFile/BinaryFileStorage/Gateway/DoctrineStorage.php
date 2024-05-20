@@ -69,5 +69,3 @@ class DoctrineStorage extends BaseDoctrineStorage
         ;
     }
 }
-
-class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage');

@@ -34,5 +34,3 @@ class Thumbnail extends ValueObject
     /** @var string|null */
     protected $mimeType;
 }
-
-class_alias(Thumbnail::class, 'eZ\Publish\API\Repository\Values\Content\Thumbnail');

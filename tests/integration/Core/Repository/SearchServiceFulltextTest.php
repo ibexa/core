@@ -353,5 +353,3 @@ class SearchServiceFulltextTest extends BaseTest
         return false;
     }
 }
-
-class_alias(SearchServiceFulltextTest::class, 'eZ\Publish\API\Repository\Tests\SearchServiceFulltextTest');

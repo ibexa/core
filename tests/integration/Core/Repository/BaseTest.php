@@ -886,5 +886,3 @@ abstract class BaseTest extends TestCase
         $this->getRepository(false)->getPermissionResolver()->setCurrentUserReference($user);
     }
 }
-
-class_alias(BaseTest::class, 'eZ\Publish\API\Repository\Tests\BaseTest');

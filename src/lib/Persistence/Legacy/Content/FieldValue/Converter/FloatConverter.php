@@ -142,5 +142,3 @@ class FloatConverter implements Converter
         return $state;
     }
 }
-
-class_alias(FloatConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\FloatConverter');

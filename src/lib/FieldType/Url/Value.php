@@ -45,5 +45,3 @@ class Value extends BaseValue
         return (string)$this->link;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Url\Value');

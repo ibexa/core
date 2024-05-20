@@ -25,5 +25,3 @@ final class HostElementNormalizer extends AbstractPropertyWhitelistNormalizer
         return ['elementNumber', 'hostElements'];
     }
 }
-
-class_alias(HostElementNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer');

@@ -99,5 +99,3 @@ class LocationTest extends TestCase
         self::fail('Unsetting read-only property succeeded');
     }
 }
-
-class_alias(LocationTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\LocationTest');

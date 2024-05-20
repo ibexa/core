@@ -32,5 +32,3 @@ class PasswordValidationContext extends ValueObject
      */
     protected $user;
 }
-
-class_alias(PasswordValidationContext::class, 'eZ\Publish\API\Repository\Values\User\PasswordValidationContext');

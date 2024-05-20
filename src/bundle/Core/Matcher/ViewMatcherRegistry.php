@@ -57,5 +57,3 @@ final class ViewMatcherRegistry implements ViewMatcherRegistryInterface
         return isset($this->matchers[$matcherIdentifier]);
     }
 }
-
-class_alias(ViewMatcherRegistry::class, 'eZ\Bundle\EzPublishCoreBundle\Matcher\ViewMatcherRegistry');

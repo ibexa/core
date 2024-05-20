@@ -150,5 +150,3 @@ class ContentTypeDraft extends APIContentTypeDraft
         return $this->innerContentType->hasFieldDefinition($fieldDefinitionIdentifier);
     }
 }
-
-class_alias(ContentTypeDraft::class, 'eZ\Publish\Core\Repository\Values\ContentType\ContentTypeDraft');

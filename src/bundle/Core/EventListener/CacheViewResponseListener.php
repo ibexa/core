@@ -58,5 +58,3 @@ class CacheViewResponseListener implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(CacheViewResponseListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\CacheViewResponseListener');

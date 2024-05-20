@@ -49,5 +49,3 @@ abstract class UserCreateStruct extends ContentCreateStruct
      */
     public $enabled = true;
 }
-
-class_alias(UserCreateStruct::class, 'eZ\Publish\API\Repository\Values\User\UserCreateStruct');

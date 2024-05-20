@@ -47,5 +47,3 @@ final class CopySubtreeEvent extends AfterEvent
         return $this->targetParentLocation;
     }
 }
-
-class_alias(CopySubtreeEvent::class, 'eZ\Publish\API\Repository\Events\Location\CopySubtreeEvent');

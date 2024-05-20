@@ -59,5 +59,3 @@ class SiteAccessMatcherRegistryTest extends TestCase
         return $this->createMock(Matcher::class);
     }
 }
-
-class_alias(SiteAccessMatcherRegistryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\SiteAccess\SiteAccessMatcherRegistryTest');

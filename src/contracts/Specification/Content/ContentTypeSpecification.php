@@ -27,5 +27,3 @@ final class ContentTypeSpecification implements ContentSpecification
         return $content->getContentType()->identifier === $this->expectedType;
     }
 }
-
-class_alias(ContentTypeSpecification::class, 'eZ\Publish\SPI\Specification\Content\ContentTypeSpecification');

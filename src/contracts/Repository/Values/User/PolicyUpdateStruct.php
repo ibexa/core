@@ -15,5 +15,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\User;
 abstract class PolicyUpdateStruct extends PolicyStruct
 {
 }
-
-class_alias(PolicyUpdateStruct::class, 'eZ\Publish\API\Repository\Values\User\PolicyUpdateStruct');

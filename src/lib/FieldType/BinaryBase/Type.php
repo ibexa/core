@@ -375,5 +375,3 @@ abstract class Type extends FieldType
         return true;
     }
 }
-
-class_alias(Type::class, 'eZ\Publish\Core\FieldType\BinaryBase\Type');

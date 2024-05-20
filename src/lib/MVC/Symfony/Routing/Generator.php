@@ -173,5 +173,3 @@ abstract class Generator implements SiteAccessAware
         return $context;
     }
 }
-
-class_alias(Generator::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Generator');

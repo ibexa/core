@@ -38,5 +38,3 @@ final class UpdateEvent extends AfterEvent
         return $this->updateStruct;
     }
 }
-
-class_alias(UpdateEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\UpdateEvent');

@@ -182,5 +182,3 @@ class RolePolicyLimitationTest extends BaseLimitationTest
         return $userService->createUserGroup($userGroupCreateStruct, $usersGroup);
     }
 }
-
-class_alias(RolePolicyLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\RolePolicyLimitationTest');

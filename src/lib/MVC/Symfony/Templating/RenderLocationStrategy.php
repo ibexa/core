@@ -49,5 +49,3 @@ final class RenderLocationStrategy extends BaseRenderStrategy implements RenderS
         return $renderer->render($controllerReference, $currentRequest)->getContent();
     }
 }
-
-class_alias(RenderLocationStrategy::class, 'eZ\Publish\Core\MVC\Symfony\Templating\RenderLocationStrategy');

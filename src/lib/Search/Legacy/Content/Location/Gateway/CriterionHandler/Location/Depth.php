@@ -72,5 +72,3 @@ class Depth extends CriterionHandler
         }
     }
 }
-
-class_alias(Depth::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\Depth');

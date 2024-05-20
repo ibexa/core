@@ -81,5 +81,3 @@ interface NotificationService
      */
     public function deleteNotification(Notification $notification): void;
 }
-
-class_alias(NotificationService::class, 'eZ\Publish\API\Repository\NotificationService');

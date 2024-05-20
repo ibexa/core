@@ -58,5 +58,3 @@ class LanguageSwitchListener implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(LanguageSwitchListener::class, 'eZ\Publish\Core\MVC\Symfony\EventListener\LanguageSwitchListener');

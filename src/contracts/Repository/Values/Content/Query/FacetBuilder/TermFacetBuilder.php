@@ -21,5 +21,3 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 class TermFacetBuilder extends FacetBuilder
 {
 }
-
-class_alias(TermFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\TermFacetBuilder');

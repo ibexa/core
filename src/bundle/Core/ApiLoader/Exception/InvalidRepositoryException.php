@@ -12,5 +12,3 @@ use InvalidArgumentException;
 class InvalidRepositoryException extends InvalidArgumentException
 {
 }
-
-class_alias(InvalidRepositoryException::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\Exception\InvalidRepositoryException');

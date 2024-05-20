@@ -105,5 +105,3 @@ class BinaryLoaderTest extends TestCase
         self::assertEquals($expected, $this->binaryLoader->find($path));
     }
 }
-
-class_alias(BinaryLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\BinaryLoaderTest');

@@ -330,5 +330,3 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(EmailAddressIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\EmailAddressIntegrationTest');

@@ -45,5 +45,3 @@ final class SiteAccessMatcherRegistry implements SiteAccessMatcherRegistryInterf
         return isset($this->matchers[$identifier]);
     }
 }
-
-class_alias(SiteAccessMatcherRegistry::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\SiteAccessMatcherRegistry');

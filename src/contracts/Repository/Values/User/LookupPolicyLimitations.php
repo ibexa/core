@@ -33,5 +33,3 @@ final class LookupPolicyLimitations extends ValueObject
         $this->limitations = $limitations;
     }
 }
-
-class_alias(LookupPolicyLimitations::class, 'eZ\Publish\API\Repository\Values\User\LookupPolicyLimitations');

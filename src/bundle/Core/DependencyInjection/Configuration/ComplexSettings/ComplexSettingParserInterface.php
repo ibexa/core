@@ -34,5 +34,3 @@ interface ComplexSettingParserInterface extends DynamicSettingParserInterface
      */
     public function parseComplexSetting($string);
 }
-
-class_alias(ComplexSettingParserInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ComplexSettings\ComplexSettingParserInterface');

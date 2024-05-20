@@ -42,5 +42,3 @@ class HandlerRegistry
         return $this->handlersMap[$handlerName];
     }
 }
-
-class_alias(HandlerRegistry::class, 'eZ\Bundle\EzPublishIOBundle\ApiLoader\HandlerRegistry');

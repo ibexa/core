@@ -38,5 +38,3 @@ final class AssignUserToUserGroupEvent extends AfterEvent
         return $this->userGroup;
     }
 }
-
-class_alias(AssignUserToUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\AssignUserToUserGroupEvent');

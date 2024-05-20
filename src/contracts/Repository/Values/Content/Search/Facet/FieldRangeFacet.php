@@ -45,5 +45,3 @@ class FieldRangeFacet extends Facet
      */
     public $entries;
 }
-
-class_alias(FieldRangeFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\FieldRangeFacet');

@@ -38,5 +38,3 @@ abstract class ContentUpdateStruct extends ContentStruct
      */
     public $creatorId;
 }
-
-class_alias(ContentUpdateStruct::class, 'eZ\Publish\API\Repository\Values\Content\ContentUpdateStruct');

@@ -98,5 +98,3 @@ class SettingHandlerTest extends AbstractCacheHandlerTest
         ];
     }
 }
-
-class_alias(SettingHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\SettingHandlerTest');

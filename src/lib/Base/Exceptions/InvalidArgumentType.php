@@ -39,5 +39,3 @@ class InvalidArgumentType extends InvalidArgumentException
         $this->message = $this->getBaseTranslation();
     }
 }
-
-class_alias(InvalidArgumentType::class, 'eZ\Publish\Core\Base\Exceptions\InvalidArgumentType');

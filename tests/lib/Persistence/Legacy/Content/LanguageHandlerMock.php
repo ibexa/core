@@ -157,5 +157,3 @@ class LanguageHandlerMock implements LanguageHandler
         return $languages;
     }
 }
-
-class_alias(LanguageHandlerMock::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\LanguageHandlerMock');

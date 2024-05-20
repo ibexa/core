@@ -164,5 +164,3 @@ class Handler implements BaseLanguageHandler
         $this->languageGateway->deleteLanguage($id);
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\Handler');

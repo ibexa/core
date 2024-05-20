@@ -29,5 +29,3 @@ class FlysystemTest
         return 'ibexa.core.io.metadata_handler.flysystem';
     }
 }
-
-class_alias(FlysystemTest::class, 'eZ\Bundle\EzPublishIOBundle\Tests\DependencyInjection\ConfigurationFactory\MetadataHandler\FlysystemTest');

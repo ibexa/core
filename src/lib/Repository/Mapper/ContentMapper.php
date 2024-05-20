@@ -354,5 +354,3 @@ class ContentMapper
         return $fields;
     }
 }
-
-class_alias(ContentMapper::class, 'eZ\Publish\Core\Repository\Mapper\ContentMapper');

@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Field
 final class SelectionTermAggregation extends AbstractFieldTermAggregation
 {
 }
-
-class_alias(SelectionTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\SelectionTermAggregation');

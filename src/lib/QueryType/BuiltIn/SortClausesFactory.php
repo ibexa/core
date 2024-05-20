@@ -40,5 +40,3 @@ final class SortClausesFactory implements SortClausesFactoryInterface
         return $parser->parseSortClausesList();
     }
 }
-
-class_alias(SortClausesFactory::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortClausesFactory');

@@ -307,5 +307,3 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
         $handler->emptyTrash();
     }
 }
-
-class_alias(TrashHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\TrashHandlerTest');

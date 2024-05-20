@@ -75,5 +75,3 @@ final class StaticSiteAccessProvider implements SiteAccessProviderInterface
         return $siteAccess;
     }
 }
-
-class_alias(StaticSiteAccessProvider::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider');

@@ -45,5 +45,3 @@ final class SubtreeQueryBuilder extends BaseLocationCriterionQueryBuilder
         return (string)$expressionBuilder->orX(...$statements);
     }
 }
-
-class_alias(SubtreeQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\SubtreeQueryBuilder');

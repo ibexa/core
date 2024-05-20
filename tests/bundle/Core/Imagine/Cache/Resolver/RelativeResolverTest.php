@@ -41,5 +41,3 @@ class RelativeResolverTest extends TestCase
         self::assertSame($expected, $resolver->resolve($path, $filter));
     }
 }
-
-class_alias(RelativeResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Cache\Resolver\RelativeResolverTest');

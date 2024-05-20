@@ -80,5 +80,3 @@ class RenderOptionsTest extends TestCase
         self::assertTrue($renderOptions->has('c'));
     }
 }
-
-class_alias(RenderOptionsTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\RenderOptionsTest');

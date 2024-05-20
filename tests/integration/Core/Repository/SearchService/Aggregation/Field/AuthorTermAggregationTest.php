@@ -111,5 +111,3 @@ final class AuthorTermAggregationTest extends AbstractAggregationTest
         $this->refreshSearch($this->getRepository());
     }
 }
-
-class_alias(AuthorTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\Field\AuthorTermAggregationTest');

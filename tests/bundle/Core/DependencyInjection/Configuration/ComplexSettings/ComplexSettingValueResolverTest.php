@@ -27,5 +27,3 @@ class ComplexSettingValueResolverTest extends TestCase
         );
     }
 }
-
-class_alias(ComplexSettingValueResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ComplexSettings\ComplexSettingValueResolverTest');

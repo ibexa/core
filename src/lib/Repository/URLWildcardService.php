@@ -329,5 +329,3 @@ class URLWildcardService implements URLWildcardServiceInterface
         }
     }
 }
-
-class_alias(URLWildcardService::class, 'eZ\Publish\Core\Repository\URLWildcardService');

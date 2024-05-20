@@ -146,5 +146,3 @@ class UserPreferenceService implements UserPreferenceServiceInterface
             ->getUserId();
     }
 }
-
-class_alias(UserPreferenceService::class, 'eZ\Publish\Core\Repository\UserPreferenceService');

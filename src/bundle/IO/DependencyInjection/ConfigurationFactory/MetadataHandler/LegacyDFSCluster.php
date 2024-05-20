@@ -38,5 +38,3 @@ class LegacyDFSCluster implements ConfigurationFactory
             ->end();
     }
 }
-
-class_alias(LegacyDFSCluster::class, 'eZ\Bundle\EzPublishIOBundle\DependencyInjection\ConfigurationFactory\MetadataHandler\LegacyDFSCluster');

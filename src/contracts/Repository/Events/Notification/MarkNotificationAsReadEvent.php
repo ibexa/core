@@ -26,5 +26,3 @@ final class MarkNotificationAsReadEvent extends AfterEvent
         return $this->notification;
     }
 }
-
-class_alias(MarkNotificationAsReadEvent::class, 'eZ\Publish\API\Repository\Events\Notification\MarkNotificationAsReadEvent');

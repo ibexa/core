@@ -79,5 +79,3 @@ interface IOBinarydataHandler
      */
     public function deleteDirectory($spiPath);
 }
-
-class_alias(IOBinarydataHandler::class, 'eZ\Publish\Core\IO\IOBinarydataHandler');

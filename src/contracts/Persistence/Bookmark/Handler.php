@@ -68,5 +68,3 @@ interface Handler
      */
     public function locationSwapped(int $location1Id, int $location2Id): void;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Bookmark\Handler');

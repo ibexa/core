@@ -367,5 +367,3 @@ class RoleService extends RoleServiceDecorator
         );
     }
 }
-
-class_alias(RoleService::class, 'eZ\Publish\Core\Event\RoleService');

@@ -22,5 +22,3 @@ final class YamlFixture extends BaseInMemoryCachedFileFixture
         return Yaml::parseFile($this->getFilePath());
     }
 }
-
-class_alias(YamlFixture::class, 'eZ\Publish\SPI\Tests\Persistence\YamlFixture');

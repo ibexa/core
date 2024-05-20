@@ -120,5 +120,3 @@ class SiteAccessListenerTest extends TestCase
         self::assertSame($this->defaultSiteaccess->groups, $siteAccess->groups);
     }
 }
-
-class_alias(SiteAccessListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\SiteAccessListenerTest');

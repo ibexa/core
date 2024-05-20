@@ -88,5 +88,3 @@ class EZP22840RoleLimitations extends BaseTest
         );
     }
 }
-
-class_alias(EZP22840RoleLimitations::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP22840RoleLimitations');

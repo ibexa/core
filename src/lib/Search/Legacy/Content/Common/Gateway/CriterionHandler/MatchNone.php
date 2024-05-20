@@ -38,5 +38,3 @@ class MatchNone extends CriterionHandler
         return '1 = 0';
     }
 }
-
-class_alias(MatchNone::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MatchNone');

@@ -55,5 +55,3 @@ class URLQuery extends ValueObject
      */
     public $performCount = true;
 }
-
-class_alias(URLQuery::class, 'eZ\Publish\API\Repository\Values\URL\URLQuery');

@@ -128,5 +128,3 @@ class UserPreferenceHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 }
-
-class_alias(UserPreferenceHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\UserPreferenceHandlerTest');

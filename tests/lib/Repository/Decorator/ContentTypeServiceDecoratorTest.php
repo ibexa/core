@@ -464,5 +464,3 @@ class ContentTypeServiceDecoratorTest extends TestCase
         $decoratedService->removeContentTypeTranslation(...$parameters);
     }
 }
-
-class_alias(ContentTypeServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\ContentTypeServiceDecoratorTest');

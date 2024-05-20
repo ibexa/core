@@ -23,5 +23,3 @@ interface LocationResolver
      */
     public function resolveLocation(ContentInfo $contentInfo): Location;
 }
-
-class_alias(LocationResolver::class, 'eZ\Publish\Core\Repository\LocationResolver\LocationResolver');

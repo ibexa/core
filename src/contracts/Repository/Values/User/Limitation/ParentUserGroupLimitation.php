@@ -22,5 +22,3 @@ class ParentUserGroupLimitation extends Limitation
         return Limitation::PARENTUSERGROUP;
     }
 }
-
-class_alias(ParentUserGroupLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\ParentUserGroupLimitation');

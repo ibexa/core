@@ -90,5 +90,3 @@ class ImageTest extends AbstractParserTestCase
         );
     }
 }
-
-class_alias(ImageTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\ImageTest');

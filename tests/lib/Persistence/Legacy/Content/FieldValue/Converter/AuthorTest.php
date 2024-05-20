@@ -161,5 +161,3 @@ EOT;
         );
     }
 }
-
-class_alias(AuthorTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\AuthorTest');

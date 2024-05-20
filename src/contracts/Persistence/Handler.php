@@ -124,5 +124,3 @@ interface Handler
      */
     public function rollback();
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Handler');

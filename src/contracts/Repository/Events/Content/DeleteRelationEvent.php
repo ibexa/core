@@ -38,5 +38,3 @@ final class DeleteRelationEvent extends AfterEvent
         return $this->destinationContent;
     }
 }
-
-class_alias(DeleteRelationEvent::class, 'eZ\Publish\API\Repository\Events\Content\DeleteRelationEvent');

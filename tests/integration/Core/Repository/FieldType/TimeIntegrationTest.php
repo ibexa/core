@@ -337,5 +337,3 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
         return 14400;
     }
 }
-
-class_alias(TimeIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\TimeIntegrationTest');

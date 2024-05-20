@@ -21,5 +21,3 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 class CriterionFacetBuilder extends FacetBuilder
 {
 }
-
-class_alias(CriterionFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\CriterionFacetBuilder');

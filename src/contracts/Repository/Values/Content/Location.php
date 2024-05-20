@@ -249,5 +249,3 @@ abstract class Location extends ValueObject
         return $this->pathString;
     }
 }
-
-class_alias(Location::class, 'eZ\Publish\API\Repository\Values\Content\Location');

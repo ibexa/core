@@ -118,5 +118,3 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
         $this->setPrefix($this->configResolver->getParameter($this->prefixParameterName));
     }
 }
-
-class_alias(ConfigScopeChangeAwareIOService::class, 'eZ\Publish\Core\IO\ConfigScopeChangeAwareIOService');

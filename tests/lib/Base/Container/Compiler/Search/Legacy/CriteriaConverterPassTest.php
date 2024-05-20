@@ -132,5 +132,3 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(CriteriaConverterPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Search\Legacy\CriteriaConverterPassTest');

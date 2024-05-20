@@ -51,5 +51,3 @@ abstract class Limitation extends ValueObject
      */
     abstract public function getIdentifier(): string;
 }
-
-class_alias(Limitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation');

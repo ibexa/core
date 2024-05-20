@@ -178,5 +178,3 @@ abstract class Criterion implements CriterionInterface
         return $callback;
     }
 }
-
-class_alias(Criterion::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion');

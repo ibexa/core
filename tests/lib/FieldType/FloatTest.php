@@ -616,5 +616,3 @@ class FloatTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(FloatTest::class, 'eZ\Publish\Core\FieldType\Tests\FloatTest');

@@ -1092,5 +1092,3 @@ class SectionServiceTest extends BaseTest
         self::assertEquals('My Standard', $updatedStandard->name);
     }
 }
-
-class_alias(SectionServiceTest::class, 'eZ\Publish\API\Repository\Tests\SectionServiceTest');

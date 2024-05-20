@@ -29,5 +29,3 @@ abstract class AbstractFieldTypeParser extends AbstractParser implements FieldTy
         $this->addFieldTypeSemanticConfig($fieldTypeNodeBuilder);
     }
 }
-
-class_alias(AbstractFieldTypeParser::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\AbstractFieldTypeParser');

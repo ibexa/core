@@ -1200,5 +1200,3 @@ class Handler implements UrlAliasHandlerInterface
         }
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\Handler');

@@ -62,5 +62,3 @@ class UpdateStruct extends ValueObject
      */
     public $isSystem = false;
 }
-
-class_alias(UpdateStruct::class, 'eZ\Publish\SPI\Persistence\Content\Type\Group\UpdateStruct');

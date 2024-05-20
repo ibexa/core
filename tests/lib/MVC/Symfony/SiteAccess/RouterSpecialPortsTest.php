@@ -125,5 +125,3 @@ class RouterSpecialPortsTest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterSpecialPortsTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterSpecialPortsTest');

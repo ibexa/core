@@ -227,5 +227,3 @@ abstract class Handler
         return $arrayValueTypes[0] ?? Connection::PARAM_STR_ARRAY;
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler');

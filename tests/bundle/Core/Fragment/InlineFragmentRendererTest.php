@@ -84,5 +84,3 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
         return new InlineFragmentRenderer($this->innerRenderer);
     }
 }
-
-class_alias(InlineFragmentRendererTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Fragment\InlineFragmentRendererTest');

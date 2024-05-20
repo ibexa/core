@@ -54,5 +54,3 @@ abstract class BaseRenderStrategy implements RenderStrategy
         return $this->fragmentRenderers[$name];
     }
 }
-
-class_alias(BaseRenderStrategy::class, 'eZ\Publish\SPI\MVC\Templating\BaseRenderStrategy');

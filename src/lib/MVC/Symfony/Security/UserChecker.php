@@ -53,5 +53,3 @@ final class UserChecker implements UserCheckerInterface
         }
     }
 }
-
-class_alias(UserChecker::class, 'eZ\Publish\Core\MVC\Symfony\Security\UserChecker');

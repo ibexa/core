@@ -85,5 +85,3 @@ class LocaleConverter implements LocaleConverterInterface
         return $this->reverseConversionMap[$posixLocale];
     }
 }
-
-class_alias(LocaleConverter::class, 'eZ\Publish\Core\MVC\Symfony\Locale\LocaleConverter');

@@ -131,5 +131,3 @@ class BookmarkServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(BookmarkServiceTest::class, 'eZ\Publish\Core\Event\Tests\BookmarkServiceTest');

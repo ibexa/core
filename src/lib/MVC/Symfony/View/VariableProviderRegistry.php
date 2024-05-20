@@ -18,5 +18,3 @@ interface VariableProviderRegistry
 
     public function hasTwigVariableProvider(string $identifier): bool;
 }
-
-class_alias(VariableProviderRegistry::class, 'eZ\Publish\Core\MVC\Symfony\View\VariableProviderRegistry');

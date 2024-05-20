@@ -35,5 +35,3 @@ final class BeforeMoveSubtreeEvent extends BeforeEvent
         return $this->newParentLocation;
     }
 }
-
-class_alias(BeforeMoveSubtreeEvent::class, 'eZ\Publish\API\Repository\Events\Location\BeforeMoveSubtreeEvent');

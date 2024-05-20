@@ -59,5 +59,3 @@ final class BeforeUpdateSectionEvent extends BeforeEvent
         return $this->updatedSection instanceof Section;
     }
 }
-
-class_alias(BeforeUpdateSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\BeforeUpdateSectionEvent');

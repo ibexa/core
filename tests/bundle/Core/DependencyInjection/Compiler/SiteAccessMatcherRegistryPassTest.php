@@ -48,5 +48,3 @@ class SiteAccessMatcherRegistryPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(SiteAccessMatcherRegistryPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\SiteAccessMatcherRegistryPassTest');

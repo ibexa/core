@@ -52,5 +52,3 @@ class RouteReferenceGenerationEvent extends Event
         $this->routeReference = $routeReference;
     }
 }
-
-class_alias(RouteReferenceGenerationEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent');

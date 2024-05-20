@@ -74,5 +74,3 @@ final class CreateUrlAliasEvent extends AfterEvent
         return $this->urlAlias;
     }
 }
-
-class_alias(CreateUrlAliasEvent::class, 'eZ\Publish\API\Repository\Events\URLAlias\CreateUrlAliasEvent');

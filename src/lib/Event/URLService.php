@@ -57,5 +57,3 @@ class URLService extends URLServiceDecorator
         return $updatedUrl;
     }
 }
-
-class_alias(URLService::class, 'eZ\Publish\Core\Event\URLService');

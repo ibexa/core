@@ -120,5 +120,3 @@ class RouterHostRegexTest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterHostRegexTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterHostRegexTest');

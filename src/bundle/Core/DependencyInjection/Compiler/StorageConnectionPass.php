@@ -45,5 +45,3 @@ class StorageConnectionPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(StorageConnectionPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\StorageConnectionPass');

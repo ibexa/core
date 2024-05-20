@@ -246,5 +246,3 @@ abstract class UserServiceDecorator implements UserService
         return $this->innerService->getPasswordInfo($user);
     }
 }
-
-class_alias(UserServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\UserServiceDecorator');

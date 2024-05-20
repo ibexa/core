@@ -82,5 +82,3 @@ class StorageEngineFactory
         return $this->storageEngines[$repositoryConfig['storage']['engine']];
     }
 }
-
-class_alias(StorageEngineFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\StorageEngineFactory');

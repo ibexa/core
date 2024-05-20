@@ -56,5 +56,3 @@ class LogicalNotTest extends CriterionHandlerTest
         self::assertEquals($expected, $actual);
     }
 }
-
-class_alias(LogicalNotTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriterionHandler\LogicalNotTest');

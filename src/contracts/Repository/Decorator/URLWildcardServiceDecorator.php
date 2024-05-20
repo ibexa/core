@@ -72,5 +72,3 @@ abstract class URLWildcardServiceDecorator implements URLWildcardService
         return $this->innerService->countAll();
     }
 }
-
-class_alias(URLWildcardServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\URLWildcardServiceDecorator');

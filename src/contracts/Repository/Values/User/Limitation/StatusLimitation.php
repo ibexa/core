@@ -25,5 +25,3 @@ class StatusLimitation extends Limitation
         return Limitation::STATUS;
     }
 }
-
-class_alias(StatusLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\StatusLimitation');

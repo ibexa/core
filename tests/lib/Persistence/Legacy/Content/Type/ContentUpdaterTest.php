@@ -260,5 +260,3 @@ class ContentUpdaterTest extends TestCase
         return $this->contentUpdater;
     }
 }
-
-class_alias(ContentUpdaterTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Type\ContentUpdaterTest');

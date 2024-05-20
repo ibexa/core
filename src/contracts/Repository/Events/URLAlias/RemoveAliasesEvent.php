@@ -26,5 +26,3 @@ final class RemoveAliasesEvent extends AfterEvent
         return $this->aliasList;
     }
 }
-
-class_alias(RemoveAliasesEvent::class, 'eZ\Publish\API\Repository\Events\URLAlias\RemoveAliasesEvent');

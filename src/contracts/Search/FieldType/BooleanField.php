@@ -21,5 +21,3 @@ class BooleanField extends FieldType
      */
     protected $type = 'ez_boolean';
 }
-
-class_alias(BooleanField::class, 'eZ\Publish\SPI\Search\FieldType\BooleanField');

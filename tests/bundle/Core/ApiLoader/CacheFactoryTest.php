@@ -64,5 +64,3 @@ class CacheFactoryTest extends TestCase
         self::assertInstanceOf(TagAwareAdapter::class, $factory->getCachePool($this->configResolver));
     }
 }
-
-class_alias(CacheFactoryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ApiLoader\CacheFactoryTest');

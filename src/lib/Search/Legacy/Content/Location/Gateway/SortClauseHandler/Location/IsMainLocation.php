@@ -48,5 +48,3 @@ class IsMainLocation extends SortClauseHandler
         return [$column];
     }
 }
-
-class_alias(IsMainLocation::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\SortClauseHandler\Location\IsMainLocation');

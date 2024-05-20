@@ -22,5 +22,3 @@ class MySqlRandom extends AbstractRandom
         return 'RAND(' . $seed . ')';
     }
 }
-
-class_alias(MySqlRandom::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\MySqlRandom');

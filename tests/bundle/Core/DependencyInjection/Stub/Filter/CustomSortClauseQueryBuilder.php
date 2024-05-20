@@ -29,5 +29,3 @@ class CustomSortClauseQueryBuilder implements SortClauseQueryBuilder
         // Do nothing
     }
 }
-
-class_alias(CustomSortClauseQueryBuilder::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\Filter\CustomSortClauseQueryBuilder');

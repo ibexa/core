@@ -33,5 +33,3 @@ class PriceMapper extends FieldValueMapper
         return (float)$field->getValue();
     }
 }
-
-class_alias(PriceMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\PriceMapper');

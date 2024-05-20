@@ -17,5 +17,3 @@ use Ibexa\Contracts\Core\Repository\PasswordHashService;
 interface PasswordHashServiceInterface extends PasswordHashService
 {
 }
-
-class_alias(PasswordHashServiceInterface::class, 'eZ\Publish\Core\Repository\User\PasswordHashServiceInterface');

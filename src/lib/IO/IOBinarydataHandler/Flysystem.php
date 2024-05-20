@@ -101,5 +101,3 @@ final class Flysystem implements IOBinaryDataHandler
         }
     }
 }
-
-class_alias(Flysystem::class, 'eZ\Publish\Core\IO\IOBinarydataHandler\Flysystem');

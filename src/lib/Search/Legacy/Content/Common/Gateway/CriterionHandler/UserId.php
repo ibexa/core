@@ -46,5 +46,3 @@ class UserId extends CriterionHandler
         );
     }
 }
-
-class_alias(UserId::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserId');

@@ -63,5 +63,3 @@ class ImageVariation extends Variation
      */
     protected bool $isExternal = false;
 }
-
-class_alias(ImageVariation::class, 'eZ\Publish\SPI\Variation\Values\ImageVariation');

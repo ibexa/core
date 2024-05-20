@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 final class VisibilityTermAggregation extends AbstractTermAggregation
 {
 }
-
-class_alias(VisibilityTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\VisibilityTermAggregation');

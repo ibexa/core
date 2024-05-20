@@ -41,5 +41,3 @@ interface HookableConfigurationMapperInterface extends ConfigurationMapperInterf
      */
     public function postMap(array $config, ContextualizerInterface $contextualizer);
 }
-
-class_alias(HookableConfigurationMapperInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\HookableConfigurationMapperInterface');

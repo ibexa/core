@@ -205,5 +205,3 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return $mock;
     }
 }
-
-class_alias(FieldRenderingExtensionIntegrationTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\Extension\FieldRenderingExtensionIntegrationTest');

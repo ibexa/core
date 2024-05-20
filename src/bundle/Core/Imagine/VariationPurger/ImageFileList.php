@@ -16,5 +16,3 @@ use Iterator;
 interface ImageFileList extends Countable, Iterator
 {
 }
-
-class_alias(ImageFileList::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\ImageFileList');

@@ -22,5 +22,3 @@ class UserGroupLimitation extends Limitation
         return Limitation::USERGROUP;
     }
 }
-
-class_alias(UserGroupLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\UserGroupLimitation');

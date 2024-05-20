@@ -53,5 +53,3 @@ final class LogicalAndQueryBuilder implements CriterionQueryBuilder
         return (string)$queryBuilder->expr()->andX(...$constraints);
     }
 }
-
-class_alias(LogicalAndQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\LogicalAndQueryBuilder');

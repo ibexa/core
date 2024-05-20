@@ -29,5 +29,3 @@ class NotImplementedException extends ForbiddenException
         parent::__construct("Intentionally not implemented: {$feature}", $code, $previous);
     }
 }
-
-class_alias(NotImplementedException::class, 'eZ\Publish\API\Repository\Exceptions\NotImplementedException');

@@ -26,5 +26,3 @@ trait MultiLanguageTrait
      */
     protected $prioritizedLanguages = [];
 }
-
-class_alias(MultiLanguageTrait::class, 'eZ\Publish\Core\Repository\Values\MultiLanguageTrait');

@@ -57,5 +57,3 @@ class Document extends ValueObject
      */
     public $documents = [];
 }
-
-class_alias(Document::class, 'eZ\Publish\SPI\Search\Document');

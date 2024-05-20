@@ -87,5 +87,3 @@ class StreamFileListener implements EventSubscriberInterface
         return strpos(ltrim($uri, '/'), $urlPrefix) === 0;
     }
 }
-
-class_alias(StreamFileListener::class, 'eZ\Bundle\EzPublishIOBundle\EventListener\StreamFileListener');

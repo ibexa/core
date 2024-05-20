@@ -57,5 +57,3 @@ class LocationRemoteId extends CriterionHandler
         );
     }
 }
-
-class_alias(LocationRemoteId::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway\CriterionHandler\LocationRemoteId');

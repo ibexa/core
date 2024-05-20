@@ -28,5 +28,3 @@ class DefaultScopeConfigResolverTest extends ConfigResolverTest
         return 'default';
     }
 }
-
-class_alias(DefaultScopeConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolverTest');

@@ -85,5 +85,3 @@ class OriginalRequestListenerTest extends TestCase
         ClockMock::withClockMock(false);
     }
 }
-
-class_alias(OriginalRequestListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\OriginalRequestListenerTest');

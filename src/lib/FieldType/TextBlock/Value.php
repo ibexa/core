@@ -15,5 +15,3 @@ use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 class Value extends TextLineValue
 {
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\TextBlock\Value');

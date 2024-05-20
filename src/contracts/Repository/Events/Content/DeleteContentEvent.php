@@ -37,5 +37,3 @@ final class DeleteContentEvent extends AfterEvent
         return $this->contentInfo;
     }
 }
-
-class_alias(DeleteContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\DeleteContentEvent');

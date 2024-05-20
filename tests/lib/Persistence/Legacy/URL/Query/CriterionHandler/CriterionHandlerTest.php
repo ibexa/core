@@ -88,5 +88,3 @@ abstract class CriterionHandlerTest extends TestCase
         return $converter;
     }
 }
-
-class_alias(CriterionHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Query\CriterionHandler\CriterionHandlerTest');

@@ -338,5 +338,3 @@ class ChainConfigResolverTest extends TestCase
         return sprintf('%s.%s.%s', $namespace, $scope, $paramName);
     }
 }
-
-class_alias(ChainConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ConfigResolver\ChainConfigResolverTest');

@@ -82,5 +82,3 @@ class YamlPolicyProviderTest extends TestCase
         $provider->addPolicies($configBuilder);
     }
 }
-
-class_alias(YamlPolicyProviderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Security\PolicyProvider\YamlPolicyProviderTest');

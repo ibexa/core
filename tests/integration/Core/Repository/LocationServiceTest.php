@@ -3757,5 +3757,3 @@ class LocationServiceTest extends BaseTest
         );
     }
 }
-
-class_alias(LocationServiceTest::class, 'eZ\Publish\API\Repository\Tests\LocationServiceTest');

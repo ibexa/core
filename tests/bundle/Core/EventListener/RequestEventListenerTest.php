@@ -204,5 +204,3 @@ class RequestEventListenerTest extends TestCase
         self::assertTrue($event->isPropagationStopped());
     }
 }
-
-class_alias(RequestEventListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\RequestEventListenerTest');

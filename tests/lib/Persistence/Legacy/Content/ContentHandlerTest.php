@@ -1679,5 +1679,3 @@ class ContentHandlerTest extends TestCase
         return $this->urlAliasGatewayMock;
     }
 }
-
-class_alias(ContentHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\ContentHandlerTest');

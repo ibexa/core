@@ -26,5 +26,3 @@ final class PublishContentTypeDraftEvent extends AfterEvent
         return $this->contentTypeDraft;
     }
 }
-
-class_alias(PublishContentTypeDraftEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\PublishContentTypeDraftEvent');

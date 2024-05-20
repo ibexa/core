@@ -49,5 +49,3 @@ final class CreateLocationEvent extends AfterEvent
         return $this->locationCreateStruct;
     }
 }
-
-class_alias(CreateLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\CreateLocationEvent');

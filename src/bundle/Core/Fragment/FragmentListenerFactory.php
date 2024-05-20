@@ -36,5 +36,3 @@ class FragmentListenerFactory
         return new $fragmentListenerClass($uriSigner, $fragmentPath);
     }
 }
-
-class_alias(FragmentListenerFactory::class, 'eZ\Bundle\EzPublishCoreBundle\Fragment\FragmentListenerFactory');

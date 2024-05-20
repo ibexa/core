@@ -837,5 +837,3 @@ class URLAliasService implements URLAliasServiceInterface
         );
     }
 }
-
-class_alias(URLAliasService::class, 'eZ\Publish\Core\Repository\URLAliasService');

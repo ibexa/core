@@ -258,5 +258,3 @@ class ParentContentTypeLimitationType extends AbstractPersistenceLimitationType 
         return $parentLocations;
     }
 }
-
-class_alias(ParentContentTypeLimitationType::class, 'eZ\Publish\Core\Limitation\ParentContentTypeLimitationType');

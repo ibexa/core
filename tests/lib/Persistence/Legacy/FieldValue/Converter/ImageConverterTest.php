@@ -226,5 +226,3 @@ XML,
         ];
     }
 }
-
-class_alias(ImageConverterTest::class, 'eZ\Publish\Core\Persistence\Tests\Legacy\FieldValue\Converter\ImageConverterTest');

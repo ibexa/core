@@ -124,5 +124,3 @@ final class CountryTermAggregationTest extends AbstractAggregationTest
         $this->refreshSearch($this->getRepository());
     }
 }
-
-class_alias(CountryTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\Field\CountryTermAggregationTest');

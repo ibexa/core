@@ -72,5 +72,3 @@ class LocationCreateStruct extends ValueObject
      */
     public $parentLocationId;
 }
-
-class_alias(LocationCreateStruct::class, 'eZ\Publish\API\Repository\Values\Content\LocationCreateStruct');

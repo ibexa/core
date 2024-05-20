@@ -43,5 +43,3 @@ abstract class AbstractParser implements ParserInterface
     {
     }
 }
-
-class_alias(AbstractParser::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\AbstractParser');

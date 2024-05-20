@@ -74,5 +74,3 @@ final class BeforeCreateContentEvent extends BeforeEvent
         return $this->content instanceof Content;
     }
 }
-
-class_alias(BeforeCreateContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeCreateContentEvent');

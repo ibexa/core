@@ -34,5 +34,3 @@ class TrashResult extends ValueObject implements \IteratorAggregate
         return new ArrayIterator($this->items);
     }
 }
-
-class_alias(TrashResult::class, 'eZ\Publish\SPI\Persistence\Content\Location\Trash\TrashResult');

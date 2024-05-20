@@ -59,5 +59,3 @@ class LimitationConverter
         }
     }
 }
-
-class_alias(LimitationConverter::class, 'eZ\Publish\Core\Persistence\Legacy\User\Role\LimitationConverter');

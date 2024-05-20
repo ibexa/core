@@ -133,5 +133,3 @@ abstract class FileSystemTwigIntegrationTestCase extends IntegrationTestCase
         }
     }
 }
-
-class_alias(FileSystemTwigIntegrationTestCase::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\Extension\FileSystemTwigIntegrationTestCase');

@@ -21,5 +21,3 @@ final class UnknownValidatorValidationError extends AbstractValidationError
         );
     }
 }
-
-class_alias(UnknownValidatorValidationError::class, 'eZ\Publish\SPI\FieldType\ValidationError\UnknownValidatorValidationError');

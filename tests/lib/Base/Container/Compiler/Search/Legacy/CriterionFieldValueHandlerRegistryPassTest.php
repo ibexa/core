@@ -75,5 +75,3 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         );
     }
 }
-
-class_alias(CriterionFieldValueHandlerRegistryPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Search\Legacy\CriterionFieldValueHandlerRegistryPassTest');

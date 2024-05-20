@@ -44,5 +44,3 @@ abstract class BookmarkServiceDecorator implements BookmarkService
         return $this->innerService->isBookmarked($location);
     }
 }
-
-class_alias(BookmarkServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\BookmarkServiceDecorator');

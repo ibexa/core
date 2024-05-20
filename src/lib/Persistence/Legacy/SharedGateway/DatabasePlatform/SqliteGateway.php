@@ -70,5 +70,3 @@ final class SqliteGateway implements Gateway
         return $this->lastInsertedIds[$sequenceName];
     }
 }
-
-class_alias(SqliteGateway::class, 'eZ\Publish\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\SqliteGateway');

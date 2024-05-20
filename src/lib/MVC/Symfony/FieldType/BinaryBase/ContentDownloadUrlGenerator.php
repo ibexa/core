@@ -50,5 +50,3 @@ class ContentDownloadUrlGenerator extends PathGenerator implements RouteAwarePat
         ];
     }
 }
-
-class_alias(ContentDownloadUrlGenerator::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\BinaryBase\ContentDownloadUrlGenerator');

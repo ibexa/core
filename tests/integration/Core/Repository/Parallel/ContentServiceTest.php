@@ -54,5 +54,3 @@ final class ContentServiceTest extends BaseParallelTestCase
         );
     }
 }
-
-class_alias(ContentServiceTest::class, 'eZ\Publish\API\Repository\Tests\Parallel\ContentServiceTest');

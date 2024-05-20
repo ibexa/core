@@ -46,5 +46,3 @@ class RoleAssignment extends ValueObject
      */
     public $values;
 }
-
-class_alias(RoleAssignment::class, 'eZ\Publish\SPI\Persistence\User\RoleAssignment');

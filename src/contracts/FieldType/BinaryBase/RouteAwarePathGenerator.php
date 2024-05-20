@@ -22,5 +22,3 @@ interface RouteAwarePathGenerator extends PathGeneratorInterface
 
     public function generate(string $route, array $parameters = []): string;
 }
-
-class_alias(RouteAwarePathGenerator::class, 'eZ\Publish\SPI\FieldType\BinaryBase\RouteAwarePathGenerator');

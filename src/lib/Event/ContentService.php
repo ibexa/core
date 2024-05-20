@@ -381,5 +381,3 @@ class ContentService extends ContentServiceDecorator
         );
     }
 }
-
-class_alias(ContentService::class, 'eZ\Publish\Core\Event\ContentService');

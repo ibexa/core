@@ -43,5 +43,3 @@ final class Flysystem implements FilePathNormalizerInterface
         return $filePath . $normalizedFileName;
     }
 }
-
-class_alias(Flysystem::class, 'eZ\Publish\Core\IO\FilePathNormalizer\Flysystem');

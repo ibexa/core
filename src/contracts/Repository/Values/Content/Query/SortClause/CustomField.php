@@ -22,5 +22,3 @@ final class CustomField extends SortClause
         parent::__construct('custom_field', $sortDirection, new CustomFieldTarget($field));
     }
 }
-
-class_alias(CustomField::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\CustomField');

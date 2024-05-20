@@ -60,5 +60,3 @@ final class ContentContainerSpecificationTest extends TestCase
         ];
     }
 }
-
-class_alias(ContentContainerSpecificationTest::class, 'eZ\Publish\SPI\Specification\Tests\Content\ContentContainerSpecificationTest');

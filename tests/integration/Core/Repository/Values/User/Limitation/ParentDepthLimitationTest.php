@@ -148,5 +148,3 @@ class ParentDepthLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(ParentDepthLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\ParentDepthLimitationTest');

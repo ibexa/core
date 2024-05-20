@@ -144,5 +144,3 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
         return ['wrappedUser', 'apiUserReference'];
     }
 }
-
-class_alias(UserWrapped::class, 'eZ\Publish\Core\MVC\Symfony\Security\UserWrapped');

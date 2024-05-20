@@ -39,5 +39,3 @@ class Value extends BaseValue
         return $this->bool ? '1' : '0';
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\Checkbox\Value');

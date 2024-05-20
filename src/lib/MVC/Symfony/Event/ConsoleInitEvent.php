@@ -21,5 +21,3 @@ class ConsoleInitEvent extends ConsoleEvent
         parent::__construct(null, $input, $output);
     }
 }
-
-class_alias(ConsoleInitEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\ConsoleInitEvent');

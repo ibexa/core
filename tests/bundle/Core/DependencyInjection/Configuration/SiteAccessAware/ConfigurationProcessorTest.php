@@ -294,5 +294,3 @@ class ConfigurationProcessorTest extends TestCase
         return $this->createMock(ContextualizerInterface::class);
     }
 }
-
-class_alias(ConfigurationProcessorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessorTest');

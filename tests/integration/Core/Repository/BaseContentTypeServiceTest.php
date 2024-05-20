@@ -165,5 +165,3 @@ abstract class BaseContentTypeServiceTest extends BaseTest
         return $draft;
     }
 }
-
-class_alias(BaseContentTypeServiceTest::class, 'eZ\Publish\API\Repository\Tests\BaseContentTypeServiceTest');

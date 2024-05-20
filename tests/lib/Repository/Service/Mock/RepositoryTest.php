@@ -117,5 +117,3 @@ class RepositoryTest extends BaseServiceMockTest
         $mockedRepository->rollback();
     }
 }
-
-class_alias(RepositoryTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\RepositoryTest');

@@ -28,5 +28,3 @@ interface PasswordValidatorInterface
 
     public function getPasswordInfo(User $user, FieldDefinition $fieldDefinition): PasswordInfo;
 }
-
-class_alias(PasswordValidatorInterface::class, 'eZ\Publish\Core\Repository\User\PasswordValidatorInterface');

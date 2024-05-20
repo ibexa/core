@@ -235,5 +235,3 @@ class LocationService extends LocationServiceDecorator
         );
     }
 }
-
-class_alias(LocationService::class, 'eZ\Publish\Core\Event\LocationService');

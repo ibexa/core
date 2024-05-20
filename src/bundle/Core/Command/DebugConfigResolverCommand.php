@@ -119,5 +119,3 @@ EOM
         return ['ezplatform:debug:config-resolver', 'ezplatform:debug:config'];
     }
 }
-
-class_alias(DebugConfigResolverCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\DebugConfigResolverCommand');

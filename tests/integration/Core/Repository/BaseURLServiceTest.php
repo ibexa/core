@@ -180,5 +180,3 @@ abstract class BaseURLServiceTest extends BaseTest
         return $urlFieldCreate;
     }
 }
-
-class_alias(BaseURLServiceTest::class, 'eZ\Publish\API\Repository\Tests\BaseURLServiceTest');

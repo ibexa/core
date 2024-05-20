@@ -26,5 +26,3 @@ class ImageSizeTest extends TestCase
         );
     }
 }
-
-class_alias(ImageSizeTest::class, 'eZ\Publish\Core\IO\Tests\MetadataHandler\ImageSizeTest');

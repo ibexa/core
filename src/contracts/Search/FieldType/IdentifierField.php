@@ -28,5 +28,3 @@ class IdentifierField extends FieldType
      */
     protected $raw = false;
 }
-
-class_alias(IdentifierField::class, 'eZ\Publish\SPI\Search\FieldType\IdentifierField');

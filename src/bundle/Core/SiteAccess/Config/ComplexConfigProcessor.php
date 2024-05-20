@@ -83,5 +83,3 @@ final class ComplexConfigProcessor implements ConfigProcessor
         return $value;
     }
 }
-
-class_alias(ComplexConfigProcessor::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\Config\ComplexConfigProcessor');

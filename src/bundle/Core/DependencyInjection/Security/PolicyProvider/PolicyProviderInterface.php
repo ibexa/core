@@ -62,5 +62,3 @@ interface PolicyProviderInterface
      */
     public function addPolicies(ConfigBuilderInterface $configBuilder);
 }
-
-class_alias(PolicyProviderInterface::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider\PolicyProviderInterface');

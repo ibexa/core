@@ -52,5 +52,3 @@ abstract class RepositoryParamConverter implements ParamConverterInterface
         return true;
     }
 }
-
-class_alias(RepositoryParamConverter::class, 'eZ\Bundle\EzPublishCoreBundle\Converter\RepositoryParamConverter');

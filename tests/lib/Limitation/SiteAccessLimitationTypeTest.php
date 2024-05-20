@@ -316,5 +316,3 @@ class SiteAccessLimitationTypeTest extends Base
         self::assertSame('1817462202', $limitationType->generateSiteAccessValue('behat_site'));
     }
 }
-
-class_alias(SiteAccessLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\SiteAccessLimitationTypeTest');

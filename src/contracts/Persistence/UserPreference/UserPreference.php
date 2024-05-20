@@ -44,5 +44,3 @@ class UserPreference extends ValueObject
      */
     public $value;
 }
-
-class_alias(UserPreference::class, 'eZ\Publish\SPI\Persistence\UserPreference\UserPreference');

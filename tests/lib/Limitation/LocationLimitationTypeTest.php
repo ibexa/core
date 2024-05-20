@@ -519,5 +519,3 @@ class LocationLimitationTypeTest extends Base
         );
     }
 }
-
-class_alias(LocationLimitationTypeTest::class, 'eZ\Publish\Core\Limitation\Tests\LocationLimitationTypeTest');

@@ -45,5 +45,3 @@ class RoleCreateStruct extends APIRoleCreateStruct
         $this->policies[] = $policyCreateStruct;
     }
 }
-
-class_alias(RoleCreateStruct::class, 'eZ\Publish\Core\Repository\Values\User\RoleCreateStruct');

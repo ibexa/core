@@ -140,5 +140,3 @@ class GenericFieldTypeConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(GenericFieldTypeConverterPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\GenericFieldTypeConverterPassTest');

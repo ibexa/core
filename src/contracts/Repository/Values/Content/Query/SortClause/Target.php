@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 abstract class Target
 {
 }
-
-class_alias(Target::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target');

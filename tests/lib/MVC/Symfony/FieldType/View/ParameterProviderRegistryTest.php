@@ -43,5 +43,3 @@ class ParameterProviderRegistryTest extends TestCase
         self::assertSame($provider, $registry->getParameterProvider('foo'));
     }
 }
-
-class_alias(ParameterProviderRegistryTest::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\Tests\View\ParameterProviderRegistryTest');

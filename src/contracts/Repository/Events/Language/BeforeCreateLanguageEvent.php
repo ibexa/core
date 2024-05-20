@@ -50,5 +50,3 @@ final class BeforeCreateLanguageEvent extends BeforeEvent
         return $this->language instanceof Language;
     }
 }
-
-class_alias(BeforeCreateLanguageEvent::class, 'eZ\Publish\API\Repository\Events\Language\BeforeCreateLanguageEvent');

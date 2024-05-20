@@ -139,5 +139,3 @@ class RepositoryConfigurationProviderTest extends TestCase
         return $this->createMock(ConfigResolverInterface::class);
     }
 }
-
-class_alias(RepositoryConfigurationProviderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ApiLoader\RepositoryConfigurationProviderTest');

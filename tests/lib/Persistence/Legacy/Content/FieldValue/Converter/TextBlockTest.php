@@ -125,5 +125,3 @@ EOT;
         );
     }
 }
-
-class_alias(TextBlockTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\TextBlockTest');

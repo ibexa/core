@@ -65,5 +65,3 @@ class Field extends ValueObject
         $this->value = clone $this->value;
     }
 }
-
-class_alias(Field::class, 'eZ\Publish\SPI\Persistence\Content\Field');

@@ -156,5 +156,3 @@ class TimeTest extends TestCase
         );
     }
 }
-
-class_alias(TimeTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\TimeTest');

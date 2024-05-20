@@ -135,5 +135,3 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(ExternalStorageRegistryPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Storage\ExternalStorageRegistryPass');

@@ -52,5 +52,3 @@ interface IndexerGateway
      */
     public function countAllContent(): int;
 }
-
-class_alias(IndexerGateway::class, 'eZ\Publish\SPI\Search\Content\IndexerGateway');

@@ -60,5 +60,3 @@ final class BeforeCreateLocationEvent extends BeforeEvent
         return $this->location instanceof Location;
     }
 }
-
-class_alias(BeforeCreateLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\BeforeCreateLocationEvent');

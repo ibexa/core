@@ -73,5 +73,3 @@ class ContentParamConverterTest extends AbstractParamConverterTest
         self::assertNull($request->attributes->get('content'));
     }
 }
-
-class_alias(ContentParamConverterTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Converter\ContentParamConverterTest');

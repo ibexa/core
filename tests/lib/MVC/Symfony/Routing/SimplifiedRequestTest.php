@@ -66,5 +66,3 @@ class SimplifiedRequestTest extends TestCase
         ];
     }
 }
-
-class_alias(SimplifiedRequestTest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Tests\SimplifiedRequestTest');

@@ -136,5 +136,3 @@ class FieldHelperTest extends TestCase
         self::assertFalse($this->fieldHelper->isFieldEmpty($content, $fieldDefIdentifier));
     }
 }
-
-class_alias(FieldHelperTest::class, 'eZ\Publish\Core\Helper\Tests\FieldHelperTest');

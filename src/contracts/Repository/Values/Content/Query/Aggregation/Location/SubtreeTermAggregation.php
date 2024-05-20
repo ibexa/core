@@ -47,5 +47,3 @@ final class SubtreeTermAggregation extends AbstractTermAggregation implements Lo
         return new self($name, $location->pathString);
     }
 }
-
-class_alias(SubtreeTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Location\SubtreeTermAggregation');

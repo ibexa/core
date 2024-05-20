@@ -29,5 +29,3 @@ final class SiblingsQueryType extends AbstractLocationQueryType
         return Criterion\Sibling::fromLocation($location);
     }
 }
-
-class_alias(SiblingsQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\SiblingsQueryType');

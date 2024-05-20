@@ -120,5 +120,3 @@ class ContentFieldValidationException extends APIContentFieldValidationException
         return $messages;
     }
 }
-
-class_alias(ContentFieldValidationException::class, 'eZ\Publish\Core\Base\Exceptions\ContentFieldValidationException');

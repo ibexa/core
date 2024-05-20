@@ -352,5 +352,3 @@ class RemoveFieldTest extends TestCase
         return $this->removeFieldAction;
     }
 }
-
-class_alias(RemoveFieldTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Type\ContentUpdater\Action\RemoveFieldTest');

@@ -99,5 +99,3 @@ abstract class Relation extends ValueObject
      */
     protected $type;
 }
-
-class_alias(Relation::class, 'eZ\Publish\API\Repository\Values\Content\Relation');

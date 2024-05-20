@@ -155,5 +155,3 @@ class ContentContext implements Context, SnippetAcceptingContext
         return $this->currentDraft;
     }
 }
-
-class_alias(ContentContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\ContentContext');

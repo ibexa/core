@@ -66,5 +66,3 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
         return $this->innerRenderer->getName();
     }
 }
-
-class_alias(InlineFragmentRenderer::class, 'eZ\Bundle\EzPublishCoreBundle\Fragment\InlineFragmentRenderer');

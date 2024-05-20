@@ -118,5 +118,3 @@ class NewSectionLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(NewSectionLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\NewSectionLimitationTest');

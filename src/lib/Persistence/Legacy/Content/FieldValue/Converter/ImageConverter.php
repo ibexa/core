@@ -285,5 +285,3 @@ EOT;
         return $extractedData;
     }
 }
-
-class_alias(ImageConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter');

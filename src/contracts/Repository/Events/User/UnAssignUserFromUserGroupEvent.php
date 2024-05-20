@@ -38,5 +38,3 @@ final class UnAssignUserFromUserGroupEvent extends AfterEvent
         return $this->userGroup;
     }
 }
-
-class_alias(UnAssignUserFromUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\UnAssignUserFromUserGroupEvent');

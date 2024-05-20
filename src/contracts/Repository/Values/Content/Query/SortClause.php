@@ -62,5 +62,3 @@ abstract class SortClause
         }
     }
 }
-
-class_alias(SortClause::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause');

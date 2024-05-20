@@ -110,5 +110,3 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(SlugConverterConfigurationPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\SlugConverterConfigurationPassTest');

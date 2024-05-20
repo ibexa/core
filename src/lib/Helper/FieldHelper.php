@@ -68,5 +68,3 @@ class FieldHelper
             ->getFieldDefinition($fieldDefIdentifier);
     }
 }
-
-class_alias(FieldHelper::class, 'eZ\Publish\Core\Helper\FieldHelper');

@@ -23,5 +23,3 @@ interface RenderStrategy
 
     public function render(ValueObject $valueObject, RenderOptions $options): string;
 }
-
-class_alias(RenderStrategy::class, 'eZ\Publish\SPI\MVC\Templating\RenderStrategy');

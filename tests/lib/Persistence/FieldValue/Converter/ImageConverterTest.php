@@ -215,5 +215,3 @@ final class ImageConverterTest extends TestCase
         ];
     }
 }
-
-class_alias(ImageConverterTest::class, 'eZ\Publish\Core\Persistence\Tests\FieldValue\Converter\ImageConverterTest');

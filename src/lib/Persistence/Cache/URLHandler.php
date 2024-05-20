@@ -99,5 +99,3 @@ class URLHandler extends AbstractHandler implements URLHandlerInterface
         return $this->persistenceHandler->urlHandler()->findUsages($id);
     }
 }
-
-class_alias(URLHandler::class, 'eZ\Publish\Core\Persistence\Cache\URLHandler');

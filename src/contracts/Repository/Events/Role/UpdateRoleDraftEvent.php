@@ -48,5 +48,3 @@ final class UpdateRoleDraftEvent extends AfterEvent
         return $this->updatedRoleDraft;
     }
 }
-
-class_alias(UpdateRoleDraftEvent::class, 'eZ\Publish\API\Repository\Events\Role\UpdateRoleDraftEvent');

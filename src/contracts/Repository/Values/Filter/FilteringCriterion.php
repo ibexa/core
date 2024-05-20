@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Filter;
 interface FilteringCriterion
 {
 }
-
-class_alias(FilteringCriterion::class, 'eZ\Publish\SPI\Repository\Values\Filter\FilteringCriterion');

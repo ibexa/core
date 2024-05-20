@@ -332,5 +332,3 @@ class ObjectStateServiceDecoratorTest extends TestCase
         $decoratedService->newObjectStateUpdateStruct(...$parameters);
     }
 }
-
-class_alias(ObjectStateServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\ObjectStateServiceDecoratorTest');

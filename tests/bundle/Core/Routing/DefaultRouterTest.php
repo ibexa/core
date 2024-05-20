@@ -348,5 +348,3 @@ class DefaultRouterTest extends TestCase
         return $requestContext;
     }
 }
-
-class_alias(DefaultRouterTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Routing\DefaultRouterTest');

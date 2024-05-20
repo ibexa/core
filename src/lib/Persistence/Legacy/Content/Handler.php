@@ -968,5 +968,3 @@ class Handler implements BaseContentHandler
         return $versionInfoListById;
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Handler');

@@ -40,5 +40,3 @@ class NotificationRendererPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(NotificationRendererPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\NotificationRendererPass');

@@ -17,5 +17,3 @@ class InvalidVariationException extends InvalidArgumentException
         parent::__construct("Invalid variation '$variationName' for $variationType", $code, $previous);
     }
 }
-
-class_alias(InvalidVariationException::class, 'eZ\Publish\API\Repository\Exceptions\InvalidVariationException');

@@ -26,5 +26,3 @@ final class RefreshSystemUrlAliasesForLocationEvent extends AfterEvent
         return $this->location;
     }
 }
-
-class_alias(RefreshSystemUrlAliasesForLocationEvent::class, 'eZ\Publish\API\Repository\Events\URLAlias\RefreshSystemUrlAliasesForLocationEvent');

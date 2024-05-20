@@ -228,5 +228,3 @@ abstract class ContentTypeServiceDecorator implements ContentTypeService
         $this->innerService->deleteUserDrafts($userId);
     }
 }
-
-class_alias(ContentTypeServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\ContentTypeServiceDecorator');

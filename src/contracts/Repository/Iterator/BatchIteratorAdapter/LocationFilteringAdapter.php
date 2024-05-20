@@ -39,5 +39,3 @@ final class LocationFilteringAdapter implements BatchIteratorAdapter
         return $this->locationService->find($filter, $this->languages)->getIterator();
     }
 }
-
-class_alias(LocationFilteringAdapter::class, 'eZ\Publish\API\Repository\Iterator\BatchIteratorAdapter\LocationFilteringAdapter');

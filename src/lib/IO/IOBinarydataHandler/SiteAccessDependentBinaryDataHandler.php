@@ -73,5 +73,3 @@ final class SiteAccessDependentBinaryDataHandler implements IOBinaryDataHandler
         return $this->getHandler()->deleteDirectory($spiPath);
     }
 }
-
-class_alias(SiteAccessDependentBinaryDataHandler::class, 'eZ\Publish\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler');

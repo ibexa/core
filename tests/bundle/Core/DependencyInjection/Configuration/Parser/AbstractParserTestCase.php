@@ -111,5 +111,3 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
         return $siteAccess;
     }
 }
-
-class_alias(AbstractParserTestCase::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\AbstractParserTestCase');

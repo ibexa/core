@@ -16,5 +16,3 @@ use Symfony\Contracts\EventDispatcher\Event;
 abstract class AfterEvent extends Event
 {
 }
-
-class_alias(AfterEvent::class, 'eZ\Publish\SPI\Repository\Event\AfterEvent');

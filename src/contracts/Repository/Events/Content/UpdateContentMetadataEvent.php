@@ -49,5 +49,3 @@ final class UpdateContentMetadataEvent extends AfterEvent
         return $this->contentMetadataUpdateStruct;
     }
 }
-
-class_alias(UpdateContentMetadataEvent::class, 'eZ\Publish\API\Repository\Events\Content\UpdateContentMetadataEvent');

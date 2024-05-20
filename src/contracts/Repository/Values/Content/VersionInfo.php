@@ -145,5 +145,3 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
         return $this->status === self::STATUS_ARCHIVED;
     }
 }
-
-class_alias(VersionInfo::class, 'eZ\Publish\API\Repository\Values\Content\VersionInfo');

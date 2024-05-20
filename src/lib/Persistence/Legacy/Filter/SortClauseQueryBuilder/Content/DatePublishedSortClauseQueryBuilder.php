@@ -28,5 +28,3 @@ class DatePublishedSortClauseQueryBuilder implements SortClauseQueryBuilder
         $queryBuilder->addOrderBy('content.published', $sortClause->direction);
     }
 }
-
-class_alias(DatePublishedSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Content\DatePublishedSortClauseQueryBuilder');

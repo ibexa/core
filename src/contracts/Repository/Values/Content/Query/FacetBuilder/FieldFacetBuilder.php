@@ -53,5 +53,3 @@ class FieldFacetBuilder extends FacetBuilder
      */
     public $sort;
 }
-
-class_alias(FieldFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\FieldFacetBuilder');

@@ -42,5 +42,3 @@ class Language extends ValueObject
      */
     public $isEnabled = true;
 }
-
-class_alias(Language::class, 'eZ\Publish\SPI\Persistence\Content\Language');

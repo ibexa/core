@@ -709,5 +709,3 @@ class LocationHandlerTest extends TestCase
             ->getMock();
     }
 }
-
-class_alias(LocationHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\LocationHandlerTest');

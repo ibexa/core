@@ -1595,5 +1595,3 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
         self::assertEquals($contentTwoId, $contentIdList[$indexTwo]);
     }
 }
-
-class_alias(SearchBaseIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\SearchBaseIntegrationTest');

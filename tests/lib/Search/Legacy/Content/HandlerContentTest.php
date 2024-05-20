@@ -1446,5 +1446,3 @@ class HandlerContentTest extends AbstractTestCase
         $this->getContentTypeHandler()->getFieldDefinition(0, Type::STATUS_DEFINED);
     }
 }
-
-class_alias(HandlerContentTest::class, 'eZ\Publish\Core\Search\Legacy\Tests\Content\HandlerContentTest');

@@ -66,5 +66,3 @@ class LegacyPathGeneratorTest extends TestCase
         ];
     }
 }
-
-class_alias(LegacyPathGeneratorTest::class, 'eZ\Publish\Core\FieldType\Tests\Image\PathGenerator\LegacyPathGeneratorTest');

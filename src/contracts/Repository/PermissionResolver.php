@@ -101,5 +101,3 @@ interface PermissionResolver
         array $limitationsIdentifiers = []
     ): LookupLimitationResult;
 }
-
-class_alias(PermissionResolver::class, 'eZ\Publish\API\Repository\PermissionResolver');

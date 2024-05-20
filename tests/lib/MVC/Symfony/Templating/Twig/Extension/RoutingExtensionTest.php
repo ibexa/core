@@ -115,5 +115,3 @@ final class RoutingExtensionTest extends IntegrationTestCase
         return $generator;
     }
 }
-
-class_alias(RoutingExtensionTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\Extension\RoutingExtensionTest');

@@ -355,5 +355,3 @@ class UserService extends UserServiceDecorator
         );
     }
 }
-
-class_alias(UserService::class, 'eZ\Publish\Core\Event\UserService');

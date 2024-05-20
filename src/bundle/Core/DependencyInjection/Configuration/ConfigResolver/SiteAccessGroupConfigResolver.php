@@ -107,5 +107,3 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
         return array_key_exists($scope, $this->siteAccessGroups);
     }
 }
-
-class_alias(SiteAccessGroupConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver\SiteAccessGroupConfigResolver');

@@ -36,5 +36,3 @@ class ArrayQueryTypeRegistry implements QueryTypeRegistry
         return $this->registry[$name];
     }
 }
-
-class_alias(ArrayQueryTypeRegistry::class, 'eZ\Publish\Core\QueryType\ArrayQueryTypeRegistry');

@@ -104,5 +104,3 @@ class EZP28799SubtreeSearchTest extends BaseTest
         self::assertSame(0, $result->totalCount);
     }
 }
-
-class_alias(EZP28799SubtreeSearchTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP28799SubtreeSearchTest');

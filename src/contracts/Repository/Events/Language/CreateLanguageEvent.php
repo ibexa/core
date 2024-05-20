@@ -38,5 +38,3 @@ final class CreateLanguageEvent extends AfterEvent
         return $this->languageCreateStruct;
     }
 }
-
-class_alias(CreateLanguageEvent::class, 'eZ\Publish\API\Repository\Events\Language\CreateLanguageEvent');

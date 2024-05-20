@@ -24,5 +24,3 @@ interface Handler
 
     public function count(Filter $filter): int;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Filter\Content\Handler');

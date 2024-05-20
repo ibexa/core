@@ -238,5 +238,3 @@ class FilterConfigurationTest extends TestCase
         );
     }
 }
-
-class_alias(FilterConfigurationTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\FilterConfigurationTest');

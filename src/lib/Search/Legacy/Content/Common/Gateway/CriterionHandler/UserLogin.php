@@ -78,5 +78,3 @@ class UserLogin extends CriterionHandler
         );
     }
 }
-
-class_alias(UserLogin::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserLogin');

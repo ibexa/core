@@ -1466,5 +1466,3 @@ class HandlerLocationTest extends AbstractTestCase
         );
     }
 }
-
-class_alias(HandlerLocationTest::class, 'eZ\Publish\Core\Search\Legacy\Tests\Content\HandlerLocationTest');

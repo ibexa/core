@@ -34,5 +34,3 @@ final class CountryTermAggregation extends AbstractFieldTermAggregation
         return $this->type;
     }
 }
-
-class_alias(CountryTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\CountryTermAggregation');

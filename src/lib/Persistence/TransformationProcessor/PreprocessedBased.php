@@ -46,5 +46,3 @@ class PreprocessedBased extends TransformationProcessor
         return $this->compiledRules;
     }
 }
-
-class_alias(PreprocessedBased::class, 'eZ\Publish\Core\Persistence\TransformationProcessor\PreprocessedBased');

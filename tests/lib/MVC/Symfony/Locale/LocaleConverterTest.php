@@ -122,5 +122,3 @@ final class LocaleConverterTest extends TestCase
         ];
     }
 }
-
-class_alias(LocaleConverterTest::class, 'eZ\Publish\Core\MVC\Symfony\Locale\Tests\LocaleConverterTest');

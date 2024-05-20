@@ -302,5 +302,3 @@ class CheckboxTest extends FieldTypeTest
         self::markTestSkipped('Value of Checkbox fieldtype is never considered empty');
     }
 }
-
-class_alias(CheckboxTest::class, 'eZ\Publish\Core\FieldType\Tests\CheckboxTest');

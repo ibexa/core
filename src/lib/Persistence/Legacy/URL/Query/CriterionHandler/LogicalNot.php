@@ -38,5 +38,3 @@ class LogicalNot implements CriterionHandler
         );
     }
 }
-
-class_alias(LogicalNot::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\LogicalNot');

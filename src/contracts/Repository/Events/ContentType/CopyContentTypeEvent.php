@@ -48,5 +48,3 @@ final class CopyContentTypeEvent extends AfterEvent
         return $this->creator;
     }
 }
-
-class_alias(CopyContentTypeEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\CopyContentTypeEvent');

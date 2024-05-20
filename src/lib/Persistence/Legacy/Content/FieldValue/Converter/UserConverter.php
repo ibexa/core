@@ -126,5 +126,3 @@ class UserConverter implements Converter
         return false;
     }
 }
-
-class_alias(UserConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\UserConverter');

@@ -134,5 +134,3 @@ class VersionBuilderTest extends TestCase
         self::assertEquals($expectedTargetVersion, $versionBuilder->build());
     }
 }
-
-class_alias(VersionBuilderTest::class, 'eZ\Publish\SPI\Tests\Limitation\Target\Builder\VersionBuilderTest');

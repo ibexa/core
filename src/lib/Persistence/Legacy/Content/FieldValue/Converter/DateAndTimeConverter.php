@@ -226,5 +226,3 @@ class DateAndTimeConverter implements Converter
         return DateInterval::createFromDateString(implode(', ', $aIntervalString));
     }
 }
-
-class_alias(DateAndTimeConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter');

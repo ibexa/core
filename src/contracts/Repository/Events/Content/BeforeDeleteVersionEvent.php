@@ -26,5 +26,3 @@ final class BeforeDeleteVersionEvent extends BeforeEvent
         return $this->versionInfo;
     }
 }
-
-class_alias(BeforeDeleteVersionEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeDeleteVersionEvent');

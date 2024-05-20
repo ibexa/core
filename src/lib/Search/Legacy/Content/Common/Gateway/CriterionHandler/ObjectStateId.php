@@ -56,5 +56,3 @@ class ObjectStateId extends CriterionHandler
         );
     }
 }
-
-class_alias(ObjectStateId::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ObjectStateId');

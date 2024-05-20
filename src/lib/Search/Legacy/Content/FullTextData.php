@@ -49,5 +49,3 @@ class FullTextData extends ValueObject
      */
     public $values;
 }
-
-class_alias(FullTextData::class, 'eZ\Publish\Core\Search\Legacy\Content\FullTextData');

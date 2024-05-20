@@ -42,5 +42,3 @@ class Validity implements CriterionHandler
         );
     }
 }
-
-class_alias(Validity::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\Validity');

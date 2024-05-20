@@ -48,5 +48,3 @@ class ContentType extends MultipleValued
         return isset($this->values[$view->getContent()->contentInfo->contentTypeId]);
     }
 }
-
-class_alias(ContentType::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType');

@@ -44,5 +44,3 @@ class ContentName extends SortClauseHandler
         return (array)$column;
     }
 }
-
-class_alias(ContentName::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\ContentName');

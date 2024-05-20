@@ -32,5 +32,3 @@ class AbsolutePrefix extends Prefix
         return $prefix;
     }
 }
-
-class_alias(AbsolutePrefix::class, 'eZ\Publish\Core\IO\UrlDecorator\AbsolutePrefix');

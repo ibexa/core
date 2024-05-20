@@ -27,5 +27,3 @@ final class TimeRangeAggregation extends AbstractFieldRangeAggregation
         return new self($name, $contentTypeIdentifier, $fieldDefinitionIdentifier, $ranges);
     }
 }
-
-class_alias(TimeRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\TimeRangeAggregation');

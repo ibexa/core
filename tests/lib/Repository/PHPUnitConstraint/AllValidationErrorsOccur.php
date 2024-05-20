@@ -110,5 +110,3 @@ class AllValidationErrorsOccur extends AbstractPHPUnitConstraint
         return "contain the messages: '{$messages}'";
     }
 }
-
-class_alias(AllValidationErrorsOccur::class, 'eZ\Publish\API\Repository\Tests\PHPUnitConstraint\AllValidationErrorsOccur');

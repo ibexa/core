@@ -17,5 +17,3 @@ class UnsupportedPasswordHashType extends InvalidArgumentException
         parent::__construct('hashType', "Password hash type '$hashType' is not recognized");
     }
 }
-
-class_alias(UnsupportedPasswordHashType::class, 'eZ\Publish\Core\Repository\User\Exception\UnsupportedPasswordHashType');

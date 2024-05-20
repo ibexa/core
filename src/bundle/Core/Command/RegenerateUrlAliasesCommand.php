@@ -337,5 +337,3 @@ EOT
         return ['ezplatform:urls:regenerate-aliases'];
     }
 }
-
-class_alias(RegenerateUrlAliasesCommand::class, 'eZ\Bundle\EzPublishCoreBundle\Command\RegenerateUrlAliasesCommand');

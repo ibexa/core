@@ -40,5 +40,3 @@ final class ObjectStateTermAggregationTest extends AbstractAggregationTest
         yield $builder->build();
     }
 }
-
-class_alias(ObjectStateTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\ObjectStateTermAggregationTest');

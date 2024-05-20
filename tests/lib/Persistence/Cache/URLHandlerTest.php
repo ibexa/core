@@ -155,5 +155,3 @@ class URLHandlerTest extends AbstractCacheHandlerTest
         $handler->updateUrl($urlId, $updateStruct);
     }
 }
-
-class_alias(URLHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\URLHandlerTest');

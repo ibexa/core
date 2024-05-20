@@ -36,5 +36,3 @@ final class SetPriorityOfObjectStateEvent extends AfterEvent
         return $this->priority;
     }
 }
-
-class_alias(SetPriorityOfObjectStateEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\SetPriorityOfObjectStateEvent');

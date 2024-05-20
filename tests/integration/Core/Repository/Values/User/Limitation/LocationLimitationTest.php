@@ -90,5 +90,3 @@ class LocationLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(LocationLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\LocationLimitationTest');

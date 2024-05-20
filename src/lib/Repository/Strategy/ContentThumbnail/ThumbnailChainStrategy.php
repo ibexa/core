@@ -39,5 +39,3 @@ final class ThumbnailChainStrategy implements ThumbnailStrategy
         return null;
     }
 }
-
-class_alias(ThumbnailChainStrategy::class, 'eZ\Publish\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy');

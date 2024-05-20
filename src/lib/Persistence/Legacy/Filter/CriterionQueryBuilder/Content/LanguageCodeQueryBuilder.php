@@ -59,5 +59,3 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         return $expr;
     }
 }
-
-class_alias(LanguageCodeQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\LanguageCodeQueryBuilder');

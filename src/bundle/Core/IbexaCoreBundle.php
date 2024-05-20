@@ -137,5 +137,3 @@ class IbexaCoreBundle extends Bundle
         return $this->extension;
     }
 }
-
-class_alias(IbexaCoreBundle::class, 'eZ\Bundle\EzPublishCoreBundle\EzPublishCoreBundle');

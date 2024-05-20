@@ -135,5 +135,3 @@ class RouterHostTextTest extends RouterBaseTest
         ];
     }
 }
-
-class_alias(RouterHostTextTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterHostTextTest');
