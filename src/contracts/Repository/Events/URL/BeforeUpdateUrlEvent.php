@@ -59,5 +59,3 @@ final class BeforeUpdateUrlEvent extends BeforeEvent
         return $this->updatedUrl instanceof URL;
     }
 }
-
-class_alias(BeforeUpdateUrlEvent::class, 'eZ\Publish\API\Repository\Events\URL\BeforeUpdateUrlEvent');

@@ -37,5 +37,3 @@ final class MoveSubtreeEvent extends AfterEvent
         return $this->newParentLocation;
     }
 }
-
-class_alias(MoveSubtreeEvent::class, 'eZ\Publish\API\Repository\Events\Location\MoveSubtreeEvent');

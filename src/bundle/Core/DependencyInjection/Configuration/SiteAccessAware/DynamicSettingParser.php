@@ -46,5 +46,3 @@ class DynamicSettingParser implements DynamicSettingParserInterface
         return substr($setting, 1, -1);
     }
 }
-
-class_alias(DynamicSettingParser::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser');

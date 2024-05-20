@@ -22,5 +22,3 @@ final class RegexURINormalizer extends AbstractPropertyWhitelistNormalizer
         return $data instanceof URI;
     }
 }
-
-class_alias(RegexURINormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer');

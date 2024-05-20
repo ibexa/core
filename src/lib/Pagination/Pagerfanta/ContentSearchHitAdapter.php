@@ -25,5 +25,3 @@ class ContentSearchHitAdapter extends AbstractSearchResultAdapter
         return $searchService->findContent($query, $languageFilter);
     }
 }
-
-class_alias(ContentSearchHitAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\ContentSearchHitAdapter');

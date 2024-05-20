@@ -463,5 +463,3 @@ class PermissionResolver implements PermissionResolverInterface
         return $targets;
     }
 }
-
-class_alias(PermissionResolver::class, 'eZ\Publish\Core\Repository\Permission\PermissionResolver');

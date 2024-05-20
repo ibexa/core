@@ -144,5 +144,3 @@ class RequestEventListener implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(RequestEventListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\RequestEventListener');

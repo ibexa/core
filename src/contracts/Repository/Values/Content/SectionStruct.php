@@ -28,5 +28,3 @@ abstract class SectionStruct extends ValueObject
      */
     public $name;
 }
-
-class_alias(SectionStruct::class, 'eZ\Publish\API\Repository\Values\Content\SectionStruct');

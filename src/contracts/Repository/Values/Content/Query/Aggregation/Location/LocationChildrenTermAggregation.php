@@ -14,5 +14,3 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\LocationAgg
 final class LocationChildrenTermAggregation extends AbstractTermAggregation implements LocationAggregation
 {
 }
-
-class_alias(LocationChildrenTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Location\LocationChildrenTermAggregation');

@@ -88,5 +88,3 @@ class SectionHandlerTest extends AbstractCacheHandlerTest
         ];
     }
 }
-
-class_alias(SectionHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\SectionHandlerTest');

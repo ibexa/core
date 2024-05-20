@@ -122,5 +122,3 @@ abstract class Content extends ValueObject
 
     abstract public function getDefaultLanguageCode(): string;
 }
-
-class_alias(Content::class, 'eZ\Publish\API\Repository\Values\Content\Content');

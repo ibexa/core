@@ -50,5 +50,3 @@ class FilterViewBuilderParametersEvent extends Event
         return $this->parameters;
     }
 }
-
-class_alias(FilterViewBuilderParametersEvent::class, 'eZ\Publish\Core\MVC\Symfony\View\Event\FilterViewBuilderParametersEvent');

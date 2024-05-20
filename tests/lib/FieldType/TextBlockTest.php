@@ -331,5 +331,3 @@ class TextBlockTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(TextBlockTest::class, 'eZ\Publish\Core\FieldType\Tests\TextBlockTest');

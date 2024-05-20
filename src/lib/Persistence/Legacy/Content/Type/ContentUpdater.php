@@ -151,5 +151,3 @@ class ContentUpdater
         return $this->contentGateway->getContentIdsByContentTypeId($contentTypeId);
     }
 }
-
-class_alias(ContentUpdater::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\ContentUpdater');

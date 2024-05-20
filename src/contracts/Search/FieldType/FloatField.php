@@ -21,5 +21,3 @@ class FloatField extends FieldType
      */
     protected $type = 'ez_float';
 }
-
-class_alias(FloatField::class, 'eZ\Publish\SPI\Search\FieldType\FloatField');

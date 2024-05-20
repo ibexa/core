@@ -39,5 +39,3 @@ final class ParentLocationIdQueryBuilder extends BaseLocationCriterionQueryBuild
         );
     }
 }
-
-class_alias(ParentLocationIdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\ParentLocationIdQueryBuilder');

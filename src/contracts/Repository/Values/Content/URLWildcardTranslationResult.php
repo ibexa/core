@@ -32,5 +32,3 @@ class URLWildcardTranslationResult extends ValueObject
      */
     protected $forward;
 }
-
-class_alias(URLWildcardTranslationResult::class, 'eZ\Publish\API\Repository\Values\Content\URLWildcardTranslationResult');

@@ -547,5 +547,3 @@ class UrlAliasGeneratorTest extends TestCase
             ->getMock();
     }
 }
-
-class_alias(UrlAliasGeneratorTest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Tests\UrlAliasGeneratorTest');

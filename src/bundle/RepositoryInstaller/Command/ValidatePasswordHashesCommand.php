@@ -59,5 +59,3 @@ final class ValidatePasswordHashesCommand extends Command implements BackwardCom
         return ['ezplatform:user:validate-password-hashes'];
     }
 }
-
-class_alias(ValidatePasswordHashesCommand::class, 'EzSystems\PlatformInstallerBundle\Command\ValidatePasswordHashesCommand');

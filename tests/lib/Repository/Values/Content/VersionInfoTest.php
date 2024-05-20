@@ -63,5 +63,3 @@ final class VersionInfoTest extends TestCase
         ]);
     }
 }
-
-class_alias(VersionInfoTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\VersionInfoTest');

@@ -121,5 +121,3 @@ final class PermissionAwareLocationResolverTest extends TestCase
         $this->locationResolver->resolveLocation($contentInfo);
     }
 }
-
-class_alias(PermissionAwareLocationResolverTest::class, 'eZ\Publish\Core\Repository\Tests\LocationResolver\PermissionAwareLocationResolverTest');

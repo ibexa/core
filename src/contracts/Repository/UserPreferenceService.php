@@ -59,5 +59,3 @@ interface UserPreferenceService
      */
     public function getUserPreferenceCount(): int;
 }
-
-class_alias(UserPreferenceService::class, 'eZ\Publish\API\Repository\UserPreferenceService');

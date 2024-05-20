@@ -105,5 +105,3 @@ class DbBasedInstaller
         return realpath($filePath);
     }
 }
-
-class_alias(DbBasedInstaller::class, 'EzSystems\PlatformInstallerBundle\Installer\DbBasedInstaller');

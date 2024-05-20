@@ -138,5 +138,3 @@ class BorderFilterLoaderTest extends TestCase
         ];
     }
 }
-
-class_alias(BorderFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\BorderFilterLoaderTest');

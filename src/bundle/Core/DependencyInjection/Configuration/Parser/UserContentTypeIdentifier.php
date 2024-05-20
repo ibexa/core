@@ -56,6 +56,3 @@ final class UserContentTypeIdentifier extends AbstractParser
         );
     }
 }
-
-class_alias(UserContentTypeIdentifier::class, 'EzSystems\EzPlatformAdminUiBundle\DependencyInjection\Configuration\Parser\UserIdentifier');
-class_alias(UserContentTypeIdentifier::class, 'Ibexa\Bundle\AdminUi\DependencyInjection\Configuration\Parser\UserIdentifier');

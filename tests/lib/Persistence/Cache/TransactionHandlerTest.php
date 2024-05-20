@@ -123,5 +123,3 @@ class TransactionHandlerTest extends AbstractCacheHandlerTest
         $handler->beginTransaction();
     }
 }
-
-class_alias(TransactionHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\TransactionHandlerTest');

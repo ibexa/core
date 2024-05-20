@@ -498,5 +498,3 @@ abstract class Gateway
      */
     abstract public function loadVersionInfoList(array $contentIds): array;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Gateway');

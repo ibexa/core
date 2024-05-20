@@ -79,5 +79,3 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
         $this->item = $fileId;
     }
 }
-
-class_alias(LegacyStorageFileIterator::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileIterator\LegacyStorageFileIterator');

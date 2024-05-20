@@ -43,5 +43,3 @@ interface AuthenticatorInterface
      */
     public function logout(Request $request);
 }
-
-class_alias(AuthenticatorInterface::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authentication\AuthenticatorInterface');

@@ -98,5 +98,3 @@ interface Handler
      */
     public function countAll(): int;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\UrlWildcard\Handler');

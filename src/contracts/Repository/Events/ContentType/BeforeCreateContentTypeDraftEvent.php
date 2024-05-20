@@ -50,5 +50,3 @@ final class BeforeCreateContentTypeDraftEvent extends BeforeEvent
         return $this->contentTypeDraft instanceof ContentTypeDraft;
     }
 }
-
-class_alias(BeforeCreateContentTypeDraftEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeCreateContentTypeDraftEvent');

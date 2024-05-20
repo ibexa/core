@@ -69,5 +69,3 @@ final class TermAggregationDataSetBuilder
         return TermAggregationResult::createForAggregation($this->aggregation, $entries);
     }
 }
-
-class_alias(TermAggregationDataSetBuilder::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\DataSetBuilder\TermAggregationDataSetBuilder');

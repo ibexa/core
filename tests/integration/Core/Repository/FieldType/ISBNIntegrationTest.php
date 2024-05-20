@@ -327,5 +327,3 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 }
-
-class_alias(ISBNIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\ISBNIntegrationTest');

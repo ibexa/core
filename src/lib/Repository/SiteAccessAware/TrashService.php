@@ -67,5 +67,3 @@ class TrashService implements TrashServiceInterface
         return $this->service->findTrashItems($query);
     }
 }
-
-class_alias(TrashService::class, 'eZ\Publish\Core\Repository\SiteAccessAware\TrashService');

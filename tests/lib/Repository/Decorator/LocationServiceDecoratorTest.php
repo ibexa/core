@@ -305,5 +305,3 @@ class LocationServiceDecoratorTest extends TestCase
         $decoratedService->loadAllLocations(...$parameters);
     }
 }
-
-class_alias(LocationServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\LocationServiceDecoratorTest');

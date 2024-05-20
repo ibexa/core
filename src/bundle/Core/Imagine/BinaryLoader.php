@@ -71,5 +71,3 @@ class BinaryLoader implements LoaderInterface
         }
     }
 }
-
-class_alias(BinaryLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\BinaryLoader');

@@ -60,5 +60,3 @@ class MapperTest extends TestCase
         self::assertEquals($objects, $this->mapper->extractUserPreferencesFromRows($rows));
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\UserPreference\MapperTest');

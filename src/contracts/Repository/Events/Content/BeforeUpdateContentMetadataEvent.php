@@ -60,5 +60,3 @@ final class BeforeUpdateContentMetadataEvent extends BeforeEvent
         return $this->content instanceof Content;
     }
 }
-
-class_alias(BeforeUpdateContentMetadataEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeUpdateContentMetadataEvent');

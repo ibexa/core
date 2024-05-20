@@ -202,5 +202,3 @@ class DoctrineStorageTest extends TestCase
         return $this->storageGateway ??= new DoctrineStorage($this->getDatabaseConnection());
     }
 }
-
-class_alias(DoctrineStorageTest::class, 'eZ\Publish\Core\FieldType\Tests\Url\Gateway\DoctrineStorageTest');

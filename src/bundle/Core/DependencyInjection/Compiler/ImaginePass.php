@@ -56,5 +56,3 @@ class ImaginePass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(ImaginePass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ImaginePass');

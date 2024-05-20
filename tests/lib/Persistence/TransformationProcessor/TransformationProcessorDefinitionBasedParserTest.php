@@ -39,5 +39,3 @@ class TransformationProcessorDefinitionBasedParserTest extends TestCase
         );
     }
 }
-
-class_alias(TransformationProcessorDefinitionBasedParserTest::class, 'eZ\Publish\Core\Persistence\Tests\TransformationProcessor\TransformationProcessorDefinitionBasedParserTest');

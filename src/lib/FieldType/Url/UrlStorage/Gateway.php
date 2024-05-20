@@ -64,5 +64,3 @@ abstract class Gateway extends StorageGateway
      */
     abstract public function unlinkUrl($fieldId, $versionNo, array $excludeUrlIds = []);
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\FieldType\Url\UrlStorage\Gateway');

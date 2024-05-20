@@ -60,5 +60,3 @@ class LanguageCode extends CriterionHandler
         );
     }
 }
-
-class_alias(LanguageCode::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode');

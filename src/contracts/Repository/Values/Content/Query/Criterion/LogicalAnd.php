@@ -18,5 +18,3 @@ use Ibexa\Contracts\Core\Repository\Values\Trash\Query\Criterion as TrashCriteri
 class LogicalAnd extends LogicalOperator implements TrashCriterion, FilteringCriterion
 {
 }
-
-class_alias(LogicalAnd::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\LogicalAnd');

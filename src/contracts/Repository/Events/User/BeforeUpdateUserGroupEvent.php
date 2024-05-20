@@ -59,5 +59,3 @@ final class BeforeUpdateUserGroupEvent extends BeforeEvent
         return $this->updatedUserGroup instanceof UserGroup;
     }
 }
-
-class_alias(BeforeUpdateUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeUpdateUserGroupEvent');

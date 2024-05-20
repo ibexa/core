@@ -234,5 +234,3 @@ final class Repository implements RepositoryInterface
         return $this->userService;
     }
 }
-
-class_alias(Repository::class, 'eZ\Publish\Core\Event\Repository');

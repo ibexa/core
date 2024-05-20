@@ -27,5 +27,3 @@ class ContentTypeGroupUpdateStruct extends ContentTypeGroupStruct
      */
     public $modificationDate = null;
 }
-
-class_alias(ContentTypeGroupUpdateStruct::class, 'eZ\Publish\API\Repository\Values\ContentType\ContentTypeGroupUpdateStruct');

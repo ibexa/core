@@ -55,5 +55,3 @@ class SetAllServicesPublicPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(SetAllServicesPublicPass::class, 'eZ\Publish\API\Repository\Tests\Container\Compiler\SetAllServicesPublicPass');

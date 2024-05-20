@@ -67,5 +67,3 @@ final class SelectionTermAggregationTest extends AbstractAggregationTest
         $this->refreshSearch($this->getRepository());
     }
 }
-
-class_alias(SelectionTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\Field\SelectionTermAggregationTest');

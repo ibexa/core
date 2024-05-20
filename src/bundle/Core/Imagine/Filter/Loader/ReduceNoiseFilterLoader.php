@@ -43,5 +43,3 @@ class ReduceNoiseFilterLoader implements LoaderInterface
         return $this->filter->apply($image);
     }
 }
-
-class_alias(ReduceNoiseFilterLoader::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\Loader\ReduceNoiseFilterLoader');

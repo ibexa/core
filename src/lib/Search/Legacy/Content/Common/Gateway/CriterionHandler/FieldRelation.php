@@ -199,5 +199,3 @@ class FieldRelation extends FieldBase
         return $subSelect;
     }
 }
-
-class_alias(FieldRelation::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldRelation');

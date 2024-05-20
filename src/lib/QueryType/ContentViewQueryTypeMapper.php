@@ -21,5 +21,3 @@ interface ContentViewQueryTypeMapper
      */
     public function map(ContentView $contentView);
 }
-
-class_alias(ContentViewQueryTypeMapper::class, 'eZ\Publish\Core\QueryType\ContentViewQueryTypeMapper');

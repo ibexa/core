@@ -39,5 +39,3 @@ final class RemoteIdQueryBuilder extends BaseLocationCriterionQueryBuilder
         );
     }
 }
-
-class_alias(RemoteIdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\RemoteIdQueryBuilder');

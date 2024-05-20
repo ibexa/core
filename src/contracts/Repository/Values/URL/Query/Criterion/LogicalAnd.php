@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 class LogicalAnd extends LogicalOperator
 {
 }
-
-class_alias(LogicalAnd::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\LogicalAnd');

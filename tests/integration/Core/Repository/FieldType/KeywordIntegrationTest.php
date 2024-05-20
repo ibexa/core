@@ -592,5 +592,3 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         self::assertEquals(1, $searchResult->totalCount);
     }
 }
-
-class_alias(KeywordIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\KeywordIntegrationTest');

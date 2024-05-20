@@ -121,5 +121,3 @@ class APIFieldTypeTest extends TestCase
         self::assertSame($validationErrors, $this->fieldType->validateValue($fieldDefinition, $value));
     }
 }
-
-class_alias(APIFieldTypeTest::class, 'eZ\Publish\Core\FieldType\Tests\APIFieldTypeTest');

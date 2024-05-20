@@ -50,5 +50,3 @@ class VisibleOnly extends Base
         );
     }
 }
-
-class_alias(VisibleOnly::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriterionHandler\VisibleOnly');

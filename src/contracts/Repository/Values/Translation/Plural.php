@@ -74,5 +74,3 @@ class Plural extends Translation
         return strtr((int)$firstValue === 1 ? $this->singular : $this->plural, $this->values);
     }
 }
-
-class_alias(Plural::class, 'eZ\Publish\API\Repository\Values\Translation\Plural');

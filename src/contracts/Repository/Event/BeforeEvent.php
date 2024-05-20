@@ -16,5 +16,3 @@ use Symfony\Contracts\EventDispatcher\Event;
 abstract class BeforeEvent extends Event
 {
 }
-
-class_alias(BeforeEvent::class, 'eZ\Publish\SPI\Repository\Event\BeforeEvent');

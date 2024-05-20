@@ -1161,5 +1161,3 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $this->gateway;
     }
 }
-
-class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Type\Gateway\DoctrineDatabaseTest');

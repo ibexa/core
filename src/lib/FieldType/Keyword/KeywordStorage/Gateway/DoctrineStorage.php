@@ -366,5 +366,3 @@ class DoctrineStorage extends Gateway
         $deleteQuery->execute();
     }
 }
-
-class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage');

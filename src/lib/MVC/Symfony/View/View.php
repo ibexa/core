@@ -133,5 +133,3 @@ interface View
      */
     public function getResponse();
 }
-
-class_alias(View::class, 'eZ\Publish\Core\MVC\Symfony\View\View');

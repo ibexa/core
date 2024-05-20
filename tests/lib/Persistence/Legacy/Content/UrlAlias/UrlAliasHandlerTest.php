@@ -5551,5 +5551,3 @@ class UrlAliasHandlerTest extends TestCase
         }
     }
 }
-
-class_alias(UrlAliasHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlAlias\UrlAliasHandlerTest');

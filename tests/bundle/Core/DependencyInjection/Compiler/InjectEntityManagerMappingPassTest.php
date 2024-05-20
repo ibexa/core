@@ -100,5 +100,3 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
         }
     }
 }
-
-class_alias(InjectEntityManagerMappingPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\InjectEntityManagerMappingPassTest');

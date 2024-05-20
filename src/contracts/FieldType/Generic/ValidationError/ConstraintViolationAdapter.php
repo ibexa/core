@@ -56,5 +56,3 @@ final class ConstraintViolationAdapter implements ValidationErrorInterface
         return $this->target;
     }
 }
-
-class_alias(ConstraintViolationAdapter::class, 'eZ\Publish\SPI\FieldType\Generic\ValidationError\ConstraintViolationAdapter');

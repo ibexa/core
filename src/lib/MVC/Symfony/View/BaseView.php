@@ -217,5 +217,3 @@ abstract class BaseView implements View
         return $this->isCacheEnabled;
     }
 }
-
-class_alias(BaseView::class, 'eZ\Publish\Core\MVC\Symfony\View\BaseView');

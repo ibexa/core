@@ -97,5 +97,3 @@ class PersistenceLoggerTest extends TestCase
         self::assertEquals(['uncached' => 1, 'miss' => 0, 'hit' => 0, 'memory' => 0], $calls[1]['stats']);
     }
 }
-
-class_alias(PersistenceLoggerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\PersistenceLoggerTest');

@@ -59,5 +59,3 @@ final class UpdatePolicyByRoleDraftEvent extends AfterEvent
         return $this->updatedPolicyDraft;
     }
 }
-
-class_alias(UpdatePolicyByRoleDraftEvent::class, 'eZ\Publish\API\Repository\Events\Role\UpdatePolicyByRoleDraftEvent');

@@ -39,5 +39,3 @@ final class DepthQueryBuilder extends BaseLocationCriterionQueryBuilder
         );
     }
 }
-
-class_alias(DepthQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\DepthQueryBuilder');

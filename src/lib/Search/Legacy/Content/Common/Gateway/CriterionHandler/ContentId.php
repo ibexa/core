@@ -44,5 +44,3 @@ class ContentId extends CriterionHandler
         );
     }
 }
-
-class_alias(ContentId::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentId');

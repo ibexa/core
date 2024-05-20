@@ -37,5 +37,3 @@ class RouteReferenceGenerationEventTest extends TestCase
         self::assertSame($newRouteReference, $event->getRouteReference());
     }
 }
-
-class_alias(RouteReferenceGenerationEventTest::class, 'eZ\Publish\Core\MVC\Symfony\Event\Tests\RouteReferenceGenerationEventTest');

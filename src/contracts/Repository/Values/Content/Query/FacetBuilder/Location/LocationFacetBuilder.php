@@ -29,5 +29,3 @@ class LocationFacetBuilder extends Location
      */
     public $location;
 }
-
-class_alias(LocationFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\Location\LocationFacetBuilder');

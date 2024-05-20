@@ -27,5 +27,3 @@ final class RemoveEvent extends AfterEvent
         return $this->urlWildcard;
     }
 }
-
-class_alias(RemoveEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\RemoveEvent');

@@ -20,5 +20,3 @@ class UnsupportedFilter extends AbstractFilter
         throw new NotSupportedException('The filter is not supported by your current configuration.');
     }
 }
-
-class_alias(UnsupportedFilter::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\UnsupportedFilter');

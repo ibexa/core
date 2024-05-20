@@ -44,5 +44,3 @@ class SiteAccessCollector extends DataCollector
         $this->data = [];
     }
 }
-
-class_alias(SiteAccessCollector::class, 'eZ\Bundle\EzPublishDebugBundle\Collector\SiteAccessCollector');

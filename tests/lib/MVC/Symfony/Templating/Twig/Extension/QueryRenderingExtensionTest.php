@@ -32,5 +32,3 @@ final class QueryRenderingExtensionTest extends FileSystemTwigIntegrationTestCas
         return __DIR__ . '/_fixtures/query_rendering_functions/';
     }
 }
-
-class_alias(QueryRenderingExtensionTest::class, 'eZ\Publish\Core\MVC\Symfony\Templating\Tests\Twig\Extension\QueryRenderingExtensionTest');

@@ -617,5 +617,3 @@ interface ContentService
      */
     public function count(Filter $filter, ?array $languages = null): int;
 }
-
-class_alias(ContentService::class, 'eZ\Publish\API\Repository\ContentService');

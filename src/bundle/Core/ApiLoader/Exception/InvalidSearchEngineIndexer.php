@@ -12,5 +12,3 @@ use InvalidArgumentException;
 class InvalidSearchEngineIndexer extends InvalidArgumentException
 {
 }
-
-class_alias(InvalidSearchEngineIndexer::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\Exception\InvalidSearchEngineIndexer');

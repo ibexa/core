@@ -145,5 +145,3 @@ class ParentLocationTest extends BaseTest
         return $repository;
     }
 }
-
-class_alias(ParentLocationTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\Id\ParentLocationTest');

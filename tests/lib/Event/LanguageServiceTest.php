@@ -480,5 +480,3 @@ class LanguageServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(LanguageServiceTest::class, 'eZ\Publish\Core\Event\Tests\LanguageServiceTest');

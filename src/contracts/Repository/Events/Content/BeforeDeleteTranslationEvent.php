@@ -34,5 +34,3 @@ final class BeforeDeleteTranslationEvent extends BeforeEvent
         return $this->languageCode;
     }
 }
-
-class_alias(BeforeDeleteTranslationEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeDeleteTranslationEvent');

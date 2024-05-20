@@ -67,5 +67,3 @@ class BinaryFileCreateStruct
         $this->inputStream = $inputStream;
     }
 }
-
-class_alias(BinaryFileCreateStruct::class, 'eZ\Publish\SPI\IO\BinaryFileCreateStruct');

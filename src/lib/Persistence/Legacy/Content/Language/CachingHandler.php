@@ -253,5 +253,3 @@ class CachingHandler implements BaseLanguageHandler
         );
     }
 }
-
-class_alias(CachingHandler::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\CachingHandler');

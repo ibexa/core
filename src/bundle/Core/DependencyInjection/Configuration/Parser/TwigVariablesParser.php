@@ -48,5 +48,3 @@ final class TwigVariablesParser extends AbstractParser
         }
     }
 }
-
-class_alias(TwigVariablesParser::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\TwigVariablesParser');

@@ -31,5 +31,3 @@ class LazyLocationListIterator extends LazyListIterator
         yield from parent::getIterator();
     }
 }
-
-class_alias(LazyLocationListIterator::class, 'eZ\Publish\SPI\Persistence\Filter\Location\LazyLocationListIterator');

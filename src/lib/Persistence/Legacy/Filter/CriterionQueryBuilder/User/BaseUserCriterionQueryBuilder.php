@@ -57,5 +57,3 @@ abstract class BaseUserCriterionQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(BaseUserCriterionQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\BaseUserCriterionQueryBuilder');

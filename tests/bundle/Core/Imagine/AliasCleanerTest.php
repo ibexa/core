@@ -37,5 +37,3 @@ class AliasCleanerTest extends TestCase
         $this->aliasCleaner->removeAliases($originalPath);
     }
 }
-
-class_alias(AliasCleanerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\AliasCleanerTest');

@@ -83,5 +83,3 @@ class LanguageSwitchListenerTest extends TestCase
         self::assertFalse($routeReference->has('siteaccess'));
     }
 }
-
-class_alias(LanguageSwitchListenerTest::class, 'eZ\Publish\Core\MVC\Symfony\EventListener\Tests\LanguageSwitchListenerTest');

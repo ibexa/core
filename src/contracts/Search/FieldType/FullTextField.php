@@ -43,5 +43,3 @@ class FullTextField extends FieldType
         parent::__construct();
     }
 }
-
-class_alias(FullTextField::class, 'eZ\Publish\SPI\Search\FieldType\FullTextField');

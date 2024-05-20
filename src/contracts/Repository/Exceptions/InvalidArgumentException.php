@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 abstract class InvalidArgumentException extends ForbiddenException
 {
 }
-
-class_alias(InvalidArgumentException::class, 'eZ\Publish\API\Repository\Exceptions\InvalidArgumentException');

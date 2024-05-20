@@ -36,5 +36,3 @@ class IntegerMapper extends FieldValueMapper
         return (int)$value;
     }
 }
-
-class_alias(IntegerMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\IntegerMapper');

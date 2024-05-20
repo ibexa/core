@@ -18,5 +18,3 @@ final class ContentTranslatedName extends SortClause
         parent::__construct('content_translated_name', $sortDirection);
     }
 }
-
-class_alias(ContentTranslatedName::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\ContentTranslatedName');

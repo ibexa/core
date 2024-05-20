@@ -18,5 +18,3 @@ interface URLCheckerInterface
      */
     public function check(URLQuery $query);
 }
-
-class_alias(URLCheckerInterface::class, 'eZ\Bundle\EzPublishCoreBundle\URLChecker\URLCheckerInterface');

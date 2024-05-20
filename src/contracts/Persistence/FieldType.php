@@ -21,5 +21,3 @@ interface FieldType
      */
     public function getEmptyValue();
 }
-
-class_alias(FieldType::class, 'eZ\Publish\SPI\Persistence\FieldType');

@@ -47,5 +47,3 @@ class PermissionsCriterionHandler extends PermissionCriterionResolver
         return true;
     }
 }
-
-class_alias(PermissionsCriterionHandler::class, 'eZ\Publish\Core\Repository\PermissionsCriterionHandler');

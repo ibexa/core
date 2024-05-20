@@ -27,5 +27,3 @@ class DatePublished extends SortClause implements FilteringSortClause
         parent::__construct('date_published', $sortDirection);
     }
 }
-
-class_alias(DatePublished::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\DatePublished');

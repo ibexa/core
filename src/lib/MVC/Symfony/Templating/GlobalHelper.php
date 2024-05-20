@@ -172,5 +172,3 @@ class GlobalHelper
         return $this->configResolver;
     }
 }
-
-class_alias(GlobalHelper::class, 'eZ\Publish\Core\MVC\Symfony\Templating\GlobalHelper');

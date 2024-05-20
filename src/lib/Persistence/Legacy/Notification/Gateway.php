@@ -71,5 +71,3 @@ abstract class Gateway
      */
     abstract public function delete(int $notificationId): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Notification\Gateway');

@@ -60,5 +60,3 @@ abstract class NotificationServiceDecorator implements NotificationService
         $this->innerService->deleteNotification($notification);
     }
 }
-
-class_alias(NotificationServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\NotificationServiceDecorator');

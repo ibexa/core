@@ -11,5 +11,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 final class ContentTypeTermAggregation extends AbstractTermAggregation
 {
 }
-
-class_alias(ContentTypeTermAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\ContentTypeTermAggregation');

@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Trash\Query;
 interface Criterion
 {
 }
-
-class_alias(Criterion::class, 'eZ\Publish\SPI\Repository\Values\Trash\Query\Criterion');

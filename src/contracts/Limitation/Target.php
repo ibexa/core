@@ -18,5 +18,3 @@ namespace Ibexa\Contracts\Core\Limitation;
 interface Target
 {
 }
-
-class_alias(Target::class, 'eZ\Publish\SPI\Limitation\Target');

@@ -216,5 +216,3 @@ class ContentTypeLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(ContentTypeLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\ContentTypeLimitationTest');

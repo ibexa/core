@@ -42,5 +42,3 @@ abstract class Gateway
      */
     abstract public function purgeIndex();
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Gateway');

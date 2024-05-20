@@ -32,5 +32,3 @@ final class UsernameProvider extends BaseProvider
         }
     }
 }
-
-class_alias(UsernameProvider::class, 'eZ\Publish\Core\MVC\Symfony\Security\User\UsernameProvider');

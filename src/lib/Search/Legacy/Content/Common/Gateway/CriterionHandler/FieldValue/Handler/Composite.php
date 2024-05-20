@@ -18,5 +18,3 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\
 class Composite extends Handler
 {
 }
-
-class_alias(Composite::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Composite');

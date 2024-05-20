@@ -66,5 +66,3 @@ class FullTextValue extends ValueObject
      */
     public $splitFlag;
 }
-
-class_alias(FullTextValue::class, 'eZ\Publish\Core\Search\Legacy\Content\FullTextValue');

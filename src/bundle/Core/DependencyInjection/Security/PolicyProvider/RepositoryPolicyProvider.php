@@ -17,5 +17,3 @@ class RepositoryPolicyProvider extends YamlPolicyProvider
         return [];
     }
 }
-
-class_alias(RepositoryPolicyProvider::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Security\PolicyProvider\RepositoryPolicyProvider');

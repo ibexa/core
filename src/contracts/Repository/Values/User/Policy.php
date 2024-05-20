@@ -58,5 +58,3 @@ abstract class Policy extends ValueObject
      */
     abstract public function getLimitations(): iterable;
 }
-
-class_alias(Policy::class, 'eZ\Publish\API\Repository\Values\User\Policy');

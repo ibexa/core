@@ -29,5 +29,3 @@ class NotificationList extends ValueObject implements IteratorAggregate
         return new ArrayIterator($this->items);
     }
 }
-
-class_alias(NotificationList::class, 'eZ\Publish\API\Repository\Values\Notification\NotificationList');

@@ -32,5 +32,3 @@ final class ContentTypeGroupTermAggregationTest extends AbstractAggregationTest
         yield $builder->build();
     }
 }
-
-class_alias(ContentTypeGroupTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\ContentTypeGroupTermAggregationTest');

@@ -75,5 +75,3 @@ class Field extends Criterion implements CustomFieldInterface
         return $this->customFields[$type][$field];
     }
 }
-
-class_alias(Field::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Field');

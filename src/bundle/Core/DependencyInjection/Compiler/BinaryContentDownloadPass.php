@@ -41,5 +41,3 @@ class BinaryContentDownloadPass implements CompilerPassInterface
         $definition->addMethodCall('setDownloadUrlGenerator', [$reference]);
     }
 }
-
-class_alias(BinaryContentDownloadPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\BinaryContentDownloadPass');

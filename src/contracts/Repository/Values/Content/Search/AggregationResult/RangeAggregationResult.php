@@ -87,5 +87,3 @@ final class RangeAggregationResult extends AggregationResult implements Iterator
         }
     }
 }
-
-class_alias(RangeAggregationResult::class, 'eZ\Publish\API\Repository\Values\Content\Search\AggregationResult\RangeAggregationResult');

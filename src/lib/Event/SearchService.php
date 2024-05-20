@@ -26,5 +26,3 @@ class SearchService extends SearchServiceDecorator
         $this->eventDispatcher = $eventDispatcher;
     }
 }
-
-class_alias(SearchService::class, 'eZ\Publish\Core\Event\SearchService');

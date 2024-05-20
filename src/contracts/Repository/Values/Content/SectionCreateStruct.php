@@ -15,5 +15,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 class SectionCreateStruct extends SectionStruct
 {
 }
-
-class_alias(SectionCreateStruct::class, 'eZ\Publish\API\Repository\Values\Content\SectionCreateStruct');

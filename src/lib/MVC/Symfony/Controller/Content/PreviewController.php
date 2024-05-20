@@ -189,5 +189,3 @@ EOF;
         );
     }
 }
-
-class_alias(PreviewController::class, 'eZ\Publish\Core\MVC\Symfony\Controller\Content\PreviewController');

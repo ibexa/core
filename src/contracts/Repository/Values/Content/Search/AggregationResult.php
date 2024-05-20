@@ -31,5 +31,3 @@ abstract class AggregationResult extends ValueObject
         return $this->name;
     }
 }
-
-class_alias(AggregationResult::class, 'eZ\Publish\API\Repository\Values\Content\Search\AggregationResult');

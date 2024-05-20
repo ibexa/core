@@ -206,5 +206,3 @@ interface Repository
      */
     public function rollback(): void;
 }
-
-class_alias(Repository::class, 'eZ\Publish\API\Repository\Repository');

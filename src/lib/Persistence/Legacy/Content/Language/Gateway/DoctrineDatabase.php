@@ -224,5 +224,3 @@ final class DoctrineDatabase extends Gateway
         return (int)$query->execute()->fetchColumn();
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase');

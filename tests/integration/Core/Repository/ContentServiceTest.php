@@ -6898,5 +6898,3 @@ class ContentServiceTest extends BaseContentServiceTest
         return $draft;
     }
 }
-
-class_alias(ContentServiceTest::class, 'eZ\Publish\API\Repository\Tests\ContentServiceTest');

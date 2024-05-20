@@ -37,5 +37,3 @@ final class ModifierQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(ModifierQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\User\Metadata\ModifierQueryBuilder');

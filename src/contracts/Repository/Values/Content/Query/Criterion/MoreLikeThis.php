@@ -50,5 +50,3 @@ class MoreLikeThis extends Criterion
         ];
     }
 }
-
-class_alias(MoreLikeThis::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\MoreLikeThis');

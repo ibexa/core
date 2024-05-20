@@ -35,5 +35,3 @@ final class BeforeSwapLocationEvent extends BeforeEvent
         return $this->location2;
     }
 }
-
-class_alias(BeforeSwapLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\BeforeSwapLocationEvent');

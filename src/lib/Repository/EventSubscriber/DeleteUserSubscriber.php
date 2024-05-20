@@ -34,5 +34,3 @@ class DeleteUserSubscriber implements EventSubscriberInterface
         $this->contentTypeService->deleteUserDrafts($event->getUser()->id);
     }
 }
-
-class_alias(DeleteUserSubscriber::class, 'eZ\Publish\Core\Repository\EventSubscriber\DeleteUserSubscriber');

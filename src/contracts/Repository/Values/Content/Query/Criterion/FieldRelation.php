@@ -33,5 +33,3 @@ class FieldRelation extends Criterion
         ];
     }
 }
-
-class_alias(FieldRelation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\FieldRelation');

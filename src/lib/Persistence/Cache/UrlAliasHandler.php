@@ -507,5 +507,3 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
         );
     }
 }
-
-class_alias(UrlAliasHandler::class, 'eZ\Publish\Core\Persistence\Cache\UrlAliasHandler');

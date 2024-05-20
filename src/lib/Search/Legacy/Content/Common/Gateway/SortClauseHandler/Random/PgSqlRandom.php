@@ -22,5 +22,3 @@ class PgSqlRandom extends AbstractRandom
         return 'random()';
     }
 }
-
-class_alias(PgSqlRandom::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\PgSqlRandom');

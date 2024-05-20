@@ -36,5 +36,3 @@ final class BeforeRemoveFieldDefinitionEvent extends BeforeEvent
         return $this->fieldDefinition;
     }
 }
-
-class_alias(BeforeRemoveFieldDefinitionEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeRemoveFieldDefinitionEvent');

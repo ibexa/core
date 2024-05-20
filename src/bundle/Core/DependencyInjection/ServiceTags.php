@@ -25,5 +25,3 @@ class ServiceTags
      */
     public const FILTERING_SORT_CLAUSE_QUERY_BUILDER = 'ibexa.filter.sort_clause.query.builder';
 }
-
-class_alias(ServiceTags::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\ServiceTags');

@@ -22,5 +22,3 @@ final class URITextNormalizer extends AbstractPropertyWhitelistNormalizer
         return $data instanceof URIText;
     }
 }
-
-class_alias(URITextNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\URITextNormalizer');

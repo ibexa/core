@@ -176,5 +176,3 @@ final class SubtreeQueryTest extends AbstractQueryTypeTest
         return ['filter', 'offset', 'limit', 'sort', 'location', 'content', 'depth'];
     }
 }
-
-class_alias(SubtreeQueryTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\SubtreeQueryTest');

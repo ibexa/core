@@ -47,5 +47,3 @@ class BlockingLimitation extends Limitation
         return $this->identifier;
     }
 }
-
-class_alias(BlockingLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\BlockingLimitation');

@@ -32,5 +32,3 @@ class EmbedObjectParameters implements EventSubscriberInterface
         }
     }
 }
-
-class_alias(EmbedObjectParameters::class, 'eZ\Publish\Core\MVC\Symfony\View\ParametersInjector\EmbedObjectParameters');

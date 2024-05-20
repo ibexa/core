@@ -30,5 +30,3 @@ interface UrlDecorator
      */
     public function undecorate($uri);
 }
-
-class_alias(UrlDecorator::class, 'eZ\Publish\Core\IO\UrlDecorator');

@@ -240,5 +240,3 @@ class ContentInfo extends ValueObject
         return $this->name;
     }
 }
-
-class_alias(ContentInfo::class, 'eZ\Publish\API\Repository\Values\Content\ContentInfo');

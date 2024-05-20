@@ -128,5 +128,3 @@ class URLServiceAuthorizationTest extends BaseURLServiceTest
         /* END: Use Case */
     }
 }
-
-class_alias(URLServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\URLServiceAuthorizationTest');

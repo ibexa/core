@@ -87,5 +87,3 @@ class RouteReference
         $this->params->remove($parameterName);
     }
 }
-
-class_alias(RouteReference::class, 'eZ\Publish\Core\MVC\Symfony\Routing\RouteReference');

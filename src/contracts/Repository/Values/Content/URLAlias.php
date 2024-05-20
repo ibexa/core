@@ -96,5 +96,3 @@ class URLAlias extends ValueObject
      */
     protected $forward;
 }
-
-class_alias(URLAlias::class, 'eZ\Publish\API\Repository\Values\Content\URLAlias');

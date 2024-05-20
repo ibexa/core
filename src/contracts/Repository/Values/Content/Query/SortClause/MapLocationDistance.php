@@ -87,5 +87,3 @@ class MapLocationDistance extends SortClause implements CustomFieldInterface
         return $this->customFields[$type][$field];
     }
 }
-
-class_alias(MapLocationDistance::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\MapLocationDistance');

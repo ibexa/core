@@ -140,5 +140,3 @@ final class DoctrineGateway implements Gateway
         return $queryBuilder;
     }
 }
-
-class_alias(DoctrineGateway::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine\DoctrineGateway');

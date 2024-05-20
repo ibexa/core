@@ -108,5 +108,3 @@ class LocationServiceTest extends AbstractServiceTest
         ];
     }
 }
-
-class_alias(LocationServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\LocationServiceTest');

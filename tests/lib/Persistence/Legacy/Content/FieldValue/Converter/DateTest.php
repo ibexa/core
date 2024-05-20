@@ -150,5 +150,3 @@ class DateTest extends TestCase
         self::assertSame('now', $fieldDef->defaultValue->data['timestring']);
     }
 }
-
-class_alias(DateTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\DateTest');

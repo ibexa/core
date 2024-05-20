@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Filter;
 interface FilteringSortClause
 {
 }
-
-class_alias(FilteringSortClause::class, 'eZ\Publish\SPI\Repository\Values\Filter\FilteringSortClause');

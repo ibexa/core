@@ -73,5 +73,3 @@ class SwirlFilterLoaderTest extends TestCase
         ];
     }
 }
-
-class_alias(SwirlFilterLoaderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Filter\Loader\SwirlFilterLoaderTest');

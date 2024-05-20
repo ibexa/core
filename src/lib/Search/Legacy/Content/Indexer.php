@@ -62,5 +62,3 @@ class Indexer extends IncrementalIndexer
         $this->searchHandler->purgeIndex();
     }
 }
-
-class_alias(Indexer::class, 'eZ\Publish\Core\Search\Legacy\Content\Indexer');

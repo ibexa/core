@@ -243,5 +243,3 @@ final class FilteringQueryBuilder extends QueryBuilder
         return $this;
     }
 }
-
-class_alias(FilteringQueryBuilder::class, 'eZ\Publish\SPI\Persistence\Filter\Doctrine\FilteringQueryBuilder');

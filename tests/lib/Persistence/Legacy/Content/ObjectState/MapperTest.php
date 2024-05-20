@@ -231,5 +231,3 @@ class MapperTest extends LanguageAwareTestCase
         return $inputStruct;
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\ObjectState\MapperTest');

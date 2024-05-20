@@ -13,5 +13,3 @@ use Symfony\Cmf\Component\Routing\ChainRouter as BaseChainRouter;
 class ChainRouter extends BaseChainRouter
 {
 }
-
-class_alias(ChainRouter::class, 'eZ\Publish\Core\MVC\Symfony\Routing\ChainRouter');

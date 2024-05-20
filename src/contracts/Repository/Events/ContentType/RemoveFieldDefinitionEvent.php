@@ -38,5 +38,3 @@ final class RemoveFieldDefinitionEvent extends AfterEvent
         return $this->fieldDefinition;
     }
 }
-
-class_alias(RemoveFieldDefinitionEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\RemoveFieldDefinitionEvent');

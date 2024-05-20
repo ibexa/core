@@ -46,5 +46,3 @@ class UrlAliasForSwappedLocation
     /** @var int */
     public $newId;
 }
-
-class_alias(UrlAliasForSwappedLocation::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\DTO\UrlAliasForSwappedLocation');

@@ -59,5 +59,3 @@ class NotificationRendererPassTest extends AbstractCompilerPassTestCase
         $this->compile();
     }
 }
-
-class_alias(NotificationRendererPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\NotificationRendererPassTest');

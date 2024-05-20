@@ -19,5 +19,3 @@ use Ibexa\Core\Repository\Mapper\RoleDomainMapper as BaseRoleDomainMapper;
 class RoleDomainMapper extends BaseRoleDomainMapper
 {
 }
-
-class_alias(RoleDomainMapper::class, 'eZ\Publish\Core\Repository\Helper\RoleDomainMapper');

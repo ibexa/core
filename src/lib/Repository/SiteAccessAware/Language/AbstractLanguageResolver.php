@@ -162,5 +162,3 @@ abstract class AbstractLanguageResolver implements APILanguageResolver
         return $this->defaultShowAllTranslations;
     }
 }
-
-class_alias(AbstractLanguageResolver::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver');

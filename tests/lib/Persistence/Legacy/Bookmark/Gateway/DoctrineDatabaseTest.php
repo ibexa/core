@@ -157,5 +157,3 @@ class DoctrineDatabaseTest extends TestCase
         return is_array($data) ? $data : [];
     }
 }
-
-class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark\Gateway\DoctrineDatabaseTest');

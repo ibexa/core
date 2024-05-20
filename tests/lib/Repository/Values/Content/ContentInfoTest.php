@@ -56,5 +56,3 @@ final class ContentInfoTest extends TestCase
         self::assertTrue($contentInfo->isHidden());
     }
 }
-
-class_alias(ContentInfoTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\ContentInfoTest');

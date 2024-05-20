@@ -59,5 +59,3 @@ final class BeforeUpdateObjectStateEvent extends BeforeEvent
         return $this->updatedObjectState instanceof ObjectState;
     }
 }
-
-class_alias(BeforeUpdateObjectStateEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\BeforeUpdateObjectStateEvent');

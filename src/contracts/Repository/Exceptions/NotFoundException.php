@@ -18,5 +18,3 @@ use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
 abstract class NotFoundException extends Exception implements RepositoryException
 {
 }
-
-class_alias(NotFoundException::class, 'eZ\Publish\API\Repository\Exceptions\NotFoundException');

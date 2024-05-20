@@ -43,5 +43,3 @@ class RandomSortClauseHandlerFactory
         throw new InvalidArgumentException('$this->randomSortClauseGateways', 'No RandomSortClauseHandler found for driver ' . $driverName);
     }
 }
-
-class_alias(RandomSortClauseHandlerFactory::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Factory\RandomSortClauseHandlerFactory');

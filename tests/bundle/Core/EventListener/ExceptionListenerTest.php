@@ -212,5 +212,3 @@ class ExceptionListenerTest extends TestCase
         self::assertSame($exception, $event->getThrowable());
     }
 }
-
-class_alias(ExceptionListenerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\EventListener\ExceptionListenerTest');

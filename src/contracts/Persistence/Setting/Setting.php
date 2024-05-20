@@ -26,5 +26,3 @@ class Setting extends ValueObject
     /** @var string */
     protected $serializedValue;
 }
-
-class_alias(Setting::class, 'eZ\Publish\SPI\Persistence\Setting\Setting');

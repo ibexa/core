@@ -263,5 +263,3 @@ class Legacy implements IOServiceInterface
         return strpos($internalPath, $this->draftPrefix) === 0;
     }
 }
-
-class_alias(Legacy::class, 'eZ\Publish\Core\FieldType\Image\IO\Legacy');

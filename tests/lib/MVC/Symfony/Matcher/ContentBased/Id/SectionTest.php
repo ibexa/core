@@ -129,5 +129,3 @@ class SectionTest extends BaseTest
         ];
     }
 }
-
-class_alias(SectionTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\Id\SectionTest');

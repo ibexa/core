@@ -930,5 +930,3 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         );
     }
 }
-
-class_alias(ContentDomainMapper::class, 'eZ\Publish\Core\Repository\Mapper\ContentDomainMapper');

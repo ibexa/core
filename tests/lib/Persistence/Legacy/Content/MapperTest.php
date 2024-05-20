@@ -788,5 +788,3 @@ class MapperTest extends LanguageAwareTestCase
         return $contentType;
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\MapperTest');

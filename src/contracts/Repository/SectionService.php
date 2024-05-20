@@ -143,5 +143,3 @@ interface SectionService
      */
     public function newSectionUpdateStruct(): SectionUpdateStruct;
 }
-
-class_alias(SectionService::class, 'eZ\Publish\API\Repository\SectionService');

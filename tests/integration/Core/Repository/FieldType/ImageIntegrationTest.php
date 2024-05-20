@@ -989,5 +989,3 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
         self::assertSame($expectExists, $ioService->exists($imageFieldValue->id));
     }
 }
-
-class_alias(ImageIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\ImageIntegrationTest');

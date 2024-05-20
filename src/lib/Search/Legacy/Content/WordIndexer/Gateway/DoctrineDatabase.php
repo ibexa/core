@@ -342,5 +342,3 @@ class DoctrineDatabase extends Gateway
         return $wordArray;
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Search\Legacy\Content\WordIndexer\Gateway\DoctrineDatabase');

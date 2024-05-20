@@ -57,5 +57,3 @@ class UrlAliasRouter extends BaseUrlAliasRouter
         return $this->urlAliasService->lookup($pathPrefix . $pathinfo);
     }
 }
-
-class_alias(UrlAliasRouter::class, 'eZ\Bundle\EzPublishCoreBundle\Routing\UrlAliasRouter');

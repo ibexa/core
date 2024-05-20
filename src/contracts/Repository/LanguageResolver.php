@@ -68,5 +68,3 @@ interface LanguageResolver
      */
     public function setDefaultUseAlwaysAvailable(bool $defaultUseAlwaysAvailable): void;
 }
-
-class_alias(LanguageResolver::class, 'eZ\Publish\API\Repository\LanguageResolver');

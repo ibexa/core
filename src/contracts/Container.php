@@ -23,5 +23,3 @@ interface Container
      */
     public function getRepository();
 }
-
-class_alias(Container::class, 'eZ\Publish\API\Container');

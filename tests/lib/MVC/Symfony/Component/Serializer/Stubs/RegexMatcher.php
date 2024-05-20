@@ -18,5 +18,3 @@ final class RegexMatcher extends BaseRegex
         throw new NotImplementedException(__METHOD__);
     }
 }
-
-class_alias(RegexMatcher::class, 'eZ\Publish\Core\MVC\Symfony\Component\Tests\Serializer\Stubs\RegexMatcher');

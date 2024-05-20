@@ -61,5 +61,3 @@ final class CreateContentEvent extends AfterEvent
         return $this->fieldIdentifiersToValidate;
     }
 }
-
-class_alias(CreateContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\CreateContentEvent');

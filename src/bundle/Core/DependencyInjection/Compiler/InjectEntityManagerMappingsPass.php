@@ -156,5 +156,3 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         );
     }
 }
-
-class_alias(InjectEntityManagerMappingsPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\InjectEntityManagerMappingsPass');

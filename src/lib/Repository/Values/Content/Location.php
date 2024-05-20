@@ -91,5 +91,3 @@ class Location extends APILocation
         return parent::__isset($property);
     }
 }
-
-class_alias(Location::class, 'eZ\Publish\Core\Repository\Values\Content\Location');

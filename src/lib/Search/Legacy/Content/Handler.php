@@ -393,5 +393,3 @@ class Handler implements SearchHandlerInterface
         return false;
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Search\Legacy\Content\Handler');

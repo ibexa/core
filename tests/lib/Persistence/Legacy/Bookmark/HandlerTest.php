@@ -194,5 +194,3 @@ class HandlerTest extends TestCase
         $this->handler->locationSwapped($location1Id, $location2Id);
     }
 }
-
-class_alias(HandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Bookmark\HandlerTest');

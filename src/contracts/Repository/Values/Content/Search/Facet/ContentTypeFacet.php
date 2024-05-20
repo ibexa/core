@@ -24,5 +24,3 @@ class ContentTypeFacet extends Facet
      */
     public $entries;
 }
-
-class_alias(ContentTypeFacet::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\ContentTypeFacet');

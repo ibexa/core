@@ -229,5 +229,3 @@ final class Filter
         );
     }
 }
-
-class_alias(Filter::class, 'eZ\Publish\API\Repository\Values\Filter\Filter');

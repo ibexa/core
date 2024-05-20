@@ -68,5 +68,3 @@ class LocaleListener implements EventSubscriberInterface
         $this->innerListener->setDefaultLocale($event);
     }
 }
-
-class_alias(LocaleListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\LocaleListener');

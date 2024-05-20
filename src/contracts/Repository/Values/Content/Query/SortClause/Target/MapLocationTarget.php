@@ -61,5 +61,3 @@ class MapLocationTarget extends Target
         $this->fieldIdentifier = $fieldIdentifier;
     }
 }
-
-class_alias(MapLocationTarget::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target\MapLocationTarget');

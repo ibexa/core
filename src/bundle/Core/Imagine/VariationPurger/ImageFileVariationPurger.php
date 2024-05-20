@@ -70,5 +70,3 @@ class ImageFileVariationPurger implements VariationPurger
         $this->logger = $logger;
     }
 }
-
-class_alias(ImageFileVariationPurger::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\VariationPurger\ImageFileVariationPurger');

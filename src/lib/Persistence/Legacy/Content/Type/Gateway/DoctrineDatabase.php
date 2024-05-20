@@ -1480,5 +1480,3 @@ SQL;
         $this->connection->executeUpdate($sql);
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase');

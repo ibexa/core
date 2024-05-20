@@ -100,5 +100,3 @@ class SortClauseConverterPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(SortClauseConverterPassTest::class, 'eZ\Publish\Core\Base\Tests\Container\Compiler\Search\Legacy\SortClauseConverterPassTest');

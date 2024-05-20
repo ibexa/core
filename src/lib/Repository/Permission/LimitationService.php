@@ -98,5 +98,3 @@ class LimitationService
         return $type->validate($limitation);
     }
 }
-
-class_alias(LimitationService::class, 'eZ\Publish\Core\Repository\Permission\LimitationService');

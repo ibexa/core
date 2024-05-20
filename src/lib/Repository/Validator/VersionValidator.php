@@ -101,5 +101,3 @@ final class VersionValidator implements ContentValidator
         return $allFieldErrors;
     }
 }
-
-class_alias(VersionValidator::class, 'eZ\Publish\Core\Repository\Validator\VersionValidator');

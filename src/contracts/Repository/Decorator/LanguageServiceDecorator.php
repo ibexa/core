@@ -84,5 +84,3 @@ abstract class LanguageServiceDecorator implements LanguageService
         return $this->innerService->newLanguageCreateStruct();
     }
 }
-
-class_alias(LanguageServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\LanguageServiceDecorator');

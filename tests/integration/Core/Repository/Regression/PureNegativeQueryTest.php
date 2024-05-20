@@ -289,5 +289,3 @@ class PureNegativeQueryTest extends BaseTest
         self::assertEquals($totalCount, $result->totalCount);
     }
 }
-
-class_alias(PureNegativeQueryTest::class, 'eZ\Publish\API\Repository\Tests\Regression\PureNegativeQueryTest');

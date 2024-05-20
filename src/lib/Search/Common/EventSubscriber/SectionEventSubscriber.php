@@ -27,5 +27,3 @@ class SectionEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         );
     }
 }
-
-class_alias(SectionEventSubscriber::class, 'eZ\Publish\Core\Search\Common\EventSubscriber\SectionEventSubscriber');

@@ -38,5 +38,3 @@ final class BeforeUpdateEvent extends BeforeEvent
         return $this->updateStruct;
     }
 }
-
-class_alias(BeforeUpdateEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\BeforeUpdateEvent');

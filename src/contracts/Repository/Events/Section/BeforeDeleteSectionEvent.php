@@ -26,5 +26,3 @@ final class BeforeDeleteSectionEvent extends BeforeEvent
         return $this->section;
     }
 }
-
-class_alias(BeforeDeleteSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\BeforeDeleteSectionEvent');

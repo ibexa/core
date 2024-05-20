@@ -394,5 +394,3 @@ interface ContentTypeService
      */
     public function deleteUserDrafts(int $userId): void;
 }
-
-class_alias(ContentTypeService::class, 'eZ\Publish\API\Repository\ContentTypeService');

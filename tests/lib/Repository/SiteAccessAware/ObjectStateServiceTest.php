@@ -79,5 +79,3 @@ class ObjectStateServiceTest extends AbstractServiceTest
         ];
     }
 }
-
-class_alias(ObjectStateServiceTest::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Tests\ObjectStateServiceTest');

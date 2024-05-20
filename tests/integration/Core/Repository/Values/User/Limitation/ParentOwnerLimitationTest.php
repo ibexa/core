@@ -97,5 +97,3 @@ class ParentOwnerLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(ParentOwnerLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\ParentOwnerLimitationTest');

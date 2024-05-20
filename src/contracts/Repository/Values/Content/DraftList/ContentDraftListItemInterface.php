@@ -22,5 +22,3 @@ interface ContentDraftListItemInterface
      */
     public function hasVersionInfo(): bool;
 }
-
-class_alias(ContentDraftListItemInterface::class, 'eZ\Publish\API\Repository\Values\Content\DraftList\ContentDraftListItemInterface');

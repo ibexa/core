@@ -69,5 +69,3 @@ final class FirstMatchingFieldStrategy implements ThumbnailStrategy
         return null;
     }
 }
-
-class_alias(FirstMatchingFieldStrategy::class, 'eZ\Publish\Core\Repository\Strategy\ContentThumbnail\FirstMatchingFieldStrategy');

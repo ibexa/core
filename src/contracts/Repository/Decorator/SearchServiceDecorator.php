@@ -71,5 +71,3 @@ abstract class SearchServiceDecorator implements SearchService
         return $this->innerService->supports($capabilityFlag);
     }
 }
-
-class_alias(SearchServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\SearchServiceDecorator');

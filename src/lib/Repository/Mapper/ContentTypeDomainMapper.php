@@ -561,5 +561,3 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
         return $dateTime;
     }
 }
-
-class_alias(ContentTypeDomainMapper::class, 'eZ\Publish\Core\Repository\Mapper\ContentTypeDomainMapper');

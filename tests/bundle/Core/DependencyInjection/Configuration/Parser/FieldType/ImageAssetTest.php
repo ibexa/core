@@ -84,5 +84,3 @@ class ImageAssetTest extends AbstractParserTestCase
         ];
     }
 }
-
-class_alias(ImageAssetTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\Parser\FieldType\ImageAssetTest');

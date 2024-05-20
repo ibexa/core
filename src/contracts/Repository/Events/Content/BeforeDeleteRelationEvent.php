@@ -36,5 +36,3 @@ final class BeforeDeleteRelationEvent extends BeforeEvent
         return $this->destinationContent;
     }
 }
-
-class_alias(BeforeDeleteRelationEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeDeleteRelationEvent');

@@ -30,5 +30,3 @@ class Notification extends ValueObject
     /** @var array */
     public $data = [];
 }
-
-class_alias(Notification::class, 'eZ\Publish\SPI\Persistence\Notification\Notification');

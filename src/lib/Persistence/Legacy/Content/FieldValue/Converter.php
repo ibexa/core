@@ -66,5 +66,3 @@ interface Converter
      */
     public function getIndexColumn();
 }
-
-class_alias(Converter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter');

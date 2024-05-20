@@ -394,5 +394,3 @@ class RoleServiceDecoratorTest extends TestCase
         $decoratedService->getLimitationTypesByModuleFunction(...$parameters);
     }
 }
-
-class_alias(RoleServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\RoleServiceDecoratorTest');

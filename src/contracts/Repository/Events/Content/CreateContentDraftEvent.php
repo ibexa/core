@@ -71,5 +71,3 @@ final class CreateContentDraftEvent extends AfterEvent
         return $this->language;
     }
 }
-
-class_alias(CreateContentDraftEvent::class, 'eZ\Publish\API\Repository\Events\Content\CreateContentDraftEvent');

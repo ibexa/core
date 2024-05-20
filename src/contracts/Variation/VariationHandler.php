@@ -31,5 +31,3 @@ interface VariationHandler
      */
     public function getVariation(Field $field, VersionInfo $versionInfo, $variationName, array $parameters = []);
 }
-
-class_alias(VariationHandler::class, 'eZ\Publish\SPI\Variation\VariationHandler');

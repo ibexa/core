@@ -93,5 +93,3 @@ class FieldTypeRegistryTest extends TestCase
         return $this->createMock(SPIFieldType::class);
     }
 }
-
-class_alias(FieldTypeRegistryTest::class, 'eZ\Publish\Core\Persistence\Tests\FieldTypeRegistryTest');

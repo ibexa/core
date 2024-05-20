@@ -140,5 +140,3 @@ class FieldEmpty extends FieldBase
         );
     }
 }
-
-class_alias(FieldEmpty::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldEmpty');

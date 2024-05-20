@@ -924,5 +924,3 @@ class UserServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(UserServiceTest::class, 'eZ\Publish\Core\Event\Tests\UserServiceTest');

@@ -38,5 +38,3 @@ final class DateTrashed extends SortClauseHandler
         return (array)$column;
     }
 }
-
-class_alias(DateTrashed::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Trash\DateTrashed');

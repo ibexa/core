@@ -21,5 +21,3 @@ class UserPreferenceSetStruct extends ValueObject
     /** @var string */
     public $value;
 }
-
-class_alias(UserPreferenceSetStruct::class, 'eZ\Publish\SPI\Persistence\UserPreference\UserPreferenceSetStruct');

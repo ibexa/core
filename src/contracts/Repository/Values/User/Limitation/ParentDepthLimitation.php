@@ -22,5 +22,3 @@ class ParentDepthLimitation extends Limitation
         return Limitation::PARENTDEPTH;
     }
 }
-
-class_alias(ParentDepthLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\ParentDepthLimitation');

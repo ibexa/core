@@ -52,5 +52,3 @@ class SearchHit extends ValueObject
      */
     public $highlight;
 }
-
-class_alias(SearchHit::class, 'eZ\Publish\API\Repository\Values\Content\Search\SearchHit');

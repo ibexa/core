@@ -69,5 +69,3 @@ class RegisterSearchEnginePass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(RegisterSearchEnginePass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\RegisterSearchEnginePass');

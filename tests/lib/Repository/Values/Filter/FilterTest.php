@@ -418,5 +418,3 @@ final class FilterTest extends TestCase
         yield 'Empty Filter' => [new Filter()];
     }
 }
-
-class_alias(FilterTest::class, 'eZ\Publish\API\Repository\Tests\Values\Filter\FilterTest');

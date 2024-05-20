@@ -137,5 +137,3 @@ class StorageConnectionFactoryTest extends TestCase
         return $this->createMock(ContainerInterface::class);
     }
 }
-
-class_alias(StorageConnectionFactoryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\ApiLoader\StorageConnectionFactoryTest');

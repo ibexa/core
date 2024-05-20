@@ -24,5 +24,3 @@ class TestQueryType implements QueryType
         return 'Test:Test';
     }
 }
-
-class_alias(TestQueryType::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Stub\QueryTypeBundle\QueryType\TestQueryType');

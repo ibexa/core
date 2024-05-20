@@ -26,5 +26,3 @@ class InMemoryVariationHandler implements VariationHandler
         ]);
     }
 }
-
-class_alias(InMemoryVariationHandler::class, 'eZ\Publish\SPI\Tests\Variation\InMemoryVariationHandler');

@@ -23,5 +23,3 @@ class VisibilityQueryBuilder extends BaseLocationSortClauseQueryBuilder
         return 'location.is_invisible';
     }
 }
-
-class_alias(VisibilityQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Location\VisibilityQueryBuilder');

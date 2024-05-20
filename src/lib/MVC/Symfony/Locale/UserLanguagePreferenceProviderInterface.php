@@ -31,5 +31,3 @@ interface UserLanguagePreferenceProviderInterface
      */
     public function getPreferredLanguages(): array;
 }
-
-class_alias(UserLanguagePreferenceProviderInterface::class, 'eZ\Publish\Core\MVC\Symfony\Locale\UserLanguagePreferenceProviderInterface');

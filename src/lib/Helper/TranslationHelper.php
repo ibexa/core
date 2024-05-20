@@ -313,5 +313,3 @@ class TranslationHelper
         return $languages;
     }
 }
-
-class_alias(TranslationHelper::class, 'eZ\Publish\Core\Helper\TranslationHelper');

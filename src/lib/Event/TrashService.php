@@ -129,5 +129,3 @@ class TrashService extends TrashServiceDecorator
         return $result;
     }
 }
-
-class_alias(TrashService::class, 'eZ\Publish\Core\Event\TrashService');

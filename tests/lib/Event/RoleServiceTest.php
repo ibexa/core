@@ -1006,5 +1006,3 @@ class RoleServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(RoleServiceTest::class, 'eZ\Publish\Core\Event\Tests\RoleServiceTest');

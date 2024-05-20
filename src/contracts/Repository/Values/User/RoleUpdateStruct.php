@@ -22,5 +22,3 @@ class RoleUpdateStruct extends ValueObject
      */
     public $identifier;
 }
-
-class_alias(RoleUpdateStruct::class, 'eZ\Publish\API\Repository\Values\User\RoleUpdateStruct');

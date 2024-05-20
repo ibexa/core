@@ -619,5 +619,3 @@ class CountryTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(CountryTest::class, 'eZ\Publish\Core\FieldType\Tests\CountryTest');

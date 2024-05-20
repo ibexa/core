@@ -89,5 +89,3 @@ class RegisterStorageEnginePassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(RegisterStorageEnginePassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\RegisterStorageEnginePassTest');

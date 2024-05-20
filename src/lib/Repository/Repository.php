@@ -822,5 +822,3 @@ class Repository implements RepositoryInterface
         }
     }
 }
-
-class_alias(Repository::class, 'eZ\Publish\Core\Repository\Repository');

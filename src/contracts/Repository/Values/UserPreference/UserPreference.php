@@ -36,5 +36,3 @@ class UserPreference extends ValueObject
      */
     protected $value;
 }
-
-class_alias(UserPreference::class, 'eZ\Publish\API\Repository\Values\UserPreference\UserPreference');

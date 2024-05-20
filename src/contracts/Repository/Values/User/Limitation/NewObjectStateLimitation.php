@@ -22,5 +22,3 @@ class NewObjectStateLimitation extends Limitation
         return Limitation::NEWSTATE;
     }
 }
-
-class_alias(NewObjectStateLimitation::class, 'eZ\Publish\API\Repository\Values\User\Limitation\NewObjectStateLimitation');

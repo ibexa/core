@@ -76,5 +76,3 @@ class HandlerRegistry
         return isset($this->map[$fieldTypeIdentifier]);
     }
 }
-
-class_alias(HandlerRegistry::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry');

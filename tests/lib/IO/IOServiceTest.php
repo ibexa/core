@@ -466,5 +466,3 @@ class IOServiceTest extends TestCase
         return $this->getIOService()->loadBinaryFileByUri($spiId);
     }
 }
-
-class_alias(IOServiceTest::class, 'eZ\Publish\Core\IO\Tests\IOServiceTest');

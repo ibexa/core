@@ -26,5 +26,3 @@ final class DatabaseException extends RuntimeException
         return new self($message, $code, $previous);
     }
 }
-
-class_alias(DatabaseException::class, 'eZ\Publish\Core\Base\Exceptions\DatabaseException');

@@ -78,5 +78,3 @@ final class SettingHandler extends AbstractInMemoryPersistenceHandler implements
         );
     }
 }
-
-class_alias(SettingHandler::class, 'eZ\Publish\Core\Persistence\Cache\SettingHandler');

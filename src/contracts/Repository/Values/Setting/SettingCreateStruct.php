@@ -28,5 +28,3 @@ class SettingCreateStruct extends Setting
         $this->value = $value;
     }
 }
-
-class_alias(SettingCreateStruct::class, 'eZ\Publish\API\Repository\Values\Setting\SettingCreateStruct');

@@ -448,5 +448,3 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         );
     }
 }
-
-class_alias(ContentFilteringTest::class, 'eZ\Publish\API\Repository\Tests\Filtering\ContentFilteringTest');

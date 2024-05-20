@@ -66,5 +66,3 @@ class IsMainLocation extends Location implements FilteringCriterion
         return new self($value);
     }
 }
-
-class_alias(IsMainLocation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Location\IsMainLocation');

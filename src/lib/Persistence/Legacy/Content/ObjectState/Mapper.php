@@ -192,5 +192,3 @@ class Mapper
         return $objectState;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\ObjectState\Mapper');

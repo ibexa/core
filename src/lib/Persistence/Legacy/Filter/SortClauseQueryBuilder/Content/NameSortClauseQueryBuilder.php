@@ -28,5 +28,3 @@ class NameSortClauseQueryBuilder implements SortClauseQueryBuilder
         $queryBuilder->addOrderBy('content.name', $sortClause->direction);
     }
 }
-
-class_alias(NameSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Content\NameSortClauseQueryBuilder');

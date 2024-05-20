@@ -49,5 +49,3 @@ final class AssignRoleToUserGroupEvent extends AfterEvent
         return $this->roleLimitation;
     }
 }
-
-class_alias(AssignRoleToUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\Role\AssignRoleToUserGroupEvent');

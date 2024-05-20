@@ -44,5 +44,3 @@ class UserLogin extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(UserLogin::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\UserLogin');

@@ -30,5 +30,3 @@ final class ChildrenQueryType extends AbstractLocationQueryType
         return new ParentLocationId($location->id);
     }
 }
-
-class_alias(ChildrenQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\ChildrenQueryType');

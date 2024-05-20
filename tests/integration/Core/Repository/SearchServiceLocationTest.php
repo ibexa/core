@@ -1490,5 +1490,3 @@ class SearchServiceLocationTest extends BaseTest
         return __DIR__ . '/_fixtures/' . getenv('fixtureDir') . '/';
     }
 }
-
-class_alias(SearchServiceLocationTest::class, 'eZ\Publish\API\Repository\Tests\SearchServiceLocationTest');

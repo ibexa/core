@@ -28,5 +28,3 @@ interface ViewBuilderRegistry
      */
     public function addToRegistry(array $objects);
 }
-
-class_alias(ViewBuilderRegistry::class, 'eZ\Publish\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry');

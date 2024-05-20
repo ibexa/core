@@ -64,5 +64,3 @@ class PermissionSubtree extends CriterionHandler
         return $queryBuilder->expr()->orX(...$statements);
     }
 }
-
-class_alias(PermissionSubtree::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway\CriterionHandler\PermissionSubtree');

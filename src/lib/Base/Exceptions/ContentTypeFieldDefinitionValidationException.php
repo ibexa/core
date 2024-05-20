@@ -55,5 +55,3 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
         return $this->errors;
     }
 }
-
-class_alias(ContentTypeFieldDefinitionValidationException::class, 'eZ\Publish\Core\Base\Exceptions\ContentTypeFieldDefinitionValidationException');

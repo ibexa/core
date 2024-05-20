@@ -84,5 +84,3 @@ class ProxyResolverTest extends TestCase
         self::assertEquals($expected, $proxyResolver->resolve($this->path, $this->filter));
     }
 }
-
-class_alias(ProxyResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\Cache\Resolver\ProxyResolverTest');

@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Exceptions;
 abstract class BadStateException extends ForbiddenException
 {
 }
-
-class_alias(BadStateException::class, 'eZ\Publish\API\Repository\Exceptions\BadStateException');

@@ -54,5 +54,3 @@ class ParameterProviderRegistry implements ParameterProviderRegistryInterface
         $this->providers[$fieldTypeIdentifier] = $parameterProvider;
     }
 }
-
-class_alias(ParameterProviderRegistry::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry');

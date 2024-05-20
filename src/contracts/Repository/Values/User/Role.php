@@ -59,5 +59,3 @@ abstract class Role extends ValueObject
      */
     abstract public function getPolicies(): iterable;
 }
-
-class_alias(Role::class, 'eZ\Publish\API\Repository\Values\User\Role');

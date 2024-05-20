@@ -73,5 +73,3 @@ class RepositoryConfigurationProvider
             : self::DEFAULT_CONNECTION_NAME;
     }
 }
-
-class_alias(RepositoryConfigurationProvider::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\RepositoryConfigurationProvider');

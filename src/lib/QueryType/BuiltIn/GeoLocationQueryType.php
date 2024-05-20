@@ -69,5 +69,3 @@ final class GeoLocationQueryType extends AbstractQueryType
         );
     }
 }
-
-class_alias(GeoLocationQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\GeoLocationQueryType');

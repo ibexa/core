@@ -55,5 +55,3 @@ class CustomLocationControllerChecker
         $this->viewProviders = $viewProviders;
     }
 }
-
-class_alias(CustomLocationControllerChecker::class, 'eZ\Publish\Core\MVC\Symfony\View\CustomLocationControllerChecker');

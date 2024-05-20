@@ -582,5 +582,3 @@ class UserContext implements Context
         throw new \Exception('Possible endless loop when attempting to find a new name for the User.');
     }
 }
-
-class_alias(UserContext::class, 'eZ\Bundle\EzPublishCoreBundle\Features\Context\UserContext');

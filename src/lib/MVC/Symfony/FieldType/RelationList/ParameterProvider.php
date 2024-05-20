@@ -56,5 +56,3 @@ class ParameterProvider implements ParameterProviderInterface
         ];
     }
 }
-
-class_alias(ParameterProvider::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\RelationList\ParameterProvider');

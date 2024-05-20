@@ -156,5 +156,3 @@ class TextLineTest extends TestCase
         self::assertSame($defaultText, $fieldDef->defaultValue->sortKey);
     }
 }
-
-class_alias(TextLineTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldValue\Converter\TextLineTest');

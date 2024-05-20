@@ -322,5 +322,3 @@ abstract class Location extends ValueObject
         return parent::__get($property);
     }
 }
-
-class_alias(Location::class, 'eZ\Publish\API\Repository\Values\Content\Location');

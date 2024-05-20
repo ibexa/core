@@ -49,5 +49,3 @@ class LocationUpdateStruct extends ValueObject
      */
     public $sortOrder;
 }
-
-class_alias(LocationUpdateStruct::class, 'eZ\Publish\API\Repository\Values\Content\LocationUpdateStruct');

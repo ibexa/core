@@ -114,5 +114,3 @@ final class SettingService implements SettingServiceInterface
         ]);
     }
 }
-
-class_alias(SettingService::class, 'eZ\Publish\Core\Repository\SettingService');

@@ -70,5 +70,3 @@ class HostText extends Regex implements VersatileMatcher
         return $this->request;
     }
 }
-
-class_alias(HostText::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\HostText');

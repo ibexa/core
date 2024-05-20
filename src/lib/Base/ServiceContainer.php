@@ -232,5 +232,3 @@ class ServiceContainer implements Container
         }
     }
 }
-
-class_alias(ServiceContainer::class, 'eZ\Publish\Core\Base\ServiceContainer');

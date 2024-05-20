@@ -19,5 +19,3 @@ interface Value
      */
     public function __toString();
 }
-
-class_alias(Value::class, 'eZ\Publish\SPI\FieldType\Value');

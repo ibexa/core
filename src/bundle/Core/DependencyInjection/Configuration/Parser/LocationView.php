@@ -51,5 +51,3 @@ class LocationView extends View
         $contextualizer->mapConfigArray(ContentView::NODE_KEY, $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
     }
 }
-
-class_alias(LocationView::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\LocationView');

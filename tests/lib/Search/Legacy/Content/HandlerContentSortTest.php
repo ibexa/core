@@ -472,5 +472,3 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 }
-
-class_alias(HandlerContentSortTest::class, 'eZ\Publish\Core\Search\Legacy\Tests\Content\HandlerContentSortTest');

@@ -48,5 +48,3 @@ final class UpdateUserTokenEvent extends AfterEvent
         return $this->updatedUser;
     }
 }
-
-class_alias(UpdateUserTokenEvent::class, 'eZ\Publish\API\Repository\Events\User\UpdateUserTokenEvent');

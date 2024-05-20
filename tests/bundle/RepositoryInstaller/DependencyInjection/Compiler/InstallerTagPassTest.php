@@ -54,5 +54,3 @@ class InstallerTagPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new InstallerTagPass());
     }
 }
-
-class_alias(InstallerTagPassTest::class, 'EzSystems\PlatformInstallerBundleTests\DependencyInjection\Compiler\InstallerTagPassTest');

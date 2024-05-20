@@ -133,5 +133,3 @@ class ObjectStateHandler extends LimitationHandler
         return $map;
     }
 }
-
-class_alias(ObjectStateHandler::class, 'eZ\Publish\Core\Persistence\Legacy\User\Role\LimitationHandler\ObjectStateHandler');

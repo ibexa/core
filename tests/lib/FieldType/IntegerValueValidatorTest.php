@@ -387,5 +387,3 @@ class IntegerValueValidatorTest extends TestCase
         ];
     }
 }
-
-class_alias(IntegerValueValidatorTest::class, 'eZ\Publish\Core\FieldType\Tests\IntegerValueValidatorTest');

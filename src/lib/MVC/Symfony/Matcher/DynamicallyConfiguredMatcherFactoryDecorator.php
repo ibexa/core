@@ -52,5 +52,3 @@ class DynamicallyConfiguredMatcherFactoryDecorator implements MatcherFactoryInte
         return $this->innerConfigurableMatcherFactory->match($view);
     }
 }
-
-class_alias(DynamicallyConfiguredMatcherFactoryDecorator::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator');

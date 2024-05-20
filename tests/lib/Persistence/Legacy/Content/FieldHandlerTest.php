@@ -1018,5 +1018,3 @@ class FieldHandlerTest extends LanguageAwareTestCase
         return $this->fieldTypeMock;
     }
 }
-
-class_alias(FieldHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\FieldHandlerTest');

@@ -36,5 +36,3 @@ final class BeforeAssignSectionEvent extends BeforeEvent
         return $this->section;
     }
 }
-
-class_alias(BeforeAssignSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\BeforeAssignSectionEvent');

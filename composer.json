@@ -98,20 +98,7 @@
             "Ibexa\\Core\\": "src/lib",
             "Ibexa\\Tests\\Core\\": "tests/lib",
             "Ibexa\\Tests\\Integration\\Core\\": "tests/integration/Core",
-            "Ibexa\\Tests\\Bundle\\Core\\": "tests/bundle/Core",
-            "eZ\\Publish\\API\\Repository\\Tests\\": "src/contracts/Test/Repository",
-            "eZ\\Publish\\SPI\\Tests\\": "src/contracts/Test",
-            "eZ\\Publish\\API\\": "src/contracts",
-            "eZ\\Publish\\SPI\\": "src/contracts",
-            "eZ\\Publish\\Core\\": "src/lib",
-            "eZ\\Bundle\\EzPublishCoreBundle\\": "src/bundle/Core",
-            "eZ\\Bundle\\EzPublishDebugBundle\\": "src/bundle/Debug",
-            "eZ\\Bundle\\EzPublishIOBundle\\": "src/bundle/IO",
-            "eZ\\Bundle\\EzPublishLegacySearchEngineBundle\\": "src/bundle/LegacySearchEngine",
-            "eZ\\Bundle\\EzPublishCoreBundle\\Tests\\": "tests/bundle/Core",
-            "eZ\\Publish\\Core\\MVC\\Symfony\\Templating\\Tests\\": "tests/lib/MVC/Symfony/Templating",
-            "eZ\\Publish\\Core\\Persistence\\Legacy\\Tests\\": "tests/lib/Persistence/Legacy",
-            "EzSystems\\PlatformInstallerBundle\\": "src/bundle/RepositoryInstaller"
+            "Ibexa\\Tests\\Bundle\\Core\\": "tests/bundle/Core"
         }
     },
     "autoload-dev": {

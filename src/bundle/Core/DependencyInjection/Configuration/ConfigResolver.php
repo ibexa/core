@@ -334,5 +334,3 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware, Contai
         $this->tooEarlyLoadedList[$blame][] = $paramName;
     }
 }
-
-class_alias(ConfigResolver::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\ConfigResolver');

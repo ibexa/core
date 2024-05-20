@@ -93,5 +93,3 @@ abstract class UserStorageGatewayTest extends BaseCoreFieldTypeIntegrationTest
         ];
     }
 }
-
-class_alias(UserStorageGatewayTest::class, 'eZ\Publish\Core\FieldType\Tests\Integration\User\UserStorage\UserStorageGatewayTest');

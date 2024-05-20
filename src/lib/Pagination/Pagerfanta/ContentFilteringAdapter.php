@@ -61,5 +61,3 @@ final class ContentFilteringAdapter implements AdapterInterface
         return $results;
     }
 }
-
-class_alias(ContentFilteringAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\ContentFilteringAdapter');

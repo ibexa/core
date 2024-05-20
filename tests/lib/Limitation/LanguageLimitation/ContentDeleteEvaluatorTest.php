@@ -92,5 +92,3 @@ final class ContentDeleteEvaluatorTest extends TestCase
         return new Limitation\LanguageLimitation(['limitationValues' => $languageCodes]);
     }
 }
-
-class_alias(ContentDeleteEvaluatorTest::class, 'eZ\Publish\Core\Limitation\Tests\LanguageLimitation\ContentDeleteEvaluatorTest');

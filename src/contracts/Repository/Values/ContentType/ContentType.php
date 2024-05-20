@@ -239,5 +239,3 @@ abstract class ContentType extends ValueObject implements MultiLanguageName, Mul
         return $this->isContainer;
     }
 }
-
-class_alias(ContentType::class, 'eZ\Publish\API\Repository\Values\ContentType\ContentType');

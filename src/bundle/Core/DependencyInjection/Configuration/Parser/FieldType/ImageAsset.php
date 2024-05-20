@@ -63,5 +63,3 @@ class ImageAsset extends AbstractFieldTypeParser
         }
     }
 }
-
-class_alias(ImageAsset::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\FieldType\ImageAsset');

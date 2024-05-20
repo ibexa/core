@@ -95,5 +95,3 @@ abstract class BaseProvider implements APIUserProviderInterface
         return new User($apiUser, ['ROLE_USER']);
     }
 }
-
-class_alias(BaseProvider::class, 'eZ\Publish\Core\MVC\Symfony\Security\User\BaseProvider');

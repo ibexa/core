@@ -1344,5 +1344,3 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->permissionResolver->setCurrentUserReference($this->createAnonymousWithEditorRole());
     }
 }
-
-class_alias(ContentServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\ContentServiceAuthorizationTest');

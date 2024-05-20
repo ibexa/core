@@ -49,5 +49,3 @@ final class BeforeDeleteContentEvent extends BeforeEvent
         return is_array($this->locations);
     }
 }
-
-class_alias(BeforeDeleteContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeDeleteContentEvent');

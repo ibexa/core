@@ -369,5 +369,3 @@ abstract class Gateway
      */
     abstract public function loadAllLocationsData(int $offset, int $limit): array;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway');

@@ -121,5 +121,3 @@ class SearchField implements Indexable
         return 'sort_value';
     }
 }
-
-class_alias(SearchField::class, 'eZ\Publish\Core\FieldType\Country\SearchField');

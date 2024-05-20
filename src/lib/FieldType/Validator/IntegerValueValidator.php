@@ -116,5 +116,3 @@ class IntegerValueValidator extends Validator
         return $isValid;
     }
 }
-
-class_alias(IntegerValueValidator::class, 'eZ\Publish\Core\FieldType\Validator\IntegerValueValidator');

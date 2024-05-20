@@ -1415,5 +1415,3 @@ class ContextualizerTest extends TestCase
         return $cases;
     }
 }
-
-class_alias(ContextualizerTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\SiteAccessAware\ContextualizerTest');

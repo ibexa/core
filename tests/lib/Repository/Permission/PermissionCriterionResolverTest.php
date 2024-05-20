@@ -386,5 +386,3 @@ class PermissionCriterionResolverTest extends TestCase
             ->getMock();
     }
 }
-
-class_alias(PermissionCriterionResolverTest::class, 'eZ\Publish\Core\Repository\Tests\Permission\PermissionCriterionResolverTest');

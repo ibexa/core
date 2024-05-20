@@ -53,5 +53,3 @@ class LazyDoctrineRepositoriesPassTest extends AbstractCompilerPassTestCase
         $this->compile();
     }
 }
-
-class_alias(LazyDoctrineRepositoriesPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\LazyDoctrineRepositoriesPassTest');

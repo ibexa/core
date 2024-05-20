@@ -26,5 +26,3 @@ class TranslationService extends TranslationServiceDecorator
         $this->eventDispatcher = $eventDispatcher;
     }
 }
-
-class_alias(TranslationService::class, 'eZ\Publish\Core\Event\TranslationService');

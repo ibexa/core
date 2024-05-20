@@ -66,5 +66,3 @@ abstract class Configuration implements ConfigurationInterface
         return $contextNode;
     }
 }
-
-class_alias(Configuration::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\Configuration');

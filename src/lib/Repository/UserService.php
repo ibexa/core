@@ -1413,5 +1413,3 @@ class UserService implements UserServiceInterface
         return $this->configResolver->getParameter('user_content_type_identifier');
     }
 }
-
-class_alias(UserService::class, 'eZ\Publish\Core\Repository\UserService');

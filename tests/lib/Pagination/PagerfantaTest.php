@@ -71,5 +71,3 @@ final class PagerfantaTest extends TestCase
         );
     }
 }
-
-class_alias(PagerfantaTest::class, 'eZ\Publish\Core\Pagination\Tests\PagerfantaTest');

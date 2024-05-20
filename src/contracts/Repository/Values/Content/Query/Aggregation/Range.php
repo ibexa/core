@@ -111,5 +111,3 @@ final class Range extends ValueObject
         return new self($from, $to);
     }
 }
-
-class_alias(Range::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Range');

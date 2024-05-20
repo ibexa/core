@@ -496,5 +496,3 @@ class AliasGeneratorTest extends TestCase
         );
     }
 }
-
-class_alias(AliasGeneratorTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\AliasGeneratorTest');

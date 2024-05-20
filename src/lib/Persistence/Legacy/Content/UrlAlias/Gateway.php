@@ -244,5 +244,3 @@ abstract class Gateway
      */
     abstract public function repairBrokenUrlAliasesForLocation(int $locationId): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\Gateway');

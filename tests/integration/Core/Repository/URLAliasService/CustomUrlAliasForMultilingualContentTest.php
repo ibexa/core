@@ -57,5 +57,3 @@ final class CustomUrlAliasForMultilingualContentTest extends BaseTest
         );
     }
 }
-
-class_alias(CustomUrlAliasForMultilingualContentTest::class, 'eZ\Publish\API\Repository\Tests\URLAliasService\CustomUrlAliasForMultilingualContentTest');

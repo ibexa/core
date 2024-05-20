@@ -639,5 +639,3 @@ class LocationServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
-
-class_alias(LocationServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\LocationServiceAuthorizationTest');

@@ -46,5 +46,3 @@ final class BackwardCompatibleCommandListener implements EventSubscriberInterfac
         }
     }
 }
-
-class_alias(BackwardCompatibleCommandListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\BackwardCompatibleCommandListener');

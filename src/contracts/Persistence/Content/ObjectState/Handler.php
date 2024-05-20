@@ -173,5 +173,3 @@ interface Handler
      */
     public function getContentCount($stateId);
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\ObjectState\Handler');

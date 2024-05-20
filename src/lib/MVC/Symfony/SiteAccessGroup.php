@@ -40,5 +40,3 @@ final class SiteAccessGroup implements JsonSerializable
         ];
     }
 }
-
-class_alias(SiteAccessGroup::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccessGroup');

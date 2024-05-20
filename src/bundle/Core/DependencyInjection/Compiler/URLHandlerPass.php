@@ -45,5 +45,3 @@ class URLHandlerPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(URLHandlerPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\URLHandlerPass');

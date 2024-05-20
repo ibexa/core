@@ -15,5 +15,3 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
 }
-
-class_alias(TestCase::class, 'eZ\Publish\Core\Search\Tests\TestCase');

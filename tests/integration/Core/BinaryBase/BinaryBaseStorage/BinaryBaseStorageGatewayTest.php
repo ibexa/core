@@ -91,5 +91,3 @@ class BinaryBaseStorageGatewayTest extends BaseCoreFieldTypeIntegrationTest
         self::assertEquals($expected, $data);
     }
 }
-
-class_alias(BinaryBaseStorageGatewayTest::class, 'eZ\Publish\Core\FieldType\Tests\Integration\BinaryBase\BinaryBaseStorage\BinaryBaseStorageGatewayTest');

@@ -60,5 +60,3 @@ abstract class URLServiceDecorator implements URLService
         return $this->innerService->updateUrl($url, $struct);
     }
 }
-
-class_alias(URLServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\URLServiceDecorator');

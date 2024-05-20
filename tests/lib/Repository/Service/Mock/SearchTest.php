@@ -960,5 +960,3 @@ class SearchTest extends BaseServiceMockTest
         return $this->permissionsCriterionResolverMock;
     }
 }
-
-class_alias(SearchTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\SearchTest');

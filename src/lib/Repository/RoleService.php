@@ -1296,5 +1296,3 @@ class RoleService implements RoleServiceInterface
         }
     }
 }
-
-class_alias(RoleService::class, 'eZ\Publish\Core\Repository\RoleService');

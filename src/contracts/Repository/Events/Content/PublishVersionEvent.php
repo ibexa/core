@@ -48,5 +48,3 @@ final class PublishVersionEvent extends AfterEvent
         return $this->translations;
     }
 }
-
-class_alias(PublishVersionEvent::class, 'eZ\Publish\API\Repository\Events\Content\PublishVersionEvent');

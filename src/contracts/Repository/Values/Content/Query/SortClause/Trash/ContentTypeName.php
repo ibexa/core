@@ -19,5 +19,3 @@ class ContentTypeName extends SortClause implements TrashSortClause
         parent::__construct('content_type_name', $sortDirection);
     }
 }
-
-class_alias(ContentTypeName::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Trash\ContentTypeName');

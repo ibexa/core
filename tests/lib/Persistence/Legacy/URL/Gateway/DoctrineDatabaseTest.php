@@ -100,5 +100,3 @@ class DoctrineDatabaseTest extends TestCase
         return $this->gateway;
     }
 }
-
-class_alias(DoctrineDatabaseTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\URL\Gateway\DoctrineDatabaseTest');

@@ -38,5 +38,3 @@ trait SiteAccessSerializationTrait
         }
     }
 }
-
-class_alias(SiteAccessSerializationTrait::class, 'eZ\Bundle\EzPublishCoreBundle\Fragment\SiteAccessSerializationTrait');

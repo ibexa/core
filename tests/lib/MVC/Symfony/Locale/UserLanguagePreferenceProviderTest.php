@@ -169,5 +169,3 @@ class UserLanguagePreferenceProviderTest extends TestCase
         return $config['parameters']['ibexa.locale.browser_map'];
     }
 }
-
-class_alias(UserLanguagePreferenceProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Locale\Tests\UserLanguagePreferenceProviderTest');

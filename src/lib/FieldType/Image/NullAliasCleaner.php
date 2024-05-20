@@ -23,5 +23,3 @@ final class NullAliasCleaner implements AliasCleanerInterface
         // Nothing to do
     }
 }
-
-class_alias(NullAliasCleaner::class, 'eZ\Publish\Core\FieldType\Image\NullAliasCleaner');

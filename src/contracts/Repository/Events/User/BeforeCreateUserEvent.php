@@ -59,5 +59,3 @@ final class BeforeCreateUserEvent extends BeforeEvent
         return $this->user instanceof User;
     }
 }
-
-class_alias(BeforeCreateUserEvent::class, 'eZ\Publish\API\Repository\Events\User\BeforeCreateUserEvent');

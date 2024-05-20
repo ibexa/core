@@ -26,5 +26,3 @@ final class DeleteContentTypeGroupEvent extends AfterEvent
         return $this->contentTypeGroup;
     }
 }
-
-class_alias(DeleteContentTypeGroupEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\DeleteContentTypeGroupEvent');

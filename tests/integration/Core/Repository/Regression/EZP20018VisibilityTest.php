@@ -69,5 +69,3 @@ class EZP20018VisibilityTest extends BaseTest
         self::assertEquals($results2->totalCount, count($results2->searchHits));
     }
 }
-
-class_alias(EZP20018VisibilityTest::class, 'eZ\Publish\API\Repository\Tests\Regression\EZP20018VisibilityTest');

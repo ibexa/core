@@ -20,5 +20,3 @@ abstract class ContentFieldValidationException extends ForbiddenException
      */
     abstract public function getFieldErrors();
 }
-
-class_alias(ContentFieldValidationException::class, 'eZ\Publish\API\Repository\Exceptions\ContentFieldValidationException');

@@ -56,5 +56,3 @@ abstract class BaseParallelTestCase extends BaseTest
         $connection->connect();
     }
 }
-
-class_alias(BaseParallelTestCase::class, 'eZ\Publish\API\Repository\Tests\Parallel\BaseParallelTestCase');

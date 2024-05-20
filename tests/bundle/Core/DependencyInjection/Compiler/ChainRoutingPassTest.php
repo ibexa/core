@@ -140,5 +140,3 @@ class ChainRoutingPassTest extends AbstractCompilerPassTestCase
         ];
     }
 }
-
-class_alias(ChainRoutingPassTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Compiler\ChainRoutingPassTest');

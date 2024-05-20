@@ -51,5 +51,3 @@ abstract class FieldTypeTest extends BaseFieldTypeTest
         );
     }
 }
-
-class_alias(FieldTypeTest::class, 'eZ\Publish\Core\FieldType\Tests\FieldTypeTest');

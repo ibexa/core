@@ -26,5 +26,3 @@ class FieldTypeService extends FieldTypeServiceDecorator
         $this->eventDispatcher = $eventDispatcher;
     }
 }
-
-class_alias(FieldTypeService::class, 'eZ\Publish\Core\Event\FieldTypeService');

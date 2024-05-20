@@ -530,5 +530,3 @@ class Mapper
         return $mlFieldDefinitionData;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\Content\Type\Mapper');

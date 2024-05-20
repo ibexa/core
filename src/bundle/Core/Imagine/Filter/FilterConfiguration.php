@@ -96,5 +96,3 @@ class FilterConfiguration extends BaseFilterConfiguration
         return [];
     }
 }
-
-class_alias(FilterConfiguration::class, 'eZ\Bundle\EzPublishCoreBundle\Imagine\Filter\FilterConfiguration');

@@ -189,5 +189,3 @@ class ContentTypeGroupTest extends BaseTest
         return $repository;
     }
 }
-
-class_alias(ContentTypeGroupTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\ContentBased\Id\ContentTypeGroupTest');

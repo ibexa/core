@@ -60,5 +60,3 @@ class LogicalAnd extends Compound implements VersatileMatcher
         }
     }
 }
-
-class_alias(LogicalAnd::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher\Compound\LogicalAnd');

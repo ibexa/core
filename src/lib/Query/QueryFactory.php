@@ -26,5 +26,3 @@ final class QueryFactory implements QueryFactoryInterface
         return $this->queryTypeRegistry->getQueryType($type)->getQuery($parameters);
     }
 }
-
-class_alias(QueryFactory::class, 'eZ\Publish\Core\Query\QueryFactory');

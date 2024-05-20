@@ -58,5 +58,3 @@ class Relation extends APIRelation
         return $this->destinationContentInfo;
     }
 }
-
-class_alias(Relation::class, 'eZ\Publish\Core\Repository\Values\Content\Relation');

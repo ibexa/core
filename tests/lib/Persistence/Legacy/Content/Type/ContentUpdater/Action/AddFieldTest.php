@@ -638,5 +638,3 @@ class AddFieldTest extends TestCase
             ->getMock();
     }
 }
-
-class_alias(AddFieldTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\Type\ContentUpdater\Action\AddFieldTest');

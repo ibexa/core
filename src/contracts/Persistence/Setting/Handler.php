@@ -35,5 +35,3 @@ interface Handler
         string $identifier
     ): void;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Setting\Handler');

@@ -49,5 +49,3 @@ final class UpdateFieldDefinitionEvent extends AfterEvent
         return $this->fieldDefinitionUpdateStruct;
     }
 }
-
-class_alias(UpdateFieldDefinitionEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\UpdateFieldDefinitionEvent');

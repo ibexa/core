@@ -27,5 +27,3 @@ class SectionIdentifier extends SortClause implements FilteringSortClause
         parent::__construct('section_identifier', $sortDirection);
     }
 }
-
-class_alias(SectionIdentifier::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\SectionIdentifier');

@@ -49,5 +49,3 @@ class Ancestor extends CriterionHandler
         );
     }
 }
-
-class_alias(Ancestor::class, 'eZ\Publish\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Ancestor');

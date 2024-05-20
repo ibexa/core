@@ -409,5 +409,3 @@ class ContentTypeService extends ContentTypeServiceDecorator
         return $newContentTypeDraft;
     }
 }
-
-class_alias(ContentTypeService::class, 'eZ\Publish\Core\Event\ContentTypeService');

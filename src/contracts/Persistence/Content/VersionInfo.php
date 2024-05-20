@@ -106,5 +106,3 @@ class VersionInfo extends ValueObject
      */
     public $languageCodes = [];
 }
-
-class_alias(VersionInfo::class, 'eZ\Publish\SPI\Persistence\Content\VersionInfo');

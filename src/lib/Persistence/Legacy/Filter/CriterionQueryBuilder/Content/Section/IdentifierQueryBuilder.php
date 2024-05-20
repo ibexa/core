@@ -49,5 +49,3 @@ final class IdentifierQueryBuilder implements CriterionQueryBuilder
         );
     }
 }
-
-class_alias(IdentifierQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Section\IdentifierQueryBuilder');

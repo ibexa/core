@@ -39,5 +39,3 @@ abstract class AbstractServiceTest extends TestCase
         return $stack;
     }
 }
-
-class_alias(AbstractServiceTest::class, 'eZ\Publish\Core\Event\Tests\AbstractServiceTest');

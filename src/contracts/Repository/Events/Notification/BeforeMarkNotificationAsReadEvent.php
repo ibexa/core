@@ -26,5 +26,3 @@ final class BeforeMarkNotificationAsReadEvent extends BeforeEvent
         return $this->notification;
     }
 }
-
-class_alias(BeforeMarkNotificationAsReadEvent::class, 'eZ\Publish\API\Repository\Events\Notification\BeforeMarkNotificationAsReadEvent');

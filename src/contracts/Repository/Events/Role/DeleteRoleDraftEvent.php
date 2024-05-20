@@ -27,5 +27,3 @@ final class DeleteRoleDraftEvent extends AfterEvent
         return $this->roleDraft;
     }
 }
-
-class_alias(DeleteRoleDraftEvent::class, 'eZ\Publish\API\Repository\Events\Role\DeleteRoleDraftEvent');

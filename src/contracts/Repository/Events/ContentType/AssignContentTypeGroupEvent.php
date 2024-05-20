@@ -38,5 +38,3 @@ final class AssignContentTypeGroupEvent extends AfterEvent
         return $this->contentTypeGroup;
     }
 }
-
-class_alias(AssignContentTypeGroupEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\AssignContentTypeGroupEvent');

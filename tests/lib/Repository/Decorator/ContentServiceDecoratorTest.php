@@ -495,5 +495,3 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->loadVersionInfoListByContentInfo($argument);
     }
 }
-
-class_alias(ContentServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\ContentServiceDecoratorTest');

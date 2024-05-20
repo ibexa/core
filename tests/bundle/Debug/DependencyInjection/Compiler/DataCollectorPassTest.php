@@ -48,5 +48,3 @@ class DataCollectorPassTest extends AbstractCompilerPassTestCase
         );
     }
 }
-
-class_alias(DataCollectorPassTest::class, 'eZ\Bundle\EzPublishDebugBundle\Tests\DependencyInjection\Compiler\DataCollectorPassTest');

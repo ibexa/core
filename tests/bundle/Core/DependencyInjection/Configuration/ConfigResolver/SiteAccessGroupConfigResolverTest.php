@@ -43,5 +43,3 @@ class SiteAccessGroupConfigResolverTest extends ConfigResolverTest
         return self::SA_GROUP;
     }
 }
-
-class_alias(SiteAccessGroupConfigResolverTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Configuration\ConfigResolver\SiteAccessGroupConfigResolverTest');

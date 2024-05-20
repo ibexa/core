@@ -34,5 +34,3 @@ final class FallbackGateway implements Gateway
         return (int)$this->connection->lastInsertId($sequenceName);
     }
 }
-
-class_alias(FallbackGateway::class, 'eZ\Publish\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway');

@@ -71,5 +71,3 @@ class RoleDraft extends APIRoleDraft
         return $this->innerRole->getPolicies();
     }
 }
-
-class_alias(RoleDraft::class, 'eZ\Publish\Core\Repository\Values\User\RoleDraft');

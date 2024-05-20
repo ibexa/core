@@ -95,5 +95,3 @@ class Field extends ValueObject
         return null === $this->id;
     }
 }
-
-class_alias(Field::class, 'eZ\Publish\API\Repository\Values\Content\Field');

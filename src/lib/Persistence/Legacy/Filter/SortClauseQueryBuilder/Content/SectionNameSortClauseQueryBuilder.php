@@ -38,5 +38,3 @@ class SectionNameSortClauseQueryBuilder implements SortClauseQueryBuilder
         $queryBuilder->addOrderBy('section.name', $sortClause->direction);
     }
 }
-
-class_alias(SectionNameSortClauseQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\SortClauseQueryBuilder\Content\SectionNameSortClauseQueryBuilder');

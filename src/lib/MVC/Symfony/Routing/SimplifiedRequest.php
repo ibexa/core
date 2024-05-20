@@ -218,5 +218,3 @@ class SimplifiedRequest extends ValueObject
         return $this->headers;
     }
 }
-
-class_alias(SimplifiedRequest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\SimplifiedRequest');

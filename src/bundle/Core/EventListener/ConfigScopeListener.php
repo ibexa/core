@@ -71,5 +71,3 @@ class ConfigScopeListener implements EventSubscriberInterface, ConfigScopeChange
         $this->viewProviders = $viewProviders;
     }
 }
-
-class_alias(ConfigScopeListener::class, 'eZ\Bundle\EzPublishCoreBundle\EventListener\ConfigScopeListener');

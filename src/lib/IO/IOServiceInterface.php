@@ -172,5 +172,3 @@ interface IOServiceInterface
      */
     public function deleteDirectory($path);
 }
-
-class_alias(IOServiceInterface::class, 'eZ\Publish\Core\IO\IOServiceInterface');

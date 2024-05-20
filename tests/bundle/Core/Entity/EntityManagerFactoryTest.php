@@ -156,5 +156,3 @@ class EntityManagerFactoryTest extends TestCase
         return $this->createMock(EntityManagerInterface::class);
     }
 }
-
-class_alias(EntityManagerFactoryTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Entity\EntityManagerFactoryTest');

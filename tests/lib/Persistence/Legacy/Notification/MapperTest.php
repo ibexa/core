@@ -106,5 +106,3 @@ class MapperTest extends TestCase
         ]), $this->mapper->createNotificationFromUpdateStruct($updateStruct));
     }
 }
-
-class_alias(MapperTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Notification\MapperTest');

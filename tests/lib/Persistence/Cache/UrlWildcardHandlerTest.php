@@ -83,5 +83,3 @@ class UrlWildcardHandlerTest extends AbstractCacheHandlerTest
         ];
     }
 }
-
-class_alias(UrlWildcardHandlerTest::class, 'eZ\Publish\Core\Persistence\Cache\Tests\UrlWildcardHandlerTest');

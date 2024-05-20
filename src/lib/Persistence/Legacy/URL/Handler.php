@@ -111,5 +111,3 @@ class Handler implements HandlerInterface
         return $ids;
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Handler');

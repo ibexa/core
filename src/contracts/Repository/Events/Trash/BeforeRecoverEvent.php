@@ -59,5 +59,3 @@ final class BeforeRecoverEvent extends BeforeEvent
         return $this->location instanceof Location;
     }
 }
-
-class_alias(BeforeRecoverEvent::class, 'eZ\Publish\API\Repository\Events\Trash\BeforeRecoverEvent');

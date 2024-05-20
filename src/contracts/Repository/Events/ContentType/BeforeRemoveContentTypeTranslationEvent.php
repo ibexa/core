@@ -58,5 +58,3 @@ final class BeforeRemoveContentTypeTranslationEvent extends BeforeEvent
         return $this->newContentTypeDraft instanceof ContentTypeDraft;
     }
 }
-
-class_alias(BeforeRemoveContentTypeTranslationEvent::class, 'eZ\Publish\API\Repository\Events\ContentType\BeforeRemoveContentTypeTranslationEvent');

@@ -51,5 +51,3 @@ class SectionId extends Criterion implements TrashCriterion, FilteringCriterion
         ];
     }
 }
-
-class_alias(SectionId::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\SectionId');

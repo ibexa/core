@@ -81,5 +81,3 @@ class ExceptionConversion extends Gateway
         }
     }
 }
-
-class_alias(ExceptionConversion::class, 'eZ\Publish\Core\Persistence\Legacy\UserPreference\Gateway\ExceptionConversion');

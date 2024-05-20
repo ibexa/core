@@ -954,5 +954,3 @@ abstract class BaseFieldTypeTest extends TestCase
 
     // @todo: More test methods …
 }
-
-class_alias(BaseFieldTypeTest::class, 'eZ\Publish\SPI\FieldType\Tests\FieldTypeTest');

@@ -55,5 +55,3 @@ class ContentTypeDraftTest extends TestCase
         }
     }
 }
-
-class_alias(ContentTypeDraftTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ContentType\ContentTypeDraftTest');

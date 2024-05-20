@@ -57,5 +57,3 @@ class RangeFacetEntry
      */
     public $mean;
 }
-
-class_alias(RangeFacetEntry::class, 'eZ\Publish\API\Repository\Values\Content\Search\Facet\RangeFacetEntry');

@@ -49,5 +49,3 @@ final class CreateObjectStateEvent extends AfterEvent
         return $this->objectStateCreateStruct;
     }
 }
-
-class_alias(CreateObjectStateEvent::class, 'eZ\Publish\API\Repository\Events\ObjectState\CreateObjectStateEvent');

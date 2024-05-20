@@ -59,5 +59,3 @@ abstract class BaseTrashServiceTest extends BaseTest
         $query->execute();
     }
 }
-
-class_alias(BaseTrashServiceTest::class, 'eZ\Publish\API\Repository\Tests\BaseTrashServiceTest');

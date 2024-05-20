@@ -21,5 +21,3 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\FacetBuilder;
 class SectionFacetBuilder extends FacetBuilder
 {
 }
-
-class_alias(SectionFacetBuilder::class, 'eZ\Publish\API\Repository\Values\Content\Query\FacetBuilder\SectionFacetBuilder');

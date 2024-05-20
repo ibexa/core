@@ -115,5 +115,3 @@ final class PasswordValidator implements PasswordValidatorInterface
         );
     }
 }
-
-class_alias(PasswordValidator::class, 'eZ\Publish\Core\Repository\User\PasswordValidator');

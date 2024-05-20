@@ -69,5 +69,3 @@ class EntityManagerFactory
         return sprintf('doctrine.orm.ibexa_%s_entity_manager', $connection);
     }
 }
-
-class_alias(EntityManagerFactory::class, 'eZ\Bundle\EzPublishCoreBundle\Entity\EntityManagerFactory');

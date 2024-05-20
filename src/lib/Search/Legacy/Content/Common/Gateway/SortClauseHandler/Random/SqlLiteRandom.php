@@ -22,5 +22,3 @@ class SqlLiteRandom extends AbstractRandom
         return 'random()';
     }
 }
-
-class_alias(SqlLiteRandom::class, 'eZ\Publish\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\Random\SqlLiteRandom');

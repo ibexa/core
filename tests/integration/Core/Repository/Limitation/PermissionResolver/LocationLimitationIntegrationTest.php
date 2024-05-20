@@ -95,5 +95,3 @@ class LocationLimitationIntegrationTest extends BaseLimitationIntegrationTest
         );
     }
 }
-
-class_alias(LocationLimitationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\LocationLimitationIntegrationTest');

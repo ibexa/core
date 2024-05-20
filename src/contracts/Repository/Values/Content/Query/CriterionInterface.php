@@ -14,5 +14,3 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query;
 interface CriterionInterface
 {
 }
-
-class_alias(CriterionInterface::class, 'eZ\Publish\API\Repository\Values\Content\Query\CriterionInterface');

@@ -304,5 +304,3 @@ EOT
         $this->suggestionCollector->addSuggestion($suggestion);
     }
 }
-
-class_alias(Common::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\Common');

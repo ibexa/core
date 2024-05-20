@@ -34,5 +34,3 @@ class AncestorQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
         ];
     }
 }
-
-class_alias(AncestorQueryBuilderTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Filter\CriterionQueryBuilder\Location\AncestorQueryBuilderTest');

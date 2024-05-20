@@ -33,5 +33,3 @@ class IbexaRepositoryInstallerBundle extends Bundle
         $container->addCompilerPass(new InstallerTagPass());
     }
 }
-
-class_alias(IbexaRepositoryInstallerBundle::class, 'EzSystems\PlatformInstallerBundle\EzSystemsPlatformInstallerBundle');

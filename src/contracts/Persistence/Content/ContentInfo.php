@@ -136,5 +136,3 @@ class ContentInfo extends ValueObject
      */
     public $isHidden = false;
 }
-
-class_alias(ContentInfo::class, 'eZ\Publish\SPI\Persistence\Content\ContentInfo');

@@ -53,5 +53,3 @@ final class KeywordTermAggregationTest extends AbstractAggregationTest
         $this->refreshSearch($this->getRepository());
     }
 }
-
-class_alias(KeywordTermAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\Field\KeywordTermAggregationTest');

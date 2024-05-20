@@ -33,5 +33,3 @@ interface TargetOnlyLimitationType extends LimitationTypeInterface
      */
     public function getCriterionByTarget(APILimitationValue $value, APIUserReference $currentUser, ?array $targets): CriterionInterface;
 }
-
-class_alias(TargetOnlyLimitationType::class, 'eZ\Publish\Core\Limitation\TargetOnlyLimitationType');

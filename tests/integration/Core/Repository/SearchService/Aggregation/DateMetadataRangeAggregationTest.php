@@ -116,5 +116,3 @@ final class DateMetadataRangeAggregationTest extends AbstractAggregationTest
         ];
     }
 }
-
-class_alias(DateMetadataRangeAggregationTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\DateMetadataRangeAggregationTest');

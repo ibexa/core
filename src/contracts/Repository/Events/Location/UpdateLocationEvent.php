@@ -48,5 +48,3 @@ final class UpdateLocationEvent extends AfterEvent
         return $this->locationUpdateStruct;
     }
 }
-
-class_alias(UpdateLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\UpdateLocationEvent');

@@ -27,5 +27,3 @@ abstract class AbstractFieldRangeAggregation extends AbstractRangeAggregation im
         $this->fieldDefinitionIdentifier = $fieldDefinitionIdentifier;
     }
 }
-
-class_alias(AbstractFieldRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\Field\AbstractFieldRangeAggregation');

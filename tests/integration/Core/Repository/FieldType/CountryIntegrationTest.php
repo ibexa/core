@@ -478,5 +478,3 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return $contentType;
     }
 }
-
-class_alias(CountryIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\FieldType\CountryIntegrationTest');

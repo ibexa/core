@@ -77,5 +77,3 @@ abstract class Gateway
      */
     abstract public function locationSwapped(int $location1Id, int $location2Id): void;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway');

@@ -40,5 +40,3 @@ final class CustomFieldSortClauseParser implements SortClauseParserInterface
         return $name === self::SUPPORTED_CLAUSE_NAME;
     }
 }
-
-class_alias(CustomFieldSortClauseParser::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\CustomFieldSortClauseParser');

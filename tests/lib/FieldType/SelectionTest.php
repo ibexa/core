@@ -620,5 +620,3 @@ class SelectionTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(SelectionTest::class, 'eZ\Publish\Core\FieldType\Tests\SelectionTest');

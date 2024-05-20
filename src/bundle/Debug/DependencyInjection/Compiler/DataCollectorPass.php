@@ -35,5 +35,3 @@ class DataCollectorPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(DataCollectorPass::class, 'eZ\Bundle\EzPublishDebugBundle\DependencyInjection\Compiler\DataCollectorPass');

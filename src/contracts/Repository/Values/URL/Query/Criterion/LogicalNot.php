@@ -26,5 +26,3 @@ class LogicalNot extends LogicalOperator
         parent::__construct([$criterion]);
     }
 }
-
-class_alias(LogicalNot::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\LogicalNot');

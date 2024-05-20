@@ -24,5 +24,3 @@ interface SiteAccessMatcherRegistryInterface
 
     public function hasMatcher(string $identifier): bool;
 }
-
-class_alias(SiteAccessMatcherRegistryInterface::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\SiteAccessMatcherRegistryInterface');

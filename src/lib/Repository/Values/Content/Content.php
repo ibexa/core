@@ -212,5 +212,3 @@ class Content extends APIContent
         return parent::__isset($property);
     }
 }
-
-class_alias(Content::class, 'eZ\Publish\Core\Repository\Values\Content\Content');

@@ -26,5 +26,3 @@ final class HideContentEvent extends AfterEvent
         return $this->contentInfo;
     }
 }
-
-class_alias(HideContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\HideContentEvent');

@@ -108,5 +108,3 @@ class Handler implements HandlerInterface
         );
     }
 }
-
-class_alias(Handler::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Handler');

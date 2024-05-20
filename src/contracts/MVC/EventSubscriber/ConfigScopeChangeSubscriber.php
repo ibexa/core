@@ -17,5 +17,3 @@ interface ConfigScopeChangeSubscriber
 {
     public function onConfigScopeChange(ScopeChangeEvent $event): void;
 }
-
-class_alias(ConfigScopeChangeSubscriber::class, 'eZ\Publish\SPI\MVC\EventSubscriber\ConfigScopeChangeSubscriber');

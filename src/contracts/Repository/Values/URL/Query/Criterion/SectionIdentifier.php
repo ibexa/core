@@ -28,5 +28,3 @@ class SectionIdentifier extends Matcher
         $this->sectionIdentifiers = $sectionIdentifiers;
     }
 }
-
-class_alias(SectionIdentifier::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\SectionIdentifier');

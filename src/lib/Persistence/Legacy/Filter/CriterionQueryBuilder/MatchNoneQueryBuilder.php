@@ -30,5 +30,3 @@ final class MatchNoneQueryBuilder implements CriterionQueryBuilder
         return '1=0';
     }
 }
-
-class_alias(MatchNoneQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\MatchNoneQueryBuilder');

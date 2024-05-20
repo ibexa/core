@@ -49,5 +49,3 @@ class ChainConfigResolverPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(ChainConfigResolverPass::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Compiler\ChainConfigResolverPass');

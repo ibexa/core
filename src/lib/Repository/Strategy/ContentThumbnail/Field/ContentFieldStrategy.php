@@ -78,5 +78,3 @@ final class ContentFieldStrategy implements ThumbnailStrategy
         }
     }
 }
-
-class_alias(ContentFieldStrategy::class, 'eZ\Publish\Core\Repository\Strategy\ContentThumbnail\Field\ContentFieldStrategy');

@@ -92,5 +92,3 @@ class NotificationService extends NotificationServiceDecorator
         );
     }
 }
-
-class_alias(NotificationService::class, 'eZ\Publish\Core\Event\NotificationService');

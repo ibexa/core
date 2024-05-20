@@ -130,5 +130,3 @@ final class RemoteIdIndexingTest extends BaseTest
         return $folder->id;
     }
 }
-
-class_alias(RemoteIdIndexingTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\RemoteIdIndexingTest');

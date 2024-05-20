@@ -196,5 +196,3 @@ class TestContentProvider
         return $sectionService->createSection($sectionCreate);
     }
 }
-
-class_alias(TestContentProvider::class, 'eZ\Publish\API\Repository\Tests\Filtering\TestContentProvider');

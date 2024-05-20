@@ -34,5 +34,3 @@ abstract class AbstractParamConverterTest extends TestCase
         return $config;
     }
 }
-
-class_alias(AbstractParamConverterTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Converter\AbstractParamConverterTest');

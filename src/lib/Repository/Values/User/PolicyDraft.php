@@ -62,5 +62,3 @@ class PolicyDraft extends APIPolicyDraft
         return $this->innerPolicy->getLimitations();
     }
 }
-
-class_alias(PolicyDraft::class, 'eZ\Publish\Core\Repository\Values\User\PolicyDraft');

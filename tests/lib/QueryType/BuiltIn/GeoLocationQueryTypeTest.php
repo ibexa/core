@@ -160,5 +160,3 @@ final class GeoLocationQueryTypeTest extends AbstractQueryTypeTest
         return ['filter', 'offset', 'limit', 'sort', 'field', 'distance', 'latitude', 'longitude', 'operator'];
     }
 }
-
-class_alias(GeoLocationQueryTypeTest::class, 'eZ\Publish\Core\QueryType\BuiltIn\Tests\GeoLocationQueryTypeTest');

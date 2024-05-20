@@ -85,5 +85,3 @@ class Value extends BaseValue
         return (string)$this->login;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\User\Value');

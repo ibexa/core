@@ -43,5 +43,3 @@ final class GenericVariableProviderRegistry implements VariableProviderRegistry
         return isset($this->twigVariableProviders[$identifier]);
     }
 }
-
-class_alias(GenericVariableProviderRegistry::class, 'eZ\Publish\Core\MVC\Symfony\View\GenericVariableProviderRegistry');

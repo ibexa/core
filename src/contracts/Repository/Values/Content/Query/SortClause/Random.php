@@ -25,5 +25,3 @@ class Random extends SortClause
         parent::__construct('random', $sortDirection, new RandomTarget($seed));
     }
 }
-
-class_alias(Random::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Random');

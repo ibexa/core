@@ -30,5 +30,3 @@ class Validity extends Matcher
         $this->isValid = $isValid;
     }
 }
-
-class_alias(Validity::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\Validity');

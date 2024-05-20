@@ -60,5 +60,3 @@ class CriteriaConverter
         );
     }
 }
-
-class_alias(CriteriaConverter::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Query\CriteriaConverter');

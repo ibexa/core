@@ -49,5 +49,3 @@ final class IOConfigResolver implements IOConfigProvider
         return $this->urlPrefix;
     }
 }
-
-class_alias(IOConfigResolver::class, 'eZ\Publish\Core\Repository\SiteAccessAware\Config\IOConfigResolver');

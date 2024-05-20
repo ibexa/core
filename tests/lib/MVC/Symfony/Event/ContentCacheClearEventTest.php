@@ -46,5 +46,3 @@ class ContentCacheClearEventTest extends TestCase
         self::assertSame($otherLocations, $event->getLocationsToClear());
     }
 }
-
-class_alias(ContentCacheClearEventTest::class, 'eZ\Publish\Core\MVC\Symfony\Event\Tests\ContentCacheClearEventTest');

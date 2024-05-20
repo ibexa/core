@@ -21,5 +21,3 @@ class Score extends SortClause
         parent::__construct('score', $sortDirection);
     }
 }
-
-class_alias(Score::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Score');

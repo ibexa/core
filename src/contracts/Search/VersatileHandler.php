@@ -17,5 +17,3 @@ namespace Ibexa\Contracts\Core\Search;
 interface VersatileHandler extends Handler, Capable, ContentTranslationHandler
 {
 }
-
-class_alias(VersatileHandler::class, 'eZ\Publish\SPI\Search\VersatileHandler');

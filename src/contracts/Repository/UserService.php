@@ -407,5 +407,3 @@ interface UserService
      */
     public function getPasswordInfo(User $user): PasswordInfo;
 }
-
-class_alias(UserService::class, 'eZ\Publish\API\Repository\UserService');

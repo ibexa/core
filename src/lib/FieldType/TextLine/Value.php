@@ -36,5 +36,3 @@ class Value extends BaseValue
         return (string)$this->text;
     }
 }
-
-class_alias(Value::class, 'eZ\Publish\Core\FieldType\TextLine\Value');

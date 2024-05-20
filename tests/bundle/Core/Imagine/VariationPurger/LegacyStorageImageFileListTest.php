@@ -80,5 +80,3 @@ class LegacyStorageImageFileListTest extends TestCase
         $this->rowReaderMock->expects(self::any())->method('getCount')->willReturn(count($fileList));
     }
 }
-
-class_alias(LegacyStorageImageFileListTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Imagine\VariationPurger\LegacyStorageImageFileListTest');

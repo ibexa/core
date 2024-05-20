@@ -404,5 +404,3 @@ interface Handler
      */
     public function loadVersionInfoList(array $contentIds): array;
 }
-
-class_alias(Handler::class, 'eZ\Publish\SPI\Persistence\Content\Handler');

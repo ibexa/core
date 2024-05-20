@@ -96,5 +96,3 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
         return $this->innerExtractor->isRouteExposed($route, $name);
     }
 }
-
-class_alias(ExposedRoutesExtractor::class, 'eZ\Bundle\EzPublishCoreBundle\Routing\JsRouting\ExposedRoutesExtractor');

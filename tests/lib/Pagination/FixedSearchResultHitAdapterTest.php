@@ -45,5 +45,3 @@ final class FixedSearchResultHitAdapterTest extends TestCase
         return $searchResult;
     }
 }
-
-class_alias(FixedSearchResultHitAdapterTest::class, 'eZ\Publish\Core\Pagination\Tests\FixedSearchResultHitAdapterTest');

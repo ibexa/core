@@ -34,5 +34,3 @@ final class IsMainLocationQueryBuilder extends BaseLocationCriterionQueryBuilder
             : 'location.node_id <> location.main_node_id';
     }
 }
-
-class_alias(IsMainLocationQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsMainLocationQueryBuilder');

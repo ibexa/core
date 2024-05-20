@@ -19,5 +19,3 @@ class DateTrashed extends SortClause implements TrashSortClause
         parent::__construct('trashed', $sortDirection);
     }
 }
-
-class_alias(DateTrashed::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Trash\DateTrashed');

@@ -20,5 +20,3 @@ interface SearchHitAdapterFactoryInterface
 
     public function createFixedAdapter(Query $query, array $languageFilter = []): AdapterInterface;
 }
-
-class_alias(SearchHitAdapterFactoryInterface::class, 'eZ\Publish\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface');

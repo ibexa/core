@@ -180,5 +180,3 @@ final class ContentTypeTest extends TestCase
         );
     }
 }
-
-class_alias(ContentTypeTest::class, 'eZ\Publish\Core\Repository\Tests\Values\ContentType\ContentTypeTest');

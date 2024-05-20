@@ -1211,5 +1211,3 @@ class UserHandlerTest extends TestCase
         $handler->addPolicy($role->id, $policy);
     }
 }
-
-class_alias(UserHandlerTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\User\UserHandlerTest');

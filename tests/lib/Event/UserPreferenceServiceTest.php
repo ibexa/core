@@ -71,5 +71,3 @@ class UserPreferenceServiceTest extends AbstractServiceTest
         ]);
     }
 }
-
-class_alias(UserPreferenceServiceTest::class, 'eZ\Publish\Core\Event\Tests\UserPreferenceServiceTest');

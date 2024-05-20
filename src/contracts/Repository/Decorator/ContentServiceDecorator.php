@@ -291,5 +291,3 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->count($filter, $languages);
     }
 }
-
-class_alias(ContentServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\ContentServiceDecorator');

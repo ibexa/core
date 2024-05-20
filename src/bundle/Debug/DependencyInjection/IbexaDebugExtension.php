@@ -33,5 +33,3 @@ class IbexaDebugExtension extends Extension
         $loader->load('services.yml');
     }
 }
-
-class_alias(IbexaDebugExtension::class, 'eZ\Bundle\EzPublishDebugBundle\DependencyInjection\EzPublishDebugExtension');

@@ -158,5 +158,3 @@ abstract class ObjectStateServiceDecorator implements ObjectStateService
         return $this->innerService->newObjectStateUpdateStruct();
     }
 }
-
-class_alias(ObjectStateServiceDecorator::class, 'eZ\Publish\SPI\Repository\Decorator\ObjectStateServiceDecorator');

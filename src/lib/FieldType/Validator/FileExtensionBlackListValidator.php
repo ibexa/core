@@ -85,5 +85,3 @@ class FileExtensionBlackListValidator extends Validator
         return $this->errors;
     }
 }
-
-class_alias(FileExtensionBlackListValidator::class, 'eZ\Publish\Core\FieldType\Validator\FileExtensionBlackListValidator');

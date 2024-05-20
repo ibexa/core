@@ -20,5 +20,3 @@ abstract class TrashItem extends Location
      */
     protected $trashed;
 }
-
-class_alias(TrashItem::class, 'eZ\Publish\API\Repository\Values\Content\TrashItem');

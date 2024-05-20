@@ -181,5 +181,3 @@ class SelectionConverter implements Converter
         return $xml;
     }
 }
-
-class_alias(SelectionConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter');

@@ -81,5 +81,3 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
         ];
     }
 }
-
-class_alias(DynamicallyConfiguredMatcherFactoryDecoratorTest::class, 'eZ\Publish\Core\MVC\Symfony\Matcher\Tests\DynamicallyConfiguredMatcherFactoryDecoratorTest');

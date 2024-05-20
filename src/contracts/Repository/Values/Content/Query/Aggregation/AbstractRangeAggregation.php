@@ -38,5 +38,3 @@ abstract class AbstractRangeAggregation implements Aggregation
         return $this->name;
     }
 }
-
-class_alias(AbstractRangeAggregation::class, 'eZ\Publish\API\Repository\Values\Content\Query\Aggregation\AbstractRangeAggregation');

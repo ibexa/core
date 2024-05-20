@@ -190,5 +190,3 @@ class DoctrineDatabase extends Gateway
         ];
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase');

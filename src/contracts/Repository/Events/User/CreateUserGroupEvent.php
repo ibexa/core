@@ -48,5 +48,3 @@ final class CreateUserGroupEvent extends AfterEvent
         return $this->userGroup;
     }
 }
-
-class_alias(CreateUserGroupEvent::class, 'eZ\Publish\API\Repository\Events\User\CreateUserGroupEvent');

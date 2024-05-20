@@ -62,5 +62,3 @@ class FieldValueConverterRegistryPass implements CompilerPassInterface
         }
     }
 }
-
-class_alias(FieldValueConverterRegistryPass::class, 'eZ\Publish\Core\Base\Container\Compiler\Storage\Legacy\FieldValueConverterRegistryPass');

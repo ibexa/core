@@ -28,5 +28,3 @@ class SectionId extends Matcher
         $this->sectionIds = $sectionIds;
     }
 }
-
-class_alias(SectionId::class, 'eZ\Publish\API\Repository\Values\URL\Query\Criterion\SectionId');

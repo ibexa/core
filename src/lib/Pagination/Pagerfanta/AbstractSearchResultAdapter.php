@@ -173,5 +173,3 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
         array $languageFilter
     ): SearchResult;
 }
-
-class_alias(AbstractSearchResultAdapter::class, 'eZ\Publish\Core\Pagination\Pagerfanta\AbstractSearchResultAdapter');

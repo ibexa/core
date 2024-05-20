@@ -20,5 +20,3 @@ interface VersionTargetEvaluator
 
     public function evaluate(Target\Version $targetVersion, Limitation $limitationValue): ?bool;
 }
-
-class_alias(VersionTargetEvaluator::class, 'eZ\Publish\Core\Limitation\LanguageLimitation\VersionTargetEvaluator');

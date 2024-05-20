@@ -37,5 +37,3 @@ final class VersionPublishingEvaluator implements VersionTargetEvaluator
             : LanguageLimitationType::ACCESS_DENIED;
     }
 }
-
-class_alias(VersionPublishingEvaluator::class, 'eZ\Publish\Core\Limitation\LanguageLimitation\VersionPublishingEvaluator');

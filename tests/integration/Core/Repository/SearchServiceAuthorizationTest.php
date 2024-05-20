@@ -223,5 +223,3 @@ class SearchServiceAuthorizationTest extends BaseTest
         /* END: Use Case */
     }
 }
-
-class_alias(SearchServiceAuthorizationTest::class, 'eZ\Publish\API\Repository\Tests\SearchServiceAuthorizationTest');

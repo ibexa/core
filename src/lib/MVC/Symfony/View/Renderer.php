@@ -19,5 +19,3 @@ interface Renderer
      */
     public function render(View $view);
 }
-
-class_alias(Renderer::class, 'eZ\Publish\Core\MVC\Symfony\View\Renderer');

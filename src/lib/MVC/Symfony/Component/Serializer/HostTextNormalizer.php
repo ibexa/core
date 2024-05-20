@@ -22,5 +22,3 @@ final class HostTextNormalizer extends AbstractPropertyWhitelistNormalizer
         return $data instanceof HostText;
     }
 }
-
-class_alias(HostTextNormalizer::class, 'eZ\Publish\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer');

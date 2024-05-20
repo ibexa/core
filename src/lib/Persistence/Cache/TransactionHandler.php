@@ -47,5 +47,3 @@ class TransactionHandler extends AbstractInMemoryPersistenceHandler implements T
         $this->cache->rollbackTransaction();
     }
 }
-
-class_alias(TransactionHandler::class, 'eZ\Publish\Core\Persistence\Cache\TransactionHandler');

@@ -20,5 +20,3 @@ interface SortClausesFactoryInterface
      */
     public function createFromSpecification(string $specification): array;
 }
-
-class_alias(SortClausesFactoryInterface::class, 'eZ\Publish\Core\QueryType\BuiltIn\SortClausesFactoryInterface');

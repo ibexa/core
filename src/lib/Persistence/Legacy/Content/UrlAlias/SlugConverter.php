@@ -381,5 +381,3 @@ class SlugConverter
         return '-';
     }
 }
-
-class_alias(SlugConverter::class, 'eZ\Publish\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter');

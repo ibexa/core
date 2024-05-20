@@ -78,5 +78,3 @@ class MatcherBuilderTest extends TestCase
         $matcherBuilder->buildMatcher("@$serviceId", $matchingConfig, $request);
     }
 }
-
-class_alias(MatcherBuilderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\SiteAccess\MatcherBuilderTest');

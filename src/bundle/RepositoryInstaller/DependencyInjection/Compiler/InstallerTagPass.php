@@ -49,5 +49,3 @@ class InstallerTagPass implements CompilerPassInterface
         $installCommandDef->replaceArgument('$installers', $installers);
     }
 }
-
-class_alias(InstallerTagPass::class, 'EzSystems\PlatformInstallerBundle\DependencyInjection\Compiler\InstallerTagPass');

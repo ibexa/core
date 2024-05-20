@@ -171,5 +171,3 @@ class SubtreeLimitationTest extends BaseLimitationTest
         /* END: Inline */
     }
 }
-
-class_alias(SubtreeLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\SubtreeLimitationTest');

@@ -50,5 +50,3 @@ class LocationRemoteId extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(LocationRemoteId::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\LocationRemoteId');

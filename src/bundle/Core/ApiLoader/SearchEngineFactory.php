@@ -85,5 +85,3 @@ class SearchEngineFactory
         return $this->searchEngines[$searchEngineAlias];
     }
 }
-
-class_alias(SearchEngineFactory::class, 'eZ\Bundle\EzPublishCoreBundle\ApiLoader\SearchEngineFactory');

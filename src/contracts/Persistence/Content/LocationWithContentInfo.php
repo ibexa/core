@@ -45,5 +45,3 @@ class LocationWithContentInfo extends ValueObject
         return $this->contentInfo;
     }
 }
-
-class_alias(LocationWithContentInfo::class, 'eZ\Publish\SPI\Persistence\Content\LocationWithContentInfo');

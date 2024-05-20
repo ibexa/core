@@ -27,5 +27,3 @@ interface UserInterface extends BaseUserInterface
      */
     public function setAPIUser(APIUser $apiUser);
 }
-
-class_alias(UserInterface::class, 'eZ\Publish\Core\MVC\Symfony\Security\UserInterface');

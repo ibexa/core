@@ -114,5 +114,3 @@ class PreviewLocationProvider
         return $location;
     }
 }
-
-class_alias(PreviewLocationProvider::class, 'eZ\Publish\Core\Helper\PreviewLocationProvider');

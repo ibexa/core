@@ -39,5 +39,3 @@ final class IdQueryBuilder extends BaseLocationCriterionQueryBuilder
         );
     }
 }
-
-class_alias(IdQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IdQueryBuilder');

@@ -42,5 +42,3 @@ interface Gateway
      */
     public function getLastInsertedId(string $sequenceName): int;
 }
-
-class_alias(Gateway::class, 'eZ\Publish\Core\Persistence\Legacy\SharedGateway\Gateway');

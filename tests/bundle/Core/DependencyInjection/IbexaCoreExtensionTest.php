@@ -959,5 +959,3 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         return $this->extension;
     }
 }
-
-class_alias(IbexaCoreExtensionTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\EzPublishCoreExtensionTest');

@@ -26,5 +26,3 @@ class DocumentMapper extends FieldValueMapper
         return $field->getValue();
     }
 }
-
-class_alias(DocumentMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\DocumentMapper');

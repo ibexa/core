@@ -57,5 +57,3 @@ final class RenderOptions implements MutableOptionsBag
         unset($this->options[$key]);
     }
 }
-
-class_alias(RenderOptions::class, 'eZ\Publish\Core\MVC\Symfony\Templating\RenderOptions');

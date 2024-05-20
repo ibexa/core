@@ -43,5 +43,3 @@ class ObjectStateGroupUpdateStruct extends ValueObject
      */
     public $descriptions;
 }
-
-class_alias(ObjectStateGroupUpdateStruct::class, 'eZ\Publish\API\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct');

@@ -31,5 +31,3 @@ class GeoLocationMapper extends FieldValueMapper
         return sprintf('%F,%F', $value['latitude'], $value['longitude']);
     }
 }
-
-class_alias(GeoLocationMapper::class, 'eZ\Publish\Core\Search\Common\FieldValueMapper\GeoLocationMapper');

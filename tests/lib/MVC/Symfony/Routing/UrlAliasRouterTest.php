@@ -799,5 +799,3 @@ class UrlAliasRouterTest extends TestCase
         );
     }
 }
-
-class_alias(UrlAliasRouterTest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Tests\UrlAliasRouterTest');

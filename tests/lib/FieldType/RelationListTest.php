@@ -880,5 +880,3 @@ class RelationListTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(RelationListTest::class, 'eZ\Publish\Core\FieldType\Tests\RelationListTest');

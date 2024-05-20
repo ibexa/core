@@ -37,5 +37,3 @@ interface Installer
      */
     public function importBinaries();
 }
-
-class_alias(Installer::class, 'EzSystems\PlatformInstallerBundle\Installer\Installer');

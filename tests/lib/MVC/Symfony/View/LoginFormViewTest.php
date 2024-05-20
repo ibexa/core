@@ -50,5 +50,3 @@ final class LoginFormViewTest extends AbstractViewTest
         ];
     }
 }
-
-class_alias(LoginFormViewTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\LoginFormViewTest');

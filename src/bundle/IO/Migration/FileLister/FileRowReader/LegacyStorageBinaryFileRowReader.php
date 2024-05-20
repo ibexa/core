@@ -19,5 +19,3 @@ final class LegacyStorageBinaryFileRowReader extends LegacyStorageFileRowReader
         return 'ezbinaryfile';
     }
 }
-
-class_alias(LegacyStorageBinaryFileRowReader::class, 'eZ\Bundle\EzPublishIOBundle\Migration\FileLister\FileRowReader\LegacyStorageBinaryFileRowReader');

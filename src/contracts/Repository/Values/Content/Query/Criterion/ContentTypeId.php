@@ -47,5 +47,3 @@ class ContentTypeId extends Criterion implements TrashCriterion, FilteringCriter
         ];
     }
 }
-
-class_alias(ContentTypeId::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeId');

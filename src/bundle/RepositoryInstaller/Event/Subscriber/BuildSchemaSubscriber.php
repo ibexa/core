@@ -47,5 +47,3 @@ class BuildSchemaSubscriber implements EventSubscriberInterface
             ->importSchemaFromFile($this->schemaFilePath);
     }
 }
-
-class_alias(BuildSchemaSubscriber::class, 'EzSystems\PlatformInstallerBundle\Event\Subscriber\BuildSchemaSubscriber');

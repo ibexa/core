@@ -330,5 +330,3 @@ class CompoundAndTest extends TestCase
         self::assertSame($serializedSA1, $serializedSA2);
     }
 }
-
-class_alias(CompoundAndTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\Compound\CompoundAndTest');

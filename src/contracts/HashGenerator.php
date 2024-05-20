@@ -16,5 +16,3 @@ interface HashGenerator
      */
     public function generate();
 }
-
-class_alias(HashGenerator::class, 'eZ\Publish\SPI\HashGenerator');

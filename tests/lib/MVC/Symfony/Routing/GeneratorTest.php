@@ -128,5 +128,3 @@ class GeneratorTest extends TestCase
         self::assertSame($fullUri, $this->generator->generate($urlResource, $parameters + ['siteaccess' => $siteAccessName], $referenceType));
     }
 }
-
-class_alias(GeneratorTest::class, 'eZ\Publish\Core\MVC\Symfony\Routing\Tests\GeneratorTest');

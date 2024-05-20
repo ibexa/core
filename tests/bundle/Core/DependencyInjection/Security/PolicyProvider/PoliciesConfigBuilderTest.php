@@ -69,5 +69,3 @@ class PoliciesConfigBuilderTest extends TestCase
         self::assertSame([$resource1, $resource2], $containerBuilder->getResources());
     }
 }
-
-class_alias(PoliciesConfigBuilderTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\DependencyInjection\Security\PolicyProvider\PoliciesConfigBuilderTest');

@@ -12,5 +12,3 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 class SourceImageNotFoundException extends NotFoundException
 {
 }
-
-class_alias(SourceImageNotFoundException::class, 'eZ\Publish\Core\MVC\Exception\SourceImageNotFoundException');

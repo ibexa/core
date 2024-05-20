@@ -133,5 +133,3 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
         return $rootLocation->pathString;
     }
 }
-
-class_alias(AbstractQueryType::class, 'eZ\Publish\Core\QueryType\BuiltIn\AbstractQueryType');

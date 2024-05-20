@@ -118,5 +118,3 @@ class RememberMeRepositoryAuthenticationProviderTest extends TestCase
         );
     }
 }
-
-class_alias(RememberMeRepositoryAuthenticationProviderTest::class, 'eZ\Publish\Core\MVC\Symfony\Security\Tests\Authentication\RememberMeRepositoryAuthenticationProviderTest');

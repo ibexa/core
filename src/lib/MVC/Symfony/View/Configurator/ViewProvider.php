@@ -52,5 +52,3 @@ class ViewProvider implements Configurator
         }
     }
 }
-
-class_alias(ViewProvider::class, 'eZ\Publish\Core\MVC\Symfony\View\Configurator\ViewProvider');

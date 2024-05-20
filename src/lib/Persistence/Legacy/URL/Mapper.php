@@ -61,5 +61,3 @@ class Mapper
         return $urls;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\URL\Mapper');

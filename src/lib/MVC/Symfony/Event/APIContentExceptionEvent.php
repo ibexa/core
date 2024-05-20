@@ -81,5 +81,3 @@ class APIContentExceptionEvent extends Event
         return $this->contentMeta;
     }
 }
-
-class_alias(APIContentExceptionEvent::class, 'eZ\Publish\Core\MVC\Symfony\Event\APIContentExceptionEvent');

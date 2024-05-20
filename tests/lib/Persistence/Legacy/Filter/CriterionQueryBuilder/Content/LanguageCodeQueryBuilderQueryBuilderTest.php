@@ -37,5 +37,3 @@ final class LanguageCodeQueryBuilderQueryBuilderTest extends BaseCriterionVisito
         return [new LanguageCodeQueryBuilder()];
     }
 }
-
-class_alias(LanguageCodeQueryBuilderQueryBuilderTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Filter\CriterionQueryBuilder\Content\LanguageCodeQueryBuilderQueryBuilderTest');

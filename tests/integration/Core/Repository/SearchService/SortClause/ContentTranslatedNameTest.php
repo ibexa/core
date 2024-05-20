@@ -229,5 +229,3 @@ final class ContentTranslatedNameTest extends AbstractSortClauseTest
         $this->refreshSearch($repository);
     }
 }
-
-class_alias(ContentTranslatedNameTest::class, 'eZ\Publish\API\Repository\Tests\SearchService\SortClause\ContentTranslatedNameTest');

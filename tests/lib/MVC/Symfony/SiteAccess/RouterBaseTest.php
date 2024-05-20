@@ -88,5 +88,3 @@ abstract class RouterBaseTest extends TestCase
      */
     abstract public function getSiteAccessProviderSettings(): array;
 }
-
-class_alias(RouterBaseTest::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Tests\RouterBaseTest');

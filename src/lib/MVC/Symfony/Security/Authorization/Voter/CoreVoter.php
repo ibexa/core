@@ -73,5 +73,3 @@ class CoreVoter implements VoterInterface
         return VoterInterface::ACCESS_ABSTAIN;
     }
 }
-
-class_alias(CoreVoter::class, 'eZ\Publish\Core\MVC\Symfony\Security\Authorization\Voter\CoreVoter');

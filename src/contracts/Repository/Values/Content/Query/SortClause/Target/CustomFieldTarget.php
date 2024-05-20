@@ -20,5 +20,3 @@ final class CustomFieldTarget extends Target
         $this->fieldName = $fieldName;
     }
 }
-
-class_alias(CustomFieldTarget::class, 'eZ\Publish\API\Repository\Values\Content\Query\SortClause\Target\CustomFieldTarget');

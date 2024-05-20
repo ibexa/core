@@ -19,5 +19,3 @@ interface SortClauseQueryBuilder
         FilteringSortClause $sortClause
     ): void;
 }
-
-class_alias(SortClauseQueryBuilder::class, 'eZ\Publish\SPI\Repository\Values\Filter\SortClauseQueryBuilder');

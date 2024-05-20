@@ -321,5 +321,3 @@ class SlugConverterTest extends TestCase
         return new TestSuite(__CLASS__);
     }
 }
-
-class_alias(SlugConverterTest::class, 'eZ\Publish\Core\Persistence\Legacy\Tests\Content\UrlAlias\SlugConverterTest');

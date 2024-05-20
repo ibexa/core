@@ -32,5 +32,3 @@ class InvalidArgumentException extends APIInvalidArgumentException
         parent::__construct($message, 0, $previous);
     }
 }
-
-class_alias(InvalidArgumentException::class, 'eZ\Publish\SPI\Exception\InvalidArgumentException');

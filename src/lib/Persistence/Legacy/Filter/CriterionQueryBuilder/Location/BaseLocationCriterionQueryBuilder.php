@@ -26,5 +26,3 @@ abstract class BaseLocationCriterionQueryBuilder implements CriterionQueryBuilde
         return null;
     }
 }
-
-class_alias(BaseLocationCriterionQueryBuilder::class, 'eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\BaseLocationCriterionQueryBuilder');

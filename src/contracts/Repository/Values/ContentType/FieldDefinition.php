@@ -193,5 +193,3 @@ abstract class FieldDefinition extends ValueObject implements MultiLanguageName,
         return $this->fieldTypeIdentifier;
     }
 }
-
-class_alias(FieldDefinition::class, 'eZ\Publish\API\Repository\Values\ContentType\FieldDefinition');

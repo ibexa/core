@@ -252,5 +252,3 @@ class Mapper
         return $role;
     }
 }
-
-class_alias(Mapper::class, 'eZ\Publish\Core\Persistence\Legacy\User\Mapper');

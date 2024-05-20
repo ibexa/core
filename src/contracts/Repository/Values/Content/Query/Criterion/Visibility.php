@@ -59,5 +59,3 @@ class Visibility extends Criterion implements FilteringCriterion
         ];
     }
 }
-
-class_alias(Visibility::class, 'eZ\Publish\API\Repository\Values\Content\Query\Criterion\Visibility');

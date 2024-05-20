@@ -38,5 +38,3 @@ final class CreateSettingEvent extends AfterEvent
         return $this->settingCreateStruct;
     }
 }
-
-class_alias(CreateSettingEvent::class, 'eZ\Publish\API\Repository\Events\Setting\CreateSettingEvent');

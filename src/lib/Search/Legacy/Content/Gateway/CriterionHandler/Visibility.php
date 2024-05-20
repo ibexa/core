@@ -73,5 +73,3 @@ class Visibility extends CriterionHandler
         );
     }
 }
-
-class_alias(Visibility::class, 'eZ\Publish\Core\Search\Legacy\Content\Gateway\CriterionHandler\Visibility');

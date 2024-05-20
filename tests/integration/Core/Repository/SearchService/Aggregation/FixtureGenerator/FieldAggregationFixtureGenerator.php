@@ -174,5 +174,3 @@ final class FieldAggregationFixtureGenerator
         return $fieldDefinitionCreateStruct;
     }
 }
-
-class_alias(FieldAggregationFixtureGenerator::class, 'eZ\Publish\API\Repository\Tests\SearchService\Aggregation\FixtureGenerator\FieldAggregationFixtureGenerator');

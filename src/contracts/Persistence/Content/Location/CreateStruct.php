@@ -113,5 +113,3 @@ class CreateStruct extends ValueObject
      */
     public $parentId;
 }
-
-class_alias(CreateStruct::class, 'eZ\Publish\SPI\Persistence\Content\Location\CreateStruct');

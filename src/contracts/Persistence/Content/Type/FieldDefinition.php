@@ -135,5 +135,3 @@ class FieldDefinition extends ValueObject
         parent::__construct($properties);
     }
 }
-
-class_alias(FieldDefinition::class, 'eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition');

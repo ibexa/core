@@ -62,5 +62,3 @@ final class UpdateContentEvent extends AfterEvent
         return $this->fieldIdentifiersToValidate;
     }
 }
-
-class_alias(UpdateContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\UpdateContentEvent');

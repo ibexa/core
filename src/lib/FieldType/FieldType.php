@@ -583,5 +583,3 @@ abstract class FieldType extends SPIFieldType implements Comparable
         return $this->toHash($value1) === $this->toHash($value2);
     }
 }
-
-class_alias(FieldType::class, 'eZ\Publish\Core\FieldType\FieldType');

@@ -39,5 +39,3 @@ class UserPreferenceList extends ValueObject implements IteratorAggregate
         return new ArrayIterator($this->items);
     }
 }
-
-class_alias(UserPreferenceList::class, 'eZ\Publish\API\Repository\Values\UserPreference\UserPreferenceList');

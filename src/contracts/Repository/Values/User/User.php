@@ -108,5 +108,3 @@ abstract class User extends Content implements UserReference
         return $this->passwordHash;
     }
 }
-
-class_alias(User::class, 'eZ\Publish\API\Repository\Values\User\User');

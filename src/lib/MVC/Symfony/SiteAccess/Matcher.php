@@ -36,5 +36,3 @@ interface Matcher
      */
     public function getName();
 }
-
-class_alias(Matcher::class, 'eZ\Publish\Core\MVC\Symfony\SiteAccess\Matcher');

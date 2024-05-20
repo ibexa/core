@@ -26,5 +26,3 @@ final class BeforeRemoveEvent extends BeforeEvent
         return $this->urlWildcard;
     }
 }
-
-class_alias(BeforeRemoveEvent::class, 'eZ\Publish\API\Repository\Events\URLWildcard\BeforeRemoveEvent');

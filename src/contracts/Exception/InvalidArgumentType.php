@@ -37,5 +37,3 @@ class InvalidArgumentType extends InvalidArgumentException
         parent::__construct($argumentName, $whatIsWrong, $previous);
     }
 }
-
-class_alias(InvalidArgumentType::class, 'eZ\Publish\SPI\Exception\InvalidArgumentType');

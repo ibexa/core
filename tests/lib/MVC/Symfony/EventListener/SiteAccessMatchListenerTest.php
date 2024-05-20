@@ -267,5 +267,3 @@ class SiteAccessMatchListenerTest extends TestCase
         self::assertSame($siteAccess, $request->attributes->get('siteaccess'));
     }
 }
-
-class_alias(SiteAccessMatchListenerTest::class, 'eZ\Publish\Core\MVC\Symfony\EventListener\Tests\SiteAccessMatchListenerTest');

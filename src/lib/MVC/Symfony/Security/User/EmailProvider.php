@@ -32,5 +32,3 @@ final class EmailProvider extends BaseProvider
         }
     }
 }
-
-class_alias(EmailProvider::class, 'eZ\Publish\Core\MVC\Symfony\Security\User\EmailProvider');

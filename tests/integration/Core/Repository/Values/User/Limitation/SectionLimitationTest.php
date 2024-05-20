@@ -132,5 +132,3 @@ class SectionLimitationTest extends BaseLimitationTest
         /* END: Use Case */
     }
 }
-
-class_alias(SectionLimitationTest::class, 'eZ\Publish\API\Repository\Tests\Values\User\Limitation\SectionLimitationTest');

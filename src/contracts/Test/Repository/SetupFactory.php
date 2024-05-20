@@ -50,5 +50,3 @@ abstract class SetupFactory
      */
     abstract public function getServiceContainer();
 }
-
-class_alias(SetupFactory::class, 'eZ\Publish\API\Repository\Tests\SetupFactory');

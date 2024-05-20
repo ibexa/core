@@ -103,5 +103,3 @@ final class VariableProviderRegistryTest extends TestCase
         self::assertFalse($registry->hasTwigVariableProvider('provider_c'));
     }
 }
-
-class_alias(VariableProviderRegistryTest::class, 'eZ\Publish\Core\MVC\Symfony\View\Tests\VariableProviderRegistryTest');

@@ -26,5 +26,3 @@ final class BeforeDeleteLocationEvent extends BeforeEvent
         return $this->location;
     }
 }
-
-class_alias(BeforeDeleteLocationEvent::class, 'eZ\Publish\API\Repository\Events\Location\BeforeDeleteLocationEvent');

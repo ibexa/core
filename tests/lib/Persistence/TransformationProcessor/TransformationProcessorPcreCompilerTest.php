@@ -214,5 +214,3 @@ class TransformationProcessorPcreCompilerTest extends TestCase
         );
     }
 }
-
-class_alias(TransformationProcessorPcreCompilerTest::class, 'eZ\Publish\Core\Persistence\Tests\TransformationProcessor\TransformationProcessorPcreCompilerTest');

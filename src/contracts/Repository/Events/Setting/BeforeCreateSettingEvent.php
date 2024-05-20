@@ -50,5 +50,3 @@ final class BeforeCreateSettingEvent extends BeforeEvent
         return $this->setting instanceof Setting;
     }
 }
-
-class_alias(BeforeCreateSettingEvent::class, 'eZ\Publish\API\Repository\Events\Setting\BeforeCreateSettingEvent');

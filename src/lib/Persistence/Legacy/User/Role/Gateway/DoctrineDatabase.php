@@ -807,5 +807,3 @@ final class DoctrineDatabase extends Gateway
         $policyQuery->execute();
     }
 }
-
-class_alias(DoctrineDatabase::class, 'eZ\Publish\Core\Persistence\Legacy\User\Role\Gateway\DoctrineDatabase');

@@ -276,5 +276,3 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTest
         $this->assertCanUser($expectedResult, 'content', 'remove', $limitations, $content, [$target]);
     }
 }
-
-class_alias(LanguageLimitationIntegrationTest::class, 'eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\LanguageLimitationIntegrationTest');

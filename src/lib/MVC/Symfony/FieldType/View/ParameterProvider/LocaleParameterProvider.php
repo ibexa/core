@@ -52,5 +52,3 @@ class LocaleParameterProvider implements ParameterProviderInterface
         return $parameters;
     }
 }
-
-class_alias(LocaleParameterProvider::class, 'eZ\Publish\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider');

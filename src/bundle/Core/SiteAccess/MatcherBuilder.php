@@ -49,5 +49,3 @@ final class MatcherBuilder extends BaseMatcherBuilder
         return parent::buildMatcher($matchingClass, $matchingConfiguration, $request);
     }
 }
-
-class_alias(MatcherBuilder::class, 'eZ\Bundle\EzPublishCoreBundle\SiteAccess\MatcherBuilder');

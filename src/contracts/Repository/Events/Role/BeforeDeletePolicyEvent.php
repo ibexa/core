@@ -26,5 +26,3 @@ final class BeforeDeletePolicyEvent extends BeforeEvent
         return $this->policy;
     }
 }
-
-class_alias(BeforeDeletePolicyEvent::class, 'eZ\Publish\API\Repository\Events\Role\BeforeDeletePolicyEvent');

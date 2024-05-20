@@ -688,5 +688,3 @@ class RelationProcessorTest extends BaseServiceMockTest
         return $this->createMock(FieldTypeService::class);
     }
 }
-
-class_alias(RelationProcessorTest::class, 'eZ\Publish\Core\Repository\Tests\Service\Mock\RelationProcessorTest');

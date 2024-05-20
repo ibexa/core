@@ -135,5 +135,3 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         return new DecoratedFragmentRenderer($this->innerRenderer);
     }
 }
-
-class_alias(DecoratedFragmentRendererTest::class, 'eZ\Bundle\EzPublishCoreBundle\Tests\Fragment\DecoratedFragmentRendererTest');

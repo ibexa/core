@@ -145,5 +145,3 @@ class SearchServiceDecoratorTest extends TestCase
         ];
     }
 }
-
-class_alias(SearchServiceDecoratorTest::class, 'eZ\Publish\SPI\Repository\Tests\Decorator\SearchServiceDecoratorTest');

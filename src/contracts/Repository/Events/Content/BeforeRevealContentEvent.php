@@ -26,5 +26,3 @@ final class BeforeRevealContentEvent extends BeforeEvent
         return $this->contentInfo;
     }
 }
-
-class_alias(BeforeRevealContentEvent::class, 'eZ\Publish\API\Repository\Events\Content\BeforeRevealContentEvent');

@@ -48,5 +48,3 @@ final class UpdateSectionEvent extends AfterEvent
         return $this->updatedSection;
     }
 }
-
-class_alias(UpdateSectionEvent::class, 'eZ\Publish\API\Repository\Events\Section\UpdateSectionEvent');

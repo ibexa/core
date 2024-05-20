@@ -96,5 +96,3 @@ class FieldTypeRegistryTest extends TestCase
         );
     }
 }
-
-class_alias(FieldTypeRegistryTest::class, 'eZ\Publish\Core\Repository\Tests\Helper\FieldTypeRegistryTest');

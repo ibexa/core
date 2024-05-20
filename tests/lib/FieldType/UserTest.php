@@ -848,5 +848,3 @@ class UserTest extends FieldTypeTest
         ];
     }
 }
-
-class_alias(UserTest::class, 'eZ\Publish\Core\FieldType\Tests\UserTest');

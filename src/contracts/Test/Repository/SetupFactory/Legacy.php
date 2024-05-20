@@ -392,5 +392,3 @@ class Legacy extends SetupFactory
         return self::getInstallationDir() . '/var/cache';
     }
 }
-
-class_alias(Legacy::class, 'eZ\Publish\API\Repository\Tests\SetupFactory\Legacy');

@@ -65,5 +65,3 @@ interface IOMetadataHandler
 
     public function deleteDirectory($spiPath);
 }
-
-class_alias(IOMetadataHandler::class, 'eZ\Publish\Core\IO\IOMetadataHandler');

@@ -79,5 +79,3 @@ EOT
         // Nothing to do here.
     }
 }
-
-class_alias(View::class, 'eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\Parser\View');
