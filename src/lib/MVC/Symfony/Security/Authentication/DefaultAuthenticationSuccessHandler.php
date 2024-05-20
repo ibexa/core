@@ -21,28 +21,10 @@ final class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
 {
     public function __construct(
         private readonly BaseSuccessHandler $innerHandler,
-        private EventDispatcherInterface $eventDispatcher,
-        private ConfigResolverInterface $configResolver,
-        private PermissionResolver $permissionResolver,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly ConfigResolverInterface $configResolver,
+        private readonly PermissionResolver $permissionResolver,
     ) {
-    }
-
-    /**
-     * Injects the ConfigResolver to potentially override default_target_path for redirections after authentication success.
-     */
-    public function setConfigResolver(ConfigResolverInterface $configResolver): void
-    {
-        $this->configResolver = $configResolver;
-    }
-
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
-    {
-        $this->eventDispatcher = $eventDispatcher;
-    }
-
-    public function setPermissionResolver(PermissionResolver $permissionResolver): void
-    {
-        $this->permissionResolver = $permissionResolver;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): ?Response
