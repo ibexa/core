@@ -19,11 +19,13 @@ use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessH
 
 final class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
 {
-    private EventDispatcherInterface $eventDispatcher;
-
-    private ConfigResolverInterface $configResolver;
-
-    private PermissionResolver $permissionResolver;
+    public function __construct(
+        private readonly BaseSuccessHandler $innerHandler,
+        private EventDispatcherInterface $eventDispatcher,
+        private ConfigResolverInterface $configResolver,
+        private PermissionResolver $permissionResolver,
+    ) {
+    }
 
     /**
      * Injects the ConfigResolver to potentially override default_target_path for redirections after authentication success.
@@ -50,7 +52,7 @@ final class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
             $this->permissionResolver->setCurrentUserReference($user->getAPIUser());
         }
 
-        return parent::onAuthenticationSuccess($request, $token);
+        return $this->innerHandler->onAuthenticationSuccess($request, $token);
     }
 
     protected function determineTargetUrl(Request $request): string
@@ -74,6 +76,6 @@ final class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
             $this->options = $event->getOptions();
         }
 
-        return parent::determineTargetUrl($request);
+        return $this->innerHandler->determineTargetUrl($request);
     }
 }

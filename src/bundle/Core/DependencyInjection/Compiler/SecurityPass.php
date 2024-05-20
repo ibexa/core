@@ -8,7 +8,6 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
-use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\GuardRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RememberMeRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
@@ -36,7 +35,6 @@ final class SecurityPass implements CompilerPassInterface
             return;
         }
 
-        $configResolverRef = new Reference('ibexa.config.resolver');
         $permissionResolverRef = new Reference(PermissionResolver::class);
 
         $rememberMeAuthenticationProviderDef = $container->findDefinition('security.authentication.provider.rememberme');
@@ -62,25 +60,6 @@ final class SecurityPass implements CompilerPassInterface
         $httpUtilsDef->addMethodCall(
             'setSiteAccess',
             [new Reference(SiteAccess::class)]
-        );
-
-        if (!$container->hasDefinition('security.authentication.success_handler')) {
-            return;
-        }
-
-        $successHandlerDef = $container->getDefinition('security.authentication.success_handler');
-        $successHandlerDef->setClass(DefaultAuthenticationSuccessHandler::class);
-        $successHandlerDef->addMethodCall(
-            'setConfigResolver',
-            [$configResolverRef]
-        );
-        $successHandlerDef->addMethodCall(
-            'setEventDispatcher',
-            [new Reference('event_dispatcher')]
-        );
-        $successHandlerDef->addMethodCall(
-            'setPermissionResolver',
-            [$permissionResolverRef]
         );
     }
 }

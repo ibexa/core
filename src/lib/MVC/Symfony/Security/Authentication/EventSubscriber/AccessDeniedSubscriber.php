@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-final class AccessDeniedSubscriber implements EventSubscriberInterface
+final readonly class AccessDeniedSubscriber implements EventSubscriberInterface
 {
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {

@@ -46966,11 +46966,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\DefaultAuthenticationSuccessHandlerTest\\:\\:testSetConfigResolver\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/DefaultAuthenticationSuccessHandlerTest.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getProviderKey\\(\\)\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
