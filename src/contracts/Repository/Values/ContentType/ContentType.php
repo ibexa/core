@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups calls getContentTypeGroups
  * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection $fieldDefinitions calls getFieldDefinitions() or on access getFieldDefinition($fieldDefIdentifier)
+ * @property-read string $mainLanguageCode the main language of the content type names and description used for fallback.
  * @phpstan-property-read mixed $id the id of the content type
  * @phpstan-property-read int $status the status of the content type. One of ContentType::STATUS_DEFINED|ContentType::STATUS_DRAFT|ContentType::STATUS_MODIFIED
  * @phpstan-property-read string $identifier the identifier of the content type
@@ -28,8 +29,6 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @phpstan-property-read string $urlAliasSchema URL alias schema. If nothing is provided, $nameSchema will be used instead.
  * @phpstan-property-read string $nameSchema  The name schema.
  * @phpstan-property-read bool $isContainer @deprecated use strict getter {@see ContentType::isContainer} instead.
- *
- * @property-read string $mainLanguageCode the main language of the content type names and description used for fallback.
  * @phpstan-property-read bool $defaultAlwaysAvailable if an instance of a content type is created the always available flag is set by default this this value.
  * @phpstan-property-read string[] $languageCodes array of language codes used by content type translations.
  * @phpstan-property-read int $defaultSortField Specifies which property the child locations should be sorted on by default when created. Valid values are found at {@link Location::SORT_FIELD_*}
