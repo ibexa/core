@@ -47,11 +47,3 @@ services:
     Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\AccessDeniedSubscriber:
         autowire: true
         autoconfigure: true
-
-    Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler:
-        autowire: true
-        autoconfigure: true
-        abstract: true
-        decorates: security.authentication.success_handler
-        arguments:
-            $innerHandler: '@.inner'

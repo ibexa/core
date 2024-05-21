@@ -19,12 +19,25 @@ use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessH
 
 final class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
 {
-    public function __construct(
-        private readonly BaseSuccessHandler $innerHandler,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ConfigResolverInterface $configResolver,
-        private readonly PermissionResolver $permissionResolver,
-    ) {
+    private EventDispatcherInterface $eventDispatcher;
+
+    private ConfigResolverInterface $configResolver;
+
+    private PermissionResolver $permissionResolver;
+
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
+    {
+        $this->configResolver = $configResolver;
+    }
+
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    public function setPermissionResolver(PermissionResolver $permissionResolver): void
+    {
+        $this->permissionResolver = $permissionResolver;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): ?Response
@@ -34,7 +47,7 @@ final class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
             $this->permissionResolver->setCurrentUserReference($user->getAPIUser());
         }
 
-        return $this->innerHandler->onAuthenticationSuccess($request, $token);
+        return parent::onAuthenticationSuccess($request, $token);
     }
 
     protected function determineTargetUrl(Request $request): string
@@ -42,22 +55,24 @@ final class DefaultAuthenticationSuccessHandler extends BaseSuccessHandler
         if (isset($this->configResolver)) {
             $defaultPage = $this->configResolver->getParameter('default_page');
             if ($defaultPage !== null) {
-                $this->options['default_target_path'] = $defaultPage;
+                $this->setOptions([
+                    'default_target_path' => $defaultPage,
+                ]);
             }
         }
 
         if (isset($this->eventDispatcher)) {
             $event = new DetermineTargetUrlEvent(
                 $request,
-                $this->options,
+                $this->getOptions(),
                 $this->getFirewallName() ?? ''
             );
 
             $this->eventDispatcher->dispatch($event);
 
-            $this->options = $event->getOptions();
+            $this->setOptions($event->getOptions());
         }
 
-        return $this->innerHandler->determineTargetUrl($request);
+        return parent::determineTargetUrl($request);
     }
 }
