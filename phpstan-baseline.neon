@@ -22971,16 +22971,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Mapper/FullTextMapper.php
 
 		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\:\\:\\$type\\.$#"
-			count: 3
-			path: src/lib/Search/Legacy/Content/Mapper/FullTextMapper.php
-
-		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\:\\:\\$value\\.$#"
-			count: 3
-			path: src/lib/Search/Legacy/Content/Mapper/FullTextMapper.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\WordIndexer\\\\Gateway\\:\\:bulkIndex\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/WordIndexer/Gateway.php
