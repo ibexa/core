@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception as IbexaRepositoryException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final readonly class AccessDeniedSubscriber implements EventSubscriberInterface
 {
@@ -33,8 +33,9 @@ final readonly class AccessDeniedSubscriber implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getThrowable();
-        if ($exception instanceof AccessDeniedException) {
+        $exception = $event->getThrowable()->getPrevious();
+
+        if ($exception instanceof IbexaRepositoryException) {
             return;
         }
 

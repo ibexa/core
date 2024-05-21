@@ -10,11 +10,12 @@ namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\Repository\Values\User\UserReference;
+use Stringable;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface
+class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface, Stringable
 {
     private APIUser $user;
 

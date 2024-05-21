@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\GuardRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\RememberMeRepositoryAuthenticationProvider;
@@ -71,7 +72,7 @@ final class SecurityPass implements CompilerPassInterface
         $successHandlerDef->setClass(DefaultAuthenticationSuccessHandler::class);
         $successHandlerDef->addMethodCall(
             'setConfigResolver',
-            [new Reference('ibexa.config.resolver')]
+            [new Reference(ConfigResolverInterface::class)]
         );
         $successHandlerDef->addMethodCall(
             'setEventDispatcher',

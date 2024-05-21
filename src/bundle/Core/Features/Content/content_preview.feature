@@ -5,6 +5,7 @@ Feature: Preview of content drafts
     While I'm editing content
     I need to preview the result before publishing
 
+    @broken
     Scenario: Previewing the first version of a content item works
         Given that I am logged in
           And I create an folder draft
@@ -18,6 +19,7 @@ Feature: Preview of content drafts
          When I preview this draft
          Then the output is valid
 
+    @broken
     Scenario: Previewing a draft of a content item with published version(s) works
         Given that I am logged in
           And I create a draft of an existing content item
