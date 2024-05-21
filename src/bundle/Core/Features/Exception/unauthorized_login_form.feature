@@ -1,4 +1,3 @@
-@javascript
 Feature: Handling of Unauthorized repository exceptions
     Scenario: When a Repository UnauthorizedException is throw, anonymous users are shown the login screen
         Given that I am not logged in
