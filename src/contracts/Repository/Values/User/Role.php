@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @phpstan-property-read int $id the internal id of the role
  * @phpstan-property-read string $identifier the identifier of the role
+ *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\User\Policy[] $policies an array of the policies {@link \Ibexa\Contracts\Core\Repository\Values\User\Policy} of the role.
  */
 abstract class Role extends ValueObject

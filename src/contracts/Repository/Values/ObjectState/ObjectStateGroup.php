@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @phpstan-property-read mixed $id the id of the content type group
  * @phpstan-property-read string $identifier the identifier of the content type group
+ *
  * @property-read string $mainLanguageCode the default language of the object state group names and description used for fallback.
  * @phpstan-property-read string $defaultLanguageCode the default language code.
  * @phpstan-property-read string[] $languageCodes the available languages

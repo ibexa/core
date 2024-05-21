@@ -28,6 +28,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @phpstan-property-read string $urlAliasSchema URL alias schema. If nothing is provided, $nameSchema will be used instead.
  * @phpstan-property-read string $nameSchema  The name schema.
  * @phpstan-property-read bool $isContainer @deprecated use strict getter {@see ContentType::isContainer} instead.
+ *
  * @property-read string $mainLanguageCode the main language of the content type names and description used for fallback.
  * @phpstan-property-read bool $defaultAlwaysAvailable if an instance of a content type is created the always available flag is set by default this this value.
  * @phpstan-property-read string[] $languageCodes array of language codes used by content type translations.

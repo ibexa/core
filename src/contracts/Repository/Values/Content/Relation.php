@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @phpstan-property-read mixed $id the internal id of the relation
  * @phpstan-property-read string $sourceFieldDefinitionIdentifier the field definition identifier of the field where this relation is anchored if the relation is of type EMBED, LINK, or ATTRIBUTE
+ *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $sourceContentInfo - calls {@link getSourceContentInfo()}
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContentInfo - calls {@link getDestinationContentInfo()}
  * @phpstan-property-read int $type The relation type bitmask containing one or more of Relation::COMMON, Relation::EMBED, Relation::LINK, Relation::FIELD

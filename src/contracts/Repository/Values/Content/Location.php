@@ -25,6 +25,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @phpstan-property-read string $remoteId a global unique id of the content object
  * @phpstan-property-read int $parentLocationId the id of the parent location
  * @phpstan-property-read string $pathString @deprecated use {@see Location::getPathString()} instead.
+ *
  * @property-read array $path Same as $pathString but as array, e.g. [ 1, 2, 4, 23 ]
  * @phpstan-property-read int $depth Depth location has in the location tree
  * @phpstan-property-read int $sortField Specifies which property the child locations should be sorted on. Valid values are found at {@link Location::SORT_FIELD_*}
