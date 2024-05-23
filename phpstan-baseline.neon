@@ -621,11 +621,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Compiler/RouterPass.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\SecurityPass\\:\\:process\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/SecurityPass.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\SessionConfigurationPass\\:\\:process\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Compiler/SessionConfigurationPass.php
@@ -3314,16 +3309,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\Fragment\\\\InlineFragmentRenderer\\:\\:\\$siteAccess is never read, only written\\.$#"
 			count: 1
 			path: src/bundle/Core/Fragment/InlineFragmentRenderer.php
-
-		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\DependencyInjection\\\\Extension\\\\ExtensionInterface\\:\\:addSecurityListenerFactory\\(\\)\\.$#"
-			count: 1
-			path: src/bundle/Core/IbexaCoreBundle.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\IbexaCoreBundle\\:\\:build\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/IbexaCoreBundle.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\AliasCleaner\\:\\:removeAliases\\(\\) has no return type specified\\.$#"
@@ -12206,21 +12191,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/UrlWildcardRouter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\AnonymousAuthenticationProvider\\:\\:setConfigResolver\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/AnonymousAuthenticationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\AnonymousAuthenticationProvider\\:\\:setPermissionResolver\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/AnonymousAuthenticationProvider.php
-
-		-
-			message: "#^Parameter \\#3 \\$firewallName of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\DetermineTargetUrlEvent constructor expects string, string\\|null given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/DefaultAuthenticationSuccessHandler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProvider\\:\\:setPermissionResolver\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProvider.php
@@ -12306,31 +12276,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Security/Authorization/Voter/ValueObjectVoter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener\\:\\:__construct\\(\\) has parameter \\$fragmentPath with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/EventListener/SecurityListener.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener\\:\\:checkSiteAccessPermission\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/EventListener/SecurityListener.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener\\:\\:isMasterRequest\\(\\) has parameter \\$requestType with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/EventListener/SecurityListener.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener\\:\\:onInteractiveLogin\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/EventListener/SecurityListener.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener\\:\\:onKernelRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/EventListener/SecurityListener.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Exception\\\\UnauthorizedSiteAccessException\\:\\:__construct\\(\\) has parameter \\$username with no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/Exception/UnauthorizedSiteAccessException.php
@@ -12374,26 +12319,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\InteractiveLoginToken\\:\\:__construct\\(\\) has parameter \\$providerKey with no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/InteractiveLoginToken.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\User\\:\\:__construct\\(\\) has parameter \\$roles with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/User.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\User\\:\\:eraseCredentials\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/User.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\User\\:\\:getSalt\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/User.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\User\\:\\:setAPIUser\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/User.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\User\\\\EmailProvider\\:\\:loadUserByUsername\\(\\) has parameter \\$user with no type specified\\.$#"
@@ -23554,11 +23479,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\RegisterStorageEnginePassTest\\:\\:testRegisterStorageEngineNoAlias\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Compiler/RegisterStorageEnginePassTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\SecurityPassTest\\:\\:testAlteredDaoAuthenticationProvider\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Compiler/SecurityPassTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\SlugConverterConfigurationPassTest\\:\\:configurationProvider\\(\\) has no return type specified\\.$#"
@@ -47046,21 +46966,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\AnonymousAuthenticationProviderTest\\:\\:testAuthenticate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/AnonymousAuthenticationProviderTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$configResolver of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\AnonymousAuthenticationProvider\\:\\:setConfigResolver\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/AnonymousAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\DefaultAuthenticationSuccessHandlerTest\\:\\:testSetConfigResolver\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/DefaultAuthenticationSuccessHandlerTest.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getProviderKey\\(\\)\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
@@ -47086,32 +46991,12 @@ parameters:
 			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
 
 		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getProviderKey\\(\\)\\.$#"
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getFirewallName\\(\\)\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getSecret\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticateUnsupportedToken\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticateWrongProviderKey\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProviderTest\\:\\:testAuthenticateWrongSecret\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
 
@@ -47164,111 +47049,6 @@ parameters:
 			message: "#^Parameter \\#4 \\$hasherFactory of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider constructor expects Symfony\\\\Component\\\\PasswordHasher\\\\Hasher\\\\PasswordHasherFactoryInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Encoder\\\\EncoderFactoryInterface given\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:generateListener\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testCheckSiteAccessNoSiteAccess\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testCheckSiteAccessNotEzUser\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testCheckSiteAccessPermissionDenied\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testCheckSiteAccessPermissionGranted\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testGetSubscribedEvents\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnInteractiveLogin\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnInteractiveLoginAlreadyEzUser\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnInteractiveLoginNotUserObject\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnKernelRequestAccessDenied\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnKernelRequestAccessGranted\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnKernelRequestLoginRoute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnKernelRequestNoSiteAccess\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnKernelRequestNullToken\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnKernelRequestSubRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:testOnKernelRequestSubRequestFragment\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Parameter \\#3 \\$configResolver of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener constructor expects Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Parameter \\#4 \\$eventDispatcher of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener constructor expects Symfony\\\\Component\\\\EventDispatcher\\\\EventDispatcherInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Parameter \\#5 \\$tokenStorage of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener constructor expects Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\Storage\\\\TokenStorageInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authorization\\\\AuthorizationCheckerInterface given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Parameter \\#6 \\$authorizationChecker of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListener constructor expects Symfony\\\\Component\\\\Security\\\\Core\\\\Authorization\\\\AuthorizationCheckerInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\EventListener\\\\SecurityListenerTest\\:\\:\\$tokenStorage \\(PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authorization\\\\AuthorizationCheckerInterface\\) does not accept PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\Storage\\\\TokenStorageInterface\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/EventListener/SecurityListenerTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\HttpUtilsTest\\:\\:checkRequestPathProvider\\(\\) has no return type specified\\.$#"

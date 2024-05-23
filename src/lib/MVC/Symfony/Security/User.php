@@ -10,20 +10,23 @@ namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\Repository\Values\User\UserReference;
+use Stringable;
 use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-class User implements ReferenceUserInterface, EquatableInterface
+class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface, Stringable
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private APIUser $user;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserReference */
-    private $reference;
+    private UserReference $reference;
 
     /** @var string[] */
-    private $roles;
+    private array $roles;
 
+    /**
+     * @param string[] $roles
+     */
     public function __construct(APIUser $user, array $roles = [])
     {
         $this->user = $user;
@@ -45,9 +48,9 @@ class User implements ReferenceUserInterface, EquatableInterface
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return string[] The user roles
+     * @return string[]
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -57,10 +60,8 @@ class User implements ReferenceUserInterface, EquatableInterface
      *
      * This should be the encoded password. On authentication, a plain-text
      * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string The password
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->getAPIUser()->passwordHash;
     }
@@ -69,20 +70,16 @@ class User implements ReferenceUserInterface, EquatableInterface
      * Returns the salt that was originally used to encode the password.
      *
      * This can return null if the password was not encoded using a salt.
-     *
-     * @return string The salt
      */
-    public function getSalt()
+    public function getSalt(): ?string
     {
         return null;
     }
 
     /**
      * Returns the username used to authenticate the user.
-     *
-     * @return string The username
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->getAPIUser()->login;
     }
@@ -93,22 +90,16 @@ class User implements ReferenceUserInterface, EquatableInterface
      * This is important if, at any given point, sensitive information like
      * the plain-text password is stored on this object.
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserReference
-     */
-    public function getAPIUserReference()
+    public function getAPIUserReference(): UserReference
     {
         return $this->reference;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
-     */
-    public function getAPIUser()
+    public function getAPIUser(): APIUser
     {
         if (!$this->user instanceof APIUser) {
             throw new \LogicException(
@@ -119,16 +110,13 @@ class User implements ReferenceUserInterface, EquatableInterface
         return $this->user;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user
-     */
-    public function setAPIUser(APIUser $user)
+    public function setAPIUser(APIUser $apiUser): void
     {
-        $this->user = $user;
-        $this->reference = new UserReference($user->getUserId());
+        $this->user = $apiUser;
+        $this->reference = new UserReference($apiUser->getUserId());
     }
 
-    public function isEqualTo(BaseUserInterface $user)
+    public function isEqualTo(BaseUserInterface $user): bool
     {
         // Check for the lighter ReferenceUserInterface first
         if ($user instanceof ReferenceUserInterface) {
@@ -140,7 +128,7 @@ class User implements ReferenceUserInterface, EquatableInterface
         return false;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getAPIUser()->contentInfo->name;
     }
@@ -150,9 +138,9 @@ class User implements ReferenceUserInterface, EquatableInterface
      * (& either way refresh) the user object in {@see \Ibexa\Core\MVC\Symfony\Security\User\BaseProvider::refreshUser}
      * when object wakes back up from session.
      *
-     * @return array
+     * @return string[]
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         return ['reference', 'roles'];
     }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core;
 
@@ -37,7 +38,6 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexS
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser as ConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Repository as RepositoryConfigParser;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
-use Ibexa\Bundle\Core\DependencyInjection\Security\HttpBasicFactory;
 use Ibexa\Contracts\Core\MVC\View\VariableProvider;
 use Ibexa\Core\Base\Container\Compiler\FieldTypeRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\GenericFieldTypeConverterPass;
@@ -49,11 +49,12 @@ use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\FieldValueConverterRegistr
 use Ibexa\Core\Base\Container\Compiler\Storage\Legacy\RoleLimitationConverterPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class IbexaCoreBundle extends Bundle
+final class IbexaCoreBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
         $container->addCompilerPass(new GenericFieldTypeConverterPass(), PassConfig::TYPE_OPTIMIZE);
@@ -92,15 +93,13 @@ class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new RoleLimitationConverterPass());
         $container->addCompilerPass(new QueryTypePass());
 
-        $securityExtension = $container->getExtension('security');
-        $securityExtension->addSecurityListenerFactory(new HttpBasicFactory());
         $container->addCompilerPass(new TranslationCollectorPass());
         $container->addCompilerPass(new SlugConverterConfigurationPass());
 
         $container->registerForAutoconfiguration(VariableProvider::class)->addTag('ezplatform.view.variable_provider');
     }
 
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
         if (!isset($this->extension)) {
             $this->extension = new IbexaCoreExtension(
