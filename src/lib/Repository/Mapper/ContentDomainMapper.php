@@ -220,19 +220,23 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $spiFields
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|\Ibexa\Contracts\Core\Persistence\Content\Type $contentType
-     * @param array $prioritizedLanguages A language priority, filters returned fields and is used as prioritized language code on
+     * @param string[] $prioritizedLanguages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param string|null $alwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
-     * @return array
+     * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Field>
      */
     public function buildDomainFields(
         array $spiFields,
         $contentType,
         array $prioritizedLanguages = [],
         string $alwaysAvailableLanguage = null
-    ) {
-        if (!$contentType instanceof SPIContentType && !$contentType instanceof ContentType) {
+    ): array {
+        if ($contentType instanceof SPIContentType) {
+            $contentType = $this->mapPersistenceContentTypeToApi($contentType, $prioritizedLanguages, __METHOD__);
+        }
+
+        if (!$contentType instanceof ContentType) {
             throw new InvalidArgumentType('$contentType', 'SPI ContentType | API ContentType');
         }
 
@@ -893,6 +897,31 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     private function isRootLocation(SPILocation $spiLocation): bool
     {
         return $spiLocation->id === $spiLocation->parentId;
+    }
+
+    /**
+     * @param string[] $prioritizedLanguages
+     */
+    private function mapPersistenceContentTypeToApi(
+        SPIContentType $contentType,
+        array $prioritizedLanguages,
+        string $methodName
+    ): ContentType {
+        trigger_deprecation(
+            'ibexa/core',
+            '4.6',
+            sprintf(
+                'Passing %s instead of %s as 2nd argument of %s() method is deprecated and will cause a fatal error in 5.0.',
+                SPIContentType::class,
+                ContentType::class,
+                $methodName
+            )
+        );
+
+        return $this->contentTypeDomainMapper->buildContentTypeDomainObject(
+            $contentType,
+            $prioritizedLanguages
+        );
     }
 }
 
