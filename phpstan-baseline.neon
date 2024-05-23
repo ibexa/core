@@ -20231,16 +20231,6 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildDomainFields\\(\\) has parameter \\$prioritizedLanguages with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildDomainFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildLocation\\(\\) has parameter \\$prioritizedLanguages with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
@@ -47766,11 +47756,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Security/UserTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\UserTest\\:\\:testToString\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/UserTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\UserWrappedTest\\:\\:testGetSetAPIUser\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/UserWrappedTest.php
@@ -61401,31 +61386,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/LocationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testIsPropertySet\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testMissingProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testNewClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testReadOnlyProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testUnsetProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Aggregation\\\\RangeTest\\:\\:dataProviderForTestToString\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/lib/Repository/Values/Content/Query/Aggregation/RangeTest.php
@@ -61504,31 +61464,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\TrashItemTest\\:\\:testUnsetProperty\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:createVersionInfoWithStatus\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:createVersionInfoWithStatus\\(\\) has parameter \\$status with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:testIsArchived\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:testIsDraft\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:testIsPublished\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentTypeDraftTest\\:\\:testObjectProperties\\(\\) has no return type specified\\.$#"
