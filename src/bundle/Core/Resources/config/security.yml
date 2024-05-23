@@ -40,19 +40,10 @@ services:
         class: Ibexa\Core\MVC\Symfony\Controller\SecurityController
         arguments: ["@twig", '@ibexa.config.resolver', "@security.authentication_utils"]
 
-    Ibexa\Core\MVC\Symfony\Security\EventListener\SecurityListener:
-        class: Ibexa\Core\MVC\Symfony\Security\EventListener\SecurityListener
-        arguments:
-            - '@Ibexa\Contracts\Core\Repository\PermissionResolver'
-            - '@Ibexa\Contracts\Core\Repository\UserService'
-            - '@ibexa.config.resolver'
-            - "@event_dispatcher"
-            - "@security.token_storage"
-            - "@security.authorization_checker"
-            - "%fragment.path%"
-        tags:
-            - { name: kernel.event_subscriber }
-
     ibexa.security.user_provider: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
     ibexa.security.user_provider.username: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
     ibexa.security.user_provider.email: '@Ibexa\Core\MVC\Symfony\Security\User\EmailProvider'
+
+    Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\AccessDeniedSubscriber:
+        autowire: true
+        autoconfigure: true

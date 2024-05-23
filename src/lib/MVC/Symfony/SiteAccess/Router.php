@@ -211,11 +211,10 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
      * @param string $siteAccessName
      *
      * @throws \InvalidArgumentException If $siteAccessName is invalid (i.e. not present in configured list).
-     *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess|null
      */
-    public function matchByName($siteAccessName)
+    public function matchByName($siteAccessName): ?SiteAccess
     {
+        $siteAccessName = $siteAccessName instanceof SiteAccess ? $siteAccessName->name : $siteAccessName;
         if (!$this->siteAccessProvider->isDefined($siteAccessName)) {
             throw new InvalidArgumentException("Invalid SiteAccess name provided for reverse matching: $siteAccessName");
         }
