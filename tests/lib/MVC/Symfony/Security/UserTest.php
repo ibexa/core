@@ -111,22 +111,23 @@ class UserTest extends TestCase
         $this->assertSame($apiUserB, $user->getAPIUser());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $fullName = 'My full name';
-        $userContentInfo = $this
-            ->getMockBuilder(ContentInfo::class)
-            ->setConstructorArgs([['name' => $fullName]])
-            ->getMockForAbstractClass();
+        $userContentInfo = $this->createMock(ContentInfo::class);
+
+        $userContentInfo
+            ->method('getName')
+            ->willReturn($fullName);
+
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
-            ->expects($this->any())
-            ->method('__get')
-            ->with('contentInfo')
-            ->will($this->returnValue($userContentInfo));
+            ->method('getContentInfo')
+            ->with()
+            ->willReturn($userContentInfo);
 
         $user = new User($apiUser);
-        $this->assertSame($fullName, (string)$user);
+        self::assertSame($fullName, (string)$user);
     }
 }
 

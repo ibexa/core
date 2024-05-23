@@ -151,7 +151,8 @@ class ContentViewBuilderTest extends TestCase
                 'invisible' => false,
                 'content' => new Content([
                     'versionInfo' => new VersionInfo([
-                        'contentInfo' => new ContentInfo(),
+                        'id' => 2,
+                        'contentInfo' => new ContentInfo(['id' => 1]),
                     ]),
                 ]),
             ]
