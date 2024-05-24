@@ -15,8 +15,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * this class represents a content object in a specific version.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo convenience getter for getVersionInfo()->getContentInfo()
- * @property-read int $id @deprecated use {@see Content::getId()} instead.
+ * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Content::getContentInfo()} instead.
+ * @property-read int $id @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Content::getId()} instead.
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo calls getVersionInfo()
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields access fields, calls getFields()
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail|null $thumbnail calls getThumbnail()

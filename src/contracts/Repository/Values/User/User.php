@@ -11,9 +11,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\User;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 /**
- * @property-read string $login @deprecated {@see User::getLogin()} instead.
+ * @property-read string $login @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see User::getLogin()} instead.
  * @property-read string $email
- * @property-read string $passwordHash @deprecated {@see User::getPasswordHash()} instead.
+ * @property-read string $passwordHash @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see User::getPasswordHash()} instead.
  * @property-read string $hashAlgorithm Hash algorithm used to hash the password
  * @property-read \DateTimeInterface|null $passwordUpdatedAt
  * @property-read bool $enabled User can not login if false

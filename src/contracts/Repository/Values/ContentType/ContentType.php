@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection $fieldDefinitions calls getFieldDefinitions() or on access getFieldDefinition($fieldDefIdentifier)
  * @property-read mixed $id the id of the content type
  * @property-read int $status the status of the content type. One of ContentType::STATUS_DEFINED|ContentType::STATUS_DRAFT|ContentType::STATUS_MODIFIED
- * @property-read string $identifier @deprecated use {@see ContentType::getIdentifier()} instead.
+ * @property-read string $identifier @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see ContentType::getIdentifier()} instead.
  * @property-read \DateTime $creationDate the date of the creation of this content type
  * @property-read \DateTime $modificationDate the date of the last modification of this content type
  * @property-read mixed $creatorId the user id of the creator of this content type

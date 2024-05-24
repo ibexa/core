@@ -9,13 +9,13 @@ namespace Ibexa\Core\MVC\Symfony\Routing;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
- * @property-read string $scheme @deprecated use {@see SimplifiedRequest::getScheme()} instead.
- * @property-read string $host @deprecated use {@see SimplifiedRequest::getHost()} instead.
- * @property-read string $port @deprecated use {@see SimplifiedRequest::getScheme()} instead.
- * @property-read string $pathinfo @deprecated use {@see SimplifiedRequest::getPathInfo()} instead.
- * @property-read array $queryParams @deprecated use {@see SimplifiedRequest::getQueryParams()} instead.
- * @property-read array $languages @deprecated use {@see SimplifiedRequest::getLanguages()} instead.
- * @property-read array $headers @deprecated use {@see SimplifiedRequest::getHeaders()} instead.
+ * @property-read string $scheme @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getScheme()} instead.
+ * @property-read string $host @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getHost()} instead.
+ * @property-read string $port @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getPort()} instead.
+ * @property-read string $pathinfo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getPathInfo()} instead.
+ * @property-read array $queryParams @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getQueryParams()} instead.
+ * @property-read array $languages @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getLanguages()} instead.
+ * @property-read array $headers @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getHeaders()} instead.
  */
 class SimplifiedRequest extends ValueObject
 {

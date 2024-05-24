@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
  * @property-read mixed $id the internal id of the version
- * @property-read int $versionNo @deprecated use {@see VersionInfo::getVersionNo()} instead.
+ * @property-read int $versionNo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see VersionInfo::getVersionNo()} instead.
  * @property-read \DateTime $modificationDate the last modified date of this version
  * @property-read \DateTime $creationDate the creation date of this version
  * @property-read mixed $creatorId the user id of the user which created this version
