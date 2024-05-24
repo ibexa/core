@@ -911,10 +911,13 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             'ibexa/core',
             '4.6',
             sprintf(
-                'Passing %s instead of %s as 2nd argument of %s() method is deprecated and will cause a fatal error in 5.0.',
+                'Passing %s instead of %s as 2nd argument of %s() method is deprecated and will cause a fatal error in 5.0. ' .
+                'Build %s using %s::buildContentTypeDomainObject prior passing it to the method',
                 SPIContentType::class,
                 ContentType::class,
-                $methodName
+                $methodName,
+                ContentType::class,
+                ContentTypeDomainMapper::class
             )
         );
 
