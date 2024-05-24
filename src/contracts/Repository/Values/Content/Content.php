@@ -25,7 +25,7 @@ abstract class Content extends ValueObject
 {
     public function getId(): int
     {
-        return $this->getVersionInfo()->getContentInfo()->getId();
+        return $this->getContentInfo()->getId();
     }
 
     public function getContentInfo(): ContentInfo
