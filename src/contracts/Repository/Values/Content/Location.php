@@ -159,6 +159,13 @@ abstract class Location extends ValueObject
     protected $pathString;
 
     /**
+     * Same as {@see Location::$pathString} but as array, e.g.: <code>[ '1', '2', '4', '23' ]</code>.
+     *
+     * @var string[]
+     */
+    protected array $path;
+
+    /**
      * Depth location has in the location tree.
      *
      * @var int
@@ -260,13 +267,19 @@ abstract class Location extends ValueObject
     }
 
     /**
-     * Same as {@see Location::getPathString()} but as array, e.g. [ 1, 2, 4, 23 ].
+     * Same as {@see Location::getPathString()} but as array, e.g.: <code>[ '1', '2', '4', '23' ]</code>.
      *
-     * @return int[]
+     * @return string[]
      */
     public function getPath(): array
     {
-        return $this->path;
+        if (isset($this->path)) {
+            return $this->path;
+        }
+
+        $pathString = trim($this->pathString ?? '', '/');
+
+        return $this->path = !empty($pathString) ? explode('/', $pathString) : [];
     }
 
     /**
@@ -289,6 +302,24 @@ abstract class Location extends ValueObject
     public function getDepth(): int
     {
         return $this->depth;
+    }
+
+    public function __isset($property)
+    {
+        if ($property === 'path') {
+            return true;
+        }
+
+        return parent::__isset($property);
+    }
+
+    public function __get($property)
+    {
+        if ($property === 'path') {
+            return $this->getPath();
+        }
+
+        return parent::__get($property);
     }
 }
 
