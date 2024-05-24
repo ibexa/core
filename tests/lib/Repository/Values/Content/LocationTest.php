@@ -56,6 +56,7 @@ final class LocationTest extends TestCase
                 'contentInfo' => new ContentInfo(['id' => 456]),
                 'hidden' => true,
                 'depth' => 3,
+                'pathString' => '/1/2/123/',
             ]
         );
 
@@ -63,6 +64,53 @@ final class LocationTest extends TestCase
         self::assertSame(456, $location->getContentId());
         self::assertTrue($location->isHidden());
         self::assertSame(3, $location->getDepth());
+        self::assertSame('/1/2/123/', $location->getPathString());
+    }
+
+    /**
+     * @return iterable<string, array{\Ibexa\Core\Repository\Values\Content\Location, string[]}>
+     */
+    public static function getDataForTestPathComputedPropertyGetter(): iterable
+    {
+        yield 'nested path' => [
+            new Location(['id' => 3, 'pathString' => '/1/2/3/']),
+            ['1', '2', '3'],
+        ];
+
+        yield 'nested path no trailing slash' => [
+            new Location(['id' => 4, 'pathString' => '/1/2/4']),
+            ['1', '2', '4'],
+        ];
+
+        yield 'root element' => [
+            new Location(['id' => 1, 'pathString' => '/1/']),
+            ['1'],
+        ];
+
+        yield 'malformed path' => [
+            new Location(['id' => 1, 'pathString' => '/']),
+            [],
+        ];
+
+        yield 'empty path' => [
+            new Location(['id' => 1, 'pathString' => '']),
+            [],
+        ];
+
+        yield 'null path' => [
+            new Location(['id' => 1, 'pathString' => null]),
+            [],
+        ];
+    }
+
+    /**
+     * @dataProvider getDataForTestPathComputedPropertyGetter
+     *
+     * @param string[] $expectedPathValue
+     */
+    public function testPathComputedPropertyGetter(Location $location, array $expectedPathValue): void
+    {
+        self::assertSame($expectedPathValue, $location->getPath());
     }
 
     /**
