@@ -123,7 +123,6 @@ class UserTest extends TestCase
         $apiUser = $this->createMock(APIUser::class);
         $apiUser
             ->method('getContentInfo')
-            ->with()
             ->willReturn($userContentInfo);
 
         $user = new User($apiUser);
