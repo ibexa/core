@@ -9,6 +9,16 @@ services:
         arguments:
             - '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
             - '@ibexa.spi.persistence.legacy.language.handler'
+            - '@ibexa.spi.persistence.legacy.content_type.handler'
+            - '@Symfony\Contracts\EventDispatcher\EventDispatcherInterface'
+
+    Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber:
+        arguments:
+            $converterRegistry: '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
+            $storageRegistry: '@Ibexa\Core\Persistence\Legacy\Content\StorageRegistry'
+            $contentGateway: '@ibexa.persistence.legacy.content.gateway'
+        tags:
+            - { name: kernel.event_subscriber }
 
     Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase

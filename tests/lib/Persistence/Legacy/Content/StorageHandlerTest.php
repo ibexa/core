@@ -19,35 +19,17 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class StorageHandlerTest extends TestCase
 {
-    /**
-     * StorageRegistry mock.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry
-     */
-    protected $storageRegistryMock;
+    /** @var \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry&\PHPUnit\Framework\MockObject\MockObject */
+    protected StorageRegistry $storageRegistryMock;
 
-    /**
-     * StorageHandler to test.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
-     */
-    protected $storageHandler;
+    protected StorageHandler $storageHandler;
 
-    /**
-     * Mock for external storage.
-     *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldStorage
-     */
-    protected $storageMock;
+    /** @var \Ibexa\Contracts\Core\FieldType\FieldStorage&\PHPUnit\Framework\MockObject\MockObject */
+    protected FieldStorage $storageMock;
 
-    /**
-     * Mock for versionInfo.
-     *
-     * @var \Ibexa\Core\Repository\Values\Content\VersionInfo
-     */
-    protected $versionInfoMock;
+    protected VersionInfo $versionInfoMock;
 
-    public function testStoreFieldData()
+    public function testStoreFieldData(): void
     {
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
@@ -73,7 +55,7 @@ class StorageHandlerTest extends TestCase
         $handler->storeFieldData($this->getVersionInfoMock(), $field);
     }
 
-    public function testGetFieldDataAvailable()
+    public function testGetFieldDataAvailable(): void
     {
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
@@ -95,6 +77,7 @@ class StorageHandlerTest extends TestCase
             ->will($this->returnValue($storageMock));
 
         $field = new Field();
+        $field->id = 123;
         $field->type = 'foobar';
         $field->value = new FieldValue();
 
@@ -102,7 +85,7 @@ class StorageHandlerTest extends TestCase
         $handler->getFieldData($this->getVersionInfoMock(), $field);
     }
 
-    public function testGetFieldDataNotAvailable()
+    public function testGetFieldDataNotAvailable(): void
     {
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
@@ -119,6 +102,7 @@ class StorageHandlerTest extends TestCase
             ->will($this->returnValue($storageMock));
 
         $field = new Field();
+        $field->id = 123;
         $field->type = 'foobar';
         $field->value = new FieldValue();
 
@@ -126,7 +110,31 @@ class StorageHandlerTest extends TestCase
         $handler->getFieldData($this->getVersionInfoMock(), $field);
     }
 
-    public function testDeleteFieldData()
+    public function testGetFieldDataNotAvailableForVirtualField(): void
+    {
+        $storageMock = $this->getStorageMock();
+        $storageRegistryMock = $this->getStorageRegistryMock();
+
+        $storageMock->expects(self::never())
+            ->method('hasFieldData');
+
+        $storageMock->expects(self::never())
+            ->method('getFieldData');
+
+        $storageRegistryMock->expects(self::once())
+            ->method('getStorage')
+            ->with(self::equalTo('foobar'))
+            ->willReturn($storageMock);
+
+        $field = new Field();
+        $field->type = 'foobar';
+        $field->value = new FieldValue();
+
+        $handler = $this->getStorageHandler();
+        $handler->getFieldData($this->getVersionInfoMock(), $field);
+    }
+
+    public function testDeleteFieldData(): void
     {
         $storageMock = $this->getStorageMock();
         $storageRegistryMock = $this->getStorageRegistryMock();
@@ -153,7 +161,7 @@ class StorageHandlerTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected function getStorageHandler()
+    protected function getStorageHandler(): StorageHandler
     {
         if (!isset($this->storageHandler)) {
             $this->storageHandler = new StorageHandler(
@@ -168,9 +176,9 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns a context mock.
      *
-     * @return array
+     * @return int[]
      */
-    protected function getContextMock()
+    protected function getContextMock(): array
     {
         return [23, 42];
     }
@@ -178,9 +186,9 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns a StorageRegistry mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry
+     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageRegistry&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getStorageRegistryMock()
+    protected function getStorageRegistryMock(): StorageRegistry
     {
         if (!isset($this->storageRegistryMock)) {
             $this->storageRegistryMock = $this->getMockBuilder(StorageRegistry::class)
@@ -195,9 +203,9 @@ class StorageHandlerTest extends TestCase
     /**
      * Returns a Storage mock.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\FieldStorage
+     * @return \Ibexa\Contracts\Core\FieldType\FieldStorage&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getStorageMock()
+    protected function getStorageMock(): FieldStorage
     {
         if (!isset($this->storageMock)) {
             $this->storageMock = $this->createMock(FieldStorage::class);
@@ -206,7 +214,7 @@ class StorageHandlerTest extends TestCase
         return $this->storageMock;
     }
 
-    protected function getVersionInfoMock()
+    protected function getVersionInfoMock(): VersionInfo
     {
         if (!isset($this->versionInfoMock)) {
             $this->versionInfoMock = $this->createMock(VersionInfo::class);

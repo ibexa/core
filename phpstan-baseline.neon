@@ -14986,11 +14986,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:createExistingFieldsInNewVersion\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:createNewField\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
@@ -16841,26 +16836,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Trash/Handler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractContentFromRows\\(\\) has parameter \\$nameRows with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractContentFromRows\\(\\) has parameter \\$prefix with no type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractContentFromRows\\(\\) has parameter \\$rows with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractContentInfoFromRow\\(\\) has parameter \\$row with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractContentInfoFromRows\\(\\) has parameter \\$rows with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Mapper.php
@@ -16897,16 +16872,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractVersionInfoFromRow\\(\\) has parameter \\$row with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractVersionInfoListFromRows\\(\\) has parameter \\$nameRows with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Mapper\\:\\:extractVersionInfoListFromRows\\(\\) has parameter \\$rows with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Mapper.php
 
@@ -18739,11 +18704,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Setting\\\\Gateway\\\\ExceptionConversion\\:\\:loadSettingById\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Setting/Gateway/ExceptionConversion.php
-
-		-
-			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/SharedGateway/DatabasePlatform/SqliteGateway.php
 
 		-
 			message: "#^Argument of an invalid type array\\<Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\SharedGateway\\\\Gateway\\>\\|iterable supplied for foreach, only iterables are supported\\.$#"
@@ -29182,7 +29142,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$fieldDefinition of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentTypeService\\:\\:removeFieldDefinition\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null given\\.$#"
-			count: 7
+			count: 6
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
 
 		-
@@ -48816,7 +48776,7 @@ parameters:
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
 
 		-
-			message: "#^Anonymous function should return string but returns string\\|false\\.$#"
+			message: "#^Anonymous function should return non\\-empty\\-string but returns non\\-empty\\-string\\|false\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/RoutingExtensionTest.php
 
@@ -53004,71 +52964,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Section\\\\SectionHandlerTest\\:\\:\\$sectionHandler \\(Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Section\\\\Handler\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Section/SectionHandlerTest.php
-
-		-
-			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldStorage\\:\\:expects\\(\\)\\.$#"
-			count: 6
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Call to an undefined method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageRegistry\\:\\:expects\\(\\)\\.$#"
-			count: 4
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:getContextMock\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:getVersionInfoMock\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:testDeleteFieldData\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:testGetFieldDataAvailable\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:testGetFieldDataNotAvailable\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:testStoreFieldData\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:\\$storageHandler \\(Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandler\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:\\$storageMock \\(Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldStorage\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:\\$storageRegistryMock \\(Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageRegistry\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:\\$versionInfoMock \\(Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageHandlerTest\\:\\:\\$versionInfoMock \\(Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/StorageHandlerTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageRegistryTest\\:\\:testGetNotFound\\(\\) has no return type specified\\.$#"
