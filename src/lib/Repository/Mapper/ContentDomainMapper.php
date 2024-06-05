@@ -221,31 +221,35 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $spiFields
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|\Ibexa\Contracts\Core\Persistence\Content\Type $contentType
-     * @param array $prioritizedLanguages A language priority, filters returned fields and is used as prioritized language code on
+     * @param string[] $prioritizedLanguages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param string|null $alwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
-     * @return array
+     * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Field>
      */
     public function buildDomainFields(
         array $spiFields,
         $contentType,
         array $prioritizedLanguages = [],
         string $alwaysAvailableLanguage = null
-    ) {
-        if (!$contentType instanceof SPIContentType && !$contentType instanceof ContentType) {
+    ): array {
+        if ($contentType instanceof SPIContentType) {
+            $contentType = $this->mapPersistenceContentTypeToApi($contentType, $prioritizedLanguages, __METHOD__);
+        }
+
+        if (!$contentType instanceof ContentType) {
             throw new InvalidArgumentType('$contentType', 'SPI ContentType | API ContentType');
         }
 
         $fieldDefinitionsMap = [];
-        foreach ($contentType->fieldDefinitions as $fieldDefinition) {
-            $fieldDefinitionsMap[$fieldDefinition->id] = $fieldDefinition;
+        foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
+            $fieldDefinitionsMap[$fieldDefinition->getId()] = $fieldDefinition;
         }
 
         $fieldInFilterLanguagesMap = [];
         if (!empty($prioritizedLanguages) && $alwaysAvailableLanguage !== null) {
             foreach ($spiFields as $spiField) {
-                if (in_array($spiField->languageCode, $prioritizedLanguages)) {
+                if (in_array($spiField->languageCode, $prioritizedLanguages, true)) {
                     $fieldInFilterLanguagesMap[$spiField->fieldDefinitionId] = true;
                 }
             }
@@ -260,7 +264,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
 
             $fieldDefinition = $fieldDefinitionsMap[$spiField->fieldDefinitionId];
 
-            if (!empty($prioritizedLanguages) && !in_array($spiField->languageCode, $prioritizedLanguages)) {
+            if (!empty($prioritizedLanguages) && !in_array($spiField->languageCode, $prioritizedLanguages, true)) {
                 // If filtering is enabled we ignore fields in other languages then $prioritizedLanguages, if:
                 if ($alwaysAvailableLanguage === null) {
                     // Ignore field if we don't have $alwaysAvailableLanguageCode fallback
@@ -274,13 +278,13 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
                 }
             }
 
-            $fields[$fieldDefinition->position][] = new Field(
+            $fields[$fieldDefinition->getPosition()][] = new Field(
                 [
                     'id' => $spiField->id,
                     'value' => $this->fieldTypeRegistry->getFieldType($spiField->type)
                         ->fromPersistenceValue($spiField->value),
                     'languageCode' => $spiField->languageCode,
-                    'fieldDefIdentifier' => $fieldDefinition->identifier,
+                    'fieldDefIdentifier' => $fieldDefinition->getIdentifier(),
                     'fieldTypeIdentifier' => $spiField->type,
                 ]
             );
@@ -537,12 +541,13 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             'alwaysAvailable' => 1,
             'remoteId' => null,
             'mainLanguageCode' => 'eng-GB',
+            'isHidden' => false,
         ]);
 
         $content = new Content([
             'versionInfo' => new VersionInfo([
                 'names' => [
-                    $contentInfo->mainLanguageCode => $contentInfo->name,
+                    $contentInfo->getMainLanguageCode() => $contentInfo->getName(),
                 ],
                 'contentInfo' => $contentInfo,
                 'versionNo' => $contentInfo->currentVersionNo,
@@ -572,7 +577,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
                 'contentInfo' => $contentInfo,
                 'id' => $spiLocation->id,
                 'priority' => $spiLocation->priority,
-                'hidden' => $spiLocation->hidden || $contentInfo->isHidden,
+                'hidden' => $spiLocation->hidden || $contentInfo->isHidden(),
                 'invisible' => $spiLocation->invisible,
                 'explicitlyHidden' => $spiLocation->hidden,
                 'remoteId' => $spiLocation->remoteId,
@@ -895,5 +900,33 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     private function isRootLocation(SPILocation $spiLocation): bool
     {
         return $spiLocation->id === $spiLocation->parentId;
+    }
+
+    /**
+     * @param string[] $prioritizedLanguages
+     */
+    private function mapPersistenceContentTypeToApi(
+        SPIContentType $contentType,
+        array $prioritizedLanguages,
+        string $methodName
+    ): ContentType {
+        trigger_deprecation(
+            'ibexa/core',
+            '4.6',
+            sprintf(
+                'Passing %s instead of %s as 2nd argument of %s() method is deprecated and will cause a fatal error in 5.0. ' .
+                'Build %s using %s::buildContentTypeDomainObject prior passing it to the method',
+                SPIContentType::class,
+                ContentType::class,
+                $methodName,
+                ContentType::class,
+                ContentTypeDomainMapper::class
+            )
+        );
+
+        return $this->contentTypeDomainMapper->buildContentTypeDomainObject(
+            $contentType,
+            $prioritizedLanguages
+        );
     }
 }

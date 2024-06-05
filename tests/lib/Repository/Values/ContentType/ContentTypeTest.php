@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Ibexa\Core\Repository\Values\ContentType\ContentType
  */
-class ContentTypeTest extends TestCase
+final class ContentTypeTest extends TestCase
 {
     private const EXAMPLE_FIELD_DEFINITION_IDENTIFIER = 'example';
     private const EXAMPLE_FIELD_TYPE_IDENTIFIER = 'ezcustom';
@@ -59,6 +59,14 @@ class ContentTypeTest extends TestCase
 
             $propertiesHash[$property] = 1;
         }
+    }
+
+    public function testStrictGetters(): void
+    {
+        $identifier = 'foo_content_type';
+        $contentType = new ContentType(['identifier' => $identifier]);
+
+        self::assertSame($identifier, $contentType->getIdentifier());
     }
 
     public function testGetFieldDefinition(): void

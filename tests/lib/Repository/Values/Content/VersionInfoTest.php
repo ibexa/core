@@ -4,15 +4,19 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Values\Content;
 
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 
-class VersionInfoTest extends TestCase
+/**
+ * @covers \Ibexa\Core\Repository\Values\Content\VersionInfo
+ */
+final class VersionInfoTest extends TestCase
 {
-    public function testIsDraft()
+    public function testIsDraft(): void
     {
         $versionInfo = $this->createVersionInfoWithStatus(VersionInfo::STATUS_DRAFT);
         self::assertTrue($versionInfo->isDraft());
@@ -23,7 +27,7 @@ class VersionInfoTest extends TestCase
         self::assertFalse($versionInfo->isDraft());
     }
 
-    public function testIsPublished()
+    public function testIsPublished(): void
     {
         $versionInfo = $this->createVersionInfoWithStatus(VersionInfo::STATUS_PUBLISHED);
         self::assertTrue($versionInfo->isPublished());
@@ -34,7 +38,7 @@ class VersionInfoTest extends TestCase
         self::assertFalse($versionInfo->isPublished());
     }
 
-    public function testIsArchived()
+    public function testIsArchived(): void
     {
         $versionInfo = $this->createVersionInfoWithStatus(VersionInfo::STATUS_ARCHIVED);
         self::assertTrue($versionInfo->isArchived());
@@ -45,9 +49,16 @@ class VersionInfoTest extends TestCase
         self::assertFalse($versionInfo->isArchived());
     }
 
-    private function createVersionInfoWithStatus($status)
+    public function testStrictGetters(): void
+    {
+        $versionInfo = $this->createVersionInfoWithStatus(VersionInfo::STATUS_PUBLISHED);
+        self::assertSame(123, $versionInfo->getVersionNo());
+    }
+
+    private function createVersionInfoWithStatus(int $status): VersionInfo
     {
         return new VersionInfo([
+            'versionNo' => 123,
             'status' => $status,
         ]);
     }

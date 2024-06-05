@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Values\Content;
 
@@ -14,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
  */
-class ContentInfoTest extends TestCase
+final class ContentInfoTest extends TestCase
 {
     public function testCreateObject(): void
     {
@@ -34,13 +35,14 @@ class ContentInfoTest extends TestCase
                 'remoteId' => '1qaz2wsx',
                 'mainLanguageCode' => 'eng-GB',
                 'mainLocationId' => 2,
+                'isHidden' => true,
             ]
         );
 
         $dateFormatted = $dateTime->format('c');
         self::assertSame(1, $contentInfo->getId());
         self::assertSame(2, $contentInfo->contentTypeId);
-        self::assertSame('foo', $contentInfo->name);
+        self::assertSame('foo', $contentInfo->getName());
         self::assertSame(1, $contentInfo->getSectionId());
         self::assertSame(1, $contentInfo->currentVersionNo);
         self::assertTrue($contentInfo->isPublished());
@@ -51,5 +53,6 @@ class ContentInfoTest extends TestCase
         self::assertSame('1qaz2wsx', $contentInfo->remoteId);
         self::assertSame('eng-GB', $contentInfo->getMainLanguageCode());
         self::assertSame(2, $contentInfo->getMainLocationId());
+        self::assertTrue($contentInfo->isHidden());
     }
 }

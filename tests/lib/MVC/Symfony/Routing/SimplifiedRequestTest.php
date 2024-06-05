@@ -11,7 +11,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest::fromUrl
+ * @covers \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
  */
 class SimplifiedRequestTest extends TestCase
 {
@@ -27,6 +27,26 @@ class SimplifiedRequestTest extends TestCase
             $expectedRequest,
             SimplifiedRequest::fromUrl($url)
         );
+    }
+
+    public function testStrictGetters(): void
+    {
+        $headers = ['Cookie' => ['abc', 'def']];
+        $languages = ['en', 'pl'];
+        $url = 'https://host.invalid:8080/foo?param=bar&param2=bar2';
+
+        $request = SimplifiedRequest::fromUrl($url);
+        $request->setHeaders($headers);
+        $request->setLanguages($languages);
+
+        self::assertSame($headers['Cookie'], $request->getHeader('Cookie'));
+        self::assertSame($headers, $request->getHeaders());
+        self::assertSame($languages, $request->getLanguages());
+        self::assertSame('https', $request->getScheme());
+        self::assertSame('host.invalid', $request->getHost());
+        self::assertSame('8080', $request->getPort());
+        self::assertSame('/foo', $request->getPathInfo());
+        self::assertSame(['param' => 'bar', 'param2' => 'bar2'], $request->getQueryParams());
     }
 
     public function fromUrlProvider()

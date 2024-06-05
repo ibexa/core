@@ -8,10 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
-use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -110,6 +111,22 @@ final class ContentTest extends TestCase
             }
             $propertiesHash[$property] = 1;
         }
+    }
+
+    public function testStrictGetters(): void
+    {
+        $contentInfo = new ContentInfo(['id' => 123]);
+        $content = new Content(
+            [
+                'versionInfo' => new VersionInfo(
+                    [
+                        'contentInfo' => $contentInfo,
+                    ]
+                ),
+            ]
+        );
+        self::assertEquals(123, $content->getId());
+        self::assertEquals($contentInfo, $content->getContentInfo());
     }
 
     public function testGetName(): void

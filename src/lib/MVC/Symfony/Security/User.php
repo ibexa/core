@@ -61,9 +61,9 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
      * This should be the encoded password. On authentication, a plain-text
      * password will be salted, encoded, and then compared to this value.
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
-        return $this->getAPIUser()->passwordHash;
+        return $this->getAPIUser()->getPasswordHash();
     }
 
     /**
@@ -81,7 +81,7 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
      */
     public function getUsername(): string
     {
-        return $this->getAPIUser()->login;
+        return $this->getAPIUser()->getLogin();
     }
 
     /**
@@ -130,7 +130,7 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
 
     public function __toString(): string
     {
-        return $this->getAPIUser()->contentInfo->name;
+        return $this->getAPIUser()->getContentInfo()->getName();
     }
 
     /**

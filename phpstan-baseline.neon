@@ -20076,16 +20076,6 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildDomainFields\\(\\) has parameter \\$prioritizedLanguages with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildDomainFields\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildLocation\\(\\) has parameter \\$prioritizedLanguages with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
@@ -21286,11 +21276,6 @@ parameters:
 			path: src/lib/Repository/Values/Content/Location.php
 
 		-
-			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\:\\:\\$path type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Values/Content/Location.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\PermissionSubtree\\:\\:createFromQueryBuilder\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Repository/Values/Content/Query/Criterion/PermissionSubtree.php
@@ -21317,11 +21302,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\TrashItem\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Values/Content/TrashItem.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\TrashItem\\:\\:\\$path type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Values/Content/TrashItem.php
 
@@ -47261,11 +47241,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Security/UserTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\UserTest\\:\\:testToString\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/UserTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\UserWrappedTest\\:\\:testGetSetAPIUser\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/UserWrappedTest.php
@@ -57391,6 +57366,81 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
 
 		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:getContentHandlerMock\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject but returns PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:getLanguageHandlerMock\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject but returns PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:getTypeHandlerMock\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject but returns PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:providerForBuildLocationDomainObjectsOnSearchResult\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:providerForBuildVersionInfo\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$contentIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$contentInfoList with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$locationHits with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationWithContentForRootLocation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationWithContentIsAlignedWithBuildLocation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildLocationWithContentThrowsInvalidArgumentException\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentDomainMapperTest\\:\\:testBuildVersionInfo\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$locationHandler of class Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper constructor expects Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Handler, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentDomainMapperTest.php
+
+		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
@@ -58289,81 +58339,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:\\$relationProcessorMock has no type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:getContentHandlerMock\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject but returns PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:getLanguageHandlerMock\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject but returns PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:getTypeHandlerMock\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject but returns PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:providerForBuildLocationDomainObjectsOnSearchResult\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:providerForBuildVersionInfo\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$contentIds with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$contentInfoList with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$locationHits with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationWithContentForRootLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationWithContentIsAlignedWithBuildLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildLocationWithContentThrowsInvalidArgumentException\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\DomainMapperTest\\:\\:testBuildVersionInfo\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$locationHandler of class Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper constructor expects Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Handler, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/DomainMapperTest.php
 
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\Handler\\:\\:expects\\(\\)\\.$#"
@@ -60801,31 +60776,6 @@ parameters:
 			path: tests/lib/Repository/Values/Content/LocationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testIsPropertySet\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testMissingProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testNewClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testReadOnlyProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationTest\\:\\:testUnsetProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/LocationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Aggregation\\\\RangeTest\\:\\:dataProviderForTestToString\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/lib/Repository/Values/Content/Query/Aggregation/RangeTest.php
@@ -60904,31 +60854,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\TrashItemTest\\:\\:testUnsetProperty\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:createVersionInfoWithStatus\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:createVersionInfoWithStatus\\(\\) has parameter \\$status with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:testIsArchived\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:testIsDraft\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfoTest\\:\\:testIsPublished\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Content/VersionInfoTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentTypeDraftTest\\:\\:testObjectProperties\\(\\) has no return type specified\\.$#"

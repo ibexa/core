@@ -130,7 +130,7 @@ class User extends APIUser
                 return $this->getVersionInfo()->getContentInfo();
 
             case 'id':
-                return $this->getVersionInfo()->getContentInfo()->id;
+                return $this->getVersionInfo()->getContentInfo()->getId();
 
             case 'versionInfo':
                 return $this->getVersionInfo();

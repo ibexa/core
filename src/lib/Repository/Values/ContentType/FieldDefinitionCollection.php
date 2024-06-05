@@ -34,7 +34,7 @@ final class FieldDefinitionCollection implements FieldDefinitionCollectionInterf
 
         foreach ($fieldDefinitions as $fieldDefinition) {
             $this->fieldDefinitions[] = $fieldDefinition;
-            $this->fieldDefinitionsByIdentifier[$fieldDefinition->identifier] = $fieldDefinition;
+            $this->fieldDefinitionsByIdentifier[$fieldDefinition->getIdentifier()] = $fieldDefinition;
         }
     }
 
@@ -162,7 +162,7 @@ final class FieldDefinitionCollection implements FieldDefinitionCollectionInterf
     private function getIsTypePredicate(string $fieldTypeIdentifier): Closure
     {
         return static function (FieldDefinition $fieldDefinition) use ($fieldTypeIdentifier) {
-            return $fieldDefinition->fieldTypeIdentifier === $fieldTypeIdentifier;
+            return $fieldDefinition->getFieldTypeIdentifier() === $fieldTypeIdentifier;
         };
     }
 

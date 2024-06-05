@@ -75,9 +75,11 @@ class Content extends APIContent
         $this->prioritizedFieldLanguageCode = $data['prioritizedFieldLanguageCode'] ?? null;
 
         foreach ($this->internalFields as $field) {
-            $this->fieldDefinitionTranslationMap[$field->fieldDefIdentifier][$field->languageCode] = $field;
+            $languageCode = $field->getLanguageCode();
+            $fieldDefinitionIdentifier = $field->getFieldDefinitionIdentifier();
+            $this->fieldDefinitionTranslationMap[$fieldDefinitionIdentifier][$languageCode] = $field;
             // kept for BC due to property-read magic getter
-            $this->fields[$field->fieldDefIdentifier][$field->languageCode] = $field->value;
+            $this->fields[$fieldDefinitionIdentifier][$languageCode] = $field->getValue();
         }
     }
 
@@ -182,10 +184,10 @@ class Content extends APIContent
     {
         switch ($property) {
             case 'id':
-                return $this->versionInfo->getContentInfo()->id;
+                return $this->getVersionInfo()->getContentInfo()->getId();
 
             case 'contentInfo':
-                return $this->versionInfo->getContentInfo();
+                return $this->getVersionInfo()->getContentInfo();
 
             case 'thumbnail':
                 return $this->getThumbnail();

@@ -16,17 +16,17 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * This class represents a location in the repository.
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
- * @property-read int $contentId calls getContentInfo()->id
- * @property-read int $id the id of the location
+ * @property-read int $contentId @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getContentId()} instead.
+ * @property-read int $id @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getId()} instead.
  * @property-read int $priority Position of the Location among its siblings when sorted using priority
- * @property-read bool $hidden Indicates that the Location entity is hidden (explicitly or hidden by content).
- * @property-read bool $invisible Indicates that the Location is not visible, being either marked as hidden itself, or implicitly hidden by its Content or an ancestor Location
+ * @property-read bool $hidden @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::isHidden()} instead.
+ * @property-read bool $invisible @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::isInvisible()} instead.
  * @property-read bool $explicitlyHidden Indicates that the Location entity has been explicitly marked as hidden.
  * @property-read string $remoteId a global unique id of the content object
  * @property-read int $parentLocationId the id of the parent location
- * @property-read string $pathString @deprecated use {@see Location::getPathString()} instead.
- * @property-read array $path Same as $pathString but as array, e.g. [ 1, 2, 4, 23 ]
- * @property-read int $depth Depth location has in the location tree
+ * @property-read string $pathString @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getPathString()} instead.
+ * @property-read array $path @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getPath()} instead.
+ * @property-read int $depth @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getDepth()} instead.
  * @property-read int $sortField Specifies which property the child locations should be sorted on. Valid values are found at {@link Location::SORT_FIELD_*}
  * @property-read int $sortOrder Specifies whether the sort order should be ascending or descending. Valid values are {@link Location::SORT_ORDER_*}
  */
@@ -159,6 +159,13 @@ abstract class Location extends ValueObject
     protected $pathString;
 
     /**
+     * Same as {@see Location::$pathString} but as array, e.g.: <code>[ '1', '2', '4', '23' ]</code>.
+     *
+     * @var string[]
+     */
+    protected array $path;
+
+    /**
      * Depth location has in the location tree.
      *
      * @var int
@@ -194,11 +201,21 @@ abstract class Location extends ValueObject
     abstract public function getContentInfo(): ContentInfo;
 
     /**
-     * Return the parent location of of this location.
+     * Return the parent location of this location.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location|null
      */
     abstract public function getParentLocation(): ?Location;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getContentId(): int
+    {
+        return $this->getContentInfo()->getId();
+    }
 
     /**
      * Returns true if current location is a draft.
@@ -247,5 +264,61 @@ abstract class Location extends ValueObject
     public function getPathString(): string
     {
         return $this->pathString;
+    }
+
+    /**
+     * Same as {@see Location::getPathString()} but as array, e.g.: <code>[ '1', '2', '4', '23' ]</code>.
+     *
+     * @return string[]
+     */
+    public function getPath(): array
+    {
+        if (isset($this->path)) {
+            return $this->path;
+        }
+
+        $pathString = trim($this->pathString ?? '', '/');
+
+        return $this->path = !empty($pathString) ? explode('/', $pathString) : [];
+    }
+
+    /**
+     * Indicates that the Location is not visible, being either marked as hidden itself, or implicitly hidden by
+     * its Content or an ancestor Location.
+     */
+    public function isInvisible(): bool
+    {
+        return $this->invisible;
+    }
+
+    /**
+     * Indicates that the Location is hidden either explicitly or by content.
+     */
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+
+    public function getDepth(): int
+    {
+        return $this->depth;
+    }
+
+    public function __isset($property)
+    {
+        if ($property === 'path') {
+            return true;
+        }
+
+        return parent::__isset($property);
+    }
+
+    public function __get($property)
+    {
+        if ($property === 'path') {
+            return $this->getPath();
+        }
+
+        return parent::__get($property);
     }
 }

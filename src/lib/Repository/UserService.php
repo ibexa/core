@@ -479,12 +479,12 @@ class UserService implements UserServiceInterface
         $content = $this->repository->getContentService()->internalLoadContentById($userId, $prioritizedLanguages);
         // Get spiUser value from Field Value
         foreach ($content->getFields() as $field) {
-            if (!$field->value instanceof UserValue) {
+            $fieldValue = $field->getValue();
+            if (!$fieldValue instanceof UserValue) {
                 continue;
             }
 
-            /** @var \Ibexa\Core\FieldType\User\Value $value */
-            $value = $field->value;
+            $value = $fieldValue;
             $spiUser = new SPIUser();
             $spiUser->id = $value->contentId;
             $spiUser->login = $value->login;

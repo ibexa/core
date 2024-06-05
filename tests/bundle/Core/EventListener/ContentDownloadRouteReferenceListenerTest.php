@@ -67,7 +67,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
                 'internalFields' => [],
                 'versionInfo' => new VersionInfo(
                     [
-                        'contentInfo' => new ContentInfo(['mainLanguageCode' => 'eng-GB']),
+                        'contentInfo' => new ContentInfo(['id' => 1, 'mainLanguageCode' => 'eng-GB']),
                     ]
                 ),
             ]
