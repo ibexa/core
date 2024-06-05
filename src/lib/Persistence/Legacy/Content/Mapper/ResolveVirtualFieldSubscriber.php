@@ -211,7 +211,7 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     private function getDefaultStorageValue(): StorageFieldValue
     {
         $storageValue = new StorageFieldValue();
-        $storageValue->dataFloat = 0;
+        $storageValue->dataFloat = 0.0;
         $storageValue->dataInt = 0;
         $storageValue->dataText = '';
         $storageValue->sortKeyInt = 0;
