@@ -25,9 +25,6 @@ class Location extends APILocation
      */
     protected $contentInfo;
 
-    /** @var array */
-    protected $path;
-
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
     protected $parentLocation;
 
@@ -71,18 +68,8 @@ class Location extends APILocation
      */
     public function __get($property)
     {
-        switch ($property) {
-            case 'contentId':
-                return $this->contentInfo->id;
-            case 'path':
-                if ($this->path !== null) {
-                    return $this->path;
-                }
-                if (isset($this->pathString[1]) && $this->pathString[0] === '/') {
-                    return $this->path = explode('/', trim($this->pathString, '/'));
-                }
-
-                return $this->path = [];
+        if ($property === 'contentId') {
+            return $this->getContentInfo()->getId();
         }
 
         return parent::__get($property);
@@ -97,7 +84,7 @@ class Location extends APILocation
      */
     public function __isset($property)
     {
-        if ($property === 'contentId' || $property === 'path') {
+        if ($property === 'contentId') {
             return true;
         }
 

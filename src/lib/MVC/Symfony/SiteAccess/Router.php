@@ -130,19 +130,20 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
         }
 
         // Request header always have precedence
-        // Note: request headers are always in lower cased.
-        if (!empty($request->headers['x-siteaccess'])) {
-            $siteaccessName = $request->headers['x-siteaccess'][0];
-            if (!$this->siteAccessProvider->isDefined($siteaccessName)) {
+        // Note: request headers are always lower case.
+        $xSiteAccess = $request->getHeader('x-siteaccess');
+        if (!empty($xSiteAccess) && is_array($xSiteAccess)) {
+            $siteAccessName = $xSiteAccess[0];
+            if (!$this->siteAccessProvider->isDefined($siteAccessName)) {
                 throw new InvalidSiteAccessException(
-                    $siteaccessName,
+                    $siteAccessName,
                     $this->siteAccessProvider,
                     'X-Siteaccess request header',
                     $this->debug
                 );
             }
 
-            $this->siteAccess = $this->siteAccessProvider->getSiteAccess($siteaccessName);
+            $this->siteAccess = $this->siteAccessProvider->getSiteAccess($siteAccessName);
             $this->siteAccess->matchingType = self::HEADER_SA_MATCHING_TYPE;
 
             return $this->siteAccess;

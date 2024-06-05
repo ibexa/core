@@ -253,7 +253,7 @@ class ContentService implements ContentServiceInterface
      */
     public function loadVersionInfo(ContentInfo $contentInfo, ?int $versionNo = null): APIVersionInfo
     {
-        return $this->loadVersionInfoById($contentInfo->id, $versionNo);
+        return $this->loadVersionInfoById($contentInfo->getId(), $versionNo);
     }
 
     /**
@@ -2121,9 +2121,7 @@ class ContentService implements ContentServiceInterface
             return 0;
         }
 
-        return $this->persistenceHandler->contentHandler()->countReverseRelations(
-            $contentInfo->id
-        );
+        return $this->persistenceHandler->contentHandler()->countReverseRelations($contentInfo->getId());
     }
 
     /**

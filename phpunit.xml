@@ -11,7 +11,7 @@
   >
   <php>
     <ini name="error_reporting" value="-1" />
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[total]=576&amp;verbose=0"/>
   </php>
   <testsuites>
     <testsuite name="unit_core">
@@ -33,4 +33,7 @@
       <directory>tests/bundle/LegacySearchEngineBundle</directory>
     </testsuite>
   </testsuites>
+  <listeners>
+    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+  </listeners>
 </phpunit>

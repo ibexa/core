@@ -19,6 +19,7 @@
         <env name="DATABASE_URL" value="sqlite://:memory:" />
         <env name="KERNEL_CLASS" value="Ibexa\Contracts\Core\Test\IbexaTestKernel"/>
         <env name="SEARCH_ENGINE" value="legacy"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     </php>
     <testsuites>
         <testsuite name="integration_core">

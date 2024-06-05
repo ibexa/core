@@ -37,18 +37,18 @@ final class FirstMatchingFieldStrategy implements ThumbnailStrategy
         $fieldDefinitions = $contentType->getFieldDefinitions();
 
         foreach ($fieldDefinitions as $fieldDefinition) {
-            $field = $this->getFieldByIdentifier($fieldDefinition->identifier, $fields);
+            $field = $this->getFieldByIdentifier($fieldDefinition->getIdentifier(), $fields);
 
             if ($field === null) {
                 continue;
             }
 
-            $fieldType = $this->fieldTypeService->getFieldType($fieldDefinition->fieldTypeIdentifier);
+            $fieldType = $this->fieldTypeService->getFieldType($fieldDefinition->getFieldTypeIdentifier());
 
             if (
-                $fieldDefinition->isThumbnail
-                && $this->contentFieldStrategy->hasStrategy($field->fieldTypeIdentifier)
-                && !$fieldType->isEmptyValue($field->value)
+                $fieldDefinition->isThumbnail()
+                && $this->contentFieldStrategy->hasStrategy($field->getFieldTypeIdentifier())
+                && !$fieldType->isEmptyValue($field->getValue())
             ) {
                 return $this->contentFieldStrategy->getThumbnail($field, $versionInfo);
             }
@@ -61,7 +61,7 @@ final class FirstMatchingFieldStrategy implements ThumbnailStrategy
     {
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field $field */
         foreach ($fields as $field) {
-            if ($field->fieldDefIdentifier === $identifier) {
+            if ($field->getFieldDefinitionIdentifier() === $identifier) {
                 return $field;
             }
         }

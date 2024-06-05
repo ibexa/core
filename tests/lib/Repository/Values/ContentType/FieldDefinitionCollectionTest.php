@@ -282,19 +282,35 @@ final class FieldDefinitionCollectionTest extends TestCase
 
     private function createFieldDefinitions(string ...$identifiers): array
     {
-        return $this->createFieldDefinitionsWith('identifier', $identifiers);
+        return array_map(
+            fn (string $identifier): APIFieldDefinition => $this->createFieldDefinition($identifier),
+            $identifiers
+        );
     }
 
     private function createFieldDefinitionsWith(string $property, array $values): array
     {
-        return array_map(function (string $identifier) use ($property): APIFieldDefinition {
-            return $this->createFieldDefinition($identifier, $property);
-        }, $values);
+        return array_map(
+            fn (string $value): APIFieldDefinition => $this->createFieldDefinition(
+                uniqid('field_def_identifier', true),
+                $property,
+                $value
+            ),
+            $values
+        );
     }
 
-    private function createFieldDefinition(string $identifier, string $property = 'identifier'): APIFieldDefinition
-    {
-        return new FieldDefinition([$property => $identifier]);
+    private function createFieldDefinition(
+        string $identifier,
+        ?string $property = null,
+        ?string $value = null
+    ): APIFieldDefinition {
+        $properties = ['identifier' => $identifier];
+        if (null !== $property) {
+            $properties[$property] = $value;
+        }
+
+        return new FieldDefinition($properties);
     }
 
     /**

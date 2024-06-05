@@ -15,9 +15,9 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class provides all version independent information of the Content object.
  *
- * @property-read int $id @deprecated Use {@see ContentInfo::getId} instead. The unique id of the Content object
+ * @property-read int $id @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see ContentInfo::getId()} instead.
  * @property-read int $contentTypeId The unique id of the content type item the Content object is an instance of
- * @property-read string $name the computed name (via name schema) in the main language of the Content object
+ * @property-read string $name @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see ContentInfo::getName()} instead.
  * @property-read int $sectionId @deprecated 4.6.2 Use {@see ContentInfo::getSectionId} instead. The section to which the Content object is assigned
  * @property-read int $currentVersionNo Current Version number is the version number of the published version or the version number of a newly created draft (which is 1).
  * @property-read bool $published true if there exists a published version false otherwise
@@ -29,7 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @property-read string $mainLanguageCode The main language code of the Content object. If the available flag is set to true the Content is shown in this language if the requested language does not exist.
  * @property-read int|null $mainLocationId @deprecated Use {@see ContentInfo::getMainLocationId} instead
  * @property-read int $status status of the Content object
- * @property-read bool $isHidden status of the Content object
+ * @property-read bool $isHidden @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see ContentInfo::isHidden()} instead.
  */
 class ContentInfo extends ValueObject
 {
@@ -185,6 +185,11 @@ class ContentInfo extends ValueObject
         return $this->status === self::STATUS_TRASHED;
     }
 
+    public function isHidden(): bool
+    {
+        return $this->isHidden;
+    }
+
     public function getContentType(): ContentType
     {
         return $this->contentType;
@@ -228,6 +233,11 @@ class ContentInfo extends ValueObject
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
 
