@@ -10,12 +10,17 @@ namespace Ibexa\Tests\Core\Search\Legacy\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber;
+use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase as ContentTypeGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper as ContentTypeMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as ContentTypeUpdateHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Abstract test suite for legacy search.
@@ -119,5 +124,19 @@ class AbstractTestCase extends LanguageAwareTestCase
         }
 
         return $this->converterRegistry;
+    }
+
+    protected function getEventDispatcher(): EventDispatcherInterface
+    {
+        $eventDispatcher = new EventDispatcher();
+        $eventDispatcher->addSubscriber(
+            new ResolveVirtualFieldSubscriber(
+                $this->getConverterRegistry(),
+                $this->createMock(StorageRegistry::class),
+                $this->createMock(Gateway::class)
+            )
+        );
+
+        return $eventDispatcher;
     }
 }

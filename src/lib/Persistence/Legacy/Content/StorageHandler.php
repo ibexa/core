@@ -80,7 +80,7 @@ class StorageHandler
     public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
         $storage = $this->storageRegistry->getStorage($field->type);
-        if ($storage->hasFieldData()) {
+        if ($field->id !== null && $storage->hasFieldData()) {
             $storage->getFieldData($versionInfo, $field, $this->context);
         }
     }

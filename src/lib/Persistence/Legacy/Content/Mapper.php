@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content;
 
+use Ibexa\Contracts\Core\Event\Mapper\ResolveMissingFieldEvent;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
@@ -15,41 +16,66 @@ use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Mapper for Content Handler.
  *
  * Performs mapping of Content objects.
+ *
+ * @phpstan-type TVersionedLanguageFieldDefinitionsMap array<
+ *     int, array<
+ *         int, array<
+ *             string, array<
+ *                 int, \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition,
+ *             >
+ *         >
+ *     >
+ * >
+ * @phpstan-type TVersionedFieldMap array<
+ *     int, array<
+ *         int, array<
+ *             int, \Ibexa\Contracts\Core\Persistence\Content\Field,
+ *         >
+ *     >
+ * >
+ * @phpstan-type TVersionedNameMap array<
+ *     int, array<
+ *         int, array<string, string>
+ *     >
+ * >
+ * @phpstan-type TContentInfoMap array<int, \Ibexa\Contracts\Core\Persistence\Content\ContentInfo>
+ * @phpstan-type TVersionInfoMap array<
+ *     int, array<
+ *         int, \Ibexa\Contracts\Core\Persistence\Content\VersionInfo,
+ *     >
+ * >
+ * @phpstan-type TRawContentRow array<string, scalar>
  */
 class Mapper
 {
-    /**
-     * FieldValue converter registry.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
-     */
-    protected $converterRegistry;
+    protected Registry $converterRegistry;
 
-    /**
-     * Caching language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
-     */
-    protected $languageHandler;
+    protected LanguageHandler $languageHandler;
 
-    /**
-     * Creates a new mapper.
-     *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry $converterRegistry
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Language\Handler $languageHandler
-     */
-    public function __construct(Registry $converterRegistry, LanguageHandler $languageHandler)
-    {
+    private ContentTypeHandler $contentTypeHandler;
+
+    private EventDispatcherInterface $eventDispatcher;
+
+    public function __construct(
+        Registry $converterRegistry,
+        LanguageHandler $languageHandler,
+        ContentTypeHandler $contentTypeHandler,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $this->converterRegistry = $converterRegistry;
         $this->languageHandler = $languageHandler;
+        $this->contentTypeHandler = $contentTypeHandler;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -175,59 +201,120 @@ class Mapper
      *
      *      "$tableName_$columnName"
      *
-     * @param array $rows
-     * @param array $nameRows
+     * @param array<array<string, scalar>> $rows
+     * @param array<array<string, scalar>> $nameRows
+     * @param string $prefix
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content[]
      */
-    public function extractContentFromRows(array $rows, array $nameRows, $prefix = 'ezcontentobject_')
-    {
+    public function extractContentFromRows(
+        array $rows,
+        array $nameRows,
+        string $prefix = 'ezcontentobject_'
+    ): array {
         $versionedNameData = [];
+
         foreach ($nameRows as $row) {
-            $contentId = (int)$row['ezcontentobject_name_contentobject_id'];
-            $versionNo = (int)$row['ezcontentobject_name_content_version'];
-            $versionedNameData[$contentId][$versionNo][$row['ezcontentobject_name_content_translation']] = $row['ezcontentobject_name_name'];
+            $contentId = (int)$row["{$prefix}name_contentobject_id"];
+            $versionNo = (int)$row["{$prefix}name_content_version"];
+            $languageCode = (string)$row["{$prefix}name_content_translation"];
+            $versionedNameData[$contentId][$versionNo][$languageCode] = (string)$row["{$prefix}name_name"];
         }
 
         $contentInfos = [];
         $versionInfos = [];
         $fields = [];
 
+        $fieldDefinitions = $this->loadCachedVersionFieldDefinitionsPerLanguage(
+            $rows,
+            $prefix
+        );
+
         foreach ($rows as $row) {
             $contentId = (int)$row["{$prefix}id"];
+            $versionId = (int)$row["{$prefix}version_id"];
+
             if (!isset($contentInfos[$contentId])) {
                 $contentInfos[$contentId] = $this->extractContentInfoFromRow($row, $prefix);
             }
+
             if (!isset($versionInfos[$contentId])) {
                 $versionInfos[$contentId] = [];
             }
 
-            $versionId = (int)$row['ezcontentobject_version_id'];
             if (!isset($versionInfos[$contentId][$versionId])) {
                 $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow($row);
             }
 
-            $fieldId = (int)$row['ezcontentobject_attribute_id'];
-            if (!isset($fields[$contentId][$versionId][$fieldId])) {
+            $fieldId = (int)$row["{$prefix}attribute_id"];
+            $fieldDefinitionId = (int)$row["{$prefix}attribute_contentclassattribute_id"];
+            $languageCode = $row["{$prefix}attribute_language_code"];
+
+            if (!isset($fields[$contentId][$versionId][$fieldId])
+                && isset($fieldDefinitions[$contentId][$versionId][$languageCode][$fieldDefinitionId])
+            ) {
                 $fields[$contentId][$versionId][$fieldId] = $this->extractFieldFromRow($row);
+                unset($fieldDefinitions[$contentId][$versionId][$languageCode][$fieldDefinitionId]);
             }
         }
 
+        return $this->buildContentObjects(
+            $contentInfos,
+            $versionInfos,
+            $fields,
+            $fieldDefinitions,
+            $versionedNameData
+        );
+    }
+
+    /**
+     * @phpstan-param TContentInfoMap $contentInfos
+     * @phpstan-param TVersionInfoMap $versionInfos
+     * @phpstan-param TVersionedFieldMap $fields
+     * @phpstan-param TVersionedLanguageFieldDefinitionsMap $missingFieldDefinitions
+     * @phpstan-param TVersionedNameMap $versionedNames
+     *
+     * @return \Ibexa\Contracts\Core\Persistence\Content[]
+     */
+    private function buildContentObjects(
+        array $contentInfos,
+        array $versionInfos,
+        array $fields,
+        array $missingFieldDefinitions,
+        array $versionedNames
+    ): array {
         $results = [];
+
         foreach ($contentInfos as $contentId => $contentInfo) {
             foreach ($versionInfos[$contentId] as $versionId => $versionInfo) {
                 // Fallback to just main language name if versioned name data is missing
-                if (isset($versionedNameData[$contentId][$versionInfo->versionNo])) {
-                    $names = $versionedNameData[$contentId][$versionInfo->versionNo];
-                } else {
-                    $names = [$contentInfo->mainLanguageCode => $contentInfo->name];
-                }
+                $names = $versionedNames[$contentId][$versionInfo->versionNo]
+                    ?? [$contentInfo->mainLanguageCode => $contentInfo->name];
 
                 $content = new Content();
                 $content->versionInfo = $versionInfo;
                 $content->versionInfo->names = $names;
                 $content->versionInfo->contentInfo = $contentInfo;
                 $content->fields = array_values($fields[$contentId][$versionId]);
+
+                $missingVersionFieldDefinitions = $missingFieldDefinitions[$contentId][$versionId];
+                foreach ($missingVersionFieldDefinitions as $languageCode => $versionFieldDefinitions) {
+                    foreach ($versionFieldDefinitions as $fieldDefinition) {
+                        $event = $this->eventDispatcher->dispatch(
+                            new ResolveMissingFieldEvent(
+                                $content,
+                                $fieldDefinition,
+                                $languageCode
+                            )
+                        );
+
+                        $field = $event->getField();
+                        if ($field !== null) {
+                            $content->fields[] = $field;
+                        }
+                    }
+                }
+
                 $results[] = $content;
             }
         }
@@ -236,9 +323,49 @@ class Mapper
     }
 
     /**
+     * @phpstan-param TRawContentRow[] $rows
+     *
+     * @phpstan-return TVersionedLanguageFieldDefinitionsMap
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    private function loadCachedVersionFieldDefinitionsPerLanguage(
+        array $rows,
+        string $prefix
+    ): array {
+        $fieldDefinitions = [];
+        $contentTypes = [];
+        $allLanguages = $this->loadAllLanguagesWithIdKey();
+
+        foreach ($rows as $row) {
+            $contentId = (int)$row["{$prefix}id"];
+            $versionId = (int)$row["{$prefix}version_id"];
+            $contentTypeId = (int)$row["{$prefix}contentclass_id"];
+            $languageMask = (int)$row["{$prefix}version_language_mask"];
+
+            if (isset($fieldDefinitions[$contentId][$versionId])) {
+                continue;
+            }
+
+            $languageCodes = $this->extractLanguageCodesFromMask($languageMask, $allLanguages);
+            $contentTypes[$contentTypeId] = $contentTypes[$contentTypeId] ?? $this->contentTypeHandler->load($contentTypeId);
+            $contentType = $contentTypes[$contentTypeId];
+            foreach ($contentType->fieldDefinitions as $fieldDefinition) {
+                foreach ($languageCodes as $languageCode) {
+                    $id = (int)$fieldDefinition->id;
+                    $fieldDefinitions[$contentId][$versionId][$languageCode][$id] = $fieldDefinition;
+                }
+            }
+        }
+
+        return $fieldDefinitions;
+    }
+
+    /**
      * Extracts a ContentInfo object from $row.
      *
-     * @param array $row
+     * @phpstan-param TRawContentRow $row
+     *
      * @param string $prefix Prefix for row keys, which are initially mapped by ezcontentobject fields
      * @param string $treePrefix Prefix for tree row key, which are initially mapped by ezcontentobject_tree_ fields
      *
@@ -248,17 +375,16 @@ class Mapper
     {
         $contentInfo = new ContentInfo();
         $contentInfo->id = (int)$row["{$prefix}id"];
-        $contentInfo->name = $row["{$prefix}name"];
+        $contentInfo->name = (string)$row["{$prefix}name"];
         $contentInfo->contentTypeId = (int)$row["{$prefix}contentclass_id"];
         $contentInfo->sectionId = (int)$row["{$prefix}section_id"];
         $contentInfo->currentVersionNo = (int)$row["{$prefix}current_version"];
-        $contentInfo->isPublished = ($row["{$prefix}status"] == ContentInfo::STATUS_PUBLISHED);
         $contentInfo->ownerId = (int)$row["{$prefix}owner_id"];
         $contentInfo->publicationDate = (int)$row["{$prefix}published"];
         $contentInfo->modificationDate = (int)$row["{$prefix}modified"];
-        $contentInfo->alwaysAvailable = 1 === ($row["{$prefix}language_mask"] & 1);
+        $contentInfo->alwaysAvailable = 1 === ((int)$row["{$prefix}language_mask"] & 1);
         $contentInfo->mainLanguageCode = $this->languageHandler->load($row["{$prefix}initial_language_id"])->languageCode;
-        $contentInfo->remoteId = $row["{$prefix}remote_id"];
+        $contentInfo->remoteId = (string)$row["{$prefix}remote_id"];
         $contentInfo->mainLocationId = ($row["{$treePrefix}main_node_id"] !== null ? (int)$row["{$treePrefix}main_node_id"] : null);
         $contentInfo->status = (int)$row["{$prefix}status"];
         $contentInfo->isPublished = ($contentInfo->status == ContentInfo::STATUS_PUBLISHED);
@@ -336,8 +462,8 @@ class Mapper
     /**
      * Extracts a VersionInfo object from $row.
      *
-     * @param array $rows
-     * @param array $nameRows
+     * @phpstan-param TRawContentRow[] $rows
+     * @phpstan-param TRawContentRow[] $nameRows
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
      */

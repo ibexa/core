@@ -201,6 +201,8 @@ class HandlerContentTest extends AbstractTestCase
                 [
                     $this->getConverterRegistry(),
                     $this->getLanguageHandler(),
+                    $this->getContentTypeHandler(),
+                    $this->getEventDispatcher(),
                 ]
             )
             ->setMethods(['extractContentInfoFromRows'])
