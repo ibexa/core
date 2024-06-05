@@ -13,12 +13,12 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class represents a notification value.
  *
- * @property-read int $id The ID of notification
- * @property-read int $ownerId The ID of notification owner
- * @property-read bool $isPending True if notification is unreaded
- * @property-read string $type Notification type
- * @property-read \DateTimeInterface $created Creation date.
- * @property-read array $data Optional context data
+ * @phpstan-property-read int $id The ID of notification
+ * @phpstan-property-read int $ownerId The ID of notification owner
+ * @phpstan-property-read bool $isPending True if notification is unreaded
+ * @phpstan-property-read string $type Notification type
+ * @phpstan-property-read \DateTimeInterface $created Creation date.
+ * @phpstan-property-read array $data Optional context data
  */
 class Notification extends ValueObject
 {

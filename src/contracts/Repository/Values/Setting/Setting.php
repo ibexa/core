@@ -11,9 +11,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\Setting;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
- * @property-read string $group
- * @property-read string $identifier
- * @property-read mixed $value
+ * @phpstan-property-read string $group
+ * @phpstan-property-read string $identifier
+ * @phpstan-property-read mixed $value
  */
 class Setting extends ValueObject
 {

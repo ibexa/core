@@ -11,7 +11,7 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 /**
  * Base class for document field definitions.
  *
- * @property-read string $type [deprecated] The type name of the facet, deprecated - use {@see \Ibexa\Contracts\Core\Search\FieldType::getType} instead.
+ * @phpstan-property-read string $type [deprecated] The type name of the facet, deprecated - use {@see \Ibexa\Contracts\Core\Search\FieldType::getType} instead.
  */
 abstract class FieldType extends ValueObject
 {

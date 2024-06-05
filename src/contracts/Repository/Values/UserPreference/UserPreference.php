@@ -13,8 +13,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class represents a user preference value.
  *
- * @property-read string $name name of user preference
- * @property-read string $value value of user preference
+ * @phpstan-property-read string $name name of user preference
+ * @phpstan-property-read string $value value of user preference
  */
 class UserPreference extends ValueObject
 {

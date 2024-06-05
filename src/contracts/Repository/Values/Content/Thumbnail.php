@@ -11,10 +11,10 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
- * @property-read string $resource
- * @property-read int|null $width
- * @property-read int|null $height
- * @property-read string|null $mimeType
+ * @phpstan-property-read string $resource
+ * @phpstan-property-read int|null $width
+ * @phpstan-property-read int|null $height
+ * @phpstan-property-read string|null $mimeType
  */
 class Thumbnail extends ValueObject
 {
