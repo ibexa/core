@@ -38,23 +38,11 @@ class DoctrineDatabaseTest extends TestCase
 
         $updaterMock = $this->getContentUpdaterMock();
 
-        $updaterMock->expects(self::once())
-            ->method('determineActions')
-            ->with(
-                self::isInstanceOf(
-                    Type::class
-                ),
-                self::isInstanceOf(
-                    Type::class
-                )
-            )->will(self::returnValue([]));
+        $updaterMock->expects(self::never())
+            ->method('determineActions');
 
-        $updaterMock->expects(self::once())
-            ->method('applyUpdates')
-            ->with(
-                self::equalTo(23),
-                self::equalTo([])
-            );
+        $updaterMock->expects(self::never())
+            ->method('applyUpdates');
 
         $types = $this->getTypeFixtures();
 
@@ -122,10 +110,7 @@ class DoctrineDatabaseTest extends TestCase
      */
     protected function getUpdateHandler()
     {
-        return new DoctrineDatabase(
-            $this->getGatewayMock(),
-            $this->getContentUpdaterMock()
-        );
+        return new DoctrineDatabase($this->getGatewayMock());
     }
 
     /**
