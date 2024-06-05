@@ -33,7 +33,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $converterRegistry = $this->getConverterRegistry();
 
         $contentGateway = $this->createMock(ContentGateway::class);
-        $contentGateway->expects($this->never())->method('insertNewField');
+        $contentGateway->expects(self::never())->method('insertNewField');
 
         $storageRegistry = $this->createMock(StorageRegistry::class);
         $storageRegistry->method('getStorage')->willReturn(new NullStorage());
@@ -83,7 +83,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $converterRegistry = $this->getConverterRegistry();
 
         $contentGateway = $this->createMock(ContentGateway::class);
-        $contentGateway->expects($this->never())->method('insertNewField');
+        $contentGateway->expects(self::never())->method('insertNewField');
 
         $defaultFieldStorageMock = $this->createMock(DefaultDataFieldStorage::class);
         $defaultFieldStorageMock
@@ -144,9 +144,9 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $converterRegistry = $this->getConverterRegistry();
 
         $storage = $this->createMock(FieldStorage::class);
-        $storage->expects($this->never())->method('storeFieldData');
+        $storage->expects(self::never())->method('storeFieldData');
 
-        $storage->expects($this->once())
+        $storage->expects(self::once())
             ->method('getFieldData')
             ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
                 $field->value->externalData = [
@@ -158,7 +158,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $storageRegistry->method('getStorage')->willReturn($storage);
 
         $contentGateway = $this->createMock(ContentGateway::class);
-        $contentGateway->expects($this->once())->method('insertNewField')
+        $contentGateway->expects(self::once())->method('insertNewField')
             ->willReturn(567);
 
         $eventDispatcher = $this->getEventDispatcher(
@@ -210,19 +210,19 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $converterRegistry = $this->getConverterRegistry();
 
         $storage = $this->createMock(FieldStorage::class);
-        $storage->expects($this->once())
+        $storage->expects(self::once())
             ->method('storeFieldData')
             ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
                 $field->value->externalData = $field->value->data;
             });
 
-        $storage->expects($this->once())->method('getFieldData');
+        $storage->expects(self::once())->method('getFieldData');
 
         $storageRegistry = $this->createMock(StorageRegistry::class);
         $storageRegistry->method('getStorage')->willReturn($storage);
 
         $contentGateway = $this->createMock(ContentGateway::class);
-        $contentGateway->expects($this->once())->method('insertNewField')
+        $contentGateway->expects(self::once())->method('insertNewField')
             ->willReturn(456);
 
         $eventDispatcher = $this->getEventDispatcher(

@@ -737,6 +737,7 @@ class MapperTest extends LanguageAwareTestCase
                                     return $language;
                                 }
                             }
+
                             return null;
                         }
                     )
@@ -751,6 +752,7 @@ class MapperTest extends LanguageAwareTestCase
                                     return $language;
                                 }
                             }
+
                             return null;
                         }
                     )
