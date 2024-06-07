@@ -7641,11 +7641,6 @@ parameters:
 			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Test\\\\Repository\\\\SetupFactory\\\\Legacy\\:\\:createTemporaryDirectory\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Test\\\\Repository\\\\SetupFactory\\\\Legacy\\:\\:externalBuildContainer\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
@@ -7667,16 +7662,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\$handler \\\\Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Handler\\)\\: Unexpected token \"\\$handler\", expected type at offset 9$#"
-			count: 1
-			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
-
-		-
-			message: "#^Parameter \\#1 \\$dirs of method Symfony\\\\Component\\\\Filesystem\\\\Filesystem\\:\\:mkdir\\(\\) expects iterable\\|string, string\\|false given\\.$#"
-			count: 1
-			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
-
-		-
-			message: "#^Parameter \\#1 \\$filename of function unlink expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
 
@@ -44694,11 +44679,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\IO\\\\FilePathNormalizer\\\\FlysystemTest\\:\\:providerForTestNormalizePath\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/IO/FilePathNormalizer/FlysystemTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$contents of method League\\\\Flysystem\\\\FilesystemAdapter\\:\\:writeStream\\(\\) expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: tests/lib/IO/Flysystem/Adapter/DynamicPathFilesystemAdapterDecoratorTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\IO\\\\Flysystem\\\\VisibilityConverter\\\\BaseVisibilityConverterTest\\:\\:getDataForTestForDirectory\\(\\) return type has no value type specified in iterable type iterable\\.$#"
