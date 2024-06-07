@@ -38,7 +38,7 @@ interface ContentService
      * To load fields use loadContent
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the content
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if the content with the given id does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content with the given id does not exist
      *
      * @param int $contentId
      *
@@ -63,7 +63,7 @@ interface ContentService
      * To load fields use loadContent
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read the content
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if the content with the given remote id does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content with the given remote id does not exist
      *
      * @param string $remoteId
      *
@@ -76,7 +76,7 @@ interface ContentService
      *
      * If no version number is given, the method returns the current version
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if the version with the given number does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number does not exist
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
@@ -91,7 +91,7 @@ interface ContentService
      *
      * If no version number is given, the method returns the current version
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if the version with the given number does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number does not exist
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version
      *
      * @param int $contentId
@@ -119,7 +119,7 @@ interface ContentService
      *
      * If no version number is given, the method returns the current version
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if version with the given number does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if version with the given number does not exist
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
@@ -152,7 +152,7 @@ interface ContentService
      * If no version number is given, the method returns the current version
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content or version with the given id and languages does not exist
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user has no access to read content and in case of un-published content: read versions
      *
      * @param mixed $contentId
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
@@ -169,8 +169,8 @@ interface ContentService
      *
      * If no version is given, the method returns the current version
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException - if the content or version with the given remote id does not exist
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the user has no access to read content and in case of un-published content: read versions
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content or version with the given remote id does not exist
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user has no access to read content and in case of un-published content: read versions
      *
      * @param string $remoteId
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
