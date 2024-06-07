@@ -26,21 +26,6 @@ parameters:
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function stream_get_meta_data expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
-
-		-
 			message: "#^Parameter \\#2 \\$data of function fwrite expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
@@ -81,34 +66,9 @@ parameters:
 			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
-			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Imagine/IORepositoryResolver.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Imagine/IORepositoryResolver.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function stream_get_meta_data expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Imagine/IORepositoryResolver.php
-
-		-
 			message: "#^Parameter \\#2 \\$data of function fwrite expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function stream_get_meta_data expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function stream_get_meta_data expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\URLChecker\\\\Handler\\\\HTTPHandler\\:\\:createCurlHandlerForUrl\\(\\) should return resource but returns CurlHandle\\.$#"
@@ -434,11 +394,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<1, max\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Values/User/Limitation/BaseLimitationTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
-			count: 1
-			path: tests/lib/IO/Flysystem/Adapter/DynamicPathFilesystemAdapterDecoratorTest.php
 
 		-
 			message: "#^Parameter \\#1 \\$string of function md5 expects string, float given\\.$#"
