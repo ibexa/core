@@ -471,7 +471,7 @@ interface ContentService
      * Adds a relation of type common.
      *
      * The source of the relation is the content and version
-     * referenced by $versionInfo.
+     * referenced by $sourceVersion.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit this version
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
