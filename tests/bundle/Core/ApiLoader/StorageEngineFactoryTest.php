@@ -8,18 +8,18 @@
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidStorageEngine;
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use PHPUnit\Framework\TestCase;
+use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class StorageEngineFactoryTest extends TestCase
+class StorageEngineFactoryTest extends BaseRepositoryConfigurationProviderTestCase
 {
-    public function testRegisterStorageEngine()
+    public function testRegisterStorageEngine(): void
     {
-        /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider $repositoryConfigurationProvider */
-        $repositoryConfigurationProvider = $this->createMock(RepositoryConfigurationProvider::class);
+        $repositoryConfigurationProvider = $this->createMock(RepositoryConfigurationProviderInterface::class);
         $factory = new StorageEngineFactory($repositoryConfigurationProvider);
 
         $storageEngines = [
@@ -35,21 +35,13 @@ class StorageEngineFactoryTest extends TestCase
         self::assertSame($storageEngines, $factory->getStorageEngines());
     }
 
-    public function testBuildStorageEngine()
+    public function testBuildStorageEngine(): void
     {
         $configResolver = $this->getConfigResolverMock();
         $repositoryAlias = 'main';
         $repositories = [
-            $repositoryAlias => [
-                'storage' => [
-                    'engine' => 'foo',
-                ],
-            ],
-            'another' => [
-                'storage' => [
-                    'engine' => 'bar',
-                ],
-            ],
+            $repositoryAlias => $this->buildNormalizedSingleRepositoryConfig('foo'),
+            'another' => $this->buildNormalizedSingleRepositoryConfig('bar'),
         ];
         $expectedStorageEngine = $this->getPersistenceHandlerMock();
         $storageEngines = [
@@ -67,28 +59,21 @@ class StorageEngineFactoryTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will(self::returnValue($repositoryAlias));
+            ->willReturn($repositoryAlias)
+        ;
 
         self::assertSame($expectedStorageEngine, $factory->buildStorageEngine());
     }
 
-    public function testBuildInvalidStorageEngine()
+    public function testBuildInvalidStorageEngine(): void
     {
         $this->expectException(InvalidStorageEngine::class);
 
         $configResolver = $this->getConfigResolverMock();
         $repositoryAlias = 'main';
         $repositories = [
-            $repositoryAlias => [
-                'storage' => [
-                    'engine' => 'undefined_storage_engine',
-                ],
-            ],
-            'another' => [
-                'storage' => [
-                    'engine' => 'bar',
-                ],
-            ],
+            $repositoryAlias => $this->buildNormalizedSingleRepositoryConfig('undefined_storage_engine'),
+            'another' => $this->buildNormalizedSingleRepositoryConfig('bar'),
         ];
 
         $storageEngines = [
@@ -107,20 +92,18 @@ class StorageEngineFactoryTest extends TestCase
             ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will(self::returnValue($repositoryAlias));
+            ->willReturn($repositoryAlias)
+        ;
 
         self::assertSame($this->getPersistenceHandlerMock(), $factory->buildStorageEngine());
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    protected function getConfigResolverMock()
+    protected function getConfigResolverMock(): ConfigResolverInterface & MockObject
     {
         return $this->createMock(ConfigResolverInterface::class);
     }
 
-    protected function getPersistenceHandlerMock()
+    protected function getPersistenceHandlerMock(): Handler & MockObject
     {
         return $this->createMock(Handler::class);
     }

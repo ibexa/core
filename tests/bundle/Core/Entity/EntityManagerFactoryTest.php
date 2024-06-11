@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\Entity\EntityManagerFactory;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -25,8 +25,8 @@ class EntityManagerFactoryTest extends TestCase
         'ibexa_invalid' => self::INVALID_ENTITY_MANAGER,
     ];
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $repositoryConfigurationProvider;
+    /** @var \Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
     /** @var \Doctrine\ORM\EntityManagerInterface */
     private $entityManager;
@@ -133,11 +133,11 @@ class EntityManagerFactoryTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getRepositoryConfigurationProvider(): RepositoryConfigurationProvider
+    protected function getRepositoryConfigurationProvider(): RepositoryConfigurationProviderInterface
     {
-        return $this->createMock(RepositoryConfigurationProvider::class);
+        return $this->createMock(RepositoryConfigurationProviderInterface::class);
     }
 
     /**

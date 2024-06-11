@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\EntityManagerFactoryServiceLocatorPass;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,7 +25,7 @@ class EntityManagerFactoryServiceLocatorPassTest extends AbstractCompilerPassTes
         $this->setDefinition(
             'ibexa.doctrine.orm.entity_manager_factory',
             new Definition(null, [
-                '$repositoryConfigurationProvider' => new Reference(RepositoryConfigurationProvider::class),
+                '$repositoryConfigurationProvider' => new Reference(RepositoryConfigurationProviderInterface::class),
                 '$defaultConnection' => '%doctrine.default_connection%',
                 '$entityManagers' => '%doctrine.entity_managers%',
             ])
