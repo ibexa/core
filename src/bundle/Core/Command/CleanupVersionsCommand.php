@@ -47,8 +47,7 @@ EOT;
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
-    /** @var \Doctrine\DBAL\Driver\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(
         Repository $repository,
@@ -272,9 +271,10 @@ EOT
                 )->setParameter(':contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
         }
 
+        /** @var \Doctrine\DBAL\ForwardCompatibility\Result<int> $stmt */
         $stmt = $query->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $stmt->fetchFirstColumn();
     }
 
     /**
