@@ -1,14 +1,9 @@
 services:
-    Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface:
-        alias: Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider
-
-    Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider:
-        arguments:
-            $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
-            $repositories: '%ibexa.repositories%'
-
     Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider:
-        deprecated: 'Since ibexa/core 5.0: The "%service_id%" service is deprecated, will be removed in 6.0. Use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface instead'
+        deprecated:
+            package: 'ibexa/core'
+            version: '5.0'
+            message: 'Since ibexa/core 5.0: The "%service_id%" service is deprecated and will be removed in 6.0. Use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface instead'
         arguments:
             $configurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
 

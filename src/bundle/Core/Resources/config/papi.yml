@@ -11,6 +11,10 @@ parameters:
 services:
     # API
     Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
+        deprecated:
+            package: 'ibexa/core'
+            version: '5.0'
+            message: 'Since ibexa/core 5.0: The "%service_id%" service is deprecated and will be removed in 6.0. Use Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory instead'
         arguments:
             $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
             $policyMap: '%ibexa.api.role.policy_map%'
