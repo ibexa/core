@@ -25,22 +25,16 @@ use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
+use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class RepositoryFactory implements ContainerAwareInterface
 {
-    use ContainerAwareTrait;
-
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
-
-    /** @var string */
-    private $repositoryClass;
 
     /**
      * Map of system configured policies.
@@ -57,14 +51,12 @@ class RepositoryFactory implements ContainerAwareInterface
 
     public function __construct(
         ConfigResolverInterface $configResolver,
-        $repositoryClass,
         array $policyMap,
         LanguageResolver $languageResolver,
         private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         LoggerInterface $logger = null
     ) {
         $this->configResolver = $configResolver;
-        $this->repositoryClass = $repositoryClass;
         $this->policyMap = $policyMap;
         $this->languageResolver = $languageResolver;
         $this->logger = $logger ?? new NullLogger();
@@ -100,7 +92,7 @@ class RepositoryFactory implements ContainerAwareInterface
     ): Repository {
         $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
-        return new $this->repositoryClass(
+        return new CoreRepository(
             $persistenceHandler,
             $searchHandler,
             $backgroundIndexer,
