@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 /**
@@ -17,8 +17,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  */
 class EntityManagerFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $repositoryConfigurationProvider;
+    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
     /** @var \Symfony\Component\DependencyInjection\ServiceLocator */
     private $serviceLocator;
@@ -30,7 +29,7 @@ class EntityManagerFactory
     private $entityManagers;
 
     public function __construct(
-        RepositoryConfigurationProvider $repositoryConfigurationProvider,
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         ServiceLocator $serviceLocator,
         string $defaultConnection,
         array $entityManagers

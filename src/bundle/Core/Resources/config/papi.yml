@@ -16,33 +16,30 @@ services:
             - Ibexa\Core\Repository\Repository
             - '%ibexa.api.role.policy_map%'
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
+            - '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
             - "@?logger"
         calls:
             - [setContainer, ["@service_container"]]
 
     Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory:
-        class: Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory
         arguments:
-            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
 
     ibexa.api.persistence_handler:
         #To disable cache, switch alias to Ibexa\Contracts\Core\Persistence\Handler
         alias: Ibexa\Core\Persistence\Cache\Handler
 
     Ibexa\Contracts\Core\Persistence\Handler:
-        class: Ibexa\Contracts\Core\Persistence\Handler
         factory: ['@Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory', buildStorageEngine]
         public: false
 
     Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory:
-        class: Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory
         arguments:
-            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
 
     Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory:
-            class: Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory
             arguments:
-                - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+                $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
 
     ibexa.spi.search:
         alias: Ibexa\Contracts\Core\Search\VersatileHandler

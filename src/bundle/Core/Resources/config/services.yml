@@ -232,9 +232,8 @@ services:
             - "@translator"
 
     Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory:
-        class: Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory
         arguments:
-            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            $configProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
 
     Ibexa\Core\QueryType\QueryParameterContentViewQueryTypeMapper:
         class: Ibexa\Core\QueryType\QueryParameterContentViewQueryTypeMapper
@@ -316,11 +315,10 @@ services:
             - { name: console.command }
 
     Ibexa\Bundle\Core\Command\CleanupVersionsCommand:
-        class: Ibexa\Bundle\Core\Command\CleanupVersionsCommand
         arguments:
-            - '@Ibexa\Core\Event\Repository'
-            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
-            - '@ibexa.persistence.connection'
+            $repository: '@Ibexa\Core\Event\Repository'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
+            $connection: '@ibexa.persistence.connection'
         tags:
             - { name: console.command }
 
@@ -365,7 +363,7 @@ services:
     ibexa.doctrine.orm.entity_manager_factory:
         class: Ibexa\Bundle\Core\Entity\EntityManagerFactory
         arguments:
-            $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
             $defaultConnection: '%doctrine.default_connection%'
             $entityManagers: '%doctrine.entity_managers%'
 

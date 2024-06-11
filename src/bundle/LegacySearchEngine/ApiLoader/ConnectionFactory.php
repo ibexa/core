@@ -7,7 +7,7 @@
 
 namespace Ibexa\Bundle\LegacySearchEngine\ApiLoader;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -16,10 +16,9 @@ class ConnectionFactory implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    protected $repositoryConfigurationProvider;
+    protected RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
-    public function __construct(RepositoryConfigurationProvider $repositoryConfigurationProvider)
+    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
     {
         $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
     }

@@ -8,8 +8,8 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -38,8 +38,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
     /** @var \Ibexa\Bundle\RepositoryInstaller\Installer\Installer[] */
     private $installers = [];
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $repositoryConfigurationProvider;
+    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
     public const EXIT_GENERAL_DATABASE_ERROR = 4;
     public const EXIT_PARAMETERS_NOT_FOUND = 5;
@@ -51,7 +50,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         array $installers,
         CacheItemPoolInterface $cachePool,
         string $environment,
-        RepositoryConfigurationProvider $repositoryConfigurationProvider
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider
     ) {
         $this->connection = $connection;
         $this->installers = $installers;

@@ -7,6 +7,8 @@
 
 namespace Ibexa\Bundle\Core\ApiLoader;
 
+use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -15,10 +17,9 @@ class StorageConnectionFactory implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    protected $repositoryConfigurationProvider;
+    protected RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
-    public function __construct(RepositoryConfigurationProvider $repositoryConfigurationProvider)
+    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
     {
         $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
     }
@@ -27,10 +28,9 @@ class StorageConnectionFactory implements ContainerAwareInterface
      * Returns database connection used by database handler.
      *
      * @throws \InvalidArgumentException
-     *
-     * @return \Doctrine\DBAL\Connection
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function getConnection()
+    public function getConnection(): Connection
     {
         $repositoryConfig = $this->repositoryConfigurationProvider->getRepositoryConfig();
         // Taking provided connection name if any.
@@ -43,13 +43,16 @@ class StorageConnectionFactory implements ContainerAwareInterface
             $doctrineConnectionId = 'database_connection';
         }
 
-        if (!$this->container->has($doctrineConnectionId)) {
+        if (!$this->container?->has($doctrineConnectionId)) {
+            /** @var string[] $doctrineConnections */
+            $doctrineConnections = $this->container?->getParameter('doctrine.connections') ?? [];
             throw new InvalidArgumentException(
-                "Invalid Doctrine connection '{$repositoryConfig['storage']['connection']}' for Repository '{$repositoryConfig['alias']}'." .
-                'Valid connections are: ' . implode(', ', array_keys($this->container->getParameter('doctrine.connections')))
+                "Invalid Doctrine connection '$doctrineConnectionId' for Repository '{$repositoryConfig['alias']}'." .
+                'Valid connections are: ' . implode(', ', array_keys($doctrineConnections))
             );
         }
 
+        /** @return \Doctrine\DBAL\Connection  */
         return $this->container->get($doctrineConnectionId);
     }
 }
