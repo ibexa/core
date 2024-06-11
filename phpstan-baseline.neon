@@ -11,16 +11,6 @@ parameters:
 			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryFactory\\:\\:__construct\\(\\) has parameter \\$repositoryClass with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryFactory\\:\\:buildRepository\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Repository but returns object\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
-
-		-
 			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryFactory\\:\\:\\$policyMap type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
@@ -7792,16 +7782,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Container\\\\ApiLoader\\\\RepositoryFactory\\:\\:__construct\\(\\) has parameter \\$policyMap with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Base/Container/ApiLoader/RepositoryFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Container\\\\ApiLoader\\\\RepositoryFactory\\:\\:__construct\\(\\) has parameter \\$repositoryClass with no type specified\\.$#"
-			count: 1
-			path: src/lib/Base/Container/ApiLoader/RepositoryFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Container\\\\ApiLoader\\\\RepositoryFactory\\:\\:buildRepository\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Repository but returns object\\.$#"
 			count: 1
 			path: src/lib/Base/Container/ApiLoader/RepositoryFactory.php
 
