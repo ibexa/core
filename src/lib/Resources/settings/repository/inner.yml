@@ -9,7 +9,6 @@ services:
     Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
         class: Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory
         arguments:
-            - Ibexa\Core\Repository\Repository
             - '%ibexa.api.role.policy_map%'
             - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
         calls:
