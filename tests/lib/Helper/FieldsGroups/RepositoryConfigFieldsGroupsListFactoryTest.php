@@ -7,18 +7,19 @@
 
 namespace Ibexa\Tests\Core\Helper\FieldsGroups;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RepositoryConfigFieldsGroupsListFactoryTest extends TestCase
 {
-    private $repositoryConfigMock;
+    private RepositoryConfigurationProviderInterface & MockObject $repositoryConfigMock;
 
-    private $translatorMock;
+    private TranslatorInterface & MockObject $translatorMock;
 
-    public function testBuild()
+    public function testBuild(): void
     {
         $this->getRepositoryConfigMock()
             ->expects(self::once())
@@ -26,9 +27,8 @@ class RepositoryConfigFieldsGroupsListFactoryTest extends TestCase
             ->willReturn(['fields_groups' => ['list' => ['group_a', 'group_b'], 'default' => 'group_a']]);
 
         $this->getTranslatorMock()
-            ->expects(self::any())
             ->method('trans')
-            ->will(self::returnArgument(0));
+            ->willReturnArgument(0);
 
         $factory = new RepositoryConfigFieldsGroupsListFactory($this->getRepositoryConfigMock());
         $list = $factory->build($this->getTranslatorMock());
@@ -37,22 +37,16 @@ class RepositoryConfigFieldsGroupsListFactoryTest extends TestCase
         self::assertEquals('group_a', $list->getDefaultGroup());
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider
-     */
-    protected function getRepositoryConfigMock()
+    protected function getRepositoryConfigMock(): RepositoryConfigurationProviderInterface & MockObject
     {
         if (!isset($this->repositoryConfigMock)) {
-            $this->repositoryConfigMock = $this->createMock(RepositoryConfigurationProvider::class);
+            $this->repositoryConfigMock = $this->createMock(RepositoryConfigurationProviderInterface::class);
         }
 
         return $this->repositoryConfigMock;
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Symfony\Contracts\Translation\TranslatorInterface
-     */
-    protected function getTranslatorMock()
+    protected function getTranslatorMock(): TranslatorInterface & MockObject
     {
         if (!isset($this->translatorMock)) {
             $this->translatorMock = $this->createMock(TranslatorInterface::class);
