@@ -17,8 +17,6 @@ services:
             $languageResolver: '@Ibexa\Contracts\Core\Repository\LanguageResolver'
             $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
             $logger: "@?logger"
-        calls:
-            - [setContainer, ["@service_container"]]
 
     Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory:
         arguments:
