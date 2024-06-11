@@ -28,19 +28,15 @@ use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-final class RepositoryFactory implements ContainerAwareInterface
+final class RepositoryFactory
 {
-    use ContainerAwareTrait;
-
     /**
      * Policies map.
      *
      * @var array
      */
-    protected $policyMap = [];
+    private $policyMap = [];
 
     /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
     private $languageResolver;
