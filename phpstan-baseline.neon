@@ -6,36 +6,6 @@ parameters:
 			path: src/bundle/Core/ApiLoader/CacheFactory.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProvider\\:\\:__construct\\(\\) has parameter \\$repositories with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryConfigurationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProvider\\:\\:getDefaultRepositoryAlias\\(\\) should return string\\|null but returns int\\|string\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryConfigurationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProvider\\:\\:getRepositoryConfig\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryConfigurationProvider.php
-
-		-
-			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProvider\\:\\:\\$repositories type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryConfigurationProvider.php
-
-		-
-			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
-
-		-
-			message: "#^Cannot call method getRepositoryConfig\\(\\) on object\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryFactory\\:\\:__construct\\(\\) has parameter \\$policyMap with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
@@ -66,36 +36,6 @@ parameters:
 			path: src/bundle/Core/ApiLoader/SearchEngineIndexerFactory.php
 
 		-
-			message: "#^Cannot call method get\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
-
-		-
-			message: "#^Cannot call method getParameter\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
-
-		-
-			message: "#^Cannot call method has\\(\\) on Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactory\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns object\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageEngineFactory\\:\\:registerStorageEngine\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/ApiLoader/StorageEngineFactory.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Cache\\\\Warmer\\\\ProxyCacheWarmer\\:\\:warmUp\\(\\) has parameter \\$cacheDir with no type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Cache/Warmer/ProxyCacheWarmer.php
@@ -109,11 +49,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\CheckURLsCommand\\:\\:getTotalCount\\(\\) should return int but returns int\\|null\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CheckURLsCommand.php
-
-		-
-			message: "#^Call to an undefined method Doctrine\\\\DBAL\\\\Driver\\\\Connection\\:\\:createQueryBuilder\\(\\)\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\CleanupVersionsCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
@@ -10839,11 +10774,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Helper\\\\FieldsGroups\\\\FieldsGroupsList\\:\\:getGroups\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Helper/FieldsGroups/FieldsGroupsList.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Helper\\\\FieldsGroups\\\\RepositoryConfigFieldsGroupsListFactory\\:\\:build\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Helper/FieldsGroups/RepositoryConfigFieldsGroupsListFactory.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Helper\\\\TranslationHelper\\:\\:__construct\\(\\) has parameter \\$siteAccessesByLanguage with no value type specified in iterable type array\\.$#"
@@ -23201,96 +23131,6 @@ parameters:
 			path: tests/bundle/Core/ApiLoader/CacheFactoryTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProviderTest\\:\\:providerForRepositories\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/RepositoryConfigurationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProviderTest\\:\\:testGetCurrentRepositoryAlias\\(\\) has parameter \\$repositories with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/RepositoryConfigurationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProviderTest\\:\\:testGetDefaultRepositoryAlias\\(\\) has parameter \\$repositories with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/RepositoryConfigurationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProviderTest\\:\\:testGetRepositoryConfigNotSpecifiedRepository\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/RepositoryConfigurationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProviderTest\\:\\:testGetRepositoryConfigSpecifiedRepository\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/RepositoryConfigurationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProviderTest\\:\\:testGetRepositoryConfigUndefinedRepository\\(\\) has parameter \\$repositories with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/RepositoryConfigurationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:getConfigResolverMock\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:getConnectionProvider\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:getContainerMock\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:testGetConnection\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:testGetConnection\\(\\) has parameter \\$doctrineConnection with no type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:testGetConnection\\(\\) has parameter \\$repositoryAlias with no type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:testGetConnectionInvalidConnection\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageConnectionFactoryTest\\:\\:testGetConnectionInvalidRepository\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageConnectionFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageEngineFactoryTest\\:\\:getPersistenceHandlerMock\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageEngineFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageEngineFactoryTest\\:\\:testBuildInvalidStorageEngine\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageEngineFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageEngineFactoryTest\\:\\:testBuildStorageEngine\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageEngineFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageEngineFactoryTest\\:\\:testRegisterStorageEngine\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/ApiLoader/StorageEngineFactoryTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\ChainConfigResolverTest\\:\\:buildMock\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/ChainConfigResolverTest.php
@@ -24719,11 +24559,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Stub\\\\StubYamlPolicyProvider\\:\\:\\$files type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Stub/StubYamlPolicyProvider.php
-
-		-
-			message: "#^Call to an undefined method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\RepositoryConfigurationProvider\\:\\:method\\(\\)\\.$#"
-			count: 3
-			path: tests/bundle/Core/Entity/EntityManagerFactoryTest.php
 
 		-
 			message: "#^Property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Entity\\\\EntityManagerFactoryTest\\:\\:\\$serviceLocator is never read, only written\\.$#"
@@ -44594,21 +44429,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Helper\\\\FieldsGroups\\\\ArrayTranslatorFieldsGroupsListTest\\:\\:\\$translatorMock has no type specified\\.$#"
 			count: 1
 			path: tests/lib/Helper/FieldsGroups/ArrayTranslatorFieldsGroupsListTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Helper\\\\FieldsGroups\\\\RepositoryConfigFieldsGroupsListFactoryTest\\:\\:testBuild\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Helper/FieldsGroups/RepositoryConfigFieldsGroupsListFactoryTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Helper\\\\FieldsGroups\\\\RepositoryConfigFieldsGroupsListFactoryTest\\:\\:\\$repositoryConfigMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Helper/FieldsGroups/RepositoryConfigFieldsGroupsListFactoryTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Helper\\\\FieldsGroups\\\\RepositoryConfigFieldsGroupsListFactoryTest\\:\\:\\$translatorMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Helper/FieldsGroups/RepositoryConfigFieldsGroupsListFactoryTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Helper\\\\PreviewLocationProviderTest\\:\\:testGetPreviewLocation\\(\\) has no return type specified\\.$#"
