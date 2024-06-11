@@ -31,7 +31,13 @@ use Ibexa\Core\Search\Common\BackgroundIndexer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class RepositoryFactory implements ContainerAwareInterface
+/**
+ * @internal
+ *
+ * @deprecated 5.0.0 The "\Ibexa\Bundle\Core\ApiLoader\RepositoryFactory" class is deprecated, will be removed in 6.0.
+ * Use {@see \Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory instead}.
+ */
+class RepositoryFactory
 {
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;

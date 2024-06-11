@@ -1,12 +1,4 @@
 services:
-    Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface:
-        alias: Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider
-
-    Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider:
-        arguments:
-            $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
-            $repositories: '%ibexa.repositories%'
-
     Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider:
         deprecated:
             package: 'ibexa/core'
