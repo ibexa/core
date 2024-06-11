@@ -22,7 +22,7 @@ services:
             $installers: []
             $cachePool: '@ibexa.cache_pool'
             $environment: "%kernel.environment%"
-            $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
         tags:
             - { name: console.command }
 
