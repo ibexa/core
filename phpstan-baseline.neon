@@ -86,6 +86,11 @@ parameters:
 			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
+
+		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\ApiLoader\\\\StorageEngineFactory\\:\\:registerStorageEngine\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/ApiLoader/StorageEngineFactory.php
@@ -117,6 +122,26 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\CleanupVersionsCommand\\:\\:getObjectsIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/CleanupVersionsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/CleanupVersionsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_slice expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/CleanupVersionsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, array\\|iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/CleanupVersionsCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
@@ -327,6 +352,11 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$mimeType of method Symfony\\\\Component\\\\Mime\\\\MimeTypesInterface\\:\\:getExtensions\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of function fwrite expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
@@ -741,6 +771,11 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
 
 		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface given\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
+
+		-
 			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\ChainConfigResolver\\:\\:\\$resolvers \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface\\>\\) does not accept array\\<array\\<int, Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface\\>\\|Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface\\>\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ChainConfigResolver.php
@@ -882,6 +917,11 @@ parameters:
 
 		-
 			message: "#^Offset 'function' on array\\{function\\: string, line\\?\\: int, file\\?\\: string, class\\?\\: class\\-string, type\\?\\: '\\-\\>'\\|'\\:\\:', args\\?\\: array, object\\?\\: object\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function strtolower expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
 
@@ -1137,6 +1177,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\Parser\\\\Languages\\:\\:preMap\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_shift expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/Parser/Languages.php
 
@@ -1507,6 +1552,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\SiteAccessAware\\\\Contextualizer\\:\\:setSiteAccessNodeName\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/Contextualizer.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/Contextualizer.php
 
@@ -1907,6 +1957,11 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$search of function str_replace expects array\\|string, string\\|false\\|null given\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
 
@@ -2502,6 +2557,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\ContentPreviewContext\\:\\:theOutputIsValid\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
 			count: 1
 			path: src/bundle/Core/Features/Context/ContentPreviewContext.php
 
@@ -3176,6 +3236,11 @@ parameters:
 			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User\\> given\\.$#"
+			count: 1
+			path: src/bundle/Core/Features/Context/UserContext.php
+
+		-
 			message: "#^Parameter \\#2 \\$parentLocationId of method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\UserContext\\:\\:searchUserGroups\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: src/bundle/Core/Features/Context/UserContext.php
@@ -3562,6 +3627,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\IORepositoryResolver\\:\\:store\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/IORepositoryResolver.php
+
+		-
+			message: "#^Parameter \\#2 \\$data of function fwrite expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/IORepositoryResolver.php
 
@@ -3956,6 +4026,11 @@ parameters:
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
 		-
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\URLChecker\\\\Handler\\\\HTTPHandler\\:\\:createCurlHandlerForUrl\\(\\) should return resource but returns CurlHandle\\.$#"
+			count: 1
+			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
+
+		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\URLChecker\\\\Handler\\\\HTTPHandler\\:\\:doValidate\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
@@ -3978,6 +4053,16 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\URLChecker\\\\Handler\\\\HTTPHandler\\:\\:validate\\(\\) has no return type specified\\.$#"
 			count: 1
+			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
+
+		-
+			message: "#^Parameter \\#1 \\$handle of function curl_getinfo expects CurlHandle, resource given\\.$#"
+			count: 1
+			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
+
+		-
+			message: "#^Parameter \\#2 \\$handle of function curl_multi_add_handle expects CurlHandle, resource given\\.$#"
+			count: 2
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
 		-
@@ -4201,7 +4286,17 @@ parameters:
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: src/bundle/IO/BinaryStreamResponse.php
+
+		-
 			message: "#^Parameter \\#1 \\$string of function substr expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/bundle/IO/BinaryStreamResponse.php
+
+		-
+			message: "#^Parameter \\#2 \\$to of function stream_copy_to_stream expects resource, resource\\|false given\\.$#"
 			count: 1
 			path: src/bundle/IO/BinaryStreamResponse.php
 
@@ -4536,6 +4631,11 @@ parameters:
 			path: src/bundle/IO/Migration/FileLister/BinaryFileLister.php
 
 		-
+			message: "#^Parameter \\#3 \\$limit of class LimitIterator constructor expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/bundle/IO/Migration/FileLister/BinaryFileLister.php
+
+		-
 			message: "#^Property Ibexa\\\\Bundle\\\\IO\\\\Migration\\\\FileLister\\\\BinaryFileLister\\:\\:\\$fileList \\(Ibexa\\\\Bundle\\\\IO\\\\Migration\\\\FileLister\\\\FileIteratorInterface\\) does not accept Iterator\\.$#"
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/BinaryFileLister.php
@@ -4557,6 +4657,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\IO\\\\Migration\\\\FileLister\\\\FileRowReader\\\\LegacyStorageFileRowReader\\:\\:init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/bundle/IO/Migration/FileLister/FileRowReader/LegacyStorageFileRowReader.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/FileRowReader/LegacyStorageFileRowReader.php
 
@@ -4587,6 +4692,11 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$offset of class LimitIterator constructor expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/bundle/IO/Migration/FileLister/ImageFileLister.php
+
+		-
+			message: "#^Parameter \\#3 \\$limit of class LimitIterator constructor expects int, int\\|null given\\.$#"
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/ImageFileLister.php
 
@@ -4677,6 +4787,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\LegacySearchEngine\\\\ApiLoader\\\\ConnectionFactory\\:\\:getConnection\\(\\) should return Doctrine\\\\DBAL\\\\Connection but returns object\\|null\\.$#"
+			count: 1
+			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 1
 			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
 
@@ -4822,6 +4937,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\RepositoryInstaller\\\\Installer\\\\DbBasedInstaller\\:\\:setOutput\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_filter expects array, array\\<int, string\\>\\|false given\\.$#"
 			count: 1
 			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
 
@@ -7761,6 +7881,11 @@ parameters:
 			path: src/lib/Base/Container/Compiler/AbstractFieldTypeBasedPass.php
 
 		-
+			message: "#^Parameter \\#1 \\$object_or_class of function is_a expects object\\|string, string\\|null given\\.$#"
+			count: 1
+			path: src/lib/Base/Container/Compiler/FieldTypeRegistryPass.php
+
+		-
 			message: "#^Cannot call method isSubclassOf\\(\\) on ReflectionClass\\|null\\.$#"
 			count: 1
 			path: src/lib/Base/Container/Compiler/GenericFieldTypeConverterPass.php
@@ -7822,6 +7947,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Container\\\\Compiler\\\\Storage\\\\ExternalStorageRegistryPass\\:\\:process\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/lib/Base/Container/Compiler/Storage/ExternalStorageRegistryPass.php
+
+		-
+			message: "#^Parameter \\#1 \\$object_or_class of function is_subclass_of expects object\\|string, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 1
 			path: src/lib/Base/Container/Compiler/Storage/ExternalStorageRegistryPass.php
 
@@ -8656,6 +8786,11 @@ parameters:
 			path: src/lib/FieldType/Author/SearchField.php
 
 		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/lib/FieldType/Author/SearchField.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Author\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/FieldType/Author/Type.php
@@ -8886,7 +9021,17 @@ parameters:
 			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage/Gateway/DoctrineStorage.php
 
 		-
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			count: 1
+			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage/Gateway/DoctrineStorage.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\BinaryBase\\\\PathGenerator\\\\LegacyPathGenerator\\:\\:getStoragePathForField\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/lib/FieldType/BinaryBase/PathGenerator/LegacyPathGenerator.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
 			count: 1
 			path: src/lib/FieldType/BinaryBase/PathGenerator/LegacyPathGenerator.php
 
@@ -9377,6 +9522,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Image\\\\ImageStorage\\:\\:storeFieldData\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/lib/FieldType/Image/ImageStorage.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, array\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage.php
 
@@ -10076,6 +10226,11 @@ parameters:
 			path: src/lib/FieldType/RelationList/Type.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function array_flip expects array\\<int\\|string\\>, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/lib/FieldType/Selection/SearchField.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Selection\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/FieldType/Selection/Type.php
@@ -10089,6 +10244,11 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\StorageGateway\\:\\:setConnection\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/FieldType/StorageGateway.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function mb_substr expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/lib/FieldType/TextBlock/SearchField.php
 
 		-
 			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\FieldType\\\\TextBlock\\\\SearchField\\:\\:extractShortText\\(\\) expects string, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
@@ -10107,6 +10267,11 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
+			count: 1
+			path: src/lib/FieldType/TextBlock/Type.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function mb_substr expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/lib/FieldType/TextBlock/Type.php
 
@@ -11141,6 +11306,11 @@ parameters:
 			path: src/lib/Limitation/LanguageLimitationType.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\> given\\.$#"
+			count: 1
+			path: src/lib/Limitation/LanguageLimitationType.php
+
+		-
 			message: "#^Property Ibexa\\\\Core\\\\Limitation\\\\LanguageLimitationType\\:\\:\\$versionTargetEvaluators \\(array\\<Ibexa\\\\Core\\\\Limitation\\\\LanguageLimitation\\\\VersionTargetEvaluator\\>\\) does not accept iterable\\<Ibexa\\\\Core\\\\Limitation\\\\LanguageLimitation\\\\VersionTargetEvaluator\\>\\.$#"
 			count: 1
 			path: src/lib/Limitation/LanguageLimitationType.php
@@ -11329,6 +11499,11 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\RepositoryAwareInterface\\:\\:setRepository\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/RepositoryAwareInterface.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|ArrayObject\\<\\(int\\|string\\), mixed\\>\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
 
 		-
 			message: "#^Cannot access offset 'config' on array\\|ArrayObject\\<\\(int\\|string\\), mixed\\>\\|bool\\|float\\|int\\|string\\|null\\.$#"
@@ -11636,6 +11811,11 @@ parameters:
 			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
+
+		-
 			message: "#^Cannot call method diff\\(\\) on DateTimeImmutable\\|null\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/FieldType/User/ParameterProvider.php
@@ -11822,6 +12002,16 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Matcher\\\\ContentBased\\\\UrlAlias\\:\\:setMatchingConfig\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Matcher/ContentBased/UrlAlias.php
 
@@ -15086,6 +15276,16 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
 
 		-
+			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, array\\|bool\\|float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, array\\|float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|true given\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
+
+		-
 			message: "#^Property Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageFieldValue\\:\\:\\$sortKeyString \\(string\\) does not accept bool\\|float\\|int\\|string\\|null\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
@@ -15669,6 +15869,11 @@ parameters:
 			message: "#^Property Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageFieldValue\\:\\:\\$sortKeyString \\(string\\) does not accept bool\\|float\\|int\\|string\\|null\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SelectionConverter.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of class Ibexa\\\\Core\\\\FieldType\\\\FieldSettings constructor expects array\\|object, array\\|null given\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SerializableConverter.php
 
 		-
 			message: "#^Parameter \\#1 \\$data of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\ValueSerializerInterface\\:\\:encode\\(\\) expects array\\|null, array\\|bool\\|float\\|int\\|string given\\.$#"
@@ -16303,6 +16508,11 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Language\\\\MaskGenerator\\:\\:isLanguageAlwaysAvailable\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
 			count: 1
+			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\> given\\.$#"
+			count: 2
 			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
 
 		-
@@ -19386,7 +19596,22 @@ parameters:
 			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
 
 		-
+			message: "#^Parameter \\#1 \\$string of function strlen expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function substr expects string, string\\|null given\\.$#"
+			count: 2
+			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
+
+		-
 			message: "#^Parameter \\#1 \\$string of method Ibexa\\\\Core\\\\Persistence\\\\TransformationProcessor\\\\DefinitionBased\\\\Parser\\:\\:parseString\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
+
+		-
+			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/lib/Persistence/TransformationProcessor/DefinitionBased/Parser.php
 
@@ -19463,6 +19688,16 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$charCode of method Ibexa\\\\Core\\\\Persistence\\\\Utf8Converter\\:\\:toUTF8Character\\(\\) expects int, float\\|int given\\.$#"
 			count: 2
+			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
+
+		-
+			message: "#^Parameter \\#1 \\$codepoint of function chr expects int, float\\|int given\\.$#"
+			count: 1
+			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
+
+		-
+			message: "#^Parameter \\#1 \\$hex_string of function hexdec expects string, string\\|null given\\.$#"
+			count: 1
 			path: src/lib/Persistence/TransformationProcessor/PcreCompiler.php
 
 		-
@@ -20131,6 +20366,11 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentMapper.php
 
 		-
+			message: "#^Parameter \\#1 \\$string of function md5 expects string, string\\|false given\\.$#"
+			count: 4
+			path: src/lib/Repository/Mapper/ContentMapper.php
+
+		-
 			message: "#^Parameter \\#3 \\$fieldDefinition of method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentMapper\\:\\:getFieldValueForUpdate\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/Mapper/ContentMapper.php
@@ -20541,6 +20781,11 @@ parameters:
 			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
 
 		-
+			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, ProxyManager\\\\Autoloader\\\\AutoloaderInterface given\\.$#"
+			count: 1
+			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
+
+		-
 			message: "#^Unable to resolve the template type RealObjectType in call to method ProxyManager\\\\Factory\\\\LazyLoadingValueHolderFactory\\:\\:createProxy\\(\\)$#"
 			count: 1
 			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
@@ -20657,6 +20902,11 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$identifier of method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\LimitationService\\:\\:getLimitationType\\(\\) expects string, int\\|string given\\.$#"
+			count: 1
+			path: src/lib/Repository/RoleService.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_diff expects array, array\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/RoleService.php
 
@@ -21128,6 +21378,11 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$identifier of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentTypeService\\:\\:loadContentTypeByIdentifier\\(\\) expects string, string\\|false given\\.$#"
 			count: 2
+			path: src/lib/Repository/UserService.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			count: 1
 			path: src/lib/Repository/UserService.php
 
 		-
@@ -21663,6 +21918,11 @@ parameters:
 		-
 			message: "#^Offset false does not exist on string\\.$#"
 			count: 1
+			path: src/lib/Search/Common/FieldNameResolver.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, string given\\.$#"
+			count: 3
 			path: src/lib/Search/Common/FieldNameResolver.php
 
 		-
@@ -22361,6 +22621,11 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
 
 		-
+			message: "#^Parameter \\#1 \\$string of function trim expects string, bool\\|float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/Ancestor.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Gateway\\\\CriterionHandler\\\\LocationId\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Gateway/CriterionHandler/LocationId.php
@@ -22612,6 +22877,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Location\\\\Gateway\\\\CriterionHandler\\\\Ancestor\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Ancestor.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function trim expects string, bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Ancestor.php
 
@@ -24331,12 +24601,22 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
+
+		-
 			message: "#^Parameter \\#2 \\$array of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertArrayHasKey\\(\\) expects array\\|ArrayAccess, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 2
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
 			message: "#^Parameter \\#2 \\$haystack of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertContains\\(\\) expects iterable, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge_recursive expects array, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
@@ -24512,6 +24792,11 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @return with type Ibexa\\\\Bundle\\\\Core\\\\Command\\\\BackwardCompatibleCommand\\|Symfony\\\\Component\\\\Console\\\\Command\\\\Command is not subtype of native type Symfony\\\\Component\\\\Console\\\\Command\\\\Command\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function trim expects string, string\\|null given\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
 
@@ -24952,6 +25237,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SiteAccessListenerTest\\:\\:testOnSiteAccessMatchSubRequest\\(\\) has parameter \\$vpString with no type specified\\.$#"
+			count: 1
+			path: tests/bundle/Core/EventListener/SiteAccessListenerTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$offset of function substr expects int, int\\<1, max\\>\\|false given\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/SiteAccessListenerTest.php
 
@@ -25971,6 +26261,11 @@ parameters:
 			path: tests/bundle/Core/Routing/DefaultRouterTest.php
 
 		-
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
+			count: 1
+			path: tests/bundle/Core/Routing/DefaultRouterTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Routing\\\\JsRouting\\\\ExposedRoutesExtractorTest\\:\\:getDataForTestGetBaseUrl\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/bundle/Core/Routing/JsRouting/ExposedRoutesExtractorTest.php
@@ -26451,6 +26746,11 @@ parameters:
 			path: tests/integration/Core/IO/BinarydataHandler/FlysystemTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: tests/integration/Core/IO/BinarydataHandler/FlysystemTest.php
+
+		-
 			message: "#^Generator expects value type array\\{Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Image\\\\ImageStorage\\\\Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo, Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Image\\\\ImageStorage\\\\Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\}, array\\{Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\} given\\.$#"
 			count: 1
 			path: tests/integration/Core/Image/ImageStorage/ImageStorageTest.php
@@ -26717,6 +27017,16 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @var for variable \\$searchHandler contains unknown class Ibexa\\\\Solr\\\\Handler\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/BaseTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$string1 of function strcmp expects string, bool\\|float\\|int\\|string given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/BaseTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$string2 of function strcmp expects string, bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/BaseTest.php
 
@@ -27063,6 +27373,11 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$parentLocationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:newLocationCreateStruct\\(\\) expects int, int\\|null given\\.$#"
 			count: 2
+			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
+			count: 4
 			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
 
 		-
@@ -28011,6 +28326,11 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function array_values expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
 			message: "#^Parameter \\#1 \\$fields of method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:assertAllFieldsEquals\\(\\) expects array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\>, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
@@ -28033,6 +28353,26 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$locations of method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:filterHiddenLocations\\(\\) expects array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
 			count: 5
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function md5 expects string, float given\\.$#"
+			count: 3
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
@@ -28877,6 +29217,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentTypeServiceTest\\:\\:testUpdateFieldDefinitionWithNewTranslation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentType\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentTypeServiceTest.php
 
@@ -33826,6 +34171,11 @@ parameters:
 			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
+
+		-
 			message: "#^Property Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\LanguageServiceMaximumSupportedLanguagesTest\\:\\:\\$createdLanguages type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LanguageServiceMaximumSupportedLanguagesTest.php
@@ -33938,6 +34288,11 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\LanguageServiceTest\\:\\:testUpdateLanguageNameThrowsInvalidArgumentException\\(\\) has no return type specified\\.$#"
 			count: 1
+			path: tests/integration/Core/Repository/LanguageServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\> given\\.$#"
+			count: 2
 			path: tests/integration/Core/Repository/LanguageServiceTest.php
 
 		-
@@ -35121,6 +35476,11 @@ parameters:
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/PermissionResolverTest.php
+
+		-
 			message: "#^Parameter \\#1 \\$policy of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\LookupPolicyLimitations constructor expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\|false given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
@@ -35232,6 +35592,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Regression\\\\EZP21798Test\\:\\:testRoleChanges\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/Regression/EZP21798Test.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP21798Test.php
 
@@ -36017,6 +36382,21 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\RoleServiceTest\\:\\:testUpdateRoleDraftThrowsInvalidArgumentException\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/RoleServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\RoleAssignment\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/RoleServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserGroupRoleAssignment\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserRoleAssignment\\> given\\.$#"
+			count: 3
+			path: tests/integration/Core/Repository/RoleServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
@@ -36906,6 +37286,11 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$class of class ReflectionProperty constructor expects object\\|string, class\\-string\\|false given\\.$#"
+			count: 4
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
 			message: "#^Parameter \\#1 \\$locationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:loadLocation\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
@@ -37743,6 +38128,11 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testUserMetadataGroupHorizontalQueryLocation\\(\\) has no return type specified\\.$#"
 			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$class of class ReflectionProperty constructor expects object\\|string, class\\-string\\|false given\\.$#"
+			count: 4
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
@@ -39464,6 +39854,11 @@ parameters:
 			message: "#^Parameter \\#2 \\$array of function array_map expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserGroup\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/UserServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function md5 expects string, int\\<1, max\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/Values/User/Limitation/BaseLimitationTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Values\\\\User\\\\Limitation\\\\ChangeOwnerLimitationTest\\:\\:getContentCreatePolicyDraft\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\PolicyDraft but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Policy\\.$#"
@@ -47241,6 +47636,11 @@ parameters:
 			path: tests/lib/MVC/Symfony/Security/UserWrappedTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$string of function md5 expects string, float given\\.$#"
+			count: 1
+			path: tests/lib/MVC/Symfony/Security/UserWrappedTest.php
+
+		-
 			message: "#^Parameter \\#2 \\$apiUser of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\UserWrapped constructor expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
 			count: 5
 			path: tests/lib/MVC/Symfony/Security/UserWrappedTest.php
@@ -48846,6 +49246,11 @@ parameters:
 			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{mixed, string\\} given\\.$#"
+			count: 3
+			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
+
+		-
 			message: "#^Parameter \\#1 \\$originalClassName of method PHPUnit\\\\Framework\\\\TestCase\\:\\:createMock\\(\\) expects class\\-string\\<mixed\\>, string given\\.$#"
 			count: 2
 			path: tests/lib/Persistence/Cache/AbstractCacheHandlerTest.php
@@ -48973,6 +49378,11 @@ parameters:
 		-
 			message: "#^Only iterables can be unpacked, array\\|null given in argument \\#1\\.$#"
 			count: 5
+			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{mixed, string\\} given\\.$#"
+			count: 3
 			path: tests/lib/Persistence/Cache/AbstractInMemoryCacheHandlerTest.php
 
 		-
@@ -49112,6 +49522,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Cache\\\\ContentTypeHandlerTest\\:\\:testPublish\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{mixed, 'publish'\\} given\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
 
@@ -54566,6 +54981,16 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Filter/BaseCriterionVisitorQueryBuilderTestCase.php
 
 		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, iterable given\\.$#"
+			count: 1
+			path: tests/lib/Persistence/Legacy/Filter/BaseCriterionVisitorQueryBuilderTestCase.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_merge expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\CriterionQueryBuilder\\> given\\.$#"
+			count: 1
+			path: tests/lib/Persistence/Legacy/Filter/BaseCriterionVisitorQueryBuilderTestCase.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Filter\\\\CriterionQueryBuilder\\\\Content\\\\LanguageCodeQueryBuilderQueryBuilderTest\\:\\:getFilteringCriteriaQueryData\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Content/LanguageCodeQueryBuilderQueryBuilderTest.php
@@ -59881,6 +60306,11 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\URLAlias\\> given\\.$#"
+			count: 12
+			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
+
+		-
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\UrlAliasTest\\:\\:\\$urlAliasHandler \\(Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\UrlAlias\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\) does not accept PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
@@ -60398,6 +60828,11 @@ parameters:
 		-
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\AbstractServiceTest\\:\\:\\$innerApiServiceMock has unknown class object as its type\\.$#"
 			count: 1
+			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
+
+		-
+			message: "#^Trying to invoke Closure\\|null but it might not be a callable\\.$#"
+			count: 2
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
 
 		-
@@ -61248,6 +61683,11 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Search\\\\FieldNameResolverTest\\:\\:testGetSortFieldNameReturnsNull\\(\\) has no return type specified\\.$#"
 			count: 1
+			path: tests/lib/Search/FieldNameResolverTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$array of function key expects array\\|object, string given\\.$#"
+			count: 4
 			path: tests/lib/Search/FieldNameResolverTest.php
 
 		-
