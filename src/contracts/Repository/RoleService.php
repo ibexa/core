@@ -23,6 +23,8 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 /**
  * This service provides methods for managing Roles and Policies.
+ *
+ * @phpstan-type TPolicyMap array<string, array<string, array<string, boolean|null>>>
  */
 interface RoleService
 {
