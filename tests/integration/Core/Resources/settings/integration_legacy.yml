@@ -14,6 +14,22 @@ parameters:
 
     ibexa.site_access.config.default.user_content_type_identifier: ['user']
 
+    ibexa.repositories:
+        default:
+            storage: ~
+            search:
+                engine: '%env(SEARCH_ENGINE)%'
+                connection: default
+            fields_groups:
+                list: [content, metadata]
+                default: content
+            options:
+                default_version_archive_limit: 5
+                remove_archived_versions_on_publish: true
+
+    ibexa.site_access.config.default.repository: default
+    ibexa.site_access.config.default.languages: '%languages%'
+
 services:
     Ibexa\Core\FieldType\ImageAsset\AssetMapper:
         arguments:
