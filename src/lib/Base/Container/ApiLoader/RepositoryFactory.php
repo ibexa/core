@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Base\Container\ApiLoader;
 
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
@@ -28,25 +29,36 @@ use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
-final class RepositoryFactory
+/**
+ * @internal
+ */
+final class RepositoryFactory implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * Policies map.
      *
      * @var array
      */
-    private $policyMap = [];
+    private array $policyMap;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    private $languageResolver;
+    private LanguageResolver $languageResolver;
+
+    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
     public function __construct(
         array $policyMap,
-        LanguageResolver $languageResolver
+        LanguageResolver $languageResolver,
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider
     ) {
         $this->policyMap = $policyMap;
         $this->languageResolver = $languageResolver;
+        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
     }
 
     /**
@@ -55,7 +67,7 @@ final class RepositoryFactory
      * This always returns the true inner Repository, please depend on ezpublish.api.repository and not this method
      * directly to make sure you get an instance wrapped inside Event / Cache / * functionality.
      *
-     * @param string[] $languages
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function buildRepository(
         PersistenceHandler $persistenceHandler,
@@ -77,9 +89,10 @@ final class RepositoryFactory
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
-        NameSchemaServiceInterface $nameSchemaService,
-        array $languages
+        NameSchemaServiceInterface $nameSchemaService
     ): Repository {
+        $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
+
         return new CoreRepository(
             $persistenceHandler,
             $searchHandler,
@@ -106,8 +119,13 @@ final class RepositoryFactory
                 'role' => [
                     'policyMap' => $this->policyMap,
                 ],
-                'languages' => $languages,
+                'languages' => $configResolver->getParameter('languages'),
+                'content' => [
+                    'default_version_archive_limit' => $config['options']['default_version_archive_limit'],
+                    'remove_archived_versions_on_publish' => $config['options']['remove_archived_versions_on_publish'],
+                ],
             ],
+            $this->logger ?? new NullLogger()
         );
     }
 

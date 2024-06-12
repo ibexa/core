@@ -13,33 +13,33 @@ services:
 
     Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory:
         arguments:
-            - '%ibexa.api.role.policy_map%'
-            - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
+            $policyMap: '%ibexa.api.role.policy_map%'
+            $languageResolver: '@Ibexa\Contracts\Core\Repository\LanguageResolver'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
 
     Ibexa\Core\Repository\Repository:
         factory: ['@Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory', buildRepository]
         arguments:
-            - '@ibexa.api.persistence_handler'
-            - '@ibexa.spi.search'
-            - '@Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener'
-            - '@Ibexa\Core\Repository\Helper\RelationProcessor'
-            - '@Ibexa\Core\FieldType\FieldTypeRegistry'
-            - '@Ibexa\Core\Repository\User\PasswordHashService'
-            - '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
-            - '@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory'
-            - '@Ibexa\Core\Repository\Mapper\ContentDomainMapper'
-            - '@Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper'
-            - '@Ibexa\Core\Repository\Mapper\RoleDomainMapper'
-            - '@Ibexa\Core\Repository\Mapper\ContentMapper'
-            - '@Ibexa\Contracts\Core\Repository\Validator\ContentValidator'
-            - '@Ibexa\Core\Repository\Permission\LimitationService'
-            - '@Ibexa\Contracts\Core\Repository\PermissionService'
-            - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
-            - '@Ibexa\Contracts\Core\Persistence\Filter\Location\Handler'
-            - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
-            - '@ibexa.config.resolver'
-            - '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
-            - '%languages%'
+            $persistenceHandler: '@ibexa.api.persistence_handler'
+            $searchHandler: '@ibexa.spi.search'
+            $backgroundIndexer: '@Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener'
+            $relationProcessor: '@Ibexa\Core\Repository\Helper\RelationProcessor'
+            $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
+            $passwordHashService: '@Ibexa\Core\Repository\User\PasswordHashService'
+            $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
+            $proxyDomainMapperFactory: '@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory'
+            $contentDomainMapper: '@Ibexa\Core\Repository\Mapper\ContentDomainMapper'
+            $contentTypeDomainMapper: '@Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper'
+            $roleDomainMapper: '@Ibexa\Core\Repository\Mapper\RoleDomainMapper'
+            $contentMapper: '@Ibexa\Core\Repository\Mapper\ContentMapper'
+            $contentValidator: '@Ibexa\Contracts\Core\Repository\Validator\ContentValidator'
+            $limitationService: '@Ibexa\Core\Repository\Permission\LimitationService'
+            $permissionService: '@Ibexa\Contracts\Core\Repository\PermissionService'
+            $contentFilteringHandler: '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
+            $locationFilteringHandler: '@Ibexa\Contracts\Core\Persistence\Filter\Location\Handler'
+            $passwordValidator: '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
+            $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
+            $nameSchemaService: '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
 
     Ibexa\Core\Repository\ContentService:
         class: Ibexa\Core\Repository\ContentService
