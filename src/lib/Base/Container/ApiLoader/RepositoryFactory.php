@@ -35,22 +35,23 @@ use Psr\Log\NullLogger;
 
 /**
  * @internal
+ *
+ * @phpstan-import-type TPolicyMap from \Ibexa\Contracts\Core\Repository\RoleService
  */
 final class RepositoryFactory implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * Policies map.
-     *
-     * @var array
-     */
+    /** @phpstan-var TPolicyMap */
     private array $policyMap;
 
     private LanguageResolver $languageResolver;
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
+    /**
+     * @phpstan-param TPolicyMap $policyMap
+     */
     public function __construct(
         array $policyMap,
         LanguageResolver $languageResolver,
