@@ -7781,16 +7781,6 @@ parameters:
 			path: src/contracts/Variation/VariationPurger.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Container\\\\ApiLoader\\\\RepositoryFactory\\:\\:__construct\\(\\) has parameter \\$policyMap with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Base/Container/ApiLoader/RepositoryFactory.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Base\\\\Container\\\\ApiLoader\\\\RepositoryFactory\\:\\:\\$policyMap type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Base/Container/ApiLoader/RepositoryFactory.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Container\\\\Compiler\\\\AbstractFieldTypeBasedPass\\:\\:getFieldTypeServiceIds\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: src/lib/Base/Container/Compiler/AbstractFieldTypeBasedPass.php
@@ -20751,11 +20741,6 @@ parameters:
 			path: src/lib/Repository/RoleService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:__construct\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/RoleService.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:buildRoleAssignmentsFromPersistence\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/RoleService.php
@@ -20816,11 +20801,6 @@ parameters:
 			path: src/lib/Repository/RoleService.php
 
 		-
-			message: "#^Parameter \\#1 \\$identifier of method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\LimitationService\\:\\:getLimitationType\\(\\) expects string, int\\|string given\\.$#"
-			count: 1
-			path: src/lib/Repository/RoleService.php
-
-		-
 			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_diff expects array, array\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/RoleService.php
@@ -20833,11 +20813,6 @@ parameters:
 		-
 			message: "#^Parameter \\#3 \\$limitations of method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:validatePolicy\\(\\) expects array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Limitation\\>, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\Limitation\\> given\\.$#"
 			count: 3
-			path: src/lib/Repository/RoleService.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:\\$settings type has no value type specified in iterable type array\\.$#"
-			count: 1
 			path: src/lib/Repository/RoleService.php
 
 		-
