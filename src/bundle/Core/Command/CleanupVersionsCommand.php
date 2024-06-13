@@ -144,7 +144,7 @@ EOT
         if ($contentIdsCount === 0) {
             $output->writeln('<info>There is no content matching the given Criteria.</info>');
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $output->writeln(sprintf(
@@ -225,7 +225,7 @@ EOT
             $contentIdsCount
         ));
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

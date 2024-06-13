@@ -220,7 +220,7 @@ class ReindexCommand extends Command
                 EOT);
 
                 if (!$io->confirm('Continue?', true)) {
-                    return 0;
+                    return Command::SUCCESS;
                 }
             }
 
@@ -230,7 +230,7 @@ class ReindexCommand extends Command
             return $this->indexIncrementally($input, $output, $iterationCount, $commit);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

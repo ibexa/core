@@ -125,7 +125,7 @@ EOT
         if ($locationsCount === 0) {
             $output->writeln('<info>No location was found. Exiting.</info>');
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         if (!$input->getOption('no-interaction')) {
@@ -139,10 +139,10 @@ EOT
                 false
             );
             if (!$helper->ask($input, $output, $question)) {
-                return 0;
+                return Command::SUCCESS;
             }
         } elseif (!$input->getOption('force')) {
-            return 1;
+            return Command::FAILURE;
         }
 
         $this->regenerateSystemUrlAliases($output, $locationsCount, $locationIds, $iterationCount);
@@ -156,7 +156,7 @@ EOT
         $output->writeln("<info>Done. Deleted {$corruptedAliasesCount} entries.</info>");
         $output->writeln('<comment>Make sure to clear HTTP cache.</comment>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

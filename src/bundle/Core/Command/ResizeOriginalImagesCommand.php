@@ -156,7 +156,7 @@ class ResizeOriginalImagesCommand extends Command
                 )
             );
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         try {
@@ -169,7 +169,7 @@ class ResizeOriginalImagesCommand extends Command
                 )
             );
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $query = new Query();
@@ -194,13 +194,13 @@ class ResizeOriginalImagesCommand extends Command
                 )
             );
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('<question>The changes you are going to perform cannot be undone. Remember to do a proper backup before. Would you like to continue?</question> ', false);
         if (!$helper->ask($input, $output, $question)) {
-            return 0;
+            return Command::SUCCESS;
         }
 
         $progressBar = new ProgressBar($output, $totalCount);
@@ -227,7 +227,7 @@ class ResizeOriginalImagesCommand extends Command
             )
         );
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

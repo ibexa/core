@@ -125,7 +125,7 @@ class DeleteContentTranslationCommand extends Command
                 $this->repository->rollback();
                 $this->output->writeln('Reverting and aborting.');
 
-                return 0;
+                return Command::SUCCESS;
             }
 
             // Delete Translation
@@ -142,7 +142,7 @@ class DeleteContentTranslationCommand extends Command
             throw $e;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**

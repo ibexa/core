@@ -150,17 +150,17 @@ EOT
                 sprintf('The selected mode is not supported. Use one of the following modes: %s', implode(', ', array_keys(self::MODES)))
             );
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $from = $input->getOption('from');
         $to = $input->getOption('to');
 
         if ($from && !$this->validateDateTimeString($from, $output)) {
-            return 0;
+            return Command::SUCCESS;
         }
         if ($to && !$this->validateDateTimeString($to, $output)) {
-            return 0;
+            return Command::SUCCESS;
         }
         if ($from) {
             $this->from = $this->dateStringToTimestamp($from);
@@ -192,7 +192,7 @@ EOT
             if ($count == 0) {
                 $output->writeln('Nothing to process, exiting.');
 
-                return 0;
+                return Command::SUCCESS;
             }
 
             $helper = $this->getHelper('question');
@@ -204,7 +204,7 @@ EOT
             if (!$helper->ask($input, $output, $question)) {
                 $output->writeln('');
 
-                return 0;
+                return Command::SUCCESS;
             }
 
             $progressBar = $this->getProgressBar($count, $output);
@@ -253,7 +253,7 @@ EOT
             ]);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     /**
@@ -386,7 +386,7 @@ EOT
     protected function validateDateTimeString($dateTimeString, OutputInterface $output)
     {
         try {
-            new \DateTime($dateTimeString);
+            new DateTime($dateTimeString);
         } catch (\Exception $exception) {
             $output->writeln('The --from and --to options must be a valid Date string.');
 
@@ -498,7 +498,7 @@ EOT
      */
     private function dateStringToTimestamp($dateString)
     {
-        $date = new \DateTime($dateString);
+        $date = new DateTime($dateString);
 
         return $date->getTimestamp();
     }
