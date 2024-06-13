@@ -34,7 +34,7 @@ class InteractiveLoginTokenTest extends TestCase
         self::assertTrue($token->isAuthenticated());
         self::assertSame($originalTokenType, $token->getOriginalTokenType());
         self::assertSame($credentials, $token->getCredentials());
-        self::assertSame($providerKey, $token->getProviderKey());
+        self::assertSame($providerKey, $token->getFirewallName());
         self::assertEquals($expectedRoles, $token->getRoleNames());
     }
 
