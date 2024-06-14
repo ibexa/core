@@ -10,7 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\Security\User;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 final class UsernameProvider extends BaseProvider
 {
@@ -28,7 +28,7 @@ final class UsernameProvider extends BaseProvider
                 $this->userService->loadUserByLogin($user)
             );
         } catch (NotFoundException $e) {
-            throw new UsernameNotFoundException($e->getMessage(), 0, $e);
+            throw new UserNotFoundException($e->getMessage(), 0, $e);
         }
     }
 }

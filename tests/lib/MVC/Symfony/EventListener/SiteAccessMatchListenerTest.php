@@ -82,7 +82,7 @@ class SiteAccessMatchListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->saRouter
@@ -138,7 +138,7 @@ class SiteAccessMatchListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->saRouter
@@ -164,7 +164,7 @@ class SiteAccessMatchListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->saRouter
@@ -192,7 +192,7 @@ class SiteAccessMatchListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $simplifiedRequest = new SimplifiedRequest(
@@ -236,7 +236,7 @@ class SiteAccessMatchListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $simplifiedRequest = new SimplifiedRequest(

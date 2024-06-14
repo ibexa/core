@@ -28,7 +28,7 @@ class OriginalRequestListener implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
         }
 

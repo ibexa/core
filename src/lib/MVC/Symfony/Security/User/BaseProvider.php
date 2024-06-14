@@ -17,7 +17,7 @@ use Ibexa\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
 
 abstract class BaseProvider implements APIUserProviderInterface
@@ -55,7 +55,7 @@ abstract class BaseProvider implements APIUserProviderInterface
 
             return $user;
         } catch (NotFoundException $e) {
-            throw new UsernameNotFoundException($e->getMessage(), 0, $e);
+            throw new UserNotFoundException($e->getMessage(), 0, $e);
         }
     }
 

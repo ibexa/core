@@ -17,8 +17,8 @@ use Ibexa\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
@@ -30,7 +30,7 @@ class RepositoryAuthenticationProviderTest extends TestCase
 {
     private const UNSUPPORTED_USER_PASSWORD_HASH_TYPE = 5;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface */
     private $encoderFactory;
 
     /** @var \Ibexa\Core\MVC\Symfony\Security\Authentication\RepositoryAuthenticationProvider */
@@ -53,7 +53,7 @@ class RepositoryAuthenticationProviderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->encoderFactory = $this->createMock(EncoderFactoryInterface::class);
+        $this->encoderFactory = $this->createMock(PasswordHasherFactoryInterface::class);
         $this->userProvider = $this->createMock(UserProviderInterface::class);
         $this->authProvider = new RepositoryAuthenticationProvider(
             $this->userProvider,

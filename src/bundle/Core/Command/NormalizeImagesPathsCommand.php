@@ -39,6 +39,8 @@ EOT;
 
     protected static $defaultName = 'ibexa:images:normalize-paths';
 
+    protected static $defaultDescription = 'Normalizes stored paths for images.';
+
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
     private $imageGateway;
 
@@ -73,7 +75,6 @@ EOT;
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
 
         $this
-            ->setDescription('Normalizes stored paths for images.')
             ->addOption(
                 self::SKIP_HASHING_COMMAND_PARAMETER,
                 null,

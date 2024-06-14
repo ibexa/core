@@ -24,6 +24,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class DeleteContentTranslationCommand extends Command
 {
+    protected static $defaultDescription = 'Deletes a translation from all versions of a Content item';
+
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     private $repository;
 
@@ -64,8 +66,7 @@ class DeleteContentTranslationCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Ibexa username (with Role containing at least content Policies: read, versionread, edit, remove, versionremove)',
                 'admin'
-            )
-            ->setDescription('Deletes a translation from all versions of a Content item');
+            );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)

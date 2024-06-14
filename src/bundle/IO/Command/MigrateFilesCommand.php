@@ -18,6 +18,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 final class MigrateFilesCommand extends Command
 {
+    protected static $defaultDescription = 'Migrates files from one IO repository to another';
+
     /** @var mixed Configuration for metadata handlers */
     private $configuredMetadataHandlers;
 
