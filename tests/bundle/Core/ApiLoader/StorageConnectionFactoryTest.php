@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
@@ -15,8 +16,9 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
-class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTestCase
+final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTestCase
 {
     /**
      * @dataProvider getConnectionProvider
@@ -32,23 +34,15 @@ class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTe
             ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->willReturn($repositoryAlias);
-
-        $container = $this->getContainerMock();
-        $container
-            ->expects(self::once())
-            ->method('has')
-            ->with("doctrine.dbal.{$doctrineConnection}_connection")
-            ->willReturn(true);
-        $container
-            ->expects(self::once())
-            ->method('get')
-            ->with("doctrine.dbal.{$doctrineConnection}_connection")
-            ->willReturn($this->createMock(Connection::class));
+            ->willReturn($repositoryAlias)
+        ;
 
         $repositoryConfigurationProvider = new RepositoryConfigurationProvider($configResolver, $repositories);
-        $factory = new StorageConnectionFactory($repositoryConfigurationProvider);
-        $factory->setContainer($container);
+        $factory = $this->buildStorageConnectionFactory(
+            $repositoryConfigurationProvider,
+            $doctrineConnection,
+            [$doctrineConnection => "doctrine.dbal.{$doctrineConnection}_connection"]
+        );
         $connection = $factory->getConnection();
         self::assertInstanceOf(Connection::class, $connection);
     }
@@ -56,7 +50,7 @@ class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTe
     /**
      * @return list<array{string, string}>
      */
-    public function getConnectionProvider(): array
+    public static function getConnectionProvider(): array
     {
         return [
             ['my_repository', 'my_doctrine_connection'],
@@ -65,6 +59,11 @@ class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTe
         ];
     }
 
+    /**
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function testGetConnectionInvalidRepository(): void
     {
         $repositories = [
@@ -76,11 +75,11 @@ class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTe
             ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->willReturn('nonexistent_repository');
+            ->willReturn('nonexistent_repository')
+        ;
 
         $repositoryConfigurationProvider = new RepositoryConfigurationProvider($configResolver, $repositories);
-        $factory = new StorageConnectionFactory($repositoryConfigurationProvider);
-        $factory->setContainer($this->getContainerMock());
+        $factory = $this->buildStorageConnectionFactory($repositoryConfigurationProvider);
 
         $this->expectException(InvalidRepositoryException::class);
         $factory->getConnection();
@@ -99,21 +98,14 @@ class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTe
         $repositoryConfigurationProviderMock
             ->expects(self::once())
             ->method('getRepositoryConfig')
-            ->willReturn($repositoryConfig);
+            ->willReturn($repositoryConfig)
+        ;
 
-        $container = $this->getContainerMock();
-        $container
-            ->expects(self::once())
-            ->method('has')
-            ->with('doctrine.dbal.my_doctrine_connection_connection')
-            ->willReturn(false);
-        $container
-            ->expects(self::once())
-            ->method('getParameter')
-            ->with('doctrine.connections')
-            ->willReturn([]);
-        $factory = new StorageConnectionFactory($repositoryConfigurationProviderMock);
-        $factory->setContainer($container);
+        $factory = $this->buildStorageConnectionFactory(
+            $repositoryConfigurationProviderMock,
+            'my_doctrine_connection',
+            []
+        );
 
         $this->expectException(\InvalidArgumentException::class);
         $factory->getConnection();
@@ -127,5 +119,32 @@ class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTe
     protected function getContainerMock(): ContainerInterface & MockObject
     {
         return $this->createMock(ContainerInterface::class);
+    }
+
+    /**
+     * @param array<string, string> $doctrineConnections
+     */
+    private function buildStorageConnectionFactory(
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+        string $connectionName = 'default',
+        array $doctrineConnections = ['default' => 'doctrine.dbal.default_connection']
+    ): StorageConnectionFactory {
+        $serviceLocatorMock = $this->createMock(ServiceLocator::class);
+        $serviceLocatorMock
+            ->method('has')
+            ->with($connectionName)
+            ->willReturn(isset($doctrineConnections[$connectionName]))
+        ;
+        if (isset($doctrineConnections[$connectionName])) {
+            $serviceLocatorMock->method('get')->with($connectionName)->willReturn($this->createMock(Connection::class));
+        } else {
+            $serviceLocatorMock->expects(self::never())->method('get');
+        }
+
+        return new StorageConnectionFactory(
+            $repositoryConfigurationProvider,
+            $serviceLocatorMock,
+            $doctrineConnections
+        );
     }
 }
