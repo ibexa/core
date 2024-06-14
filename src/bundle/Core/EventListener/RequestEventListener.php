@@ -14,6 +14,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -128,7 +129,7 @@ class RequestEventListener implements EventSubscriberInterface
                 $event->setResponse(
                     new RedirectResponse(
                         $semanticPathinfo . ($queryString ? "?$queryString" : ''),
-                        301,
+                        Response::HTTP_MOVED_PERMANENTLY,
                         $headers
                     )
                 );

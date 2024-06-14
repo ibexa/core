@@ -42,6 +42,8 @@ EOT;
         self::VERSION_PUBLISHED => VersionInfo::STATUS_PUBLISHED,
     ];
 
+    protected static $defaultName = 'ibexa:content:cleanup-versions';
+
     protected static $defaultDescription = 'Removes unwanted content versions. Keeps the published version untouched. By default, also keeps the last archived/draft version.';
 
     private readonly Repository $repository;
@@ -66,8 +68,6 @@ EOT;
     {
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
         $this
-            ->setName('ibexa:content:cleanup-versions')
-            ->setDescription('Removes unwanted content versions. Keeps the published version untouched. By default, also keeps the last archived/draft version.')
             ->addOption(
                 'status',
                 't',

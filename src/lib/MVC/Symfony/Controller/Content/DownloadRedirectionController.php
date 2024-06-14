@@ -15,6 +15,7 @@ use Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
 class DownloadRedirectionController extends Controller
@@ -71,7 +72,7 @@ class DownloadRedirectionController extends Controller
             $downloadRouteRef->getParams()
         );
 
-        return new RedirectResponse($downloadUrl, 302);
+        return new RedirectResponse($downloadUrl, Response::HTTP_FOUND);
     }
 
     /**
