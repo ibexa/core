@@ -28,7 +28,7 @@ class PriceMapper extends FieldValueMapper
      *
      * @return mixed
      */
-    public function map(Field $field)
+    public function map(Field $field): float
     {
         return (float)$field->getValue();
     }

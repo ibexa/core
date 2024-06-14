@@ -881,7 +881,7 @@ class LocationServiceTest extends BaseTest
 
         usort(
             $locations,
-            static function ($a, $b) {
+            static function ($a, $b): int {
                 return strcmp($a->id, $b->id);
             }
         );
@@ -1824,7 +1824,7 @@ class LocationServiceTest extends BaseTest
         $locationService = $repository->getLocationService();
 
         $expectedLocationIds = array_map(
-            static function (Location $location) {
+            static function (Location $location): int {
                 return (int)$location->id;
             },
             $expectedLocations
@@ -3750,7 +3750,7 @@ class LocationServiceTest extends BaseTest
         self::assertNotEmpty(
             array_filter(
                 $articleAliasesBeforeDelete,
-                static function (URLAlias $alias) use ($expectedAliasPath) {
+                static function (URLAlias $alias) use ($expectedAliasPath): bool {
                     return $alias->path === $expectedAliasPath;
                 }
             )

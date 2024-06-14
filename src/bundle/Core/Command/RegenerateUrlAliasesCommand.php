@@ -117,7 +117,7 @@ EOT
             $locationsCount = count($locationIds);
         } else {
             $locationsCount = $this->repository->sudo(
-                static function (Repository $repository) {
+                static function (Repository $repository): int {
                     return $repository->getLocationService()->getAllLocationsCount();
                 }
             );
@@ -150,7 +150,7 @@ EOT
 
         $output->writeln('<info>Cleaning up corrupted URL aliases...</info>');
         $corruptedAliasesCount = $this->repository->sudo(
-            static function (Repository $repository) {
+            static function (Repository $repository): int {
                 return $repository->getURLAliasService()->deleteCorruptedUrlAliases();
             }
         );

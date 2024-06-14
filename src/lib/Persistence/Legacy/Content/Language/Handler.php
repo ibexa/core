@@ -80,7 +80,7 @@ class Handler implements BaseLanguageHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    public function load($id)
+    public function load($id): \Ibexa\Contracts\Core\Persistence\Content\Language
     {
         $languages = $this->languageMapper->extractLanguagesFromRows(
             $this->languageGateway->loadLanguageListData([$id])
@@ -113,7 +113,7 @@ class Handler implements BaseLanguageHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    public function loadByLanguageCode($languageCode)
+    public function loadByLanguageCode($languageCode): \Ibexa\Contracts\Core\Persistence\Content\Language
     {
         $languages = $this->languageMapper->extractLanguagesFromRows(
             $this->languageGateway->loadLanguageListDataByLanguageCode([$languageCode])

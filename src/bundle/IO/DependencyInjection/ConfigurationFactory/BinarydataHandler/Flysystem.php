@@ -11,7 +11,7 @@ use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory\Flysystem as BaseFa
 
 class Flysystem extends BaseFactory
 {
-    public function getParentServiceId()
+    public function getParentServiceId(): string
     {
         return 'ibexa.core.io.binarydata_handler.flysystem';
     }

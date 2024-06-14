@@ -60,7 +60,7 @@ class Type extends BaseType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezmedia';
     }
@@ -263,7 +263,7 @@ class Type extends BaseType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return false;
     }

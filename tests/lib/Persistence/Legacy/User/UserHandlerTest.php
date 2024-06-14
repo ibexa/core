@@ -923,12 +923,12 @@ class UserHandlerTest extends TestCase
         self::assertTrue(
             array_reduce(
                 array_map(
-                    static function ($policy) {
+                    static function ($policy): bool {
                         return $policy instanceof Persistence\User\Policy;
                     },
                     $policies
                 ),
-                static function ($a, $b) {
+                static function ($a, $b): bool {
                     return $a && $b;
                 },
                 true

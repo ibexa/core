@@ -24,7 +24,7 @@ class IntegerValueValidatorTest extends TestCase
     /**
      * @return int
      */
-    protected function getMinIntegerValue()
+    protected function getMinIntegerValue(): int
     {
         return 10;
     }
@@ -32,7 +32,7 @@ class IntegerValueValidatorTest extends TestCase
     /**
      * @return int
      */
-    protected function getMaxIntegerValue()
+    protected function getMaxIntegerValue(): int
     {
         return 15;
     }

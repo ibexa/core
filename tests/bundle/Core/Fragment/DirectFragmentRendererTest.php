@@ -31,7 +31,7 @@ final class DirectFragmentRendererTest extends TestCase
         $controllerResolver
             ->expects(self::any())
             ->method('getController')
-            ->with(self::callback(function (Request $request) {
+            ->with(self::callback(function (Request $request): bool {
                 $this->assertEquals('/_fragment', $request->getPathInfo());
                 $this->assertEquals('some::controller', $request->attributes->get('_controller'));
                 $this->assertEquals('attribute_value', $request->attributes->get('some'));
@@ -41,7 +41,7 @@ final class DirectFragmentRendererTest extends TestCase
 
                 return true;
             }))
-            ->willReturn(static function () {
+            ->willReturn(static function (): string {
                 return 'rendered_response';
             });
 
@@ -123,7 +123,7 @@ final class DirectFragmentRendererTest extends TestCase
 
         $controllerResolver
             ->method('getController')
-            ->willReturn(static function () {
+            ->willReturn(static function (): string {
                 return 'some_prerendered_response';
             });
 

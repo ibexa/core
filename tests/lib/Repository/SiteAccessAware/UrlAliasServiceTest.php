@@ -14,12 +14,12 @@ use Ibexa\Core\Repository\Values\Content\Location;
 
 class UrlAliasServiceTest extends AbstractServiceTest
 {
-    public function getAPIServiceClassName()
+    public function getAPIServiceClassName(): string
     {
         return APIService::class;
     }
 
-    public function getSiteAccessAwareServiceClassName()
+    public function getSiteAccessAwareServiceClassName(): string
     {
         return URLAliasService::class;
     }

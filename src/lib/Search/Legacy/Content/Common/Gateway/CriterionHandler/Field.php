@@ -67,7 +67,7 @@ class Field extends FieldBase
      *
      * @return bool
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\Field;
     }
@@ -131,7 +131,7 @@ class Field extends FieldBase
         QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $fieldsInformation = $this->getFieldsInformation($criterion->target);
 
         $subSelect = $this->connection->createQueryBuilder();

@@ -246,7 +246,7 @@ class Legacy implements IOServiceInterface
      *
      * @return bool true if $internalPath is the path to a published image
      */
-    protected function isPublishedImagePath($internalPath)
+    protected function isPublishedImagePath($internalPath): bool
     {
         return strpos($internalPath, $this->publishedPrefix) === 0;
     }
@@ -258,7 +258,7 @@ class Legacy implements IOServiceInterface
      *
      * @return bool true if $internalPath is the path to a published image
      */
-    protected function isDraftImagePath($internalPath)
+    protected function isDraftImagePath($internalPath): bool
     {
         return strpos($internalPath, $this->draftPrefix) === 0;
     }

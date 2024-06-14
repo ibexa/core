@@ -37,7 +37,7 @@ class MapLocationDistance extends FieldBase
      *
      * @return bool
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\MapLocationDistance;
     }
@@ -80,7 +80,7 @@ class MapLocationDistance extends FieldBase
         return $fieldDefinitionIdList;
     }
 
-    protected function kilometersToDegrees($kilometers)
+    protected function kilometersToDegrees($kilometers): float
     {
         return $kilometers / self::DEGREE_KM;
     }

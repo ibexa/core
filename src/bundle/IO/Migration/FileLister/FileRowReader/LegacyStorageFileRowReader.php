@@ -59,7 +59,7 @@ abstract class LegacyStorageFileRowReader implements FileRowReaderInterface
      *
      * @return string
      */
-    private function prependMimeToPath($path, $mimeType)
+    private function prependMimeToPath($path, $mimeType): string
     {
         return substr($mimeType, 0, strpos($mimeType, '/')) . '/' . $path;
     }

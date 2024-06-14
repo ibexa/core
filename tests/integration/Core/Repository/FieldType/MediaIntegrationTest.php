@@ -74,7 +74,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezmedia';
     }
@@ -180,7 +180,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Icy-Night-Flower-Binary.jpg';
     }
@@ -416,7 +416,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
         );
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         $value = $this->getValidSearchValueOne();
 
@@ -424,7 +424,7 @@ class MediaIntegrationTest extends FileSearchBaseIntegrationTest
         return strtoupper($value->fileName);
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         $value = $this->getValidSearchValueTwo();
 

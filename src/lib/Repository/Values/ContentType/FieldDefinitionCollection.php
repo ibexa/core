@@ -161,14 +161,14 @@ final class FieldDefinitionCollection implements FieldDefinitionCollectionInterf
 
     private function getIsTypePredicate(string $fieldTypeIdentifier): Closure
     {
-        return static function (FieldDefinition $fieldDefinition) use ($fieldTypeIdentifier) {
+        return static function (FieldDefinition $fieldDefinition) use ($fieldTypeIdentifier): bool {
             return $fieldDefinition->getFieldTypeIdentifier() === $fieldTypeIdentifier;
         };
     }
 
     private function getInGroupPredicate(string $fieldGroup): Closure
     {
-        return static function (FieldDefinition $fieldDefinition) use ($fieldGroup) {
+        return static function (FieldDefinition $fieldDefinition) use ($fieldGroup): bool {
             return $fieldDefinition->fieldGroup === $fieldGroup;
         };
     }

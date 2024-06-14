@@ -99,7 +99,7 @@ class FileSizeExtension extends AbstractExtension
      *
      * @return string
      */
-    public function sizeFilter($number, $precision)
+    public function sizeFilter($number, $precision): string|false
     {
         $mod = 1024;
         $index = count($this->suffixes);

@@ -14,12 +14,12 @@ use Ibexa\Core\Repository\SiteAccessAware\LanguageService;
 
 class LanguageServiceTest extends AbstractServiceTest
 {
-    public function getAPIServiceClassName()
+    public function getAPIServiceClassName(): string
     {
         return APIService::class;
     }
 
-    public function getSiteAccessAwareServiceClassName()
+    public function getSiteAccessAwareServiceClassName(): string
     {
         return LanguageService::class;
     }

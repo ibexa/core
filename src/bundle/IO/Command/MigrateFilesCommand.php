@@ -214,7 +214,7 @@ EOT
         $fromHandlers,
         $toHandlers,
         OutputInterface $output
-    ) {
+    ): bool {
         foreach (['From' => $fromHandlers, 'To' => $toHandlers] as $direction => $handlers) {
             $lowerDirection = strtolower($direction);
             if (count($handlers) !== 2) {

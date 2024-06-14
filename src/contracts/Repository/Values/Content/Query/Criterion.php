@@ -154,23 +154,23 @@ abstract class Criterion implements CriterionInterface
      */
     private function getValueTypeCheckCallback(int $valueTypes): callable
     {
-        $callback = static function ($value) {
+        $callback = static function ($value): bool {
             return false;
         };
 
         // the callback code will return true as soon as an accepted value type is found
         if ($valueTypes & Specifications::TYPE_INTEGER) {
-            $callback = static function ($value) use ($callback) {
+            $callback = static function ($value) use ($callback): bool {
                 return is_numeric($value) || $callback($value);
             };
         }
         if ($valueTypes & Specifications::TYPE_STRING) {
-            $callback = static function ($value) use ($callback) {
+            $callback = static function ($value) use ($callback): bool {
                 return is_string($value) || $callback($value);
             };
         }
         if ($valueTypes & Specifications::TYPE_BOOLEAN) {
-            $callback = static function ($value) use ($callback) {
+            $callback = static function ($value) use ($callback): bool {
                 return is_bool($value) || $callback($value);
             };
         }

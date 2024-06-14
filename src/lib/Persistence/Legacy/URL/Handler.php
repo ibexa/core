@@ -72,7 +72,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadById($id)
+    public function loadById($id): \Ibexa\Contracts\Core\Persistence\URL\URL
     {
         $url = $this->urlMapper->extractURLsFromRows(
             $this->urlGateway->loadUrlData($id)
@@ -88,7 +88,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadByUrl($url)
+    public function loadByUrl($url): \Ibexa\Contracts\Core\Persistence\URL\URL
     {
         $urls = $this->urlMapper->extractURLsFromRows(
             $this->urlGateway->loadUrlDataByUrl($url)

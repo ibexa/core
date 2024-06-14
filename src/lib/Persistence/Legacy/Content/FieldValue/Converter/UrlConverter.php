@@ -92,7 +92,7 @@ class UrlConverter implements Converter
      *
      * @return false
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): bool
     {
         return false;
     }

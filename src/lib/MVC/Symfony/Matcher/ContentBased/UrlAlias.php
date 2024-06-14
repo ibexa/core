@@ -21,7 +21,7 @@ class UrlAlias extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(Location $location)
+    public function matchLocation(Location $location): bool
     {
         $urlAliasService = $this->repository->getURLAliasService();
         $locationUrls = array_merge(

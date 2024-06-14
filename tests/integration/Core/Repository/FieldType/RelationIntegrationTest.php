@@ -29,7 +29,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezobjectrelation';
     }
@@ -37,7 +37,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
     /**
      * {@inheritdoc}
      */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
         parent::supportsLikeWildcard($value);
 
@@ -189,7 +189,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Users';
     }
@@ -353,7 +353,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): int
     {
         // Using different values for Legacy Search Engine, in order to demonstrate that sort will
         // depend on how search engine stores field type's value. Legacy stores it as integer, while
@@ -365,7 +365,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
         return 10;
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): int
     {
         // Using different values for Legacy Search Engine, in order to demonstrate that sort will
         // depend on how search engine stores field type's value. Legacy stores it as integer, while

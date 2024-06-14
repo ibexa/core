@@ -43,7 +43,7 @@ class URIText extends Regex implements VersatileMatcher, URILexer
         $this->siteAccessesConfiguration = $siteAccessesConfiguration;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'uri:text';
     }
@@ -69,7 +69,7 @@ class URIText extends Regex implements VersatileMatcher, URILexer
      *
      * @return string The modified URI
      */
-    public function analyseURI($uri)
+    public function analyseURI($uri): ?string
     {
         $uri = '/' . ltrim($uri, '/');
 
@@ -83,7 +83,7 @@ class URIText extends Regex implements VersatileMatcher, URILexer
      *
      * @return string The modified link URI
      */
-    public function analyseLink($linkUri)
+    public function analyseLink($linkUri): string
     {
         $linkUri = '/' . ltrim($linkUri, '/');
         $siteAccessUri = "/$this->prefix" . $this->match() . $this->suffix;

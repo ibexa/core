@@ -117,7 +117,7 @@ class IntegerConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         return 'sort_key_int';
     }
@@ -133,7 +133,7 @@ class IntegerConverter implements Converter
      *
      * @return int
      */
-    private function getStorageDefValidatorState($minValue, $maxValue)
+    private function getStorageDefValidatorState($minValue, $maxValue): int
     {
         $state = 0;
 

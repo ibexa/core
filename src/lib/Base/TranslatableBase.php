@@ -46,7 +46,7 @@ trait TranslatableBase
         return $this->parameters;
     }
 
-    public function getBaseTranslation()
+    public function getBaseTranslation(): string
     {
         return strtr($this->messageTemplate, $this->parameters);
     }

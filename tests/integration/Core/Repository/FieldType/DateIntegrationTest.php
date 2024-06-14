@@ -27,7 +27,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezdate';
     }
@@ -35,7 +35,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
     /**
      * {@inheritdoc}
      */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
         parent::supportsLikeWildcard($value);
 
@@ -128,7 +128,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Friday 02 January 1970';
     }
@@ -317,12 +317,12 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): int
     {
         return 86400;
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): int
     {
         return 172800;
     }

@@ -45,7 +45,7 @@ class UrlStorage extends GatewayBasedStorage
      *
      * @return bool|mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context): bool
     {
         $url = $field->value->externalData;
 
@@ -116,7 +116,7 @@ class UrlStorage extends GatewayBasedStorage
      *
      * @return bool
      */
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }

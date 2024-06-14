@@ -149,7 +149,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezfloat';
     }
@@ -180,7 +180,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value->value === null;
     }
