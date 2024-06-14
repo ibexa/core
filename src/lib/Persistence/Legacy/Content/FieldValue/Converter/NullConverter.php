@@ -89,7 +89,7 @@ class NullConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): bool
     {
         return false;
     }

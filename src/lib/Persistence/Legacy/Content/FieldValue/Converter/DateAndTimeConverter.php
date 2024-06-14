@@ -147,7 +147,7 @@ class DateAndTimeConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         return 'sort_key_int';
     }
@@ -159,7 +159,7 @@ class DateAndTimeConverter implements Converter
      *
      * @return string The generated XML string
      */
-    protected function generateDateIntervalXML(DateInterval $dateInterval)
+    protected function generateDateIntervalXML(DateInterval $dateInterval): string|false
     {
         // Constructing XML structure
         $doc = new DOMDocument('1.0', 'utf-8');

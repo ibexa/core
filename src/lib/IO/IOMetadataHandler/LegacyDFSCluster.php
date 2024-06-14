@@ -161,7 +161,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @return bool
      */
-    public function exists($spiBinaryFileId)
+    public function exists($spiBinaryFileId): bool
     {
         $path = (string)$this->addPrefix($spiBinaryFileId);
 
@@ -209,7 +209,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @return string
      */
-    protected function getScope(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
+    protected function getScope(SPIBinaryFileCreateStruct $binaryFileCreateStruct): string
     {
         [$filePrefix] = explode('/', $binaryFileCreateStruct->id);
 

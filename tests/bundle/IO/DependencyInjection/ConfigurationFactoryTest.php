@@ -72,7 +72,7 @@ abstract class ConfigurationFactoryTest extends AbstractContainerBuilderTestCase
     /**
      * Registers the handler in the container, like the pass would have done.
      */
-    private function registerHandler($name)
+    private function registerHandler($name): string
     {
         $this->setDefinition($this->provideExpectedParentServiceId(), $this->provideParentServiceDefinition());
         $handlerServiceId = sprintf('%s.%s', $this->provideExpectedParentServiceId(), $name);

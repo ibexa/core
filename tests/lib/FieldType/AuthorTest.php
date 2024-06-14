@@ -519,7 +519,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return string
      */
-    protected function provideFieldTypeIdentifier()
+    protected function provideFieldTypeIdentifier(): string
     {
         return 'ezauthor';
     }

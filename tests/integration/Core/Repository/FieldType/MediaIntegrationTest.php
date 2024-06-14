@@ -53,7 +53,7 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCase
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezmedia';
     }

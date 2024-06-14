@@ -183,7 +183,7 @@ class ParentContentTypeLimitationType extends AbstractPersistenceLimitationType 
      *
      * @return bool
      */
-    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets = null)
+    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets = null): bool
     {
         // If targets is empty/null return false as user does not have access
         // to content w/o location with this limitation

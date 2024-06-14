@@ -146,7 +146,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezobjectrelation';
     }
@@ -215,7 +215,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value->destinationContentId === null;
     }
@@ -265,7 +265,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): string
     {
         return (string)$value;
     }
@@ -313,7 +313,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

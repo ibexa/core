@@ -545,7 +545,7 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @return bool
      */
-    public function removeURLAliases(array $urlAliases)
+    public function removeURLAliases(array $urlAliases): bool
     {
         foreach ($urlAliases as $urlAlias) {
             if ($urlAlias->isCustom) {
@@ -829,7 +829,7 @@ class Handler implements UrlAliasHandlerInterface
         $location2ParentId,
         $name2,
         $languageId
-    ) {
+    ): bool {
         if ($location1ParentId === $location2ParentId && $name1 === $name2) {
             $locationEntry1 = $this->getLocationEntryInLanguage($location1Entries, $languageId);
             $locationEntry2 = $this->getLocationEntryInLanguage($location2Entries, $languageId);
@@ -912,7 +912,7 @@ class Handler implements UrlAliasHandlerInterface
     {
         $entries = array_filter(
             $locationEntries,
-            static function (array $row) use ($languageId) {
+            static function (array $row) use ($languageId): bool {
                 return (bool) ($row['lang_mask'] & $languageId);
             }
         );
@@ -1085,7 +1085,7 @@ class Handler implements UrlAliasHandlerInterface
      *
      * @return string
      */
-    protected function getHash($text)
+    protected function getHash($text): string
     {
         return md5(mb_strtolower($text, 'UTF-8'));
     }

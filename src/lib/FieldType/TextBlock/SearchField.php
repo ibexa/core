@@ -40,7 +40,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    private function extractShortText($string)
+    private function extractShortText($string): string
     {
         return mb_substr(strtok(trim((string)$string), "\r\n"), 0, 255);
     }
@@ -61,7 +61,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    public function getDefaultMatchField()
+    public function getDefaultMatchField(): string
     {
         return 'value';
     }

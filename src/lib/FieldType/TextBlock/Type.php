@@ -29,7 +29,7 @@ class Type extends BaseTextType
 
     protected $validatorConfigurationSchema = [];
 
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'eztext';
     }

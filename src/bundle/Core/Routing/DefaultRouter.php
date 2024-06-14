@@ -139,7 +139,7 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
      *
      * @return bool
      */
-    protected function isSiteAccessAwareRoute($routeName)
+    protected function isSiteAccessAwareRoute($routeName): bool
     {
         foreach ($this->nonSiteAccessAwareRoutes as $ignoredPrefix) {
             if (strpos($routeName, $ignoredPrefix) === 0) {

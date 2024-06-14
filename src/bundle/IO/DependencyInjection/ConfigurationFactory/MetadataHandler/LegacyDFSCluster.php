@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class LegacyDFSCluster implements ConfigurationFactory
 {
-    public function getParentServiceId()
+    public function getParentServiceId(): string
     {
         return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }

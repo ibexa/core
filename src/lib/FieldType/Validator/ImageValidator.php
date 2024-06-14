@@ -25,7 +25,7 @@ class ImageValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validate(Value $value, ?FieldDefinition $fieldDefinition = null)
+    public function validate(Value $value, ?FieldDefinition $fieldDefinition = null): bool
     {
         $mimeTypes = [];
         if (null !== $fieldDefinition) {

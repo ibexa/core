@@ -102,7 +102,7 @@ abstract class AbstractViewTest extends TestCase
         return [
             ['foo:bar:baz.html.twig'],
             [
-                static function () {
+                static function (): string {
                     return 'foo';
                 },
             ],

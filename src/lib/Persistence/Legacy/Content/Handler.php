@@ -469,7 +469,7 @@ class Handler implements BaseContentHandler
     /**
      * {@inheritdoc}
      */
-    public function loadVersionInfo($contentId, $versionNo = null)
+    public function loadVersionInfo($contentId, $versionNo = null): \Ibexa\Contracts\Core\Persistence\Content\VersionInfo|false
     {
         $rows = $this->contentGateway->loadVersionInfo($contentId, $versionNo);
         if (empty($rows)) {
@@ -933,7 +933,7 @@ class Handler implements BaseContentHandler
         // get all [languageCode => name] entries except the removed Translation
         $names = array_filter(
             $versionInfo->names,
-            static function ($lang) use ($languageCode) {
+            static function ($lang) use ($languageCode): bool {
                 return $lang !== $languageCode;
             },
             ARRAY_FILTER_USE_KEY

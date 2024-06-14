@@ -53,7 +53,7 @@ class PoliciesConfigBuilder extends ContainerConfigBuilder
      *
      * @return bool
      */
-    private function policyExists(array $policyMap, $module, $function)
+    private function policyExists(array $policyMap, $module, $function): bool
     {
         return array_key_exists($module, $policyMap) && array_key_exists($function, $policyMap[$module]);
     }

@@ -29,7 +29,7 @@ class CoreVoter implements VoterInterface
      *
      * @return bool true if this Voter supports the attribute, false otherwise
      */
-    public function supportsAttribute($attribute)
+    public function supportsAttribute($attribute): bool
     {
         return $attribute instanceof AuthorizationAttribute && empty($attribute->limitations);
     }
@@ -41,7 +41,7 @@ class CoreVoter implements VoterInterface
      *
      * @return true if this Voter can process the class
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return true;
     }

@@ -25,7 +25,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezinteger';
     }
@@ -127,7 +127,7 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return '23';
     }
@@ -301,12 +301,12 @@ class IntegerIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): int
     {
         return 25;
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): int
     {
         return 26;
     }

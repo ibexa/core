@@ -24,7 +24,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'eztext';
     }
@@ -115,7 +115,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Example';
     }
@@ -285,23 +285,23 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): string
     {
         return 'caution is the " path to mediocrity' . PHP_EOL . 'something completely different';
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         // ensure case-insensitivity
         return strtoupper('caution is the " path to mediocrity');
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): string
     {
         return "truth suffers from ' too much analysis\n hello and goodbye";
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         // ensure case-insensitivity
         return strtoupper("truth suffers from ' too much analysis");

@@ -37,7 +37,7 @@ class LocationRemote extends MultipleValued
     {
     }
 
-    public function match(View $view)
+    public function match(View $view): bool
     {
         if (!$view instanceof LocationValueView) {
             return false;

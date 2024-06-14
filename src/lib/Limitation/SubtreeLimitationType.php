@@ -147,7 +147,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
             return self::ACCESS_ABSTAIN;
         }
 
-        $targets = array_filter($targets, static function ($target) {
+        $targets = array_filter($targets, static function ($target): bool {
             return !$target instanceof Version;
         });
 
@@ -194,7 +194,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
      *
      * @return bool
      */
-    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets)
+    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets): bool
     {
         // If targets is empty/null return false as user does not have access
         // to content w/o location with this limitation
@@ -264,7 +264,7 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): int
     {
         return self::VALUE_SCHEMA_LOCATION_PATH;
     }

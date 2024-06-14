@@ -26,7 +26,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezbinaryfile';
     }

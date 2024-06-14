@@ -373,7 +373,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @return bool
      */
-    public function delete($contentTypeId, $status)
+    public function delete($contentTypeId, $status): bool
     {
         if (Type::STATUS_DEFINED === $status && $this->contentTypeGateway->countInstancesOfType($contentTypeId)) {
             throw new BadStateException(
@@ -470,7 +470,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @todo Add throws for NotFound and BadState when group is not assigned to type
      */
-    public function unlink($groupId, $contentTypeId, $status)
+    public function unlink($groupId, $contentTypeId, $status): bool
     {
         $groupCount = $this->contentTypeGateway->countGroupsForType($contentTypeId, $status);
         if ($groupCount < 2) {
@@ -494,7 +494,7 @@ class Handler implements BaseContentTypeHandler
      *
      * @todo Above throws are not implemented
      */
-    public function link($groupId, $contentTypeId, $status)
+    public function link($groupId, $contentTypeId, $status): bool
     {
         $this->contentTypeGateway->insertGroupAssignment($groupId, $contentTypeId, $status);
 

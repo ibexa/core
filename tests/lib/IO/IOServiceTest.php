@@ -128,7 +128,7 @@ class IOServiceTest extends TestCase
             ->method('create')
             ->with(
                 self::callback(
-                    static function ($subject) use ($id) {
+                    static function ($subject) use ($id): bool {
                         if (!$subject instanceof SPIBinaryFileCreateStruct) {
                             return false;
                         }
@@ -396,7 +396,7 @@ class IOServiceTest extends TestCase
      */
     private function getSPIBinaryFileCreateStructCallback($spiId): \Closure
     {
-        return static function ($subject) use ($spiId) {
+        return static function ($subject) use ($spiId): bool {
             if (!$subject instanceof SPIBinaryFileCreateStruct) {
                 return false;
             }

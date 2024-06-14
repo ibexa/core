@@ -25,7 +25,7 @@ class PermissionsCriterionHandler extends PermissionCriterionResolver
      *
      * @return bool
      */
-    public function addPermissionsCriterion(Criterion &$criterion)
+    public function addPermissionsCriterion(Criterion &$criterion): bool
     {
         $permissionCriterion = $this->getPermissionsCriterion();
         if ($permissionCriterion === true || $permissionCriterion === false) {

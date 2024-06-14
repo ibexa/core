@@ -54,7 +54,7 @@ class FieldNameGenerator
      *
      * @return string
      */
-    public function getName($name, $field = null, $type = null)
+    public function getName($name, $field = null, $type = null): string
     {
         return implode('_', array_filter([$type, $field, $name]));
     }

@@ -101,7 +101,7 @@ class AliasGeneratorDecorator implements VariationHandler, SiteAccessAware
      *
      * @return string
      */
-    private function getCacheKey(Field $field, VersionInfo $versionInfo, $variationName)
+    private function getCacheKey(Field $field, VersionInfo $versionInfo, $variationName): string
     {
         return sprintf(
             $this->cacheIdentifierGenerator->generateKey(self::IMAGE_VARIATION_IDENTIFIER, [], true) . '-%s-%s-%s-%d-%d-%d-%s-%s',

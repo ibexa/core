@@ -40,7 +40,7 @@ class TranslationCollectorPassTest extends AbstractCompilerPassTestCase
      *
      * @return mixed
      */
-    private function normalizePath($path)
+    private function normalizePath($path): string|array
     {
         return str_replace('/', \DIRECTORY_SEPARATOR, $path);
     }

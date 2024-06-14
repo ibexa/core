@@ -142,7 +142,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
             }
         }
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location[]|\Ibexa\Contracts\Core\Persistence\Content\Location[] $targets */
-        $targets = array_filter($targets, static function ($target) {
+        $targets = array_filter($targets, static function ($target): bool {
             return $target instanceof Location || $target instanceof SPILocation;
         });
 
@@ -170,7 +170,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      *
      * @return bool
      */
-    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets = null)
+    protected function evaluateForContentCreateStruct(APILimitationValue $value, array $targets = null): bool
     {
         // If targets is empty/null return false as user does not have access
         // to content w/o location with this limitation
@@ -230,7 +230,7 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): int
     {
         return self::VALUE_SCHEMA_LOCATION_ID;
     }

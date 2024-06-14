@@ -84,7 +84,7 @@ class Type extends BaseTextType
         return false === $validator->validate($fieldValue, $fieldDefinition) ? $validator->getMessage() : [];
     }
 
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezstring';
     }

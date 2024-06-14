@@ -1360,7 +1360,7 @@ class ContentTest extends BaseServiceMockTest
                 self::equalTo($locationCreateStructs)
             )->will(
                 self::returnCallback(
-                    static function () use ($that, $contentCreateStruct) {
+                    static function () use ($that, $contentCreateStruct): bool {
                         $that->assertEquals($contentCreateStruct, func_get_arg(2));
 
                         return true;
@@ -1376,7 +1376,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('toPersistenceValue')
             ->will(
                 self::returnCallback(
-                    static function (ValueStub $value) {
+                    static function (ValueStub $value): string {
                         return (string)$value;
                     }
                 )
@@ -1983,7 +1983,7 @@ class ContentTest extends BaseServiceMockTest
                 self::equalTo([])
             )->will(
                 self::returnCallback(
-                    static function () use ($that, $contentCreateStruct) {
+                    static function () use ($that, $contentCreateStruct): bool {
                         $that->assertEquals($contentCreateStruct, func_get_arg(2));
 
                         return true;
@@ -1996,7 +1996,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isInstanceOf(APIContentCreateStruct::class))
             ->will(
                 self::returnCallback(
-                    static function ($object) use ($that, $contentCreateStruct) {
+                    static function ($object) use ($that, $contentCreateStruct): string {
                         $that->assertEquals($contentCreateStruct, $object);
 
                         return 'hash';
@@ -2268,7 +2268,7 @@ class ContentTest extends BaseServiceMockTest
                 self::equalTo([])
             )->will(
                 self::returnCallback(
-                    static function () use ($that, $contentCreateStruct) {
+                    static function () use ($that, $contentCreateStruct): bool {
                         $that->assertEquals($contentCreateStruct, func_get_arg(2));
 
                         return true;
@@ -2421,7 +2421,7 @@ class ContentTest extends BaseServiceMockTest
                 self::equalTo([])
             )->will(
                 self::returnCallback(
-                    static function () use ($that, $contentCreateStruct) {
+                    static function () use ($that, $contentCreateStruct): bool {
                         $that->assertEquals($contentCreateStruct, func_get_arg(2));
 
                         return true;
@@ -2471,7 +2471,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('isEmptyValue')
             ->will(
                 self::returnCallback(
-                    static function (ValueStub $value) use ($emptyValue) {
+                    static function (ValueStub $value) use ($emptyValue): bool {
                         return (string)$emptyValue === (string)$value;
                     }
                 )
@@ -2570,7 +2570,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('isEmptyValue')
             ->will(
                 self::returnCallback(
-                    static function (ValueStub $value) use ($emptyValue) {
+                    static function (ValueStub $value) use ($emptyValue): bool {
                         return (string)$emptyValue === (string)$value;
                     }
                 )
@@ -2587,7 +2587,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isInstanceOf(APIContentCreateStruct::class))
             ->will(
                 self::returnCallback(
-                    static function ($object) use ($that, $contentCreateStruct) {
+                    static function ($object) use ($that, $contentCreateStruct): string {
                         $that->assertEquals($contentCreateStruct, $object);
 
                         return 'hash';
@@ -2842,7 +2842,7 @@ class ContentTest extends BaseServiceMockTest
                 self::equalTo($locationCreateStructs)
             )->will(
                 self::returnCallback(
-                    static function () use ($that, $contentCreateStruct) {
+                    static function () use ($that, $contentCreateStruct): bool {
                         $that->assertEquals($contentCreateStruct, func_get_arg(2));
 
                         return true;
@@ -2855,7 +2855,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(self::isInstanceOf(APIContentCreateStruct::class))
             ->will(
                 self::returnCallback(
-                    static function ($object) use ($that, $contentCreateStruct) {
+                    static function ($object) use ($that, $contentCreateStruct): string {
                         $that->assertEquals($contentCreateStruct, $object);
 
                         return 'hash';
@@ -3435,7 +3435,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('toPersistenceValue')
             ->will(
                 self::returnCallback(
-                    static function (ValueStub $value) {
+                    static function (ValueStub $value): string {
                         return (string)$value;
                     }
                 )
@@ -3445,7 +3445,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('isEmptyValue')
             ->will(
                 self::returnCallback(
-                    static function (SPIValue $value) use ($emptyValue) {
+                    static function (SPIValue $value) use ($emptyValue): bool {
                         return (string)$emptyValue === (string)$value;
                     }
                 )
@@ -5393,7 +5393,7 @@ class ContentTest extends BaseServiceMockTest
             ->method('isEmptyValue')
             ->will(
                 self::returnCallback(
-                    static function (ValueStub $value) use ($emptyValue) {
+                    static function (ValueStub $value) use ($emptyValue): bool {
                         return (string)$emptyValue === (string)$value;
                     }
                 )

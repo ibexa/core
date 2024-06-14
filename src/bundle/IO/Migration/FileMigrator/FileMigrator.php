@@ -15,7 +15,7 @@ use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 
 final class FileMigrator extends MigrationHandler implements FileMigratorInterface
 {
-    public function migrateFile(BinaryFile $binaryFile)
+    public function migrateFile(BinaryFile $binaryFile): bool
     {
         if (!$this->migrateBinaryFile($binaryFile) || !$this->migrateMetadata($binaryFile)) {
             return false;

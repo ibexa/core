@@ -33,7 +33,7 @@ class URLHandlerRegistry implements URLHandlerRegistryInterface
     /**
      * {@inheritdoc}
      */
-    public function supported($scheme)
+    public function supported($scheme): bool
     {
         return isset($this->handlers[$scheme]);
     }

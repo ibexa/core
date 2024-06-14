@@ -15,7 +15,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class TransformationProcessorDefinitionBasedParserTest extends TestCase
 {
-    public static function getTestFiles()
+    public static function getTestFiles(): array
     {
         return array_map(
             static function ($file) {

@@ -1206,7 +1206,7 @@ class RoleServiceTest extends BaseTest
         }
         usort(
             $actual,
-            static function ($p1, $p2) {
+            static function ($p1, $p2): int {
                 return strcasecmp($p1['function'], $p2['function']);
             }
         );
@@ -3068,7 +3068,7 @@ class RoleServiceTest extends BaseTest
         }
         usort(
             $actual,
-            static function ($p1, $p2) {
+            static function ($p1, $p2): int {
                 return strcasecmp($p1['function'], $p2['function']);
             }
         );

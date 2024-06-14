@@ -36,7 +36,7 @@ class DoctrineStorage extends Gateway
      *
      * @return bool If restoring of the internal field data is required
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
     {
         if ($field->value->externalData === null) {
             // Store empty value and return
@@ -197,7 +197,7 @@ class DoctrineStorage extends Gateway
      *
      * @return bool
      */
-    protected function hasFieldData($fieldId, $versionNo)
+    protected function hasFieldData($fieldId, $versionNo): bool
     {
         return $this->loadFieldData($fieldId, $versionNo) !== null;
     }

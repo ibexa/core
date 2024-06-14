@@ -330,7 +330,7 @@ EOT
      *
      * @return int
      */
-    protected function countTimestampBasedFields()
+    protected function countTimestampBasedFields(): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -368,7 +368,7 @@ EOT
      *
      * @return int
      */
-    protected function convertToUtcTimestamp($timestamp)
+    protected function convertToUtcTimestamp($timestamp): int
     {
         $dateTimeZone = new DateTimeZone($this->timezone);
         $dateTimeZoneUTC = new DateTimeZone('UTC');
@@ -386,7 +386,7 @@ EOT
      *
      * @return bool
      */
-    protected function validateDateTimeString($dateTimeString, OutputInterface $output)
+    protected function validateDateTimeString($dateTimeString, OutputInterface $output): bool
     {
         try {
             new DateTime($dateTimeString);
@@ -499,7 +499,7 @@ EOT
      *
      * @return int
      */
-    private function dateStringToTimestamp($dateString)
+    private function dateStringToTimestamp($dateString): int
     {
         $date = new DateTime($dateString);
 

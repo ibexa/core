@@ -452,7 +452,7 @@ class SearchServiceTest extends BaseTest
                 static function (&$data) {
                     usort(
                         $data->searchHits,
-                        static function ($a, $b) {
+                        static function ($a, $b): int {
                             if ($a->score == $b->score) {
                                 if ($a->valueObject['id'] == $b->valueObject['id']) {
                                     return 0;
@@ -1933,7 +1933,7 @@ class SearchServiceTest extends BaseTest
                     ];
                     usort(
                         $data->searchHits,
-                        static function ($a, $b) use ($map) {
+                        static function ($a, $b) use ($map): int {
                             return ($map[$a->valueObject['id']] < $map[$b->valueObject['id']]) ? -1 : 1;
                         }
                     );
@@ -2784,7 +2784,7 @@ class SearchServiceTest extends BaseTest
      *
      * @return array
      */
-    protected function mapResultContentIds(SearchResult $result)
+    protected function mapResultContentIds(SearchResult $result): array
     {
         return array_map(
             static function (SearchHit $searchHit) {
@@ -4835,7 +4835,7 @@ class SearchServiceTest extends BaseTest
      *
      * @return string
      */
-    protected function printResult(SearchResult $result)
+    protected function printResult(SearchResult $result): string
     {
         $printed = '';
         foreach ($result->searchHits as $hit) {
@@ -4885,7 +4885,7 @@ class SearchServiceTest extends BaseTest
      *
      * @return string
      */
-    protected function getFixtureDir()
+    protected function getFixtureDir(): string
     {
         return __DIR__ . '/_fixtures/' . getenv('fixtureDir') . '/';
     }

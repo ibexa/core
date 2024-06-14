@@ -125,7 +125,7 @@ class FullTextMapper
         $fieldType = $this->fieldRegistry->getType($field->type);
         $fullTextFields = array_filter(
             $fieldType->getIndexData($field, $fieldDefinition),
-            static function ($indexField) {
+            static function ($indexField): bool {
                 return $indexField->type instanceof FieldType\FullTextField;
             }
         );

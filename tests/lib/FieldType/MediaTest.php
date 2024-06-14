@@ -664,7 +664,7 @@ class MediaTest extends BinaryBaseTest
         ];
     }
 
-    protected function provideFieldTypeIdentifier()
+    protected function provideFieldTypeIdentifier(): string
     {
         return 'ezmedia';
     }

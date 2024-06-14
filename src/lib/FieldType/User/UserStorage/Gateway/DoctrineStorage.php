@@ -84,7 +84,7 @@ class DoctrineStorage extends Gateway
         return [
             'has_stored_login' => [
                 'name' => 'hasStoredlogin',
-                'cast' => static function ($input) {
+                'cast' => static function ($input): bool {
                     return $input == '1';
                 },
             ],
@@ -116,7 +116,7 @@ class DoctrineStorage extends Gateway
             ],
             'is_enabled' => [
                 'name' => 'enabled',
-                'cast' => static function ($input) {
+                'cast' => static function ($input): bool {
                     return $input == '1';
                 },
             ],
@@ -155,7 +155,7 @@ class DoctrineStorage extends Gateway
      *
      * @return int
      */
-    protected function fetchUserId($fieldId)
+    protected function fetchUserId($fieldId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query

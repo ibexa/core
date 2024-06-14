@@ -169,7 +169,7 @@ class DeleteContentTranslationCommand extends Command
         // get main Translation candidates w/o Translation being removed
         $mainTranslationCandidates = array_filter(
             $lastVersionLanguageCodes,
-            static function ($versionLanguageCode) use ($languageCode) {
+            static function ($versionLanguageCode) use ($languageCode): bool {
                 return $versionLanguageCode !== $languageCode;
             }
         );

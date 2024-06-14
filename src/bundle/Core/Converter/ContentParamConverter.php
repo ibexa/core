@@ -20,12 +20,12 @@ class ContentParamConverter extends RepositoryParamConverter
         $this->contentService = $contentService;
     }
 
-    protected function getSupportedClass()
+    protected function getSupportedClass(): string
     {
         return Content::class;
     }
 
-    protected function getPropertyName()
+    protected function getPropertyName(): string
     {
         return 'contentId';
     }

@@ -25,7 +25,7 @@ class MapLocationDistance extends Field
      *
      * @return bool
      */
-    public function accept(SortClause $sortClause)
+    public function accept(SortClause $sortClause): bool
     {
         return $sortClause instanceof SortClause\MapLocationDistance;
     }

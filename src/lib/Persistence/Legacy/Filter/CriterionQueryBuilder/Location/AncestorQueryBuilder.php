@@ -39,7 +39,7 @@ final class AncestorQueryBuilder extends BaseLocationCriterionQueryBuilder
         // extract numerical IDs from $criterion->value e.g. = ['/1/2/', '/1/4/10/']
         $locationIDs = array_merge(
             ...array_map(
-                static function (string $pathString) {
+                static function (string $pathString): array {
                     return array_map(
                         'intval',
                         array_filter(explode('/', trim($pathString, '/')))

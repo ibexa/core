@@ -17,7 +17,7 @@ class LogicalNot implements CriterionHandler
     /**
      * {@inheritdoc}
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\LogicalNot;
     }
@@ -31,7 +31,7 @@ class LogicalNot implements CriterionHandler
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
         Criterion $criterion
-    ) {
+    ): string {
         return sprintf(
             'NOT (%s)',
             $converter->convertCriteria($queryBuilder, $criterion->criteria[0])

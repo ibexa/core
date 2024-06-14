@@ -233,7 +233,7 @@ EOT
         $processedPaths = array_values(
             array_filter(
                 $imagePathsToNormalize,
-                static function (array $data) use ($filePath) {
+                static function (array $data) use ($filePath): bool {
                     return $data['oldPath'] === $filePath;
                 }
             )

@@ -67,7 +67,7 @@ class ImageStorage extends GatewayBasedStorage
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context): bool
     {
         $contentMetaData = [
             'fieldId' => $field->id,
@@ -187,7 +187,7 @@ class ImageStorage extends GatewayBasedStorage
         }
     }
 
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }
@@ -201,7 +201,7 @@ class ImageStorage extends GatewayBasedStorage
     /**
      * @return string
      */
-    private function buildImageId(VersionInfo $versionInfo, Field $field)
+    private function buildImageId(VersionInfo $versionInfo, Field $field): string
     {
         return sprintf(
             '%s-%s-%s',

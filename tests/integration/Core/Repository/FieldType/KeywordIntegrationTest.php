@@ -27,7 +27,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezkeyword';
     }
@@ -130,7 +130,7 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'foo, bar, sindelfingen';
     }
@@ -441,12 +441,12 @@ class KeywordIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return $contentService->publishVersion($contentDraft->versionInfo);
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): string
     {
         return 'add';
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): string
     {
         return 'branch';
     }

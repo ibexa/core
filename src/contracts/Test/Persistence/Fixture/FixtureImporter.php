@@ -45,7 +45,7 @@ final class FixtureImporter
 
         $nonEmptyTablesData = array_filter(
             $data,
-            static function ($tableData) {
+            static function ($tableData): bool {
                 return !empty($tableData);
             }
         );

@@ -24,7 +24,7 @@ class FlysystemTest
     /**
      * Returns the expected parent service id.
      */
-    public function provideExpectedParentServiceId()
+    public function provideExpectedParentServiceId(): string
     {
         return 'ibexa.core.io.metadata_handler.flysystem';
     }
