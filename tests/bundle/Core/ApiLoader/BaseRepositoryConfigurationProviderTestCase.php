@@ -40,10 +40,10 @@ abstract class BaseRepositoryConfigurationProviderTestCase extends TestCase
         string $storageConnection = 'default_connection'
     ): array {
         return [
-                'storage' => [
-                    'engine' => $storageEngine,
-                    'connection' => $storageConnection,
-                ],
-            ] + self::MAIN_REPOSITORY_CONFIG;
+            'storage' => [
+                'engine' => $storageEngine,
+                'connection' => $storageConnection,
+            ],
+        ] + self::MAIN_REPOSITORY_CONFIG;
     }
 }

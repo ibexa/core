@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class StorageEngineFactoryTest extends BaseRepositoryConfigurationProviderTestCase
+final class StorageEngineFactoryTest extends BaseRepositoryConfigurationProviderTestCase
 {
     public function testRegisterStorageEngine(): void
     {
