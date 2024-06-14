@@ -13,10 +13,11 @@ services:
             $configurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
 
     Ibexa\Bundle\Core\ApiLoader\StorageConnectionFactory:
+        autowire: true
+        autoconfigure: true
         arguments:
-            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
-        calls:
-            - [setContainer, ['@service_container']]
+            $doctrineConnections: '%doctrine.connections%'
+            $serviceLocator: ~
 
     ibexa.persistence.connection:
         public: true # @todo should be private

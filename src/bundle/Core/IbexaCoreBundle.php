@@ -30,6 +30,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SessionConfigurationPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SiteAccessMatcherRegistryPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\SlugConverterConfigurationPass;
+use Ibexa\Bundle\Core\DependencyInjection\Compiler\StorageConnectionFactoryPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\StorageConnectionPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\TranslationCollectorPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\URLHandlerPass;
@@ -88,6 +89,7 @@ final class IbexaCoreBundle extends Bundle
 
         // Storage passes
         $container->addCompilerPass(new ExternalStorageRegistryPass());
+        $container->addCompilerPass(new StorageConnectionFactoryPass());
         // Legacy Storage passes
         $container->addCompilerPass(new FieldValueConverterRegistryPass());
         $container->addCompilerPass(new RoleLimitationConverterPass());
