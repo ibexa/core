@@ -96,13 +96,13 @@ class RequestEventListenerTest extends TestCase
 
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $semanticPathinfo = '/foo/something';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsForward', true);
         $request->attributes->set('someAttribute', 'someValue');
 
-        $expectedForwardRequest = Request::create($semanticPathinfo, 'GET', $queryParameters, $cookieParameters);
+        $expectedForwardRequest = Request::create($semanticPathinfo, Request::METHOD_GET, $queryParameters, $cookieParameters);
         $expectedForwardRequest->attributes->set('semanticPathinfo', $semanticPathinfo);
         $expectedForwardRequest->attributes->set('someAttribute', 'someValue');
 
@@ -132,7 +132,7 @@ class RequestEventListenerTest extends TestCase
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $semanticPathinfo = '/foo/something';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsRedirect', true);
@@ -153,7 +153,7 @@ class RequestEventListenerTest extends TestCase
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $semanticPathinfo = '/foo/something';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsRedirect', true);
@@ -180,7 +180,7 @@ class RequestEventListenerTest extends TestCase
         $siteaccess = new SiteAccess('test', 'foo', $siteaccessMatcher);
         $semanticPathinfo = '/foo/something';
 
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsRedirect', true);
         $request->attributes->set('siteaccess', $siteaccess);

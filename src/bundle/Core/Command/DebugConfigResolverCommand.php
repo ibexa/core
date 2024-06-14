@@ -19,6 +19,8 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 
 class DebugConfigResolverCommand extends Command
 {
+    protected static $defaultName = 'ibexa:debug:config-resolver';
+
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
@@ -40,7 +42,6 @@ class DebugConfigResolverCommand extends Command
      */
     public function configure()
     {
-        $this->setName('ibexa:debug:config-resolver');
         $this->setAliases(['ibexa:debug:config']);
         $this->setDescription('Debugs / Retrieves a parameter from the Config Resolver');
         $this->addArgument(

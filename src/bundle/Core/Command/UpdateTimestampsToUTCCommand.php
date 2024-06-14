@@ -34,6 +34,8 @@ class UpdateTimestampsToUTCCommand extends Command
         'all' => ['ezdate', 'ezdatetime'],
     ];
 
+    protected static $defaultName = 'ibexa:timestamps:to-utc';
+
     protected static $defaultDescription = 'Updates ezdate and ezdatetime timestamps to UTC';
 
     /** @var int */
@@ -69,8 +71,6 @@ class UpdateTimestampsToUTCCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:timestamps:to-utc')
-            ->setDescription('Updates ezdate and ezdatetime timestamps to UTC')
             ->addArgument(
                 'timezone',
                 InputArgument::OPTIONAL,

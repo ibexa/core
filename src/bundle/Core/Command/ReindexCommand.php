@@ -29,6 +29,8 @@ use Symfony\Component\Process\Process;
 
 class ReindexCommand extends Command
 {
+    protected static $defaultName = 'ibexa:reindex';
+
     protected static $defaultDescription = 'Recreates or refreshes the search engine index';
 
     /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
@@ -111,8 +113,6 @@ class ReindexCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:reindex')
-            ->setDescription('Recreates or refreshes the search engine index')
             ->addOption(
                 'iteration-count',
                 'c',
