@@ -22,7 +22,7 @@ class DoctrineStorage extends BaseDoctrineStorage
     /**
      * {@inheritdoc}
      */
-    protected function getStorageTable()
+    protected function getStorageTable(): string
     {
         return 'ezmedia';
     }
@@ -35,19 +35,19 @@ class DoctrineStorage extends BaseDoctrineStorage
         $propertyMap = parent::getPropertyMapping();
         $propertyMap['has_controller'] = [
             'name' => 'hasController',
-            'cast' => static function ($val) {
+            'cast' => static function ($val): bool {
                 return (bool)$val;
             },
         ];
         $propertyMap['is_autoplay'] = [
             'name' => 'autoplay',
-            'cast' => static function ($val) {
+            'cast' => static function ($val): bool {
                 return (bool)$val;
             },
         ];
         $propertyMap['is_loop'] = [
             'name' => 'loop',
-            'cast' => static function ($val) {
+            'cast' => static function ($val): bool {
                 return (bool)$val;
             },
         ];

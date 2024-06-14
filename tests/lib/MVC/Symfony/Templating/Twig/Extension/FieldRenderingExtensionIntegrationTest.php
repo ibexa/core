@@ -132,7 +132,7 @@ class FieldRenderingExtensionIntegrationTest extends FileSystemTwigIntegrationTe
         return $content;
     }
 
-    private function getTemplatePath($tpl)
+    private function getTemplatePath($tpl): string
     {
         return 'templates/' . $tpl;
     }

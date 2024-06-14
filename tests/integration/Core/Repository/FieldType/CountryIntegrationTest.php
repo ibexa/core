@@ -25,7 +25,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezcountry';
     }
@@ -125,7 +125,7 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Belgium';
     }
@@ -382,12 +382,12 @@ class CountryIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return ['Trinidad and Tobago'];
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         return 'Andorra';
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         return 'Trinidad and Tobago';
     }

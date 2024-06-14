@@ -82,7 +82,7 @@ class StreamFileListener implements EventSubscriberInterface
      *
      * @return bool
      */
-    private function isIoUri($uri, $urlPrefix)
+    private function isIoUri($uri, $urlPrefix): bool
     {
         return strpos(ltrim($uri, '/'), $urlPrefix) === 0;
     }

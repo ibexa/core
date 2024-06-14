@@ -71,7 +71,7 @@ class HandlerRegistry
      *
      * @return bool
      */
-    public function has($fieldTypeIdentifier)
+    public function has($fieldTypeIdentifier): bool
     {
         return isset($this->map[$fieldTypeIdentifier]);
     }

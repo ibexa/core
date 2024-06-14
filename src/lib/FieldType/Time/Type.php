@@ -46,7 +46,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'eztime';
     }
@@ -156,7 +156,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         if ($value->time === null) {
             return true;
@@ -186,7 +186,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

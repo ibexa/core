@@ -68,7 +68,7 @@ class ContentViewBuilder implements ViewBuilder
         $this->requestStack = $requestStack;
     }
 
-    public function matches($argument)
+    public function matches($argument): bool
     {
         return strpos($argument, 'ibexa_content:') !== false;
     }
@@ -283,7 +283,7 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @return bool
      */
-    private function isEmbed($parameters)
+    private function isEmbed($parameters): bool
     {
         if ($parameters['_controller'] === 'ibexa_content:embedAction') {
             return true;

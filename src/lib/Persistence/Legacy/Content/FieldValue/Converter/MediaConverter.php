@@ -68,7 +68,7 @@ class MediaConverter extends BinaryFileConverter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): bool
     {
         return false;
     }

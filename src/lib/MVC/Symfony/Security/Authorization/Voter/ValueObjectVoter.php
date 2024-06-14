@@ -25,12 +25,12 @@ class ValueObjectVoter implements VoterInterface
         $this->permissionResolver = $permissionResolver;
     }
 
-    public function supportsAttribute($attribute)
+    public function supportsAttribute($attribute): bool
     {
         return $attribute instanceof AuthorizationAttribute && isset($attribute->limitations['valueObject']);
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return true;
     }

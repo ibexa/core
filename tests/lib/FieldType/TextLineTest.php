@@ -439,7 +439,7 @@ class TextLineTest extends FieldTypeTest
         ];
     }
 
-    protected function provideFieldTypeIdentifier()
+    protected function provideFieldTypeIdentifier(): string
     {
         return 'ezstring';
     }

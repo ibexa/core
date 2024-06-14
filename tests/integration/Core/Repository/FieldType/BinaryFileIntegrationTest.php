@@ -69,7 +69,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezbinaryfile';
     }
@@ -168,7 +168,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Icy-Night-Flower-Binary.jpg';
     }
@@ -412,7 +412,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
         );
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         $value = $this->getValidSearchValueOne();
 
@@ -420,7 +420,7 @@ class BinaryFileIntegrationTest extends FileSearchBaseIntegrationTest
         return strtoupper($value->fileName);
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         $value = $this->getValidSearchValueTwo();
 

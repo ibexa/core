@@ -101,7 +101,7 @@ class DoctrineStorage extends Gateway
      *
      * @return string
      */
-    public function insertUrl($url)
+    public function insertUrl($url): int
     {
         $time = time();
 

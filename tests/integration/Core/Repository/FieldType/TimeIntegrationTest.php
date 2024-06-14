@@ -25,7 +25,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'eztime';
     }
@@ -33,7 +33,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
     /**
      * {@inheritdoc}
      */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
         parent::supportsLikeWildcard($value);
 
@@ -133,7 +133,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return '1:01:01 am';
     }
@@ -327,12 +327,12 @@ class TimeIntegrationTest extends SearchBaseIntegrationTest
         return new TimeValue($this->getSearchTargetValueTwo());
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): int
     {
         return 9600;
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): int
     {
         return 14400;
     }

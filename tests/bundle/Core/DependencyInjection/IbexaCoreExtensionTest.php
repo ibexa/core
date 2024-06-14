@@ -930,7 +930,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $compilerPassConfig->setAfterRemovingPasses(
             array_filter(
                 $compilerPassConfig->getAfterRemovingPasses(),
-                static function (CompilerPassInterface $pass) {
+                static function (CompilerPassInterface $pass): bool {
                     return !($pass instanceof CheckExceptionOnInvalidReferenceBehaviorPass);
                 }
             )

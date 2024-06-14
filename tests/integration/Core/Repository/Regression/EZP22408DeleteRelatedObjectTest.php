@@ -110,7 +110,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         $contentTypeService->publishContentTypeDraft($this->testContentType);
     }
 
-    private function getMainLanguageCode()
+    private function getMainLanguageCode(): string
     {
         return $this->getRepository()->getContentLanguageService()->getDefaultLanguageCode();
     }

@@ -42,7 +42,7 @@ class DefaultRouterTest extends TestCase
     /**
      * @return class-string<\Ibexa\Bundle\Core\Routing\DefaultRouter>
      */
-    protected function getRouterClass()
+    protected function getRouterClass(): string
     {
         return DefaultRouter::class;
     }

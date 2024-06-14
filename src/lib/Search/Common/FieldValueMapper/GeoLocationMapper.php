@@ -21,7 +21,7 @@ class GeoLocationMapper extends FieldValueMapper
         return $field->getType() instanceof GeoLocationField;
     }
 
-    public function map(Field $field)
+    public function map(Field $field): ?string
     {
         $value = $field->getValue();
         if ($value['latitude'] === null || $value['longitude'] === null) {

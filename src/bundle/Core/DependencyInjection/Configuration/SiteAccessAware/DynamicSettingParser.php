@@ -41,7 +41,7 @@ class DynamicSettingParser implements DynamicSettingParserInterface
      *
      * @return string
      */
-    private function removeBoundaryDelimiter($setting)
+    private function removeBoundaryDelimiter($setting): string
     {
         return substr($setting, 1, -1);
     }

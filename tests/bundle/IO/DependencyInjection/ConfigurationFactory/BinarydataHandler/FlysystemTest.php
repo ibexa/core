@@ -20,7 +20,7 @@ class FlysystemTest extends BaseFlysystemTest
     /**
      * Returns the expected parent service id.
      */
-    public function provideExpectedParentServiceId()
+    public function provideExpectedParentServiceId(): string
     {
         return 'ibexa.core.io.binarydata_handler.flysystem';
     }

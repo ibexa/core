@@ -43,7 +43,7 @@ class MaskGenerator
      *
      * @return int
      */
-    public function generateLanguageMask(array $languages)
+    public function generateLanguageMask(array $languages): int
     {
         $mask = 0;
         if (isset($languages['always-available'])) {
@@ -94,7 +94,7 @@ class MaskGenerator
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function generateLanguageIndicator($languageCode, $alwaysAvailable)
+    public function generateLanguageIndicator($languageCode, $alwaysAvailable): int
     {
         return $this->languageHandler->loadByLanguageCode($languageCode)->id | ($alwaysAvailable ? 1 : 0);
     }

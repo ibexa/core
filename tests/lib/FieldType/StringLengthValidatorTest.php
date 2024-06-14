@@ -25,7 +25,7 @@ class StringLengthValidatorTest extends TestCase
     /**
      * @return int
      */
-    protected function getMinStringLength()
+    protected function getMinStringLength(): int
     {
         return 5;
     }
@@ -33,7 +33,7 @@ class StringLengthValidatorTest extends TestCase
     /**
      * @return int
      */
-    protected function getMaxStringLength()
+    protected function getMaxStringLength(): int
     {
         return 10;
     }

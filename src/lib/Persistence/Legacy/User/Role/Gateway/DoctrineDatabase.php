@@ -721,7 +721,7 @@ final class DoctrineDatabase extends Gateway
         $nodeIds = array_unique(
             array_reduce(
                 array_map(
-                    static function ($pathString) {
+                    static function ($pathString): array {
                         return array_filter(explode('/', $pathString));
                     },
                     $paths

@@ -129,7 +129,7 @@ class Mapper
             $fieldId = (int)$row['ezcontentclass_attribute_id'];
 
             if ($fieldId && !isset($fields[$fieldId])) {
-                $fieldDataRows = array_filter($rows, static function (array $row) use ($fieldId) {
+                $fieldDataRows = array_filter($rows, static function (array $row) use ($fieldId): bool {
                     return (int) $row['ezcontentclass_attribute_id'] === (int) $fieldId;
                 });
 

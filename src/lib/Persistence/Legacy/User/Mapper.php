@@ -64,7 +64,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Policy[]
      */
-    public function mapPolicies(array $data)
+    public function mapPolicies(array $data): array
     {
         /** @var \Ibexa\Contracts\Core\Persistence\User\Policy[] */
         $policies = [];

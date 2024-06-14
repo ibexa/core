@@ -14,7 +14,7 @@ final class LegacyStorageMediaFileRowReader extends LegacyStorageFileRowReader
      *
      * @return string
      */
-    protected function getStorageTable()
+    protected function getStorageTable(): string
     {
         return 'ezmedia';
     }

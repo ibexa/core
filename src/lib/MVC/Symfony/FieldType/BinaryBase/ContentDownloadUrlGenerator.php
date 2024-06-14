@@ -26,7 +26,7 @@ class ContentDownloadUrlGenerator extends PathGenerator implements RouteAwarePat
         $this->router = $router;
     }
 
-    public function getStoragePathForField(Field $field, VersionInfo $versionInfo)
+    public function getStoragePathForField(Field $field, VersionInfo $versionInfo): string
     {
         return $this->generate($this->route, $this->getParameters($field, $versionInfo));
     }

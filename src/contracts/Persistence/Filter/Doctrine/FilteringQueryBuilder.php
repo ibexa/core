@@ -107,7 +107,7 @@ final class FilteringQueryBuilder extends QueryBuilder
         $existingTableAliasJoins = array_values(
             array_filter(
                 $joins,
-                static function (array $joinData) use ($tableAlias) {
+                static function (array $joinData) use ($tableAlias): bool {
                     return $joinData['joinAlias'] === $tableAlias;
                 }
             )

@@ -456,7 +456,7 @@ class SearchServiceLocationTest extends BaseTest
     /**
      * @return array
      */
-    protected function mapResultLocationIds(SearchResult $result)
+    protected function mapResultLocationIds(SearchResult $result): array
     {
         return array_map(
             static function (SearchHit $searchHit) {
@@ -1445,7 +1445,7 @@ class SearchServiceLocationTest extends BaseTest
      *
      * @return string
      */
-    protected function printResult(SearchResult $result)
+    protected function printResult(SearchResult $result): string
     {
         $printed = '';
         foreach ($result->searchHits as $hit) {
@@ -1485,7 +1485,7 @@ class SearchServiceLocationTest extends BaseTest
      *
      * @return string
      */
-    protected function getFixtureDir()
+    protected function getFixtureDir(): string
     {
         return __DIR__ . '/_fixtures/' . getenv('fixtureDir') . '/';
     }

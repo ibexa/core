@@ -97,7 +97,7 @@ class AuthorConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         return 'sort_key_string';
     }
@@ -109,7 +109,7 @@ class AuthorConverter implements Converter
      *
      * @return string The generated XML string
      */
-    private function generateXmlString(array $authorValue)
+    private function generateXmlString(array $authorValue): string|false
     {
         $doc = new DOMDocument('1.0', 'utf-8');
 

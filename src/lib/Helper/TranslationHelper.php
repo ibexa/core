@@ -53,7 +53,7 @@ class TranslationHelper
      *
      * @return string
      */
-    public function getTranslatedContentName(Content $content, $forcedLanguage = null)
+    public function getTranslatedContentName(Content $content, $forcedLanguage = null): string
     {
         return $this->getTranslatedContentNameByVersionInfo(
             $content->getVersionInfo(),

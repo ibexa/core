@@ -196,7 +196,7 @@ class DoctrineDatabase extends Gateway
      *
      * @return bool
      */
-    public function remove($contentId, $versionId = null)
+    public function remove($contentId, $versionId = null): bool
     {
         $doDelete = false;
         $this->connection->beginTransaction();

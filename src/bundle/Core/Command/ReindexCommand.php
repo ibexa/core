@@ -449,7 +449,7 @@ class ReindexCommand extends Command
     /**
      * @return int
      */
-    private function getNumberOfCPUCores()
+    private function getNumberOfCPUCores(): int
     {
         $cores = 1;
         if (is_file('/proc/cpuinfo')) {

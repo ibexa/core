@@ -35,7 +35,7 @@ class ComplexSettingParser extends DynamicSettingParser implements ComplexSettin
      *
      * {@inheritdoc}
      */
-    public function isDynamicSetting($setting)
+    public function isDynamicSetting($setting): bool
     {
         if (parent::isDynamicSetting($setting) === false) {
             return false;
@@ -44,7 +44,7 @@ class ComplexSettingParser extends DynamicSettingParser implements ComplexSettin
         return (bool)preg_match('/^' . $this->dynamicSettingRegex . '$/', $setting);
     }
 
-    public function containsDynamicSettings($string)
+    public function containsDynamicSettings($string): bool
     {
         return count($this->matchDynamicSettings($string)) > 0;
     }

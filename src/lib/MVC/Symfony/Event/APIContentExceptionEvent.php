@@ -62,7 +62,7 @@ class APIContentExceptionEvent extends Event
     /**
      * @return bool
      */
-    public function hasContentView()
+    public function hasContentView(): bool
     {
         return isset($this->contentView);
     }
