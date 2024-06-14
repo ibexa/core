@@ -29,6 +29,8 @@ use Symfony\Component\Process\Process;
 
 class ReindexCommand extends Command
 {
+    protected static $defaultDescription = 'Recreates or refreshes the search engine index';
+
     /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
     private $searchIndexer;
 

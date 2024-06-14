@@ -23,7 +23,7 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
         $event = new RequestEvent(
             $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $subscriber = new CrowdinRequestLocaleSubscriber();
