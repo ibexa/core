@@ -43,11 +43,11 @@ EOT;
         self::VERSION_PUBLISHED => VersionInfo::STATUS_PUBLISHED,
     ];
 
-    private Repository $repository;
+    private readonly Repository $repository;
 
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
+    private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
-    private Connection $connection;
+    private readonly Connection $connection;
 
     public function __construct(
         Repository $repository,

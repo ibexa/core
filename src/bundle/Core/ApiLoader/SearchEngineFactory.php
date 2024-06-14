@@ -16,8 +16,6 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
  */
 class SearchEngineFactory
 {
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
-
     /**
      * Hash of registered search engines.
      * Key is the search engine identifier, value search handler itself.
@@ -26,9 +24,9 @@ class SearchEngineFactory
      */
     protected $searchEngines = [];
 
-    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
-    {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+    public function __construct(
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+    ) {
     }
 
     /**

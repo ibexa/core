@@ -17,8 +17,6 @@ use Ibexa\Core\Search\Common\Indexer as SearchEngineIndexer;
  */
 class SearchEngineIndexerFactory
 {
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
-
     /**
      * Hash of registered search engine indexers.
      * Key is the search engine identifier, value indexer itself.
@@ -27,9 +25,9 @@ class SearchEngineIndexerFactory
      */
     protected $searchEngineIndexers = [];
 
-    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
-    {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+    public function __construct(
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+    ) {
     }
 
     /**

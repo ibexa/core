@@ -17,8 +17,6 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  */
 class EntityManagerFactory
 {
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
-
     /** @var \Symfony\Component\DependencyInjection\ServiceLocator */
     private $serviceLocator;
 
@@ -29,12 +27,11 @@ class EntityManagerFactory
     private $entityManagers;
 
     public function __construct(
-        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         ServiceLocator $serviceLocator,
         string $defaultConnection,
         array $entityManagers
     ) {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
         $this->serviceLocator = $serviceLocator;
         $this->defaultConnection = $defaultConnection;
         $this->entityManagers = $entityManagers;

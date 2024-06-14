@@ -16,8 +16,6 @@ use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
  */
 class StorageEngineFactory
 {
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
-
     /**
      * Hash of registered storage engines.
      * Key is the storage engine identifier, value persistence handler itself.
@@ -26,9 +24,9 @@ class StorageEngineFactory
      */
     protected array $storageEngines = [];
 
-    public function __construct(RepositoryConfigurationProviderInterface $repositoryConfigurationProvider)
-    {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+    public function __construct(
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+    ) {
     }
 
     /**

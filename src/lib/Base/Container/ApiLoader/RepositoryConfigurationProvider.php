@@ -25,24 +25,19 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
  * }
  * @phpstan-type TRepositoryListConfiguration array<string, TRepositoryListItemConfiguration>
  */
-final class RepositoryConfigurationProvider implements RepositoryConfigurationProviderInterface
+final readonly class RepositoryConfigurationProvider implements RepositoryConfigurationProviderInterface
 {
     private const string REPOSITORY_STORAGE = 'storage';
     private const string REPOSITORY_CONNECTION = 'connection';
     private const string DEFAULT_CONNECTION_NAME = 'default';
 
-    private ConfigResolverInterface $configResolver;
-
-    /** @phpstan-var TRepositoryListConfiguration */
-    private array $repositories;
-
     /**
      * @phpstan-param TRepositoryListConfiguration $repositories
      */
-    public function __construct(ConfigResolverInterface $configResolver, array $repositories)
-    {
-        $this->configResolver = $configResolver;
-        $this->repositories = $repositories;
+    public function __construct(
+        private ConfigResolverInterface $configResolver,
+        private array $repositories,
+    ) {
     }
 
     public function getRepositoryConfig(): array

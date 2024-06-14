@@ -15,26 +15,16 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 /**
  * @internal
  */
-final class StorageConnectionFactory
+final readonly class StorageConnectionFactory
 {
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
-
-    private ServiceLocator $serviceLocator;
-
-    /** @var array<string, string> */
-    private array $doctrineConnections;
-
     /**
      * @param array<string, string> $doctrineConnections
      */
     public function __construct(
-        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
-        ServiceLocator $serviceLocator,
-        array $doctrineConnections,
+        private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+        private ServiceLocator $serviceLocator,
+        private array $doctrineConnections,
     ) {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
-        $this->serviceLocator = $serviceLocator;
-        $this->doctrineConnections = $doctrineConnections;
     }
 
     /**

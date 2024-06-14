@@ -55,14 +55,12 @@ class RepositoryFactory implements ContainerAwareInterface
     /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
     private $languageResolver;
 
-    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
-
     public function __construct(
         ConfigResolverInterface $configResolver,
         $repositoryClass,
         array $policyMap,
         LanguageResolver $languageResolver,
-        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         LoggerInterface $logger = null
     ) {
         $this->configResolver = $configResolver;
@@ -70,7 +68,6 @@ class RepositoryFactory implements ContainerAwareInterface
         $this->policyMap = $policyMap;
         $this->languageResolver = $languageResolver;
         $this->logger = $logger ?? new NullLogger();
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
     }
 
     /**

@@ -13,7 +13,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Builds a SettingsFieldGroupsList.
  */
-final class RepositoryConfigFieldsGroupsListFactory
+final readonly class RepositoryConfigFieldsGroupsListFactory
 {
     private RepositoryConfigurationProviderInterface $configProvider;
 
