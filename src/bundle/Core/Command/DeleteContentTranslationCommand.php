@@ -24,6 +24,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class DeleteContentTranslationCommand extends Command
 {
+    protected static $defaultName = 'ibexa:delete-content-translation';
+
     protected static $defaultDescription = 'Deletes a translation from all versions of a Content item';
 
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
@@ -53,7 +55,6 @@ class DeleteContentTranslationCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:delete-content-translation')
             ->addArgument('content-id', InputArgument::REQUIRED, 'Content Object Id')
             ->addArgument(
                 'language-code',

@@ -41,6 +41,8 @@ class ResizeOriginalImagesCommand extends Command
     public const DEFAULT_ITERATION_COUNT = 25;
     public const DEFAULT_REPOSITORY_USER = 'admin';
 
+    protected static $defaultName = 'ibexa:images:resize-original';
+
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
 
@@ -104,7 +106,6 @@ class ResizeOriginalImagesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:images:resize-original')
             ->addArgument(
                 'imageFieldIdentifier',
                 InputArgument::REQUIRED,

@@ -39,7 +39,7 @@ class OriginalRequestListener implements EventSubscriberInterface
 
         $originalRequest = Request::create(
             $request->getSchemeAndHttpHost() . $request->headers->get('x-fos-original-url'),
-            'GET',
+            Request::METHOD_GET,
             [],
             [],
             [],

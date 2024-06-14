@@ -82,7 +82,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -95,7 +95,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -108,7 +108,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/admin/dashboard',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -121,7 +121,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/admin/dashboard/',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -134,7 +134,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/Folder/Content',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -147,7 +147,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/Folder/Content/',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -160,7 +160,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/app.php-foo',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -173,7 +173,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/app.php.foo',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -186,7 +186,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/folder/folder/app.php',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -205,7 +205,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/app.php',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -218,7 +218,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/app.php/app.php',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -231,7 +231,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/folder/app.php',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -244,7 +244,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/app.php/foo',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -257,7 +257,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/app.php?foo=bar',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],
@@ -270,7 +270,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
             [
                 Request::create(
                     'https://example.com/app.php#foo',
-                    'GET',
+                    Request::METHOD_GET,
                     [],
                     [],
                     [],

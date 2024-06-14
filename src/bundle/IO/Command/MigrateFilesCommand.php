@@ -18,6 +18,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 final class MigrateFilesCommand extends Command
 {
+    protected static $defaultName = 'ibexa:io:migrate-files';
+
     protected static $defaultDescription = 'Migrates files from one IO repository to another';
 
     /** @var mixed Configuration for metadata handlers */
@@ -63,8 +65,6 @@ final class MigrateFilesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:io:migrate-files')
-            ->setDescription('Migrates files from one IO repository to another')
             ->addOption('from', null, InputOption::VALUE_REQUIRED, 'Migrate from <from_metadata_handler>,<from_binarydata_handler>')
             ->addOption('to', null, InputOption::VALUE_REQUIRED, 'Migrate to <to_metadata_handler>,<to_binarydata_handler>')
             ->addOption('list-io-handlers', null, InputOption::VALUE_NONE, 'List available IO handlers')
