@@ -65,7 +65,7 @@ class SessionSetDynamicNameListenerTest extends TestCase
             ->expects(self::never())
             ->method('setOptions');
         $listener = new SessionSetDynamicNameListener($this->configResolver, $this->sessionStorageFactory);
-        $listener->onSiteAccessMatch(new PostSiteAccessMatchEvent(new SiteAccess('test'), $request, HttpKernelInterface::MASTER_REQUEST));
+        $listener->onSiteAccessMatch(new PostSiteAccessMatchEvent(new SiteAccess('test'), $request, HttpKernelInterface::MAIN_REQUEST));
     }
 
     public function testOnSiteAccessMatchSubRequest()

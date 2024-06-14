@@ -28,6 +28,8 @@ final class SetSystemContentTypeGroupCommand extends Command
 
     protected static $defaultName = 'ibexa:content-type-group:set-system';
 
+    protected static $defaultDescription = 'Sets information if ContentTypeGroup is a system group';
+
     /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
     private $contentTypeService;
 
@@ -66,7 +68,6 @@ final class SetSystemContentTypeGroupCommand extends Command
                 'Ibexa username (with Role containing at least content policies: remove, read, versionread)',
                 self::DEFAULT_REPOSITORY_USER
             )
-            ->setDescription('Sets information if ContentTypeGroup is a system group')
             ->setHelp(
                 <<<EOT
 The command <info>%command.name%</info> sets `is_system` flag for ContentTypeGroup which determines if ContentTypeGroup is a system group.

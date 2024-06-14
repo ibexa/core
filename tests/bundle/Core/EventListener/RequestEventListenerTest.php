@@ -63,7 +63,7 @@ class RequestEventListenerTest extends TestCase
         $this->event = new RequestEvent(
             $this->httpKernel,
             $this->request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
     }
 
@@ -113,7 +113,7 @@ class RequestEventListenerTest extends TestCase
             ->with(self::equalTo($expectedForwardRequest))
             ->will(self::returnValue($response));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestForward($event);
         self::assertSame($response, $event->getResponse());
         self::assertTrue($event->isPropagationStopped());
@@ -138,7 +138,7 @@ class RequestEventListenerTest extends TestCase
         $request->attributes->set('needsRedirect', true);
         $request->attributes->set('siteaccess', new SiteAccess('test'));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
@@ -160,7 +160,7 @@ class RequestEventListenerTest extends TestCase
         $request->attributes->set('locationId', 123);
         $request->attributes->set('siteaccess', new SiteAccess('test'));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
@@ -193,7 +193,7 @@ class RequestEventListenerTest extends TestCase
             ->with($semanticPathinfo)
             ->will(self::returnValue($expectedURI));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */

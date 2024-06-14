@@ -26,12 +26,15 @@ use Symfony\Component\Process\Process;
 class UpdateTimestampsToUTCCommand extends Command
 {
     public const MAX_TIMESTAMP_VALUE = 2147483647;
+
     public const DEFAULT_ITERATION_COUNT = 100;
     public const MODES = [
         'date' => ['ezdate'],
         'datetime' => ['ezdatetime'],
         'all' => ['ezdate', 'ezdatetime'],
     ];
+
+    protected static $defaultDescription = 'Updates ezdate and ezdatetime timestamps to UTC';
 
     /** @var int */
     protected $done = 0;

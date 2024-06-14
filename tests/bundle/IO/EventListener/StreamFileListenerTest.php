@@ -158,7 +158,7 @@ class StreamFileListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         return $event;

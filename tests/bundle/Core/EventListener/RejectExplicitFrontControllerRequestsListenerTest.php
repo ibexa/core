@@ -54,7 +54,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         $event = new RequestEvent(
             $this->httpKernel,
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->eventListener->onKernelRequest($event);
@@ -70,7 +70,7 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         $event = new RequestEvent(
             $this->httpKernel,
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $this->eventListener->onKernelRequest($event);

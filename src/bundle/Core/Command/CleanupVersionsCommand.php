@@ -31,14 +31,18 @@ class CleanupVersionsCommand extends Command
 - Run this command in production environment using <info>--env=prod</info>
 EOT;
     public const VERSION_DRAFT = 'draft';
+
     public const VERSION_ARCHIVED = 'archived';
     public const VERSION_PUBLISHED = 'published';
     public const VERSION_ALL = 'all';
+
     public const VERSION_STATUS = [
         self::VERSION_DRAFT => VersionInfo::STATUS_DRAFT,
         self::VERSION_ARCHIVED => VersionInfo::STATUS_ARCHIVED,
         self::VERSION_PUBLISHED => VersionInfo::STATUS_PUBLISHED,
     ];
+
+    protected static $defaultDescription = 'Removes unwanted content versions. Keeps the published version untouched. By default, also keeps the last archived/draft version.';
 
     private readonly Repository $repository;
 

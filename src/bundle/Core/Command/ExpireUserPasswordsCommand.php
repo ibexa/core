@@ -29,6 +29,8 @@ final class ExpireUserPasswordsCommand extends Command
 {
     protected static $defaultName = 'ibexa:user:expire-password';
 
+    protected static $defaultDescription = 'Expire passwords for selected users.';
+
     public const REQUIRE_NEW_PASSWORD_VALUE = true;
 
     public const DEFAULT_BATCH_SIZE = 50;
@@ -71,7 +73,6 @@ EOT;
     {
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
         $this
-            ->setDescription('Expire passwords for selected users.')
             ->addOption(
                 'user-id',
                 'u',

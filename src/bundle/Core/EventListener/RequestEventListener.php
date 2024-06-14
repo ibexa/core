@@ -56,7 +56,7 @@ class RequestEventListener implements EventSubscriberInterface
      */
     public function onKernelRequestForward(RequestEvent $event)
     {
-        if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() === HttpKernelInterface::MAIN_REQUEST) {
             $request = $event->getRequest();
             if ($request->attributes->get('needsForward') && $request->attributes->has('semanticPathinfo')) {
                 $semanticPathinfo = $request->attributes->get('semanticPathinfo');
@@ -107,7 +107,7 @@ class RequestEventListener implements EventSubscriberInterface
      */
     public function onKernelRequestRedirect(RequestEvent $event)
     {
-        if ($event->getRequestType() == HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() == HttpKernelInterface::MAIN_REQUEST) {
             $request = $event->getRequest();
             if ($request->attributes->get('needsRedirect') && $request->attributes->has('semanticPathinfo')) {
                 $siteaccess = $request->attributes->get('siteaccess');
