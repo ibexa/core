@@ -16,7 +16,6 @@ services:
         autowire: true
         autoconfigure: true
         arguments:
-            $doctrineConnections: '%doctrine.connections%'
             $serviceLocator: ~
 
     ibexa.persistence.connection:

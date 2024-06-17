@@ -10,20 +10,16 @@ namespace Ibexa\Bundle\Core\ApiLoader;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use InvalidArgumentException;
-use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Contracts\Service\ServiceProviderInterface;
 
 /**
  * @internal
  */
 final readonly class StorageConnectionFactory
 {
-    /**
-     * @param array<string, string> $doctrineConnections
-     */
     public function __construct(
         private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
-        private ServiceLocator $serviceLocator,
-        private array $doctrineConnections,
+        private ServiceProviderInterface $serviceLocator,
     ) {
     }
 
@@ -45,7 +41,7 @@ final readonly class StorageConnectionFactory
         if (!$this->serviceLocator->has($connectionName)) {
             throw new InvalidArgumentException(
                 "Invalid Doctrine connection '$connectionName' for Repository '{$repositoryConfig['alias']}'. " .
-                'Valid connections are: ' . implode(', ', array_keys($this->doctrineConnections))
+                'Valid connections are: ' . implode(', ', array_keys($this->serviceLocator->getProvidedServices()))
             );
         }
 
