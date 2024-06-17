@@ -104,10 +104,16 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
         $factory = $this->buildStorageConnectionFactory(
             $repositoryConfigurationProviderMock,
             'my_doctrine_connection',
-            []
+            [
+                'default' => 'doctrine.dbal.default_connection',
+                'foo' => 'doctrine.dbal.foo_connection',
+            ]
         );
 
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Invalid Doctrine connection \'my_doctrine_connection\' for Repository \'foo\'. Valid connections are: default, foo'
+        );
         $factory->getConnection();
     }
 
@@ -135,6 +141,7 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
             ->with($connectionName)
             ->willReturn(isset($doctrineConnections[$connectionName]))
         ;
+        $serviceLocatorMock->method('getProvidedServices')->willReturn($doctrineConnections);
         if (isset($doctrineConnections[$connectionName])) {
             $serviceLocatorMock->method('get')->with($connectionName)->willReturn($this->createMock(Connection::class));
         } else {
@@ -143,8 +150,7 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
 
         return new StorageConnectionFactory(
             $repositoryConfigurationProvider,
-            $serviceLocatorMock,
-            $doctrineConnections
+            $serviceLocatorMock
         );
     }
 }
