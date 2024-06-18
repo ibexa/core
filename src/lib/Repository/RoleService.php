@@ -42,6 +42,8 @@ use Ibexa\Core\Repository\Values\User\RoleCreateStruct;
 
 /**
  * This service provides methods for managing Roles and Policies.
+ *
+ * @phpstan-import-type TPolicyMap from \Ibexa\Contracts\Core\Repository\RoleService
  */
 class RoleService implements RoleServiceInterface
 {
@@ -57,8 +59,8 @@ class RoleService implements RoleServiceInterface
     /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper */
     protected $roleDomainMapper;
 
-    /** @var array */
-    protected $settings;
+    /** @phpstan-var array{policyMap: TPolicyMap}|array{} */
+    protected array $settings;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
@@ -66,11 +68,7 @@ class RoleService implements RoleServiceInterface
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\User\Handler $userHandler
-     * @param \Ibexa\Core\Repository\Permission\LimitationService $limitationService
-     * @param \Ibexa\Core\Repository\Mapper\RoleDomainMapper $roleDomainMapper
-     * @param array $settings
+     * @phpstan-param array{policyMap: TPolicyMap}|array{} $settings
      */
     public function __construct(
         RepositoryInterface $repository,

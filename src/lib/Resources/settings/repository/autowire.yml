@@ -1,4 +1,6 @@
 services:
+    Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface: '@Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider'
+
     Ibexa\Contracts\Core\Repository\Repository: '@ibexa.api.repository'
 
     Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface: '@ibexa.config.resolver'

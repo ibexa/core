@@ -11,15 +11,16 @@ parameters:
 services:
     # API
     Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
+        deprecated:
+            package: 'ibexa/core'
+            version: '5.0'
+            message: 'Since ibexa/core 5.0: The "%service_id%" service is deprecated and will be removed in 6.0. Use Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory instead'
         arguments:
-            - '@ibexa.config.resolver'
-            - Ibexa\Core\Repository\Repository
-            - '%ibexa.api.role.policy_map%'
-            - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
-            - '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
-            - "@?logger"
-        calls:
-            - [setContainer, ["@service_container"]]
+            $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
+            $policyMap: '%ibexa.api.role.policy_map%'
+            $languageResolver: '@Ibexa\Contracts\Core\Repository\LanguageResolver'
+            $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
+            $logger: "@?logger"
 
     Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory:
         arguments:
