@@ -4,74 +4,68 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use PHPUnit\Framework\TestCase;
+use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
-class RepositoryConfigurationProviderTest extends TestCase
+/**
+ * @covers \Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider
+ *
+ * @phpstan-import-type TRepositoryListConfiguration from \Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider
+ */
+final class RepositoryConfigurationProviderTest extends BaseRepositoryConfigurationProviderTestCase
 {
-    public function testGetRepositoryConfigSpecifiedRepository()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testGetRepositoryConfigSpecifiedRepository(): void
     {
         $configResolver = $this->getConfigResolverMock();
-        $repositoryAlias = 'main';
-        $repositoryConfig = [
-            'engine' => 'foo',
-            'connection' => 'some_connection',
-        ];
-        $repositories = [
-            $repositoryAlias => $repositoryConfig,
-            'another' => [
-                'engine' => 'bar',
-            ],
-        ];
-        $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
+        // providing normalized configuration, expected at this point
+        // see \Ibexa\Bundle\Core\DependencyInjection\Configuration::addRepositoriesSection for more details
+        $provider = new RepositoryConfigurationProvider($configResolver, self::REPOSITORIES_CONFIG);
 
         $configResolver
-            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will(self::returnValue($repositoryAlias));
+            ->willReturn(self::MAIN_REPOSITORY_ALIAS);
 
         self::assertSame(
-            ['alias' => $repositoryAlias] + $repositoryConfig,
+            ['alias' => self::MAIN_REPOSITORY_ALIAS] + self::MAIN_REPOSITORY_CONFIG,
             $provider->getRepositoryConfig()
         );
     }
 
-    public function testGetRepositoryConfigNotSpecifiedRepository()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testGetRepositoryConfigNotSpecifiedRepository(): void
     {
         $configResolver = $this->getConfigResolverMock();
-        $repositoryAlias = 'main';
-        $repositoryConfig = [
-            'engine' => 'foo',
-            'connection' => 'some_connection',
-        ];
-        $repositories = [
-            $repositoryAlias => $repositoryConfig,
-            'another' => [
-                'engine' => 'bar',
-            ],
-        ];
-        $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
+        $provider = new RepositoryConfigurationProvider($configResolver, self::REPOSITORIES_CONFIG);
 
         $configResolver
-            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will(self::returnValue(null));
+            ->willReturn(null);
 
         self::assertSame(
-            ['alias' => $repositoryAlias] + $repositoryConfig,
+            ['alias' => self::MAIN_REPOSITORY_ALIAS] + self::MAIN_REPOSITORY_CONFIG,
             $provider->getRepositoryConfig()
         );
     }
 
     /**
      * @dataProvider providerForRepositories
+     *
+     * @phpstan-param TRepositoryListConfiguration $repositories
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testGetRepositoryConfigUndefinedRepository(array $repositories): void
     {
@@ -80,17 +74,20 @@ class RepositoryConfigurationProviderTest extends TestCase
         $configResolver = $this->getConfigResolverMock();
 
         $configResolver
-            ->expects(self::once())
             ->method('getParameter')
             ->with('repository')
-            ->will(self::returnValue('undefined_repository'));
+            ->willReturn('undefined_repository');
 
         $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
-        $provider->getRepositoryConfig();
+        self::assertSame([], $provider->getRepositoryConfig());
     }
 
     /**
      * @dataProvider providerForRepositories
+     *
+     * @phpstan-param TRepositoryListConfiguration $repositories
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function testGetDefaultRepositoryAlias(array $repositories): void
     {
@@ -99,11 +96,13 @@ class RepositoryConfigurationProviderTest extends TestCase
         $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
         $provider->getRepositoryConfig();
 
-        self::assertSame('first', $provider->getDefaultRepositoryAlias());
+        self::assertSame(self::MAIN_REPOSITORY_ALIAS, $provider->getDefaultRepositoryAlias());
     }
 
     /**
      * @dataProvider providerForRepositories
+     *
+     * @phpstan-param TRepositoryListConfiguration $repositories
      */
     public function testGetCurrentRepositoryAlias(array $repositories): void
     {
@@ -112,29 +111,20 @@ class RepositoryConfigurationProviderTest extends TestCase
         $provider = new RepositoryConfigurationProvider($configResolver, $repositories);
         $provider->getRepositoryConfig();
 
-        self::assertSame('first', $provider->getCurrentRepositoryAlias());
-    }
-
-    public function providerForRepositories(): array
-    {
-        return [
-            [
-                [
-                    'first' => [
-                        'engine' => 'foo',
-                    ],
-                    'second' => [
-                        'engine' => 'bar',
-                    ],
-                ],
-            ],
-        ];
+        self::assertSame(self::MAIN_REPOSITORY_ALIAS, $provider->getCurrentRepositoryAlias());
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
+     * @phpstan-return list<list<TRepositoryListConfiguration>> $repositories
      */
-    protected function getConfigResolverMock()
+    public function providerForRepositories(): array
+    {
+        return [
+            [self::REPOSITORIES_CONFIG],
+        ];
+    }
+
+    protected function getConfigResolverMock(): ConfigResolverInterface & MockObject
     {
         return $this->createMock(ConfigResolverInterface::class);
     }

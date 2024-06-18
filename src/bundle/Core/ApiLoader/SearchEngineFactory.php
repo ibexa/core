@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 
 /**
@@ -15,9 +16,6 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
  */
 class SearchEngineFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $repositoryConfigurationProvider;
-
     /**
      * Hash of registered search engines.
      * Key is the search engine identifier, value search handler itself.
@@ -26,9 +24,9 @@ class SearchEngineFactory
      */
     protected $searchEngines = [];
 
-    public function __construct(RepositoryConfigurationProvider $repositoryConfigurationProvider)
-    {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+    public function __construct(
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+    ) {
     }
 
     /**
