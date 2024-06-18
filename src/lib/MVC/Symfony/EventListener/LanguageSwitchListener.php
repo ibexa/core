@@ -26,7 +26,7 @@ class LanguageSwitchListener implements EventSubscriberInterface
         $this->translationHelper = $translationHelper;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             MVCEvents::ROUTE_REFERENCE_GENERATION => 'onRouteReferenceGeneration',
