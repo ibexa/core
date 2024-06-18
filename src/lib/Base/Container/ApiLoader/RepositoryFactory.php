@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Base\Container\ApiLoader;
 
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
@@ -25,36 +26,40 @@ use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Mapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
+use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Search\Common\BackgroundIndexer;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
-class RepositoryFactory implements ContainerAwareInterface
+/**
+ * @internal
+ *
+ * @phpstan-import-type TPolicyMap from \Ibexa\Contracts\Core\Repository\RoleService
+ */
+final class RepositoryFactory implements LoggerAwareInterface
 {
-    use ContainerAwareTrait;
+    use LoggerAwareTrait;
 
-    /** @var string */
-    private $repositoryClass;
+    /** @phpstan-var TPolicyMap */
+    private array $policyMap;
+
+    private LanguageResolver $languageResolver;
+
+    private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
     /**
-     * Policies map.
-     *
-     * @var array
+     * @phpstan-param TPolicyMap $policyMap
      */
-    protected $policyMap = [];
-
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    private $languageResolver;
-
     public function __construct(
-        $repositoryClass,
         array $policyMap,
-        LanguageResolver $languageResolver
+        LanguageResolver $languageResolver,
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider
     ) {
-        $this->repositoryClass = $repositoryClass;
         $this->policyMap = $policyMap;
         $this->languageResolver = $languageResolver;
+        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
     }
 
     /**
@@ -63,7 +68,7 @@ class RepositoryFactory implements ContainerAwareInterface
      * This always returns the true inner Repository, please depend on ezpublish.api.repository and not this method
      * directly to make sure you get an instance wrapped inside Event / Cache / * functionality.
      *
-     * @param string[] $languages
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function buildRepository(
         PersistenceHandler $persistenceHandler,
@@ -85,10 +90,11 @@ class RepositoryFactory implements ContainerAwareInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
-        NameSchemaServiceInterface $nameSchemaService,
-        array $languages
+        NameSchemaServiceInterface $nameSchemaService
     ): Repository {
-        return new $this->repositoryClass(
+        $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
+
+        return new CoreRepository(
             $persistenceHandler,
             $searchHandler,
             $backgroundIndexer,
@@ -114,8 +120,13 @@ class RepositoryFactory implements ContainerAwareInterface
                 'role' => [
                     'policyMap' => $this->policyMap,
                 ],
-                'languages' => $languages,
+                'languages' => $configResolver->getParameter('languages'),
+                'content' => [
+                    'default_version_archive_limit' => $config['options']['default_version_archive_limit'],
+                    'remove_archived_versions_on_publish' => $config['options']['remove_archived_versions_on_publish'],
+                ],
             ],
+            $this->logger ?? new NullLogger()
         );
     }
 
