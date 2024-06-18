@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-class ReindexCommand extends Command implements BackwardCompatibleCommand
+class ReindexCommand extends Command
 {
     /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
     private $searchIndexer;
@@ -110,7 +110,6 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     {
         $this
             ->setName('ibexa:reindex')
-            ->setAliases($this->getDeprecatedAliases())
             ->setDescription('Recreates or refreshes the search engine index')
             ->addOption(
                 'iteration-count',
@@ -473,10 +472,5 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
         }
 
         return $cores;
-    }
-
-    public function getDeprecatedAliases(): array
-    {
-        return ['ezplatform:reindex'];
     }
 }

@@ -8,7 +8,6 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
-use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Command\Command;
@@ -21,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-final class InstallPlatformCommand extends Command implements BackwardCompatibleCommand
+final class InstallPlatformCommand extends Command
 {
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
@@ -63,7 +62,7 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
     protected function configure()
     {
         $this->setName('ibexa:install');
-        $this->setAliases($this->getDeprecatedAliases());
+
         $this->addArgument(
             'type',
             InputArgument::OPTIONAL,
@@ -272,10 +271,5 @@ final class InstallPlatformCommand extends Command implements BackwardCompatible
         if (!$process->getExitCode() === 1) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
-    }
-
-    public function getDeprecatedAliases(): array
-    {
-        return ['ezplatform:install'];
     }
 }
