@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
         $this->binarydataHandlerFactories = $factories;
     }
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(IbexaIOExtension::EXTENSION_NAME);
 

@@ -14,7 +14,7 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer
     /**
      * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound::__sleep.
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         $data = parent::normalize($object, $format, $context);
         $data['config'] = [];

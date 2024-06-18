@@ -46,7 +46,7 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
         $this->debug = $debug;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             ConsoleEvents::COMMAND => [
