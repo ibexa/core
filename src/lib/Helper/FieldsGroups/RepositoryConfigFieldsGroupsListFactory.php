@@ -7,23 +7,25 @@
 
 namespace Ibexa\Core\Helper\FieldsGroups;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Builds a SettingsFieldGroupsList.
  */
-final class RepositoryConfigFieldsGroupsListFactory
+final readonly class RepositoryConfigFieldsGroupsListFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $configProvider;
+    private RepositoryConfigurationProviderInterface $configProvider;
 
-    public function __construct(RepositoryConfigurationProvider $configProvider)
+    public function __construct(RepositoryConfigurationProviderInterface $configProvider)
     {
         $this->configProvider = $configProvider;
     }
 
-    public function build(TranslatorInterface $translator)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function build(TranslatorInterface $translator): FieldsGroupsList
     {
         $repositoryConfig = $this->configProvider->getRepositoryConfig();
 

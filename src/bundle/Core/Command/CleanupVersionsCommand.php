@@ -9,11 +9,10 @@ namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
 use Exception;
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use PDO;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,18 +43,15 @@ EOT;
         self::VERSION_PUBLISHED => VersionInfo::STATUS_PUBLISHED,
     ];
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private readonly Repository $repository;
 
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $repositoryConfigurationProvider;
+    private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
 
-    /** @var \Doctrine\DBAL\Driver\Connection */
-    private $connection;
+    private readonly Connection $connection;
 
     public function __construct(
         Repository $repository,
-        RepositoryConfigurationProvider $repositoryConfigurationProvider,
+        RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         Connection $connection
     ) {
         $this->repository = $repository;
@@ -275,9 +271,10 @@ EOT
                 )->setParameter(':contentTypes', $excludedContentTypes, Connection::PARAM_STR_ARRAY);
         }
 
+        /** @var \Doctrine\DBAL\ForwardCompatibility\Result<int> $stmt */
         $stmt = $query->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        return $stmt->fetchFirstColumn();
     }
 
     /**

@@ -7,49 +7,44 @@
 
 namespace Ibexa\Bundle\Core\ApiLoader;
 
+use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use InvalidArgumentException;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Contracts\Service\ServiceProviderInterface;
 
-class StorageConnectionFactory implements ContainerAwareInterface
+/**
+ * @internal
+ */
+final readonly class StorageConnectionFactory
 {
-    use ContainerAwareTrait;
-
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    protected $repositoryConfigurationProvider;
-
-    public function __construct(RepositoryConfigurationProvider $repositoryConfigurationProvider)
-    {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+    public function __construct(
+        private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+        private ServiceProviderInterface $serviceLocator,
+    ) {
     }
 
     /**
      * Returns database connection used by database handler.
      *
      * @throws \InvalidArgumentException
-     *
-     * @return \Doctrine\DBAL\Connection
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function getConnection()
+    public function getConnection(): Connection
     {
         $repositoryConfig = $this->repositoryConfigurationProvider->getRepositoryConfig();
         // Taking provided connection name if any.
         // Otherwise, just fallback to the default connection.
 
-        if (isset($repositoryConfig['storage']['connection'])) {
-            $doctrineConnectionId = sprintf('doctrine.dbal.%s_connection', $repositoryConfig['storage']['connection']);
-        } else {
-            // "database_connection" is an alias to the default connection, set up by DoctrineBundle.
-            $doctrineConnectionId = 'database_connection';
-        }
-
-        if (!$this->container->has($doctrineConnectionId)) {
+        $connectionName = $repositoryConfig['storage']['connection'] ?? 'default';
+        if (!$this->serviceLocator->has($connectionName)) {
             throw new InvalidArgumentException(
-                "Invalid Doctrine connection '{$repositoryConfig['storage']['connection']}' for Repository '{$repositoryConfig['alias']}'." .
-                'Valid connections are: ' . implode(', ', array_keys($this->container->getParameter('doctrine.connections')))
+                "Invalid Doctrine connection '$connectionName' for Repository '{$repositoryConfig['alias']}'. " .
+                'Valid connections are: ' . implode(', ', array_keys($this->serviceLocator->getProvidedServices()))
             );
         }
 
-        return $this->container->get($doctrineConnectionId);
+        return $this->serviceLocator->get($connectionName);
     }
 }

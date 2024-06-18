@@ -4,72 +4,39 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\ApiLoader;
 
-use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 
 /**
- * The repository configuration provider.
+ * @deprecated 5.0.0 The "\Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider" class is deprecated, will be removed in 6.0.0.
+ * Inject {@see \Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface} from Dependency Injection Container instead.
  */
-class RepositoryConfigurationProvider
+final readonly class RepositoryConfigurationProvider implements RepositoryConfigurationProviderInterface
 {
-    private const REPOSITORY_STORAGE = 'storage';
-    private const REPOSITORY_CONNECTION = 'connection';
-    private const DEFAULT_CONNECTION_NAME = 'default';
-
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
-
-    /** @var array */
-    private $repositories;
-
-    public function __construct(ConfigResolverInterface $configResolver, array $repositories)
+    public function __construct(private RepositoryConfigurationProviderInterface $configurationProvider)
     {
-        $this->configResolver = $configResolver;
-        $this->repositories = $repositories;
     }
 
-    /**
-     * @return array
-     *
-     * @throws \Ibexa\Bundle\Core\ApiLoader\Exception\InvalidRepositoryException
-     */
-    public function getRepositoryConfig()
+    public function getRepositoryConfig(): array
     {
-        // Takes configured repository as the reference, if it exists.
-        // If not, the first configured repository is considered instead.
-        $repositoryAlias = $this->configResolver->getParameter('repository');
-        $repositoryAlias = $repositoryAlias ?: $this->getDefaultRepositoryAlias();
-
-        if (empty($repositoryAlias) || !isset($this->repositories[$repositoryAlias])) {
-            throw new InvalidRepositoryException(
-                "Undefined Repository '$repositoryAlias'. Check if the Repository is configured in your project's ibexa.yaml."
-            );
-        }
-
-        return ['alias' => $repositoryAlias] + $this->repositories[$repositoryAlias];
+        return $this->configurationProvider->getRepositoryConfig();
     }
 
     public function getCurrentRepositoryAlias(): string
     {
-        return $this->getRepositoryConfig()['alias'];
+        return $this->configurationProvider->getCurrentRepositoryAlias();
     }
 
     public function getDefaultRepositoryAlias(): ?string
     {
-        $aliases = array_keys($this->repositories);
-
-        return array_shift($aliases);
+        return $this->configurationProvider->getDefaultRepositoryAlias();
     }
 
     public function getStorageConnectionName(): string
     {
-        $repositoryConfig = $this->getRepositoryConfig();
-
-        return $repositoryConfig[self::REPOSITORY_STORAGE][self::REPOSITORY_CONNECTION]
-            ? $repositoryConfig[self::REPOSITORY_STORAGE][self::REPOSITORY_CONNECTION]
-            : self::DEFAULT_CONNECTION_NAME;
+        return $this->configurationProvider->getStorageConnectionName();
     }
 }

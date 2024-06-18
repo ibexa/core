@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngine;
 use Ibexa\Bundle\Core\ApiLoader\Exception\InvalidSearchEngineIndexer;
+use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Core\Search\Common\Indexer as SearchEngineIndexer;
 
 /**
@@ -16,9 +17,6 @@ use Ibexa\Core\Search\Common\Indexer as SearchEngineIndexer;
  */
 class SearchEngineIndexerFactory
 {
-    /** @var \Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider */
-    private $repositoryConfigurationProvider;
-
     /**
      * Hash of registered search engine indexers.
      * Key is the search engine identifier, value indexer itself.
@@ -27,9 +25,9 @@ class SearchEngineIndexerFactory
      */
     protected $searchEngineIndexers = [];
 
-    public function __construct(RepositoryConfigurationProvider $repositoryConfigurationProvider)
-    {
-        $this->repositoryConfigurationProvider = $repositoryConfigurationProvider;
+    public function __construct(
+        private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
+    ) {
     }
 
     /**
