@@ -19651,7 +19651,7 @@ parameters:
 			path: src/lib/Persistence/Utf8Converter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Utf8Converter\\:\\:toUnicodeCodepoint\\(\\) should return int but returns int\\<0, max\\>\\|false\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Utf8Converter\\:\\:toUnicodeCodepoint\\(\\) should return int but returns int\\<0, 2147483647\\>\\|false\\.$#"
 			count: 1
 			path: src/lib/Persistence/Utf8Converter.php
 
