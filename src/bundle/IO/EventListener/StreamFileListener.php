@@ -34,7 +34,7 @@ class StreamFileListener implements EventSubscriberInterface
         $this->ioConfigResolver = $ioConfigResolver;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 42],

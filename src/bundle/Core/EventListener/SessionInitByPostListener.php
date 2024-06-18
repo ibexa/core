@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class SessionInitByPostListener implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             MVCEvents::SITEACCESS => ['onSiteAccessMatch', 249],

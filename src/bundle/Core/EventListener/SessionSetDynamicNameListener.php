@@ -44,7 +44,7 @@ class SessionSetDynamicNameListener implements EventSubscriberInterface
         $this->sessionStorageFactory = $sessionStorageFactory;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             MVCEvents::SITEACCESS => ['onSiteAccessMatch', 250],

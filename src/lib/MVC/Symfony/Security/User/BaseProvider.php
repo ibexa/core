@@ -36,7 +36,7 @@ abstract class BaseProvider implements APIUserProviderInterface
         $this->userService = $userService;
     }
 
-    public function refreshUser(CoreUserInterface $user)
+    public function refreshUser(CoreUserInterface $user): CoreUserInterface
     {
         if (!$user instanceof UserInterface) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
@@ -66,7 +66,7 @@ abstract class BaseProvider implements APIUserProviderInterface
      *
      * @return bool
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === UserInterface::class || is_subclass_of($class, UserInterface::class);
     }
