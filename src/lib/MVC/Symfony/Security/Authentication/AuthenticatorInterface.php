@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * This interface is to be implemented by authenticator classes.
  * Authenticators are meant to be used to run authentication programmatically, i.e. outside the firewall context.
+ *
+ * @deprecated 4.6.7 this class is deprecated. Symfony Security has received major changes in 5.3, therefore Ibexa DXP relies on authenticator system from now on. Will be removed in 5.0.
  */
 interface AuthenticatorInterface
 {
