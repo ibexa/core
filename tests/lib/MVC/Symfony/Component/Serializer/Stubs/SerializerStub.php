@@ -45,6 +45,6 @@ final class SerializerStub implements SerializerInterface, NormalizerInterface
 
     public function supportsNormalization($data, string $format = null): bool
     {
-        return true;
+        return $data instanceof MatcherStub;
     }
 }

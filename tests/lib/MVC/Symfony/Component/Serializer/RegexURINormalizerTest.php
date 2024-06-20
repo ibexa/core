@@ -11,15 +11,21 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Regex\URI;
-use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\SerializerStub;
 use Ibexa\Tests\Core\Search\TestCase;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 final class RegexURINormalizerTest extends TestCase
 {
     public function testNormalize(): void
     {
         $normalizer = new RegexURINormalizer();
-        $normalizer->setSerializer(new SerializerStub());
+        $serializer = new Serializer(
+            [
+                $normalizer,
+                new ObjectNormalizer(),
+            ]
+        );
 
         $matcher = new URI([
             'regex' => '/^Foo(.*)/(.*)/',
@@ -33,7 +39,7 @@ final class RegexURINormalizerTest extends TestCase
                     'itemNumber' => 2,
                 ],
             ],
-            $normalizer->normalize($matcher)
+            $serializer->normalize($matcher)
         );
     }
 
