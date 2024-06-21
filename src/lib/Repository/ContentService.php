@@ -1421,7 +1421,7 @@ class ContentService implements ContentServiceInterface
                 )->id,
             ]
         );
-        $existingRelations = $this->internalLoadRelations($versionInfo);
+        $existingRelations = $this->internalLoadRelations($versionInfo, false);
 
         $this->repository->beginTransaction();
         try {
@@ -2009,13 +2009,13 @@ class ContentService implements ContentServiceInterface
     }
 
     /**
-     * Loads all outgoing relations for the given version without checking the permissions.
+     * Loads all outgoing relations for the given version without checking the permissions on $versionInfo.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    protected function internalLoadRelations(APIVersionInfo $versionInfo): array
+    protected function internalLoadRelations(APIVersionInfo $versionInfo, bool $checkDestinationPermission = true): array
     {
         $contentInfo = $versionInfo->getContentInfo();
         $spiRelations = $this->persistenceHandler->contentHandler()->loadRelations(
@@ -2027,7 +2027,7 @@ class ContentService implements ContentServiceInterface
         $relations = [];
         foreach ($spiRelations as $spiRelation) {
             $destinationContentInfo = $this->internalLoadContentInfoById($spiRelation->destinationContentId);
-            if (!$this->permissionResolver->canUser('content', 'read', $destinationContentInfo)) {
+            if ($checkDestinationPermission && !$this->permissionResolver->canUser('content', 'read', $destinationContentInfo)) {
                 continue;
             }
 
