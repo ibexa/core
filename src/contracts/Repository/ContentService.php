@@ -74,10 +74,10 @@ interface ContentService
     /**
      * Loads a version info of the given content object.
      *
-     * If no version number is given, the method returns the current version
+     * If no version number is given, the method returns the current version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number does not exist
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number does not exist.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param int|null $versionNo the version number. If not given the current version is returned.
@@ -89,10 +89,10 @@ interface ContentService
     /**
      * Loads a version info of the given content object id.
      *
-     * If no version number is given, the method returns the current version
+     * If no version number is given, the method returns the current version.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number does not exist
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the version with the given number does not exist.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
      *
      * @param int $contentId
      * @param int|null $versionNo the version number. If not given the current version is returned.
@@ -104,7 +104,7 @@ interface ContentService
     /**
      * Bulk-load VersionInfo items by the list of ContentInfo Value Objects.
      *
-     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> $contentInfoList
+     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> $contentInfoList
      *
      * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo> List of VersionInfo items with Content Ids as keys
      *
@@ -125,8 +125,8 @@ interface ContentService
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param array $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
-     * @param int|null $versionNo the version number. If not given the current version is returned from $contentInfo
-     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if alwaysAvailable is true
+     * @param int|null $versionNo the version number. If not given the current version is returned from $contentInfo.
+     * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
@@ -135,12 +135,12 @@ interface ContentService
     /**
      * Loads content in the version given by version info.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to load this version.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
-     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if alwaysAvailable is true
+     * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
@@ -154,11 +154,10 @@ interface ContentService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content or version with the given id and languages does not exist
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user has no access to read content and in case of un-published content: read versions
      *
-     * @param mixed $contentId
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
-     * @param int|null $versionNo the version number. If not given the current version is returned
-     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if alwaysAvailable is true
+     * @param int|null $versionNo the version number. If not given the current version is returned.
+     * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
@@ -176,7 +175,7 @@ interface ContentService
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param int|null $versionNo the version number. If not given the current version is returned
-     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if alwaysAvailable is true
+     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
@@ -192,7 +191,7 @@ interface ContentService
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo[] $contentInfoList
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                            returned value object. If not given all languages are returned.
-     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if alwaysAvailable is true,
+     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true,
      *                                 unless all languages have been asked for.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[] list of Content items with Content Ids as keys
@@ -215,7 +214,7 @@ interface ContentService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is missing or is set to an empty value
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content.
      *                                                                                                While optional, it's highly recommended to use Locations for content as a lot of features in the system is usually tied to the tree structure (including default Role policies).
      * @param string[]|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
@@ -227,7 +226,7 @@ interface ContentService
     /**
      * Updates the metadata.
      *
-     * See {@see ContentMetadataUpdateStruct} of a content object - to update fields use updateContent
+     * To update fields use {@see ContentService::updateContent()}
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update the content meta data
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the remoteId in $contentMetadataUpdateStruct is set but already exists
@@ -262,7 +261,7 @@ interface ContentService
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo|null $versionInfo
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $creator Used as creator of the draft if given - otherwise uses current-user
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language|null if not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Language|null $language if not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content - the newly created content draft
      */
@@ -276,7 +275,7 @@ interface ContentService
     /**
      * Counts drafts for a user.
      *
-     * If no user is given the number of drafts for the authenticated user are returned
+     * If no user is given the number of drafts for the authenticated user are returned.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user The user to load drafts for, if defined, otherwise drafts for current-user
      *
@@ -289,7 +288,7 @@ interface ContentService
     /**
      * Loads drafts for a user.
      *
-     * If no user is given the drafts for the authenticated user are returned
+     * If no user is given the drafts for the authenticated user are returned.
      *
      * @deprecated Please use {@see ContentService::loadContentDraftList()} instead to avoid risking loading too much data.
      *
@@ -297,14 +296,14 @@ interface ContentService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user The user to load drafts for, if defined, otherwise drafts for current-user
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] the drafts ({@see VersionInfo}) owned by the given user
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] the drafts owned by the given user
      */
     public function loadContentDrafts(?User $user = null): iterable;
 
     /**
      * Loads drafts for a user when content is not in the trash. The list is sorted by modification date.
      *
-     * If no user is given the drafts for the authenticated user are returned
+     * If no user is given the drafts for the authenticated user are returned.
      *
      * @since 7.5.5
      *
@@ -319,18 +318,18 @@ interface ContentService
     /**
      * Updates the fields of a draft.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update this version
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $contentUpdateStruct is not valid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is set to an empty value
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if a field value is not accepted by the field type
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update this version.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $contentUpdateStruct is not valid.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is set to an empty value.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if a field value is not accepted by the field type.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct $contentUpdateStruct
      * @param string[]|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content the content draft with the updated fields
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content the content draft with the updated fields.
      */
     public function updateContent(VersionInfo $versionInfo, ContentUpdateStruct $contentUpdateStruct, ?array $fieldIdentifiersToValidate = null): Content;
 
@@ -342,13 +341,13 @@ interface ContentService
      *
      * @todo Introduce null|int ContentType->versionArchiveLimit to be able to let admins override this per type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish this version
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish this version.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param string[] $translations List of language codes of translations which will be included
      *                               in a published version.
-     *                               By default all translations from the current version will be published.
+     *                               By default, all translations from the current version will be published.
      *                               If the list is provided but does not cover all currently published translations,
      *                               the missing ones will be copied from the currently published version,
      *                               overriding those in the current version.
@@ -377,7 +376,7 @@ interface ContentService
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param int|null $status
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo} sorted by creation date
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo> an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo} sorted by creation date
      */
     public function loadVersions(ContentInfo $contentInfo, ?int $status = null): iterable;
 
@@ -435,7 +434,7 @@ interface ContentService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      *
-     * @return int The number of reverse relations ({@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation})
+     * @return int The number of reverse relations ({@see Relation})
      */
     public function countReverseRelations(ContentInfo $contentInfo): int;
 
@@ -456,8 +455,7 @@ interface ContentService
      * Loads all incoming relations for a content object.
      *
      * The relations come only from published versions of the source content objects.
-     * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
-     * {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem}
+     * If the user is not allowed to read specific version then {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem} is returned.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param int $offset
@@ -468,30 +466,34 @@ interface ContentService
     public function loadReverseRelationList(ContentInfo $contentInfo, int $offset = 0, int $limit = -1): RelationList;
 
     /**
-     * Adds a relation of type common.
+     * Adds a common relation.
      *
      * The source of the relation is the content and version
      * referenced by $sourceVersion.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit this version
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit this version.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $sourceVersion
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContent the destination of the relation
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $sourceVersion the source content's version in relation with the destination.
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContent the destination of the relation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation the newly created relation
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation the newly created relation.
+     *
+     * @see Relation::COMMON
      */
     public function addRelation(VersionInfo $sourceVersion, ContentInfo $destinationContent): Relation;
 
     /**
-     * Removes a relation of type COMMON from a draft.
+     * Removes a common relation from a draft.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed edit this version
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is no relation of type COMMON for the given destination
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed edit this version.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is no relation of type {@see Relation::COMMON} for the given destination.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $sourceVersion
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContent
+     *
+     * @see Relation::COMMON
      */
     public function deleteRelation(VersionInfo $sourceVersion, ContentInfo $destinationContent): void;
 
@@ -517,7 +519,7 @@ interface ContentService
     /**
      * Delete specified Translation from a Content Draft.
      *
-     * When using together with ContentService::publishVersion() method, make sure to not provide deleted translation
+     * When using together with {@see ContentService::publishVersion()} method, make sure to not provide deleted translation
      * in translations array, as it is going to be copied again from published version.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the specified Translation
@@ -528,10 +530,10 @@ interface ContentService
      *         is invalid for the given Draft.
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if specified Version was not found
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo Content Version Draft
-     * @param string $languageCode Language code of the Translation to be removed
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo Content Version Draft.
+     * @param string $languageCode Language code of the Translation to be removed.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content Content Draft w/o the specified Translation
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content Content Draft without the specified Translation.
      *
      * @since 6.12
      */
@@ -539,9 +541,10 @@ interface ContentService
 
     /**
      * Hides Content by making all the Locations appear hidden.
+     *
      * It does not persist hidden state on Location object itself.
      *
-     * Content hidden by this API can be revealed by revealContent API.
+     * Content hidden by this API can be revealed by {@see ContentService::revealContent()} API.
      *
      * @see ContentService::revealContent()
      *
@@ -551,6 +554,7 @@ interface ContentService
 
     /**
      * Reveals Content hidden by hideContent API.
+     *
      * Locations which were hidden before hiding Content will remain hidden.
      *
      * @see ContentService::hideContent()
@@ -562,7 +566,7 @@ interface ContentService
     /**
      * Instantiates a new content create struct object.
      *
-     * alwaysAvailable is set to the ContentType's defaultAlwaysAvailable
+     * {@see ContentCreateStruct::$alwaysAvailable} is set to the {@see ContentType::$defaultAlwaysAvailable}
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
      * @param string $mainLanguageCode
@@ -589,7 +593,7 @@ interface ContentService
      * Validates given content related ValueObject returning field errors structure as a result.
      *
      * @param array $context Additional context parameters to be used by validators.
-     * @param string[]|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
+     * @param array<int, string>|null $fieldIdentifiersToValidate List of field identifiers for partial validation, or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
      *
      * @return array Validation errors grouped by field definition and language code, in format:
@@ -600,18 +604,20 @@ interface ContentService
     public function validate(ValueObject $object, array $context, ?array $fieldIdentifiersToValidate = null): array;
 
     /**
-     * Fetch Content items from the Repository filtered by the given conditions.
+     * Fetches Content items from the Repository filtered by the given conditions.
      *
-     * @param string[] $languages a list of language codes to be added as additional constraints.
+     * @param array<int, string> $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
     public function find(Filter $filter, ?array $languages = null): ContentList;
 
     /**
-     * Count total number of items returned by {@see ContentService::find()} method.
+     * Gets the total number of fetchable Content items.
      *
-     * @param string[] $languages a list of language codes to be added as additional constraints.
+     * Count total number of items returned by {@see ContentService::find()} with the same parameters.
+     *
+     * @param array<int, string> $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
