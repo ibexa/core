@@ -175,7 +175,7 @@ interface ContentService
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param int|null $versionNo the version number. If not given the current version is returned
-     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true
+     * @param bool $useAlwaysAvailable Add Main language to \$languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
@@ -211,7 +211,7 @@ interface ContentService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is a provided remote ID which exists in the system or multiple Locations
      *                                                                        are under the same parent or if the a field value is not accepted by the field type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $contentCreateStruct is not valid
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is missing or is set to an empty value
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException If a required field is missing or is set to an empty value.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content.
