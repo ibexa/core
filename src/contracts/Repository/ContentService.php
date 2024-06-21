@@ -226,7 +226,7 @@ interface ContentService
     /**
      * Updates the metadata.
      *
-     * To update fields, use {@see ContentService::updateContent()}
+     * To update fields, use {@see ContentService::updateContent()}.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update the content meta data
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the remoteId in $contentMetadataUpdateStruct is set but already exists
