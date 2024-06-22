@@ -4771,11 +4771,6 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\RepositoryInstaller\\\\Command\\\\ValidatePasswordHashesCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/ValidatePasswordHashesCommand.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\RepositoryInstaller\\\\DependencyInjection\\\\Compiler\\\\InstallerTagPass\\:\\:process\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/RepositoryInstaller/DependencyInjection/Compiler/InstallerTagPass.php
@@ -24784,16 +24779,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\OriginalRequestListenerTest\\:\\:testOnKernelRequestWithOriginalRequest\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/OriginalRequestListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RejectExplicitFrontControllerRequestsListenerTest\\:\\:prohibitedRequestDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/RejectExplicitFrontControllerRequestsListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RejectExplicitFrontControllerRequestsListenerTest\\:\\:validRequestDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/RejectExplicitFrontControllerRequestsListenerTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RequestEventListenerTest\\:\\:testOnKernelRequestForward\\(\\) has no return type specified\\.$#"
