@@ -48536,7 +48536,7 @@ parameters:
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
 
 		-
-			message: "#^Anonymous function should return string but returns string\\|false\\.$#"
+			message: "#^Anonymous function should return non\\-empty\\-string but returns non\\-empty\\-string\\|false\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/RoutingExtensionTest.php
 
