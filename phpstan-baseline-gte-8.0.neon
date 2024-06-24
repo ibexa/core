@@ -6,17 +6,17 @@ parameters:
 			path: src/bundle/Core/ApiLoader/StorageConnectionFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_slice expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_slice expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
@@ -171,7 +171,7 @@ parameters:
 			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
 
@@ -306,12 +306,12 @@ parameters:
 			path: tests/integration/Core/Repository/BaseTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
 			count: 4
 			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -321,7 +321,7 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function usort expects TArray of array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function usort expects TArray of array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -336,12 +336,12 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
