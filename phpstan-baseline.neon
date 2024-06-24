@@ -10946,6 +10946,11 @@ parameters:
 			path: src/lib/IO/IOService.php
 
 		-
+			message: "#^Parameter \\#2 \\$length of function fread expects int\\<1, max\\>, int\\<0, max\\> given\\.$#"
+			count: 1
+			path: src/lib/IO/IOService.php
+
+		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\IO\\\\BinaryFile\\:\\:\\$uri \\(string\\) in isset\\(\\) is not nullable\\.$#"
 			count: 2
 			path: src/lib/IO/IOService.php
