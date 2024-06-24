@@ -110,7 +110,7 @@ interface ContentService
      *
      * @param array<int, string> $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
-     * @param int|null $versionNo the version number. If not given the current version is returned from $contentInfo.
+     * @param int|null $versionNo The version number. If not given the current version is returned from $contentInfo.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
     public function loadContentByContentInfo(ContentInfo $contentInfo, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
@@ -136,7 +136,7 @@ interface ContentService
      *
      * @param array<int, string> $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
-     * @param int|null $versionNo the version number. If not given the current version is returned.
+     * @param int|null $versionNo The version number. If not given the current version is returned.
      * @param bool $useAlwaysAvailable Add Main language to $languages if true (default) and if {@see ContentInfo::$alwaysAvailable} is true.
      */
     public function loadContent(int $contentId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): Content;
@@ -186,9 +186,9 @@ interface ContentService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is a provided remote ID which exists in the system or multiple Locations
      *                                                                        are under the same parent or if the a field value is not accepted by the field type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if a field in the $contentCreateStruct is not valid.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException If a required field is missing or is set to an empty value.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is missing or is set to an empty value.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content.
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content.
      *                                                                                                While optional, it's highly recommended to use Locations for content as a lot of features in the system is usually tied to the tree structure (including default Role policies).
      * @param string[]|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
@@ -526,7 +526,7 @@ interface ContentService
     /**
      * Fetches Content items from the Repository filtered by the given conditions.
      *
-     * @param array<int, string> $languages a list of language codes to be added as additional constraints.
+     * @param array<int, string> $languages A list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
@@ -537,7 +537,7 @@ interface ContentService
      *
      * Count total number of items returned by {@see ContentService::find()} with the same parameters.
      *
-     * @param array<int, string> $languages a list of language codes to be added as additional constraints.
+     * @param array<int, string> $languages A list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
