@@ -356,12 +356,12 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceAuthorizationTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array_arg of function usort expects TArray of array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array_arg of function usort expects TArray of array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$input of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$input of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -383,6 +383,11 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\> given\\.$#"
 			count: 1
+			path: tests/integration/Core/Repository/ContentServiceTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$var of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
