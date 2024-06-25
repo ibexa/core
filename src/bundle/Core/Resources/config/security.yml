@@ -47,3 +47,7 @@ services:
     Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\AccessDeniedSubscriber:
         autowire: true
         autoconfigure: true
+
+    Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\OnAuthenticationTokenCreatedRepositoryUserSubscriber:
+        autowire: true
+        autoconfigure: true
