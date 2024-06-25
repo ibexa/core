@@ -1296,7 +1296,8 @@ class ContentService implements ContentServiceInterface
     protected function internalUpdateContent(
         APIVersionInfo $versionInfo,
         APIContentUpdateStruct $contentUpdateStruct,
-        ?array $fieldIdentifiersToValidate = null
+        ?array $fieldIdentifiersToValidate = null,
+        bool $copyEmptyField = false
     ): Content {
         $contentUpdateStruct = clone $contentUpdateStruct;
 
@@ -1387,7 +1388,7 @@ class ContentService implements ContentServiceInterface
                 );
                 $fieldValues[$fieldDefinition->identifier][$languageCode] = $fieldValue;
 
-                if ($isRetained || $isCopied || ($isLanguageNew && $isEmpty) || $isProcessed) {
+                if ($isRetained || $isCopied || ($isLanguageNew && $isEmpty && !$copyEmptyField) || $isProcessed) {
                     continue;
                 }
 
@@ -1695,7 +1696,7 @@ class ContentService implements ContentServiceInterface
             $updateStruct->setField($fallbackField->fieldDefIdentifier, $fallbackField->value, $fallbackField->languageCode);
         }
 
-        $this->internalUpdateContent($versionInfo, $updateStruct);
+        $this->internalUpdateContent($versionInfo, $updateStruct, null, true);
     }
 
     protected function fieldValuesAreEqual(FieldType $fieldType, Value $value1, Value $value2): bool
