@@ -7411,26 +7411,6 @@ parameters:
 			path: src/contracts/Repository/Values/ObjectState/ObjectStateCreateStruct.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Translation\\\\Message\\:\\:__construct\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Translation/Message.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Translation\\\\Message\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Translation/Message.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Translation\\\\Plural\\:\\:__construct\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Translation/Plural.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Translation\\\\Plural\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Translation/Plural.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\URL\\\\SearchResult implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/contracts/Repository/Values/URL/SearchResult.php
