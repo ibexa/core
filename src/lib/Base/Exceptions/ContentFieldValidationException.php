@@ -9,6 +9,7 @@ namespace Ibexa\Core\Base\Exceptions;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException as APIContentFieldValidationException;
 use Ibexa\Core\Base\Translatable;
 use Ibexa\Core\Base\TranslatableBase;
+use Throwable;
 
 /**
  * This Exception is thrown on create or update content one or more given fields are not valid.
@@ -42,11 +43,11 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
      */
-    public function __construct(array $errors)
+    public function __construct(array $errors, ?Throwable $previous = null)
     {
         $this->errors = $errors;
         $this->setMessageTemplate('Content fields did not validate');
-        parent::__construct($this->getBaseTranslation());
+        parent::__construct($this->getBaseTranslation(), 0, $previous);
     }
 
     /**
@@ -54,15 +55,15 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * @param array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>> $errors
      */
-    public static function createNewWithMultiline(array $errors, ?string $contentName = null): self
+    public static function createNewWithMultiline(array $errors, ?string $contentName = null, ?Throwable $previous = null): self
     {
-        $exception = new self($errors);
+        $exception = new self($errors, $previous);
         $exception->contentName = $contentName;
 
         $exception->setMessageTemplate('Content "%contentName%" fields did not validate: %errors%');
         $exception->setParameters([
             '%errors%' => $exception->generateValidationErrorsMessages(),
-            '%contentName%' => $exception->contentName !== null ? $exception->contentName : '',
+            '%contentName%' => $exception->contentName ?? '',
         ]);
         $exception->message = $exception->getBaseTranslation();
 
