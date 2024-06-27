@@ -7,14 +7,13 @@
 
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
-use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Core\FieldType\User\UserStorage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ValidatePasswordHashesCommand extends Command implements BackwardCompatibleCommand
+final class ValidatePasswordHashesCommand extends Command
 {
     /** @var \Ibexa\Core\FieldType\User\UserStorage */
     private $userStorage;
@@ -35,7 +34,6 @@ final class ValidatePasswordHashesCommand extends Command implements BackwardCom
     protected function configure()
     {
         $this->setName('ibexa:user:validate-password-hashes');
-        $this->setAliases($this->getDeprecatedAliases());
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -52,10 +50,5 @@ final class ValidatePasswordHashesCommand extends Command implements BackwardCom
         }
 
         return Command::SUCCESS;
-    }
-
-    public function getDeprecatedAliases(): array
-    {
-        return ['ezplatform:user:validate-password-hashes'];
     }
 }

@@ -23,7 +23,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-class UpdateTimestampsToUTCCommand extends Command implements BackwardCompatibleCommand
+class UpdateTimestampsToUTCCommand extends Command
 {
     public const MAX_TIMESTAMP_VALUE = 2147483647;
     public const DEFAULT_ITERATION_COUNT = 100;
@@ -67,7 +67,6 @@ class UpdateTimestampsToUTCCommand extends Command implements BackwardCompatible
     {
         $this
             ->setName('ibexa:timestamps:to-utc')
-            ->setAliases($this->getDeprecatedAliases())
             ->setDescription('Updates ezdate and ezdatetime timestamps to UTC')
             ->addArgument(
                 'timezone',
@@ -502,10 +501,5 @@ EOT
         $date = new \DateTime($dateString);
 
         return $date->getTimestamp();
-    }
-
-    public function getDeprecatedAliases(): array
-    {
-        return ['ezplatform:timestamps:to-utc'];
     }
 }

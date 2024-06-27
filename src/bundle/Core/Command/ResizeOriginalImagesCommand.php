@@ -36,7 +36,7 @@ use Symfony\Component\Mime\MimeTypesInterface;
 /**
  * This command resizes original images stored in ezimage FieldType in given ContentType using the selected filter.
  */
-class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleCommand
+class ResizeOriginalImagesCommand extends Command
 {
     public const DEFAULT_ITERATION_COUNT = 25;
     public const DEFAULT_REPOSITORY_USER = 'admin';
@@ -105,7 +105,6 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
     {
         $this
             ->setName('ibexa:images:resize-original')
-            ->setAliases($this->getDeprecatedAliases())
             ->addArgument(
                 'imageFieldIdentifier',
                 InputArgument::REQUIRED,
@@ -308,10 +307,5 @@ class ResizeOriginalImagesCommand extends Command implements BackwardCompatibleC
         fclose($tmpFile);
 
         return $newBinaryFile;
-    }
-
-    public function getDeprecatedAliases(): array
-    {
-        return ['ezplatform:images:resize-original'];
     }
 }
