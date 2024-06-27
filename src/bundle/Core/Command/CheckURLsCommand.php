@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CheckURLsCommand extends Command implements BackwardCompatibleCommand
+class CheckURLsCommand extends Command
 {
     private const DEFAULT_ITERATION_COUNT = 50;
     private const DEFAULT_REPOSITORY_USER = 'admin';
@@ -55,7 +55,6 @@ class CheckURLsCommand extends Command implements BackwardCompatibleCommand
 
     public function configure(): void
     {
-        $this->setAliases($this->getDeprecatedAliases());
         $this->setDescription('Checks validity of external URLs');
         $this->addOption(
             'iteration-count',
@@ -117,10 +116,5 @@ class CheckURLsCommand extends Command implements BackwardCompatibleCommand
         $query->limit = 0;
 
         return $this->urlService->findUrls($query)->totalCount;
-    }
-
-    public function getDeprecatedAliases(): array
-    {
-        return ['ezplatform:check-urls'];
     }
 }

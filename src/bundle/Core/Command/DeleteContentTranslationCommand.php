@@ -22,7 +22,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Console Command which deletes a given Translation from all the Versions of a given Content Item.
  */
-class DeleteContentTranslationCommand extends Command implements BackwardCompatibleCommand
+class DeleteContentTranslationCommand extends Command
 {
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     private $repository;
@@ -52,7 +52,6 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
     {
         $this
             ->setName('ibexa:delete-content-translation')
-            ->setAliases($this->getDeprecatedAliases())
             ->addArgument('content-id', InputArgument::REQUIRED, 'Content Object Id')
             ->addArgument(
                 'language-code',
@@ -195,10 +194,5 @@ class DeleteContentTranslationCommand extends Command implements BackwardCompati
             $contentInfo,
             $contentMetadataUpdateStruct
         )->contentInfo;
-    }
-
-    public function getDeprecatedAliases(): array
-    {
-        return ['ezplatform:delete-content-translation'];
     }
 }
