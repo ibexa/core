@@ -70,12 +70,13 @@ final class UpdateContentTest extends BaseTest
 
         // 5. Create User that has no access to content in $privateSection
         $editorRole = $repository->getRoleService()->loadRole(3);
+        // remove existing role assignments
         foreach ($repository->getRoleService()->getRoleAssignments($editorRole) as $role) {
-            if ($role->getRoleLimitation()->limitationValues == ['/1/2/']) {
-                $repository->getRoleService()->removeRoleAssignment($role);
-            }
+            $repository->getRoleService()->removeRoleAssignment($role);
         }
+
         $editorUserGroup = $userService->loadUserGroup(13);
+        // grant access to standard section
         $repository->getRoleService()->assignRoleToUserGroup(
             $editorRole,
             $editorUserGroup,
@@ -93,6 +94,6 @@ final class UpdateContentTest extends BaseTest
         // 7. Read relations & check if count($relations) is unchanged
         $permissionResolver->setCurrentUserReference($userService->loadUser($administratorUserId));
         $relations = $contentService->loadRelations($folder->getVersionInfo());
-        self::assertEquals(1, count($relations));
+        self::assertEquals(1, count((array)$relations));
     }
 }
