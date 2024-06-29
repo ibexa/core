@@ -31,22 +31,16 @@ final class UpdateContentTest extends BaseTest
         $sectionService = $repository->getSectionService();
         $contentService = $repository->getContentService();
         $userService = $repository->getUserService();
+        $roleService = $repository->getRoleService();
         $permissionResolver = $repository->getPermissionResolver();
 
-        /* BEGIN: Use Case */
         // 1. Add relation field to 'folder' ContentType
         $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
         $folderTypeDraft = $contentTypeService->createContentTypeDraft($folderType);
 
-        $titleFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('relations', 'ezobjectrelationlist');
-        $titleFieldCreateStruct->names = ['eng-GB' => 'Relations'];
-        $titleFieldCreateStruct->descriptions = ['eng-GB' => 'Relations'];
-        $titleFieldCreateStruct->fieldGroup = 'content';
-        $titleFieldCreateStruct->position = 10;
-        $titleFieldCreateStruct->isTranslatable = false;
-        $titleFieldCreateStruct->isRequired = false;
-        $titleFieldCreateStruct->isSearchable = false;
-        $contentTypeService->addFieldDefinition($folderTypeDraft, $titleFieldCreateStruct);
+        $relationsFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('relations', 'ezobjectrelationlist');
+        $relationsFieldCreateStruct->names = ['eng-GB' => 'Relations'];
+        $contentTypeService->addFieldDefinition($folderTypeDraft, $relationsFieldCreateStruct);
         $contentTypeService->publishContentTypeDraft($folderTypeDraft);
 
         // 2. Add Section 'private'
@@ -69,15 +63,15 @@ final class UpdateContentTest extends BaseTest
         $contentService->publishVersion($folder->getVersionInfo());
 
         // 5. Create User that has no access to content in $privateSection
-        $editorRole = $repository->getRoleService()->loadRole(3);
+        $editorRole = $roleService->loadRole(3);
         // remove existing role assignments
-        foreach ($repository->getRoleService()->getRoleAssignments($editorRole) as $role) {
-            $repository->getRoleService()->removeRoleAssignment($role);
+        foreach ($roleService->getRoleAssignments($editorRole) as $role) {
+            $roleService->removeRoleAssignment($role);
         }
 
         $editorUserGroup = $userService->loadUserGroup(13);
         // grant access to standard section
-        $repository->getRoleService()->assignRoleToUserGroup(
+        $roleService->assignRoleToUserGroup(
             $editorRole,
             $editorUserGroup,
             new SectionLimitation(['limitationValues' => [1]])
