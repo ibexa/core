@@ -114,7 +114,7 @@ class Location extends ValueObject
     /**
      * Specifies which property the child locations should be sorted on.
      *
-     * Valid values are found at {@see Location::SORT_FIELD_*}
+     * Valid values are found at {@link Location::SORT_FIELD_*}
      *
      * @var mixed
      */
