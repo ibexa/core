@@ -78,9 +78,5 @@ final class SecurityPass implements CompilerPassInterface
             'setEventDispatcher',
             [new Reference('event_dispatcher')]
         );
-        $successHandlerDef->addMethodCall(
-            'setPermissionResolver',
-            [$permissionResolverRef]
-        );
     }
 }
