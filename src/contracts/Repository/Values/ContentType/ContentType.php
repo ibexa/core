@@ -142,7 +142,7 @@ abstract class ContentType extends ValueObject implements MultiLanguageName, Mul
     /**
      * Specifies which property the child locations should be sorted on by default when created.
      *
-     * Valid values are found at {@see Location::SORT_FIELD_*}
+     * Valid values are found at {@link Location::SORT_FIELD_*}
      *
      * @var int
      */
