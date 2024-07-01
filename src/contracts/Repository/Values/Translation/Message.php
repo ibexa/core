@@ -19,34 +19,30 @@ class Message extends Translation
     /**
      * Message string. Might use replacements like %foo%, which are replaced by
      * the values specified in the values array.
-     *
-     * @var string
      */
-    protected $message;
+    protected string $message;
 
     /**
      * Translation value objects. May not contain any numbers, which might
      * result in requiring plural forms. Use Plural for that.
      *
-     * @var array
+     * @var array<string, scalar>
      */
-    protected $values;
+    protected array $values;
 
     /**
      * Construct singular only message from string and optional value array.
      *
-     * @param string $message
-     * @param array $values
+     * @param array<string, scalar> $values
      */
-    public function __construct($message, array $values = [])
+    public function __construct(string $message, array $values = [])
     {
         $this->message = $message;
         $this->values = $values;
+
+        parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString()
     {
         return strtr($this->message, $this->values);
