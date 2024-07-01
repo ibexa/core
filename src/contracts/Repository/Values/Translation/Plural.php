@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Translation;
 
@@ -12,58 +13,53 @@ use Ibexa\Contracts\Core\Repository\Values\Translation;
 /**
  * Class for translatable messages, which may contain plural forms.
  *
- * The message might include replacements, in the form %[A-Za-z]%. Those are
+ * The message might include replacements, in the form <code>%[A-Za-z]%</code>. Those are
  * replaced by the values provided. A raw % can be escaped like %%.
  *
  * You need to provide a singular and plural variant for the string. The
- * strings provided should be english and will be translated depending on the
+ * strings provided should be English and will be translated depending on the
  * environment language.
  *
- * This interface follows the interfaces of XLiff, gettext, Symfony2
- * Translations and Zend_Translate. For singular forms you just provide a plain
- * string (with optional placeholders without effects on the plural forms). For
- * potential plural forms you always provide a singular variant and an english
- * simple plural variant. No implementation supports multiple different plural
- * forms in one single message.
+ * This interface follows the interfaces of XLIFF, gettext, Symfony Translations and Zend_Translate.
+ * For singular forms you just provide a plain string (with optional placeholders without effects on the plural forms).
+ * For potential plural forms you always provide a singular variant and an English simple plural variant.
+ * An instance of this class can be cast to a string. In such case whether to use singular or plural form is determined
+ * based on the value of first element of $values array (it needs to be 1 for singular, anything else for plural).
+ * If plurality cannot be inferred from $values, a plural form is assumed as default. To force singular form,
+ * use {@see \Ibexa\Contracts\Core\Repository\Values\Translation\Message} instead.
  *
- * The singular / plural string could, for Symfony2, for example be converted
- * to "$singular|$plural", and you would call gettext like: ngettext(
- * $singular, $plural, $count ).
+ * No implementation supports multiple different plural forms in one single message.
+ *
+ * The singular / plural string could, for Symfony, for example be converted
+ * to <code>"$singular|$plural"</code>, and you would call gettext like: <code>ngettext($singular, $plural, $count ).</code>
  */
 class Plural extends Translation
 {
     /**
      * Singular string. Might use replacements like %foo%, which are replaced by
      * the values specified in the values array.
-     *
-     * @var string
      */
-    protected $singular;
+    protected string $singular;
 
     /**
      * Message string. Might use replacements like %foo%, which are replaced by
      * the values specified in the values array.
-     *
-     * @var string
      */
-    protected $plural;
+    protected string $plural;
 
     /**
-     * Translation value objects. May not contain any numbers, which might
-     * result in requiring plural forms. Use MessagePlural for that.
+     * Translation value objects.
      *
-     * @var array
+     * @var array<string, scalar>
      */
-    protected $values;
+    protected array $values;
 
     /**
      * Construct plural message from singular, plural and value array.
      *
-     * @param string $singular
-     * @param string $plural
-     * @param array $values
+     * @param array<string, scalar> $values
      */
-    public function __construct($singular, $plural, array $values)
+    public function __construct(string $singular, string $plural, array $values)
     {
         $this->singular = $singular;
         $this->plural = $plural;
@@ -75,6 +71,8 @@ class Plural extends Translation
     #[\Override]
     public function __toString(): string
     {
-        return strtr(current($this->values) == 1 ? $this->plural : $this->singular, $this->values);
+        $firstValue = !empty($this->values) ? current(array_values($this->values)) : null;
+
+        return strtr((int)$firstValue === 1 ? $this->singular : $this->plural, $this->values);
     }
 }
