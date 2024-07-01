@@ -547,6 +547,11 @@ class Handler implements BaseLocationHandler
         $this->treeHandler->removeSubtree($locationId);
     }
 
+    public function deleteChildrenDrafts(int $locationId): void
+    {
+        $this->treeHandler->deleteChildrenDrafts($locationId);
+    }
+
     /**
      * Set section on all content objects in the subtree.
      *
