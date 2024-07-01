@@ -37,7 +37,7 @@ class VersionInfo extends ValueObject
     /**
      * Version number.
      *
-     * In contrast to {@link $id}, this is the version number, which only
+     * In contrast to {@see $id}, this is the version number, which only
      * increments in scope of a single Content object.
      *
      * @var int

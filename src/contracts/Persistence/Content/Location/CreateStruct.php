@@ -45,18 +45,22 @@ class CreateStruct extends ValueObject
     public $remoteId;
 
     /**
-     * ID of the corresponding {@link Content}.
+     * Content ID.
      *
-     * @var mixed Content ID.
+     * ID of the corresponding {@see \Ibexa\Contracts\Core\Repository\Values\Content\Content}.
+     *
+     * @var mixed
      */
     public $contentId;
 
     /**
-     * version of the corresponding {@link Content}.
+     * Content version.
+     *
+     * Version of the corresponding {@see \Ibexa\Contracts\Core\Repository\Values\Content\Content}.
      *
      * @todo Rename to $contentVersionNo?
      *
-     * @var int Content version.
+     * @var int
      */
     public $contentVersion;
 

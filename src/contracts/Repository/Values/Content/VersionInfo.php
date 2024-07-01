@@ -13,7 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
- * This class holds version information data. It also contains the corresponding {@link Content} to
+ * This class holds version information data.
+ *
+ * It also contains the corresponding {@see \Ibexa\Contracts\Core\Repository\Values\Content\Content} to
  * which the version belongs to.
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
@@ -42,7 +44,7 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     /**
      * Version number.
      *
-     * In contrast to {@link $id}, this is the version number, which only
+     * In contrast to {@see $id}, this is the version number, which only
      * increments in scope of a single Content object.
      *
      * @var int

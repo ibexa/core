@@ -90,7 +90,7 @@ interface LocationService
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $rootLocation
      * @param string[]|null $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[] An array of {@link Location}
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[] An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Location}
      */
     public function loadLocations(ContentInfo $contentInfo, ?Location $rootLocation = null, ?array $prioritizedLanguages = null): iterable;
 
