@@ -73,7 +73,7 @@ class Location extends ValueObject
     public $remoteId;
 
     /**
-     * ID of the corresponding {@link \Ibexa\Contracts\Core\Persistence\Content}.
+     * ID of the corresponding {@see \Ibexa\Contracts\Core\Persistence\Content}.
      *
      * @var mixed Content ID.
      */
@@ -114,7 +114,7 @@ class Location extends ValueObject
     /**
      * Specifies which property the child locations should be sorted on.
      *
-     * Valid values are found at {@link Location::SORT_FIELD_*}
+     * Valid values are found at {@see Location::SORT_FIELD_*}
      *
      * @var mixed
      */
@@ -123,7 +123,7 @@ class Location extends ValueObject
     /**
      * Specifies whether the sort order should be ascending or descending.
      *
-     * Valid values are {@link Location::SORT_ORDER_*}
+     * Valid values are {@see Location::SORT_ORDER_*}
      *
      * @var mixed
      */

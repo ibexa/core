@@ -104,7 +104,7 @@ class Type extends ValueObject
 
     /**
      * URL alias schema
-     * Same as {@link \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema}.
+     * Same as {@see \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema}.
      * If nothing is provided, $nameSchema will be used instead.
      *
      * @var string

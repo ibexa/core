@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
  * This class provides all version independent information of the content object.
- * It is similar to {@link \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo}, but for the persistence layer.
+ * It is similar to {@see \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo}, but for the persistence layer.
  * Thus it only contains raw data.
  */
 class ContentInfo extends ValueObject

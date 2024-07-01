@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
  * Normalization and querying capabilities might depend on the system
  * configuration or the used search engine and might differ. To find about
  * supported querying capabilities you can use
- * {@link \Ibexa\Contracts\Core\Repository\SearchService::supports()} method.
+ * {@see \Ibexa\Contracts\Core\Repository\SearchService::supports()} method.
  *
  * If supported, advanced full text query has the following semantics:
  *
