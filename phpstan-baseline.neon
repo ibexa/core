@@ -7481,21 +7481,6 @@ parameters:
 			path: src/contracts/Repository/Values/ValueObject.php
 
 		-
-			message: "#^PHPDoc tag @property\\-read has invalid value \\(\\$name\\)\\: Unexpected token \"\\$name\", expected type at offset 60$#"
-			count: 1
-			path: src/contracts/Search/Field.php
-
-		-
-			message: "#^PHPDoc tag @property\\-read has invalid value \\(\\$type\\)\\: Unexpected token \"\\$type\", expected type at offset 109$#"
-			count: 1
-			path: src/contracts/Search/Field.php
-
-		-
-			message: "#^PHPDoc tag @property\\-read has invalid value \\(\\$value\\)\\: Unexpected token \"\\$value\", expected type at offset 84$#"
-			count: 1
-			path: src/contracts/Search/Field.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Search\\\\FieldType\\\\FullTextField\\:\\:__construct\\(\\) has parameter \\$transformationRules with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Search/FieldType/FullTextField.php
@@ -22913,16 +22898,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Search\\\\FieldType\\:\\:\\$transformationRules\\.$#"
 			count: 1
-			path: src/lib/Search/Legacy/Content/Mapper/FullTextMapper.php
-
-		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\:\\:\\$type\\.$#"
-			count: 3
-			path: src/lib/Search/Legacy/Content/Mapper/FullTextMapper.php
-
-		-
-			message: "#^Access to protected property Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\:\\:\\$value\\.$#"
-			count: 3
 			path: src/lib/Search/Legacy/Content/Mapper/FullTextMapper.php
 
 		-
