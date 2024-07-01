@@ -123,7 +123,7 @@ class Location extends ValueObject
     /**
      * Specifies whether the sort order should be ascending or descending.
      *
-     * Valid values are {@see Location::SORT_ORDER_*}
+     * Valid values are {@link Location::SORT_ORDER_*}
      *
      * @var mixed
      */
