@@ -21,6 +21,8 @@ class DebugConfigResolverCommand extends Command
 {
     protected static $defaultName = 'ibexa:debug:config-resolver';
 
+    protected static $defaultDescription = 'Debugs / Retrieves a parameter from the Config Resolver';
+
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
@@ -43,7 +45,6 @@ class DebugConfigResolverCommand extends Command
     public function configure()
     {
         $this->setAliases(['ibexa:debug:config']);
-        $this->setDescription('Debugs / Retrieves a parameter from the Config Resolver');
         $this->addArgument(
             'parameter',
             InputArgument::REQUIRED,
