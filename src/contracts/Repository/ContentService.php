@@ -214,7 +214,7 @@ interface ContentService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to delete the content (in one of the locations of the given content object).
      *
-     * @return array<int, int> Affected Location ID's (List of Location IDs of the Content that was deleted).
+     * @return array<int, int> Affected Location IDs (List of Location IDs of the Content that was deleted).
      */
     public function deleteContent(ContentInfo $contentInfo): iterable;
 
@@ -535,7 +535,7 @@ interface ContentService
     /**
      * Gets the total number of fetchable Content items.
      *
-     * Count total number of items returned by {@see ContentService::find()} with the same parameters.
+     * Counts total number of items returned by {@see ContentService::find()} with the same parameters.
      *
      * @param array<int, string> $languages A list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
