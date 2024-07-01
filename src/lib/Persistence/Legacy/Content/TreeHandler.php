@@ -216,6 +216,26 @@ class TreeHandler
     }
 
     /**
+     * Removes draft contents assigned to the given parent location and its descendant locations.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function deleteChildrenDrafts(int $locationId): void
+    {
+        $subLocations = $this->locationGateway->getChildren($locationId);
+        foreach ($subLocations as $subLocation) {
+            $this->deleteChildrenDrafts($subLocation['node_id']);
+        }
+
+        // Fetch child draft content ids
+        $subtreeChildrenDraftIds = $this->locationGateway->getSubtreeChildrenDraftContentIds($locationId);
+
+        foreach ($subtreeChildrenDraftIds as $contentId) {
+            $this->removeRawContent($contentId);
+        }
+    }
+
+    /**
      * Set section on all content objects in the subtree.
      *
      * @param mixed $locationId

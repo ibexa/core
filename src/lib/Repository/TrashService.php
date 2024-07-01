@@ -146,6 +146,7 @@ class TrashService implements TrashServiceInterface
 
         $this->repository->beginTransaction();
         try {
+            $this->persistenceHandler->locationHandler()->deleteChildrenDrafts($location->id);
             $spiTrashItem = $this->persistenceHandler->trashHandler()->trashSubtree($location->id);
             $this->persistenceHandler->urlAliasHandler()->locationDeleted($location->id);
             $this->repository->commit();
