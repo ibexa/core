@@ -11,49 +11,24 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
-class URIText extends Regex implements VersatileMatcher, URILexer
+class URIText extends PrefixSuffixBasedTextMatcher implements URILexer
 {
-    /** @var string */
-    private $prefix;
-
-    /** @var string */
-    private $suffix;
-
-    /**
-     * The property needed to allow correct deserialization with Symfony serializer.
-     *
-     * @var array
-     */
-    private $siteAccessesConfiguration;
-
-    /**
-     * Constructor.
-     *
-     * @param array $siteAccessesConfiguration SiteAccesses configuration.
-     */
-    public function __construct(array $siteAccessesConfiguration)
+    protected function buildRegex(): string
     {
-        $this->prefix = isset($siteAccessesConfiguration['prefix']) ? $siteAccessesConfiguration['prefix'] : '';
-        $this->suffix = isset($siteAccessesConfiguration['suffix']) ? $siteAccessesConfiguration['suffix'] : '';
-
-        parent::__construct(
-            '^(/' . preg_quote($this->prefix, '@') . '(\w+)' . preg_quote($this->suffix, '@') . ')',
-            2
-        );
-        $this->siteAccessesConfiguration = $siteAccessesConfiguration;
+        return '^(/' . preg_quote($this->prefix, '@') . '(\w+)' . preg_quote($this->suffix, '@') . ')';
     }
 
-    public function getName()
+    protected function getMatchedItemNumber(): int
+    {
+        return 2;
+    }
+
+    public function getName(): string
     {
         return 'uri:text';
     }
 
-    /**
-     * Injects the request object to match against.
-     *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
-     */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->element) {
             $this->setMatchElement($request->pathinfo);
@@ -62,28 +37,14 @@ class URIText extends Regex implements VersatileMatcher, URILexer
         parent::setRequest($request);
     }
 
-    /**
-     * Analyses $uri and removes the siteaccess part, if needed.
-     *
-     * @param string $uri The original URI
-     *
-     * @return string The modified URI
-     */
-    public function analyseURI($uri)
+    public function analyseURI($uri): string
     {
         $uri = '/' . ltrim($uri, '/');
 
-        return preg_replace("@$this->regex@", '', $uri);
+        return preg_replace("@$this->regex@", '', $uri) ?? $uri;
     }
 
-    /**
-     * Analyses $linkUri when generating a link to a route, in order to have the siteaccess part back in the URI.
-     *
-     * @param string $linkUri
-     *
-     * @return string The modified link URI
-     */
-    public function analyseLink($linkUri)
+    public function analyseLink($linkUri): string
     {
         $linkUri = '/' . ltrim($linkUri, '/');
         $siteAccessUri = "/$this->prefix" . $this->match() . $this->suffix;
@@ -91,14 +52,14 @@ class URIText extends Regex implements VersatileMatcher, URILexer
         return $siteAccessUri . $linkUri;
     }
 
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch($siteAccessName): ?VersatileMatcher
     {
         $this->request->setPathinfo("/{$this->prefix}{$siteAccessName}{$this->suffix}{$this->request->pathinfo}");
 
         return $this;
     }
 
-    public function getRequest()
+    public function getRequest(): SimplifiedRequest
     {
         return $this->request;
     }
