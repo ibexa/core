@@ -29,7 +29,10 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 
     private const CUSTOM_CLIENT_IP = '234.123.78.98';
 
-    public function __construct($name = null, array $data = [], $dataName = '')
+    /**
+     * @param array<mixed> $data
+     */
+    public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 

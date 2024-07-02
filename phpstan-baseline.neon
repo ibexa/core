@@ -9356,12 +9356,12 @@ parameters:
 			path: src/lib/FieldType/Image/ImageStorage.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\{0\\: int, 1\\: int, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 0 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\{0\\: int, 1\\: int, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 1 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage.php
 
@@ -11066,17 +11066,17 @@ parameters:
 			path: src/lib/IO/MetadataHandler.php
 
 		-
-			message: "#^Cannot access offset 'mime' on array\\{0\\: int, 1\\: int, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 'mime' on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/IO/MetadataHandler/ImageSize.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\{0\\: int, 1\\: int, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 0 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/IO/MetadataHandler/ImageSize.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\{0\\: int, 1\\: int, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 1 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/IO/MetadataHandler/ImageSize.php
 
@@ -25139,16 +25139,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventSubscriber\\\\CrowdinRequestLocaleSubscriberTest\\:\\:testSetRequestsProvider\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventSubscriber/CrowdinRequestLocaleSubscriberTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventSubscriber\\\\TrustedHeaderClientIpEventSubscriberTest\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventSubscriber\\\\TrustedHeaderClientIpEventSubscriberTest\\:\\:__construct\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventSubscriber\\\\TrustedHeaderClientIpEventSubscriberTest\\:\\:getTrustedHeaderEventSubscriberTestData\\(\\) return type has no value type specified in iterable type array\\.$#"
