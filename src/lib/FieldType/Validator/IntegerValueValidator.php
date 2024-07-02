@@ -9,8 +9,8 @@ namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\ValidationError;
-use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
+use function is_int;
 
 /**
  * Validate ranges of integer value.
@@ -18,7 +18,7 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  * @property int $minIntegerValue The minimum allowed integer value.
  * @property int $maxIntegerValue The maximum allowed integer value.
  */
-class IntegerValueValidator extends Validator
+class IntegerValueValidator extends BaseNumericValidator
 {
     protected $constraints = [
         'minIntegerValue' => null,
@@ -36,42 +36,14 @@ class IntegerValueValidator extends Validator
         ],
     ];
 
-    public function validateConstraints($constraints)
+    protected function getConstraintsValidationErrorMessage(string $name, mixed $value): ?string
     {
-        $validationErrors = [];
-        foreach ($constraints as $name => $value) {
-            switch ($name) {
-                case 'minIntegerValue':
-                case 'maxIntegerValue':
-                    if ($value === false) {
-                        @trigger_error(
-                            "The IntegerValueValidator constraint value 'false' is deprecated, and will be removed in 7.0. Use 'null' instead.",
-                            E_USER_DEPRECATED
-                        );
-                        $value = null;
-                    }
-                    if ($value !== null && !is_int($value)) {
-                        $validationErrors[] = new ValidationError(
-                            "Validator parameter '%parameter%' value must be of integer type",
-                            null,
-                            [
-                                '%parameter%' => $name,
-                            ]
-                        );
-                    }
-                    break;
-                default:
-                    $validationErrors[] = new ValidationError(
-                        "Validator parameter '%parameter%' is unknown",
-                        null,
-                        [
-                            '%parameter%' => $name,
-                        ]
-                    );
-            }
-        }
-
-        return $validationErrors;
+        return match ($name) {
+            'minIntegerValue', 'maxIntegerValue' => $value !== null && !is_int($value)
+                ? "Validator parameter '%parameter%' value must be of integer type"
+                : null,
+            default => "Validator parameter '%parameter%' is unknown",
+        };
     }
 
     /**
@@ -97,7 +69,8 @@ class IntegerValueValidator extends Validator
                 null,
                 [
                     '%size%' => $this->constraints['maxIntegerValue'],
-                ]
+                ],
+                'value'
             );
             $isValid = false;
         }
@@ -108,7 +81,8 @@ class IntegerValueValidator extends Validator
                 null,
                 [
                     '%size%' => $this->constraints['minIntegerValue'],
-                ]
+                ],
+                'value'
             );
             $isValid = false;
         }

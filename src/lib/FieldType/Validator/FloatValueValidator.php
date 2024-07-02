@@ -21,7 +21,7 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  * @property float $minFloatValue Minimum value for float.
  * @property float $maxFloatValue Maximum value for float.
  */
-class FloatValueValidator extends Validator
+class FloatValueValidator extends BaseNumericValidator
 {
     protected $constraints = [
         'minFloatValue' => null,
@@ -39,36 +39,14 @@ class FloatValueValidator extends Validator
         ],
     ];
 
-    public function validateConstraints($constraints)
+    protected function getConstraintsValidationErrorMessage(string $name, mixed $value): ?string
     {
-        $validationErrors = [];
-
-        foreach ($constraints as $name => $value) {
-            switch ($name) {
-                case 'minFloatValue':
-                case 'maxFloatValue':
-                    if ($value !== null && !is_numeric($value)) {
-                        $validationErrors[] = new ValidationError(
-                            "Validator parameter '%parameter%' value must be of numeric type",
-                            null,
-                            [
-                                '%parameter%' => $name,
-                            ]
-                        );
-                    }
-                    break;
-                default:
-                    $validationErrors[] = new ValidationError(
-                        "Validator parameter '%parameter%' is unknown",
-                        null,
-                        [
-                            '%parameter%' => $name,
-                        ]
-                    );
-            }
-        }
-
-        return $validationErrors;
+        return match ($name) {
+            'minFloatValue', 'maxFloatValue' => $value !== null && !is_numeric($value)
+                ? "Validator parameter '%parameter%' value must be of numeric type"
+                : null,
+            default => "Validator parameter '%parameter%' is unknown",
+        };
     }
 
     /**
@@ -88,24 +66,26 @@ class FloatValueValidator extends Validator
     {
         $isValid = true;
 
-        if ($this->constraints['maxFloatValue'] !== null && $value->value > $this->constraints['maxFloatValue']) {
+        if (isset($this->constraints['maxFloatValue']) && $value->value > $this->constraints['maxFloatValue']) {
             $this->errors[] = new ValidationError(
                 'The value can not be higher than %size%.',
                 null,
                 [
                     '%size%' => $this->constraints['maxFloatValue'],
-                ]
+                ],
+                'value'
             );
             $isValid = false;
         }
 
-        if ($this->constraints['minFloatValue'] !== null && $value->value < $this->constraints['minFloatValue']) {
+        if (isset($this->constraints['minFloatValue']) && $value->value < $this->constraints['minFloatValue']) {
             $this->errors[] = new ValidationError(
                 'The value can not be lower than %size%.',
                 null,
                 [
                     '%size%' => $this->constraints['minFloatValue'],
-                ]
+                ],
+                'value'
             );
             $isValid = false;
         }
