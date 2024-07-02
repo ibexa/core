@@ -24456,11 +24456,6 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
-			message: "#^Parameter \\#2 \\$haystack of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertContains\\(\\) expects iterable, array\\|bool\\|float\\|int\\|string\\|null given\\.$#"
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
-
-		-
 			message: "#^Property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\IbexaCoreExtensionTest\\:\\:\\$minimalConfig has no type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
@@ -50351,11 +50346,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
 
 		-
-			message: "#^Method PHPUnit\\\\Framework\\\\Assert\\:\\:equalTo\\(\\) invoked with 2 parameters, 1 required\\.$#"
-			count: 2
-			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
-
-		-
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\ContentHandlerTest\\:\\:\\$contentHandler \\(Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Handler\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
@@ -53168,11 +53158,6 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\ContentTypeHandlerTest\\:\\:testUpdateGroup\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Type/ContentTypeHandlerTest.php
-
-		-
-			message: "#^Method PHPUnit\\\\Framework\\\\Assert\\:\\:equalTo\\(\\) invoked with 2 parameters, 1 required\\.$#"
-			count: 2
 			path: tests/lib/Persistence/Legacy/Content/Type/ContentTypeHandlerTest.php
 
 		-
