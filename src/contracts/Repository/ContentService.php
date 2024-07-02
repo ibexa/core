@@ -340,11 +340,6 @@ interface ContentService
      * Publishes a content version and deletes archive versions if they overflow max archive versions.
      * Max archive versions are currently a configuration for default max limit, by default set to 5.
      *
-     * @todo Introduce null|int ContentType->versionArchiveLimit to be able to let admins override this per type.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish this version
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param string[] $translations List of language codes of translations which will be included
      *                               in a published version.
@@ -354,6 +349,13 @@ interface ContentService
      *                               overriding those in the current version.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish this version
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
     public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): Content;
 

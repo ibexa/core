@@ -1449,22 +1449,6 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    /**
-     * Publishes a content version.
-     *
-     * Publishes a content version and deletes archive versions if they overflow max archive versions.
-     * Max archive versions are currently a configuration, but might be moved to be a param of ContentType in the future.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
-     * @param string[] $translations
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     */
     public function publishVersion(APIVersionInfo $versionInfo, array $translations = Language::ALL): APIContent
     {
         $content = $this->internalLoadContentById(
@@ -1721,13 +1705,16 @@ class ContentService implements ContentServiceInterface
      * Publishes a content version and deletes archive versions if they overflow max archive versions.
      * Max archive versions are currently a configuration, but might be moved to be a param of ContentType in the future.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
-     *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo
      * @param int|null $publicationDate If null existing date is kept if there is one, otherwise current time is used.
      * @param string[] $translations
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
     protected function internalPublishVersion(APIVersionInfo $versionInfo, $publicationDate = null, array $translations = Language::ALL)
     {
