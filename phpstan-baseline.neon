@@ -9191,21 +9191,6 @@ parameters:
 			path: src/lib/FieldType/FieldType.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Float/Type.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Float\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/Float/Type.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Float/Type.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\GatewayBasedStorage\\:\\:addGateway\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/FieldType/GatewayBasedStorage.php
@@ -9589,26 +9574,6 @@ parameters:
 			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
 			count: 1
 			path: src/lib/FieldType/ImageAsset/Type.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Integer\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
 
 		-
 			message: "#^Class Ibexa\\\\Core\\\\FieldType\\\\Keyword\\\\KeywordStorage extends generic class Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\GatewayBasedStorage but does not specify its types\\: T$#"
