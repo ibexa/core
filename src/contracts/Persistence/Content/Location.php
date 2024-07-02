@@ -73,7 +73,7 @@ class Location extends ValueObject
     public $remoteId;
 
     /**
-     * ID of the corresponding {@link \Ibexa\Contracts\Core\Persistence\Content}.
+     * ID of the corresponding {@see \Ibexa\Contracts\Core\Persistence\Content}.
      *
      * @var mixed Content ID.
      */

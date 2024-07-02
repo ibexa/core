@@ -105,7 +105,7 @@ interface ContentTypeService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct $contentTypeCreateStruct
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup[] $contentTypeGroups Required array of
-     *        {@link ContentTypeGroup} to link type with (must contain one)
+     *        {@see \Ibexa\Contracts\Core\Repository\Values\ContentTypeGroup} to link type with (must contain one)
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft
      */
@@ -179,7 +179,7 @@ interface ContentTypeService
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup $contentTypeGroup
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned object.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType[] an array of {@link ContentType} which have status DEFINED
+     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType[] an array of {@see \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType} which have status DEFINED
      */
     public function loadContentTypes(ContentTypeGroup $contentTypeGroup, array $prioritizedLanguages = []): iterable;
 
@@ -201,7 +201,7 @@ interface ContentTypeService
     /**
      * Update a content type object.
      *
-     * Does not update fields (fieldDefinitions), use {@link updateFieldDefinition()} to update them.
+     * Does not update fields (fieldDefinitions), use {@see ContentTypeService::updateFieldDefinition()} to update them.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update a content type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier or remoteId already exists.
