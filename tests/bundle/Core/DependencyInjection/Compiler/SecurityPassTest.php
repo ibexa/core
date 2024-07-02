@@ -42,11 +42,6 @@ final class SecurityPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'security.authentication.provider.rememberme',
-            'setPermissionResolver',
-            [new Reference(PermissionResolver::class)]
-        );
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.authentication.provider.guard',
             'setPermissionResolver',
             [new Reference(PermissionResolver::class)]
