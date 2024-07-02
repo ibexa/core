@@ -201,7 +201,7 @@ interface ContentTypeService
     /**
      * Update a content type object.
      *
-     * Does not update fields (fieldDefinitions), use {@see updateFieldDefinition()} to update them.
+     * Does not update fields (fieldDefinitions), use {@see ContentTypeService::updateFieldDefinition()} to update them.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update a content type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier or remoteId already exists.

@@ -44,7 +44,7 @@ abstract class VersionInfo extends ValueObject implements MultiLanguageName
     /**
      * Version number.
      *
-     * In contrast to {@see $id}, this is the version number, which only
+     * In contrast to {@see VersionInfo::$id}, this is the version number, which only
      * increments in scope of a single Content object.
      *
      * @var int
