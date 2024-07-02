@@ -25,12 +25,12 @@ class ValueObjectVoter implements VoterInterface
         $this->permissionResolver = $permissionResolver;
     }
 
-    public function supportsAttribute($attribute)
+    public function supportsAttribute($attribute): bool
     {
         return $attribute instanceof AuthorizationAttribute && isset($attribute->limitations['valueObject']);
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return true;
     }
@@ -54,7 +54,7 @@ class ValueObjectVoter implements VoterInterface
      *
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes): int
     {
         foreach ($attributes as $attribute) {
             if ($this->supportsAttribute($attribute)) {

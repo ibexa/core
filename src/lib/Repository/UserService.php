@@ -1382,7 +1382,7 @@ class UserService implements UserServiceInterface
      *
      * @return bool
      */
-    private function isUserProfileUpdateRequested(UserUpdateStruct $userUpdateStruct)
+    private function isUserProfileUpdateRequested(UserUpdateStruct $userUpdateStruct): bool
     {
         return
             !empty($userUpdateStruct->contentUpdateStruct) ||

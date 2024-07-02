@@ -98,7 +98,7 @@ class Parser
 
         $tokens = array_filter(
             $tokens,
-            static function ($token) {
+            static function ($token): bool {
                 return !($token['type'] === TransformationProcessor::T_WHITESPACE ||
                           $token['type'] === TransformationProcessor::T_COMMENT);
             }

@@ -27,6 +27,10 @@ class CheckURLsCommand extends Command
     private const DEFAULT_ITERATION_COUNT = 50;
     private const DEFAULT_REPOSITORY_USER = 'admin';
 
+    protected static $defaultName = 'ibexa:check:urls';
+
+    protected static $defaultDescription = 'Checks validity of external URLs';
+
     /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private $userService;
 
@@ -45,17 +49,16 @@ class CheckURLsCommand extends Command
         URLService $urlService,
         URLCheckerInterface $urlChecker
     ) {
-        parent::__construct('ibexa:check-urls');
-
         $this->userService = $userService;
         $this->permissionResolver = $permissionResolver;
         $this->urlService = $urlService;
         $this->urlChecker = $urlChecker;
+
+        parent::__construct();
     }
 
     public function configure(): void
     {
-        $this->setDescription('Checks validity of external URLs');
         $this->addOption(
             'iteration-count',
             'c',
@@ -106,7 +109,7 @@ class CheckURLsCommand extends Command
         }
         $progress->finish();
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function getTotalCount(): int

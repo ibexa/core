@@ -22,7 +22,7 @@ use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 class EmailProviderTest extends TestCase
@@ -52,7 +52,7 @@ class EmailProviderTest extends TestCase
 
     public function testLoadUserByUsernameUserNotFound()
     {
-        $this->expectException(UsernameNotFoundException::class);
+        $this->expectException(UserNotFoundException::class);
 
         $username = 'foobar@example.org';
         $this->userService
@@ -129,7 +129,7 @@ class EmailProviderTest extends TestCase
 
     public function testRefreshUserNotFound()
     {
-        $this->expectException(UsernameNotFoundException::class);
+        $this->expectException(UserNotFoundException::class);
 
         $userId = 123;
         $apiUser = new User(

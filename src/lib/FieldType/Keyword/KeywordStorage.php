@@ -52,7 +52,7 @@ class KeywordStorage extends GatewayBasedStorage
      *
      * @return bool
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context): bool
     {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->deleteFieldData($fieldId, $versionInfo->versionNo);
@@ -66,7 +66,7 @@ class KeywordStorage extends GatewayBasedStorage
      *
      * @return bool
      */
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }

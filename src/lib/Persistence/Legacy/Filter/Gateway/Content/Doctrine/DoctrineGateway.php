@@ -195,7 +195,7 @@ final class DoctrineGateway implements Gateway
     {
         return array_filter(
             $rows,
-            static function (array $row) use ($contentId, $versionNo) {
+            static function (array $row) use ($contentId, $versionNo): bool {
                 return (int)$row['content_id'] === $contentId
                     && (int)$row['version_no'] === $versionNo;
             }

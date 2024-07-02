@@ -87,7 +87,7 @@ class IntegerValueValidator extends Validator
      *
      * @return bool
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
+    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
     {
         $isValid = true;
 

@@ -115,7 +115,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return self::FIELD_TYPE_IDENTIFIER;
     }
@@ -133,7 +133,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSingular()
+    public function isSingular(): bool
     {
         return true;
     }
@@ -143,7 +143,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function onlyEmptyInstance()
+    public function onlyEmptyInstance(): bool
     {
         return true;
     }
@@ -190,7 +190,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): bool
     {
         return false;
     }

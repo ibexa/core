@@ -970,7 +970,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
             'Count of field definition creates did not match count of field definitions.'
         );
 
-        $sorter = static function ($a, $b) {
+        $sorter = static function ($a, $b): int {
             return strcmp($a->identifier, $b->identifier);
         };
 
@@ -1011,7 +1011,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
      */
     protected function assertContentTypeGroupsCorrect($expectedGroups, $actualGroups)
     {
-        $sorter = static function ($a, $b) {
+        $sorter = static function ($a, $b): int {
             return strcmp($a->id, $b->id);
         };
 
@@ -3192,7 +3192,7 @@ class ContentTypeServiceTest extends BaseContentTypeServiceTest
 
         usort(
             $types,
-            static function ($a, $b) {
+            static function ($a, $b): int {
                 if ($a->id == $b->id) {
                     return 0;
                 }

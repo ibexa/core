@@ -27,7 +27,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * @return int
      */
-    protected function getMaxFileSize()
+    protected function getMaxFileSize(): int
     {
         return 4096;
     }

@@ -120,7 +120,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             new TrustedHeaderClientIpEventSubscriber('X-Custom-Header')
         );
 
-        $request = Request::create('/', 'GET', [], [], [], array_merge(
+        $request = Request::create('/', Request::METHOD_GET, [], [], [], array_merge(
             $_SERVER,
             ['PLATFORM_RELATIONSHIPS' => true],
         ));
@@ -158,7 +158,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             new TrustedHeaderClientIpEventSubscriber($trustedHeaderName)
         );
 
-        $request = Request::create('/', 'GET', [], [], [], array_merge(
+        $request = Request::create('/', Request::METHOD_GET, [], [], [], array_merge(
             $server,
             ['REMOTE_ADDR' => $remoteAddrIp],
         ));

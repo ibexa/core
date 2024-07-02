@@ -23,7 +23,7 @@ class IndexRequestListener implements EventSubscriberInterface
         $this->configResolver = $configResolver;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [
@@ -43,7 +43,7 @@ class IndexRequestListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $semanticPathinfo = $request->attributes->get('semanticPathinfo') ?: '/';
         if (
-            $event->getRequestType() === HttpKernelInterface::MASTER_REQUEST
+            $event->getRequestType() === HttpKernelInterface::MAIN_REQUEST
             && $semanticPathinfo === '/'
         ) {
             $indexPage = $this->configResolver->getParameter('index_page');

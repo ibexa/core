@@ -85,7 +85,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         ];
     }
 
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Arkansas' . ' ' . 'Mississippi';
     }

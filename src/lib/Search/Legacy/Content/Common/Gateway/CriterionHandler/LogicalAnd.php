@@ -24,7 +24,7 @@ class LogicalAnd extends CriterionHandler
      *
      * @return bool
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\LogicalAnd;
     }

@@ -24,7 +24,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezurl';
     }
@@ -108,7 +108,7 @@ class UrlIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Example';
     }
@@ -309,12 +309,12 @@ class UrlIntegrationTest extends SearchBaseIntegrationTest
         return new UrlValue('http://example.com', 'Example');
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         return 'http://ample.com';
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         return 'http://example.com';
     }

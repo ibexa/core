@@ -12,11 +12,12 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 
 abstract class AbstractPropertyWhitelistNormalizer extends PropertyNormalizer
 {
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
+        /** @var array<string, mixed> $data */
         $data = parent::normalize($object, $format, $context);
         foreach (array_keys($data) as $property) {
-            if (!in_array($property, $this->getAllowedProperties())) {
+            if (!in_array($property, $this->getAllowedProperties(), true)) {
                 unset($data[$property]);
             }
         }

@@ -104,7 +104,7 @@ class RepositoryAuthenticationProvider extends DaoAuthenticationProvider impleme
         return $result;
     }
 
-    private function startConstantTimer()
+    private function startConstantTimer(): float
     {
         return microtime(true);
     }

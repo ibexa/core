@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\IO\DependencyInjection;
 
 use ArrayObject;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -73,7 +74,7 @@ class IbexaIOExtension extends Extension
         return $this->binarydataHandlerFactories;
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return self::EXTENSION_NAME;
     }
@@ -119,7 +120,7 @@ class IbexaIOExtension extends Extension
         $container->setParameter("ibexa.io.{$key}", $handlers);
     }
 
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         $configuration = new Configuration();
         $configuration->setMetadataHandlerFactories($this->getMetadataHandlerFactories());

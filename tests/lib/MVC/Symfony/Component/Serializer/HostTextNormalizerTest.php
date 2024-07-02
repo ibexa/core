@@ -11,15 +11,21 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostText;
-use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\SerializerStub;
 use Ibexa\Tests\Core\Search\TestCase;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 final class HostTextNormalizerTest extends TestCase
 {
     public function testNormalize(): void
     {
         $normalizer = new HostTextNormalizer();
-        $normalizer->setSerializer(new SerializerStub());
+        $serializer = new Serializer(
+            [
+                $normalizer,
+                new ObjectNormalizer(),
+            ]
+        );
 
         $matcher = new HostText([
             'prefix' => 'foo',
@@ -33,7 +39,7 @@ final class HostTextNormalizerTest extends TestCase
                     'suffix' => 'bar',
                 ],
             ],
-            $normalizer->normalize($matcher)
+            $serializer->normalize($matcher)
         );
     }
 

@@ -48,7 +48,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezauthor';
     }
@@ -148,7 +148,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         return array_map(
             static function ($author) {
@@ -163,7 +163,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

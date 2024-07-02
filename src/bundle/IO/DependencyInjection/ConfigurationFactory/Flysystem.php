@@ -60,7 +60,7 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
      *
      * @return string
      */
-    private function createFilesystem(ContainerBuilder $container, $name, $adapter)
+    private function createFilesystem(ContainerBuilder $container, $name, $adapter): string
     {
         $adapterId = sprintf('oneup_flysystem.%s_adapter', $adapter);
         // has either definition or alias

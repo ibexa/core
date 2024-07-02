@@ -69,7 +69,7 @@ class UrlAliasGenerator extends Generator
      *
      * @return string
      */
-    public function doGenerate($location, array $parameters)
+    public function doGenerate($location, array $parameters): string
     {
         $siteAccess = $parameters['siteaccess'] ?? null;
 
@@ -143,7 +143,7 @@ class UrlAliasGenerator extends Generator
      *
      * @return bool
      */
-    public function isUriPrefixExcluded($uri)
+    public function isUriPrefixExcluded($uri): bool
     {
         foreach ($this->excludedUriPrefixes as $excludedPrefix) {
             $excludedPrefix = '/' . ltrim($excludedPrefix, '/');

@@ -79,7 +79,7 @@ class CatalogueMapperFileWriter extends FileWriter
      *
      * @return mixed
      */
-    private function getEnglishFilePath($filePath)
+    private function getEnglishFilePath($filePath): string|array|null
     {
         return preg_replace('/\.[-_a-z]+\.xlf$/i', '.en.xlf', $filePath);
     }
@@ -101,7 +101,7 @@ class CatalogueMapperFileWriter extends FileWriter
         );
     }
 
-    private function hasEnglishCatalogue($foreignFilePath)
+    private function hasEnglishCatalogue($foreignFilePath): bool
     {
         return file_exists($this->getEnglishFilePath($foreignFilePath));
     }

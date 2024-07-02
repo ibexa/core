@@ -85,7 +85,7 @@ class SiteAccessListenerTest extends TestCase
 
         $siteAccess = new SiteAccess('test', 'test', $matcher);
         $request = Request::create($uri);
-        $event = new PostSiteAccessMatchEvent($siteAccess, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new PostSiteAccessMatchEvent($siteAccess, $request, HttpKernelInterface::MAIN_REQUEST);
 
         $this->listener->onSiteAccessMatch($event);
         self::assertSame($expectedSemanticPathinfo, $request->attributes->get('semanticPathinfo'));

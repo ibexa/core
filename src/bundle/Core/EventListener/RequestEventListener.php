@@ -14,6 +14,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -41,7 +42,7 @@ class RequestEventListener implements EventSubscriberInterface
         $this->logger = $logger;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => [
@@ -56,7 +57,7 @@ class RequestEventListener implements EventSubscriberInterface
      */
     public function onKernelRequestForward(RequestEvent $event)
     {
-        if ($event->getRequestType() === HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() === HttpKernelInterface::MAIN_REQUEST) {
             $request = $event->getRequest();
             if ($request->attributes->get('needsForward') && $request->attributes->has('semanticPathinfo')) {
                 $semanticPathinfo = $request->attributes->get('semanticPathinfo');
@@ -107,7 +108,7 @@ class RequestEventListener implements EventSubscriberInterface
      */
     public function onKernelRequestRedirect(RequestEvent $event)
     {
-        if ($event->getRequestType() == HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() == HttpKernelInterface::MAIN_REQUEST) {
             $request = $event->getRequest();
             if ($request->attributes->get('needsRedirect') && $request->attributes->has('semanticPathinfo')) {
                 $siteaccess = $request->attributes->get('siteaccess');
@@ -128,7 +129,7 @@ class RequestEventListener implements EventSubscriberInterface
                 $event->setResponse(
                     new RedirectResponse(
                         $semanticPathinfo . ($queryString ? "?$queryString" : ''),
-                        301,
+                        Response::HTTP_MOVED_PERMANENTLY,
                         $headers
                     )
                 );

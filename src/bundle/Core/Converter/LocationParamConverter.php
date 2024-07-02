@@ -27,12 +27,12 @@ class LocationParamConverter extends RepositoryParamConverter
         $this->contentPreviewHelper = $contentPreviewHelper;
     }
 
-    protected function getSupportedClass()
+    protected function getSupportedClass(): string
     {
         return Location::class;
     }
 
-    protected function getPropertyName()
+    protected function getPropertyName(): string
     {
         return 'locationId';
     }

@@ -34,7 +34,7 @@ class StreamFileListener implements EventSubscriberInterface
         $this->ioConfigResolver = $ioConfigResolver;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 42],
@@ -43,7 +43,7 @@ class StreamFileListener implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
         }
 
@@ -82,7 +82,7 @@ class StreamFileListener implements EventSubscriberInterface
      *
      * @return bool
      */
-    private function isIoUri($uri, $urlPrefix)
+    private function isIoUri($uri, $urlPrefix): bool
     {
         return strpos(ltrim($uri, '/'), $urlPrefix) === 0;
     }

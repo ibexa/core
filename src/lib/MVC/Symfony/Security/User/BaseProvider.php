@@ -17,7 +17,7 @@ use Ibexa\Core\MVC\Symfony\Security\User;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
 
 abstract class BaseProvider implements APIUserProviderInterface
@@ -36,7 +36,7 @@ abstract class BaseProvider implements APIUserProviderInterface
         $this->userService = $userService;
     }
 
-    public function refreshUser(CoreUserInterface $user)
+    public function refreshUser(CoreUserInterface $user): CoreUserInterface
     {
         if (!$user instanceof UserInterface) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
@@ -55,7 +55,7 @@ abstract class BaseProvider implements APIUserProviderInterface
 
             return $user;
         } catch (NotFoundException $e) {
-            throw new UsernameNotFoundException($e->getMessage(), 0, $e);
+            throw new UserNotFoundException($e->getMessage(), 0, $e);
         }
     }
 
@@ -66,7 +66,7 @@ abstract class BaseProvider implements APIUserProviderInterface
      *
      * @return bool
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === UserInterface::class || is_subclass_of($class, UserInterface::class);
     }

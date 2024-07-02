@@ -41,7 +41,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezisbn';
     }
@@ -74,7 +74,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value->isbn === null || trim($value->isbn) === '';
     }
@@ -218,7 +218,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }
@@ -275,7 +275,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    private function validateISBNChecksum($isbnNr)
+    private function validateISBNChecksum($isbnNr): bool
     {
         $result = 0;
         $isbnNr = strtoupper($isbnNr);
@@ -303,7 +303,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    private function validateISBN13Checksum($isbnNr, &$error)
+    private function validateISBN13Checksum($isbnNr, &$error): bool
     {
         if (!$isbnNr) {
             return false;

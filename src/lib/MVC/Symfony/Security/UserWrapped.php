@@ -102,7 +102,7 @@ class UserWrapped implements ReferenceUserInterface, EquatableInterface
         return $this->wrappedUser;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return $this->wrappedUser->getRoles();
     }

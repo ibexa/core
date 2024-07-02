@@ -64,7 +64,7 @@ class UserStorage extends GatewayBasedStorage
      *
      * @return bool
      */
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }

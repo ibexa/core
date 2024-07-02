@@ -183,7 +183,7 @@ class Handler implements BaseUrlWildcardHandler
         $rows = $this->gateway->loadUrlWildcardsData();
         uasort(
             $rows,
-            static function ($row1, $row2) {
+            static function ($row1, $row2): int {
                 return strlen($row2['source_url']) - strlen($row1['source_url']);
             }
         );

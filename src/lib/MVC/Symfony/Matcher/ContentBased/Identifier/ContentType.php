@@ -22,7 +22,7 @@ class ContentType extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(Location $location)
+    public function matchLocation(Location $location): bool
     {
         $contentType = $this->repository
             ->getContentTypeService()
@@ -38,7 +38,7 @@ class ContentType extends MultipleValued
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
+    public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $contentType = $this->repository
             ->getContentTypeService()
@@ -47,7 +47,7 @@ class ContentType extends MultipleValued
         return isset($this->values[$contentType->identifier]);
     }
 
-    public function match(View $view)
+    public function match(View $view): bool
     {
         if (!$view instanceof ContentValueView) {
             return false;

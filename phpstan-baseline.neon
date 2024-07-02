@@ -31,11 +31,6 @@ parameters:
 			path: src/bundle/Core/Cache/Warmer/ProxyCacheWarmer.php
 
 		-
-			message: "#^Return type \\(void\\) of method Ibexa\\\\Bundle\\\\Core\\\\Cache\\\\Warmer\\\\ProxyCacheWarmer\\:\\:warmUp\\(\\) should be compatible with return type \\(array\\<string\\>\\) of method Symfony\\\\Component\\\\HttpKernel\\\\CacheWarmer\\\\WarmableInterface\\:\\:warmUp\\(\\)$#"
-			count: 2
-			path: src/bundle/Core/Cache/Warmer/ProxyCacheWarmer.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\CheckURLsCommand\\:\\:getTotalCount\\(\\) should return int but returns int\\|null\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CheckURLsCommand.php
@@ -366,19 +361,9 @@ parameters:
 			path: src/bundle/Core/Command/UpdateTimestampsToUTCCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverter\\:\\:getSupportedClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Converter/ContentParamConverter.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverter\\:\\:loadValueObject\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Converter/ContentParamConverter.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\LocationParamConverter\\:\\:getSupportedClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Converter/LocationParamConverter.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\LocationParamConverter\\:\\:loadValueObject\\(\\) has parameter \\$id with no type specified\\.$#"
@@ -1881,6 +1866,11 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
 
 		-
+			message: "#^Parameter \\#1 \\$configuration of method Symfony\\\\Component\\\\DependencyInjection\\\\Extension\\\\Extension\\:\\:processConfiguration\\(\\) expects Symfony\\\\Component\\\\Config\\\\Definition\\\\ConfigurationInterface, Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\|null given\\.$#"
+			count: 1
+			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
+
+		-
 			message: "#^Parameter \\#1 \\$search of function str_replace expects array\\|string, string\\|false\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/IbexaCoreExtension.php
@@ -2262,11 +2252,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\BasicContentContext\\:\\:getContentPath\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Features/Context/BasicContentContext.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\BasicContentContext\\:\\:getTitleFromPath\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Features/Context/BasicContentContext.php
 
@@ -3311,11 +3296,6 @@ parameters:
 			path: src/bundle/Core/Imagine/AliasGenerator.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\AliasGenerator\\:\\:supportsValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Imagine/AliasGenerator.php
-
-		-
 			message: "#^Parameter \\#1 \\$image of method Ibexa\\\\Bundle\\\\Core\\\\Imagine\\\\AliasGenerator\\:\\:applyFilter\\(\\) expects Liip\\\\ImagineBundle\\\\Binary\\\\BinaryInterface, Liip\\\\ImagineBundle\\\\Binary\\\\BinaryInterface\\|string given\\.$#"
 			count: 1
 			path: src/bundle/Core/Imagine/AliasGenerator.php
@@ -3962,11 +3942,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\URLChecker\\\\Handler\\\\HTTPHandler\\:\\:getOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\URLChecker\\\\Handler\\\\HTTPHandler\\:\\:isSuccessful\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/URLChecker/Handler/HTTPHandler.php
 
@@ -4794,11 +4769,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/bundle/RepositoryInstaller/Command/InstallPlatformCommand.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\RepositoryInstaller\\\\Command\\\\ValidatePasswordHashesCommand\\:\\:configure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/RepositoryInstaller/Command/ValidatePasswordHashesCommand.php
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\RepositoryInstaller\\\\DependencyInjection\\\\Compiler\\\\InstallerTagPass\\:\\:process\\(\\) has no return type specified\\.$#"
@@ -8686,7 +8656,17 @@ parameters:
 			path: src/lib/FieldType/Author/Type.php
 
 		-
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Author\\\\Type\\:\\:toHash\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/lib/FieldType/Author/Type.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Author\\\\Type\\:\\:validateFieldSettings\\(\\) has parameter \\$fieldSettings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/lib/FieldType/Author/Type.php
+
+		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type array\\.$#"
 			count: 1
 			path: src/lib/FieldType/Author/Type.php
 
@@ -8909,11 +8889,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
 			count: 1
 			path: src/lib/FieldType/BinaryBase/BinaryBaseStorage/Gateway/DoctrineStorage.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\BinaryBase\\\\PathGenerator\\\\LegacyPathGenerator\\:\\:getStoragePathForField\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/BinaryBase/PathGenerator/LegacyPathGenerator.php
 
 		-
 			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, int\\<0, max\\>\\|false given\\.$#"
@@ -9214,21 +9189,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\FieldType\\:\\:validatorConfigurationToHash\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/FieldType/FieldType.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Float/Type.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Float\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/Float/Type.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Float/Type.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\GatewayBasedStorage\\:\\:addGateway\\(\\) has no return type specified\\.$#"
@@ -9614,26 +9574,6 @@ parameters:
 			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
 			count: 1
 			path: src/lib/FieldType/ImageAsset/Type.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Core\\\\FieldType\\\\Value\\:\\:\\$value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Integer\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
-			count: 1
-			path: src/lib/FieldType/Integer/Type.php
 
 		-
 			message: "#^Class Ibexa\\\\Core\\\\FieldType\\\\Keyword\\\\KeywordStorage extends generic class Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\GatewayBasedStorage but does not specify its types\\: T$#"
@@ -10041,12 +9981,12 @@ parameters:
 			path: src/lib/FieldType/NullStorage.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\NullStorage\\:\\:getIndexData\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\> but returns false\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\NullStorage\\:\\:storeFieldData\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/FieldType/NullStorage.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\NullStorage\\:\\:storeFieldData\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: "#^Return type \\(bool\\) of method Ibexa\\\\Core\\\\FieldType\\\\NullStorage\\:\\:getIndexData\\(\\) should be compatible with return type \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Field\\>\\) of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldStorage\\:\\:getIndexData\\(\\)$#"
 			count: 1
 			path: src/lib/FieldType/NullStorage.php
 
@@ -10291,6 +10231,11 @@ parameters:
 			path: src/lib/FieldType/Url/UrlStorage.php
 
 		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type bool\\.$#"
+			count: 1
+			path: src/lib/FieldType/Url/UrlStorage.php
+
+		-
 			message: "#^Property Ibexa\\\\Core\\\\FieldType\\\\Url\\\\UrlStorage\\:\\:\\$logger \\(Psr\\\\Log\\\\LoggerInterface\\) does not accept Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
 			count: 1
 			path: src/lib/FieldType/Url/UrlStorage.php
@@ -10341,12 +10286,12 @@ parameters:
 			path: src/lib/FieldType/Url/UrlStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Url\\\\UrlStorage\\\\Gateway\\\\DoctrineStorage\\:\\:insertUrl\\(\\) should return string but returns int\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Url\\\\UrlStorage\\\\Gateway\\\\DoctrineStorage\\:\\:linkUrl\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/FieldType/Url/UrlStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Url\\\\UrlStorage\\\\Gateway\\\\DoctrineStorage\\:\\:linkUrl\\(\\) has no return type specified\\.$#"
+			message: "#^PHPDoc tag @return with type string is incompatible with native type int\\.$#"
 			count: 1
 			path: src/lib/FieldType/Url/UrlStorage/Gateway/DoctrineStorage.php
 
@@ -11086,16 +11031,6 @@ parameters:
 			path: src/lib/IO/MetadataHandler/ImageSize.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\IO\\\\MimeTypeDetector\\\\FileInfo\\:\\:getFromBuffer\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/lib/IO/MimeTypeDetector/FileInfo.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\IO\\\\MimeTypeDetector\\\\FileInfo\\:\\:getFromPath\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/lib/IO/MimeTypeDetector/FileInfo.php
-
-		-
 			message: "#^Property Ibexa\\\\Core\\\\IO\\\\MimeTypeDetector\\\\FileInfo\\:\\:\\$fileInfo \\(finfo\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: src/lib/IO/MimeTypeDetector/FileInfo.php
@@ -11202,6 +11137,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Limitation\\\\LocationLimitationType\\:\\:evaluateForContentCreateStruct\\(\\) has parameter \\$targets with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/lib/Limitation/LocationLimitationType.php
+
+		-
+			message: "#^PHPDoc tag @return with type array\\|int is not subtype of native type int\\.$#"
 			count: 1
 			path: src/lib/Limitation/LocationLimitationType.php
 
@@ -11331,6 +11271,11 @@ parameters:
 			path: src/lib/Limitation/SubtreeLimitationType.php
 
 		-
+			message: "#^PHPDoc tag @return with type array\\|int is not subtype of native type int\\.$#"
+			count: 1
+			path: src/lib/Limitation/SubtreeLimitationType.php
+
+		-
 			message: "#^Parameter \\#1 \\$locationId of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Handler\\:\\:load\\(\\) expects int, string given\\.$#"
 			count: 1
 			path: src/lib/Limitation/SubtreeLimitationType.php
@@ -11379,11 +11324,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\RepositoryAwareInterface\\:\\:setRepository\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/RepositoryAwareInterface.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|ArrayObject\\<\\(int\\|string\\), mixed\\>\\|bool\\|float\\|int\\|string\\|null given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
 
 		-
 			message: "#^Cannot access offset 'config' on array\\|ArrayObject\\<\\(int\\|string\\), mixed\\>\\|bool\\|float\\|int\\|string\\|null\\.$#"
@@ -11662,11 +11602,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\FieldType\\\\BinaryBase\\\\ContentDownloadUrlGenerator\\:\\:getParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/FieldType/BinaryBase/ContentDownloadUrlGenerator.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\FieldType\\\\BinaryBase\\\\ContentDownloadUrlGenerator\\:\\:getStoragePathForField\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/FieldType/BinaryBase/ContentDownloadUrlGenerator.php
 
@@ -12281,11 +12216,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider\\:\\:startConstantTimer\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authorization\\\\Attribute\\:\\:__construct\\(\\) has parameter \\$function with no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/Authorization/Attribute.php
@@ -12311,17 +12241,7 @@ parameters:
 			path: src/lib/MVC/Symfony/Security/Authorization/Voter/CoreVoter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authorization\\\\Voter\\\\ValueObjectVoter\\:\\:supportsAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authorization/Voter/ValueObjectVoter.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authorization\\\\Voter\\\\ValueObjectVoter\\:\\:supportsAttribute\\(\\) has parameter \\$attribute with no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authorization/Voter/ValueObjectVoter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authorization\\\\Voter\\\\ValueObjectVoter\\:\\:supportsClass\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/Authorization/Voter/ValueObjectVoter.php
 
@@ -12526,36 +12446,6 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:__construct\\(\\) has parameter \\$siteAccessesConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:setRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$prefix has no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$siteAccessesConfiguration is never read, only written\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$siteAccessesConfiguration type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$suffix has no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\Map\\:\\:__construct\\(\\) has parameter \\$map with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
@@ -12719,31 +12609,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:__construct\\(\\) has parameter \\$siteAccessesConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:analyseURI\\(\\) should return string but returns string\\|null\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:setRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:\\$siteAccessesConfiguration is never read, only written\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:\\$siteAccessesConfiguration type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
 
 		-
 			message: "#^Call to an undefined method object\\:\\:setRequest\\(\\)\\.$#"
@@ -13106,11 +12971,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtension.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\FileSizeExtension\\:\\:sizeFilter\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtension.php
-
-		-
 			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\FileSizeExtension\\:\\:\\$configResolver has no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtension.php
@@ -13261,7 +13121,7 @@ parameters:
 			path: src/lib/MVC/Symfony/Translation/CatalogueMapperFileWriter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Translation\\\\CatalogueMapperFileWriter\\:\\:hasEnglishCatalogue\\(\\) has no return type specified\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Translation\\\\CatalogueMapperFileWriter\\:\\:getEnglishFilePath\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Translation/CatalogueMapperFileWriter.php
 
@@ -13287,6 +13147,16 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Translation\\\\CatalogueMapperFileWriter\\:\\:write\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Translation/CatalogueMapperFileWriter.php
+
+		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type array\\|string\\|null\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Translation/CatalogueMapperFileWriter.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function file_exists expects string, array\\|string\\|null given\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Translation/CatalogueMapperFileWriter.php
 
@@ -15051,11 +14921,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\AuthorConverter\\:\\:generateXmlString\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\AuthorConverter\\:\\:restoreValueFromXmlString\\(\\) should return array\\<Ibexa\\\\Core\\\\FieldType\\\\Author\\\\Value\\> but returns array\\<int\\<0, max\\>, array\\<string, string\\>\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
@@ -15087,6 +14952,11 @@ parameters:
 
 		-
 			message: "#^Property Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageFieldDefinition\\:\\:\\$dataInt1 \\(int\\) on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
+
+		-
+			message: "#^Property Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageFieldValue\\:\\:\\$dataText \\(string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/AuthorConverter.php
 
@@ -15176,11 +15046,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\DateAndTimeConverter\\:\\:generateDateIntervalXML\\(\\) should return string but returns string\\|false\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\DateAndTimeConverter\\:\\:getDateIntervalFromXML\\(\\) should return DateInterval but empty return statement found\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
@@ -15207,6 +15072,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\DateAndTimeConverter\\:\\:toStorageValue\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
+
+		-
+			message: "#^Property Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\StorageFieldDefinition\\:\\:\\$dataText5 \\(string\\) does not accept string\\|false\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/DateAndTimeConverter.php
 
@@ -15541,11 +15411,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/MapLocationConverter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\MediaConverter\\:\\:getIndexColumn\\(\\) should return string but returns false\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/MediaConverter.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\MediaConverter\\:\\:toFieldDefinition\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/MediaConverter.php
@@ -15556,9 +15421,14 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/MediaConverter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\NullConverter\\:\\:getIndexColumn\\(\\) should return string but returns false\\.$#"
+			message: "#^PHPDoc tag @return with type string is incompatible with native type bool\\.$#"
 			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/NullConverter.php
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/MediaConverter.php
+
+		-
+			message: "#^Return type \\(bool\\) of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\MediaConverter\\:\\:getIndexColumn\\(\\) should be compatible with return type \\(string\\) of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\BinaryFileConverter\\:\\:getIndexColumn\\(\\)$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/MediaConverter.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\NullConverter\\:\\:toFieldDefinition\\(\\) has no return type specified\\.$#"
@@ -15577,6 +15447,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\Converter\\\\NullConverter\\:\\:toStorageValue\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/NullConverter.php
+
+		-
+			message: "#^PHPDoc tag @return with type string is incompatible with native type bool\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/NullConverter.php
 
@@ -16231,6 +16106,16 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway/ExceptionConversion.php
 
 		-
+			message: "#^Cannot access property \\$contentInfo on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo\\|false\\.$#"
+			count: 3
+			path: src/lib/Persistence/Legacy/Content/Handler.php
+
+		-
+			message: "#^Cannot access property \\$names on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo\\|false\\.$#"
+			count: 2
+			path: src/lib/Persistence/Legacy/Content/Handler.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Handler\\:\\:deleteContent\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Handler.php
@@ -16251,11 +16136,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Handler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Handler\\:\\:loadVersionInfo\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo but returns Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo\\|false\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Handler\\:\\:removeRawContent\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Handler.php
@@ -16272,6 +16152,21 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$contentId of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Gateway\\:\\:loadVersionInfo\\(\\) expects int, int\\|string given\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Handler.php
+
+		-
+			message: "#^Parameter \\#1 \\$versionInfo of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:deleteTranslationFromVersionFields\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo\\|false given\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Handler.php
+
+		-
+			message: "#^Parameter \\#2 \\$versionInfo of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:deleteFields\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo\\|false given\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Handler.php
+
+		-
+			message: "#^Parameter \\#3 \\$prePublishVersionInfo of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Gateway\\:\\:updateContent\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo\\|null, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\VersionInfo\\|false given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Handler.php
 
@@ -17421,11 +17316,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\Handler\\:\\:link\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\Handler\\:\\:loadContentTypeList\\(\\) has parameter \\$contentTypeIds with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
@@ -17442,11 +17332,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\Handler\\:\\:publish\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\Handler\\:\\:unlink\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/Handler.php
 
@@ -21816,6 +21701,11 @@ parameters:
 			path: src/lib/Search/Common/FieldValueMapper/MultipleStringMapper.php
 
 		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type float\\.$#"
+			count: 1
+			path: src/lib/Search/Common/FieldValueMapper/PriceMapper.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Common\\\\FieldValueMapper\\\\StringMapper\\:\\:convert\\(\\) should return string but returns string\\|null\\.$#"
 			count: 1
 			path: src/lib/Search/Common/FieldValueMapper/StringMapper.php
@@ -22086,6 +21976,11 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FieldValue/HandlerRegistry.php
 
 		-
+			message: "#^Argument of an invalid type array\\|false supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
+
+		-
 			message: "#^Cannot call method getBitAndComparisonExpression\\(\\) on Doctrine\\\\DBAL\\\\Platforms\\\\AbstractPlatform\\|null\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
@@ -22107,11 +22002,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FullText\\:\\:tokenizeString\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\FullText\\:\\:tokenizeString\\(\\) should return array but returns array\\<int, string\\>\\|false\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/FullText.php
 
@@ -22232,11 +22122,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\MapLocationDistance\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/MapLocationDistance.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\MapLocationDistance\\:\\:kilometersToDegrees\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/MapLocationDistance.php
 
@@ -23486,12 +23371,27 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Compiler/SlugConverterConfigurationPassTest.php
 
 		-
+			message: "#^Binary operation \"\\.\" between literal\\-string&non\\-falsy\\-string and array\\|string results in an error\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Compiler/TranslationCollectorPassTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\TranslationCollectorPassTest\\:\\:normalizePath\\(\\) has parameter \\$path with no type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Compiler/TranslationCollectorPassTest.php
 
 		-
+			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\TranslationCollectorPassTest\\:\\:normalizePath\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Compiler/TranslationCollectorPassTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\TranslationCollectorPassTest\\:\\:testTranslationCollector\\(\\) has parameter \\$availableTranslations with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Compiler/TranslationCollectorPassTest.php
+
+		-
+			message: "#^PHPDoc tag @return with type mixed is not subtype of native type array\\|string\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Compiler/TranslationCollectorPassTest.php
 
@@ -24794,16 +24694,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\OriginalRequestListenerTest\\:\\:testOnKernelRequestWithOriginalRequest\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/OriginalRequestListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RejectExplicitFrontControllerRequestsListenerTest\\:\\:prohibitedRequestDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/RejectExplicitFrontControllerRequestsListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RejectExplicitFrontControllerRequestsListenerTest\\:\\:validRequestDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/RejectExplicitFrontControllerRequestsListenerTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RequestEventListenerTest\\:\\:testOnKernelRequestForward\\(\\) has no return type specified\\.$#"
@@ -26261,21 +26151,6 @@ parameters:
 			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BaseFlysystemTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\IO\\\\DependencyInjection\\\\ConfigurationFactory\\\\BinarydataHandler\\\\FlysystemTest\\:\\:provideExpectedParentServiceId\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/BinarydataHandler/FlysystemTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\IO\\\\DependencyInjection\\\\ConfigurationFactory\\\\MetadataHandler\\\\FlysystemTest\\:\\:provideExpectedParentServiceId\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/MetadataHandler/FlysystemTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\IO\\\\DependencyInjection\\\\ConfigurationFactory\\\\MetadataHandler\\\\LegacyDFSClusterTest\\:\\:provideExpectedParentServiceId\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/MetadataHandler/LegacyDFSClusterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\IO\\\\DependencyInjection\\\\ConfigurationFactory\\\\MetadataHandler\\\\LegacyDFSClusterTest\\:\\:provideHandlerConfiguration\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/IO/DependencyInjection/ConfigurationFactory/MetadataHandler/LegacyDFSClusterTest.php
@@ -26297,11 +26172,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\IO\\\\DependencyInjection\\\\ConfigurationFactoryTest\\:\\:provideHandlerConfiguration\\(\\) invoked with 1 parameter, 0 required\\.$#"
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\IO\\\\DependencyInjection\\\\ConfigurationFactoryTest\\:\\:registerHandler\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
 
@@ -35386,11 +35256,6 @@ parameters:
 			path: tests/integration/Core/Repository/Regression/EZP22408DeleteRelatedObjectTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Regression\\\\EZP22408DeleteRelatedObjectTest\\:\\:getMainLanguageCode\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP22408DeleteRelatedObjectTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Regression\\\\EZP22408DeleteRelatedObjectTest\\:\\:testRelationListIsUpdatedWhenRelatedObjectIsDeleted\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP22408DeleteRelatedObjectTest.php
@@ -43176,11 +43041,6 @@ parameters:
 			path: tests/lib/FieldType/ImageTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\ImageTest\\:\\:getImageInputPath\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/FieldType/ImageTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\ImageTest\\:\\:getImageValidatorMock\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/FieldType/ImageTest.php
@@ -44689,11 +44549,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\IO\\\\MetadataHandler\\\\ImageSizeTest\\:\\:testExtract\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/IO/MetadataHandler/ImageSizeTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\IO\\\\MimeTypeDetector\\\\FileInfoTest\\:\\:getFixture\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/IO/MimeTypeDetector/FileInfoTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\IO\\\\MimeTypeDetector\\\\FileInfoTest\\:\\:testGetFromBuffer\\(\\) has no return type specified\\.$#"
@@ -47111,11 +46966,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
 
 		-
-			message: "#^Parameter \\#4 \\$hasherFactory of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider constructor expects Symfony\\\\Component\\\\PasswordHasher\\\\Hasher\\\\PasswordHasherFactoryInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Encoder\\\\EncoderFactoryInterface given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\HttpUtilsTest\\:\\:checkRequestPathProvider\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/HttpUtilsTest.php
@@ -48277,11 +48127,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\FieldRenderingExtensionIntegrationTest\\:\\:getFieldDefinition\\(\\) has parameter \\$typeIdentifier with no type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FieldRenderingExtensionIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\FieldRenderingExtensionIntegrationTest\\:\\:getTemplatePath\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FieldRenderingExtensionIntegrationTest.php
 
@@ -55511,7 +55356,7 @@ parameters:
 			path: tests/lib/Persistence/Limitation/Target/Builder/VersionBuilderTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\TransformationProcessor\\\\TransformationProcessorDefinitionBasedParserTest\\:\\:getTestFiles\\(\\) has no return type specified\\.$#"
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\TransformationProcessor\\\\TransformationProcessorDefinitionBasedParserTest\\:\\:getTestFiles\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Persistence/TransformationProcessor/TransformationProcessorDefinitionBasedParserTest.php
 
@@ -60586,16 +60431,6 @@ parameters:
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/ContentServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/ContentServiceTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/ContentServiceTest.php
@@ -60604,16 +60439,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentServiceTest\\:\\:providerForPassTroughMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/ContentServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentTypeServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/ContentTypeServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentTypeServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/ContentTypeServiceTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentTypeServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -60651,16 +60476,6 @@ parameters:
 			path: tests/lib/Repository/SiteAccessAware/Language/LanguageResolverTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\LanguageServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/LanguageServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\LanguageServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/LanguageServiceTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\LanguageServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/LanguageServiceTest.php
@@ -60669,16 +60484,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\LanguageServiceTest\\:\\:providerForPassTroughMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/LanguageServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\LocationServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/LocationServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\LocationServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/LocationServiceTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\LocationServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -60691,16 +60496,6 @@ parameters:
 			path: tests/lib/Repository/SiteAccessAware/LocationServiceTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ObjectStateServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/ObjectStateServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ObjectStateServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/ObjectStateServiceTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ObjectStateServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/ObjectStateServiceTest.php
@@ -60709,16 +60504,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ObjectStateServiceTest\\:\\:providerForPassTroughMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/ObjectStateServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/SearchServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/SearchServiceTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -60771,16 +60556,6 @@ parameters:
 			path: tests/lib/Repository/SiteAccessAware/SearchServiceTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\TrashServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/TrashServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\TrashServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/TrashServiceTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\TrashServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/TrashServiceTest.php
@@ -60789,16 +60564,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\TrashServiceTest\\:\\:providerForPassTroughMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/TrashServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\UrlAliasServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/UrlAliasServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\UrlAliasServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/UrlAliasServiceTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\UrlAliasServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -60839,16 +60604,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\UrlAliasServiceTest\\:\\:setLanguagesPassTroughArguments\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/UrlAliasServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\UserServiceTest\\:\\:getAPIServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/UserServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\UserServiceTest\\:\\:getSiteAccessAwareServiceClassName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/UserServiceTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\UserServiceTest\\:\\:providerForLanguagesLookupMethods\\(\\) return type has no value type specified in iterable type array\\.$#"

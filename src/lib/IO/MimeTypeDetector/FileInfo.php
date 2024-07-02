@@ -30,12 +30,12 @@ class FileInfo implements MimeTypeDetector
         }
     }
 
-    public function getFromPath($path)
+    public function getFromPath($path): string|false
     {
         return $this->getFileInfo()->file($path);
     }
 
-    public function getFromBuffer($path)
+    public function getFromBuffer($path): string|false
     {
         return $this->getFileInfo()->buffer($path);
     }

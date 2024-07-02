@@ -47,7 +47,7 @@ class OriginalRequestListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $listener = new OriginalRequestListener();
@@ -75,7 +75,7 @@ class OriginalRequestListenerTest extends TestCase
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $listener = new OriginalRequestListener();

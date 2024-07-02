@@ -23,7 +23,7 @@ class ParentLocation extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(APILocation $location)
+    public function matchLocation(APILocation $location): bool
     {
         return isset($this->values[$location->parentLocationId]);
     }
@@ -35,7 +35,7 @@ class ParentLocation extends MultipleValued
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
+    public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $location = $this->repository->sudo(
             static function (Repository $repository) use ($contentInfo) {
@@ -46,7 +46,7 @@ class ParentLocation extends MultipleValued
         return isset($this->values[$location->parentLocationId]);
     }
 
-    public function match(View $view)
+    public function match(View $view): bool
     {
         if (!$view instanceof LocationValueView) {
             return false;

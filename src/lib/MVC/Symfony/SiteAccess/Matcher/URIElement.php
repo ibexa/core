@@ -100,7 +100,7 @@ class URIElement implements VersatileMatcher, URILexer
         return $this->uriElements = $elements;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'uri:element';
     }
@@ -149,7 +149,7 @@ class URIElement implements VersatileMatcher, URILexer
      *
      * @return string The modified link URI
      */
-    public function analyseLink($linkUri)
+    public function analyseLink($linkUri): string
     {
         // Joining slash between uriElements and actual linkUri must be present, except if $linkUri is empty.
         $joiningSlash = empty($linkUri) ? '' : '/';

@@ -82,7 +82,7 @@ class Handler implements BaseLocationHandler
      *
      * @return string
      */
-    protected function getParentPathString($pathString)
+    protected function getParentPathString($pathString): string
     {
         return implode('/', array_slice(explode('/', $pathString), 0, -2)) . '/';
     }
@@ -378,7 +378,7 @@ class Handler implements BaseLocationHandler
      *
      * @return bool
      */
-    private function isMainLocation(Location $location)
+    private function isMainLocation(Location $location): bool
     {
         $locationContentInfo = $this->contentHandler->loadContentInfo($location->contentId);
 

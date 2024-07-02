@@ -106,7 +106,7 @@ class FieldNameResolver
         $fieldDefinitionIdentifier,
         $fieldTypeIdentifier = null,
         $name = null
-    ) {
+    ): array {
         $fieldTypeNameMap = $this->getFieldTypes($criterion, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $name);
 
         return array_keys($fieldTypeNameMap);

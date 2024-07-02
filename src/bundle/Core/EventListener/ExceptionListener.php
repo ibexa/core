@@ -34,7 +34,7 @@ class ExceptionListener implements EventSubscriberInterface
         $this->translator = $translator;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::EXCEPTION => ['onKernelException', 10],

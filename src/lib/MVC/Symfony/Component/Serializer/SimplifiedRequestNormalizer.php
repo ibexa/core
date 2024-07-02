@@ -17,7 +17,7 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $object
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array|bool|string|int|float|null|\ArrayObject
     {
         return [
             'scheme' => $object->scheme,
@@ -30,7 +30,7 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
         ];
     }
 
-    public function supportsNormalization($data, $format = null, array $context = [])
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return $data instanceof SimplifiedRequest;
     }

@@ -172,7 +172,7 @@ class PcreCompiler
      *
      * @return string
      */
-    protected function getModuloCharRange($start, $end, $modulo)
+    protected function getModuloCharRange($start, $end, $modulo): string
     {
         $start = $this->converter->toUnicodeCodepoint($start);
         $end = $this->converter->toUnicodeCodepoint($end);
@@ -219,7 +219,7 @@ class PcreCompiler
     {
         switch (true) {
             case $char === 'remove':
-                return static function ($matches) {
+                return static function ($matches): string {
                     return '';
                 };
 

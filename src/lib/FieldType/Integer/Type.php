@@ -10,18 +10,17 @@ namespace Ibexa\Core\FieldType\Integer;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
-use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\FieldType\BaseNumericType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
-use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * Integer field types.
  *
  * Represents integers.
  */
-class Type extends FieldType implements TranslationContainerInterface
+class Type extends BaseNumericType
 {
     protected $validatorConfigurationSchema = [
         'IntegerValueValidator' => [
@@ -36,59 +35,22 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /**
-     * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $validatorConfiguration
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    protected function isConfigurationValidatorSupported(string $validatorIdentifier): bool
     {
-        $validationErrors = [];
+        return $validatorIdentifier === 'IntegerValueValidator';
+    }
 
-        foreach ($validatorConfiguration as $validatorIdentifier => $constraints) {
-            if ($validatorIdentifier !== 'IntegerValueValidator') {
-                $validationErrors[] = new ValidationError(
-                    "Validator '%validator%' is unknown",
-                    null,
-                    [
-                        '%validator%' => $validatorIdentifier,
-                    ],
-                    "[$validatorIdentifier]"
-                );
-
-                continue;
-            }
-            foreach ($constraints as $name => $value) {
-                switch ($name) {
-                    case 'minIntegerValue':
-                    case 'maxIntegerValue':
-                        if ($value !== null && !is_int($value)) {
-                            $validationErrors[] = new ValidationError(
-                                "Validator parameter '%parameter%' value must be of integer type",
-                                null,
-                                [
-                                    '%parameter%' => $name,
-                                ],
-                                "[$validatorIdentifier][$name]"
-                            );
-                        }
-                        break;
-                    default:
-                        $validationErrors[] = new ValidationError(
-                            "Validator parameter '%parameter%' is unknown",
-                            null,
-                            [
-                                '%parameter%' => $name,
-                            ],
-                            "[$validatorIdentifier][$name]"
-                        );
-                }
-            }
-        }
-
-        return $validationErrors;
+    protected function validateValidatorConfigurationNumericConstraint(
+        string $validatorIdentifier,
+        string $name,
+        mixed $value
+    ): ?string {
+        return match ($name) {
+            'minIntegerValue', 'maxIntegerValue' => $value !== null && !is_int($value)
+                ? "Validator parameter '%parameter%' value must be of integer type"
+                : null,
+            default => "Validator parameter '%parameter%' is unknown",
+        };
     }
 
     /**
@@ -101,18 +63,14 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
-        $validationErrors = [];
-
         if ($this->isEmptyValue($fieldValue)) {
-            return $validationErrors;
+            return [];
         }
 
         $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
-        $constraints = isset($validatorConfiguration['IntegerValueValidator']) ?
-            $validatorConfiguration['IntegerValueValidator'] :
-            [];
+        $constraints = $validatorConfiguration['IntegerValueValidator'] ?? [];
 
         $validationErrors = [];
 
@@ -152,13 +110,13 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezinteger';
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\Integer\Value|\Ibexa\Contracts\Core\FieldType\Value $value
+     * @param \Ibexa\Core\FieldType\Integer\Value $value
      */
     public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
     {
@@ -168,10 +126,8 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Integer\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -179,11 +135,9 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Returns if the given $value is considered empty by the field type.
      *
-     * @param mixed $value
-     *
-     * @return bool
+     * @param \Ibexa\Core\FieldType\Integer\Value $value
      */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value->value === null;
     }
@@ -211,7 +165,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param \Ibexa\Core\FieldType\Integer\Value $value
      */
-    protected function checkValueStructure(BaseValue $value)
+    protected function checkValueStructure(BaseValue $value): void
     {
         if (!is_int($value->value)) {
             throw new InvalidArgumentType(
@@ -223,7 +177,7 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Ibexa\Core\FieldType\Integer\Value $value
      */
     protected function getSortInfo(BaseValue $value)
     {
@@ -231,29 +185,27 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type.
+     * Converts a <code>$hash</code> to the Value defined by the field type.
      *
-     * @param mixed $hash
+     * @param int|string|null $hash
      *
      * @return \Ibexa\Core\FieldType\Integer\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
         }
 
-        return new Value($hash);
+        return new Value((int)$hash);
     }
 
     /**
      * Converts a $Value to a hash.
      *
      * @param \Ibexa\Core\FieldType\Integer\Value $value
-     *
-     * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): ?int
     {
         if ($this->isEmptyValue($value)) {
             return null;
@@ -267,7 +219,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

@@ -12,15 +12,24 @@ use Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostElement;
-use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\SerializerStub;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer
+ */
 final class HostElementNormalizerTest extends TestCase
 {
     public function testNormalization(): void
     {
         $normalizer = new HostElementNormalizer();
-        $normalizer->setSerializer(new SerializerStub());
+        $serializer = new Serializer(
+            [
+                $normalizer,
+                new ObjectNormalizer(),
+            ]
+        );
 
         $matcher = new HostElement(2);
         // Set request and invoke match to initialize HostElement::$hostElements
@@ -35,7 +44,7 @@ final class HostElementNormalizerTest extends TestCase
                     'dev',
                 ],
             ],
-            $normalizer->normalize($matcher)
+            $serializer->normalize($matcher)
         );
     }
 

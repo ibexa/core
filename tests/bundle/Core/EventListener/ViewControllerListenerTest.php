@@ -198,7 +198,7 @@ class ViewControllerListenerTest extends TestCase
             $this->createMock(HttpKernelInterface::class),
             static function () {},
             $this->request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
     }
 }
