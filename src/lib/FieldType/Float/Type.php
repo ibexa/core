@@ -10,18 +10,17 @@ namespace Ibexa\Core\FieldType\Float;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
-use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\FieldType\BaseNumericType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
-use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * Float field types.
  *
  * Represents floats.
  */
-class Type extends FieldType implements TranslationContainerInterface
+class Type extends BaseNumericType
 {
     protected $validatorConfigurationSchema = [
         'FloatValueValidator' => [
@@ -36,60 +35,22 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /**
-     * Validates the validatorConfiguration of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
-     *
-     * @param mixed $validatorConfiguration
-     *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
-     */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    protected function isConfigurationValidatorSupported(string $validatorIdentifier): bool
     {
-        $validationErrors = [];
+        return $validatorIdentifier === 'FloatValueValidator';
+    }
 
-        foreach ($validatorConfiguration as $validatorIdentifier => $constraints) {
-            if ($validatorIdentifier !== 'FloatValueValidator') {
-                $validationErrors[] = new ValidationError(
-                    "Validator '%validator%' is unknown",
-                    null,
-                    [
-                        '%validator%' => $validatorIdentifier,
-                    ],
-                    "[$validatorIdentifier]"
-                );
-
-                continue;
-            }
-
-            foreach ($constraints as $name => $value) {
-                switch ($name) {
-                    case 'minFloatValue':
-                    case 'maxFloatValue':
-                        if ($value !== null && !is_numeric($value)) {
-                            $validationErrors[] = new ValidationError(
-                                "Validator parameter '%parameter%' value must be of numeric type",
-                                null,
-                                [
-                                    '%parameter%' => $name,
-                                ],
-                                "[$validatorIdentifier][$name]"
-                            );
-                        }
-                        break;
-                    default:
-                        $validationErrors[] = new ValidationError(
-                            "Validator parameter '%parameter%' is unknown",
-                            null,
-                            [
-                                '%parameter%' => $name,
-                            ],
-                            "[$validatorIdentifier][$name]"
-                        );
-                }
-            }
-        }
-
-        return $validationErrors;
+    protected function validateValidatorConfigurationNumericConstraint(
+        string $validatorIdentifier,
+        string $name,
+        mixed $value
+    ): ?string {
+        return match ($name) {
+            'minFloatValue', 'maxFloatValue' => $value !== null && !is_numeric($value)
+                ? "Validator parameter '%parameter%' value must be of numeric type"
+                : null,
+            default => "Validator parameter '%parameter%' is unknown",
+        };
     }
 
     /**
@@ -102,23 +63,18 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue)
+    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
     {
-        $validationErrors = [];
-
         if ($this->isEmptyValue($fieldValue)) {
-            return $validationErrors;
+            return [];
         }
 
         $validatorConfiguration = $fieldDefinition->getValidatorConfiguration();
-        $constraints = isset($validatorConfiguration['FloatValueValidator']) ?
-            $validatorConfiguration['FloatValueValidator'] :
-            [];
+        $constraints = $validatorConfiguration['FloatValueValidator'] ?? [];
 
         $validationErrors = [];
 
-        if (isset($constraints['maxFloatValue']) &&
-            $constraints['maxFloatValue'] !== null && $fieldValue->value > $constraints['maxFloatValue']) {
+        if (isset($constraints['maxFloatValue']) && $fieldValue->value > $constraints['maxFloatValue']) {
             $validationErrors[] = new ValidationError(
                 'The value can not be higher than %size%.',
                 null,
@@ -129,8 +85,7 @@ class Type extends FieldType implements TranslationContainerInterface
             );
         }
 
-        if (isset($constraints['minFloatValue']) &&
-            $constraints['minFloatValue'] !== null && $fieldValue->value < $constraints['minFloatValue']) {
+        if (isset($constraints['minFloatValue']) && $fieldValue->value < $constraints['minFloatValue']) {
             $validationErrors[] = new ValidationError(
                 'The value can not be lower than %size%.',
                 null,
@@ -165,20 +120,14 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * Returns the fallback default value of field type when no such default
      * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\Float\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
 
     /**
-     * Implements the core of {@see isEmptyValue()}.
-     *
-     * @param mixed $value
-     *
-     * @return bool
+     * @param \Ibexa\Core\FieldType\Float\Value $value
      */
     public function isEmptyValue(SPIValue $value): bool
     {
@@ -209,7 +158,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param \Ibexa\Core\FieldType\Float\Value $value
      */
-    protected function checkValueStructure(BaseValue $value)
+    protected function checkValueStructure(BaseValue $value): void
     {
         if (!is_float($value->value)) {
             throw new InvalidArgumentType(
@@ -237,7 +186,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Float\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -253,7 +202,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): mixed
     {
         if ($this->isEmptyValue($value)) {
             return null;
