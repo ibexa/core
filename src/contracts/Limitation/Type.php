@@ -57,7 +57,7 @@ interface Type
     /**
      * Makes sure LimitationValue->limitationValues is valid according to valueSchema().
      *
-     * Make sure {@see acceptValue()} is checked first!
+     * Make sure {@see Type::acceptValue()} is checked first.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      *

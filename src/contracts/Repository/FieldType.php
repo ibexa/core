@@ -123,7 +123,7 @@ interface FieldType
     /**
      * Returns if the given $value is considered empty by the field type.
      *
-     * Usually, only the value returned by {@see getEmptyValue()} is
+     * Usually, only the value returned by {@see FieldType::getEmptyValue()} is
      * considered empty but that is not always the case.
      *
      * Note: This function assumes that $value is valid so this function can only
@@ -138,7 +138,7 @@ interface FieldType
     /**
      * Converts an $hash to the Value defined by the field type.
      *
-     * This is the reverse operation to {@see toHash()}.
+     * This is the reverse operation to {@see FieldType::toHash()}.
      *
      * @param mixed $hash
      *
@@ -167,7 +167,7 @@ interface FieldType
     /**
      * Converts the given $fieldSettingsHash to field settings of the type.
      *
-     * This is the reverse operation of {@see fieldSettingsToHash()}.
+     * This is the reverse operation of {@see FieldType::fieldSettingsToHash()}.
      *
      * @param array|scalar|null $fieldSettingsHash
      *
