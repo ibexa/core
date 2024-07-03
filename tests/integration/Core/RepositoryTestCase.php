@@ -51,7 +51,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    protected function createUser(string $login, string $firstName, string $lastName, UserGroup $userGroup = null): User
+    final protected function createUser(string $login, string $firstName, string $lastName, UserGroup $userGroup = null): User
     {
         $userService = self::getUserService();
 
