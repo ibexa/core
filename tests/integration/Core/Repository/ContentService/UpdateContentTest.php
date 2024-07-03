@@ -8,86 +8,148 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
-use Ibexa\Tests\Integration\Core\Repository\BaseTest;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\ContentService
  */
-final class UpdateContentTest extends BaseTest
+final class UpdateContentTest extends RepositoryTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentTypeFieldDefinitionValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testUpdateContentHavingPrivateRelation(): void
     {
-        $administratorUserId = $this->generateId('user', 14);
-        $repository = $this->getRepository();
-        $contentTypeService = $repository->getContentTypeService();
-        $sectionService = $repository->getSectionService();
-        $contentService = $repository->getContentService();
-        $userService = $repository->getUserService();
-        $roleService = $repository->getRoleService();
-        $permissionResolver = $repository->getPermissionResolver();
+        $sectionService = self::getSectionService();
+        $contentService = self::getContentService();
+        $permissionResolver = self::getPermissionResolver();
 
-        // 1. Add relation field to 'folder' ContentType
-        $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
-        $folderTypeDraft = $contentTypeService->createContentTypeDraft($folderType);
+        $this->addRelationFieldToFolderContentType();
 
-        $relationsFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct('relations', 'ezobjectrelationlist');
-        $relationsFieldCreateStruct->names = ['eng-GB' => 'Relations'];
-        $contentTypeService->addFieldDefinition($folderTypeDraft, $relationsFieldCreateStruct);
-        $contentTypeService->publishContentTypeDraft($folderTypeDraft);
+        $privateSection = $this->createPrivateSection();
 
-        // 2. Add Section 'private'
-        $sectionCreateStruct = $sectionService->newSectionCreateStruct();
-        $sectionCreateStruct->identifier = 'private';
-        $sectionCreateStruct->name = 'Private Section';
-        $privateSection = $sectionService->createSection($sectionCreateStruct);
-
-        // 3. Add 'Private Folder'
         $folderPrivate = $this->createFolder(['eng-GB' => 'Private Folder'], 2);
         $sectionService->assignSection($folderPrivate->getContentInfo(), $privateSection);
 
-        // 4. Add folder with relation to 'Private Folder'
+        // Create folder with relation to 'Private Folder'
+        $folder = $this->createFolderWithRelations([$folderPrivate->getId()]);
+
+        $userWithRoleLimitation = $this->createUserWithNoAccessToPrivateSection();
+
+        // Create & publish new $folder version as $editor
+        $permissionResolver->setCurrentUserReference($userWithRoleLimitation);
+        $folder = $this->publishVersionWithoutChanges($folder->getContentInfo());
+
+        // Read relations & check if count($relations) is unchanged
+        self::setAdministratorUser();
+        $relations = $contentService->loadRelations($folder->getVersionInfo());
+        self::assertCount(1, (array)$relations);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    private function addRelationFieldToFolderContentType(): void
+    {
+        $contentTypeService = self::getContentTypeService();
+        $folderType = $contentTypeService->loadContentTypeByIdentifier('folder');
+        $folderTypeDraft = $contentTypeService->createContentTypeDraft($folderType);
+
+        $relationsFieldCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct(
+            'relations',
+            'ezobjectrelationlist'
+        );
+        $relationsFieldCreateStruct->names = ['eng-GB' => 'Relations'];
+        $contentTypeService->addFieldDefinition($folderTypeDraft, $relationsFieldCreateStruct);
+        $contentTypeService->publishContentTypeDraft($folderTypeDraft);
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    private function createPrivateSection(): Section
+    {
+        $sectionService = self::getSectionService();
+
+        $sectionCreateStruct = $sectionService->newSectionCreateStruct();
+        $sectionCreateStruct->identifier = 'private';
+        $sectionCreateStruct->name = 'Private Section';
+
+        return $sectionService->createSection($sectionCreateStruct);
+    }
+
+    /**
+     * @param int[] $relationListTarget
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    private function createFolderWithRelations(array $relationListTarget): Content
+    {
+        $contentService = self::getContentService();
+
         $folder = $this->createFolder(['eng-GB' => 'Folder with private relation'], 2);
         $folderDraft = $contentService->createContentDraft($folder->getContentInfo());
         $folderUpdateStruct = $contentService->newContentUpdateStruct();
-        $relationListTarget = [$folderPrivate->id];
         $folderUpdateStruct->setField('relations', $relationListTarget);
+
         $folder = $contentService->updateContent($folderDraft->getVersionInfo(), $folderUpdateStruct);
-        $contentService->publishVersion($folder->getVersionInfo());
 
-        // 5. Create User that has no access to content in $privateSection
-        $editorRole = $roleService->loadRole(3);
-        // remove existing role assignments
-        foreach ($roleService->getRoleAssignments($editorRole) as $role) {
-            $roleService->removeRoleAssignment($role);
-        }
+        return $contentService->publishVersion($folder->getVersionInfo());
+    }
 
-        $editorUserGroup = $userService->loadUserGroup(13);
-        // grant access to standard section
-        $roleService->assignRoleToUserGroup(
-            $editorRole,
-            $editorUserGroup,
-            new SectionLimitation(['limitationValues' => [1]])
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException
+     */
+    private function assignToUserRoleWithStandardSectionLimitation(User $user): void
+    {
+        $sectionService = self::getSectionService();
+        $roleService = self::getRoleService();
+
+        $roleCreateStruct = $roleService->newRoleCreateStruct('limited_access');
+        $roleCreateStruct->addPolicy($roleService->newPolicyCreateStruct('*', '*'));
+        $role = $roleService->createRole($roleCreateStruct);
+        $roleService->publishRoleDraft($role);
+
+        // limit access to standard section only on the role assignment level
+        $standardSection = $sectionService->loadSectionByIdentifier('standard');
+        $roleService->assignRoleToUser(
+            $role,
+            $user,
+            new SectionLimitation(['limitationValues' => [$standardSection->id]])
         );
-        $editor = $this->createUser('test.editor', 'Editor', 'Test');
+    }
 
-        // 6. Create & publish new $folder version as $editor
-        $permissionResolver->setCurrentUserReference($editor);
-        $folderDraft = $contentService->createContentDraft($folder->getContentInfo());
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    private function createUserWithNoAccessToPrivateSection(): User
+    {
+        $user = $this->createUser('test.editor', 'Editor', 'Test');
+        $this->assignToUserRoleWithStandardSectionLimitation($user);
+
+        return $user;
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    private function publishVersionWithoutChanges(ContentInfo $contentInfo): Content
+    {
+        $contentService = self::getContentService();
+
+        $folderDraft = $contentService->createContentDraft($contentInfo);
         $folderUpdateStruct = $contentService->newContentUpdateStruct();
         $folder = $contentService->updateContent($folderDraft->getVersionInfo(), $folderUpdateStruct);
-        $contentService->publishVersion($folder->getVersionInfo());
 
-        // 7. Read relations & check if count($relations) is unchanged
-        $permissionResolver->setCurrentUserReference($userService->loadUser($administratorUserId));
-        $relations = $contentService->loadRelations($folder->getVersionInfo());
-        self::assertEquals(1, count((array)$relations));
+        return $contentService->publishVersion($folder->getVersionInfo());
     }
 }

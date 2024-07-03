@@ -1421,7 +1421,7 @@ class ContentService implements ContentServiceInterface
                 )->id,
             ]
         );
-        $existingRelations = $this->internalLoadRelations($versionInfo, false);
+        $existingRelations = $this->repository->sudo(fn (): array => $this->internalLoadRelations($versionInfo));
 
         $this->repository->beginTransaction();
         try {
