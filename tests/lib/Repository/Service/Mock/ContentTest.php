@@ -3317,7 +3317,7 @@ class ContentTest extends BaseServiceMockTest
             ->expects($this->once())
             ->method('getCurrentUserReference')
             ->willReturn(new UserReference(169));
-        $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById', 'internalLoadRelations'], $permissionResolverMock);
+        $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById'], $permissionResolverMock);
         $permissionResolverMock = $this->getPermissionResolverMock();
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
@@ -3470,10 +3470,7 @@ class ContentTest extends BaseServiceMockTest
             )->will($this->returnValue([]));
 
         $existingRelations = ['RELATIONS!!!'];
-        $mockedService
-            ->method('internalLoadRelations')
-            ->with($content->versionInfo)
-            ->will($this->returnValue($existingRelations));
+        $repositoryMock->method('sudo')->willReturn($existingRelations);
         $relationProcessorMock->expects($this->any())
             ->method('processFieldRelations')
             ->with(
