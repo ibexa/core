@@ -49,7 +49,7 @@ class CreateStruct extends ValueObject
      *
      * ID of the corresponding {@see \Ibexa\Contracts\Core\Repository\Values\Content\Content}.
      *
-     * @var mixed
+     * @var int
      */
     public $contentId;
 

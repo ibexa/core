@@ -77,7 +77,7 @@ class Location extends ValueObject
      *
      * ID of the corresponding {@see \Ibexa\Contracts\Core\Persistence\Content}.
      *
-     * @var mixed
+     * @var int
      */
     public $contentId;
 
