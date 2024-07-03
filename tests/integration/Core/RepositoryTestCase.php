@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use InvalidArgumentException;
 
@@ -17,6 +19,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     public const CONTENT_TREE_ROOT_ID = 2;
 
     private const CONTENT_TYPE_FOLDER_IDENTIFIER = 'folder';
+    private const MAIN_USER_GROUP_REMOTE_ID = 'f5c88a2209584891056f987fd965b0ba';
 
     protected function setUp(): void
     {
@@ -39,6 +42,37 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
         $draft = $this->createFolderDraft($names, $parentLocationId);
 
         return $contentService->publishVersion($draft->getVersionInfo());
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    protected function createUser(string $login, string $firstName, string $lastName, UserGroup $userGroup = null): User
+    {
+        $userService = self::getUserService();
+
+        if (null === $userGroup) {
+            $userGroup = $userService->loadUserGroupByRemoteId(self::MAIN_USER_GROUP_REMOTE_ID);
+        }
+
+        $userCreateStruct = $userService->newUserCreateStruct(
+            $login,
+            "$login@mail.invalid",
+            'secret',
+            'eng-US'
+        );
+        $userCreateStruct->enabled = true;
+
+        // Set some fields required by the user ContentType
+        $userCreateStruct->setField('first_name', $firstName);
+        $userCreateStruct->setField('last_name', $lastName);
+
+        // Create a new user instance.
+        return $userService->createUser($userCreateStruct, [$userGroup]);
     }
 
     /**
