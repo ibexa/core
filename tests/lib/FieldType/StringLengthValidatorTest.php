@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\FieldType;
 
@@ -17,31 +18,31 @@ use Ibexa\Core\FieldType\Validator\StringLengthValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator
+ *
  * @group fieldType
  * @group validator
  */
-class StringLengthValidatorTest extends TestCase
+final class StringLengthValidatorTest extends TestCase
 {
-    /**
-     * @return int
-     */
-    protected function getMinStringLength()
+    private const string STRING_TOO_SHORT_VALIDATION_MESSAGE = 'The string cannot be shorter than 5 characters.';
+    private const string STRING_TOO_LONG_VALIDATION_MESSAGE = 'The string can not exceed 10 characters.';
+    private const string MIN_STR_LEN_INT_TYPE_VALIDATION_MESSAGE = "Validator parameter 'minStringLength' value must be of integer type";
+    private const string WRONG_MIN_STR_LEN_VALUE = 'five thousand characters';
+    private const string MAX_STR_LEN_INT_TYPE_VALIDATION_MESSAGE = "Validator parameter 'maxStringLength' value must be of integer type";
+    private const string WRONG_MAX_STR_LEN_VALUE = 'ten billion characters';
+
+    protected function getMinStringLength(): int
     {
         return 5;
     }
 
-    /**
-     * @return int
-     */
-    protected function getMaxStringLength()
+    protected function getMaxStringLength(): int
     {
         return 10;
     }
 
-    /**
-     * This test ensure an StringLengthValidator can be created.
-     */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         self::assertInstanceOf(
             Validator::class,
@@ -50,12 +51,9 @@ class StringLengthValidatorTest extends TestCase
     }
 
     /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     * @covers \Ibexa\Core\FieldType\Validator::__get
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
-    public function testConstraintsInitializeGet()
+    public function testConstraintsInitializeGet(): void
     {
         $constraints = [
             'minStringLength' => 5,
@@ -69,12 +67,7 @@ class StringLengthValidatorTest extends TestCase
         self::assertSame($constraints['maxStringLength'], $validator->maxStringLength);
     }
 
-    /**
-     * Test getting constraints schema.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::getConstraintsSchema
-     */
-    public function testGetConstraintsSchema()
+    public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
             'minStringLength' => [
@@ -90,13 +83,7 @@ class StringLengthValidatorTest extends TestCase
         self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
-    /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testConstraintsSetGet()
+    public function testConstraintsSetGet(): void
     {
         $constraints = [
             'minStringLength' => 5,
@@ -109,59 +96,39 @@ class StringLengthValidatorTest extends TestCase
         self::assertSame($constraints['maxStringLength'], $validator->maxStringLength);
     }
 
-    /**
-     * Tests initializing with a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     */
-    public function testInitializeBadConstraint()
+    public function testInitializeBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $constraints = [
             'unexisting' => 0,
         ];
         $validator = new StringLengthValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $validator->initializeWithConstraints(
             $constraints
         );
     }
 
-    /**
-     * Tests setting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     */
-    public function testSetBadConstraint()
+    public function testSetBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $validator = new StringLengthValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $validator->unexisting = 0;
     }
 
-    /**
-     * Tests getting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testGetBadConstraint()
+    public function testGetBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $validator = new StringLengthValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $null = $validator->unexisting;
     }
 
     /**
-     * Tests validating a correct value.
-     *
      * @dataProvider providerForValidateOK
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator::validate
-     * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
-    public function testValidateCorrectValues($value)
+    public function testValidateCorrectValues(string $value): void
     {
         $validator = new StringLengthValidator();
         $validator->minStringLength = 5;
@@ -170,7 +137,10 @@ class StringLengthValidatorTest extends TestCase
         self::assertSame([], $validator->getMessage());
     }
 
-    public function providerForValidateOK()
+    /**
+     * @return list<array{string}>
+     */
+    public function providerForValidateOK(): array
     {
         return [
             ['hello'],
@@ -181,17 +151,17 @@ class StringLengthValidatorTest extends TestCase
     }
 
     /**
-     * Tests validating a wrong value.
-     *
      * @dataProvider providerForValidateKO
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\StringLengthValidator::validate
      */
-    public function testValidateWrongValues($value, $messageSingular, $messagePlural, $values)
-    {
+    public function testValidateWrongValues(
+        string $value,
+        string $expectedMessage,
+        int $minStringLength,
+        int $maxStringLength
+    ): void {
         $validator = new StringLengthValidator();
-        $validator->minStringLength = $this->getMinStringLength();
-        $validator->maxStringLength = $this->getMaxStringLength();
+        $validator->minStringLength = $minStringLength;
+        $validator->maxStringLength = $maxStringLength;
         self::assertFalse($validator->validate(new TextLineValue($value)));
         $messages = $validator->getMessage();
         self::assertCount(1, $messages);
@@ -204,57 +174,65 @@ class StringLengthValidatorTest extends TestCase
             $messages[0]->getTranslatableMessage()
         );
         self::assertEquals(
-            $messageSingular,
-            $messages[0]->getTranslatableMessage()->singular
-        );
-        self::assertEquals(
-            $messagePlural,
-            $messages[0]->getTranslatableMessage()->plural
-        );
-        self::assertEquals(
-            $values,
-            $messages[0]->getTranslatableMessage()->values
+            $expectedMessage,
+            (string)$messages[0]->getTranslatableMessage()
         );
     }
 
-    public function providerForValidateKO()
+    /**
+     * @return iterable<string, array{string, string, int, int}>
+     */
+    public function providerForValidateKO(): iterable
     {
-        return [
-            [
-                '',
-                'The string cannot be shorter than %size% character.',
-                'The string cannot be shorter than %size% characters.',
-                ['%size%' => $this->getMinStringLength()],
-            ],
-            [
-                'Hi!',
-                'The string cannot be shorter than %size% character.',
-                'The string cannot be shorter than %size% characters.',
-                ['%size%' => $this->getMinStringLength()],
-            ],
-            [
-                '0123456789!',
-                'The string can not exceed %size% character.',
-                'The string can not exceed %size% characters.',
-                ['%size%' => $this->getMaxStringLength()],
-            ],
-            [
-                'ABC♔',
-                'The string cannot be shorter than %size% character.',
-                'The string cannot be shorter than %size% characters.',
-                ['%size%' => $this->getMinStringLength()],
-            ],
+        yield 'empty string' => [
+            '',
+            self::STRING_TOO_SHORT_VALIDATION_MESSAGE,
+            $this->getMinStringLength(),
+            $this->getMaxStringLength(),
+        ];
+
+        yield 'too short string' => [
+            'Hi!',
+            self::STRING_TOO_SHORT_VALIDATION_MESSAGE,
+            $this->getMinStringLength(),
+            $this->getMaxStringLength(),
+        ];
+
+        yield 'too long string' => [
+            '0123456789!',
+            self::STRING_TOO_LONG_VALIDATION_MESSAGE,
+            $this->getMinStringLength(),
+            $this->getMaxStringLength(),
+        ];
+
+        yield 'too short string with special characters' => [
+            'ABC♔',
+            self::STRING_TOO_SHORT_VALIDATION_MESSAGE,
+            $this->getMinStringLength(),
+            $this->getMaxStringLength(),
+        ];
+
+        yield 'too short string, singular form validation message' => [
+            '',
+            'The string cannot be shorter than 1 character.',
+            1,
+            $this->getMaxStringLength(),
+        ];
+
+        yield 'too long string, singular form validation message' => [
+            'foo',
+            'The string can not exceed 1 character.',
+            1,
+            1,
         ];
     }
 
     /**
-     * Tests validation of constraints.
+     * @param array<string, mixed> $constraints
      *
      * @dataProvider providerForValidateConstraintsOK
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsCorrectValues($constraints)
+    public function testValidateConstraintsCorrectValues(array $constraints): void
     {
         $validator = new StringLengthValidator();
 
@@ -263,7 +241,10 @@ class StringLengthValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateConstraintsOK()
+    /**
+     * @return list<list<array<string, mixed>>>
+     */
+    public function providerForValidateConstraintsOK(): array
     {
         return [
             [
@@ -295,13 +276,12 @@ class StringLengthValidatorTest extends TestCase
     }
 
     /**
-     * Tests validation of constraints.
-     *
      * @dataProvider providerForValidateConstraintsKO
      *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
+     * @param array<string, mixed> $constraints
+     * @param string[] $expectedMessages
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
+    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
     {
         $validator = new StringLengthValidator();
         $messages = $validator->validateConstraints($constraints);
@@ -309,102 +289,76 @@ class StringLengthValidatorTest extends TestCase
         foreach ($expectedMessages as $index => $expectedMessage) {
             self::assertInstanceOf(
                 Message::class,
-                $messages[0]->getTranslatableMessage()
+                $messages[$index]->getTranslatableMessage()
             );
             self::assertEquals(
                 $expectedMessage,
-                $messages[$index]->getTranslatableMessage()->message
-            );
-            self::assertEquals(
-                $values[$index],
-                $messages[$index]->getTranslatableMessage()->values
+                (string)$messages[$index]->getTranslatableMessage()
             );
         }
     }
 
-    public function providerForValidateConstraintsKO()
+    /**
+     * @return list<array{array<string, mixed>, string[]}>
+     */
+    public function providerForValidateConstraintsKO(): array
     {
         return [
             [
                 [
                     'minStringLength' => true,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minStringLength'],
-                ],
+                [self::MIN_STR_LEN_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minStringLength' => 'five thousand characters',
+                    'minStringLength' => self::WRONG_MIN_STR_LEN_VALUE,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minStringLength'],
-                ],
+                [self::MIN_STR_LEN_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minStringLength' => 'five thousand characters',
+                    'minStringLength' => self::WRONG_MIN_STR_LEN_VALUE,
                     'maxStringLength' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minStringLength'],
-                ],
+                [self::MIN_STR_LEN_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'maxStringLength' => new \DateTime(),
                     'minStringLength' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'maxStringLength'],
-                ],
+                [self::MAX_STR_LEN_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'minStringLength' => true,
                     'maxStringLength' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minStringLength'],
-                ],
+                [self::MIN_STR_LEN_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minStringLength' => 'five thousand characters',
-                    'maxStringLength' => 'ten billion characters',
+                    'minStringLength' => self::WRONG_MIN_STR_LEN_VALUE,
+                    'maxStringLength' => self::WRONG_MAX_STR_LEN_VALUE,
                 ],
                 [
-                    "Validator parameter '%parameter%' value must be of integer type",
-                    "Validator parameter '%parameter%' value must be of integer type",
-                ],
-                [
-                    ['%parameter%' => 'minStringLength'],
-                    ['%parameter%' => 'maxStringLength'],
+                    self::MIN_STR_LEN_INT_TYPE_VALIDATION_MESSAGE,
+                    self::MAX_STR_LEN_INT_TYPE_VALIDATION_MESSAGE,
                 ],
             ],
             [
                 [
                     'brljix' => 12345,
                 ],
-                ["Validator parameter '%parameter%' is unknown"],
-                [
-                    ['%parameter%' => 'brljix'],
-                ],
+                ["Validator parameter 'brljix' is unknown"],
             ],
             [
                 [
                     'minStringLength' => 12345,
                     'brljix' => 12345,
                 ],
-                ["Validator parameter '%parameter%' is unknown"],
-                [
-                    ['%parameter%' => 'brljix'],
-                ],
+                ["Validator parameter 'brljix' is unknown"],
             ],
         ];
     }

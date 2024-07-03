@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\FieldType;
 
@@ -16,31 +17,33 @@ use Ibexa\Core\FieldType\Validator\IntegerValueValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator
+ *
  * @group fieldType
  * @group validator
  */
-class IntegerValueValidatorTest extends TestCase
+final class IntegerValueValidatorTest extends TestCase
 {
-    /**
-     * @return int
-     */
-    protected function getMinIntegerValue()
+    private const string VALUE_TOO_LOW_VALIDATION_MESSAGE = 'The value can not be lower than %size%.';
+    private const string VALUE_TOO_HIGH_VALIDATION_MESSAGE = 'The value can not be higher than %size%.';
+    private const string MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE = "Validator parameter 'minIntegerValue' value must be of integer type";
+    private const string MAX_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE = "Validator parameter 'maxIntegerValue' value must be of integer type";
+    private const string WRONG_MIN_INT_VALUE = 'five thousand bytes';
+    private const string WRONG_MAX_INT_VALUE = 'ten billion bytes';
+    private const string UNKNOWN_PARAM_VALIDATION_MESSAGE = "Validator parameter 'brljix' is unknown";
+    public const string SIZE_PARAM = '%size%';
+
+    protected function getMinIntegerValue(): int
     {
         return 10;
     }
 
-    /**
-     * @return int
-     */
-    protected function getMaxIntegerValue()
+    protected function getMaxIntegerValue(): int
     {
         return 15;
     }
 
-    /**
-     * This test ensure an IntegerValueValidator can be created.
-     */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         self::assertInstanceOf(
             Validator::class,
@@ -49,12 +52,9 @@ class IntegerValueValidatorTest extends TestCase
     }
 
     /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     * @covers \Ibexa\Core\FieldType\Validator::__get
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
-    public function testConstraintsInitializeGet()
+    public function testConstraintsInitializeGet(): void
     {
         $constraints = [
             'minIntegerValue' => 0,
@@ -68,12 +68,7 @@ class IntegerValueValidatorTest extends TestCase
         self::assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
     }
 
-    /**
-     * Test getting constraints schema.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::getConstraintsSchema
-     */
-    public function testGetConstraintsSchema()
+    public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
             'minIntegerValue' => [
@@ -89,13 +84,7 @@ class IntegerValueValidatorTest extends TestCase
         self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
-    /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testConstraintsSetGet()
+    public function testConstraintsSetGet(): void
     {
         $constraints = [
             'minIntegerValue' => 0,
@@ -108,12 +97,7 @@ class IntegerValueValidatorTest extends TestCase
         self::assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
     }
 
-    /**
-     * Tests initializing with a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     */
-    public function testInitializeBadConstraint()
+    public function testInitializeBadConstraint(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -126,41 +110,26 @@ class IntegerValueValidatorTest extends TestCase
         );
     }
 
-    /**
-     * Tests setting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     */
-    public function testSetBadConstraint()
+    public function testSetBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $validator = new IntegerValueValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $validator->unexisting = 0;
     }
 
-    /**
-     * Tests getting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testGetBadConstraint()
+    public function testGetBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $validator = new IntegerValueValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $null = $validator->unexisting;
     }
 
     /**
-     * Tests validating a correct value.
-     *
      * @dataProvider providerForValidateOK
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator::validate
-     * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
-    public function testValidateCorrectValues($value)
+    public function testValidateCorrectValues(int $value): void
     {
         $validator = new IntegerValueValidator();
         $validator->minIntegerValue = 10;
@@ -169,13 +138,15 @@ class IntegerValueValidatorTest extends TestCase
         self::assertSame([], $validator->getMessage());
     }
 
-    public function providerForValidateOK()
+    /**
+     * @return list<array{int}>
+     */
+    public function providerForValidateOK(): array
     {
         return [
             [10],
             [11],
             [12],
-            [12.5],
             [13],
             [14],
             [15],
@@ -186,10 +157,8 @@ class IntegerValueValidatorTest extends TestCase
      * Tests validating a wrong value.
      *
      * @dataProvider providerForValidateKO
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator::validate
      */
-    public function testValidateWrongValues($value, $message, $values)
+    public function testValidateWrongValues($value, $message): void
     {
         $validator = new IntegerValueValidator();
         $validator->minIntegerValue = $this->getMinIntegerValue();
@@ -207,32 +176,29 @@ class IntegerValueValidatorTest extends TestCase
         );
         self::assertEquals(
             $message,
-            $messages[0]->getTranslatableMessage()->message
-        );
-        self::assertEquals(
-            $values,
-            $messages[0]->getTranslatableMessage()->values
+            $messages[0]->getTranslatableMessage()
         );
     }
 
-    public function providerForValidateKO()
+    /**
+     * @return list<array{int, string}>
+     */
+    public function providerForValidateKO(): array
     {
         return [
-            [-12, 'The value can not be lower than %size%.', ['%size%' => $this->getMinIntegerValue()]],
-            [0, 'The value can not be lower than %size%.', ['%size%' => $this->getMinIntegerValue()]],
-            [9, 'The value can not be lower than %size%.', ['%size%' => $this->getMinIntegerValue()]],
-            [16, 'The value can not be higher than %size%.', ['%size%' => $this->getMaxIntegerValue()]],
+            [-12, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinIntegerValue()])],
+            [0, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinIntegerValue()])],
+            [9, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinIntegerValue()])],
+            [16, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMaxIntegerValue()])],
         ];
     }
 
     /**
-     * Tests validation of constraints.
-     *
      * @dataProvider providerForValidateConstraintsOK
      *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
+     * @param array<string, mixed> $constraints
      */
-    public function testValidateConstraintsCorrectValues($constraints)
+    public function testValidateConstraintsCorrectValues(array $constraints): void
     {
         $validator = new IntegerValueValidator();
 
@@ -241,7 +207,10 @@ class IntegerValueValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateConstraintsOK()
+    /**
+     * @return list<list<array<string, mixed>>>
+     */
+    public function providerForValidateConstraintsOK(): array
     {
         return [
             [
@@ -273,13 +242,12 @@ class IntegerValueValidatorTest extends TestCase
     }
 
     /**
-     * Tests validation of constraints.
-     *
      * @dataProvider providerForValidateConstraintsKO
      *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
+     * @param array<string, mixed> $constraints
+     * @param array<int, string> $expectedMessages
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
+    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
     {
         $validator = new IntegerValueValidator();
         $messages = $validator->validateConstraints($constraints);
@@ -291,98 +259,72 @@ class IntegerValueValidatorTest extends TestCase
             );
             self::assertEquals(
                 $expectedMessage,
-                $messages[$index]->getTranslatableMessage()->message
-            );
-            self::assertEquals(
-                $values[$index],
-                $messages[$index]->getTranslatableMessage()->values
+                (string)$messages[$index]->getTranslatableMessage()
             );
         }
     }
 
-    public function providerForValidateConstraintsKO()
+    /**
+     * @return list<array{array<string, mixed>, string[]}>
+     */
+    public function providerForValidateConstraintsKO(): array
     {
         return [
             [
                 [
                     'minIntegerValue' => true,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minIntegerValue'],
-                ],
+                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minIntegerValue' => 'five thousand bytes',
+                    'minIntegerValue' => self::WRONG_MIN_INT_VALUE,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minIntegerValue'],
-                ],
+                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minIntegerValue' => 'five thousand bytes',
+                    'minIntegerValue' => self::WRONG_MIN_INT_VALUE,
                     'maxIntegerValue' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minIntegerValue'],
-                ],
+                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'maxIntegerValue' => new \DateTime(),
                     'minIntegerValue' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'maxIntegerValue'],
-                ],
+                [self::MAX_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'minIntegerValue' => true,
                     'maxIntegerValue' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of integer type"],
-                [
-                    ['%parameter%' => 'minIntegerValue'],
-                ],
+                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minIntegerValue' => 'five thousand bytes',
-                    'maxIntegerValue' => 'ten billion bytes',
+                    'minIntegerValue' => self::WRONG_MIN_INT_VALUE,
+                    'maxIntegerValue' => self::WRONG_MAX_INT_VALUE,
                 ],
                 [
-                    "Validator parameter '%parameter%' value must be of integer type",
-                    "Validator parameter '%parameter%' value must be of integer type",
-                ],
-                [
-                    ['%parameter%' => 'minIntegerValue'],
-                    ['%parameter%' => 'maxIntegerValue'],
+                    self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE,
+                    self::MAX_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE,
                 ],
             ],
             [
                 [
                     'brljix' => 12345,
                 ],
-                ["Validator parameter '%parameter%' is unknown"],
-                [
-                    ['%parameter%' => 'brljix'],
-                ],
+                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'minIntegerValue' => 12345,
                     'brljix' => 12345,
                 ],
-                ["Validator parameter '%parameter%' is unknown"],
-                [
-                    ['%parameter%' => 'brljix'],
-                ],
+                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
             ],
         ];
     }

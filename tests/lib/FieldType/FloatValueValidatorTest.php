@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\FieldType;
 
@@ -16,23 +17,28 @@ use Ibexa\Core\FieldType\Validator\FloatValueValidator;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator
+ *
  * @group fieldType
  * @group validator
  */
-class FloatValueValidatorTest extends TestCase
+final class FloatValueValidatorTest extends TestCase
 {
-    /**
-     * @return float
-     */
-    protected function getMinFloatValue()
+    private const string VALUE_TOO_LOW_VALIDATION_MESSAGE = 'The value can not be lower than %size%.';
+    private const string VALUE_TOO_HIGH_VALIDATION_MESSAGE = 'The value can not be higher than %size%.';
+    private const string SIZE_PARAM = '%size%';
+    private const string MIN_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE = "Validator parameter 'minFloatValue' value must be of numeric type";
+    private const string MAX_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE = "Validator parameter 'maxFloatValue' value must be of numeric type";
+    private const string WRONG_MIN_FLOAT_VALUE = 'five thousand bytes';
+    private const string WRONG_MAX_FLOAT_VALUE = 'ten billion bytes';
+    private const string UNKNOWN_PARAM_VALIDATION_MESSAGE = "Validator parameter 'brljix' is unknown";
+
+    protected function getMinFloatValue(): float
     {
         return 10 / 7;
     }
 
-    /**
-     * @return float
-     */
-    protected function getMaxFloatValue()
+    protected function getMaxFloatValue(): float
     {
         return 11 / 7;
     }
@@ -40,7 +46,7 @@ class FloatValueValidatorTest extends TestCase
     /**
      * This test ensure an FloatValueValidator can be created.
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         self::assertInstanceOf(
             Validator::class,
@@ -49,12 +55,9 @@ class FloatValueValidatorTest extends TestCase
     }
 
     /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     * @covers \Ibexa\Core\FieldType\Validator::__get
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
      */
-    public function testConstraintsInitializeGet()
+    public function testConstraintsInitializeGet(): void
     {
         $constraints = [
             'minFloatValue' => 0.5,
@@ -70,10 +73,8 @@ class FloatValueValidatorTest extends TestCase
 
     /**
      * Test getting constraints schema.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::getConstraintsSchema
      */
-    public function testGetConstraintsSchema()
+    public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
             'minFloatValue' => [
@@ -89,13 +90,7 @@ class FloatValueValidatorTest extends TestCase
         self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
     }
 
-    /**
-     * Tests setting and getting constraints.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testConstraintsSetGet()
+    public function testConstraintsSetGet(): void
     {
         $constraints = [
             'minFloatValue' => 0.5,
@@ -108,59 +103,39 @@ class FloatValueValidatorTest extends TestCase
         self::assertSame($constraints['maxFloatValue'], $validator->maxFloatValue);
     }
 
-    /**
-     * Tests initializing with a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::initializeWithConstraints
-     */
-    public function testInitializeBadConstraint()
+    public function testInitializeBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $constraints = [
             'unexisting' => 0,
         ];
         $validator = new FloatValueValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $validator->initializeWithConstraints(
             $constraints
         );
     }
 
-    /**
-     * Tests setting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__set
-     */
-    public function testSetBadConstraint()
+    public function testSetBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $validator = new FloatValueValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $validator->unexisting = 0;
     }
 
-    /**
-     * Tests getting a wrong constraint.
-     *
-     * @covers \Ibexa\Core\FieldType\Validator::__get
-     */
-    public function testGetBadConstraint()
+    public function testGetBadConstraint(): void
     {
-        $this->expectException(PropertyNotFoundException::class);
-
         $validator = new FloatValueValidator();
+
+        $this->expectException(PropertyNotFoundException::class);
         $null = $validator->unexisting;
     }
 
     /**
-     * Tests validating a correct value.
-     *
      * @dataProvider providerForValidateOK
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator::validate
-     * @covers \Ibexa\Core\FieldType\Validator::getMessage
      */
-    public function testValidateCorrectValues($value)
+    public function testValidateCorrectValues(float $value): void
     {
         $validator = new FloatValueValidator();
         $validator->minFloatValue = 10 / 7;
@@ -169,7 +144,10 @@ class FloatValueValidatorTest extends TestCase
         self::assertSame([], $validator->getMessage());
     }
 
-    public function providerForValidateOK()
+    /**
+     * @return list<array{float}>
+     */
+    public function providerForValidateOK(): array
     {
         return [
             [100 / 70],
@@ -181,13 +159,9 @@ class FloatValueValidatorTest extends TestCase
     }
 
     /**
-     * Tests validating a wrong value.
-     *
      * @dataProvider providerForValidateKO
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\FloatValueValidator::validate
      */
-    public function testValidateWrongValues($value, $message, $values)
+    public function testValidateWrongValues(float $value, string $message): void
     {
         $validator = new FloatValueValidator();
         $validator->minFloatValue = $this->getMinFloatValue();
@@ -205,21 +179,20 @@ class FloatValueValidatorTest extends TestCase
         );
         self::assertEquals(
             $message,
-            $messages[0]->getTranslatableMessage()->message
-        );
-        self::assertEquals(
-            $values,
-            $messages[0]->getTranslatableMessage()->values
+            (string)$messages[0]->getTranslatableMessage()
         );
     }
 
-    public function providerForValidateKO()
+    /**
+     * @return list<array{float, string}>
+     */
+    public function providerForValidateKO(): array
     {
         return [
-            [-10 / 7, 'The value can not be lower than %size%.', ['%size%' => $this->getMinFloatValue()]],
-            [0, 'The value can not be lower than %size%.', ['%size%' => $this->getMinFloatValue()]],
-            [99 / 70, 'The value can not be lower than %size%.', ['%size%' => $this->getMinFloatValue()]],
-            [111 / 70, 'The value can not be higher than %size%.', ['%size%' => $this->getMaxFloatValue()]],
+            [-10 / 7, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
+            [0, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
+            [99 / 70, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
+            [111 / 70, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMaxFloatValue()])],
         ];
     }
 
@@ -228,9 +201,9 @@ class FloatValueValidatorTest extends TestCase
      *
      * @dataProvider providerForValidateConstraintsOK
      *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
+     * @param array<string, mixed> $constraints
      */
-    public function testValidateConstraintsCorrectValues($constraints)
+    public function testValidateConstraintsCorrectValues(array $constraints): void
     {
         $validator = new FloatValueValidator();
 
@@ -239,7 +212,10 @@ class FloatValueValidatorTest extends TestCase
         );
     }
 
-    public function providerForValidateConstraintsOK()
+    /**
+     * @return list<array{array<string, mixed>}>
+     */
+    public function providerForValidateConstraintsOK(): array
     {
         return [
             [
@@ -271,13 +247,12 @@ class FloatValueValidatorTest extends TestCase
     }
 
     /**
-     * Tests validation of constraints.
+     * @param array<string, mixed> $constraints
+     * @param array<string> $expectedMessages
      *
      * @dataProvider providerForValidateConstraintsKO
-     *
-     * @covers \Ibexa\Core\FieldType\Validator\FileSizeValidator::validateConstraints
      */
-    public function testValidateConstraintsWrongValues($constraints, $expectedMessages, $values)
+    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
     {
         $validator = new FloatValueValidator();
         $messages = $validator->validateConstraints($constraints);
@@ -289,98 +264,75 @@ class FloatValueValidatorTest extends TestCase
             );
             self::assertEquals(
                 $expectedMessage,
-                $messages[$index]->getTranslatableMessage()->message
-            );
-            self::assertEquals(
-                $values[$index],
-                $messages[$index]->getTranslatableMessage()->values
+                (string)$messages[$index]->getTranslatableMessage()
             );
         }
     }
 
-    public function providerForValidateConstraintsKO()
+    /**
+     * @return list<array{array<string, mixed>, array<string>}>
+     */
+    public function providerForValidateConstraintsKO(): array
     {
         return [
             [
                 [
                     'minFloatValue' => true,
                 ],
-                ["Validator parameter '%parameter%' value must be of numeric type"],
-                [
-                    ['%parameter%' => 'minFloatValue'],
-                ],
+                [self::MIN_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minFloatValue' => 'five thousand bytes',
+                    'minFloatValue' => self::WRONG_MIN_FLOAT_VALUE,
                 ],
-                ["Validator parameter '%parameter%' value must be of numeric type"],
-                [
-                    ['%parameter%' => 'minFloatValue'],
-                ],
+                [self::MIN_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
-                    'minFloatValue' => 'five thousand bytes',
+                    'minFloatValue' => self::WRONG_MIN_FLOAT_VALUE,
                     'maxFloatValue' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of numeric type"],
-                [
-                    ['%parameter%' => 'minFloatValue'],
-                ],
+                [self::MIN_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'maxFloatValue' => new \DateTime(),
                     'minFloatValue' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of numeric type"],
-                [
-                    ['%parameter%' => 'maxFloatValue'],
-                ],
+                [self::MAX_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'minFloatValue' => true,
                     'maxFloatValue' => 1234,
                 ],
-                ["Validator parameter '%parameter%' value must be of numeric type"],
+                [self::MIN_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE],
                 [
                     ['%parameter%' => 'minFloatValue'],
                 ],
             ],
             [
                 [
-                    'minFloatValue' => 'five thousand bytes',
-                    'maxFloatValue' => 'ten billion bytes',
+                    'minFloatValue' => self::WRONG_MIN_FLOAT_VALUE,
+                    'maxFloatValue' => self::WRONG_MAX_FLOAT_VALUE,
                 ],
                 [
-                    "Validator parameter '%parameter%' value must be of numeric type",
-                    "Validator parameter '%parameter%' value must be of numeric type",
-                ],
-                [
-                    ['%parameter%' => 'minFloatValue'],
-                    ['%parameter%' => 'maxFloatValue'],
+                    self::MIN_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE,
+                    self::MAX_FLOAT_VALUE_NUMERIC_TYPE_VALIDATION_MESSAGE,
                 ],
             ],
             [
                 [
                     'brljix' => 12345,
                 ],
-                ["Validator parameter '%parameter%' is unknown"],
-                [
-                    ['%parameter%' => 'brljix'],
-                ],
+                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
             ],
             [
                 [
                     'minFloatValue' => 12345,
                     'brljix' => 12345,
                 ],
-                ["Validator parameter '%parameter%' is unknown"],
-                [
-                    ['%parameter%' => 'brljix'],
-                ],
+                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
             ],
         ];
     }
