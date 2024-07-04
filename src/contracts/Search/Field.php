@@ -12,9 +12,9 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 /**
  * Base class for document fields.
  *
- * @property-read $name
- * @property-read $value
- * @property-read $type
+ * @property-read string $name
+ * @property-read mixed $value
+ * @property-read \Ibexa\Contracts\Core\Search\FieldType $type
  */
 class Field extends ValueObject
 {

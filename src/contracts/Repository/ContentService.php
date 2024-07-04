@@ -215,7 +215,7 @@ interface ContentService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException if a required field is missing or is set to an empty value
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct $contentCreateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs an array of {@link \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] $locationCreateStructs an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct} for each location parent under which a location should be created for the content
      *                                                                                                While optional, it's highly recommended to use Locations for content as a lot of features in the system is usually tied to the tree structure (including default Role policies).
      * @param string[]|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
@@ -227,7 +227,7 @@ interface ContentService
     /**
      * Updates the metadata.
      *
-     * (see {@link ContentMetadataUpdateStruct}) of a content object - to update fields use updateContent
+     * See {@see ContentMetadataUpdateStruct} of a content object - to update fields use updateContent
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to update the content meta data
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the remoteId in $contentMetadataUpdateStruct is set but already exists
@@ -280,7 +280,7 @@ interface ContentService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user The user to load drafts for, if defined, otherwise drafts for current-user
      *
-     * @return int The number of drafts ({@link VersionInfo}) owned by the given user
+     * @return int The number of drafts ({@see VersionInfo}) owned by the given user
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -297,7 +297,7 @@ interface ContentService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user The user to load drafts for, if defined, otherwise drafts for current-user
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] the drafts ({@link VersionInfo}) owned by the given user
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] the drafts ({@see VersionInfo}) owned by the given user
      */
     public function loadContentDrafts(?User $user = null): iterable;
 
@@ -377,7 +377,7 @@ interface ContentService
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param int|null $status
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] an array of {@link \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo} sorted by creation date
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo} sorted by creation date
      */
     public function loadVersions(ContentInfo $contentInfo, ?int $status = null): iterable;
 
@@ -435,7 +435,7 @@ interface ContentService
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      *
-     * @return int The number of reverse relations ({@link Relation})
+     * @return int The number of reverse relations ({@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation})
      */
     public function countReverseRelations(ContentInfo $contentInfo): int;
 
@@ -457,7 +457,7 @@ interface ContentService
      *
      * The relations come only from published versions of the source content objects.
      * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
-     * {@link \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem}
+     * {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem}
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      * @param int $offset

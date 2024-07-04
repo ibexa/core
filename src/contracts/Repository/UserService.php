@@ -129,7 +129,7 @@ interface UserService
      * Create a new user. The created user is published by this method.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct $userCreateStruct the data used for creating the user
-     * @param array $parentGroups the groups of type {@link \Ibexa\Contracts\Core\Repository\Values\User\UserGroup} which are assigned to the user after creation
+     * @param array $parentGroups the groups of type {@see \Ibexa\Contracts\Core\Repository\Values\User\UserGroup} which are assigned to the user after creation
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      *

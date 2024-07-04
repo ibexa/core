@@ -76,7 +76,7 @@ abstract class Content extends ValueObject
     /**
      * This method returns the complete fields collection.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[] An array of {@link Field}
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field[] An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Field}
      */
     abstract public function getFields(): iterable;
 
@@ -89,7 +89,7 @@ abstract class Content extends ValueObject
      *
      * @param string|null $languageCode
      *
-     * @return iterable<string, \Ibexa\Contracts\Core\Repository\Values\Content\Field> An array of {@link Field} with field identifier as keys
+     * @return iterable<string, \Ibexa\Contracts\Core\Repository\Values\Content\Field>  An array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Field} with field identifier as keys
      */
     abstract public function getFieldsByLanguage(?string $languageCode = null): iterable;
 
@@ -107,7 +107,7 @@ abstract class Content extends ValueObject
      * @param string $fieldDefIdentifier
      * @param string|null $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field|null A {@link Field} or null if nothing is found
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field|null A {@see \Ibexa\Contracts\Core\Repository\Values\Content\Field} or null if nothing is found
      */
     abstract public function getField(string $fieldDefIdentifier, ?string $languageCode = null): ?Field;
 

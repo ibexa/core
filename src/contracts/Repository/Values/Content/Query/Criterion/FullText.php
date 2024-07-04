@@ -21,7 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
  * Normalization and querying capabilities might depend on the system
  * configuration or the used search engine and might differ. To find about
  * supported querying capabilities you can use
- * {@link \Ibexa\Contracts\Core\Repository\SearchService::supports()} method.
+ * {@see \Ibexa\Contracts\Core\Repository\SearchService::supports()} method.
  *
  * If supported, advanced full text query has the following semantics:
  *
@@ -30,7 +30,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
  * - Required/prohibit operators are supported: +, -.
  * - Grouping is supported through parentheses.
  * - Phrases are supported using double quotes.
- * - Simple wild cards are supported. If an asterisk (*) is used at the end or
+ * - Simple wild cards are supported. If an asterisk (\*) is used at the end or
  *   beginning of a word this is translated into a wild card query. Thus "fo*"
  *   would match "foo" and "foobar", for example.
  * - Advanced language analysis (like stemming, synonym expansion and stop word

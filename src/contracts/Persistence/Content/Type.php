@@ -104,8 +104,9 @@ class Type extends ValueObject
     public $remoteId;
 
     /**
-     * URL alias schema
-     * Same as {@link \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema}.
+     * URL alias schema.
+     *
+     * Same as {@see \Ibexa\Contracts\Core\Persistence\Content\Type::$nameSchema}.
      * If nothing is provided, $nameSchema will be used instead.
      *
      * @var string
