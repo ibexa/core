@@ -37,7 +37,7 @@ abstract class GatewayBasedStorage implements FieldStorage
      * This method is used exclusively by Legacy Storage to copy external data of existing field in main language to
      * the untranslatable field not passed in create or update struct, but created implicitly in storage layer.
      *
-     * By default the method falls back to the {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
+     * By default the method falls back to the {@see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      * External storages implement this method as needed.
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
@@ -45,7 +45,7 @@ abstract class GatewayBasedStorage implements FieldStorage
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
      * @param array $context
      *
-     * @return bool|null Same as {@link \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
+     * @return bool|null Same as {@see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      */
     public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField, array $context)
     {
