@@ -38,7 +38,7 @@ final class UsernameProviderTest extends BaseProviderTestCase
             ->willThrowException(new NotFoundException('user', $username));
 
         $this->expectException(UserNotFoundException::class);
-        $this->userProvider->loadUserByUsername($username);
+        $this->userProvider->loadUserByIdentifier($username);
     }
 
     public function testLoadUserByUsername(): void
@@ -52,7 +52,7 @@ final class UsernameProviderTest extends BaseProviderTestCase
             ->with($username)
             ->willReturn($apiUser);
 
-        $user = $this->userProvider->loadUserByUsername($username);
+        $user = $this->userProvider->loadUserByIdentifier($username);
         self::assertInstanceOf(UserInterface::class, $user);
         self::assertSame($apiUser, $user->getAPIUser());
         self::assertSame(['ROLE_USER'], $user->getRoles());
