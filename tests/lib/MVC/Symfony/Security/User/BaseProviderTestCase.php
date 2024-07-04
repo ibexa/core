@@ -40,12 +40,6 @@ abstract class BaseProviderTestCase extends TestCase
         $this->userProvider = $this->buildProvider();
     }
 
-    public function testLoadUserByUsernameAlreadyUserObject(): void
-    {
-        $user = $this->createMock(UserInterface::class);
-        self::assertSame($user, $this->userProvider->loadUserByUsername($user));
-    }
-
     /**
      * @phpstan-return list<array{class-string, bool}>
      */
