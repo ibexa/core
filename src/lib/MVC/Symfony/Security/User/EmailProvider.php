@@ -15,14 +15,19 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class EmailProvider extends BaseProvider
 {
-    public function loadUserByUsername(string $username): UserInterface
+    public function loadUserByIdentifier(string $identifier): UserInterface
     {
         try {
             return $this->createSecurityUser(
-                $this->userService->loadUserByEmail($username)
+                $this->userService->loadUserByEmail($identifier)
             );
         } catch (NotFoundException|InvalidArgumentException $e) {
             throw new UserNotFoundException($e->getMessage(), 0, $e);
         }
+    }
+
+    public function loadUserByUsername(string $username): UserInterface
+    {
+        return $this->loadUserByIdentifier($username);
     }
 }
