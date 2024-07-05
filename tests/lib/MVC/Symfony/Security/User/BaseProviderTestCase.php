@@ -49,7 +49,7 @@ abstract class BaseProviderTestCase extends TestCase
     }
 
     /**
-     * @phpstan-return list<array{class-string, bool}>
+     * @phpstan-return list<array{class-string<\Symfony\Component\Security\Core\User\UserInterface>, bool}>
      */
     public function supportsClassProvider(): array
     {
@@ -63,7 +63,7 @@ abstract class BaseProviderTestCase extends TestCase
     /**
      * @dataProvider supportsClassProvider
      *
-     * @phpstan-param class-string $class
+     * @phpstan-param class-string<\Symfony\Component\Security\Core\User\UserInterface> $class
      */
     public function testSupportsClass(string $class, bool $supports): void
     {
@@ -178,7 +178,7 @@ abstract class BaseProviderTestCase extends TestCase
         $this->userProvider->loadUserByIdentifier($username);
     }
 
-    protected function buildUserValueObjectStub(int $userId): User
+    final protected function buildUserValueObjectStub(int $userId): User
     {
         return new User(
             [
