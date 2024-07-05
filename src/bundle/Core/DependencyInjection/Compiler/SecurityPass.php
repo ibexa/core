@@ -24,6 +24,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class SecurityPass implements CompilerPassInterface
 {
+    /**
+     * @deprecated 4.6.7 CONSTANT_AUTH_TIME_SETTING constant is deprecated, will be removed in 5.0.
+     */
     public const string CONSTANT_AUTH_TIME_SETTING = 'ibexa.security.authentication.constant_auth_time';
 
     public const float CONSTANT_AUTH_TIME_DEFAULT = 1.0;
