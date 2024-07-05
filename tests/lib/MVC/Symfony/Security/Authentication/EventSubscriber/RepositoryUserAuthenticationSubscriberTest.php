@@ -80,7 +80,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
                 $this->getCheckPassportEvent()
             );
         } catch (Exception) {
-            // We don't care, we just need test execution to continue
+            self::fail();
         }
 
         $duration = $stopwatch->stop('authenticate_constant_time_test')->getDuration();

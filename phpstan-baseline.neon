@@ -12236,11 +12236,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/UrlWildcardRouter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProvider\\:\\:setPermissionResolver\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProvider.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authorization\\\\Attribute\\:\\:__construct\\(\\) has parameter \\$function with no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/Authorization/Attribute.php
@@ -46999,16 +46994,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$token of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\GuardRepositoryAuthenticationProvider\\:\\:authenticate\\(\\) expects Symfony\\\\Component\\\\Security\\\\Guard\\\\Token\\\\GuardTokenInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\AnonymousToken given\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getFirewallName\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getSecret\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\HttpUtilsTest\\:\\:checkRequestPathProvider\\(\\) has no return type specified\\.$#"
