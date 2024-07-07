@@ -448,14 +448,7 @@ class TreeHandlerTest extends TestCase
             ->expects(self::exactly(3))
             ->method('deleteContent')
             ->willReturnCallback(static function (int $contentId): void {
-                $argumentValue = match ($contentId) {
-                    99 => 99,
-                    101 => 101,
-                    102 => 102,
-                    default => null
-                };
-
-                self::assertSame($argumentValue, $contentId);
+                self::assertContains($contentId, [99, 101, 102]);
             });
 
         $treeHandler = $this->getTreeHandler();
