@@ -686,6 +686,18 @@ class LocationHandlerTest extends TestCase
         $handler->countLocationsByContent($contentId);
     }
 
+    public function testDeleteChildrenDrafts(): void
+    {
+        $handler = $this->getLocationHandler();
+
+        $this->treeHandler
+            ->expects(self::once())
+            ->method('deleteChildrenDrafts')
+            ->with(42);
+
+        $handler->deleteChildrenDrafts(42);
+    }
+
     /**
      * Returns the handler to test with $methods mocked.
      *
