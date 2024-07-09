@@ -2,7 +2,7 @@ parameters:
     # Constant authentication execution time in seconds (float). Blocks timing attacks.
     # Must be larger than expected real execution time, with a good margin.
     # If set to zero, constant time authentication is disabled. Do not do this on production environments.
-    ibexa.security.authentication.constant_auth_time: !php/const Ibexa\Bundle\Core\DependencyInjection\Compiler\SecurityPass::CONSTANT_AUTH_TIME_DEFAULT
+    ibexa.security.authentication.constant_auth_time: 1.0
 
 services:
     Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider:
@@ -43,6 +43,12 @@ services:
     ibexa.security.user_provider: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
     ibexa.security.user_provider.username: '@Ibexa\Core\MVC\Symfony\Security\User\UsernameProvider'
     ibexa.security.user_provider.email: '@Ibexa\Core\MVC\Symfony\Security\User\EmailProvider'
+
+    Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\RepositoryUserAuthenticationSubscriber:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $constantAuthTime: '%ibexa.security.authentication.constant_auth_time%'
 
     Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\OnAuthenticationTokenCreatedRepositoryUserSubscriber:
         autowire: true

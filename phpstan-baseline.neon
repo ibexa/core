@@ -12236,41 +12236,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/UrlWildcardRouter.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RememberMeRepositoryAuthenticationProvider\\:\\:setPermissionResolver\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProvider.php
-
-		-
-			message: "#^Dead catch \\- Ibexa\\\\Core\\\\Repository\\\\User\\\\Exception\\\\UnsupportedPasswordHashType is never thrown in the try block\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider\\:\\:checkAuthentication\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider\\:\\:setConstantAuthTime\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider\\:\\:setPermissionResolver\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider\\:\\:setUserService\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider\\:\\:startConstantTimer\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProvider.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authorization\\\\Attribute\\:\\:__construct\\(\\) has parameter \\$function with no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Security/Authorization/Attribute.php
@@ -47029,66 +46994,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$token of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\GuardRepositoryAuthenticationProvider\\:\\:authenticate\\(\\) expects Symfony\\\\Component\\\\Security\\\\Guard\\\\Token\\\\GuardTokenInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\AnonymousToken given\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getFirewallName\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getSecret\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RememberMeRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\UserProviderInterface\\:\\:method\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProviderTest\\:\\:testAuthenticationNotEzUser\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProviderTest\\:\\:testCheckAuthentication\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProviderTest\\:\\:testCheckAuthenticationAlreadyLoggedIn\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProviderTest\\:\\:testCheckAuthenticationCredentialsChanged\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProviderTest\\:\\:testCheckAuthenticationFailed\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProviderTest\\:\\:testCheckAuthenticationFailedWhenPasswordInUnsupportedFormat\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$user of class Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\UsernamePasswordToken constructor expects Symfony\\\\Component\\\\Security\\\\Core\\\\User\\\\UserInterface, string given\\.$#"
-			count: 6
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Parameter \\#3 \\$roles of class Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\UsernamePasswordToken constructor expects array\\<string\\>, string given\\.$#"
-			count: 9
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Parameter \\#4 \\$hasherFactory of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\RepositoryAuthenticationProvider constructor expects Symfony\\\\Component\\\\PasswordHasher\\\\Hasher\\\\PasswordHasherFactoryInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Encoder\\\\EncoderFactoryInterface given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/RepositoryAuthenticationProviderTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\HttpUtilsTest\\:\\:checkRequestPathProvider\\(\\) has no return type specified\\.$#"
