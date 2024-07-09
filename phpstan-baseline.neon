@@ -9326,12 +9326,12 @@ parameters:
 			path: src/lib/FieldType/Image/ImageStorage.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 0 on array\\{0\\: int\\<0, max\\>, 1\\: int\\<0, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 1 on array\\{0\\: int\\<0, max\\>, 1\\: int\\<0, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/FieldType/Image/ImageStorage.php
 
@@ -11021,17 +11021,17 @@ parameters:
 			path: src/lib/IO/MetadataHandler.php
 
 		-
-			message: "#^Cannot access offset 'mime' on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 'mime' on array\\{0\\: int\\<0, max\\>, 1\\: int\\<0, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/IO/MetadataHandler/ImageSize.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 0 on array\\{0\\: int\\<0, max\\>, 1\\: int\\<0, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/IO/MetadataHandler/ImageSize.php
 
 		-
-			message: "#^Cannot access offset 1 on array\\{0\\: int\\<1, max\\>, 1\\: int\\<1, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
+			message: "#^Cannot access offset 1 on array\\{0\\: int\\<0, max\\>, 1\\: int\\<0, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\}\\|false\\.$#"
 			count: 1
 			path: src/lib/IO/MetadataHandler/ImageSize.php
 
