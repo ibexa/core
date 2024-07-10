@@ -46971,31 +46971,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
 
 		-
-			message: "#^Call to an undefined method Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\TokenInterface\\:\\:getProviderKey\\(\\)\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\GuardRepositoryAuthenticationProviderTest\\:\\:testAuthenticate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\GuardRepositoryAuthenticationProviderTest\\:\\:testAuthenticateUnsupportedToken\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\GuardRepositoryAuthenticationProviderTest\\:\\:testAuthenticateWrongGuardProviderKey\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$token of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\Authentication\\\\GuardRepositoryAuthenticationProvider\\:\\:authenticate\\(\\) expects Symfony\\\\Component\\\\Security\\\\Guard\\\\Token\\\\GuardTokenInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Component\\\\Security\\\\Core\\\\Authentication\\\\Token\\\\AnonymousToken given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Security/Authentication/GuardRepositoryAuthenticationProviderTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Security\\\\HttpUtilsTest\\:\\:checkRequestPathProvider\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Security/HttpUtilsTest.php
