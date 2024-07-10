@@ -365,6 +365,11 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
     private function setFieldTypeAsSearchable(
         ContentTypeDraft $contentTypeDraft,
         FieldDefinition $fieldDefinition
@@ -379,5 +384,6 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
             $fieldDefinition,
             $fieldDefinitionUpdateStruct
         );
+        $contentTypeService->publishContentTypeDraft($contentTypeDraft);
     }
 }
