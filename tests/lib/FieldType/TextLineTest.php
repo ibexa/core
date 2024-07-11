@@ -7,7 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentType;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineType;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\FieldType\ValidationError;
@@ -83,11 +83,7 @@ class TextLineTest extends FieldTypeTest
         return [
             [
                 23,
-                InvalidArgumentException::class,
-            ],
-            [
-                new TextLineValue(23),
-                InvalidArgumentException::class,
+                InvalidArgumentType::class,
             ],
         ];
     }

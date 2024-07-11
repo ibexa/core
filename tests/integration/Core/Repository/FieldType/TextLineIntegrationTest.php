@@ -299,7 +299,6 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTest
             [
                 $this->getValidCreationFieldData(),
             ],
-            [new TextLineValue(0)],
             [new TextLineValue('0')],
         ];
     }
