@@ -20,6 +20,8 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  */
 class StringLengthValidator extends Validator
 {
+    private const string PARAMETER_NAME = '%parameter%';
+
     protected $constraints = [
         'maxStringLength' => false,
         'minStringLength' => false,
@@ -45,10 +47,10 @@ class StringLengthValidator extends Validator
                 case 'maxStringLength':
                     if ($value !== false && !is_int($value) && !(null === $value)) {
                         $validationErrors[] = new ValidationError(
-                            "Validator parameter '%parameter%' value must be of integer type",
+                            sprintf('Validator parameter \'%s\' value must be of integer type', self::PARAMETER_NAME),
                             null,
                             [
-                                '%parameter%' => $name,
+                                self::PARAMETER_NAME => $name,
                             ]
                         );
                     } elseif ($value < 0) {
@@ -56,7 +58,7 @@ class StringLengthValidator extends Validator
                             "Validator parameter '%parameter%' value can't be negative",
                             null,
                             [
-                                '%parameter%' => $name,
+                                self::PARAMETER_NAME => $name,
                             ]
                         );
                     }
@@ -66,7 +68,7 @@ class StringLengthValidator extends Validator
                         "Validator parameter '%parameter%' is unknown",
                         null,
                         [
-                            '%parameter%' => $name,
+                            self::PARAMETER_NAME => $name,
                         ]
                     );
             }
@@ -92,9 +94,8 @@ class StringLengthValidator extends Validator
      */
     protected function validateConstraintsOrder($constraints)
     {
-        return !isset($constraints['minStringLength']) ||
-            !isset($constraints['maxStringLength']) ||
-            ($constraints['minStringLength'] <= $constraints['maxStringLength']);
+        return !isset($constraints['minStringLength'], $constraints['maxStringLength'])
+            || ($constraints['minStringLength'] <= $constraints['maxStringLength']);
     }
 
     /**
@@ -110,27 +111,33 @@ class StringLengthValidator extends Validator
     {
         $isValid = true;
 
-        if ($this->constraints['maxStringLength'] !== false &&
-            $this->constraints['maxStringLength'] !== 0 &&
-            mb_strlen($value->text) > $this->constraints['maxStringLength']) {
+        // BC: these constraints can be not set, null, or false
+        $minStringLength = $this->constraints['minStringLength'] ?? false;
+        $maxStringLength = $this->constraints['maxStringLength'] ?? false;
+
+        if ($maxStringLength !== false &&
+            $maxStringLength !== 0 &&
+            mb_strlen($value->text) > $maxStringLength) {
             $this->errors[] = new ValidationError(
                 'The string can not exceed %size% character.',
                 'The string can not exceed %size% characters.',
                 [
-                    '%size%' => $this->constraints['maxStringLength'],
-                ]
+                    '%size%' => $maxStringLength,
+                ],
+                'text'
             );
             $isValid = false;
         }
-        if ($this->constraints['minStringLength'] !== false &&
-            $this->constraints['minStringLength'] !== 0 &&
-            mb_strlen($value->text) < $this->constraints['minStringLength']) {
+        if ($minStringLength !== false &&
+            $minStringLength !== 0 &&
+            mb_strlen($value->text) < $minStringLength) {
             $this->errors[] = new ValidationError(
                 'The string cannot be shorter than %size% character.',
                 'The string cannot be shorter than %size% characters.',
                 [
-                    '%size%' => $this->constraints['minStringLength'],
-                ]
+                    '%size%' => $minStringLength,
+                ],
+                'text'
             );
             $isValid = false;
         }
