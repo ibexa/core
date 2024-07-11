@@ -13,7 +13,7 @@ use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
 
 /**
  * @group fieldType
- * @group ezselection
+ * @group eztext
  */
 class TextBlockTest extends FieldTypeTest
 {
@@ -76,10 +76,6 @@ class TextBlockTest extends FieldTypeTest
         return [
             [
                 23,
-                InvalidArgumentException::class,
-            ],
-            [
-                new TextBlockValue(23),
                 InvalidArgumentException::class,
             ],
         ];

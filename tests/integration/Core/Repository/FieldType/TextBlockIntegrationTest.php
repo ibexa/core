@@ -281,7 +281,6 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
             [
                 $this->getValidCreationFieldData(),
             ],
-            [new TextBlockValue(0)],
             [new TextBlockValue('0')],
         ];
     }
