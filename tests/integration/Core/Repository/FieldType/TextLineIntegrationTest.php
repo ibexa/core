@@ -8,8 +8,8 @@
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 
 /**
@@ -161,11 +161,11 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTest
         return [
             [
                 new \stdClass(),
-                InvalidArgumentType::class,
+                InvalidArgumentException::class,
             ],
             [
                 42,
-                InvalidArgumentType::class,
+                InvalidArgumentException::class,
             ],
             [
                 new TextLineValue(str_repeat('.', 64)),
