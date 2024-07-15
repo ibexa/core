@@ -466,12 +466,9 @@ class Handler implements BaseContentHandler
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadVersionInfo($contentId, $versionNo = null): \Ibexa\Contracts\Core\Persistence\Content\VersionInfo|false
+    public function loadVersionInfo($contentId, $versionNo = null): VersionInfo
     {
-        $rows = $this->contentGateway->loadVersionInfo($contentId, $versionNo);
+        $rows = $this->contentGateway->loadVersionInfo((int)$contentId, $versionNo);
         if (empty($rows)) {
             throw new NotFound('content', $contentId);
         }
@@ -481,7 +478,12 @@ class Handler implements BaseContentHandler
             $this->contentGateway->loadVersionedNameData([['id' => $contentId, 'version' => $rows[0]['ezcontentobject_version_version']]])
         );
 
-        return reset($versionInfo);
+        $versionInfo = reset($versionInfo);
+        if (false === $versionInfo) {
+            throw new NotFound('versionInfo', $contentId);
+        }
+
+        return $versionInfo;
     }
 
     public function countDraftsForUser(int $userId): int

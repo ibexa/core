@@ -50,12 +50,9 @@ class NullStorage implements FieldStorage
         return false;
     }
 
-    /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage::getIndexData()
-     */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): bool
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
     {
-        return false;
+        return [];
     }
 
     /**

@@ -46,11 +46,7 @@ class UrlStorage extends GatewayBasedStorage
 
         $map = $this->gateway->getUrlIdMap([$url]);
 
-        if (isset($map[$url])) {
-            $urlId = $map[$url];
-        } else {
-            $urlId = $this->gateway->insertUrl($url);
-        }
+        $urlId = $map[$url] ?? $this->gateway->insertUrl($url);
 
         $this->gateway->linkUrl($urlId, $field->id, $versionInfo->versionNo);
 
@@ -112,14 +108,8 @@ class UrlStorage extends GatewayBasedStorage
         return true;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context
-     *
-     * @return \Ibexa\Contracts\Core\Search\Field[]
-     */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
     {
+        return [];
     }
 }

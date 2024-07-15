@@ -15,14 +15,21 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class TransformationProcessorDefinitionBasedParserTest extends TestCase
 {
+    /**
+     * @phpstan-return array<array{non-empty-string|false}>
+     */
     public static function getTestFiles(): array
     {
-        return array_map(
-            static function ($file) {
-                return [realpath($file)];
-            },
-            glob(__DIR__ . '/_fixtures/transformations/*.tr')
-        );
+        $glob = glob(__DIR__ . '/_fixtures/transformations/*.tr');
+
+        return false !== $glob
+            ? array_map(
+                static function (string $file) {
+                    return [realpath($file)];
+                },
+                $glob
+            )
+            : [];
     }
 
     /**
