@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct as SPIContentCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Field as SPIField;
+use Ibexa\Contracts\Core\Persistence\Content\Handler as LegacyContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct as SPIMetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState as SPIObjectState;
@@ -29,6 +30,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundE
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService as APILocationService;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct as APIContentCreateStruct;
@@ -48,6 +50,7 @@ use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
@@ -58,20 +61,22 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Mock test case for Content service.
+ * @covers \Ibexa\Core\Repository\ContentService
  */
 class ContentTest extends BaseServiceMockTest
 {
-    private const EMPTY_FIELD_VALUE = 'empty';
+    private const string EMPTY_FIELD_VALUE = 'empty';
+    private const string NAME_SCHEMA = '<nameSchema>';
+    private const string STORE_FAILED_EXPECTED_EXCEPTION_MESSAGE = 'Store failed';
 
-    /**
-     * Test for the __construct() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::__construct
-     */
-    public function testConstructor(): void
+    protected MockObject & RelationProcessor $relationProcessorMock;
+
+    protected MockObject & NameSchemaServiceInterface $nameSchemaServiceMock;
+
+    public function testConstructor(): ContentService
     {
         $repositoryMock = $this->getRepositoryMock();
         /** @var \Ibexa\Contracts\Core\Persistence\Handler $persistenceHandlerMock */
@@ -89,7 +94,7 @@ class ContentTest extends BaseServiceMockTest
             'remove_archived_versions_on_publish' => true,
         ];
 
-        new ContentService(
+        return new ContentService(
             $repositoryMock,
             $persistenceHandlerMock,
             $contentDomainMapperMock,
@@ -104,12 +109,7 @@ class ContentTest extends BaseServiceMockTest
         );
     }
 
-    /**
-     * Test for the loadVersionInfo() method, of published version.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     */
-    public function testLoadVersionInfoById()
+    public function testLoadVersionInfoById(): void
     {
         $contentServiceMock = $this->getPartlyMockedContentService(['loadContentInfo']);
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
@@ -130,14 +130,14 @@ class ContentTest extends BaseServiceMockTest
             ->with(
                 self::equalTo(42),
                 self::equalTo(null)
-            )->will(
-                self::returnValue(new SPIVersionInfo())
+            )->willReturn(
+                new SPIVersionInfo()
             );
 
         $domainMapperMock->expects(self::once())
             ->method('buildVersionInfoDomainObject')
             ->with(new SPIVersionInfo())
-            ->will(self::returnValue($versionInfoMock));
+            ->willReturn($versionInfoMock);
 
         $permissionResolver->expects(self::once())
             ->method('canUser')
@@ -145,7 +145,7 @@ class ContentTest extends BaseServiceMockTest
                 self::equalTo('content'),
                 self::equalTo('read'),
                 self::equalTo($versionInfoMock)
-            )->will(self::returnValue(true));
+            )->willReturn(true);
 
         $result = $contentServiceMock->loadVersionInfoById(42);
 
@@ -156,10 +156,8 @@ class ContentTest extends BaseServiceMockTest
      * Test for the loadVersionInfo() method, of a draft.
      *
      * @depends testLoadVersionInfoById
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
      */
-    public function testLoadVersionInfoByIdAndVersionNumber()
+    public function testLoadVersionInfoByIdAndVersionNumber(): void
     {
         $permissionResolver = $this->getPermissionResolverMock();
         $contentServiceMock = $this->getPartlyMockedContentService(['loadContentInfo']);
@@ -168,7 +166,7 @@ class ContentTest extends BaseServiceMockTest
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
 
-        $versionInfoMock->expects(self::any())
+        $versionInfoMock
             ->method('__get')
             ->with('status')
             ->willReturn(APIVersionInfo::STATUS_DRAFT);
@@ -201,12 +199,7 @@ class ContentTest extends BaseServiceMockTest
         self::assertEquals($versionInfoMock, $result);
     }
 
-    /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
-     */
-    public function testLoadVersionInfoByIdThrowsNotFoundException()
+    public function testLoadVersionInfoByIdThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -235,89 +228,54 @@ class ContentTest extends BaseServiceMockTest
     }
 
     /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion()
+    public function testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion(): void
     {
         $this->expectException(UnauthorizedException::class);
 
         $contentServiceMock = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Persistence\Content\Handler $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
         $permissionResolver = $this->getPermissionResolverMock();
 
-        $versionInfoMock->expects(self::any())
-            ->method('isPublished')
-            ->willReturn(false);
-
-        $contentHandler->expects(self::once())
-            ->method('loadVersionInfo')
-            ->with(
-                self::equalTo(42),
-                self::equalTo(24)
-            )->will(
-                self::returnValue(new SPIVersionInfo())
-            );
-
-        $domainMapperMock->expects(self::once())
-            ->method('buildVersionInfoDomainObject')
-            ->with(new SPIVersionInfo())
-            ->will(self::returnValue($versionInfoMock));
-
-        $permissionResolver->expects(self::once())
-            ->method('canUser')
-            ->with(
-                self::equalTo('content'),
-                self::equalTo('versionread'),
-                self::equalTo($versionInfoMock)
-            )->will(self::returnValue(false));
+        $this->configureMocksForLoadVersionInfoById(
+            false,
+            'versionread',
+            false,
+            $versionInfoMock,
+            $contentHandler,
+            $domainMapperMock,
+            $permissionResolver
+        );
 
         $contentServiceMock->loadVersionInfoById(42, 24);
     }
 
     /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testLoadVersionInfoByIdPublishedVersion()
+    public function testLoadVersionInfoByIdPublishedVersion(): void
     {
         $contentServiceMock = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Persistence\Content\Handler $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
         $permissionResolver = $this->getPermissionResolverMock();
 
-        $versionInfoMock->expects(self::once())
-            ->method('isPublished')
-            ->willReturn(true);
-
-        $contentHandler->expects(self::once())
-            ->method('loadVersionInfo')
-            ->with(
-                self::equalTo(42),
-                self::equalTo(24)
-            )->will(
-                self::returnValue(new SPIVersionInfo())
-            );
-
-        $domainMapperMock->expects(self::once())
-            ->method('buildVersionInfoDomainObject')
-            ->with(new SPIVersionInfo())
-            ->will(self::returnValue($versionInfoMock));
-
-        $permissionResolver->expects(self::once())
-            ->method('canUser')
-            ->with(
-                self::equalTo('content'),
-                self::equalTo('read'),
-                self::equalTo($versionInfoMock)
-            )->will(self::returnValue(true));
+        $this->configureMocksForLoadVersionInfoById(
+            true,
+            'read',
+            true,
+            $versionInfoMock,
+            $contentHandler,
+            $domainMapperMock,
+            $permissionResolver
+        );
 
         $result = $contentServiceMock->loadVersionInfoById(42, 24);
 
@@ -332,55 +290,28 @@ class ContentTest extends BaseServiceMockTest
     public function testLoadVersionInfoByIdNonPublishedVersion()
     {
         $contentServiceMock = $this->getPartlyMockedContentService();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
+        /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Contracts\Core\Persistence\Content\Handler $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
         $domainMapperMock = $this->getContentDomainMapperMock();
         $versionInfoMock = $this->createMock(APIVersionInfo::class);
         $permissionResolver = $this->getPermissionResolverMock();
 
-        $versionInfoMock->expects(self::once())
-            ->method('isPublished')
-            ->willReturn(false);
-
-        $contentHandler->expects(self::once())
-            ->method('loadVersionInfo')
-            ->with(
-                self::equalTo(42),
-                self::equalTo(24)
-            )->will(
-                self::returnValue(new SPIVersionInfo())
-            );
-
-        $domainMapperMock->expects(self::once())
-            ->method('buildVersionInfoDomainObject')
-            ->with(new SPIVersionInfo())
-            ->will(self::returnValue($versionInfoMock));
-
-        $permissionResolver->expects(self::once())
-            ->method('canUser')
-            ->with(
-                self::equalTo('content'),
-                self::equalTo('versionread'),
-                self::equalTo($versionInfoMock)
-            )->will(self::returnValue(true));
+        $this->configureMocksForLoadVersionInfoById(
+            false,
+            'versionread',
+            true,
+            $versionInfoMock,
+            $contentHandler,
+            $domainMapperMock,
+            $permissionResolver
+        );
 
         $result = $contentServiceMock->loadVersionInfoById(42, 24);
 
         self::assertEquals($versionInfoMock, $result);
     }
 
-    /**
-     * Test for the loadVersionInfo() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfo
-     *
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoById
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdThrowsNotFoundException
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdPublishedVersion
-     * @depends Ibexa\Tests\Core\Repository\Service\Mock\ContentTest::testLoadVersionInfoByIdNonPublishedVersion
-     */
-    public function testLoadVersionInfo()
+    public function testLoadVersionInfo(): void
     {
         $expectedResult = $this->createMock(VersionInfo::class);
 
@@ -804,7 +735,7 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
+        $this->getPersistenceMockHandler('Handler');
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
@@ -871,7 +802,7 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
+        $this->getPersistenceMockHandler('Handler');
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
@@ -949,7 +880,7 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
+        $this->getPersistenceMockHandler('Handler');
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
@@ -2173,7 +2104,7 @@ class ContentTest extends BaseServiceMockTest
             [
                 'id' => 123,
                 'fieldDefinitions' => new FieldDefinitionCollection($fieldDefinitions),
-                'nameSchema' => '<nameSchema>',
+                'nameSchema' => self::NAME_SCHEMA,
             ]
         );
         $contentCreateStruct = new ContentCreateStruct(
@@ -2191,9 +2122,9 @@ class ContentTest extends BaseServiceMockTest
     }
 
     private function commonContentCreateMocks(
-        \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock,
-        \PHPUnit\Framework\MockObject\MockObject $contentTypeServiceMock,
-        \PHPUnit\Framework\MockObject\MockObject $repositoryMock,
+        MockObject $languageHandlerMock,
+        MockObject $contentTypeServiceMock,
+        MockObject $repositoryMock,
         ContentType $contentType
     ): void {
         $this->loadByLanguageCodeMock($languageHandlerMock);
@@ -2208,7 +2139,7 @@ class ContentTest extends BaseServiceMockTest
             ->will(self::returnValue($contentTypeServiceMock));
     }
 
-    private function loadByLanguageCodeMock(\PHPUnit\Framework\MockObject\MockObject $languageHandlerMock): void
+    private function loadByLanguageCodeMock(MockObject $languageHandlerMock): void
     {
         $languageHandlerMock->expects(self::any())
             ->method('loadByLanguageCode')
@@ -2390,7 +2321,7 @@ class ContentTest extends BaseServiceMockTest
             [
                 'id' => 123,
                 'fieldDefinitions' => new FieldDefinitionCollection($fieldDefinitions),
-                'nameSchema' => '<nameSchema>',
+                'nameSchema' => self::NAME_SCHEMA,
             ]
         );
         $contentCreateStruct = new ContentCreateStruct(
@@ -2534,7 +2465,7 @@ class ContentTest extends BaseServiceMockTest
         }
     }
 
-    private function acceptFieldTypeValueMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function acceptFieldTypeValueMock(MockObject $fieldTypeMock): void
     {
         $fieldTypeMock->expects(self::any())
             ->method('acceptValue')
@@ -2547,7 +2478,7 @@ class ContentTest extends BaseServiceMockTest
             );
     }
 
-    private function toHashFieldTypeMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function toHashFieldTypeMock(MockObject $fieldTypeMock): void
     {
         $fieldTypeMock
             ->method('toHash')
@@ -2556,14 +2487,14 @@ class ContentTest extends BaseServiceMockTest
             });
     }
 
-    private function getFieldTypeFieldTypeRegistryMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function getFieldTypeFieldTypeRegistryMock(MockObject $fieldTypeMock): void
     {
         $this->getFieldTypeRegistryMock()->expects(self::any())
             ->method('getFieldType')
             ->will(self::returnValue($fieldTypeMock));
     }
 
-    private function isEmptyValueFieldTypeMock(\PHPUnit\Framework\MockObject\MockObject $fieldTypeMock): void
+    private function isEmptyValueFieldTypeMock(MockObject $fieldTypeMock): void
     {
         $emptyValue = new ValueStub(self::EMPTY_FIELD_VALUE);
         $fieldTypeMock->expects(self::any())
@@ -2578,7 +2509,7 @@ class ContentTest extends BaseServiceMockTest
     }
 
     private function getUniqueHashDomainMapperMock(
-        \PHPUnit\Framework\MockObject\MockObject $domainMapperMock,
+        MockObject $domainMapperMock,
         self $that,
         ContentCreateStruct $contentCreateStruct
     ): void {
@@ -2777,7 +2708,7 @@ class ContentTest extends BaseServiceMockTest
             [
                 'id' => 123,
                 'fieldDefinitions' => new FieldDefinitionCollection($fieldDefinitions),
-                'nameSchema' => '<nameSchema>',
+                'nameSchema' => self::NAME_SCHEMA,
             ]
         );
         $contentCreateStruct = new ContentCreateStruct(
@@ -2936,10 +2867,6 @@ class ContentTest extends BaseServiceMockTest
                 ]
             ),
         ];
-        $objectStateGroups = [
-            new SPIObjectStateGroup(['id' => 10]),
-            new SPIObjectStateGroup(['id' => 20]),
-        ];
 
         // Set up a simple case that will pass
         $contentCreateStruct = $this->assertForTestCreateContentNonRedundantFieldSet(
@@ -3023,7 +2950,7 @@ class ContentTest extends BaseServiceMockTest
     public function testCreateContentWithRollback()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Store failed');
+        $this->expectExceptionMessage(self::STORE_FAILED_EXPECTED_EXCEPTION_MESSAGE);
 
         $fieldDefinitions = [
             new FieldDefinition(
@@ -3059,7 +2986,7 @@ class ContentTest extends BaseServiceMockTest
         $contentHandlerMock->expects(self::once())
             ->method('create')
             ->with(self::anything())
-            ->will(self::throwException(new \Exception('Store failed')));
+            ->will(self::throwException(new \Exception(self::STORE_FAILED_EXPECTED_EXCEPTION_MESSAGE)));
 
         // Execute
         $this->partlyMockedContentService->createContent($contentCreateStruct, []);
@@ -5024,21 +4951,14 @@ class ContentTest extends BaseServiceMockTest
                 self::returnValue($content)
             );
 
-        $permissionResolverMock->expects(self::any())
+        $permissionResolverMock
             ->method('canUser')
             ->with(
                 self::equalTo('content'),
                 self::equalTo('edit'),
                 self::equalTo($content),
                 self::isType('array')
-            )->will(self::returnValue(true));
-
-        /*
-        $contentTypeServiceMock->expects($this->once())
-            ->method('loadContentType')
-            ->with($this->equalTo($contentType->id))
-            ->will($this->returnValue($contentType));
-        */
+            )->willReturn(true);
 
         $contentUpdateStruct = new ContentUpdateStruct(
             [
@@ -5544,7 +5464,7 @@ class ContentTest extends BaseServiceMockTest
     public function testUpdateContentTransactionRollback()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Store failed');
+        $this->expectExceptionMessage(self::STORE_FAILED_EXPECTED_EXCEPTION_MESSAGE);
 
         $existingFields = [
             new Field(
@@ -5593,7 +5513,7 @@ class ContentTest extends BaseServiceMockTest
                 self::anything(),
                 self::anything(),
                 self::anything()
-            )->will(self::throwException(new \Exception('Store failed')));
+            )->will(self::throwException(new \Exception(self::STORE_FAILED_EXPECTED_EXCEPTION_MESSAGE)));
 
         // Execute
         $this->partlyMockedContentService->updateContent($versionInfo, $contentUpdateStruct);
@@ -6222,12 +6142,7 @@ class ContentTest extends BaseServiceMockTest
             ->with(123, 456, ['eng-GB']);
     }
 
-    protected $relationProcessorMock;
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Helper\RelationProcessor
-     */
-    protected function getRelationProcessorMock()
+    protected function getRelationProcessorMock(): MockObject & RelationProcessor
     {
         if (!isset($this->relationProcessorMock)) {
             $this->relationProcessorMock = $this->createMock(RelationProcessor::class);
@@ -6235,12 +6150,6 @@ class ContentTest extends BaseServiceMockTest
 
         return $this->relationProcessorMock;
     }
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     * &\Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface
-     */
-    protected NameSchemaServiceInterface $nameSchemaServiceMock;
 
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject
@@ -6321,17 +6230,55 @@ class ContentTest extends BaseServiceMockTest
         return $this->partlyMockedContentService;
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getRepositoryMock(): Repository
+    protected function getRepositoryMock(): MockObject & Repository
     {
         $repositoryMock = parent::getRepositoryMock();
         $repositoryMock
-            ->expects(self::any())
             ->method('getPermissionResolver')
             ->willReturn($this->getPermissionResolverMock());
 
         return $repositoryMock;
+    }
+
+    private function configureMocksForLoadVersionInfoById(
+        bool $isPublished,
+        string $contentFunction,
+        bool $canUser,
+        APIVersionInfo & MockObject $versionInfoMock,
+        LegacyContentHandler & MockObject $contentHandler,
+        ContentDomainMapper & MockObject $domainMapperMock,
+        PermissionResolver & MockObject $permissionResolver
+    ): void {
+        $versionInfoMock
+            ->method('isPublished')
+            ->willReturn($isPublished)
+        ;
+
+        $contentHandler
+            ->expects(self::once())
+            ->method('loadVersionInfo')
+            ->with(42, 24)
+            ->willReturn(
+                new SPIVersionInfo()
+            )
+        ;
+
+        $domainMapperMock
+            ->expects(self::once())
+            ->method('buildVersionInfoDomainObject')
+            ->with(new SPIVersionInfo())
+            ->willReturn($versionInfoMock)
+        ;
+
+        $permissionResolver
+            ->expects(self::once())
+            ->method('canUser')
+            ->with(
+                'content',
+                $contentFunction,
+                $versionInfoMock
+            )
+            ->willReturn($canUser)
+        ;
     }
 }
