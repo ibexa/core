@@ -258,12 +258,6 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
         return new PermissionSubtree($value->limitationValues);
     }
 
-    /**
-     * Returns info on valid $limitationValues.
-     *
-     * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
-     *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
-     */
     public function valueSchema(): int
     {
         return self::VALUE_SCHEMA_LOCATION_PATH;

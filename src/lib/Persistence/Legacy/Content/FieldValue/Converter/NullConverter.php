@@ -86,8 +86,6 @@ class NullConverter implements Converter
      * Returns the name of the index column the datatype uses, which is either
      * "sort_key_int" or "sort_key_string". This column is then used for
      * filtering and sorting for this type.
-     *
-     * @return string
      */
     public function getIndexColumn(): bool
     {

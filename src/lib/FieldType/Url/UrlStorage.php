@@ -36,15 +36,6 @@ class UrlStorage extends GatewayBasedStorage
         $this->logger = $logger;
     }
 
-    /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context
-     *
-     * @return bool|mixed
-     */
     public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context): bool
     {
         $url = $field->value->externalData;
