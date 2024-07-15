@@ -33,10 +33,8 @@ class AuthorConverter implements Converter
     }
 
     /**
-     * Converts data from $value to $storageFieldValue.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @throws \DOMException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
     {

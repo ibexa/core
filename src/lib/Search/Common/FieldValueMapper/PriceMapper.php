@@ -23,10 +23,6 @@ class PriceMapper extends FieldValueMapper
 
     /**
      * Map field value to a proper search engine representation.
-     *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
-     *
-     * @return mixed
      */
     public function map(Field $field): float
     {
