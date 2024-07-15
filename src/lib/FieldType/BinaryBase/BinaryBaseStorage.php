@@ -205,7 +205,8 @@ class BinaryBaseStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
     {
+        return [];
     }
 }

@@ -192,10 +192,9 @@ class ImageStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
     {
-        // @todo: Correct?
-        return null;
+        return [];
     }
 
     /**

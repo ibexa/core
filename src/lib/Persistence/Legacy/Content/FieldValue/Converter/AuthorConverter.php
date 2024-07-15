@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use DOMDocument;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
@@ -106,8 +107,11 @@ class AuthorConverter implements Converter
      * @param array $authorValue
      *
      * @return string The generated XML string
+     *
+     * @throws \DOMException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function generateXmlString(array $authorValue): string|false
+    private function generateXmlString(array $authorValue): string
     {
         $doc = new DOMDocument('1.0', 'utf-8');
 
@@ -119,14 +123,22 @@ class AuthorConverter implements Converter
 
         foreach ($authorValue as $author) {
             $authorNode = $doc->createElement('author');
-            $authorNode->setAttribute('id', $author['id']);
+            $authorNode->setAttribute('id', (string)$author['id']);
             $authorNode->setAttribute('name', $author['name']);
             $authorNode->setAttribute('email', $author['email']);
             $authors->appendChild($authorNode);
             unset($authorNode);
         }
 
-        return $doc->saveXML();
+        $xml = $doc->saveXML();
+        if (false === $xml) {
+            throw new InvalidArgumentException(
+                '$authorValue',
+                'AuthorConverter: an error occurred when trying to save author field data'
+            );
+        }
+
+        return $xml;
     }
 
     /**

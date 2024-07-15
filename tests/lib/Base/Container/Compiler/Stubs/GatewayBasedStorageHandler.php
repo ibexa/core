@@ -32,7 +32,8 @@ class GatewayBasedStorageHandler extends GatewayBasedStorage
     {
     }
 
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
     {
+        return [];
     }
 }
