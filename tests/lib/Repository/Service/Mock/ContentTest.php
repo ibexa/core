@@ -3471,7 +3471,7 @@ class ContentTest extends BaseServiceMockTest
 
         $existingRelations = ['RELATIONS!!!'];
         $repositoryMock->method('sudo')->willReturn($existingRelations);
-        $relationProcessorMock->expects($this->any())
+        $relationProcessorMock->expects(self::any())
             ->method('processFieldRelations')
             ->with(
                 $this->isType('array'),
