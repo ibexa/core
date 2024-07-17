@@ -24606,16 +24606,6 @@ parameters:
 			path: tests/bundle/Core/EventListener/OriginalRequestListenerTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RejectExplicitFrontControllerRequestsListenerTest\\:\\:prohibitedRequestDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/RejectExplicitFrontControllerRequestsListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RejectExplicitFrontControllerRequestsListenerTest\\:\\:validRequestDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/RejectExplicitFrontControllerRequestsListenerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\RequestEventListenerTest\\:\\:testOnKernelRequestForward\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/RequestEventListenerTest.php
@@ -56671,72 +56661,7 @@ parameters:
 			path: tests/lib/Repository/Permission/PermissionCriterionResolverTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:getEventDispatcher\\(\\) should return PHPUnit\\\\Framework\\\\MockObject\\\\MockObject&Symfony\\\\Contracts\\\\EventDispatcher\\\\EventDispatcherInterface but returns Symfony\\\\Contracts\\\\EventDispatcher\\\\EventDispatcherInterface\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:getRelationProcessorMock\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:getRepository\\(\\) has parameter \\$serviceSettings with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Parameter \\#1 \\$className of method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\) expects class\\-string\\<mixed\\>, string given\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
 			message: "#^Parameter \\#2 \\$searchHandler of class Ibexa\\\\Core\\\\Repository\\\\Repository constructor expects Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Handler, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$contentDomainMapperMock \\(Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$contentTypeDomainMapperMock \\(Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentTypeDomainMapper&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$fieldTypeRegistryMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$fieldTypeServiceMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$permissionServiceMock \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\PermissionService&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$persistenceMock \\(Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Handler&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$repositoryMock \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Repository&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\Base\\:\\:\\$thumbnailStrategyMock \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Strategy\\\\ContentThumbnail\\\\ThumbnailStrategy&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/Base.php
-
-		-
-			message: "#^Unable to resolve the template type T in call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:getMockBuilder\\(\\)$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/Base.php
 
@@ -57486,37 +57411,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:testLoadVersionInfo\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:testLoadVersionInfoById\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:testLoadVersionInfoByIdAndVersionNumber\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:testLoadVersionInfoByIdNonPublishedVersion\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:testLoadVersionInfoByIdPublishedVersion\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:testLoadVersionInfoByIdThrowsNotFoundException\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:testLoadVersionInfoByIdThrowsUnauthorizedExceptionNonPublishedVersion\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
@@ -57736,11 +57631,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: "#^PHPDoc tag @var for property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:\\$nameSchemaServiceMock with type PHPUnit\\\\Framework\\\\MockObject\\\\MockObject is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$languageHandlerMock of method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:loadByLanguageCodeMock\\(\\) expects PHPUnit\\\\Framework\\\\MockObject\\\\MockObject, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\\\Handler given\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
@@ -57771,11 +57661,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\ContentTest\\:\\:\\$relationProcessorMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\Handler\\:\\:expects\\(\\)\\.$#"
 			count: 11
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
@@ -57791,17 +57676,7 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionTest\\:\\:getPermissionResolverMock\\(\\) has parameter \\$methods with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionTest\\:\\:getPermissionSetsMock\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionTest\\:\\:getUserReferenceMock\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
 
@@ -57986,11 +57861,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionTest\\:\\:testSetAndGetCurrentUserReference\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionTest.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\$policy \\\\Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\Policy\\)\\: Unexpected token \"\\$policy\", expected type at offset 9$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
@@ -58021,29 +57891,9 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
 
 		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionTest\\:\\:\\$permissionResolverMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionTest\\:\\:\\$repositoryMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionTest\\:\\:\\$userReferenceMock has no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionTest.php
-
-		-
 			message: "#^Variable \\$limitationsPass might not be defined\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/PermissionTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionsCriterionHandlerTest\\:\\:getPermissionResolverMock\\(\\) has parameter \\$methods with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionsCriterionHandlerTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionsCriterionHandlerTest\\:\\:mockServices\\(\\) has no return type specified\\.$#"
@@ -58147,11 +57997,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionsCriterionHandlerTest\\:\\:testGetPermissionsCriterionBooleanPermissionSets\\(\\) has parameter \\$permissionSets with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/PermissionsCriterionHandlerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\PermissionsCriterionHandlerTest\\:\\:\\$permissionResolverMock has no type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/PermissionsCriterionHandlerTest.php
 
