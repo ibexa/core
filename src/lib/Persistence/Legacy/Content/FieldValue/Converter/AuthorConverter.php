@@ -132,9 +132,13 @@ class AuthorConverter implements Converter
 
         $xml = $doc->saveXML();
         if (false === $xml) {
+            $lastError = libxml_get_last_error();
             throw new InvalidArgumentException(
                 '$authorValue',
-                'AuthorConverter: an error occurred when trying to save author field data'
+                sprintf(
+                    'AuthorConverter: an error occurred when trying to save author field data: %s',
+                    $lastError !== false ? $lastError->message : 'unknown error'
+                )
             );
         }
 

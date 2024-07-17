@@ -199,9 +199,13 @@ class DateAndTimeConverter implements Converter
 
         $xml = $doc->saveXML();
         if (false === $xml) {
+            $lastError = libxml_get_last_error();
             throw new InvalidArgumentException(
-                '$authorValue',
-                'DateAndTimeConverter: an error occurred when trying to save date and time field data'
+                '$dateInterval',
+                sprintf(
+                    'DateAndTimeConverter: an error occurred when trying to save date and time field data: %s',
+                    $lastError !== false ? $lastError->message : 'unknown error'
+                )
             );
         }
 
