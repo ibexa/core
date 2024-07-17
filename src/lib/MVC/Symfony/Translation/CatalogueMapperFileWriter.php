@@ -20,6 +20,8 @@ use JMS\TranslationBundle\Translation\LoaderManager;
  */
 class CatalogueMapperFileWriter extends FileWriter
 {
+    private const string XLF_FILE_NAME_REGEX_PATTERN = '/\.[-_a-z]+\.xlf$/i';
+
     /** @var \JMS\TranslationBundle\Translation\LoaderManager */
     private $loaderManager;
 
@@ -76,7 +78,7 @@ class CatalogueMapperFileWriter extends FileWriter
 
     private function getEnglishFilePath(string $filePath): string
     {
-        $enFilePath = preg_replace('/\.[-_a-z]+\.xlf$/i', '.en.xlf', $filePath);
+        $enFilePath = preg_replace(self::XLF_FILE_NAME_REGEX_PATTERN, '.en.xlf', $filePath);
         if (null === $enFilePath) {
             throw new InvalidArgumentException("failed to get English XLF file path for '$filePath'");
         }
