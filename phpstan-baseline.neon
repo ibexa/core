@@ -10126,41 +10126,6 @@ parameters:
 			path: src/lib/FieldType/TextBlock/SearchField.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$text\\.$#"
-			count: 2
-			path: src/lib/FieldType/TextBlock/Type.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\TextBlock\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/TextBlock/Type.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
-			count: 1
-			path: src/lib/FieldType/TextBlock/Type.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function mb_substr expects string, string\\|false given\\.$#"
-			count: 1
-			path: src/lib/FieldType/TextBlock/Type.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$text\\.$#"
-			count: 2
-			path: src/lib/FieldType/TextLine/Type.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\TextLine\\\\Type\\:\\:checkValueStructure\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/TextLine/Type.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$value with type mixed is not subtype of native type Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\.$#"
-			count: 1
-			path: src/lib/FieldType/TextLine/Type.php
-
-		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\Value\\:\\:\\$time\\.$#"
 			count: 1
 			path: src/lib/FieldType/Time/Type.php
@@ -33296,16 +33261,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/TextBlockIntegrationTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextBlock\\\\Value constructor expects string, int given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/TextBlockIntegrationTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextBlock\\\\Value constructor expects string, null given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/TextBlockIntegrationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\TextLineIntegrationTest\\:\\:assertCopiedFieldDataLoadedCorrectly\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/TextLineIntegrationTest.php
@@ -33377,16 +33332,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\TextLineIntegrationTest\\:\\:providerForTestIsNotEmptyValue\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/TextLineIntegrationTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextLine\\\\Value constructor expects string, int given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/TextLineIntegrationTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextLine\\\\Value constructor expects string, null given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/TextLineIntegrationTest.php
 
@@ -43814,126 +43759,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\StringLengthValidatorTest\\:\\:testValidateWrongValues\\(\\) has parameter \\$values with no type specified\\.$#"
 			count: 1
 			path: tests/lib/FieldType/StringLengthValidatorTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:getSettingsSchemaExpectation\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:getValidatorConfigurationSchemaExpectation\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:provideDataForGetName\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:provideInValidFieldSettings\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:provideInputForFromHash\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:provideInputForToHash\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:provideInvalidInputForAcceptValue\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:provideValidFieldSettings\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextBlockTest\\:\\:provideValidInputForAcceptValue\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextBlock\\\\Value constructor expects string, int given\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextBlock\\\\Value constructor expects string, null given\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextBlockTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:getSettingsSchemaExpectation\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:getValidatorConfigurationSchemaExpectation\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideDataForGetName\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideInputForFromHash\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideInputForToHash\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideInvalidDataForValidate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideInvalidInputForAcceptValue\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideInvalidValidatorConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideValidDataForValidate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideValidInputForAcceptValue\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TextLineTest\\:\\:provideValidValidatorConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextLine\\\\Value constructor expects string, int given\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$text of class Ibexa\\\\Core\\\\FieldType\\\\TextLine\\\\Value constructor expects string, null given\\.$#"
-			count: 1
-			path: tests/lib/FieldType/TextLineTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TimeTest\\:\\:getSettingsSchemaExpectation\\(\\) return type has no value type specified in iterable type array\\.$#"
