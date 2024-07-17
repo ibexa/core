@@ -22,10 +22,10 @@ use Symfony\Component\Process\Process;
 
 final class InstallPlatformCommand extends Command
 {
-    public const EXIT_GENERAL_DATABASE_ERROR = 4;
-    public const EXIT_PARAMETERS_NOT_FOUND = 5;
-    public const EXIT_UNKNOWN_INSTALL_TYPE = 6;
-    public const EXIT_MISSING_PERMISSIONS = 7;
+    public const int EXIT_GENERAL_DATABASE_ERROR = 4;
+    public const int EXIT_PARAMETERS_NOT_FOUND = 5;
+    public const int EXIT_UNKNOWN_INSTALL_TYPE = 6;
+    public const int EXIT_MISSING_PERMISSIONS = 7;
 
     protected static $defaultName = 'ibexa:install';
 
