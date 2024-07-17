@@ -11281,16 +11281,6 @@ parameters:
 			path: src/lib/MVC/RepositoryAwareInterface.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|ArrayObject\\<\\(int\\|string\\), mixed\\>\\|bool\\|float\\|int\\|string\\|null given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
-
-		-
-			message: "#^Cannot access offset 'config' on array\\|ArrayObject\\<\\(int\\|string\\), mixed\\>\\|bool\\|float\\|int\\|string\\|null\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/CompoundMatcherNormalizer.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\SimplifiedRequestNormalizer\\:\\:supportsNormalization\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizer.php
