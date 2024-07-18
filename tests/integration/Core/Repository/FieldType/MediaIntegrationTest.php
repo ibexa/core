@@ -72,7 +72,7 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCase
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, string>
      */
     public function getValidFieldSettings(): array
     {
