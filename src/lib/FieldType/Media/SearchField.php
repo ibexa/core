@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\Media;
 
-use Ibexa\Core\FieldType\BinaryBase\BinaryBaseSearchField;
+use Ibexa\Core\FieldType\BinaryBase\AbstractBinarySearchField;
 
 /**
  * Indexable definition for Media field type.
  */
-class SearchField extends BinaryBaseSearchField
+class SearchField extends AbstractBinarySearchField
 {
 }
