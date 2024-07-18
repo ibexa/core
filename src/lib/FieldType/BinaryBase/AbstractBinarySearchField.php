@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Search;
 /**
  * @internal
  */
-abstract class BinaryBaseSearchField implements Indexable
+abstract class AbstractBinarySearchField implements Indexable
 {
     /**
      * @return \Ibexa\Contracts\Core\Search\Field[]

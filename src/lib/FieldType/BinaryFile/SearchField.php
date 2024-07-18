@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\FieldType\BinaryFile;
 
-use Ibexa\Core\FieldType\BinaryBase\BinaryBaseSearchField;
+use Ibexa\Core\FieldType\BinaryBase\AbstractBinarySearchField;
 
 /**
  * Indexable definition for BinaryFile field type.
  */
-class SearchField extends BinaryBaseSearchField
+class SearchField extends AbstractBinarySearchField
 {
 }
