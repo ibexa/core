@@ -165,6 +165,7 @@ interface UserService
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if a user with the given credentials was not found
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function loadUserByLogin(string $login, array $prioritizedLanguages = []): User;
 
@@ -187,6 +188,7 @@ interface UserService
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function loadUserByEmail(string $email, array $prioritizedLanguages = []): User;
 
