@@ -56,6 +56,7 @@ parameters:
         CI: {Name: "Côte d'Ivoire", Alpha2: "CI", Alpha3: "CIV", IDC: "225"}
         HR: {Name: "Croatia", Alpha2: "HR", Alpha3: "HRV", IDC: "385"}
         CU: {Name: "Cuba", Alpha2: "CU", Alpha3: "CUB", IDC: "53"}
+        CW: {Name: "Curaçao", Alpha2: "CW", Alpha3: "CUW", IDC: "599"}
         CY: {Name: "Cyprus", Alpha2: "CY", Alpha3: "CYP", IDC: "357"}
         CZ: {Name: "Czech Republic", Alpha2: "CZ", Alpha3: "CZE", IDC: "420"}
         DK: {Name: "Denmark", Alpha2: "DK", Alpha3: "DNK", IDC: "45"}
