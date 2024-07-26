@@ -1162,19 +1162,12 @@ class ContentServiceTest extends AbstractServiceTest
             null
         );
 
-        $parameters = [
-            2,
-            [],
-            null,
-            true,
-        ];
-
         $content = $this->createMock(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('loadContent')->willReturn($content);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
-        $result = $service->loadContent(...$parameters);
+        $result = $service->loadContent(2, []);
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
@@ -1209,7 +1202,7 @@ class ContentServiceTest extends AbstractServiceTest
         }, 10);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
-        $result = $service->loadContent(...$parameters);
+        $result = $service->loadContent(2, []);
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
@@ -1228,13 +1221,6 @@ class ContentServiceTest extends AbstractServiceTest
             null
         );
 
-        $parameters = [
-            2,
-            [],
-            null,
-            true,
-        ];
-
         $content = $this->createMock(Content::class);
         $eventContent = $this->createMock(Content::class);
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
@@ -1246,7 +1232,7 @@ class ContentServiceTest extends AbstractServiceTest
         }, 10);
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
-        $result = $service->loadContent(...$parameters);
+        $result = $service->loadContent(2, []);
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
