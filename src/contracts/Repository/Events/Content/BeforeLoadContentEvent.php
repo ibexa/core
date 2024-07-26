@@ -66,7 +66,12 @@ final class BeforeLoadContentEvent extends BeforeEvent
     public function getContent(): Content
     {
         if (!$this->hasContent()) {
-            throw new UnexpectedValueException(sprintf('Return value is not set or not of type %s. Check hasContent() or set it using setContent() before you call the getter.', Content::class));
+            throw new UnexpectedValueException(
+                sprintf(
+                    'Return value is not set or not of type %s. Check hasContent() or set it using setContent() before you call the getter.',
+                    Content::class
+                )
+            );
         }
 
         return $this->content;
@@ -77,6 +82,7 @@ final class BeforeLoadContentEvent extends BeforeEvent
         $this->content = $content;
     }
 
+    /** @phpstan-assert-if-true !null $this->content */
     public function hasContent(): bool
     {
         return $this->content instanceof Content;
