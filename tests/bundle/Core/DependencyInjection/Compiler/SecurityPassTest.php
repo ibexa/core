@@ -37,15 +37,10 @@ final class SecurityPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new SecurityPass());
     }
 
-    public function testAlteredDaoAuthenticationProvider(): void
+    public function testAlteredHttpUtils(): void
     {
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'security.authentication.provider.guard',
-            'setPermissionResolver',
-            [new Reference(PermissionResolver::class)]
-        );
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
             'security.http_utils',
             'setSiteAccess',
