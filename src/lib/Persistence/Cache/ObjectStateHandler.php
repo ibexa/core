@@ -51,7 +51,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
             (int) $groupId,
             $this->cacheIdentifierGenerator->generateKey(self::STATE_GROUP_IDENTIFIER, [], true) . '-',
             function (int $groupId): Group {
-                $this->logger->logCall(__METHOD__, ['groupId' => (int) $groupId]);
+                $this->logger->logCall(__CLASS__ . '::loadGroup', ['groupId' => (int) $groupId]);
 
                 return $this->persistenceHandler->objectStateHandler()->loadGroup($groupId);
             },
@@ -79,7 +79,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
             $identifier,
             $this->cacheIdentifierGenerator->generateKey(self::STATE_GROUP_IDENTIFIER, [], true) . '-',
             function (string $identifier): Group {
-                $this->logger->logCall(__METHOD__, ['groupId' => $identifier]);
+                $this->logger->logCall(__CLASS__ . '::loadGroupByIdentifier', ['groupId' => $identifier]);
 
                 return $this->persistenceHandler->objectStateHandler()->loadGroupByIdentifier($identifier);
             },
@@ -106,7 +106,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
         $stateGroups = $this->getListCacheValue(
             $this->cacheIdentifierGenerator->generateKey(self::STATE_GROUP_ALL_IDENTIFIER, [], true),
             function () use ($offset, $limit): array {
-                $this->logger->logCall(__METHOD__, ['offset' => (int) $offset, 'limit' => (int) $limit]);
+                $this->logger->logCall(__CLASS__ . '::loadAllGroups', ['offset' => (int) $offset, 'limit' => (int) $limit]);
 
                 return $this->persistenceHandler->objectStateHandler()->loadAllGroups(0, -1);
             },
@@ -135,7 +135,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
             $groupId,
             $this->cacheIdentifierGenerator->generateKey(self::STATE_LIST_BY_GROUP_IDENTIFIER, [], true) . '-',
             function (int $groupId): array {
-                $this->logger->logCall(__METHOD__, ['groupId' => (int) $groupId]);
+                $this->logger->logCall(__CLASS__ . '::loadObjectStates', ['groupId' => (int) $groupId]);
 
                 return $this->persistenceHandler->objectStateHandler()->loadObjectStates($groupId);
             },
@@ -210,7 +210,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
             (int) $stateId,
             $this->cacheIdentifierGenerator->generateKey(self::STATE_IDENTIFIER, [], true) . '-',
             function (int $stateId): ObjectState {
-                $this->logger->logCall(__METHOD__, ['stateId' => $stateId]);
+                $this->logger->logCall(__CLASS__ . '::load', ['stateId' => $stateId]);
 
                 return $this->persistenceHandler->objectStateHandler()->load($stateId);
             },
@@ -239,7 +239,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
             $identifier,
             $this->cacheIdentifierGenerator->generateKey(self::STATE_ID_IDENTIFIER, [], true) . '-',
             function (string $identifier) use ($groupId): ObjectState {
-                $this->logger->logCall(__METHOD__, ['identifier' => $identifier, 'groupId' => (int) $groupId]);
+                $this->logger->logCall(__CLASS__ . '::loadByIdentifier', ['identifier' => $identifier, 'groupId' => (int) $groupId]);
 
                 return $this->persistenceHandler->objectStateHandler()->loadByIdentifier($identifier, (int) $groupId);
             },
@@ -335,7 +335,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
             (int) $stateGroupId,
             $this->cacheIdentifierGenerator->generateKey(self::STATE_BY_GROUP_IDENTIFIER, [], true) . '-',
             function (int $stateGroupId) use ($contentId): ObjectState {
-                $this->logger->logCall(__METHOD__, ['contentId' => (int) $contentId, 'stateGroupId' => $stateGroupId]);
+                $this->logger->logCall(__CLASS__ . '::getContentState', ['contentId' => (int) $contentId, 'stateGroupId' => $stateGroupId]);
 
                 return $this->persistenceHandler->objectStateHandler()->getContentState((int) $contentId, $stateGroupId);
             },
