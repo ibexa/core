@@ -219,7 +219,11 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
         $cacheItem = $this->getCacheItem($key, null);
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $handler = $this->persistenceCacheHandler->$handlerMethodName();
+        $this->loggerMock
+            ->expects(self::once())
+            ->method('logCall')
+            ->with(get_class($handler) . '::' . $method, self::isType('array'));
 
         if ($tagGeneratingArguments) {
             $this->cacheIdentifierGeneratorMock
@@ -281,7 +285,6 @@ abstract class AbstractCacheHandlerTest extends AbstractBaseHandlerTest
             ->method('save')
             ->with($cacheItem);
 
-        $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $return = call_user_func_array([$handler, $method], $arguments);
 
         self::assertEquals($data, $return);
