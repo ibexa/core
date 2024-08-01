@@ -7,11 +7,9 @@
 
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
-use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
-use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -103,40 +101,6 @@ class HandlerLocationSortTest extends AbstractTestCase
             $this->getLanguageHandler(),
             $this->getFullTextMapper($this->getContentTypeHandler())
         );
-    }
-
-    /**
-     * Returns a location mapper mock.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
-     */
-    protected function getLocationMapperMock()
-    {
-        $mapperMock = $this->getMockBuilder(LocationMapper::class)
-            ->setMethods(['createLocationsFromRows'])
-            ->getMock();
-        $mapperMock
-            ->expects(self::any())
-            ->method('createLocationsFromRows')
-            ->with(self::isType('array'))
-            ->will(
-                self::returnCallback(
-                    static function ($rows) {
-                        $locations = [];
-                        foreach ($rows as $row) {
-                            $locationId = (int)$row['node_id'];
-                            if (!isset($locations[$locationId])) {
-                                $locations[$locationId] = new SPILocation();
-                                $locations[$locationId]->id = $locationId;
-                            }
-                        }
-
-                        return array_values($locations);
-                    }
-                )
-            );
-
-        return $mapperMock;
     }
 
     public function testNoSorting()

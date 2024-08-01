@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Limitation\Type;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Persistence\User\Role;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
+use Ibexa\Contracts\Core\Repository\PermissionResolver as APIPermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -18,9 +19,9 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
-use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mock test case for PermissionResolver.
@@ -107,20 +108,20 @@ class PermissionTest extends BaseServiceMockTest
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
-        $mockedService = $this->getPermissionResolverMock(null);
+        $mockedService = $this->getPermissionResolverWithMockedMethods([]);
 
         $userHandlerMock
             ->expects(self::once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with(self::equalTo(10), self::equalTo(true))
-            ->will(self::returnValue($roleAssignments));
+            ->willReturn($roleAssignments);
 
         foreach ($roleAssignments as $at => $roleAssignment) {
             $userHandlerMock
                 ->expects(self::at($at + 1))
                 ->method('loadRole')
                 ->with($roleAssignment->roleId)
-                ->will(self::returnValue($roles[$roleAssignment->roleId]));
+                ->willReturn($roles[$roleAssignment->roleId]);
         }
 
         $result = $mockedService->hasAccess('dummy-module', 'dummy-function');
@@ -178,7 +179,7 @@ class PermissionTest extends BaseServiceMockTest
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
-        $service = $this->getPermissionResolverMock(null);
+        $service = $this->getPermissionResolverWithMockedMethods([]);
 
         $userHandlerMock
             ->expects(self::once())
@@ -206,7 +207,7 @@ class PermissionTest extends BaseServiceMockTest
     {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
-        $service = $this->getPermissionResolverMock(null);
+        $service = $this->getPermissionResolverWithMockedMethods([]);
         $repositoryMock = $this->getRepositoryMock();
         $repositoryMock
             ->expects(self::any())
@@ -291,7 +292,7 @@ class PermissionTest extends BaseServiceMockTest
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
         $roleDomainMapper = $this->getRoleDomainMapperMock(['buildDomainPolicyObject']);
-        $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods(['getCurrentUserReference']);
 
         $permissionResolverMock
             ->expects(self::once())
@@ -407,7 +408,7 @@ class PermissionTest extends BaseServiceMockTest
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
         $roleDomainMapper = $this->getRoleDomainMapperMock();
-        $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods(['getCurrentUserReference']);
 
         $permissionResolverMock
             ->expects(self::once())
@@ -519,7 +520,7 @@ class PermissionTest extends BaseServiceMockTest
     {
         $this->expectException(InvalidArgumentValue::class);
 
-        $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods(['getCurrentUserReference']);
 
         /** @var $role \Ibexa\Contracts\Core\Persistence\User\Role */
         foreach ($roles as $role) {
@@ -587,7 +588,7 @@ class PermissionTest extends BaseServiceMockTest
         $limitationTypeMock = $this->createMock(Type::class);
         $limitationService = $this->getLimitationServiceMock();
         $roleDomainMapper = $this->getRoleDomainMapperMock();
-        $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods(['getCurrentUserReference']);
 
         $permissionResolverMock
             ->expects(self::once())
@@ -690,13 +691,13 @@ class PermissionTest extends BaseServiceMockTest
      */
     public function testCanUserSimple($permissionSets, $result)
     {
-        $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods(['hasAccess']);
 
         $permissionResolverMock
             ->expects(self::once())
             ->method('hasAccess')
             ->with(self::equalTo('test-module'), self::equalTo('test-function'))
-            ->will(self::returnValue($permissionSets));
+            ->willReturn($permissionSets);
 
         /** @var $valueObject \Ibexa\Contracts\Core\Repository\Values\ValueObject */
         $valueObject = $this->getMockForAbstractClass(ValueObject::class);
@@ -714,7 +715,7 @@ class PermissionTest extends BaseServiceMockTest
      */
     public function testCanUserWithoutLimitations()
     {
-        $permissionResolverMock = $this->getPermissionResolverMock(
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods(
             [
                 'hasAccess',
                 'getCurrentUserReference',
@@ -891,7 +892,7 @@ class PermissionTest extends BaseServiceMockTest
         /** @var $valueObject \Ibexa\Contracts\Core\Repository\Values\ValueObject */
         $valueObject = $this->createMock(ValueObject::class);
         $limitationServiceMock = $this->getLimitationServiceMock();
-        $permissionResolverMock = $this->getPermissionResolverMock(
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods(
             [
                 'hasAccess',
                 'getCurrentUserReference',
@@ -903,7 +904,7 @@ class PermissionTest extends BaseServiceMockTest
             ->expects(self::once())
             ->method('hasAccess')
             ->with(self::equalTo('test-module'), self::equalTo('test-function'))
-            ->will(self::returnValue($permissionSets));
+            ->willReturn($permissionSets);
 
         $userRef = new UserReference(14);
         $permissionResolverMock
@@ -974,9 +975,9 @@ class PermissionTest extends BaseServiceMockTest
     /**
      * Test for the setCurrentUserReference() and getCurrentUserReference() methods.
      */
-    public function testSetAndGetCurrentUserReference()
+    public function testSetAndGetCurrentUserReference(): void
     {
-        $permissionResolverMock = $this->getPermissionResolverMock(null);
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods([]);
         $userReferenceMock = $this->getUserReferenceMock();
 
         $userReferenceMock
@@ -997,19 +998,19 @@ class PermissionTest extends BaseServiceMockTest
      */
     public function testGetCurrentUserReferenceReturnsAnonymousUser()
     {
-        $permissionResolverMock = $this->getPermissionResolverMock(null);
+        $permissionResolverMock = $this->getPermissionResolverWithMockedMethods([]);
 
         self::assertEquals(new UserReference(10), $permissionResolverMock->getCurrentUserReference());
     }
 
-    protected $permissionResolverMock;
+    protected MockObject & APIPermissionResolver $permissionResolverMock;
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject
+     * @param string[] $methods
      */
-    protected function getPermissionResolverMock($methods = [])
+    protected function getPermissionResolverWithMockedMethods(array $methods): MockObject & APIPermissionResolver
     {
-        if ($this->permissionResolverMock === null) {
+        if (!isset($this->permissionResolverMock)) {
             $configResolverMock = $this->createMock(ConfigResolverInterface::class);
             $configResolverMock
                 ->method('getParameter')
@@ -1018,7 +1019,7 @@ class PermissionTest extends BaseServiceMockTest
 
             $this->permissionResolverMock = $this
                 ->getMockBuilder(PermissionResolver::class)
-                ->setMethods($methods)
+                ->onlyMethods($methods)
                 ->setConstructorArgs(
                     [
                         $this->getRoleDomainMapperMock(),
@@ -1051,32 +1052,14 @@ class PermissionTest extends BaseServiceMockTest
         return $this->permissionResolverMock;
     }
 
-    protected $userReferenceMock;
+    protected MockObject & UserReference $userReferenceMock;
 
-    protected function getUserReferenceMock()
+    protected function getUserReferenceMock(): MockObject & UserReference
     {
-        if ($this->userReferenceMock === null) {
+        if (!isset($this->userReferenceMock)) {
             $this->userReferenceMock = $this->createMock(UserReference::class);
         }
 
         return $this->userReferenceMock;
-    }
-
-    protected $repositoryMock;
-
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getRepositoryMock(): Repository
-    {
-        if ($this->repositoryMock === null) {
-            $this->repositoryMock = $this
-                ->getMockBuilder(CoreRepository::class)
-                ->onlyMethods(['getPermissionResolver'])
-                ->disableOriginalConstructor()
-                ->getMock();
-        }
-
-        return $this->repositoryMock;
     }
 }

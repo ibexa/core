@@ -8,13 +8,13 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Contracts\Core\Limitation\Type;
-use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitation;
 use Ibexa\Core\Repository\PermissionsCriterionHandler;
 use Ibexa\Core\Repository\Values\User\Policy;
 use Ibexa\Core\Repository\Values\User\User;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mock test case for PermissionCriterionHandler.
@@ -280,12 +280,7 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
         $userMock = $this->createMock(User::class);
         $limitationTypeMock = $this->createMock(Type::class);
         $limitationServiceMock = $this->getLimitationServiceMock();
-        $permissionResolverMock = $this->getPermissionResolverMock(
-            [
-                'hasAccess',
-                'getCurrentUserReference',
-            ]
-        );
+        $permissionResolverMock = $this->getPermissionResolverMock();
 
         $limitationTypeMock
             ->expects(self::any())
@@ -326,7 +321,7 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
         $expectedCriterion
     ) {
         $this->mockServices($criterionMock, $limitationCount, $permissionSets);
-        $handler = $this->getPermissionsCriterionHandlerMock(null);
+        $handler = $this->getPermissionsCriterionHandlerMock();
 
         $permissionsCriterion = $handler->getPermissionsCriterion();
 
@@ -348,13 +343,13 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
      */
     public function testGetPermissionsCriterionBooleanPermissionSets($permissionSets)
     {
-        $permissionResolverMock = $this->getPermissionResolverMock(['hasAccess']);
+        $permissionResolverMock = $this->getPermissionResolverMock();
         $permissionResolverMock
             ->expects(self::once())
             ->method('hasAccess')
             ->with(self::equalTo('testModule'), self::equalTo('testFunction'))
-            ->will(self::returnValue($permissionSets));
-        $handler = $this->getPermissionsCriterionHandlerMock(null);
+            ->willReturn($permissionSets);
+        $handler = $this->getPermissionsCriterionHandlerMock();
 
         $permissionsCriterion = $handler->getPermissionsCriterion('testModule', 'testFunction');
 
@@ -364,15 +359,13 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
     /**
      * Returns the PermissionsCriterionHandler to test with $methods mocked.
      *
-     * @param string[]|null $methods
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\PermissionsCriterionHandler
+     * @param string[] $methods
      */
-    protected function getPermissionsCriterionHandlerMock($methods = [])
+    protected function getPermissionsCriterionHandlerMock(array $methods = []): MockObject & PermissionsCriterionHandler
     {
         return $this
             ->getMockBuilder(PermissionsCriterionHandler::class)
-            ->setMethods($methods)
+            ->onlyMethods($methods)
             ->setConstructorArgs(
                 [
                     $this->getPermissionResolverMock(),
@@ -380,20 +373,5 @@ class PermissionsCriterionHandlerTest extends BaseServiceMockTest
                 ]
             )
             ->getMock();
-    }
-
-    protected $permissionResolverMock;
-
-    protected function getPermissionResolverMock($methods = [])
-    {
-        if ($this->permissionResolverMock === null) {
-            $this->permissionResolverMock = $this
-                ->getMockBuilder(PermissionResolver::class)
-                ->setMethods($methods)
-                ->disableOriginalConstructor()
-                ->getMockForAbstractClass();
-        }
-
-        return $this->permissionResolverMock;
     }
 }
