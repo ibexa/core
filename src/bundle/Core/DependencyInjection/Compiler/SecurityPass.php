@@ -8,10 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
-use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\DefaultAuthenticationSuccessHandler;
-use Ibexa\Core\MVC\Symfony\Security\Authentication\GuardRepositoryAuthenticationProvider;
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -26,21 +24,6 @@ final class SecurityPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (
-            !$container->hasDefinition('security.authentication.provider.guard')
-        ) {
-            return;
-        }
-
-        $permissionResolverRef = new Reference(PermissionResolver::class);
-
-        $guardAuthenticationProviderDef = $container->findDefinition('security.authentication.provider.guard');
-        $guardAuthenticationProviderDef->setClass(GuardRepositoryAuthenticationProvider::class);
-        $guardAuthenticationProviderDef->addMethodCall(
-            'setPermissionResolver',
-            [$permissionResolverRef]
-        );
-
         if (!$container->hasDefinition('security.http_utils')) {
             return;
         }
