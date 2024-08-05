@@ -52,14 +52,6 @@ final class MVCEvents
     public const CONFIG_SCOPE_RESTORE = 'ezpublish.config.scope_restore';
 
     /**
-     * INTERACTIVE_LOGIN event occurs when a user has been authenticated by a foreign user provider.
-     * Listening to this event gives a chance to retrieve a valid API user to be injected in repository.
-     *
-     * The event listener method receives a {@see \Ibexa\Core\MVC\Symfony\Event\InteractiveLoginEvent} instance.
-     */
-    public const INTERACTIVE_LOGIN = 'ezpublish.security.interactive_login';
-
-    /**
      * ROUTE_REFERENCE_GENERATION event occurs when a RouteReference is generated, and gives an opportunity to
      * alter the RouteReference, e.g. by adding parameters.
      *
