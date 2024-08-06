@@ -22,8 +22,8 @@ final class TrashTest extends RepositoryTestCase
      */
     public function testTrashLocationDeletesChildrenDrafts(): void
     {
-        $trashService = $this->getTrashService();
-        $contentService = $this->getContentService();
+        $trashService = self::getTrashService();
+        $contentService = self::getContentService();
 
         $folder = $this->createFolder(['eng-GB' => 'Folder'], 2);
         $folderMainLocationId = $folder->getVersionInfo()->getContentInfo()->getMainLocationId();
@@ -46,13 +46,13 @@ final class TrashTest extends RepositoryTestCase
 
         $trashService->trash($locationToTrash);
 
-        self::expectException(NotFoundException::class);
+        $this->expectException(NotFoundException::class);
         $contentService->loadContentInfo($draft1->getId());
 
-        self::expectException(NotFoundException::class);
+        $this->expectException(NotFoundException::class);
         $contentService->loadContentInfo($draft2->getId());
 
-        self::expectException(NotFoundException::class);
+        $this->expectException(NotFoundException::class);
         $contentService->loadContentInfo($draft3->getId());
     }
 }

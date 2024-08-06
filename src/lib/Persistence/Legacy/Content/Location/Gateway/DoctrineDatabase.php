@@ -260,7 +260,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->execute();
 
-        return $statement instanceof Result ? $statement->fetchFirstColumn() : [];
+        return $statement->fetchFirstColumn();
     }
 
     public function getSubtreeSize(string $path): int
