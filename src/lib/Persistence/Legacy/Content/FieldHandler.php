@@ -424,7 +424,7 @@ class FieldHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $fields
      * @param array $languageCodes
      *
-     * @return array<int, array<string, \Ibexa\Contracts\Core\Persistence\Content\Field[]>
+     * @return array<int, array<string, \Ibexa\Contracts\Core\Persistence\Content\Field>>
      */
     protected function getFieldMap(array $fields, &$languageCodes = null)
     {

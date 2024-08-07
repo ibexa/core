@@ -328,6 +328,8 @@ class Mapper
     /**
      * @phpstan-param TRawContentRow[] $rows
      *
+     * @param string[]|null $translations
+     *
      * @phpstan-return TVersionedLanguageFieldDefinitionsMap
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
