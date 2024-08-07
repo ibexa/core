@@ -16,23 +16,18 @@ class Value extends BaseValue
 {
     /**
      * Text content.
-     *
-     * @var string
      */
-    public $text;
+    public string $text;
 
-    /**
-     * Construct a new Value object and initialize it $text.
-     *
-     * @param string $text
-     */
-    public function __construct($text = '')
+    public function __construct(?string $text = '')
     {
-        $this->text = $text;
+        parent::__construct();
+
+        $this->text = (string)$text;
     }
 
     public function __toString()
     {
-        return (string)$this->text;
+        return $this->text;
     }
 }

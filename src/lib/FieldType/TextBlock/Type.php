@@ -7,21 +7,18 @@
 
 namespace Ibexa\Core\FieldType\TextBlock;
 
-use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
-use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Core\FieldType\BaseTextType;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
 use JMS\TranslationBundle\Model\Message;
-use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 
 /**
  * The TextBlock field type.
  *
  * Represents a larger body of text, such as text areas.
  */
-class Type extends FieldType implements TranslationContainerInterface
+class Type extends BaseTextType
 {
     protected $settingsSchema = [
         'textRows' => [
@@ -32,50 +29,17 @@ class Type extends FieldType implements TranslationContainerInterface
 
     protected $validatorConfigurationSchema = [];
 
-    /**
-     * Returns the field type identifier for this field type.
-     *
-     * @return string
-     */
     public function getFieldTypeIdentifier()
     {
         return 'eztext';
     }
 
-    /**
-     * @param \Ibexa\Core\FieldType\TextBlock\Value|\Ibexa\Contracts\Core\FieldType\Value $value
-     */
-    public function getName(SPIValue $value, FieldDefinition $fieldDefinition, string $languageCode): string
-    {
-        return (string)$value->text;
-    }
-
-    /**
-     * Returns the fallback default value of field type when no such default
-     * value is provided in the field definition in content types.
-     *
-     * @return \Ibexa\Core\FieldType\TextBlock\Value
-     */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
 
     /**
-     * Returns if the given $value is considered empty by the field type.
-     *
-     * @param mixed $value
-     *
-     * @return bool
-     */
-    public function isEmptyValue(SPIValue $value)
-    {
-        return $value->text === null || trim($value->text) === '';
-    }
-
-    /**
-     * Inspects given $inputValue and potentially converts it into a dedicated value object.
-     *
      * @param string|\Ibexa\Core\FieldType\TextBlock\Value $inputValue
      *
      * @return \Ibexa\Core\FieldType\TextBlock\Value The potentially converted and structurally plausible value.
@@ -89,21 +53,10 @@ class Type extends FieldType implements TranslationContainerInterface
         return $inputValue;
     }
 
-    /**
-     * Throws an exception if value structure is not of expected format.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
-     *
-     * @param \Ibexa\Core\FieldType\TextBlock\Value $value
-     */
-    protected function checkValueStructure(BaseValue $value)
+    protected static function checkValueType(mixed $value): void
     {
-        if (!is_string($value->text)) {
-            throw new InvalidArgumentType(
-                '$value->text',
-                'string',
-                $value->text
-            );
+        if (!$value instanceof Value) {
+            throw new InvalidArgumentType('$value', Value::class, $value);
         }
     }
 
@@ -112,24 +65,21 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param \Ibexa\Core\FieldType\TextBlock\Value $value
      *
-     * @return string
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): string
     {
-        return $this->transformationProcessor->transformByGroup(
-            mb_substr(strtok(trim($value->text), "\r\n"), 0, 255),
-            'lowercase'
-        );
+        $tokens = strtok(trim($value->text), "\r\n");
+
+        return $tokens !== false
+            ? $this->transformationProcessor->transformByGroup(mb_substr($tokens, 0, 255), 'lowercase')
+            : '';
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type.
-     *
-     * @param mixed $hash
-     *
-     * @return \Ibexa\Core\FieldType\TextBlock\Value $value
+     * @param string $hash
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         if ($hash === null) {
             return $this->getEmptyValue();
@@ -139,57 +89,27 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts a $Value to a hash.
-     *
-     * @param \Ibexa\Core\FieldType\TextBlock\Value $value
-     *
-     * @return mixed
-     */
-    public function toHash(SPIValue $value)
-    {
-        if ($this->isEmptyValue($value)) {
-            return null;
-        }
-
-        return $value->text;
-    }
-
-    /**
-     * Returns whether the field type is searchable.
-     *
-     * @return bool
-     */
-    public function isSearchable()
-    {
-        return true;
-    }
-
-    /**
      * Validates the fieldSettings of a FieldDefinitionCreateStruct or FieldDefinitionUpdateStruct.
      *
      * @param mixed $fieldSettings
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 
         foreach ($fieldSettings as $name => $value) {
             if (isset($this->settingsSchema[$name])) {
-                switch ($name) {
-                    case 'textRows':
-                        if (!is_int($value)) {
-                            $validationErrors[] = new ValidationError(
-                                "Setting '%setting%' value must be of integer type",
-                                null,
-                                [
-                                    '%setting%' => $name,
-                                ],
-                                "[$name]"
-                            );
-                        }
-                        break;
+                if ($name === 'textRows' && !is_int($value)) {
+                    $validationErrors[] = new ValidationError(
+                        "Setting '%setting%' value must be of integer type",
+                        null,
+                        [
+                            '%setting%' => $name,
+                        ],
+                        "[$name]"
+                    );
                 }
             } else {
                 $validationErrors[] = new ValidationError(
