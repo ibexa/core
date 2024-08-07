@@ -59,22 +59,13 @@ final class TrashTest extends RepositoryTestCase
 
         $trashService->trash($locationToTrash);
 
-        $draftIds = [
+        $contentInfos = $contentService->loadContentInfoList([
             $draft1->getId(),
             $draft2->getId(),
             $draft3->getId(),
             $draftSecondDepth->getId(),
-        ];
+        ]);
 
-        foreach ($draftIds as $draftId) {
-            try {
-                $contentService->loadContentInfo($draftId);
-                $this->fail(
-                    sprintf('Expected NotFoundException not thrown for draft ID = %d', $draftId),
-                );
-            } catch (NotFoundException $e) {
-                self::assertInstanceOf(NotFoundException::class, $e);
-            }
-        }
+        self::assertEmpty($contentInfos);
     }
 }
