@@ -126,9 +126,6 @@ class Type extends BaseTextType
         return $validationErrors;
     }
 
-    /**
-     * @return list<\JMS\TranslationBundle\Model\Message>
-     */
     public static function getTranslationMessages(): array
     {
         return [
