@@ -1,0 +1,21 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
+
+		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/IORepositoryResolver.php
+
+		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/PlaceholderProvider/GenericProvider.php
+
+		-
+			message: "#^Offset 'uri' does not exist on array\\{timed_out\\: bool, blocked\\: bool, eof\\: bool, unread_bytes\\: int, stream_type\\: string, wrapper_type\\: string, wrapper_data\\: mixed, mode\\: string, \\.\\.\\.\\}\\.$#"
+			count: 1
+			path: src/bundle/Core/Imagine/PlaceholderProvider/RemoteProvider.php

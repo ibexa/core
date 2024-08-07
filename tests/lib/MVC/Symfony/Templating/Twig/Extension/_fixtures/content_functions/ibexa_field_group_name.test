@@ -1,0 +1,8 @@
+--TEST--
+"ibexa_field_group_name" function
+--TEMPLATE--
+{{ ibexa_field_group_name('content') }}
+--DATA--
+return [];
+--EXPECT--
+Content

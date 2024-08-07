@@ -1,0 +1,74 @@
+--TEST--
+"ez_url" function
+--DEPRECATION--
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 2.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 3.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 4.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 5.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 6.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 7.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 8.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 9.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 10.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 11.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 12.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 13.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 14.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 15.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 16.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 17.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 18.
+Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 19.
+--TEMPLATE--
+{{ ez_url(location) }}
+{{ ez_url(location, {}, true) }}
+{{ ez_url(location, {'foo': 'foo'}) }}
+{{ ez_url(content) }}
+{{ ez_url(content, {}, true) }}
+{{ ez_url(content, {'foo': 'foo'}) }}
+{{ ez_url(content_info) }}
+{{ ez_url(content_info, {}, true) }}
+{{ ez_url(content_info, {'foo': 'foo'}) }}
+{{ ez_url(content_aware) }}
+{{ ez_url(content_aware, {}, true) }}
+{{ ez_url(content_aware, {'foo': 'foo'}) }}
+{{ ez_url(route_ref) }}
+{{ ez_url(route_ref, {}, true) }}
+{{ ez_url(route_ref, {'baz': 'baz'}) }}
+{{ ez_url(unsupported_object) }}
+{{ ez_url(unsupported_object, {}, true) }}
+{{ ez_url(unsupported_object, {'baz': 'baz'}) }}
+--DATA--
+return [
+    'location' => $this->getExampleLocation(54),
+    'content' => $this->getExampleContent(2),
+    'content_info' => $this->getExampleContentInfo(2),
+    'content_aware' => $this->getExampleContentAware(64),
+    'route_ref' => $this->getExampleRouteReference(
+        'example_route',
+        [
+            'foo' => 'foo',
+            'bar' => 'bar'
+        ]
+    ),
+    'unsupported_object' => $this->getExampleUnsupportedObject(),
+];
+--EXPECT--
+{"$name":"ibexa.url.alias","$parameters":{"locationId":54},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"locationId":54},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","locationId":54},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":64},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":64},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":64},"$referenceType":0}
+{"$name":"example_route","$parameters":{"foo":"foo","bar":"bar"},"$referenceType":0}
+{"$name":"example_route","$parameters":{"foo":"foo","bar":"bar"},"$referenceType":3}
+{"$name":"example_route","$parameters":{"baz":"baz","foo":"foo","bar":"bar"},"$referenceType":0}
+{"$name":"","$parameters":{"_route_object":{"foo":"foo","bar":"bar"}},"$referenceType":0}
+{"$name":"","$parameters":{"_route_object":{"foo":"foo","bar":"bar"}},"$referenceType":3}
+{"$name":"","$parameters":{"baz":"baz","_route_object":{"foo":"foo","bar":"bar"}},"$referenceType":0}

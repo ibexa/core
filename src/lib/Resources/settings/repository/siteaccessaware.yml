@@ -1,0 +1,116 @@
+parameters:
+    languages: []
+    ibexa.io.dir.storage: var/site/storage
+    ibexa.legacy.url_prefix: var/site/storage
+    ibexa.url_prefix: var/site/storage
+    ibexa.io.dir.root: '%ibexa.io.dir.storage%'
+
+services:
+    Ibexa\Core\Repository\SiteAccessAware\Repository:
+        arguments:
+            - '@Ibexa\Core\Event\Repository'
+            - '@Ibexa\Core\Repository\SiteAccessAware\ContentService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\ContentTypeService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\ObjectStateService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\URLAliasService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\UserService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\SearchService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\SectionService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\TrashService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\LocationService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\LanguageService'
+            - '@Ibexa\Core\Repository\SiteAccessAware\NotificationService'
+
+    Ibexa\Core\Repository\SiteAccessAware\ContentService:
+        arguments:
+            - '@Ibexa\Core\Event\ContentService'
+            - '@ibexa.helper.language_resolver'
+
+    Ibexa\Core\Repository\SiteAccessAware\ContentTypeService:
+        arguments:
+            - '@Ibexa\Core\Event\ContentTypeService'
+            - '@ibexa.helper.language_resolver'
+
+    Ibexa\Core\Repository\SiteAccessAware\ObjectStateService:
+        arguments:
+            - '@Ibexa\Core\Event\ObjectStateService'
+            - '@ibexa.helper.language_resolver'
+
+    Ibexa\Core\Repository\SiteAccessAware\URLAliasService:
+        arguments:
+            - '@Ibexa\Core\Event\URLAliasService'
+            - '@ibexa.helper.language_resolver'
+
+    Ibexa\Core\Repository\SiteAccessAware\UserService:
+        arguments:
+            - '@Ibexa\Core\Event\UserService'
+            - '@ibexa.helper.language_resolver'
+
+    Ibexa\Core\Repository\SiteAccessAware\SearchService:
+        arguments:
+            - '@Ibexa\Core\Event\SearchService'
+            - '@ibexa.helper.language_resolver'
+
+    Ibexa\Core\Repository\SiteAccessAware\SectionService:
+        arguments:
+            - '@Ibexa\Core\Event\SectionService'
+
+    Ibexa\Core\Repository\SiteAccessAware\TrashService:
+        arguments:
+            - '@Ibexa\Core\Event\TrashService'
+
+    Ibexa\Core\Repository\SiteAccessAware\LocationService:
+        arguments:
+            - '@Ibexa\Core\Event\LocationService'
+            - '@ibexa.helper.language_resolver'
+
+    Ibexa\Core\Repository\SiteAccessAware\LanguageService:
+        arguments:
+            - '@Ibexa\Core\Event\LanguageService'
+
+    Ibexa\Core\Repository\SiteAccessAware\NotificationService:
+        arguments:
+            - '@Ibexa\Core\Event\NotificationService'
+
+    Ibexa\Core\Repository\SiteAccessAware\SettingService:
+        arguments:
+            - '@Ibexa\Core\Event\SettingService'
+
+    ibexa.siteaccessaware.repository: '@Ibexa\Core\Repository\SiteAccessAware\Repository'
+    ibexa.siteaccessaware.service.content: '@Ibexa\Core\Repository\SiteAccessAware\ContentService'
+    ibexa.siteaccessaware.service.content_type: '@Ibexa\Core\Repository\SiteAccessAware\ContentTypeService'
+    ibexa.siteaccessaware.service.object_state: '@Ibexa\Core\Repository\SiteAccessAware\ObjectStateService'
+    ibexa.siteaccessaware.service.url_alias: '@Ibexa\Core\Repository\SiteAccessAware\URLAliasService'
+    ibexa.siteaccessaware.service.user: '@Ibexa\Core\Repository\SiteAccessAware\UserService'
+    ibexa.siteaccessaware.service.search: '@Ibexa\Core\Repository\SiteAccessAware\SearchService'
+    ibexa.siteaccessaware.service.section: '@Ibexa\Core\Repository\SiteAccessAware\SectionService'
+    ibexa.siteaccessaware.service.trash: '@Ibexa\Core\Repository\SiteAccessAware\TrashService'
+    ibexa.siteaccessaware.service.location: '@Ibexa\Core\Repository\SiteAccessAware\LocationService'
+    ibexa.siteaccessaware.service.language: '@Ibexa\Core\Repository\SiteAccessAware\LanguageService'
+    ibexa.siteaccessaware.service.notification: '@Ibexa\Core\Repository\SiteAccessAware\NotificationService'
+    ibexa.siteaccessaware.service.setting: '@Ibexa\Core\Repository\SiteAccessAware\SettingService'
+
+    # Helpers
+    Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver:
+        arguments:
+            $defaultUseAlwaysAvailable: true
+            $defaultShowAllTranslations: false
+
+    Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver:
+        parent: Ibexa\Core\Repository\SiteAccessAware\Language\AbstractLanguageResolver
+        arguments: ['%languages%']
+
+    Ibexa\Contracts\Core\Repository\LanguageResolver:
+        alias: Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver
+
+    ibexa.helper.language_resolver:
+        alias: Ibexa\Contracts\Core\Repository\LanguageResolver
+
+    Ibexa\Core\IO\IOConfigProvider:
+        alias: Ibexa\Core\Repository\SiteAccessAware\Config\IOConfigResolver
+
+    Ibexa\Core\Repository\SiteAccessAware\Config\IOConfigResolver:
+        arguments:
+            - '%ibexa.io.dir.root%'
+            - '%ibexa.legacy.url_prefix%'
+            - '%ibexa.url_prefix%'

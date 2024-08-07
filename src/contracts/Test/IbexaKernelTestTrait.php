@@ -9,20 +9,21 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test;
 
 use Doctrine\DBAL\Connection;
-use eZ\Publish\API\Repository\ContentService;
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\LanguageService;
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\ObjectStateService;
-use eZ\Publish\API\Repository\PermissionResolver;
-use eZ\Publish\API\Repository\RoleService;
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\SectionService;
-use eZ\Publish\API\Repository\Tests\LegacySchemaImporter;
-use eZ\Publish\API\Repository\UserService;
-use eZ\Publish\Core\Repository\Values\User\UserReference;
-use eZ\Publish\SPI\Persistence\TransactionHandler;
-use eZ\Publish\SPI\Tests\Persistence\FixtureImporter;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\LanguageService;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\ObjectStateService;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\RoleService;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\SectionService;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
+use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
+use Ibexa\Core\Repository\Values\User\UserReference;
+use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use RuntimeException;
 
 /**
@@ -61,7 +62,7 @@ trait IbexaKernelTestTrait
     }
 
     /**
-     * @return iterable<\eZ\Publish\SPI\Tests\Persistence\Fixture>
+     * @return iterable<\Ibexa\Contracts\Core\Test\Persistence\Fixture>
      */
     protected static function getFixtures(): iterable
     {
@@ -90,11 +91,11 @@ trait IbexaKernelTestTrait
     protected static function getTestServiceId(?string $id, string $className): string
     {
         $kernel = self::$kernel;
-        if (!$kernel instanceof IbexaTestKernel) {
+        if (!$kernel instanceof IbexaTestKernelInterface) {
             throw new RuntimeException(sprintf(
                 'Expected %s to be an instance of %s.',
                 get_class($kernel),
-                IbexaTestKernel::class,
+                IbexaTestKernelInterface::class,
             ));
         }
 
@@ -161,6 +162,11 @@ trait IbexaKernelTestTrait
     protected static function getSectionService(): SectionService
     {
         return self::getServiceByClassName(SectionService::class);
+    }
+
+    protected static function getUrlAliasService(): URLAliasService
+    {
+        return self::getServiceByClassName(URLAliasService::class);
     }
 
     protected static function setAnonymousUser(): void

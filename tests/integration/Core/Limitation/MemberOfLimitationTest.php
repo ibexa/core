@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Limitation;
 
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\MemberOfLimitation;
 use Ibexa\Core\Limitation\MemberOfLimitationType;
+use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
 
-class MemberOfLimitationTest extends BaseLimitationIntegrationTest
+final class MemberOfLimitationTest extends BaseLimitationIntegrationTest
 {
     private const ADMIN_GROUP_ID = 14;
     private const USERS_GROUP_ID = 4;

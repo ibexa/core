@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="bdaae3444afba4eebebe2e0f684a0e56e81afafd" resname="'%actualValue%' is incorrect value">
+        <source>'%actualValue%' is incorrect value</source>
+        <target>'%actualValue%' is incorrect value</target>
+        <note>key: '%actualValue%' is incorrect value</note>
+      </trans-unit>
+      <trans-unit id="4769b7caf9489fa7d54ca298414c0f10a5f43a56" resname="'%actualValue%' is incorrect value in class '%className%'">
+        <source>'%actualValue%' is incorrect value in class '%className%'</source>
+        <target>'%actualValue%' is incorrect value in class '%className%'</target>
+        <note>key: '%actualValue%' is incorrect value in class '%className%'</note>
+      </trans-unit>
+      <trans-unit id="80e5a0a47ac1df407b0218c2283872a86aba0fc1" resname="Argument '%argumentName%' has a bad state: %whatIsWrong%">
+        <source>Argument '%argumentName%' has a bad state: %whatIsWrong%</source>
+        <target>Argument '%argumentName%' has a bad state: %whatIsWrong%</target>
+        <note>key: Argument '%argumentName%' has a bad state: %whatIsWrong%</note>
+      </trans-unit>
+      <trans-unit id="ec22a1547bcd0b3131346b94db7783d8ba4fc12f" resname="Argument '%argumentName%' is invalid: %whatIsWrong%">
+        <source>Argument '%argumentName%' is invalid: %whatIsWrong%</source>
+        <target>Argument '%argumentName%' is invalid: %whatIsWrong%</target>
+        <note>key: Argument '%argumentName%' is invalid: %whatIsWrong%</note>
+      </trans-unit>
+      <trans-unit id="ddc2eb42746874988689fbc618bce5487f245b5c" resname="Argument '%argumentName%' is invalid: value must be of type '%expectedType%'">
+        <source>Argument '%argumentName%' is invalid: value must be of type '%expectedType%'</source>
+        <target>Argument '%argumentName%' is invalid: value must be of type '%expectedType%'</target>
+        <note>key: Argument '%argumentName%' is invalid: value must be of type '%expectedType%'</note>
+      </trans-unit>
+      <trans-unit id="ea737c09fcf59eb54ff1a1caca4242bdb2afda03" resname="Argument '%argumentName%' is invalid: value must be of type '%expectedType%', not '%actualType%'">
+        <source>Argument '%argumentName%' is invalid: value must be of type '%expectedType%', not '%actualType%'</source>
+        <target>Argument '%argumentName%' is invalid: value must be of type '%expectedType%', not '%actualType%'</target>
+        <note>key: Argument '%argumentName%' is invalid: value must be of type '%expectedType%', not '%actualType%'</note>
+      </trans-unit>
+      <trans-unit id="6a5a5e4df0f09cc7587d11571aa90c31e68c15c6" resname="Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, binary file ids can not begin with a '/'">
+        <source>Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, binary file ids can not begin with a '/'</source>
+        <target>Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, binary file ids can not begin with a '/'</target>
+        <note>key: Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, binary file ids can not begin with a '/'</note>
+      </trans-unit>
+      <trans-unit id="0afe736d44da00b87ed3fe777775661ddf10a455" resname="Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, it does not contain prefix '%prefix%'. Is 'var_dir' config correct?">
+        <source>Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, it does not contain prefix '%prefix%'. Is 'var_dir' config correct?</source>
+        <target>Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, it does not contain prefix '%prefix%'. Is 'var_dir' config correct?</target>
+        <note>key: Argument 'BinaryFile::id' is invalid: '%id%' is wrong value, it does not contain prefix '%prefix%'. Is 'var_dir' config correct?</note>
+      </trans-unit>
+      <trans-unit id="e88ed78511f95299a41927e3ca7336fed174046b" resname="Content &quot;%contentName%&quot; fields did not validate: %errors%">
+        <source>Content "%contentName%" fields did not validate: %errors%</source>
+        <target>Content "%contentName%" fields did not validate: %errors%</target>
+        <note>key: Content "%contentName%" fields did not validate: %errors%</note>
+      </trans-unit>
+      <trans-unit id="8967aa151e1b84f60c505163d42350eb6a96e948" resname="Content fields did not validate">
+        <source>Content fields did not validate</source>
+        <target>Content fields did not validate</target>
+        <note>key: Content fields did not validate</note>
+      </trans-unit>
+      <trans-unit id="8f64e46d8c92143a1a8fde9790a6a2423759a0ce" resname="Content type field definitions did not validate">
+        <source>Content type field definitions did not validate</source>
+        <target>Content type field definitions did not validate</target>
+        <note>key: Content type field definitions did not validate</note>
+      </trans-unit>
+      <trans-unit id="dbf0b883e33a6e7c433ffa9a536fd214cda39b5c" resname="Could not find %classType% class '%className%'">
+        <source>Could not find %classType% class '%className%'</source>
+        <target>Could not find %classType% class '%className%'</target>
+        <note>key: Could not find %classType% class '%className%'</note>
+      </trans-unit>
+      <trans-unit id="ff3e1dacaa764a0e94a86b173f9c93509fcaadeb" resname="Could not find '%what%' with identifier '%identifier%'">
+        <source>Could not find '%what%' with identifier '%identifier%'</source>
+        <target>Could not find '%what%' with identifier '%identifier%'</target>
+        <note>key: Could not find '%what%' with identifier '%identifier%'</note>
+      </trans-unit>
+      <trans-unit id="2b84fad03f5a98d0fa25c78b1d3717ba108835e6" resname="Could not find class '%className%'">
+        <source>Could not find class '%className%'</source>
+        <target>Could not find class '%className%'</target>
+        <note>key: Could not find class '%className%'</note>
+      </trans-unit>
+      <trans-unit id="c6136a74d1562ea6d15321ee75b9b307fc787e79" resname="Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%">
+        <source>Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%</source>
+        <target>Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%</target>
+        <note>key: Field Type '%fieldType%' not found. It must be implemented or configured to use %nullType%</note>
+      </trans-unit>
+      <trans-unit id="5dc8e460be7495d772cdb7bc4d4bd2913e480273" resname="Field definition '%identifier%' does not exist in given content type">
+        <source>Field definition '%identifier%' does not exist in given content type</source>
+        <target>Field definition '%identifier%' does not exist in given content type</target>
+        <note>key: Field definition '%identifier%' does not exist in given content type</note>
+      </trans-unit>
+      <trans-unit id="1469ef88c3de1616907207891c1611a07459534a" resname="Field definition '%identifier%' does not exist in the given content type">
+        <source>Field definition '%identifier%' does not exist in the given content type</source>
+        <target>Field definition '%identifier%' does not exist in the given content type</target>
+        <note>key: Field definition '%identifier%' does not exist in the given content type</note>
+      </trans-unit>
+      <trans-unit id="c6f0fd742d6b8ce0686dc4e7a3a070efbf924204" resname="Invalid URL wildcards provided.">
+        <source>Invalid URL wildcards provided.</source>
+        <target>Invalid URL wildcards provided.</target>
+        <note>key: Invalid URL wildcards provided.</note>
+      </trans-unit>
+      <trans-unit id="87d1caa3303a7197201d77b1bcb03ae38356097b" resname="Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%">
+        <source>Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%</source>
+        <target>Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%</target>
+        <note>key: Limitation '%limitation%' not found. It must be implemented or configured to use %blockingLimitation%</note>
+      </trans-unit>
+      <trans-unit id="71fd5f8839faaadfe7c61def7e4b42d429959952" resname="Limitations did not validate">
+        <source>Limitations did not validate</source>
+        <target>Limitations did not validate</target>
+        <note>key: Limitations did not validate</note>
+      </trans-unit>
+      <trans-unit id="ef12e750e94380df0d1de86b1cc274b45dc94e94" resname="Path '%path%' already exists for the given context">
+        <source>Path '%path%' already exists for the given context</source>
+        <target>Path '%path%' already exists for the given context</target>
+        <note>key: Path '%path%' already exists for the given context</note>
+      </trans-unit>
+      <trans-unit id="300b5656b51de352e89aa5d7dd4ec6abb173bf6f" resname="Placeholders do not match the wildcards.">
+        <source>Placeholders do not match the wildcards.</source>
+        <target>Placeholders do not match the wildcards.</target>
+        <note>key: Placeholders do not match the wildcards.</note>
+      </trans-unit>
+      <trans-unit id="1677f5311a0f3fc35be40d540553e892d187618e" resname="The User does not have the '%function%' '%module%' permission">
+        <source>The User does not have the '%function%' '%module%' permission</source>
+        <target>The User does not have the '%function%' '%module%' permission</target>
+        <note>key: The User does not have the '%function%' '%module%' permission</note>
+      </trans-unit>
+      <trans-unit id="250a16261172f0d2985c8bec3a2b06280f7c863b" resname="The User does not have the '%function%' '%module%' permission with: %with%">
+        <source>The User does not have the '%function%' '%module%' permission with: %with%</source>
+        <target>The User does not have the '%function%' '%module%' permission with: %with%</target>
+        <note>key: The User does not have the '%function%' '%module%' permission with: %with%</note>
+      </trans-unit>
+      <trans-unit id="3b2e044f9c9821aef27834972d90f59f28b1a0b4" resname="Token '%tokenType%:%token%' expired on '%when%'">
+        <source>Token '%tokenType%:%token%' expired on '%when%'</source>
+        <target>Token '%tokenType%:%token%' expired on '%when%'</target>
+        <note>key: Token '%tokenType%:%token%' expired on '%when%'</note>
+      </trans-unit>
+      <trans-unit id="27a77deaffe8551b169928675adc64ae8450937f" resname="User &quot;%login%&quot; already exists">
+        <source>User "%login%" already exists</source>
+        <target>User "%login%" already exists</target>
+        <note>key: User "%login%" already exists</note>
+      </trans-unit>
+      <trans-unit id="e37bafa4a8807f7a425f8d967cadc8e704c629b3" resname="You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'">
+        <source>You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'</source>
+        <target>You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'</target>
+        <note>key: You cannot set a value for the non-translatable Field definition '%identifier%' in language '%languageCode%'</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

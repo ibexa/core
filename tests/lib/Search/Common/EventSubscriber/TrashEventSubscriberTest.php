@@ -8,25 +8,25 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Search\Common\EventSubscriber;
 
-use eZ\Publish\API\Repository\Events\Trash\DeleteTrashItemEvent;
-use eZ\Publish\API\Repository\Values\Content\Trash\TrashItemDeleteResult;
-use eZ\Publish\Core\Repository\Values\Content\TrashItem;
-use eZ\Publish\Core\Search\Common\EventSubscriber\TrashEventSubscriber;
-use eZ\Publish\SPI\Persistence\Content as PersistenceContent;
-use eZ\Publish\SPI\Persistence\Content\Handler;
-use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
-use eZ\Publish\SPI\Search\Handler as SearchHandler;
+use Ibexa\Contracts\Core\Persistence\Content as PersistenceContent;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\Events\Trash\DeleteTrashItemEvent;
+use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
+use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
+use Ibexa\Core\Repository\Values\Content\TrashItem;
+use Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber;
 use PHPUnit\Framework\TestCase;
 
 final class TrashEventSubscriberTest extends TestCase
 {
-    /** @var \eZ\Publish\SPI\Search\Handler&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Search\Handler&\PHPUnit\Framework\MockObject\MockObject */
     private $searchHandler;
 
-    /** @var \eZ\Publish\SPI\Persistence\Handler&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Persistence\Handler&\PHPUnit\Framework\MockObject\MockObject */
     private $persistenceHandler;
 
-    /** @var \eZ\Publish\Core\Search\Common\EventSubscriber\TrashEventSubscriber */
+    /** @var \Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber */
     private $subscriber;
 
     protected function setUp(): void

@@ -1,0 +1,10 @@
+--TEST--
+"ibexa_has_user_preference" function
+--TEMPLATE--
+{{ ibexa_has_user_preference('foo') is same as(true) }}
+{{ ibexa_has_user_preference('baz') is same as(false) }}
+--DATA--
+return [];
+--EXPECT--
+1
+1

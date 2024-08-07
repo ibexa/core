@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core;
 
-use eZ\Publish\API\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use InvalidArgumentException;
 
@@ -17,6 +19,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     public const CONTENT_TREE_ROOT_ID = 2;
 
     private const CONTENT_TYPE_FOLDER_IDENTIFIER = 'folder';
+    private const MAIN_USER_GROUP_REMOTE_ID = 'f5c88a2209584891056f987fd965b0ba';
 
     protected function setUp(): void
     {
@@ -31,7 +34,7 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     /**
      * @param array<string, string> $names
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function createFolder(array $names, int $parentLocationId = self::CONTENT_TREE_ROOT_ID): Content
     {
@@ -42,9 +45,40 @@ abstract class RepositoryTestCase extends IbexaKernelTestCase
     }
 
     /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    final protected function createUser(string $login, string $firstName, string $lastName, UserGroup $userGroup = null): User
+    {
+        $userService = self::getUserService();
+
+        if (null === $userGroup) {
+            $userGroup = $userService->loadUserGroupByRemoteId(self::MAIN_USER_GROUP_REMOTE_ID);
+        }
+
+        $userCreateStruct = $userService->newUserCreateStruct(
+            $login,
+            "$login@mail.invalid",
+            'secret',
+            'eng-US'
+        );
+        $userCreateStruct->enabled = true;
+
+        // Set some fields required by the user ContentType
+        $userCreateStruct->setField('first_name', $firstName);
+        $userCreateStruct->setField('last_name', $lastName);
+
+        // Create a new user instance.
+        return $userService->createUser($userCreateStruct, [$userGroup]);
+    }
+
+    /**
      * @param array<string, string> $names
      *
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function createFolderDraft(array $names, int $parentLocationId = self::CONTENT_TREE_ROOT_ID): Content
     {

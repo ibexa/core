@@ -8,34 +8,32 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdentifierQueryBuilder;
-use eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder;
-use eZ\Publish\Core\Persistence\Legacy\Tests\Filter\BaseCriterionVisitorQueryBuilderTestCase;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdentifierQueryBuilder;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder;
+use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
 /**
- * @covers \eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdentifierQueryBuilder::buildQueryConstraint
- * @covers \eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdentifierQueryBuilder::accepts
- * @covers \eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder::buildQueryConstraint
- * @covers \eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder::accepts
+ * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdentifierQueryBuilder
+ * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\IdQueryBuilder
  */
 final class ContentTypeQueryBuildersTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
     public function getFilteringCriteriaQueryData(): iterable
     {
-        yield 'Content Type Identifier=article' => [
+        yield 'Content type identifier=article' => [
             new Criterion\ContentTypeIdentifier('article'),
             'content_type.identifier IN (:dcValue1)',
             ['dcValue1' => ['article']],
         ];
 
-        yield 'Content Type ID=1' => [
+        yield 'Content type ID=1' => [
             new Criterion\ContentTypeId(3),
             'content_type.id IN (:dcValue1)',
             ['dcValue1' => [3]],
         ];
 
-        yield 'Content Type Identifier=folder OR Content Type ID IN (1, 2)' => [
+        yield 'Content type identifier=folder OR content type ID IN (1, 2)' => [
             new Criterion\LogicalOr(
                 [
                     new Criterion\ContentTypeIdentifier('folder'),

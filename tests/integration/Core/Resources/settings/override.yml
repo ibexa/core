@@ -1,0 +1,14 @@
+# Config loaded as the last one just before creating the test container.
+# Effectively overrides all other settings
+
+parameters:
+    # for tests of features using prioritized languages list
+    languages:
+        - eng-US
+        - eng-GB
+        - ger-DE
+
+    ibexa.spi.persistence.cache.inmemory.ttl: 0
+    ibexa.io.dir.storage: var/ibexa_demo_site/storage
+    ibexa.url_prefix: var/ibexa_demo_site/storage
+    ibexa.legacy.url_prefix: var/ibexa_demo_site/storage

@@ -1,0 +1,158 @@
+parameters:
+    # Needs to point to filesystem actual root / for decorators to work
+    ibexa.core.io.flysystem.filesystem_root: '/'
+    ibexa.core.io.flysystem.write_flags: !php/const LOCK_EX
+    ibexa.core.io.flysystem.link_handling: !php/const \League\Flysystem\Local\LocalFilesystemAdapter::DISALLOW_LINKS
+
+services:
+    ibexa.core.io.service:
+        class: Ibexa\Core\IO\TolerantIOService
+        lazy: true
+        arguments:
+            - '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler'
+            - '@Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler'
+            - '@ibexa.core.io.mimeTypeDetector'
+        calls:
+            - [ setLogger, ["@?logger" ] ]
+
+    Ibexa\Core\IO\MimeTypeDetector\FileInfo:
+        class: Ibexa\Core\IO\MimeTypeDetector\FileInfo
+
+    ibexa.core.io.mimeTypeDetector:
+        alias: Ibexa\Core\IO\MimeTypeDetector\FileInfo
+
+    # metadata handlers
+    Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler:
+        alias: ibexa.core.io.metadata_handler.flysystem
+
+    ibexa.core.io.metadata_handler.flysystem:
+        class: Ibexa\Core\IO\IOMetadataHandler\Flysystem
+        arguments:
+            - '@ibexa.core.io.flysystem.default_filesystem'
+        tags:
+            - { name: monolog.logger, channel: ibexa.core.io }
+
+    # binarydata handlers
+    Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler:
+        alias: ibexa.core.io.binarydata_handler.flysystem
+
+    ibexa.core.io.binarydata_handler.flysystem:
+        class: Ibexa\Core\IO\IOBinarydataHandler\Flysystem
+        arguments:
+            - '@ibexa.core.io.flysystem.default_filesystem'
+            - '@ibexa.core.io.default_url_decorator'
+
+    ibexa.core.io.flysystem.base_filesystem:
+        class: League\Flysystem\Filesystem
+        abstract: true
+
+    ibexa.core.io.flysystem.adapter.site_access_aware:
+        class: League\Flysystem\Local\LocalFilesystemAdapter
+        arguments:
+            $location: '%ibexa.core.io.flysystem.filesystem_root%'
+            $visibility: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter'
+            $writeFlags: '%ibexa.core.io.flysystem.write_flags%'
+            $linkHandling: '%ibexa.core.io.flysystem.link_handling%'
+
+    ibexa.core.io.flysystem.adapter.dfs:
+        class: League\Flysystem\Local\LocalFilesystemAdapter
+        arguments:
+            $location: '%ibexa.core.io.flysystem.filesystem_root%'
+            $visibility: '@Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter'
+            $writeFlags: "@=parameter('ibexa.io.nfs.adapter.config')['writeFlags'] ? parameter('ibexa.io.nfs.adapter.config')['writeFlags'] : parameter('ibexa.core.io.flysystem.write_flags')"
+            $linkHandling: "@=parameter('ibexa.io.nfs.adapter.config')['linkHandling'] ? parameter('ibexa.io.nfs.adapter.config')['linkHandling'] : parameter('ibexa.core.io.flysystem.link_handling')"
+
+    ibexa.core.io.flysystem.adapter.dynamic_path.site_access_aware.decorator:
+        class: Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator
+        decorates: ibexa.core.io.flysystem.adapter.site_access_aware
+        arguments:
+            $innerAdapter: '@.inner'
+            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer'
+
+    ibexa.core.io.flysystem.adapter.dynamic_path.dfs.decorator:
+        class: Ibexa\Core\IO\Flysystem\Adapter\DynamicPathFilesystemAdapterDecorator
+        decorates: ibexa.core.io.flysystem.adapter.dfs
+        arguments:
+            $innerAdapter: '@.inner'
+            $prefixer: '@Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer'
+
+    ibexa.core.io.flysystem.default_filesystem:
+        parent: ibexa.core.io.flysystem.base_filesystem
+        arguments:
+            $adapter: '@ibexa.core.io.flysystem.adapter.dynamic_path.site_access_aware.decorator'
+
+    ibexa.io.nfs.adapter.site_access_aware:
+        alias: ibexa.core.io.flysystem.adapter.dynamic_path.dfs.decorator
+
+    ibexa.core.io.flysystem.visibility.portable_visibility.converter:
+        class: League\Flysystem\UnixVisibility\PortableVisibilityConverter
+
+    Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter:
+        abstract: true
+        arguments:
+            $nativeVisibilityConverter: '@ibexa.core.io.flysystem.visibility.portable_visibility.converter'
+
+    Ibexa\Core\IO\Flysystem\VisibilityConverter\SiteAccessAwareVisibilityConverter:
+        parent: Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
+        arguments:
+            $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
+
+    Ibexa\Core\IO\Flysystem\VisibilityConverter\DFSVisibilityConverter:
+        parent: Ibexa\Core\IO\Flysystem\VisibilityConverter\BaseVisibilityConverter
+        arguments:
+            $permissions: "@=parameter('ibexa.io.nfs.adapter.config')['permissions']"
+
+    Ibexa\Core\IO\Flysystem\PathPrefixer\BaseSiteAccessAwarePathPrefixer:
+        abstract: true
+
+    Ibexa\Core\IO\Flysystem\PathPrefixer\LocalSiteAccessAwarePathPrefixer:
+        arguments:
+            $ioConfigProvider: '@Ibexa\Core\IO\IOConfigProvider'
+
+    Ibexa\Core\IO\Flysystem\PathPrefixer\DFSSiteAccessAwarePathPrefixer:
+        arguments:
+            $configProcessor: '@Ibexa\Contracts\Core\SiteAccess\ConfigProcessor'
+            $rootDir: "@=parameter('ibexa.io.nfs.adapter.config')['root']"
+            $path: "@=parameter('ibexa.io.nfs.adapter.config')['path']"
+
+    ibexa.core.io.default_url_decorator:
+        alias: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix
+
+    Ibexa\Core\IO\UrlDecorator\AbsolutePrefix:
+        class: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix
+        arguments:
+            - '@Ibexa\Core\IO\IOConfigProvider'
+
+    # used by legacy in Image Converter to decorate its own url
+    Ibexa\Core\IO\UrlDecorator\Prefix:
+        class: Ibexa\Core\IO\UrlDecorator\Prefix
+        arguments:
+            - '@Ibexa\Core\IO\IOConfigProvider'
+
+    Ibexa\Core\IO\UrlRedecorator:
+        class: Ibexa\Core\IO\UrlRedecorator
+        arguments:
+            - '@ibexa.core.io.default_url_decorator'
+            - '@Ibexa\Core\IO\UrlDecorator\Prefix'
+
+    Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster:
+        abstract: true
+        class: Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster
+        arguments:
+            - ~
+            - '@Ibexa\Core\IO\UrlDecorator\Prefix'
+
+    ibexa.core.io.flysystem.path_normalizer:
+        class: League\Flysystem\PathNormalizer
+        abstract: true
+
+    ibexa.core.io.flysystem.path_normalizer.whitespace:
+        parent: ibexa.core.io.flysystem.path_normalizer
+        class: League\Flysystem\WhitespacePathNormalizer
+
+    Ibexa\Core\IO\FilePathNormalizer\Flysystem:
+        arguments:
+            $slugConverter: '@Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter'
+            $pathNormalizer: '@ibexa.core.io.flysystem.path_normalizer.whitespace'
+
+    Ibexa\Core\IO\FilePathNormalizerInterface: '@Ibexa\Core\IO\FilePathNormalizer\Flysystem'

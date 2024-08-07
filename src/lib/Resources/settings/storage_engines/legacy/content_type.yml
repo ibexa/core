@@ -1,0 +1,77 @@
+services:
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase
+        arguments:
+            - '@ibexa.api.storage_engine.legacy.connection'
+            - '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion:
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase.inner'
+
+    # To disable exception conversion layer override this alias so that it points to inner gateway
+    ibexa.persistence.legacy.content_type.gateway:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\ExceptionConversion
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Mapper:
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater:
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
+        arguments:
+            - '@ibexa.persistence.legacy.content.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
+            - '@Ibexa\Core\Persistence\Legacy\Content\StorageHandler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Mapper'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler:
+        abstract: true
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase:
+        parent: Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
+        arguments:
+            - '@ibexa.persistence.legacy.content_type.gateway'
+
+    ibexa.persistence.legacy.content_type.update_handler:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\Handler.inner:
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\Handler
+        arguments:
+            - '@ibexa.persistence.legacy.content_type.gateway'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Type\Mapper'
+            - '@ibexa.persistence.legacy.content_type.update_handler'
+            - '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface'
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler:
+        class: Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler
+        lazy: true
+        arguments:
+            - '@Ibexa\Core\Persistence\Legacy\Content\Type\Handler.inner'
+            - '@ibexa.spi.persistence.cache.inmemory'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
+
+    ibexa.spi.persistence.legacy.content_type.handler:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistryInterface:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistry
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistry:
+        arguments:
+            $storages: !tagged_iterator { tag: ibexa.field_type.storage.external.constraints.handler, index_by: alias }
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface:
+        alias: Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcher
+
+    Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcher:
+        arguments:
+            $registry: '@Ibexa\Core\Persistence\Legacy\Content\Type\StorageRegistryInterface'

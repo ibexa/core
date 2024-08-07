@@ -1,0 +1,353 @@
+parameters:
+    # Full text search configuration options.
+    ibexa.search.legacy.criterion_handler.full_text.configuration:
+        stopWordThresholdFactor: 0.66
+        enableWildcards: true
+        commands:
+            - "ascii_search_cleanup"
+            - "cyrillic_diacritical"
+            - "cyrillic_search_cleanup"
+            - "cyrillic_transliterate_ascii"
+            - "doublequote_normalize"
+            - "endline_search_normalize"
+            - "greek_diacritical"
+            - "greek_normalize"
+            - "greek_transliterate_ascii"
+            - "hebrew_transliterate_ascii"
+            - "hyphen_normalize"
+            - "inverted_to_normal"
+            - "latin1_diacritical"
+            - "latin1_transliterate_ascii"
+            - "latin-exta_diacritical"
+            - "latin-exta_transliterate_ascii"
+            - "latin_search_cleanup"
+            - "latin_search_decompose"
+            - "math_to_ascii"
+            - "punctuation_normalize"
+            - "space_normalize"
+            - "special_decompose"
+            - "specialwords_search_normalize"
+            - "tab_search_normalize"
+            - "latin-exta_lowercase"
+            - "latin1_lowercase"
+            - "ascii_lowercase"
+            - "latin_lowercase"
+            - "cyrillic_lowercase"
+            - "greek_lowercase"
+
+services:
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler:
+        abstract: true
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        abstract: true
+        arguments:
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler:
+        abstract: true
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
+
+    # BC
+    ibexa.search.legacy.gateway.criterion_handler.base: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler'
+    ibexa.search.legacy.gateway.criterion_handler.field_base: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase'
+    ibexa.search.legacy.gateway.criterion_field_value_handler.base: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler'
+
+    # Criterion handlers
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\CompositeCriterion:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentName:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        tags:
+            - { name: ibexa.search.legacy.gateway.criterion_handler.content }
+            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeGroupId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeGroupId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeIdentifier:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeIdentifier
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        arguments:
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $logger: '@?logger'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\DateMetadata:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\DateMetadata
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Field:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Field
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase
+        arguments:
+            $fieldConverterRegistry: '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
+            $fieldValueConverter: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter'
+            $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldEmpty:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldEmpty
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase
+        arguments:
+            $fieldConverterRegistry: '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
+            $fieldTypeService: '@ibexa.api.service.field_type'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FullText:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FullText
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        arguments:
+            $processor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
+            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $configuration: '%ibexa.search.legacy.criterion_handler.full_text.configuration%'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsContainer:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        arguments:
+            $maskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalAnd:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalAnd
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalNot:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalNot
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalOr:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LogicalOr
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MapLocationDistance:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MapLocationDistance
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MatchAll:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MatchAll
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MatchNone:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\MatchNone
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ObjectStateId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ObjectStateId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ObjectStateIdentifier:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ObjectStateIdentifier
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldRelation:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldRelation
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\RemoteId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\RemoteId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\SectionId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\SectionId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\SectionIdentifier:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\SectionIdentifier
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserId:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserId
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserEmail:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserEmail
+        arguments:
+            $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserLogin:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserLogin
+        arguments:
+            $transformationProcessor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsUserEnabled:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsUserEnabled
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserMetadata:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\UserMetadata
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+            - {name: ibexa.search.legacy.trash.gateway.criterion.handler}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsUserBased:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\IsUserBased
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.content}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    # Criterion field value handlers
+
+    # Note: services tagged with 'ibexa.search.legacy.gateway.criterion_handler.field_value'
+    # are registered to this one using compilation pass
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter:
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter
+        arguments:
+            - '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\HandlerRegistry'
+            - '@ibexa.search.legacy.gateway.criterion_field_value_handler.default'
+
+    ibexa.search.legacy.gateway.criterion_field_value_handler.collection.comma_separated:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Collection
+        arguments:
+            $separator: ','
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezauthor}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezcountry}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezobjectrelationlist}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Keyword:
+        parent: ibexa.search.legacy.gateway.criterion_field_value_handler.collection.comma_separated
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Keyword
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezkeyword}
+
+    ibexa.search.legacy.gateway.criterion_field_value_handler.collection.hypen_separated:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Collection
+        arguments:
+            $separator: '-'
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezselection}
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Composite:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Composite
+
+    Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Simple:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler
+        class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Simple
+        tags:
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezboolean}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezdate}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezdatetime}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezemail}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezinteger}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: ezobjectrelation}
+            - {name: ibexa.search.legacy.gateway.criterion_handler.field_value, alias: eztime}
+
+    ibexa.search.legacy.gateway.criterion_field_value_handler.default:
+        alias: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Handler\Composite

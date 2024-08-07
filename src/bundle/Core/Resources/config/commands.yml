@@ -1,0 +1,71 @@
+services:
+    Ibexa\Bundle\Core\Command\RegenerateUrlAliasesCommand:
+        class: Ibexa\Bundle\Core\Command\RegenerateUrlAliasesCommand
+        arguments:
+            # intentionally passing inner repository to avoid sending Events due to performance issues
+            - '@Ibexa\Core\Repository\Repository'
+            - '@?logger'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\DebugConfigResolverCommand:
+        class: Ibexa\Bundle\Core\Command\DebugConfigResolverCommand
+        arguments:
+            - '@ibexa.config.resolver'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\CheckURLsCommand:
+        class: Ibexa\Bundle\Core\Command\CheckURLsCommand
+        arguments:
+            - '@Ibexa\Contracts\Core\Repository\UserService'
+            - '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+            - '@Ibexa\Contracts\Core\Repository\URLService'
+            - '@Ibexa\Bundle\Core\URLChecker\URLChecker'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\UpdateTimestampsToUTCCommand:
+        arguments:
+            - '@ibexa.api.search_engine.legacy.connection'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\ReindexCommand:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $searchIndexer: '@ibexa.spi.search.indexer'
+            $locationHandler: '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            $siteaccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
+            $env: '%kernel.environment%'
+            $projectDir: '%kernel.project_dir%'
+            $isDebug: '%kernel.debug%'
+            $contentIdListGeneratorStrategy: '@Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\NormalizeImagesPathsCommand:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+            $imageGateway: '@Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage'
+            $ioService: '@Ibexa\Core\FieldType\Image\IO\Legacy'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\SetSystemContentTypeGroupCommand:
+        autowire: true
+        autoconfigure: true
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\ExpireUserPasswordsCommand:
+        autowire: true
+        autoconfigure: true
+
+    # Dedicated services for commands
+    Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy:
+        autowire: true

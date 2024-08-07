@@ -8,34 +8,33 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Limitation;
 
-use eZ\Publish\API\Repository\Exceptions\NotFoundException;
-use eZ\Publish\API\Repository\Exceptions\NotImplementedException;
-use eZ\Publish\API\Repository\Values\User\Limitation as APILimitationValue;
-use eZ\Publish\API\Repository\Values\User\Role;
-use eZ\Publish\API\Repository\Values\User\User;
-use eZ\Publish\API\Repository\Values\User\UserGroup;
-use eZ\Publish\API\Repository\Values\User\UserGroupRoleAssignment;
-use eZ\Publish\API\Repository\Values\User\UserReference as APIUserReference;
-use eZ\Publish\API\Repository\Values\User\UserRoleAssignment;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentException;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentType;
-use eZ\Publish\Core\FieldType\ValidationError;
-use eZ\Publish\Core\Limitation\AbstractPersistenceLimitationType;
-use eZ\Publish\SPI\Limitation\Type as SPILimitationTypeInterface;
-use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
+use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserRoleLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Role;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupRoleAssignment;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
+use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\ValidationError;
 
 final class RoleLimitationType extends AbstractPersistenceLimitationType implements SPILimitationTypeInterface
 {
     /**
-     * @throws \eZ\Publish\Core\Base\Exceptions\InvalidArgumentType
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
     public function acceptValue(APILimitationValue $limitationValue): void
     {
-        if (!$limitationValue instanceof RoleLimitation) {
+        if (!$limitationValue instanceof UserRoleLimitation) {
             throw new InvalidArgumentType(
                 '$limitationValue',
-                RoleLimitation::class,
+                UserRoleLimitation::class,
                 $limitationValue
             );
         }
@@ -50,7 +49,7 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
 
         foreach ($limitationValue->limitationValues as $key => $id) {
             if (!is_int($id)) {
-                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int|string', $id);
+                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $id);
             }
         }
     }
@@ -79,20 +78,18 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
 
     /**
      * @param mixed[] $limitationValues
-     *
-     * @return \eZ\Publish\API\Repository\Values\User\Limitation
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {
-        return new RoleLimitation(['limitationValues' => $limitationValues]);
+        return new UserRoleLimitation(['limitationValues' => $limitationValues]);
     }
 
     public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
     {
-        if (!$value instanceof RoleLimitation) {
+        if (!$value instanceof UserRoleLimitation) {
             throw new InvalidArgumentException(
                 '$value',
-                sprintf('Must be of type: %s', RoleLimitation::class)
+                sprintf('Must be of type: %s', UserRoleLimitation::class)
             );
         }
 
@@ -136,7 +133,7 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         throw new NotImplementedException(__METHOD__);
     }
 
-    private function evaluateRole(RoleLimitation $value, Role $role): bool
+    private function evaluateRole(UserRoleLimitation $value, Role $role): bool
     {
         return in_array($role->id, $value->limitationValues);
     }

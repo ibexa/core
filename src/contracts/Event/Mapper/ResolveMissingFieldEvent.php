@@ -4,29 +4,27 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Contracts\Core\Event\Mapper;
 
-use eZ\Publish\SPI\Persistence\Content;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Symfony\Contracts\EventDispatcher\Event;
 
 final class ResolveMissingFieldEvent extends Event
 {
-    /** @var \eZ\Publish\SPI\Persistence\Content */
-    private $content;
+    private Content $content;
 
-    /** @var \eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition */
-    private $fieldDefinition;
+    private FieldDefinition $fieldDefinition;
 
-    /** @var string */
-    private $languageCode;
+    private string $languageCode;
 
     /** @var array<mixed> */
-    private $context;
+    private array $context;
 
-    /** @var \eZ\Publish\SPI\Persistence\Content\Field|null */
-    private $field;
+    private ?Field $field;
 
     /**
      * @param array<mixed> $context

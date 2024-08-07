@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Limitation;
 
-use eZ\Publish\API\Repository\Tests\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use eZ\Publish\API\Repository\Values\User\Limitation\ContentTypeLimitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\LocationLimitation;
-use eZ\Publish\API\Repository\Values\User\Limitation\UserGroupLimitation;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\UserGroupLimitation;
+use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTest;
 
 final class UserGroupLimitationTest extends BaseLimitationIntegrationTest
 {
@@ -26,7 +26,10 @@ final class UserGroupLimitationTest extends BaseLimitationIntegrationTest
 
         $user = $this->createUserWithPolicies('test_user', $this->getPermissions());
         $userGroups = $repository->getUserService()->loadUserGroupsOfUser($user);
-        $userGroupIds = array_column($userGroups, 'id');
+        $userGroupIds = [];
+        foreach ($userGroups as $userGroup) {
+            $userGroupIds[] = $userGroup->id;
+        }
 
         $repository->getPermissionResolver()->setCurrentUserReference($user);
 
@@ -49,7 +52,7 @@ final class UserGroupLimitationTest extends BaseLimitationIntegrationTest
 
         $results = $repository->getSearchService()->findLocations($query)->searchHits;
         $resultLocationIds = array_map(static function (SearchHit $hit): int {
-            /** @var \eZ\Publish\API\Repository\Values\Content\Location $location */
+            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location $location */
             $location = $hit->valueObject;
 
             return $location->id;

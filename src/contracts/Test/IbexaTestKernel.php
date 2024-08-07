@@ -10,15 +10,16 @@ namespace Ibexa\Contracts\Core\Test;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\DBAL\Connection;
-use eZ\Bundle\EzPublishCoreBundle\EzPublishCoreBundle;
-use eZ\Bundle\EzPublishLegacySearchEngineBundle\EzPublishLegacySearchEngineBundle;
-use eZ\Publish\API\Repository;
-use eZ\Publish\Core\IO\Adapter\LocalAdapter;
-use eZ\Publish\SPI\Persistence\TransactionHandler;
-use eZ\Publish\SPI\Tests\Persistence\YamlFixture;
 use FOS\JsRoutingBundle\FOSJsRoutingBundle;
+use Ibexa\Bundle\Core\IbexaCoreBundle;
+use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
+use Ibexa\Contracts\Core\Repository;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
+use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapter;
+use Ibexa\Tests\Integration\Core\IO\FlysystemTestAdapterInterface;
 use JMS\TranslationBundle\JMSTranslationBundle;
-use League\Flysystem\Memory\MemoryAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Liip\ImagineBundle\LiipImagineBundle;
 use LogicException;
 use Psr\Log\NullLogger;
@@ -28,6 +29,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
@@ -67,7 +69,7 @@ use Symfony\Component\HttpKernel\Kernel;
  * If don't need the repository services (or not all), you can replace the IbexaTestKernel::EXPOSED_SERVICES_BY_CLASS and
  * IbexaTestKernel::EXPOSED_SERVICES_BY_ID consts in extending class, without changing the methods above.
  */
-class IbexaTestKernel extends Kernel
+class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
 {
     /**
      * @var iterable<class-string>
@@ -86,6 +88,8 @@ class IbexaTestKernel extends Kernel
         Repository\SearchService::class,
         Repository\SectionService::class,
         Repository\UserService::class,
+        Repository\TokenService::class,
+        Repository\URLAliasService::class,
     ];
 
     /**
@@ -106,15 +110,15 @@ class IbexaTestKernel extends Kernel
      */
     public function getSchemaFiles(): iterable
     {
-        yield $this->locateResource('@EzPublishCoreBundle/Resources/config/storage/legacy/schema.yaml');
+        yield $this->locateResource('@IbexaCoreBundle/Resources/config/storage/legacy/schema.yaml');
     }
 
     /**
-     * @return iterable<\eZ\Publish\SPI\Tests\Persistence\Fixture>
+     * @return iterable<\Ibexa\Contracts\Core\Test\Persistence\Fixture>
      */
     public function getFixtures(): iterable
     {
-        yield new YamlFixture(dirname(__DIR__, 3) . '/eZ/Publish/API/Repository/Tests/_fixtures/Legacy/data/test_data.yaml');
+        yield new YamlFixture(dirname(__DIR__, 3) . '/tests/integration/Core/Repository/_fixtures/Legacy/data/test_data.yaml');
     }
 
     public function getCacheDir(): string
@@ -130,8 +134,8 @@ class IbexaTestKernel extends Kernel
     public function registerBundles(): iterable
     {
         yield new SecurityBundle();
-        yield new EzPublishCoreBundle();
-        yield new EzPublishLegacySearchEngineBundle();
+        yield new IbexaCoreBundle();
+        yield new IbexaLegacySearchEngineBundle();
         yield new JMSTranslationBundle();
         yield new FOSJsRoutingBundle();
         yield new FrameworkBundle();
@@ -147,7 +151,7 @@ class IbexaTestKernel extends Kernel
     {
         $loader->load(static function (ContainerBuilder $container): void {
             $container->setParameter('ibexa.core.test.resource_dir', self::getResourcesPath());
-            $container->setParameter('ezpublish.kernel.root_dir', dirname(__DIR__, 3));
+            $container->setParameter('ibexa.kernel.root_dir', dirname(__DIR__, 3));
         });
 
         $this->loadConfiguration($loader);
@@ -205,20 +209,43 @@ class IbexaTestKernel extends Kernel
 
     private static function getResourcesPath(): string
     {
-        return dirname(__DIR__, 3) . '/eZ/Bundle/EzPublishCoreBundle/Tests/Resources';
+        return dirname(__DIR__, 3) . '/tests/bundle/Core/Resources';
     }
 
     private static function prepareIOServices(ContainerBuilder $container): void
     {
-        if (!class_exists(MemoryAdapter::class)) {
-            throw new LogicException(sprintf(
-                'Missing %s class. Ensure that %s package is installed as a dev dependency',
-                MemoryAdapter::class,
-                'league/flysystem-memory',
-            ));
+        if (!class_exists(InMemoryFilesystemAdapter::class)) {
+            throw new LogicException(
+                sprintf(
+                    'Missing %s class. Ensure that %s package is installed as a dev dependency',
+                    InMemoryFilesystemAdapter::class,
+                    'league/flysystem-memory',
+                )
+            );
         }
 
-        $container->setDefinition(LocalAdapter::class, new Definition(MemoryAdapter::class));
+        $container->setParameter('webroot_dir', dirname(__DIR__, 3) . '/var/public');
+        $inMemoryAdapter = new Definition(InMemoryFilesystemAdapter::class);
+        $container->setDefinition(InMemoryFilesystemAdapter::class, $inMemoryAdapter);
+
+        $testAdapterDefinition = new Definition(FlysystemTestAdapter::class);
+        $testAdapterDefinition->setDecoratedService(
+            'ibexa.core.io.flysystem.adapter.site_access_aware',
+            null,
+            -10
+        );
+        $testAdapterDefinition->setArgument('$inMemoryAdapter', $inMemoryAdapter);
+        $testAdapterDefinition->setArgument(
+            '$localAdapter',
+            new Reference(
+                '.inner'
+            )
+        );
+        $testAdapterDefinition->setPublic(true);
+        $container->setDefinition(
+            FlysystemTestAdapterInterface::class,
+            $testAdapterDefinition
+        );
     }
 
     private static function createPublicAliasesForServicesUnderTest(ContainerBuilder $container): void

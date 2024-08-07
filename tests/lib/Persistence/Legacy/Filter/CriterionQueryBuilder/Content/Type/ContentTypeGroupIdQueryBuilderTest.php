@@ -8,25 +8,24 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type;
 
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion\ContentTypeGroupId;
-use eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder;
-use eZ\Publish\Core\Persistence\Legacy\Tests\Filter\BaseCriterionVisitorQueryBuilderTestCase;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeGroupId;
+use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder;
+use Ibexa\Tests\Core\Persistence\Legacy\Filter\BaseCriterionVisitorQueryBuilderTestCase;
 
 /**
- * @covers \eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder::buildQueryConstraint
- * @covers \eZ\Publish\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder::accepts
+ * @covers \Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Type\GroupIdQueryBuilder
  */
 class ContentTypeGroupIdQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
 {
     public function getFilteringCriteriaQueryData(): iterable
     {
-        yield 'Content Type Group ID=1' => [
+        yield 'Content type group ID=1' => [
             new ContentTypeGroupId(1),
             'content_type_group.id IN (:dcValue1)',
             ['dcValue1' => [1]],
         ];
 
-        yield 'Content Type Group ID IN (1, 2)' => [
+        yield 'Content type group ID IN (1, 2)' => [
             new ContentTypeGroupId([1, 2]),
             'content_type_group.id IN (:dcValue1)',
             ['dcValue1' => [1, 2]],

@@ -1,0 +1,73 @@
+services:
+    # Deprecated since eZ Publish 5.4. Use Ibexa\Core\FieldType\Image\IO\Legacy instead.
+    ibexa.field_type.ezimage.io:
+        alias: Ibexa\Core\FieldType\Image\IO\Legacy
+
+    # Custom IOService with a proxy that handles the legacy prefix (images-versioned)
+    Ibexa\Core\FieldType\Image\IO\Legacy:
+        class: Ibexa\Core\FieldType\Image\IO\Legacy
+        arguments:
+            - '@ibexa.field_type.ezimage.io_service.published'
+            - '@ibexa.field_type.ezimage.io_service.draft'
+            - '@Ibexa\Core\FieldType\Image\IO\OptionsProvider'
+
+    Ibexa\Core\FieldType\Image\IO\OptionsProvider:
+        class: Ibexa\Core\FieldType\Image\IO\OptionsProvider
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+
+    ibexa.field_type.ezimage.io_service.published:
+        parent: ibexa.core.io.service
+        calls:
+            - [ setPrefix, [ '%ibexa.io.images.storage.prefix%' ] ]
+
+    # Used to manipulate images with a legacy 'images-versioned' path
+    ibexa.field_type.ezimage.io_service.draft:
+        parent: ibexa.core.io.service
+        calls:
+            - [ setPrefix, [ '%ibexa.io.images.storage.prefix.draft%' ] ]
+
+    Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator:
+        class: Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator
+
+    Ibexa\Core\FieldType\Image\NullAliasCleaner: ~
+    Ibexa\Core\FieldType\Image\AliasCleanerInterface: '@Ibexa\Core\FieldType\Image\NullAliasCleaner'
+
+    # BinaryFile
+    ibexa.field_type.ezbinaryfile.io_service:
+        parent: ibexa.core.io.service
+        calls:
+            - [ setPrefix, [ '%ibexa.io.binary_file.storage.prefix%' ] ]
+
+    Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator:
+        class: Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator
+
+    Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator:
+        class: Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator
+        arguments:
+            - '@ibexa.config.resolver'
+
+    Ibexa\Core\FieldType\Validator\ImageValidator:
+        class: Ibexa\Core\FieldType\Validator\ImageValidator
+
+    # Symfony 3.4+ service definitions:
+    Ibexa\Core\FieldType\ImageAsset\AssetMapper:
+        arguments:
+            $contentService: '@ibexa.api.service.content'
+            $locationService: '@ibexa.api.service.location'
+            $contentTypeService: '@ibexa.api.service.content_type'
+            $configResolver: '@ibexa.config.resolver'
+
+    Ibexa\Core\FieldType\FieldTypeRegistry: ~
+
+    Ibexa\Core\Repository\User\PasswordHashService: ~
+
+    Ibexa\Contracts\Core\Repository\PasswordHashService:
+        alias: Ibexa\Core\Repository\User\PasswordHashService
+
+    Ibexa\Core\Repository\User\PasswordValidator:
+        arguments:
+            $passwordHashService: '@Ibexa\Contracts\Core\Repository\PasswordHashService'
+
+    Ibexa\Core\Repository\User\PasswordValidatorInterface:
+        alias: Ibexa\Core\Repository\User\PasswordValidator

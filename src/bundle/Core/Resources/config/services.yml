@@ -1,0 +1,372 @@
+imports:
+    - { resource: commands.yml }
+
+parameters:
+    ibexa.site_access.default.name: default
+    ibexa.config.default_scope: ibexa.site_access.config
+
+    # Param converters
+    ibexa.param_converter.content.priority: -2
+    ibexa.param_converter.location.priority: -2
+
+services:
+    # Siteaccess is injected in the container at runtime
+    Ibexa\Core\MVC\Symfony\SiteAccess:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess
+        arguments: ['%ibexa.site_access.default.name%', 'uninitialized']
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\DefaultScopeConfigResolver:
+        arguments:
+            - '%ibexa.config.default_scope%'
+        calls:
+            - [setContainer, ['@service_container']]
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 0 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\SiteAccessGroupConfigResolver:
+        arguments:
+            - '@ibexa.siteaccess.provider'
+            - '%ibexa.config.default_scope%'
+            - '%ibexa.site_access.groups%'
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - [setContainer, ['@service_container']]
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 50 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\StaticSiteAccessConfigResolver:
+        arguments:
+            - '@ibexa.siteaccess.provider'
+            - '%ibexa.config.default_scope%'
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - [setContainer, ['@service_container']]
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 100 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver\GlobalScopeConfigResolver:
+        arguments:
+            - '%ibexa.config.default_scope%'
+        calls:
+            - [setContainer, ['@service_container']]
+        lazy: true
+        tags:
+            - { name: ibexa.site.config.resolver, priority: 255 }
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver:
+        public: true # @todo should be private
+
+    ibexa.config.resolver:
+        public: true # @todo should be private
+        alias: Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser:
+        class: Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser
+
+    Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingValueResolver:
+        class: Ibexa\Bundle\Core\DependencyInjection\Configuration\ComplexSettings\ComplexSettingValueResolver
+
+    Ibexa\Bundle\Core\EventListener\ConsoleCommandListener:
+        class: Ibexa\Bundle\Core\EventListener\ConsoleCommandListener
+        arguments:
+            - '%ibexa.site_access.default%'
+            - '@ibexa.siteaccess.provider'
+            - "@event_dispatcher"
+            - "%kernel.debug%"
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\EventListener\BackwardCompatibleCommandListener:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\Controller\Controller:
+        class: Ibexa\Core\MVC\Symfony\Controller\Controller
+        abstract: true
+        calls:
+            - [ setContainer, ["@service_container"] ]
+
+    Ibexa\Core\MVC\Symfony\Controller\Content\ViewController:
+        class: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
+        arguments:
+            - '@Ibexa\Bundle\Core\View\Manager'
+            - "@security.authorization_checker"
+        parent: Ibexa\Core\MVC\Symfony\Controller\Controller
+        tags:
+            - { name: controller.service_arguments }
+
+    Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController:
+        class: Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController
+        arguments:
+            $contentService: '@ibexa.api.service.content'
+            $locationService: '@ibexa.api.service.location'
+            $kernel: "@http_kernel"
+            $previewHelper: '@Ibexa\Core\Helper\ContentPreviewHelper'
+            $authorizationChecker: "@security.authorization_checker"
+            $locationProvider: '@Ibexa\Core\Helper\PreviewLocationProvider'
+            $controllerChecker: '@Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker'
+        tags:
+            - { name: controller.service_arguments }
+
+    ibexa.controller.content.preview:
+        alias: Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController
+        public: true
+
+    Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:
+        class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
+        arguments:
+            - '@ibexa.api.service.content'
+            - '@ibexa.field_type.ezbinaryfile.io_service'
+            - '@Ibexa\Core\Helper\TranslationHelper'
+            - "@router"
+            - '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
+        parent: Ibexa\Core\MVC\Symfony\Controller\Controller
+        tags:
+              - { name: controller.service_arguments }
+
+    Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController:
+        class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController
+        arguments:
+            - '@ibexa.api.service.content'
+            - "@router"
+            - '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
+        parent: Ibexa\Core\MVC\Symfony\Controller\Controller
+        tags:
+              - { name: controller.service_arguments }
+
+    # This alias allows easier management for subrequests
+    # {{ render( controller( "ibexa_content::viewAction", {"contentId": 12, "locationId": 123, "viewType": "line"} ) ) }
+    ibexa_content:
+        public: true
+        alias: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
+
+    Ibexa\Bundle\Core\EventListener\ViewControllerListener:
+        class: Ibexa\Bundle\Core\EventListener\ViewControllerListener
+        arguments:
+            - "@controller_resolver"
+            - '@Ibexa\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch'
+            - "@event_dispatcher"
+            - "@logger"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Bundle\Core\Fragment\FragmentListenerFactory:
+        class: Ibexa\Bundle\Core\Fragment\FragmentListenerFactory
+        arguments: ["%fragment.path%"]
+        calls:
+            - [setRequestStack, ["@request_stack"]]
+
+    Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer:
+        class: Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer
+        # Arguments replaced at compile time
+        arguments: []
+        calls:
+            - [setFragmentPath, ["%fragment.path%"]]
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+        abstract: true
+
+    Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer:
+        arguments:
+            $kernel: '@kernel'
+            $controllerListener: '@Ibexa\Bundle\Core\EventListener\ViewControllerListener'
+            $controllerResolver: '@controller_resolver'
+            $argumentMetadataFactory: '@argument_metadata_factory'
+            $argumentValueResolver: '@argument_resolver.request_attribute'
+            $viewTemplateRenderer: '@Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer'
+        tags:
+            - { name: kernel.fragment_renderer, alias: !php/const Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer::NAME }
+
+    Ibexa\Bundle\Core\Converter\ContentParamConverter:
+        class: Ibexa\Bundle\Core\Converter\ContentParamConverter
+        arguments:
+            - '@ibexa.siteaccessaware.service.content'
+        tags:
+            - { name: request.param_converter, priority: '%ibexa.param_converter.content.priority%', converter: ez_content_converter }
+
+    Ibexa\Bundle\Core\Converter\LocationParamConverter:
+        class: Ibexa\Bundle\Core\Converter\LocationParamConverter
+        arguments:
+            $locationService: '@ibexa.siteaccessaware.service.location'
+            $contentPreviewHelper: '@Ibexa\Core\Helper\ContentPreviewHelper'
+        tags:
+            - { name: request.param_converter, priority: '%ibexa.param_converter.location.priority%', converter: ez_location_converter }
+
+    Ibexa\Bundle\Core\ControllerArgumentResolver\LocationArgumentResolver:
+        autowire: true
+        autoconfigure: true
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+    Ibexa\Bundle\Core\EventListener\ExceptionListener:
+        class: Ibexa\Bundle\Core\EventListener\ExceptionListener
+        arguments: ["@translator"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\QueryType\ArrayQueryTypeRegistry:
+        class: Ibexa\Core\QueryType\ArrayQueryTypeRegistry
+
+    Ibexa\Core\Query\QueryFactory:
+        arguments:
+            $queryTypeRegistry: '@Ibexa\Core\QueryType\ArrayQueryTypeRegistry'
+
+    Ibexa\Core\Query\QueryFactoryInterface:
+        alias: Ibexa\Core\Query\QueryFactory
+
+    Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory:
+        arguments:
+            $searchService: '@ibexa.api.service.search'
+
+    Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface:
+        alias: Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactory
+
+    Ibexa\Core\Helper\FieldsGroups\ArrayTranslatorFieldsGroupsList:
+        lazy: Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList
+        factory: ['@Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory', "build"]
+        arguments:
+            - "@translator"
+
+    Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory:
+        class: Ibexa\Core\Helper\FieldsGroups\RepositoryConfigFieldsGroupsListFactory
+        arguments:
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+
+    Ibexa\Core\QueryType\QueryParameterContentViewQueryTypeMapper:
+        class: Ibexa\Core\QueryType\QueryParameterContentViewQueryTypeMapper
+        arguments:
+            - '@Ibexa\Core\QueryType\ArrayQueryTypeRegistry'
+
+    Ibexa\Core\MVC\Symfony\Controller\Content\QueryController:
+        class: Ibexa\Core\MVC\Symfony\Controller\Content\QueryController
+        arguments:
+            - '@Ibexa\Core\QueryType\QueryParameterContentViewQueryTypeMapper'
+            - '@ibexa.api.service.search'
+        tags:
+            - { name: controller.service_arguments }
+
+    Ibexa\Core\MVC\Symfony\Controller\QueryRenderController:
+        arguments:
+            $queryFactory: '@Ibexa\Core\Query\QueryFactoryInterface'
+            $searchHitAdapterFactory: '@Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface'
+        tags:
+            - { name: controller.service_arguments }
+
+    ibexa_query:
+        alias: Ibexa\Core\MVC\Symfony\Controller\Content\QueryController
+        public: true
+
+    ibexa_query_render:
+        alias: 'Ibexa\Core\MVC\Symfony\Controller\QueryRenderController'
+        public: true
+
+    Ibexa\Core\MVC\Symfony\Translation\CatalogueMapperFileWriter:
+        class: Ibexa\Core\MVC\Symfony\Translation\CatalogueMapperFileWriter
+        decorates: jms_translation.file_writer
+        arguments:
+            - '@Ibexa\Core\MVC\Symfony\Translation\CatalogueMapperFileWriter.inner'
+            - "@jms_translation.loader_manager"
+        public: false
+
+    Ibexa\Core\MVC\Symfony\Translation\FieldTypesTranslationExtractor:
+        class: Ibexa\Core\MVC\Symfony\Translation\FieldTypesTranslationExtractor
+        arguments:
+            - '@Ibexa\Core\FieldType\FieldTypeRegistry'
+        tags:
+            - { name: jms_translation.extractor, alias: ez_fieldtypes }
+
+    Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor:
+        parent: jms_translation.extractor.file.default_php_extractor
+        class: Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor
+        tags:
+            - { name: jms_translation.file_visitor, alias: ez_exception_message_template }
+
+    Ibexa\Core\MVC\Symfony\Translation\TranslatableExceptionsFileVisitor:
+        parent: jms_translation.extractor.file.default_php_extractor
+        class: Ibexa\Core\MVC\Symfony\Translation\TranslatableExceptionsFileVisitor
+        tags:
+            - { name: jms_translation.file_visitor, alias: ez_translatable_exception }
+
+    Ibexa\Core\MVC\Symfony\Translation\ValidationErrorFileVisitor:
+        parent: jms_translation.extractor.file.default_php_extractor
+        class: Ibexa\Core\MVC\Symfony\Translation\ValidationErrorFileVisitor
+        tags:
+            - { name: jms_translation.file_visitor, alias: ez_validation_error }
+
+    Ibexa\Bundle\Core\EventSubscriber\CrowdinRequestLocaleSubscriber:
+        class: Ibexa\Bundle\Core\EventSubscriber\CrowdinRequestLocaleSubscriber
+        tags:
+            - {name: kernel.event_subscriber}
+
+    Ibexa\Bundle\Core\EventSubscriber\TrustedHeaderClientIpEventSubscriber:
+        arguments:
+            $trustedHeaderName: '%ibexa.trusted_header_client_ip_name%'
+        tags:
+            - {name: kernel.event_subscriber}
+
+    Ibexa\Bundle\Core\Command\DeleteContentTranslationCommand:
+        class: Ibexa\Bundle\Core\Command\DeleteContentTranslationCommand
+        arguments:
+            - '@ibexa.api.repository'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\CleanupVersionsCommand:
+        class: Ibexa\Bundle\Core\Command\CleanupVersionsCommand
+        arguments:
+            - '@Ibexa\Core\Event\Repository'
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            - '@ibexa.persistence.connection'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler:
+        class: Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler
+        arguments:
+         - '%session.save_path%'
+         - 'redis'
+
+    Ibexa\Bundle\Core\Command\CopySubtreeCommand:
+        class: Ibexa\Bundle\Core\Command\CopySubtreeCommand
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $locationService: '@ibexa.api.service.location'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+            $userService: '@ibexa.api.service.user'
+            $contentTypeService: '@ibexa.api.service.content_type'
+            $searchService: '@ibexa.api.service.search'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\ResizeOriginalImagesCommand:
+        class: Ibexa\Bundle\Core\Command\ResizeOriginalImagesCommand
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $ioService: '@ibexa.field_type.ezimage.io_service.published'
+            $imagine: '@liip_imagine'
+            $filterManager: '@liip_imagine.filter.manager'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+            $userService: '@ibexa.api.service.user'
+            $mimeTypes: '@mime_types'
+        tags:
+            - { name: console.command }
+
+    ibexa.doctrine.orm.entity_manager:
+        class: Doctrine\ORM\EntityManager
+        lazy: true
+        factory: ['@ibexa.doctrine.orm.entity_manager_factory', 'getEntityManager']
+
+    ibexa.doctrine.orm.entity_manager_factory:
+        class: Ibexa\Bundle\Core\Entity\EntityManagerFactory
+        arguments:
+            $repositoryConfigurationProvider: '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+            $defaultConnection: '%doctrine.default_connection%'
+            $entityManagers: '%doctrine.entity_managers%'
+
+    Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~

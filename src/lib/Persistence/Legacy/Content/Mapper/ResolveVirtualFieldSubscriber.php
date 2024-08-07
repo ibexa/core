@@ -8,30 +8,27 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Mapper;
 
-use eZ\Publish\Core\FieldType\NullStorage;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
-use eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
-use eZ\Publish\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageFieldValue;
-use eZ\Publish\Core\Persistence\Legacy\Content\StorageRegistry;
-use eZ\Publish\SPI\Persistence\Content\Field;
-use eZ\Publish\SPI\Persistence\Content\FieldValue;
-use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
-use eZ\Publish\SPI\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Event\Mapper\ResolveMissingFieldEvent;
 use Ibexa\Contracts\Core\FieldType\DefaultDataFieldStorage;
+use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\NullStorage;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
+use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
 {
-    /** @var \eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry */
-    private $converterRegistry;
+    private ConverterRegistry $converterRegistry;
 
-    /** @var \eZ\Publish\Core\Persistence\Legacy\Content\StorageRegistry */
-    private $storageRegistry;
+    private StorageRegistry $storageRegistry;
 
-    /** @var \eZ\Publish\Core\Persistence\Legacy\Content\Gateway */
-    private $contentGateway;
+    private ContentGateway $contentGateway;
 
     public function __construct(
         ConverterRegistry $converterRegistry,
@@ -76,13 +73,18 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \eZ\Publish\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
+     * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
      */
     public function persistExternalStorageField(ResolveMissingFieldEvent $event): void
     {
         $field = $event->getField();
 
-        if ($field !== null && $field->id !== null) {
+        if ($field === null) {
+            // Nothing to persist
+            return;
+        }
+
+        if ($field->id !== null) {
             // Not a virtual field
             return;
         }
@@ -138,7 +140,12 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     {
         $field = $event->getField();
 
-        if ($field !== null && $field->id !== null) {
+        if ($field === null) {
+            // Nothing to resolve
+            return;
+        }
+
+        if ($field->id !== null) {
             // Not a virtual field
             return;
         }
@@ -169,7 +176,7 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function createEmptyField(
         VersionInfo $versionInfo,
@@ -187,7 +194,7 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function getDefaultValue(FieldDefinition $fieldDefinition): FieldValue
     {
@@ -204,8 +211,8 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
     private function getDefaultStorageValue(): StorageFieldValue
     {
         $storageValue = new StorageFieldValue();
-        $storageValue->dataFloat = null;
-        $storageValue->dataInt = null;
+        $storageValue->dataFloat = 0;
+        $storageValue->dataInt = 0;
         $storageValue->dataText = '';
         $storageValue->sortKeyInt = 0;
         $storageValue->sortKeyString = '';

@@ -1,0 +1,58 @@
+imports:
+    - { resource: filter/query_builders.yaml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # injectables:
+    Ibexa\Contracts\Core\Persistence\Filter\Content\Handler:
+        alias: Ibexa\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler
+
+    Ibexa\Contracts\Core\Persistence\Filter\Location\Handler:
+        alias: Ibexa\Core\Persistence\Legacy\Filter\Handler\LocationFilteringHandler
+
+    Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\GatewayDataMapper:
+        alias: Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Mapper\DoctrineGatewayDataMapper
+
+    Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor:
+        alias: Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor
+
+    Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor:
+        alias: Ibexa\Core\Persistence\Legacy\Filter\SortClauseVisitor
+
+    # implementations:
+    Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Mapper\DoctrineGatewayDataMapper:
+        arguments:
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $languageMaskGenerator: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $converterRegistry: '@Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry'
+
+    Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor:
+        arguments:
+            $criterionQueryBuilders: !tagged_iterator ibexa.filter.criterion.query.builder
+
+    Ibexa\Core\Persistence\Legacy\Filter\SortClauseVisitor:
+        arguments:
+            $sortClauseQueryBuilders: !tagged_iterator ibexa.filter.sort_clause.query.builder
+
+    Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+
+    Ibexa\Core\Persistence\Legacy\Filter\Handler\ContentFilteringHandler:
+        arguments:
+            $gateway: '@Ibexa\Core\Persistence\Legacy\Filter\Gateway\Content\Doctrine\DoctrineGateway'
+            $fieldHandler: '@Ibexa\Core\Persistence\Legacy\Content\FieldHandler'
+
+    Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine\DoctrineGateway:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+
+    Ibexa\Core\Persistence\Legacy\Filter\Handler\LocationFilteringHandler:
+        arguments:
+            $gateway: '@Ibexa\Core\Persistence\Legacy\Filter\Gateway\Location\Doctrine\DoctrineGateway'
+            $locationMapper: '@Ibexa\Core\Persistence\Legacy\Content\Location\Mapper'

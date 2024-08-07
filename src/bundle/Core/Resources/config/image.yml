@@ -1,0 +1,313 @@
+services:
+    # Filters
+    Ibexa\Bundle\Core\Imagine\Filter\UnsupportedFilter:
+        class: Ibexa\Bundle\Core\Imagine\Filter\UnsupportedFilter
+        public: false
+
+    Ibexa\Bundle\Core\Imagine\Filter\Imagick\ReduceNoiseFilter:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Imagick\ReduceNoiseFilter
+        public: false
+
+    Ibexa\Bundle\Core\Imagine\Filter\Gmagick\ReduceNoiseFilter:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Gmagick\ReduceNoiseFilter
+        public: false
+
+    # Aliasing by default to unsupported filter as it's not supported by GD.
+    # Alias is changed by Imagine compiler pass to use current driver.
+    ibexa.image_alias.imagine.filter.reduce_noise:
+        alias: Ibexa\Bundle\Core\Imagine\Filter\UnsupportedFilter
+
+    Ibexa\Bundle\Core\Imagine\Filter\Imagick\SwirlFilter:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Imagick\SwirlFilter
+        public: false
+
+    Ibexa\Bundle\Core\Imagine\Filter\Gmagick\SwirlFilter:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Gmagick\SwirlFilter
+        public: false
+
+    ibexa.image_alias.imagine.filter.swirl:
+        alias: Ibexa\Bundle\Core\Imagine\Filter\UnsupportedFilter
+
+    # Filter loaders
+    Ibexa\Bundle\Core\Imagine\BinaryLoader:
+        class: Ibexa\Bundle\Core\Imagine\BinaryLoader
+        arguments: ['@Ibexa\Core\FieldType\Image\IO\Legacy', "@mime_types"]
+        tags:
+            - { name: liip_imagine.binary.loader, loader: ibexa }
+
+    ibexa.image_alias.imagine.cache_resolver:
+        class: Ibexa\Bundle\Core\Imagine\IORepositoryResolver
+        arguments:
+            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            - "@router.request_context"
+            - "@liip_imagine.filter.configuration"
+            - '@ibexa.image_alias.variation_purger'
+            - '@ibexa.image_alias.variation_path_generator'
+        tags:
+            - { name: liip_imagine.cache.resolver, resolver: ibexa }
+
+    Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory:
+        class: Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory
+        arguments:
+            - '@ibexa.config.resolver'
+            - '@ibexa.image_alias.imagine.cache_resolver_decorator.inner'
+            - 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\ProxyResolver'
+            - 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver'
+
+    ibexa.image_alias.imagine.cache_resolver_decorator:
+        class: Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver
+        factory: ['@Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory', 'createCacheResolver']
+        decorates: ibexa.image_alias.imagine.cache_resolver
+        lazy: true
+
+    Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator:
+        class: Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator
+        lazy: true
+        arguments:
+            - '@Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator'
+            - '@ibexa.cache_pool'
+            - '@router.request_context'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+
+    ibexa.image_alias.imagine.alias_generator:
+        class: Ibexa\Bundle\Core\Imagine\AliasGenerator
+        arguments:
+            - '@Ibexa\Bundle\Core\Imagine\BinaryLoader'
+            - "@liip_imagine.filter.manager"
+            - '@ibexa.image_alias.imagine.cache_resolver'
+            - "@liip_imagine.filter.configuration"
+            - "@?logger"
+
+    Ibexa\Bundle\Core\Imagine\AliasCleaner:
+        class: Ibexa\Bundle\Core\Imagine\AliasCleaner
+        arguments: ['@ibexa.image_alias.imagine.cache_resolver']
+
+    Ibexa\Core\FieldType\Image\AliasCleanerInterface:
+        alias: Ibexa\Bundle\Core\Imagine\AliasCleaner
+
+    Ibexa\Bundle\Core\Imagine\PlaceholderAliasGeneratorConfigurator:
+        class: 'Ibexa\Bundle\Core\Imagine\PlaceholderAliasGeneratorConfigurator'
+        arguments:
+            - '@ibexa.config.resolver'
+            - '@Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry'
+            - '%ibexa.io.images.alias.placeholder_provider%'
+
+    Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator:
+        class: 'Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator'
+        decorates: 'ibexa.image_alias.imagine.alias_generator'
+        configurator: ['@Ibexa\Bundle\Core\Imagine\PlaceholderAliasGeneratorConfigurator', 'configure']
+        arguments:
+            - '@Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator.inner'
+            - '@ibexa.image_alias.imagine.cache_resolver'
+            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
+        public: false
+
+    Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator:
+        class: 'Ibexa\Bundle\Core\Imagine\ImageAsset\AliasGenerator'
+        arguments:
+            - '@Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator'
+            - '@ibexa.api.service.content'
+            - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
+        public: false
+        tags:
+            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias', priority: -100 }
+
+    Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry:
+        class: 'Ibexa\Bundle\Core\Imagine\PlaceholderProviderRegistry'
+
+    Ibexa\Bundle\Core\Imagine\PlaceholderProvider\GenericProvider:
+        class: 'Ibexa\Bundle\Core\Imagine\PlaceholderProvider\GenericProvider'
+        arguments:
+            - '@liip_imagine'
+        tags:
+            - { name: 'ibexa.media.images.placeholder.provider', type: 'generic' }
+
+    Ibexa\Bundle\Core\Imagine\PlaceholderProvider\RemoteProvider:
+        class: 'Ibexa\Bundle\Core\Imagine\PlaceholderProvider\RemoteProvider'
+        tags:
+            - { name: 'ibexa.media.images.placeholder.provider', type: 'remote' }
+
+    ibexa.image_alias.imagine.filter.loader.scaledown.base:
+        abstract: true
+        public: false
+        calls:
+            - [setInnerLoader, ["@liip_imagine.filter.loader.thumbnail"]]
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.scaledown.base
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scaledownonly" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleWidthDownOnlyFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.scaledown.base
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleWidthDownOnlyFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scalewidthdownonly" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.scaledown.base
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scaleheightdownonly" }
+
+    ibexa.image_alias.imagine.filter.loader.relative_scale:
+        abstract: true
+        public: false
+        calls:
+            - [setInnerLoader, ["@liip_imagine.filter.loader.relative_resize"]]
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleWidthFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.relative_scale
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleWidthFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scalewidth" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.relative_scale
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scaleheight" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.relative_scale
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scale" }
+
+    ibexa.image_alias.imagine.filter.loader.scale_exact.base:
+        abstract: true
+        public: false
+        calls:
+            - [setInnerLoader, ["@liip_imagine.filter.loader.resize"]]
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleExactFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.scale_exact.base
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleExactFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scaleexact" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ScalePercentFilterLoader:
+        parent: ibexa.image_alias.imagine.filter.loader.scale_exact.base
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ScalePercentFilterLoader
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/scalepercent" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader
+        public: false
+        calls:
+            - [setInnerLoader, ["@liip_imagine.filter.loader.crop"]]
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "geometry/crop" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\BorderFilterLoader:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\BorderFilterLoader
+        public: false
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "border" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader
+        arguments: ['@ibexa.image_alias.imagine.filter.reduce_noise']
+        public: false
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "filter/noise" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader
+        arguments: ['@ibexa.image_alias.imagine.filter.swirl']
+        public: false
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "filter/swirl" }
+
+    Ibexa\Bundle\Core\Imagine\Filter\Loader\GrayscaleFilterLoader:
+        class: Ibexa\Bundle\Core\Imagine\Filter\Loader\GrayscaleFilterLoader
+        public: false
+        tags:
+            - { name: liip_imagine.filter.loader, loader: "colorspace/gray" }
+
+    ibexa.image_alias.variation_purger:
+        # < platform 2015.05
+        # alias: Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger
+        # >= platform 2015.05
+        alias: Ibexa\Bundle\Core\Imagine\VariationPurger\IOVariationPurger
+
+    Ibexa\Bundle\Core\Imagine\VariationPurger\IOVariationPurger:
+        class: Ibexa\Bundle\Core\Imagine\VariationPurger\IOVariationPurger
+        arguments:
+            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            - '@ibexa.cache_pool'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
+            - '@Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator'
+            - '@Ibexa\Bundle\Core\Imagine\VariationPathGenerator\AliasDirectoryVariationPathGenerator'
+        calls:
+            - [setLogger, ["@?logger"]]
+
+    Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger:
+        class: Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileVariationPurger
+        arguments:
+            - '@Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList'
+            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            - '@Ibexa\Bundle\Core\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGenerator'
+        calls:
+            - [setLogger, ["@?logger"]]
+
+    Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList:
+        class: Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList
+        arguments:
+            - '@Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileRowReader'
+            - '@Ibexa\Core\IO\IOConfigProvider'
+            - '@ibexa.config.resolver'
+
+    Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileRowReader:
+        class: Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileRowReader
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+
+    ibexa.image_alias.variation_path_generator:
+        # < platform 2015.05
+        # alias: Ibexa\Bundle\Core\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGenerator
+        # >= platform 2015.05
+        alias: Ibexa\Bundle\Core\Imagine\VariationPathGenerator\AliasDirectoryVariationPathGenerator
+
+    Ibexa\Bundle\Core\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGenerator:
+        class: Ibexa\Bundle\Core\Imagine\VariationPathGenerator\OriginalDirectoryVariationPathGenerator
+
+    Ibexa\Bundle\Core\Imagine\VariationPathGenerator\AliasDirectoryVariationPathGenerator:
+        class: Ibexa\Bundle\Core\Imagine\VariationPathGenerator\AliasDirectoryVariationPathGenerator
+
+    # Abstract Image Variations
+
+    Ibexa\Core\Variation\VariationHandlerRegistry:
+        arguments:
+            $variationHandlers: !tagged_iterator { tag: 'ibexa.media.images.variation.handler', index_by: 'identifier' }
+
+    Ibexa\Bundle\Core\Variation\VariationHandlerResolver:
+        autowire: true
+        autoconfigure: true
+
+    Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator:
+        class: Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator
+        arguments:
+            - '@ibexa.image_alias.imagine.alias_generator'
+            - '@ibexa.image_alias.variation_path_generator'
+            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            - '@liip_imagine'
+        tags:
+            - { name: 'ibexa.media.images.variation.handler', identifier: 'alias', priority: -50 }
+
+    Ibexa\Bundle\Core\Imagine\VariationPathGenerator\WebpFormatVariationPathGenerator:
+        decorates: ibexa.image_alias.variation_path_generator
+        arguments:
+            $innerVariationPathGenerator: '@.inner'
+            $filterConfiguration: '@liip_imagine.filter.configuration'
+
+    # SPI Aliases
+    Ibexa\Contracts\Core\Variation\VariationHandler: '@Ibexa\Bundle\Core\Variation\VariationHandlerResolver'
+
+    # Image alias generator
+    ibexa.field_type.ezimage.variation_service:
+        alias: Ibexa\Contracts\Core\Variation\VariationHandler

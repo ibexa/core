@@ -1,0 +1,273 @@
+imports:
+    - { resource: inner/name_schema.yaml }
+
+parameters:
+    ibexa.kernel.proxy_cache_dir: 'var/cache/repository/proxy'
+
+    # intentionally defined class parameter to be used by the Repository Factory
+services:
+    Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
+        class: Ibexa\Core\Base\Container\ApiLoader\RepositoryFactory
+        arguments:
+            - Ibexa\Core\Repository\Repository
+            - '%ibexa.api.role.policy_map%'
+            - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
+        calls:
+            - [setContainer, ["@service_container"]]
+
+    Ibexa\Core\Repository\Repository:
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\RepositoryFactory', buildRepository]
+        arguments:
+            - '@ibexa.api.persistence_handler'
+            - '@ibexa.spi.search'
+            - '@Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener'
+            - '@Ibexa\Core\Repository\Helper\RelationProcessor'
+            - '@Ibexa\Core\FieldType\FieldTypeRegistry'
+            - '@Ibexa\Core\Repository\User\PasswordHashService'
+            - '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
+            - '@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory'
+            - '@Ibexa\Core\Repository\Mapper\ContentDomainMapper'
+            - '@Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper'
+            - '@Ibexa\Core\Repository\Mapper\RoleDomainMapper'
+            - '@Ibexa\Core\Repository\Mapper\ContentMapper'
+            - '@Ibexa\Contracts\Core\Repository\Validator\ContentValidator'
+            - '@Ibexa\Core\Repository\Permission\LimitationService'
+            - '@Ibexa\Contracts\Core\Repository\PermissionService'
+            - '@Ibexa\Contracts\Core\Persistence\Filter\Content\Handler'
+            - '@Ibexa\Contracts\Core\Persistence\Filter\Location\Handler'
+            - '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
+            - '@ibexa.config.resolver'
+            - '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
+            - '%languages%'
+
+    Ibexa\Core\Repository\ContentService:
+        class: Ibexa\Core\Repository\ContentService
+        factory: ['@Ibexa\Core\Repository\Repository', getContentService]
+        lazy: true
+
+    Ibexa\Core\Repository\ContentTypeService:
+        class: Ibexa\Core\Repository\ContentTypeService
+        factory: ['@Ibexa\Core\Repository\Repository', getContentTypeService]
+        lazy: true
+
+    Ibexa\Core\Repository\FieldTypeService:
+        class: Ibexa\Core\Repository\FieldTypeService
+        factory: ['@Ibexa\Core\Repository\Repository', getFieldTypeService]
+        lazy: true
+
+    Ibexa\Core\Repository\RoleService:
+        class: Ibexa\Core\Repository\RoleService
+        factory: ['@Ibexa\Core\Repository\Repository', getRoleService]
+        lazy: true
+
+    Ibexa\Core\Repository\ObjectStateService:
+        class: Ibexa\Core\Repository\ObjectStateService
+        factory: ['@Ibexa\Core\Repository\Repository', getObjectStateService]
+        lazy: true
+
+    Ibexa\Core\Repository\URLWildcardService:
+        class: Ibexa\Core\Repository\URLWildcardService
+        factory: ['@Ibexa\Core\Repository\Repository', getURLWildcardService]
+        lazy: true
+
+    Ibexa\Core\Repository\URLAliasService:
+        class: Ibexa\Core\Repository\URLAliasService
+        factory: ['@Ibexa\Core\Repository\Repository', getURLAliasService]
+        lazy: true
+
+    Ibexa\Core\Repository\UserService:
+        class: Ibexa\Core\Repository\UserService
+        factory: ['@Ibexa\Core\Repository\Repository', getUserService]
+        calls:
+            - [setLogger, ["@?logger"]]
+        lazy: true
+
+    Ibexa\Core\Repository\SearchService:
+        class: Ibexa\Core\Repository\SearchService
+        factory: ['@Ibexa\Core\Repository\Repository', getSearchService]
+        lazy: true
+
+    Ibexa\Core\Repository\SectionService:
+        class: Ibexa\Core\Repository\SectionService
+        factory: ['@Ibexa\Core\Repository\Repository', getSectionService]
+        lazy: true
+
+    Ibexa\Core\Repository\TrashService:
+        class: Ibexa\Core\Repository\TrashService
+        factory: ['@Ibexa\Core\Repository\Repository', getTrashService]
+        lazy: true
+
+    ibexa.api.service.inner_location:
+        class: Ibexa\Core\Repository\LocationService
+        factory: ['@Ibexa\Core\Repository\Repository', getLocationService]
+        lazy: true
+
+    Ibexa\Core\Repository\LanguageService:
+        class: Ibexa\Core\Repository\LanguageService
+        factory: ['@Ibexa\Core\Repository\Repository', getContentLanguageService]
+        lazy: true
+
+    Ibexa\Core\Repository\URLService:
+        class: Ibexa\Core\Repository\URLService
+        factory: ['@Ibexa\Core\Repository\Repository', getUrlService]
+        lazy: true
+
+    Ibexa\Core\Repository\BookmarkService:
+        class: Ibexa\Core\Repository\BookmarkService
+        factory: ['@Ibexa\Core\Repository\Repository', getBookmarkService]
+        lazy: true
+
+    Ibexa\Core\Repository\NotificationService:
+        class: Ibexa\Core\Repository\NotificationService
+        factory: ['@Ibexa\Core\Repository\Repository', getNotificationService]
+        lazy: true
+
+    Ibexa\Core\Repository\UserPreferenceService:
+        class: Ibexa\Core\Repository\UserPreferenceService
+        factory: ['@Ibexa\Core\Repository\Repository', getUserPreferenceService]
+        lazy: true
+
+    Ibexa\Core\Repository\SettingService:
+        arguments:
+            $settingHandler: '@Ibexa\Core\Persistence\Cache\SettingHandler'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+
+    Ibexa\Core\Repository\TokenService:
+        autowire: true
+        autoconfigure: true
+
+    # Factories
+    Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener:
+        class: Ibexa\Core\Search\Common\BackgroundIndexer\NullIndexer
+
+    Ibexa\Core\Repository\Helper\RelationProcessor:
+        class: Ibexa\Core\Repository\Helper\RelationProcessor
+        arguments:
+            - '@ibexa.api.persistence_handler'
+        calls:
+            - ['setLogger', ['@?logger']]
+
+    # Domain mappers and proxies
+    Ibexa\Core\Repository\ProxyFactory\ProxyGenerator:
+        arguments:
+            $proxyCacheDir: '%ibexa.kernel.proxy_cache_dir%'
+
+    Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface:
+        alias: 'Ibexa\Core\Repository\ProxyFactory\ProxyGenerator'
+
+    Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory:
+        arguments:
+            $proxyGenerator: '@Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface'
+
+    Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapper:
+        factory: ['@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory', 'create']
+        arguments:
+            $repository: '@Ibexa\Core\Repository\Repository'
+
+    Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface:
+        alias: 'Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapper'
+
+    # Mappers
+    Ibexa\Core\Repository\Mapper\ProxyAwareDomainMapper:
+        abstract: true
+        calls:
+            -   method: setProxyFactory
+                arguments:
+                    $proxyFactory: '@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface'
+
+    Ibexa\Core\Repository\Mapper\ContentMapper:
+        arguments:
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
+
+    Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper:
+        parent: Ibexa\Core\Repository\Mapper\ProxyAwareDomainMapper
+        arguments:
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
+
+    Ibexa\Core\Repository\Mapper\ContentDomainMapper:
+        parent: Ibexa\Core\Repository\Mapper\ProxyAwareDomainMapper
+        arguments:
+            $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            $locationHandler: '@Ibexa\Contracts\Core\Persistence\Content\Location\Handler'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+            $contentTypeDomainMapper: '@Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper'
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
+            $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
+        calls:
+            - [setLogger, ['@?logger']]
+        tags:
+            - { name: 'monolog.logger', channel: 'ibexa.core' }
+
+    Ibexa\Core\Repository\Mapper\RoleDomainMapper:
+        arguments:
+            $limitationService: '@Ibexa\Core\Repository\Permission\LimitationService'
+
+    # Permission-related
+    Ibexa\Core\Repository\Permission\LimitationService:
+        arguments:
+            $limitationTypes: !tagged_iterator { tag: ibexa.permissions.limitation_type, index_by: alias }
+
+    Ibexa\Core\Repository\Permission\PermissionResolver:
+        arguments:
+            $roleDomainMapper: '@Ibexa\Core\Repository\Mapper\RoleDomainMapper'
+            $limitationService: '@Ibexa\Core\Repository\Permission\LimitationService'
+            $userHandler: '@Ibexa\Contracts\Core\Persistence\User\Handler'
+            $configResolver: '@ibexa.config.resolver'
+            $policyMap: '%ibexa.api.role.policy_map%'
+
+    Ibexa\Core\Repository\Permission\PermissionCriterionResolver:
+        arguments:
+            $innerPermissionResolver: '@Ibexa\Core\Repository\Permission\PermissionResolver'
+            $limitationService: '@Ibexa\Core\Repository\Permission\LimitationService'
+
+    Ibexa\Core\Repository\Permission\CachedPermissionService:
+        arguments:
+            $innerPermissionResolver: '@Ibexa\Core\Repository\Permission\PermissionResolver'
+            $permissionCriterionResolver: '@Ibexa\Core\Repository\Permission\PermissionCriterionResolver'
+
+    Ibexa\Core\Repository\Strategy\ContentValidator\ContentValidatorStrategy:
+        arguments:
+            $contentValidators: !tagged_iterator ibexa.repository.content.validator
+
+    Ibexa\Core\Repository\Validator\ContentCreateStructValidator:
+        arguments:
+            $contentMapper: '@Ibexa\Core\Repository\Mapper\ContentMapper'
+            $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
+        tags:
+            - ibexa.repository.content.validator
+
+    Ibexa\Core\Repository\Validator\ContentUpdateStructValidator:
+        arguments:
+            $contentMapper: '@Ibexa\Core\Repository\Mapper\ContentMapper'
+            $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
+            $contentLanguageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+        tags:
+            - ibexa.repository.content.validator
+
+    Ibexa\Core\Repository\Validator\VersionValidator:
+        arguments:
+            $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
+        tags:
+            - ibexa.repository.content.validator
+
+    Ibexa\Contracts\Core\Repository\Validator\ContentValidator: '@Ibexa\Core\Repository\Strategy\ContentValidator\ContentValidatorStrategy'
+
+    # LocationResolver
+    Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver:
+        arguments:
+            - '@ibexa.api.service.location'
+
+    Ibexa\Core\Repository\LocationResolver\LocationResolver:
+        alias: Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver
+
+    Ibexa\Core\Repository\Validator\TargetContentValidator:
+        arguments:
+            $contentHandler: '@Ibexa\Contracts\Core\Persistence\Content\Handler'
+            $contentTypeHandler: '@Ibexa\Contracts\Core\Persistence\Content\Type\Handler'
+
+    Ibexa\Core\Repository\Validator\TargetContentValidatorInterface:
+        alias: Ibexa\Core\Repository\Validator\TargetContentValidator

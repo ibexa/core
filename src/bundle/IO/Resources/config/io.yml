@@ -1,0 +1,139 @@
+services:
+    Ibexa\Bundle\IO\Command\MigrateFilesCommand:
+        class: Ibexa\Bundle\IO\Command\MigrateFilesCommand
+        arguments:
+            - '%ibexa.io.metadata_handlers%'
+            - '%ibexa.io.binarydata_handlers%'
+            - '@Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry'
+            - '@Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry:
+        class: Ibexa\Bundle\IO\Migration\FileListerRegistry\ConfigurableRegistry
+
+    Ibexa\Bundle\IO\Migration\MigrationHandler:
+        class: Ibexa\Bundle\IO\Migration\MigrationHandler
+        arguments:
+            - '@ibexa.core.io.metadata_handler.registry'
+            - '@ibexa.core.io.binarydata_handler.registry'
+            - "@logger"
+
+    ibexa.core.io.migration.file_lister.binary_file_lister:
+        class: Ibexa\Bundle\IO\Migration\FileLister\BinaryFileLister
+        parent: Ibexa\Bundle\IO\Migration\MigrationHandler
+        arguments:
+            - '@ibexa.core.io.migration.file_lister.file_iterator.binary_file_iterator'
+            - "%ibexa.site_access.config.default.binary_dir%"
+        tags:
+            - { name: "ibexa.io.migration.file_lister", identifier: "binary_file" }
+        lazy: true
+
+    ibexa.core.io.migration.file_lister.media_file_lister:
+        class: Ibexa\Bundle\IO\Migration\FileLister\BinaryFileLister
+        parent: Ibexa\Bundle\IO\Migration\MigrationHandler
+        arguments:
+            - '@ibexa.core.io.migration.file_lister.file_iterator.media_file_iterator'
+            - "%ibexa.site_access.config.default.binary_dir%"
+        tags:
+            - { name: "ibexa.io.migration.file_lister", identifier: "media_file" }
+        lazy: true
+
+    Ibexa\Bundle\IO\Migration\FileLister\ImageFileLister:
+        class: Ibexa\Bundle\IO\Migration\FileLister\ImageFileLister
+        parent: Ibexa\Bundle\IO\Migration\MigrationHandler
+        arguments:
+            - '@Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList'
+            - '@ibexa.image_alias.variation_path_generator'
+            - "@liip_imagine.filter.configuration"
+            - "%ibexa.site_access.config.default.image.published_images_dir%"
+        tags:
+            - { name: "ibexa.io.migration.file_lister", identifier: "image_file" }
+        lazy: true
+
+    ibexa.core.io.migration.file_lister.file_iterator.binary_file_iterator:
+        class: Ibexa\Bundle\IO\Migration\FileLister\FileIterator\LegacyStorageFileIterator
+        arguments:
+            - '@Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageBinaryFileRowReader'
+
+    ibexa.core.io.migration.file_lister.file_iterator.media_file_iterator:
+        class: Ibexa\Bundle\IO\Migration\FileLister\FileIterator\LegacyStorageFileIterator
+        arguments:
+            - '@Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageMediaFileRowReader'
+
+    Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageFileRowReader:
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+
+    Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageBinaryFileRowReader:
+        class: Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageBinaryFileRowReader
+        parent: Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageFileRowReader
+
+    Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageMediaFileRowReader:
+        class: Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageMediaFileRowReader
+        parent: Ibexa\Bundle\IO\Migration\FileLister\FileRowReader\LegacyStorageFileRowReader
+
+    Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator:
+        class: Ibexa\Bundle\IO\Migration\FileMigrator\FileMigrator
+        parent: Ibexa\Bundle\IO\Migration\MigrationHandler
+
+    # Builds the binarydata and metadata handler based on the siteaccess config
+    Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler:
+        class: Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentMetadataHandler
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $dataHandlerRegistry: '@ibexa.core.io.metadata_handler.registry'
+
+    Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler:
+        class: Ibexa\Core\IO\IOBinarydataHandler\SiteAccessDependentBinaryDataHandler
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+            $dataHandlerRegistry: '@ibexa.core.io.binarydata_handler.registry'
+
+    ibexa.core.io.metadata_handler.registry:
+        class: Ibexa\Bundle\IO\ApiLoader\HandlerRegistry
+
+    ibexa.core.io.binarydata_handler.registry:
+        class: Ibexa\Bundle\IO\ApiLoader\HandlerRegistry
+
+    # Inject the siteaccess config into a few io services
+    Ibexa\Core\IO\UrlDecorator\AbsolutePrefix:
+        class: Ibexa\Core\IO\UrlDecorator\AbsolutePrefix
+        arguments:
+            - '@Ibexa\Core\IO\IOConfigProvider'
+
+    # Default flysystem metadata handler
+    ibexa.core.io.metadata_handler.flysystem.default:
+        class: Ibexa\Core\IO\IOMetadataHandler\Flysystem
+        arguments:
+            - '@ibexa.core.io.flysystem.default_filesystem'
+        tags:
+            - { name: monolog.logger, channel: ibexa.core.io }
+
+    # Base service for flysystem binarydata handler
+    ibexa.core.io.binarydata_handler.flysystem:
+        abstract: true
+        class: Ibexa\Core\IO\IOBinarydataHandler\Flysystem
+        arguments:
+            - ~
+            - '@ibexa.core.io.default_url_decorator'
+
+    # Default flysystem binarydata handler
+    ibexa.core.io.binarydata_handler.flysystem.default:
+        class: Ibexa\Core\IO\IOBinarydataHandler\Flysystem
+        arguments:
+            - '@ibexa.core.io.flysystem.default_filesystem'
+            - '@ibexa.core.io.default_url_decorator'
+
+    Ibexa\Core\IO\UrlDecorator\Prefix:
+        class: Ibexa\Core\IO\UrlDecorator\Prefix
+        arguments:
+            - '@Ibexa\Core\IO\IOConfigProvider'
+
+    Ibexa\Bundle\IO\EventListener\StreamFileListener:
+        class: Ibexa\Bundle\IO\EventListener\StreamFileListener
+        arguments:
+            - '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            - '@Ibexa\Core\IO\IOConfigProvider'
+        tags:
+            - { name: kernel.event_subscriber }

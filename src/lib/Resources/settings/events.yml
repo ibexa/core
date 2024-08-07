@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Core\Repository\EventSubscriber\DeleteUserSubscriber: ~
+
+    Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber: ~

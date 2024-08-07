@@ -1,0 +1,91 @@
+parameters:
+    ibexa.site_access.config.default.io.file_storage.file_type_blacklist:
+        - php
+        - php3
+        - phar
+        - phpt
+        - pht
+        - phtml
+        - pgif
+
+services:
+    logger:
+        class: Psr\Log\NullLogger
+
+    Symfony\Component\EventDispatcher\EventDispatcher:
+        calls:
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\ContentEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\LocationEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\ObjectStateEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\SectionEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\TrashEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Search\Common\EventSubscriber\UserEventSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Repository\EventSubscriber\NameSchemaSubscriber' ] ]
+            - [ 'addSubscriber', [ '@Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber' ] ]
+
+    Symfony\Contracts\EventDispatcher\EventDispatcherInterface: '@Symfony\Component\EventDispatcher\EventDispatcher'
+
+    # By default use in-memory cache for tests to avoid disk IO but still make sure we tests cache clearing works
+    ibexa.cache_pool.driver:
+        class: Symfony\Component\Cache\Adapter\ArrayAdapter
+        arguments: [120, false]
+
+    # Override Slug Converter service to expose mutating Service configuration
+    Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter:
+        class: Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter
+        arguments:
+            - '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
+            - []
+
+    # Configure serializer required  Generic Field Type
+    ezpublish.field_type.ezgeneric.value_serializer.symfony.normalizer:
+        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+
+    ezpublish.field_type.ezgeneric.value_serializer.symfony.encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+
+    ezpublish.field_type.ezgeneric.value_serializer.symfony.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            - [ '@ezpublish.field_type.ezgeneric.value_serializer.symfony.normalizer' ]
+            - [ '@ezpublish.field_type.ezgeneric.value_serializer.symfony.encoder' ]
+
+    serializer:
+        alias: ezpublish.field_type.ezgeneric.value_serializer.symfony.serializer
+
+    Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler: ~
+    Ibexa\Contracts\Core\Variation\VariationHandler: '@Ibexa\Tests\Integration\Core\Persistence\Variation\InMemoryVariationHandler'
+
+    ibexa.config.resolver:
+        class: Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver
+        arguments:
+            - '@logger'
+            - []
+            - 'ibexa.site_access.config'
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - [setContainer, ['@service_container']]
+            - [setDefaultScope, ['default']]
+
+    Ibexa\Core\MVC\Symfony\SiteAccess:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess
+        arguments: ['default', 'uninitialized']
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService
+        arguments:
+            - '@ibexa.siteaccess.provider'
+            - '@ibexa.config.resolver'
+        calls:
+            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
+        alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
+
+    Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider:
+        class: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
+        arguments:
+            $providers: !tagged ibexa.site_access.provider
+
+    ibexa.siteaccess.provider:
+        alias: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider

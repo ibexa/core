@@ -1,0 +1,26 @@
+parameters:
+    ibexa.persistence.legacy.dsn: 'sqlite://:memory:'
+    anonymous_user_id: 10
+    kernel.debug: false
+    languages: []
+    ibexa.io.images.storage.prefix: images
+    ibexa.io.images.storage.prefix.draft: images-versioned
+    ibexa.io.binary_file.storage.prefix: original
+    ibexa.site_access.list: [test]
+    ibexa.site_access.config.default.anonymous_user_id: 10
+    ibexa.site_access.config.default.io.permissions.files: 0644
+    ibexa.site_access.config.default.io.permissions.directories: 0755
+
+services:
+    ibexa.api.persistence_handler:
+        #To disable cache, switch alias to Ibexa\Contracts\Core\Persistence\Handler
+        alias: Ibexa\Core\Persistence\Cache\Handler
+
+    Ibexa\Contracts\Core\Persistence\Handler:
+        alias: Ibexa\Core\Persistence\Legacy\Handler
+
+    ibexa.spi.search:
+        alias: Ibexa\Contracts\Core\Search\VersatileHandler
+
+    Ibexa\Contracts\Core\Search\VersatileHandler:
+        alias: Ibexa\Core\Search\Legacy\Content\Handler

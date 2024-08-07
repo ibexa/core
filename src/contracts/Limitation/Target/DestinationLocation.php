@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Limitation\Target;
 
-use eZ\Publish\API\Repository\Values\Content\ContentInfo;
-use eZ\Publish\SPI\Limitation\Target;
-use eZ\Publish\SPI\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Limitation\Target;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * Location Limitation target.
@@ -20,7 +20,7 @@ final class DestinationLocation extends ValueObject implements Target
     /** @var int */
     private $locationId;
 
-    /** @var \eZ\Publish\API\Repository\Values\Content\ContentInfo */
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
     private $targetContentInfo;
 
     public function __construct(int $locationId, ContentInfo $targetContentInfo, array $properties = [])

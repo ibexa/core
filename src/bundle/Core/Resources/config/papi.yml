@@ -1,0 +1,74 @@
+parameters:
+    ibexa.kernel.root_dir: "%kernel.project_dir%/vendor/ibexa/core"
+
+    # API
+    ibexa.kernel.proxy_cache_dir: '%kernel.cache_dir%/repository/proxy'
+
+    # Using legacy storage engine for data compatibility with 4.x
+    ibexa.api.storage_engine.default: legacy
+    ibexa.api.search_engine.default: legacy
+
+services:
+    # API
+    Ibexa\Bundle\Core\ApiLoader\RepositoryFactory:
+        arguments:
+            - '@ibexa.config.resolver'
+            - Ibexa\Core\Repository\Repository
+            - '%ibexa.api.role.policy_map%'
+            - '@Ibexa\Contracts\Core\Repository\LanguageResolver'
+            - "@?logger"
+        calls:
+            - [setContainer, ["@service_container"]]
+
+    Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory:
+        class: Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory
+        arguments:
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+
+    ibexa.api.persistence_handler:
+        #To disable cache, switch alias to Ibexa\Contracts\Core\Persistence\Handler
+        alias: Ibexa\Core\Persistence\Cache\Handler
+
+    Ibexa\Contracts\Core\Persistence\Handler:
+        class: Ibexa\Contracts\Core\Persistence\Handler
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\StorageEngineFactory', buildStorageEngine]
+        public: false
+
+    Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory:
+        class: Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory
+        arguments:
+            - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+
+    Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory:
+            class: Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory
+            arguments:
+                - '@Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider'
+
+    ibexa.spi.search:
+        alias: Ibexa\Contracts\Core\Search\VersatileHandler
+
+    ibexa.spi.search.indexer:
+        alias: Ibexa\Core\Search\Common\Indexer
+
+    Ibexa\Contracts\Core\Search\VersatileHandler:
+        class: Ibexa\Contracts\Core\Search\VersatileHandler
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\SearchEngineFactory', buildSearchEngine]
+        public: false
+        lazy: true
+
+    Ibexa\Core\Search\Common\Indexer:
+        class: Ibexa\Core\Search\Common\Indexer
+        factory: ['@Ibexa\Bundle\Core\ApiLoader\SearchEngineIndexerFactory', buildSearchEngineIndexer]
+        public: false
+
+    # Redefine background indexer to the one provided here which works on kernel/console.terminate.
+    Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener:
+        class: Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener
+        arguments:
+            - '@ibexa.api.persistence_handler'
+            - '@ibexa.spi.search'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Contracts\Core\Search\Content\IndexerGateway:
+        alias: Ibexa\Core\Search\Legacy\Content\IndexerGateway

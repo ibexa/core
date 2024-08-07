@@ -1,0 +1,45 @@
+ibexa.content.translation.view:
+    path: /view/content/{contentId}/{viewType}/{layout}/translation/{languageCode}/{locationId}
+    defaults:
+        _controller: ibexa_content::viewAction
+        viewType: full
+        locationId: null
+        layout: true
+    options:
+        expose: true
+
+ibexa.content.view:
+    path: /view/content/{contentId}/{viewType}/{layout}/{locationId}
+    defaults:
+        _controller: ibexa_content::viewAction
+        viewType: full
+        locationId: null
+        layout: true
+    options:
+        expose: true
+
+ibexa.version.preview:
+    path: /content/versionview/{contentId}/{versionNo}/{language}/site_access/{siteAccessName}
+    controller: ibexa.controller.content.preview:previewContentAction
+    defaults:
+        siteAccessName: null
+    methods:  [GET]
+
+ibexa.content.preview.default:
+    path: /content/versionview/{contentId}/{versionNo}/{language}
+    defaults: { _controller: ibexa.controller.content.preview:previewContentAction }
+    methods:  [GET]
+
+ibexa.user_hash:
+    path: /_fos_user_context_hash
+
+ibexa.content.download:
+    path: /content/download/{contentId}/{fieldIdentifier}/{filename}
+    defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:downloadBinaryFileAction }
+
+ibexa.content.download.field_id:
+    path: /content/download/{contentId}/{fieldId}
+    defaults: { _controller: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:downloadBinaryFileByIdAction }
+    requirements:
+        contentId: '\d+'
+        fieldId: '\d+'

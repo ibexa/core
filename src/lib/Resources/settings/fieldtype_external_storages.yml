@@ -1,0 +1,64 @@
+services:
+    Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage:
+        class: Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage
+        arguments:
+            $gateway: '@Ibexa\Core\FieldType\BinaryFile\BinaryFileStorage\Gateway\DoctrineStorage'
+            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $pathGenerator: '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
+            $mimeTypeDetector: '@ibexa.core.io.mimeTypeDetector'
+            $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
+        tags:
+            - {name: ibexa.field_type.storage.external.handler, alias: ezbinaryfile}
+
+    Ibexa\Core\FieldType\Image\ImageStorage:
+        class: Ibexa\Core\FieldType\Image\ImageStorage
+        arguments:
+            $gateway: '@Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage'
+            $ioService: '@Ibexa\Core\FieldType\Image\IO\Legacy'
+            $pathGenerator: '@Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator'
+            $imageSizeMetadataHandler: '@Ibexa\Core\IO\MetadataHandler\ImageSize'
+            $aliasCleaner: '@Ibexa\Core\FieldType\Image\AliasCleanerInterface'
+            $filePathNormalizer: '@Ibexa\Core\IO\FilePathNormalizerInterface'
+            $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
+        tags:
+            - {name: ibexa.field_type.storage.external.handler, alias: ezimage}
+
+    Ibexa\Core\FieldType\Keyword\KeywordStorage:
+        class: Ibexa\Core\FieldType\Keyword\KeywordStorage
+        arguments: ['@Ibexa\Core\FieldType\Keyword\KeywordStorage\Gateway\DoctrineStorage']
+        tags:
+            - {name: ibexa.field_type.storage.external.handler, alias: ezkeyword}
+
+    Ibexa\Core\FieldType\Media\MediaStorage:
+        class: Ibexa\Core\FieldType\Media\MediaStorage
+        arguments:
+            $gateway: '@Ibexa\Core\FieldType\Media\MediaStorage\Gateway\DoctrineStorage'
+            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $pathGenerator: '@Ibexa\Core\FieldType\BinaryBase\PathGenerator\LegacyPathGenerator'
+            $mimeTypeDetector: '@ibexa.core.io.mimeTypeDetector'
+            $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
+        tags:
+            - {name: ibexa.field_type.storage.external.handler, alias: ezmedia}
+
+    Ibexa\Core\FieldType\Url\UrlStorage:
+        class: Ibexa\Core\FieldType\Url\UrlStorage
+        arguments:
+            - '@Ibexa\Core\FieldType\Url\UrlStorage\Gateway\DoctrineStorage'
+            - "@?logger"
+        tags:
+            - {name: ibexa.field_type.storage.external.handler, alias: ezurl}
+
+    Ibexa\Core\FieldType\MapLocation\MapLocationStorage:
+        class: Ibexa\Core\FieldType\MapLocation\MapLocationStorage
+        arguments: ['@Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway\DoctrineStorage']
+        tags:
+            - {name: ibexa.field_type.storage.external.handler, alias: ezgmaplocation}
+
+    Ibexa\Core\FieldType\User\UserStorage:
+        class: Ibexa\Core\FieldType\User\UserStorage
+        arguments: ['@Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage']
+        tags:
+            - {name: ibexa.field_type.storage.external.handler, alias: ezuser}
+
+    Ibexa\Core\IO\MetadataHandler\ImageSize:
+        class: Ibexa\Core\IO\MetadataHandler\ImageSize

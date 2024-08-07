@@ -8,18 +8,18 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository;
 
-use eZ\Publish\API\Repository\PermissionService;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\API\Repository\Values\Filter\Filter;
-use eZ\Publish\Core\FieldType\FieldTypeRegistry;
-use eZ\Publish\Core\Repository\ContentService;
-use eZ\Publish\Core\Repository\Helper\NameSchemaService;
-use eZ\Publish\Core\Repository\Helper\RelationProcessor;
-use eZ\Publish\Core\Repository\Mapper\ContentDomainMapper;
-use eZ\Publish\Core\Repository\Mapper\ContentMapper;
-use eZ\Publish\SPI\Persistence\Filter\Content\Handler as ContentFilteringHandler;
-use eZ\Publish\SPI\Persistence\Handler as PersistenceHandler;
-use eZ\Publish\SPI\Repository\Validator\ContentValidator;
+use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
+use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
+use Ibexa\Contracts\Core\Repository\PermissionService;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Core\FieldType\FieldTypeRegistry;
+use Ibexa\Core\Repository\ContentService;
+use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
+use Ibexa\Core\Repository\Mapper\ContentMapper;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ContentServiceTest extends TestCase
 {
-    /** @var \eZ\Publish\API\Repository\ContentService */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
     private $contentService;
 
     protected function setUp(): void
@@ -37,7 +37,7 @@ final class ContentServiceTest extends TestCase
             $this->createMock(PersistenceHandler::class),
             $this->createMock(ContentDomainMapper::class),
             $this->createMock(RelationProcessor::class),
-            $this->createMock(NameSchemaService::class),
+            $this->createMock(NameSchemaServiceInterface::class),
             $this->createMock(FieldTypeRegistry::class),
             $this->createMock(PermissionService::class),
             $this->createMock(ContentMapper::class),

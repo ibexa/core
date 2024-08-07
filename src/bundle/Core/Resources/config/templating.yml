@@ -1,0 +1,324 @@
+parameters:
+    # @todo drop once core dependencies stop relying on those parameters
+
+    ibexa.content_view.viewbase_layout: "@@IbexaCore/viewbase_layout.html.twig"
+    ibexa.content_view.content_block_name: "content"
+
+    ibexa.twig.extension.filesize.suffixes: ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB']
+
+services:
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension:
+        class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ContentExtension
+        arguments:
+            - '@ibexa.api.repository'
+            - '@Ibexa\Core\Helper\TranslationHelper'
+            - '@Ibexa\Core\Helper\FieldHelper'
+            - '@Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList'
+            - "@?logger"
+        tags:
+            - {name: twig.extension}
+
+    Ibexa\Bundle\Core\View\Manager:
+        class: Ibexa\Bundle\Core\View\Manager
+        arguments:
+          - "@twig"
+          - "@event_dispatcher"
+          - '@ibexa.siteaccessaware.repository'
+          - '@ibexa.config.resolver'
+          - '%ibexa.content_view.viewbase_layout%'
+          - '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
+          - "@?logger"
+
+    Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface:
+        alias: Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
+
+    Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry:
+        arguments:
+            $matchers: !tagged_iterator { tag: 'ibexa.view.matcher', index_by: identifier }
+
+    ibexa.content_view_provider.configured:
+        class: Ibexa\Bundle\Core\View\Provider\Configured
+        arguments: ['@ibexa.content_view.matcher_factory']
+        tags:
+            - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
+
+    ibexa.content_view.matcher_factory:
+        class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
+        arguments:
+            - '@Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface'
+            - '@ibexa.api.repository'
+            - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
+
+    ibexa.content_view.matcher_factory.dynamically_configured:
+        class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
+        decorates: ibexa.content_view.matcher_factory
+        arguments:
+            $innerConfigurableMatcherFactory: '@ibexa.content_view.matcher_factory.dynamically_configured.inner'
+            $configResolver: '@ibexa.config.resolver'
+            $parameterName: content_view
+
+    ibexa.content_view_provider.default_configured:
+        class: Ibexa\Bundle\Core\View\Provider\Configured
+        arguments: ['@ibexa.content_view.default_matcher_factory']
+        tags:
+            - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: -1}
+
+    ibexa.content_view.default_matcher_factory:
+        class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
+        arguments:
+            - '@Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface'
+            - '@ibexa.api.repository'
+            - 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
+
+    ibexa.content_view.default_matcher_factory.dynamically_configured:
+        class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
+        decorates: ibexa.content_view.default_matcher_factory
+        arguments:
+            $innerConfigurableMatcherFactory: '@ibexa.content_view.default_matcher_factory.dynamically_configured.inner'
+            $configResolver: '@ibexa.config.resolver'
+            $parameterName: content_view_defaults
+
+    ibexa.location_view_provider.configured:
+        class: Ibexa\Bundle\Core\View\Provider\Configured
+        arguments: ['@ibexa.location_view.matcher_factory']
+        tags:
+            - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
+
+    ibexa.location_view.matcher_factory:
+        class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
+        arguments:
+            $viewMatcherRegistry: '@Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface'
+            $repository: '@ibexa.api.repository'
+            $relativeNamespace: 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
+
+    ibexa.location_view.matcher_factory.dynamically_configured:
+        class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
+        decorates: ibexa.location_view.matcher_factory
+        arguments:
+            $innerConfigurableMatcherFactory: '@ibexa.location_view.matcher_factory.dynamically_configured.inner'
+            $configResolver: '@ibexa.config.resolver'
+            $parameterName: location_view
+
+    Ibexa\Core\MVC\Symfony\Templating\GlobalHelper:
+        class: Ibexa\Core\MVC\Symfony\Templating\GlobalHelper
+        arguments: ['@ibexa.config.resolver', '@ibexa.siteaccessaware.service.location', "@router", '@Ibexa\Core\Helper\TranslationHelper']
+        calls:
+            - [setRequestStack, ["@request_stack"]]
+
+    ibexa.templating.global_helper:
+        alias: Ibexa\Core\MVC\Symfony\Templating\GlobalHelper
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\CoreExtension:
+        class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\CoreExtension
+        arguments: ['@ibexa.templating.global_helper']
+        tags:
+            - {name: twig.extension}
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension:
+        class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FileSizeExtension
+        arguments: ["@translator", '%ibexa.twig.extension.filesize.suffixes%', '@ibexa.config.resolver', '@Ibexa\Core\MVC\Symfony\Locale\LocaleConverter' ]
+        tags:
+            - {name: twig.extension}
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RoutingExtension:
+        class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RoutingExtension
+        arguments: ['@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator', "@router"]
+        tags:
+            - {name: twig.extension}
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider:
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer:
+        class: Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer
+        arguments:
+            $twig: '@twig'
+            $resourceProvider: '@Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProvider'
+            $baseTemplate: '%ibexa.content_view.viewbase_layout%'
+
+    ibexa.templating.field_block_renderer:
+        alias: Ibexa\Core\MVC\Symfony\Templating\Twig\FieldBlockRenderer
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension:
+        class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension
+        arguments:
+            - '@ibexa.templating.field_block_renderer'
+            - '@Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistry'
+            - '@Ibexa\Core\Helper\TranslationHelper'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\QueryRenderingExtension:
+        arguments:
+            - '@fragment.handler'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RenderExtension:
+        arguments:
+            $renderStrategy: '@Ibexa\Contracts\Core\MVC\Templating\RenderStrategy'
+            $eventDispatcher: '@event_dispatcher'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RenderContentExtension:
+        arguments:
+            $renderContentStrategy: '@Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy'
+            $eventDispatcher: '@event_dispatcher'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RenderLocationExtension:
+        arguments:
+            $renderLocationStrategy: '@Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy'
+            $eventDispatcher: '@event_dispatcher'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\Templating\RenderStrategy:
+        arguments:
+            $strategies: !tagged_iterator ibexa.view.render.strategy
+
+    Ibexa\Contracts\Core\MVC\Templating\RenderStrategy: '@Ibexa\Core\MVC\Symfony\Templating\RenderStrategy'
+
+    Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy:
+        arguments:
+            $fragmentRenderers: !tagged_iterator kernel.fragment_renderer
+            $defaultRenderer: !php/const Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer::NAME
+            $siteAccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
+            $requestStack: '@request_stack'
+        tags:
+            - { name: ibexa.view.render.strategy }
+
+    Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy:
+        arguments:
+            $fragmentRenderers: !tagged_iterator kernel.fragment_renderer
+            $defaultRenderer: !php/const Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer::NAME
+            $siteAccess: '@Ibexa\Core\MVC\Symfony\SiteAccess'
+            $requestStack: '@request_stack'
+        tags:
+            - { name: ibexa.view.render.strategy }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension:
+        class: Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\ImageExtension
+        arguments:
+            - '@ibexa.field_type.ezimage.variation_service'
+            - '@Ibexa\Core\FieldType\ImageAsset\AssetMapper'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker:
+        class: Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker
+
+    Ibexa\Core\MVC\Symfony\View\Provider\Registry:
+        class: Ibexa\Core\MVC\Symfony\View\Provider\Registry
+
+    Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider:
+        class: Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider
+        arguments: ['@Ibexa\Core\MVC\Symfony\View\Provider\Registry']
+
+    Ibexa\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch:
+        class: Ibexa\Core\MVC\Symfony\View\Builder\Registry\ControllerMatch
+        arguments:
+            $viewBuilders: !tagged_iterator { tag: ibexa.view.builder }
+
+    Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder:
+        class: Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder
+        arguments:
+            - '@ibexa.siteaccessaware.repository'
+            - '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
+            - '@Ibexa\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector'
+            - "@request_stack"
+            - '@Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader'
+        tags:
+            - { name: ibexa.view.builder }
+
+    Ibexa\Core\MVC\Symfony\View\Builder\ParametersFilter\RequestAttributes:
+        class: Ibexa\Core\MVC\Symfony\View\Builder\ParametersFilter\RequestAttributes
+        tags:
+            - {name: kernel.event_subscriber}
+
+    Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer:
+        class: Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer
+        arguments: ["@twig", "@event_dispatcher"]
+
+    Ibexa\Bundle\Core\EventListener\ViewRendererListener:
+        class: Ibexa\Bundle\Core\EventListener\ViewRendererListener
+        arguments: ['@Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer']
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector:
+        class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector
+        arguments: ["@event_dispatcher"]
+
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\CustomParameters:
+        class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\CustomParameters
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\EmbedObjectParameters:
+        class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\EmbedObjectParameters
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\NoLayout:
+        class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\NoLayout
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\ValueObjectsIds:
+        class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\ValueObjectsIds
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\View\ParametersInjector\ViewbaseLayout:
+        class: Ibexa\Core\MVC\Symfony\View\ParametersInjector\ViewbaseLayout
+        arguments:
+            - '%ibexa.content_view.viewbase_layout%'
+            - '@ibexa.config.resolver'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    ezpublish.view.cache_response_listener:
+        class: Ibexa\Bundle\Core\EventListener\CacheViewResponseListener
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\DataAttributesExtension:
+        autoconfigure: true
+        public: false
+
+    Ibexa\Bundle\Core\Templating\Twig\ContextAwareTwigVariablesExtension:
+        arguments:
+            $configResolver: '@ibexa.config.resolver'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\EventListener\ContentViewTwigVariablesSubscriber:
+        autoconfigure: true
+        autowire: true
+
+    Ibexa\Core\MVC\Symfony\View\GenericVariableProviderRegistry:
+        arguments:
+            $twigVariableProviders: !tagged ezplatform.view.variable_provider
+
+    Ibexa\Core\MVC\Symfony\View\VariableProviderRegistry: '@Ibexa\Core\MVC\Symfony\View\GenericVariableProviderRegistry'
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserExtension:
+        arguments:
+            $userService: '@Ibexa\Contracts\Core\Repository\UserService'
+            $permissionResolver: '@Ibexa\Contracts\Core\Repository\PermissionResolver'
+        tags:
+            - { name: twig.extension }
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserPreferenceExtension:
+        autowire: true
+        autoconfigure: true
+
+    Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserPreferenceRuntime:
+        autowire: true
+        autoconfigure: true

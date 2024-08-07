@@ -9,13 +9,14 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 
 use DateTime;
-use eZ\Publish\API\Repository\Values\ContentType\FieldDefinitionCreateStruct;
-use eZ\Publish\Core\FieldType\TextLine;
-use eZ\Publish\Core\Repository\Values\Content\ContentUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
+use Ibexa\Core\FieldType\TextLine;
+use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
- * @covers \eZ\Publish\API\Repository\ContentService
+ * @covers \Ibexa\Contracts\Core\Repository\ContentService
  */
 final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
 {
@@ -25,7 +26,7 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
     private const CONTENT_TYPE_IDENTIFIER = 'custom';
 
     /**
-     * @throws \eZ\Publish\API\Repository\Exceptions\Exception
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
      */
     public function testCopyTranslationsFromPublishedVersionCopiesEmptyValues(): void
     {
@@ -68,11 +69,17 @@ final class CopyTranslationsFromPublishedVersionTest extends RepositoryTestCase
         $usContent = $contentService->updateContent($usDraft->getVersionInfo(), $contentUpdateStruct);
         $publishedUsContent = $contentService->publishVersion($usContent->getVersionInfo(), [self::US_LANGUAGE_CODE]);
 
-        $usFieldValueInUsContent = $publishedUsContent->getField('title', self::US_LANGUAGE_CODE)->getValue();
+        $usFieldInUsContent = $publishedUsContent->getField('title', self::US_LANGUAGE_CODE);
+        self::assertInstanceOf(Field::class, $usFieldInUsContent);
+
+        $usFieldValueInUsContent = $usFieldInUsContent->getValue();
         self::assertInstanceOf(TextLine\Value::class, $usFieldValueInUsContent);
         self::assertSame('', $usFieldValueInUsContent->text);
 
-        $gerFieldValueInUsContent = $publishedUsContent->getField('title', self::GER_LANGUAGE_CODE)->getValue();
+        $gerFieldInUsContent = $publishedUsContent->getField('title', self::GER_LANGUAGE_CODE);
+        self::assertInstanceOf(Field::class, $gerFieldInUsContent);
+
+        $gerFieldValueInUsContent = $gerFieldInUsContent->getValue();
         self::assertInstanceOf(TextLine\Value::class, $gerFieldValueInUsContent);
         self::assertSame('', $gerFieldValueInUsContent->text);
     }

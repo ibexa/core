@@ -1,0 +1,384 @@
+parameters:
+    # Make sure logging is only enabled for debug by default
+    ibexa.spi.persistence.cache.persistenceLogger.enableCallLogging: "%kernel.debug%"
+    # Global in-memory settings, for meta data
+    ibexa.spi.persistence.cache.inmemory.ttl: 3000
+    ibexa.spi.persistence.cache.inmemory.limit: 100
+    ibexa.spi.persistence.cache.inmemory.enable: true
+    # Global in-memory settings, for content in-memory cache
+    ## WARNING: TTL on purpose low to avoid getting outdated data in prod! For dev config you can safely increase by x3
+    ibexa.spi.persistence.cache.inmemory.content.ttl: 300
+    ibexa.spi.persistence.cache.inmemory.content.limit: 100
+    ibexa.spi.persistence.cache.inmemory.content.enable: true
+    ibexa.core.persistence.cache.tag_prefix: 'ibx-'
+    ibexa.core.persistence.cache.tag_patterns:
+        by_group: 'bg-%s'
+        on_content: 'oc-%s'
+        bookmark: 'b-%s'
+        content: 'c-%s'
+        content_fields_type: 'cft-%s'
+        content_info: 'ci-%s'
+        content_info_by_remote_id: 'cibri-%s'
+        content_locations: 'cl-%s'
+        content_version_info: 'cvi-%s'
+        content_version_list: 'c-%s-vl'
+        content_version: 'c-%%s-v-%%s'
+        content_type: 'ct-%s'
+        content_type_with_by_remote_suffix: 'ct-%s-br'
+        content_type_with_id_suffix: 'ct-%s-bi'
+        content_type_field_map: 'ctfm'
+        content_type_group: 'ctg-%s'
+        content_type_group_with_id_suffix: 'ctg-%s-bi'
+        content_type_group_list: 'ctgl-%s'
+        content_type_list_by_group: 'ctlbg-%s'
+        content_relation: 'cr-%s'
+        content_relations_list: 'crl-%s'
+        image_variation: 'ig'
+        image_variation_name: 'ign-%s'
+        image_variation_siteaccess: 'igs-%s'
+        image_variation_content: 'igc-%s'
+        image_variation_field: 'igf-%s'
+        language: 'la-%s'
+        language_code: 'lac-%s'
+        language_list: 'lal'
+        location: 'l-%s'
+        location_path: 'lp-%s'
+        location_remote_id: 'lri'
+        location_subtree: 'ls-%s'
+        content_locations_with_parent_for_draft_suffix: 'cl-%s-pfd'
+        notification: 'n-%s'
+        notification_count: 'nc-%s'
+        notification_pending_count: 'npc-%s'
+        policy: 'p-%s'
+        relation: 're-%s'
+        role: 'r-%s'
+        role_assignment: 'ra-%s'
+        role_assignment_group_list: 'ragl-%s'
+        role_assignment_role_list: 'rarl-%s'
+        role_with_by_id_suffix: 'r-%s-bi'
+        role_assignment_with_by_role_suffix: 'ra-%s-bro'
+        role_assignment_with_by_role_offset_limit_suffix: 'ra-%%s-bro-%%s-%%s'
+        role_assignment_with_by_group_inherited_suffix: 'ra-%s-bgi'
+        role_assignment_with_by_group_suffix: 'ra-%s-bg'
+        section: 'se-%s'
+        section_with_by_id: 'se-%s-bi'
+        setting: 'set-%%s-%%s'
+        state: 's-%s'
+        state_by_group: 'sbg-%s'
+        state_group: 'sg-%s'
+        state_group_with_id_suffix: 'sg-%s-bi'
+        state_group_all: 'sga'
+        state_identifier: 'si-%s'
+        state_identifier_with_by_group_suffix: 'si-%%s-bg-%%s'
+        state_list_by_group: 'slbg-%s'
+        state_by_group_on_content: 'sbg-%%s-oc-%%s'
+        user: 'u-%s'
+        user_with_by_login_suffix: 'u-%s-bl'
+        user_with_by_email_suffix: 'u-%s-be'
+        users_with_by_email_suffix: 'us-%s-be'
+        user_with_account_key_suffix: 'u-%s-ak'
+        user_with_by_account_key_suffix: 'u-%s-bak'
+        url: 'url-%s'
+        url_alias: 'urla-%s'
+        url_alias_with_hash: 'urla-%%s-%%s'
+        url_alias_custom: 'urlac-%s'
+        url_alias_location: 'urlal-%s'
+        url_alias_location_list: 'urlall-%s'
+        url_alias_location_list_custom: 'urlall-%s-c'
+        url_alias_location_path: 'urlalp-%s'
+        url_alias_not_found: 'urlanf'
+        url_alias_url: 'urlau-%s'
+        url_wildcard: 'urlw-%s'
+        url_wildcard_not_found: 'urlwnf'
+        url_wildcard_source: 'urlws-%s'
+        user_preference: 'up'
+        user_preference_with_suffix: 'up-%%s-%%s'
+        type: 't-%s'
+        type_without_value: 't'
+        type_group: 'tg-%s'
+        type_map: 'tm'
+        version: 'v-%s'
+    ibexa.core.persistence.cache.key_patterns:
+        by_identifier_suffix: '-bi'
+        by_remote_suffix: '-br'
+        parent_for_draft_suffix: '-pfd'
+        by_login_suffix: '-bl'
+        by_email_suffix: '-be'
+        by_account_key_suffix: '-bak'
+        account_key_suffix: '-ak'
+        by_role_suffix: '-bro'
+        by_group_inherited_suffix: '-bgi'
+        by_group_suffix: '-bg'
+        on_content_suffix: '-oc'
+        custom_suffix: '-c'
+        by_group: 'bg-%s'
+        on_content: 'oc-%s'
+        bookmark: 'b-%s'
+        content: 'c-%s'
+        content_fields_type: 'cft-%s'
+        content_info: 'ci-%s'
+        content_info_by_remote_id: 'cibri-%s'
+        content_locations: 'cl-%s'
+        content_relations_count_with_by_version_type_suffix: 'crc-%%s-v-%%s-t-%%s'
+        content_relations_list_with_by_version_type_suffix: 'crl-%%s-l-%%s-o-%%s-v-%%s-t-%%s'
+        content_reverse_relations_count: 'crrc-%s'
+        content_version_info: 'cvi-%s'
+        content_version_list: 'c-%s-vl'
+        content_version: 'c-%%s-v-%%s'
+        content_type: 'ct-%s'
+        content_type_with_by_remote_suffix: 'ct-%s-br'
+        content_type_with_id_suffix: 'ct-%s-bi'
+        content_type_field_map: 'ctfm'
+        content_type_group: 'ctg-%s'
+        content_type_group_with_id_suffix: 'ctg-%s-bi'
+        content_type_list_by_field_definition_identifier: 'ctlbfdi-%s'
+        content_type_group_list: 'ctgl-%s'
+        content_type_list_by_group: 'ctlbg-%s'
+        image_variation: 'ig'
+        image_variation_name: 'ign-%s'
+        image_variation_siteaccess: 'igs-%s'
+        image_variation_content: 'igc-%s'
+        image_variation_field: 'igf-%s'
+        language: 'la-%s'
+        language_code: 'lac-%s'
+        language_list: 'lal'
+        location: 'l-%s'
+        location_path: 'lp-%s'
+        location_remote_id: 'lri'
+        location_subtree: 'ls-%s'
+        content_locations_with_parent_for_draft_suffix: 'cl-%s-pfd'
+        notification: 'n-%s'
+        notification_count: 'nc-%s'
+        notification_pending_count: 'npc-%s'
+        policy: 'p-%s'
+        relation: 're-%s'
+        role: 'r-%s'
+        role_assignment: 'ra-%s'
+        role_assignment_group_list: 'ragl-%s'
+        role_assignment_role_list: 'rarl-%s'
+        role_with_by_id_suffix: 'r-%s-bi'
+        role_assignment_with_by_role_suffix: 'ra-%s-bro'
+        role_assignment_with_by_role_offset_limit_suffix: 'ra-%%s-bro-%%s-%%s'
+        role_assignment_with_by_group_inherited_suffix: 'ra-%s-bgi'
+        role_assignment_with_by_group_suffix: 'ra-%s-bg'
+        section: 'se-%s'
+        section_with_by_id: 'se-%s-bi'
+        setting: 'set-%%s-%%s'
+        state: 's-%s'
+        state_by_group: 'sbg-%s'
+        state_group: 'sg-%s'
+        state_group_with_id_suffix: 'sg-%s-bi'
+        state_group_all: 'sga'
+        state_identifier: 'si-%s'
+        state_identifier_with_by_group_suffix: 'si-%%s-bg-%%s'
+        state_list_by_group: 'slbg-%s'
+        state_by_group_on_content: 'sbg-%%s-oc-%%s'
+        user: 'u-%s'
+        user_with_by_login_suffix: 'u-%s-bl'
+        user_with_by_email_suffix: 'u-%s-be'
+        users_with_by_email_suffix: 'us-%s-be'
+        user_with_account_key_suffix: 'u-%s-ak'
+        user_with_by_account_key_suffix: 'u-%s-bak'
+        url: 'url-%s'
+        url_alias: 'urla-%s'
+        url_alias_with_hash: 'urla-%%s-%%s'
+        url_alias_custom: 'urlac-%s'
+        url_alias_location: 'urlal-%s'
+        url_alias_location_list: 'urlall-%s'
+        url_alias_location_list_custom: 'urlall-%s-c'
+        url_alias_location_path: 'urlalp-%s'
+        url_alias_not_found: 'urlanf'
+        url_alias_url: 'urlau-%s'
+        url_wildcard: 'urlw-%s'
+        url_wildcard_not_found: 'urlwnf'
+        url_wildcard_source: 'urlws-%s'
+        user_preference: 'up'
+        user_preference_with_suffix: 'up-%%s-%%s'
+        type: 't-%s'
+        type_without_value: 't'
+        type_group: 'tg-%s'
+        type_map: 'tm'
+        version: 'v-%s'
+
+services:
+    # Setup cache pool, with InMemoryCacheAdapter as decorator
+    Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter:
+        decorates: ibexa.cache_pool
+        lazy: true
+        arguments:
+            $sharedPool: '@Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter.inner'
+            $inMemoryPools: !tagged ibexa.cache.persistence.inmemory
+
+    ibexa.cache_pool:
+        public: true
+        class: Symfony\Component\Cache\Adapter\TagAwareAdapter
+        arguments: ['@ibexa.cache_pool.driver']
+
+    # Note for tests: Default changed to in-memory Array cache in tests/common.yml by default, and opt in for redis
+    # testing is defined in \Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder
+    ibexa.cache_pool.driver:
+        public: false
+        class: Symfony\Component\Cache\Adapter\FilesystemAdapter
+        arguments: ["", 120]
+
+    # Logger which logs info when in dev for Symfony web toolbar
+    Ibexa\Core\Persistence\Cache\PersistenceLogger:
+        class: Ibexa\Core\Persistence\Cache\PersistenceLogger
+        arguments:
+            - '%ibexa.spi.persistence.cache.persistenceLogger.enableCallLogging%'
+
+    # In-Memory cache pools
+    ibexa.spi.persistence.cache.inmemory:
+        public: false
+        class: Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
+        arguments:
+            - '%ibexa.spi.persistence.cache.inmemory.ttl%'
+            - '%ibexa.spi.persistence.cache.inmemory.limit%'
+            - '%ibexa.spi.persistence.cache.inmemory.enable%'
+        tags: [ ibexa.cache.persistence.inmemory ]
+
+    ibexa.spi.persistence.cache.inmemory.content:
+        public: false
+        class: Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
+        arguments:
+            - '%ibexa.spi.persistence.cache.inmemory.content.ttl%'
+            - '%ibexa.spi.persistence.cache.inmemory.content.limit%'
+            - '%ibexa.spi.persistence.cache.inmemory.content.enable%'
+        tags: [ ibexa.cache.persistence.inmemory ]
+
+    Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface:
+        alias: Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGenerator
+
+    Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer: ~
+    Ibexa\Core\Persistence\Cache\LocationPathConverter: ~
+
+    Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGenerator:
+        autoconfigure: true
+        arguments:
+            $prefix: '%ibexa.core.persistence.cache.tag_prefix%'
+            $tagPatterns: '%ibexa.core.persistence.cache.tag_patterns%'
+            $keyPatterns: '%ibexa.core.persistence.cache.key_patterns%'
+        tags:
+            - { name: monolog.logger, channel: 'ibexa.cache' }
+
+    # SPI Persistence Cache Handlers, incl abstracts
+    Ibexa\Core\Persistence\Cache\AbstractHandler:
+        class: Ibexa\Core\Persistence\Cache\AbstractHandler
+        abstract:  true
+        arguments:
+            - '@ibexa.cache_pool'
+            - '@Ibexa\Contracts\Core\Persistence\Handler'
+            - '@Ibexa\Core\Persistence\Cache\PersistenceLogger'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer'
+            - '@Ibexa\Core\Persistence\Cache\LocationPathConverter'
+
+    Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler:
+        class: Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler
+        abstract:  true
+        arguments:
+            - '@ibexa.cache_pool'
+            - '@Ibexa\Core\Persistence\Cache\PersistenceLogger'
+            - '@ibexa.spi.persistence.cache.inmemory'
+
+    Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler:
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryHandler
+        class: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+        abstract: true
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Handler'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
+            - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierSanitizer'
+            - '@Ibexa\Core\Persistence\Cache\LocationPathConverter'
+            - '@?Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface'
+
+    Ibexa\Core\Persistence\Cache\SectionHandler:
+        class: Ibexa\Core\Persistence\Cache\SectionHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
+
+    Ibexa\Core\Persistence\Cache\LocationHandler:
+        class: Ibexa\Core\Persistence\Cache\LocationHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+        arguments: # Overload argument to use content in-memory service
+            index_2: '@ibexa.spi.persistence.cache.inmemory.content'
+
+    Ibexa\Core\Persistence\Cache\ContentHandler:
+        class: Ibexa\Core\Persistence\Cache\ContentHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+        arguments: # Overload argument to use content in-memory service
+            index_2: '@ibexa.spi.persistence.cache.inmemory.content'
+
+    Ibexa\Core\Persistence\Cache\ObjectStateHandler:
+        class: Ibexa\Core\Persistence\Cache\ObjectStateHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+
+    Ibexa\Core\Persistence\Cache\ContentLanguageHandler:
+        class: Ibexa\Core\Persistence\Cache\ContentLanguageHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+
+    Ibexa\Core\Persistence\Cache\ContentTypeHandler:
+        class: Ibexa\Core\Persistence\Cache\ContentTypeHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+
+    Ibexa\Core\Persistence\Cache\UserHandler:
+        class: Ibexa\Core\Persistence\Cache\UserHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+
+    Ibexa\Core\Persistence\Cache\TransactionHandler:
+        class: Ibexa\Core\Persistence\Cache\TransactionHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+
+    Ibexa\Core\Persistence\Cache\TrashHandler:
+        class: Ibexa\Core\Persistence\Cache\TrashHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
+
+    Ibexa\Core\Persistence\Cache\UrlAliasHandler:
+        class: Ibexa\Core\Persistence\Cache\UrlAliasHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+        arguments: # Overload argument to use content in-memory service
+          index_2: '@ibexa.spi.persistence.cache.inmemory.content'
+
+    Ibexa\Core\Persistence\Cache\URLHandler:
+        class: Ibexa\Core\Persistence\Cache\URLHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
+
+    Ibexa\Core\Persistence\Cache\BookmarkHandler:
+        class: Ibexa\Core\Persistence\Cache\BookmarkHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
+
+    Ibexa\Core\Persistence\Cache\NotificationHandler:
+        class: Ibexa\Core\Persistence\Cache\NotificationHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
+
+    Ibexa\Core\Persistence\Cache\UserPreferenceHandler:
+        class: Ibexa\Core\Persistence\Cache\UserPreferenceHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+
+    Ibexa\Core\Persistence\Cache\UrlWildcardHandler:
+        class: Ibexa\Core\Persistence\Cache\UrlWildcardHandler
+        parent: Ibexa\Core\Persistence\Cache\AbstractHandler
+
+    Ibexa\Core\Persistence\Cache\SettingHandler:
+        parent: Ibexa\Core\Persistence\Cache\AbstractInMemoryPersistenceHandler
+
+    Ibexa\Core\Persistence\Cache\Handler:
+        class: Ibexa\Core\Persistence\Cache\Handler
+        arguments:
+            - '@Ibexa\Contracts\Core\Persistence\Handler'
+            - '@Ibexa\Core\Persistence\Cache\SectionHandler'
+            - '@Ibexa\Core\Persistence\Cache\LocationHandler'
+            - '@Ibexa\Core\Persistence\Cache\ContentHandler'
+            - '@Ibexa\Core\Persistence\Cache\ContentLanguageHandler'
+            - '@Ibexa\Core\Persistence\Cache\ContentTypeHandler'
+            - '@Ibexa\Core\Persistence\Cache\UserHandler'
+            - '@Ibexa\Core\Persistence\Cache\TransactionHandler'
+            - '@Ibexa\Core\Persistence\Cache\TrashHandler'
+            - '@Ibexa\Core\Persistence\Cache\UrlAliasHandler'
+            - '@Ibexa\Core\Persistence\Cache\ObjectStateHandler'
+            - '@Ibexa\Core\Persistence\Cache\URLHandler'
+            - '@Ibexa\Core\Persistence\Cache\BookmarkHandler'
+            - '@Ibexa\Core\Persistence\Cache\NotificationHandler'
+            - '@Ibexa\Core\Persistence\Cache\UserPreferenceHandler'
+            - '@Ibexa\Core\Persistence\Cache\UrlWildcardHandler'
+            - '@Ibexa\Core\Persistence\Cache\SettingHandler'
+            - '@Ibexa\Core\Persistence\Cache\PersistenceLogger'

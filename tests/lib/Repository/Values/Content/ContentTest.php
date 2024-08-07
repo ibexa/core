@@ -8,22 +8,22 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Values\Content;
 
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\Core\FieldType\TextLine\Value as TextLineValue;
-use eZ\Publish\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @see \eZ\Publish\Core\Repository\Tests\Values\Content\ContentTest for Legacy set of unit tests.
- *
- * @covers \eZ\Publish\Core\Repository\Values\Content\Content
+ * @covers \Ibexa\Core\Repository\Values\Content\Content
  */
 final class ContentTest extends TestCase
 {
-    /** @var \eZ\Publish\API\Repository\Values\Content\Field[] */
+    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
     private $internalFields;
 
-    /** @var \eZ\Publish\Core\Repository\Values\Content\Content */
+    /** @var \Ibexa\Core\Repository\Values\Content\Content */
     private $content;
 
     protected function setUp(): void
@@ -90,4 +90,57 @@ final class ContentTest extends TestCase
             $this->content->getFieldsByLanguage('pol-PL')
         );
     }
+
+    public function testObjectProperties(): void
+    {
+        $object = new Content(['internalFields' => []]);
+        $properties = $object->attributes();
+        self::assertNotContains('internalFields', $properties, 'Internal property found ');
+        self::assertContains('id', $properties, 'Property not found ');
+        self::assertContains('fields', $properties, 'Property not found ');
+        self::assertContains('versionInfo', $properties, 'Property not found ');
+        self::assertContains('contentInfo', $properties, 'Property not found ');
+
+        // check for duplicates and double check existence of property
+        $propertiesHash = [];
+        foreach ($properties as $property) {
+            if (isset($propertiesHash[$property])) {
+                self::fail("Property '{$property}' exists several times in properties list");
+            } elseif (!isset($object->$property)) {
+                self::fail("Property '{$property}' does not exist on object, even though it was hinted to be there");
+            }
+            $propertiesHash[$property] = 1;
+        }
+    }
+
+    public function testStrictGetters(): void
+    {
+        $contentInfo = new ContentInfo(['id' => 123]);
+        $content = new Content(
+            [
+                'versionInfo' => new VersionInfo(
+                    [
+                        'contentInfo' => $contentInfo,
+                    ]
+                ),
+            ]
+        );
+        self::assertEquals(123, $content->getId());
+        self::assertEquals($contentInfo, $content->getContentInfo());
+    }
+
+    public function testGetName(): void
+    {
+        $name = 'Translated name';
+        $versionInfoMock = $this->createMock(VersionInfo::class);
+        $versionInfoMock->expects($this->once())
+            ->method('getName')
+            ->willReturn($name);
+
+        $object = new Content(['versionInfo' => $versionInfoMock]);
+
+        $this->assertEquals($name, $object->getName());
+    }
 }
+
+class_alias(ContentTest::class, 'eZ\Publish\Core\Repository\Tests\Values\Content\ContentTest');
