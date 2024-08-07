@@ -15,6 +15,7 @@ use eZ\Publish\SPI\Persistence\Content;
 use eZ\Publish\SPI\Persistence\Content\CreateStruct;
 use eZ\Publish\SPI\Persistence\Content\Field;
 use eZ\Publish\SPI\Persistence\Content\Handler as BaseContentHandler;
+use eZ\Publish\SPI\Persistence\Content\Language\Handler as LanguageHandler;
 use eZ\Publish\SPI\Persistence\Content\MetadataUpdateStruct;
 use eZ\Publish\SPI\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
 use eZ\Publish\SPI\Persistence\Content\Type\Handler as ContentTypeHandler;
@@ -84,6 +85,11 @@ class Handler implements BaseContentHandler
      */
     protected $treeHandler;
 
+    /**
+     * @var \eZ\Publish\SPI\Persistence\Content\Language\Handler
+     */
+    protected $languageHandler;
+
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
@@ -109,6 +115,7 @@ class Handler implements BaseContentHandler
         UrlAliasGateway $urlAliasGateway,
         ContentTypeHandler $contentTypeHandler,
         TreeHandler $treeHandler,
+        LanguageHandler $languageHandler,
         LoggerInterface $logger = null
     ) {
         $this->contentGateway = $contentGateway;
@@ -119,6 +126,7 @@ class Handler implements BaseContentHandler
         $this->urlAliasGateway = $urlAliasGateway;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->treeHandler = $treeHandler;
+        $this->languageHandler = $languageHandler;
         $this->logger = null !== $logger ? $logger : new NullLogger();
     }
 
@@ -255,6 +263,8 @@ class Handler implements BaseContentHandler
      * @param string|null $languageCode
      *
      * @return \eZ\Publish\SPI\Persistence\Content
+     *
+     * @throws \eZ\Publish\API\Repository\Exceptions\NotFoundException
      */
     public function createDraftFromVersion($contentId, $srcVersion, $userId, ?string $languageCode = null)
     {
@@ -274,6 +284,14 @@ class Handler implements BaseContentHandler
 
         // Clone fields from previous version and append them to the new one
         $this->fieldHandler->createExistingFieldsInNewVersion($content);
+
+        // Persist virtual fields
+        $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
+        $this->fieldHandler->updateFields($content, new UpdateStruct([
+            'initialLanguageId' => $this->languageHandler->loadByLanguageCode(
+                $content->versionInfo->initialLanguageCode
+            )->id,
+        ]), $contentType);
 
         // Create relations for new version
         $relations = $this->contentGateway->loadRelations($contentId, $srcVersion);
@@ -320,7 +338,9 @@ class Handler implements BaseContentHandler
             $this->contentGateway->loadVersionedNameData([[
                 'id' => $id,
                 'version' => $rows[0]['ezcontentobject_version_version'],
-            ]])
+            ]]),
+            'ezcontentobject_',
+            $translations
         );
         $content = $contentObjects[0];
         unset($rows, $contentObjects);
@@ -371,7 +391,9 @@ class Handler implements BaseContentHandler
             try {
                 $contentList = $this->mapper->extractContentFromRows(
                     $contentItemsRow,
-                    $contentItemNameData[$contentId]
+                    $contentItemNameData[$contentId],
+                    'ezcontentobject_',
+                    $translations
                 );
                 $contentItems[$contentId] = $contentList[0];
             } catch (Exception $e) {
