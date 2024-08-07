@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\TrashService;
 
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Assert;
 
