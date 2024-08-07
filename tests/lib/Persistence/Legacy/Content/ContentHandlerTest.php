@@ -112,13 +112,11 @@ class ContentHandlerTest extends TestCase
     protected $contentTypeHandlerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject&\eZ\Publish\Core\Persistence\Legacy\Content\Language\Handler
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
      */
-    private $languageHandlerMock;
+    private LanguageHandler $languageHandlerMock;
 
     /**
-     * @covers \eZ\Publish\Core\Persistence\Legacy\Content\Handler::create
-     *
      * @todo Current method way to complex to test, refactor!
      */
     public function testCreate()
@@ -1590,7 +1588,7 @@ class ContentHandlerTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject&\eZ\Publish\Core\Persistence\Legacy\Content\Language\Handler
+     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
      */
     protected function getLanguageHandlerMock(): LanguageHandler
     {
