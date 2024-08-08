@@ -94,6 +94,26 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
             $this->createFileSizeCriterion(0, 2),
         ];
 
+        yield 'FileSize - with numeric string values' => [
+            3,
+            $this->createFileSizeCriterion('0.0', '2.5'),
+        ];
+
+        yield 'FileSize - with numeric values from 0.0 to 2.5' => [
+            3,
+            $this->createFileSizeCriterion(0.0, 2.5),
+        ];
+
+        yield 'FileSize - with numeric values 0.0001 to 2.5' => [
+            3,
+            $this->createFileSizeCriterion(0.0001, 1),
+        ];
+
+        yield 'FileSize - with values less than 1' => [
+            3,
+            $this->createFileSizeCriterion('0.00001', 0.3),
+        ];
+
         yield 'Width' => [
             3,
             $this->createWidthCriterion(0, 100),
@@ -238,9 +258,13 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         );
     }
 
+    /**
+     * @param numeric $min
+     * @param numeric|null $max
+     */
     private function createFileSizeCriterion(
-        int $min = 0,
-        ?int $max = null
+        $min = 0,
+        $max = null
     ): Query\Criterion\Image\FileSize {
         return new Query\Criterion\Image\FileSize(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
