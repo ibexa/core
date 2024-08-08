@@ -15,13 +15,15 @@ final class FileSize extends AbstractImageRangeCriterion
         $minValue = 0,
         $maxValue = null
     ) {
+        $minValue = $this->convertToBytes($minValue);
+
         if ($maxValue > 0) {
             $maxValue = $this->convertToBytes($maxValue);
         }
 
         parent::__construct(
             $fieldDefIdentifier,
-            $this->convertToBytes($minValue),
+            $minValue,
             $maxValue
         );
     }
@@ -33,10 +35,6 @@ final class FileSize extends AbstractImageRangeCriterion
     {
         $value *= 1024 * 1024;
 
-        if (is_float($value)) {
-            $value = (int)$value;
-        }
-
-        return $value;
+        return (int)$value;
     }
 }
