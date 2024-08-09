@@ -86,7 +86,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
         yield 'FileSize - default values min 0 and max 1' => [
             3,
-            $this->createFileSizeCriterion(),
+            $this->createFileSizeCriterion(0, 1),
         ];
 
         yield 'FileSize' => [
@@ -112,6 +112,16 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         yield 'FileSize - with values less than 1' => [
             3,
             $this->createFileSizeCriterion('0.00001', 0.3),
+        ];
+
+        yield 'FileSize - min value' => [
+            3,
+            $this->createFileSizeCriterion('0.00001'),
+        ];
+
+        yield 'FileSize - max value' => [
+            3,
+            $this->createFileSizeCriterion(null, '1.2'),
         ];
 
         yield 'Width' => [
@@ -259,7 +269,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     }
 
     /**
-     * @param numeric $min
+     * @param numeric|null $min
      * @param numeric|null $max
      */
     private function createFileSizeCriterion(
