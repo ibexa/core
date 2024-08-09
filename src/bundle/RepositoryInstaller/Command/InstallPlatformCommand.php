@@ -88,7 +88,7 @@ final class InstallPlatformCommand extends Command
         if (!empty($schemaManager->listTables())) {
             $io = new SymfonyStyle($input, $output);
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
-                return Command::SUCCESS;
+                return self::SUCCESS;
             }
         }
 
@@ -114,7 +114,7 @@ final class InstallPlatformCommand extends Command
             $this->indexData($output, $siteaccess);
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     private function checkPermissions()

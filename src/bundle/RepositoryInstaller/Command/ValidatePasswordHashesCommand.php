@@ -46,6 +46,6 @@ final class ValidatePasswordHashesCommand extends Command
             $output->writeln('OK - <info>All users have supported password hash types</info>');
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

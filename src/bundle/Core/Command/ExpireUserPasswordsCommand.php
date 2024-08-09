@@ -148,7 +148,7 @@ EOT
         if ($totalCount === 0) {
             $output->writeln('<info>There are no users matching given criteria</info>');
 
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $output->writeln(sprintf(
@@ -213,7 +213,7 @@ EOT
             );
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     /**

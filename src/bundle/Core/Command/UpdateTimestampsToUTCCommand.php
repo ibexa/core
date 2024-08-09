@@ -153,17 +153,17 @@ EOT
                 sprintf('The selected mode is not supported. Use one of the following modes: %s', implode(', ', array_keys(self::MODES)))
             );
 
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $from = $input->getOption('from');
         $to = $input->getOption('to');
 
         if ($from && !$this->validateDateTimeString($from, $output)) {
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
         if ($to && !$this->validateDateTimeString($to, $output)) {
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
         if ($from) {
             $this->from = $this->dateStringToTimestamp($from);
@@ -195,7 +195,7 @@ EOT
             if ($count == 0) {
                 $output->writeln('Nothing to process, exiting.');
 
-                return Command::SUCCESS;
+                return self::SUCCESS;
             }
 
             $helper = $this->getHelper('question');
@@ -207,7 +207,7 @@ EOT
             if (!$helper->ask($input, $output, $question)) {
                 $output->writeln('');
 
-                return Command::SUCCESS;
+                return self::SUCCESS;
             }
 
             $progressBar = $this->getProgressBar($count, $output);
@@ -256,7 +256,7 @@ EOT
             ]);
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     /**

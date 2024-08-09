@@ -106,7 +106,7 @@ class CheckURLsCommand extends Command
         }
         $progress->finish();
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     private function getTotalCount(): int

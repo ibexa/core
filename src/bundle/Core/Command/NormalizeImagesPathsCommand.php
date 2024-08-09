@@ -113,11 +113,11 @@ EOT
         if ($imagePathsToNormalizeCount === 0) {
             $io->success('No paths to normalize.');
 
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         if (!$io->confirm('Do you want to continue?')) {
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $io->writeln('Normalizing image paths. Please wait...');
@@ -136,7 +136,7 @@ EOT
         $io->progressFinish();
         $io->success('Done!');
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     /**

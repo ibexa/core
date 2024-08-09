@@ -152,7 +152,7 @@ class CopySubtreeCommand extends Command
         );
 
         if (!$input->getOption('no-interaction') && !$questionHelper->ask($input, $output, $question)) {
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $this->locationService->copySubtree(
@@ -164,7 +164,7 @@ class CopySubtreeCommand extends Command
             '<info>Finished</info>'
         );
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     /**
