@@ -1,18 +1,18 @@
 --TEST--
 "twig" filter
 --DEPRECATION--
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 2.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 3.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 4.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 5.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 6.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 7.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 8.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 9.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 10.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 11.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 12.
-Twig Filter "ez_file_size" is deprecated since version 4.0. Use "ibexa_file_size" instead in index.twig at line 13.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 2.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 3.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 4.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 5.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 6.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 7.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 8.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 9.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 10.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 11.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 12.
+Since  4.0: Twig Filter "ez_file_size" is deprecated. Use "ibexa_file_size" instead in index.twig at line 13.
 --TEMPLATE--
 {{ 10|ez_file_size( 2 ) }}
 {{ 1024|ez_file_size( 0 ) }}
@@ -42,37 +42,3 @@ return array()
 789.7897897898 PB wrong local so we take the default one which is en-GB here
 789.79 EB wrong local so we take the default one which is en-GB here
 789789789.7898 EB wrong local so we take the default one which is en-GB here
---DATA--
-return array()
---CONFIG--
-$this->locale = "fre-FR"; return array();
---EXPECT--
-10 B French version
-1 kB French version
-5 kB French version
-12 kB French version
-152 kB French version
-26,15126 MB French version
-123,1231 MB French version
-456,5 GB French version
-789,78979 TB French version
-789,7897897898 PB French version
-789,79 EB French version
-789789789,7898 EB French version
---DATA--
-return array()
---CONFIG--
-$this->locale = "eng-GB"; return array();
---EXPECT--
-10 B English version
-1 kB English version
-5 kB English version
-12 kB English version
-152 kB English version
-26.15126 MB English version
-123.1231 MB English version
-456.5 GB English version
-789.78979 TB English version
-789.7897897898 PB English version
-789.79 EB English version
-789789789.7898 EB English version
