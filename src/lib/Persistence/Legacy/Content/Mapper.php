@@ -203,13 +203,15 @@ class Mapper
      * @param array<array<string, scalar>> $rows
      * @param array<array<string, scalar>> $nameRows
      * @param string $prefix
+     * @param array<string>|null $translations
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content[]
      */
     public function extractContentFromRows(
         array $rows,
         array $nameRows,
-        string $prefix = 'ezcontentobject_'
+        string $prefix = 'ezcontentobject_',
+        ?array $translations = null
     ): array {
         $versionedNameData = [];
 
@@ -226,7 +228,8 @@ class Mapper
 
         $fieldDefinitions = $this->loadCachedVersionFieldDefinitionsPerLanguage(
             $rows,
-            $prefix
+            $prefix,
+            $translations
         );
 
         foreach ($rows as $row) {
@@ -294,9 +297,10 @@ class Mapper
                 $content->versionInfo = $versionInfo;
                 $content->versionInfo->names = $names;
                 $content->versionInfo->contentInfo = $contentInfo;
-                $content->fields = array_values($fields[$contentId][$versionId]);
+                $content->fields = array_values($fields[$contentId][$versionId] ?? []);
 
-                $missingVersionFieldDefinitions = $missingFieldDefinitions[$contentId][$versionId];
+                $missingVersionFieldDefinitions = $missingFieldDefinitions[$contentId][$versionId] ?? [];
+
                 foreach ($missingVersionFieldDefinitions as $languageCode => $versionFieldDefinitions) {
                     foreach ($versionFieldDefinitions as $fieldDefinition) {
                         $event = $this->eventDispatcher->dispatch(
@@ -324,13 +328,16 @@ class Mapper
     /**
      * @phpstan-param TRawContentRow[] $rows
      *
+     * @param string[]|null $translations
+     *
      * @phpstan-return TVersionedLanguageFieldDefinitionsMap
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function loadCachedVersionFieldDefinitionsPerLanguage(
         array $rows,
-        string $prefix
+        string $prefix,
+        ?array $translations = null
     ): array {
         $fieldDefinitions = [];
         $contentTypes = [];
@@ -346,12 +353,14 @@ class Mapper
                 continue;
             }
 
-            $languageCodes = $this->extractLanguageCodesFromMask($languageMask, $allLanguages);
+            $allLanguagesCodes = $this->extractLanguageCodesFromMask($languageMask, $allLanguages);
+            $languageCodes = empty($translations) ? $allLanguagesCodes : array_intersect($translations, $allLanguagesCodes);
             $contentTypes[$contentTypeId] = $contentTypes[$contentTypeId] ?? $this->contentTypeHandler->load($contentTypeId);
             $contentType = $contentTypes[$contentTypeId];
             foreach ($contentType->fieldDefinitions as $fieldDefinition) {
                 foreach ($languageCodes as $languageCode) {
                     $id = (int)$fieldDefinition->id;
+                    $languageCode = (string)$languageCode;
                     $fieldDefinitions[$contentId][$versionId][$languageCode][$id] = $fieldDefinition;
                 }
             }
