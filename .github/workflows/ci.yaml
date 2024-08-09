@@ -60,10 +60,14 @@ jobs:
                   coverage: none
                   extensions: pdo_sqlite, gd
                   tools: cs2pr
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - uses: "ramsey/composer-install@v1"
               with:
                   dependency-versions: "highest"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Setup problem matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -115,10 +119,14 @@ jobs:
                     coverage: none
                     extensions: pdo_pgsql, gd
                     tools: cs2pr
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   uses: "ramsey/composer-install@v1"
                 with:
                     dependency-versions: "highest"
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -170,10 +178,14 @@ jobs:
                     coverage: none
                     extensions: pdo_mysql, gd, redis
                     tools: cs2pr
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   uses: "ramsey/composer-install@v1"
                 with:
                     dependency-versions: "highest"
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   name: Setup problem matchers for PHPUnit
                 run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
