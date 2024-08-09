@@ -98,14 +98,14 @@ EOT
         if ($input->getOption('list-io-handlers')) {
             $this->outputConfiguredHandlers($output);
 
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $bulkCount = (int)$input->getOption('bulk-count');
         if ($bulkCount < 1) {
             $output->writeln('The value for --bulk-count must be a positive integer.');
 
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $output->writeln($this->getProcessedHelp());
@@ -124,7 +124,7 @@ EOT
         }
 
         if (!$this->validateHandlerOptions($fromHandlers, $toHandlers, $output)) {
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $output->writeln([
@@ -159,7 +159,7 @@ EOT
         if ($totalCount === 0) {
             $output->writeln('Nothing to process.');
 
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         if (!$input->getOption('no-interaction')) {
@@ -172,7 +172,7 @@ EOT
             if (!$helper->ask($input, $output, $question)) {
                 $output->writeln('Aborting.');
 
-                return Command::SUCCESS;
+                return self::SUCCESS;
             }
         }
 
@@ -183,7 +183,7 @@ EOT
             $output
         );
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     /**

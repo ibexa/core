@@ -97,7 +97,7 @@ EOM
         if ($input->getOption('json')) {
             $output->write(json_encode($parameterData));
 
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $output->writeln('<comment>SiteAccess name:</comment> ' . $this->siteAccess->name);
@@ -112,6 +112,6 @@ EOM
             )
         );
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }
