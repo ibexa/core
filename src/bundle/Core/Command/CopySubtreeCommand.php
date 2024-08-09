@@ -28,6 +28,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class CopySubtreeCommand extends Command
 {
+    protected static $defaultName = 'ibexa:copy-subtree';
+
+    protected static $defaultDescription = 'Copies a subtree from one Location to another';
+
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
     private $locationService;
 
@@ -68,7 +72,6 @@ class CopySubtreeCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:copy-subtree')
             ->addArgument(
                 'source-location-id',
                 InputArgument::REQUIRED,
@@ -85,8 +88,7 @@ class CopySubtreeCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Ibexa username (with Role containing at least content policies: create, read)',
                 'admin'
-            )
-            ->setDescription('Copies a subtree from one Location to another');
+            );
     }
 
     /**
@@ -150,7 +152,7 @@ class CopySubtreeCommand extends Command
         );
 
         if (!$input->getOption('no-interaction') && !$questionHelper->ask($input, $output, $question)) {
-            return 0;
+            return self::SUCCESS;
         }
 
         $this->locationService->copySubtree(
@@ -162,7 +164,7 @@ class CopySubtreeCommand extends Command
             '<info>Finished</info>'
         );
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

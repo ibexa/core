@@ -26,7 +26,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezdatetime';
     }
@@ -34,7 +34,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
     /**
      * {@inheritdoc}
      */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
         parent::supportsLikeWildcard($value);
 
@@ -139,7 +139,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Fri 1970-02-01 10:17:36';
     }
@@ -325,12 +325,12 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): string
     {
         return '2012-04-15T15:43:56Z';
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): string
     {
         return '2015-04-15T15:43:56Z';
     }

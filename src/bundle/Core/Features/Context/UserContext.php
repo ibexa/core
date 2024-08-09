@@ -260,7 +260,7 @@ class UserContext implements Context
      *
      * @return bool true if it exists, false if user or group don't exist
      */
-    public function checkUserExistenceByUsername($username, $parentGroupName = null)
+    public function checkUserExistenceByUsername($username, $parentGroupName = null): bool
     {
         if ($parentGroupName) {
             // find parent group name
@@ -286,7 +286,7 @@ class UserContext implements Context
      *
      * @return bool true if it exists, false if not
      */
-    public function checkUserExistenceByEmail($email, $parentGroupName = null)
+    public function checkUserExistenceByEmail($email, $parentGroupName = null): bool
     {
         $existingUsers = $this->userService->loadUsersByEmail($email);
         if (count($existingUsers) == 0) {

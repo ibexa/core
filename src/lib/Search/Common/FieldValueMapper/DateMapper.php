@@ -24,7 +24,7 @@ class DateMapper extends FieldValueMapper
         return $field->getType() instanceof DateField;
     }
 
-    public function map(Field $field)
+    public function map(Field $field): string
     {
         $value = $field->getValue();
         if (is_numeric($value)) {

@@ -224,7 +224,7 @@ class ContentTypeContext implements Context
      *
      * @return bool
      */
-    protected function checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier = null)
+    protected function checkContentTypeExistenceByIdentifier($identifier, $groupIdentifier = null): bool
     {
         $contentType = $this->loadContentTypeByIdentifier($identifier, false);
         if ($contentType && $groupIdentifier) {

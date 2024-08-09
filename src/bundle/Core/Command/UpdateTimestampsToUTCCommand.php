@@ -26,12 +26,17 @@ use Symfony\Component\Process\Process;
 class UpdateTimestampsToUTCCommand extends Command
 {
     public const MAX_TIMESTAMP_VALUE = 2147483647;
+
     public const DEFAULT_ITERATION_COUNT = 100;
     public const MODES = [
         'date' => ['ezdate'],
         'datetime' => ['ezdatetime'],
         'all' => ['ezdate', 'ezdatetime'],
     ];
+
+    protected static $defaultName = 'ibexa:timestamps:to-utc';
+
+    protected static $defaultDescription = 'Updates ezdate and ezdatetime timestamps to UTC';
 
     /** @var int */
     protected $done = 0;
@@ -66,8 +71,6 @@ class UpdateTimestampsToUTCCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:timestamps:to-utc')
-            ->setDescription('Updates ezdate and ezdatetime timestamps to UTC')
             ->addArgument(
                 'timezone',
                 InputArgument::OPTIONAL,
@@ -150,17 +153,17 @@ EOT
                 sprintf('The selected mode is not supported. Use one of the following modes: %s', implode(', ', array_keys(self::MODES)))
             );
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $from = $input->getOption('from');
         $to = $input->getOption('to');
 
         if ($from && !$this->validateDateTimeString($from, $output)) {
-            return 0;
+            return self::SUCCESS;
         }
         if ($to && !$this->validateDateTimeString($to, $output)) {
-            return 0;
+            return self::SUCCESS;
         }
         if ($from) {
             $this->from = $this->dateStringToTimestamp($from);
@@ -192,7 +195,7 @@ EOT
             if ($count == 0) {
                 $output->writeln('Nothing to process, exiting.');
 
-                return 0;
+                return self::SUCCESS;
             }
 
             $helper = $this->getHelper('question');
@@ -204,7 +207,7 @@ EOT
             if (!$helper->ask($input, $output, $question)) {
                 $output->writeln('');
 
-                return 0;
+                return self::SUCCESS;
             }
 
             $progressBar = $this->getProgressBar($count, $output);
@@ -253,7 +256,7 @@ EOT
             ]);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**
@@ -327,7 +330,7 @@ EOT
      *
      * @return int
      */
-    protected function countTimestampBasedFields()
+    protected function countTimestampBasedFields(): int
     {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -365,7 +368,7 @@ EOT
      *
      * @return int
      */
-    protected function convertToUtcTimestamp($timestamp)
+    protected function convertToUtcTimestamp($timestamp): int
     {
         $dateTimeZone = new DateTimeZone($this->timezone);
         $dateTimeZoneUTC = new DateTimeZone('UTC');
@@ -383,10 +386,10 @@ EOT
      *
      * @return bool
      */
-    protected function validateDateTimeString($dateTimeString, OutputInterface $output)
+    protected function validateDateTimeString($dateTimeString, OutputInterface $output): bool
     {
         try {
-            new \DateTime($dateTimeString);
+            new DateTime($dateTimeString);
         } catch (\Exception $exception) {
             $output->writeln('The --from and --to options must be a valid Date string.');
 
@@ -496,9 +499,9 @@ EOT
      *
      * @return int
      */
-    private function dateStringToTimestamp($dateString)
+    private function dateStringToTimestamp($dateString): int
     {
-        $date = new \DateTime($dateString);
+        $date = new DateTime($dateString);
 
         return $date->getTimestamp();
     }

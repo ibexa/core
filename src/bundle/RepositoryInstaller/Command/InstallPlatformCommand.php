@@ -22,6 +22,13 @@ use Symfony\Component\Process\Process;
 
 final class InstallPlatformCommand extends Command
 {
+    public const int EXIT_GENERAL_DATABASE_ERROR = 4;
+    public const int EXIT_PARAMETERS_NOT_FOUND = 5;
+    public const int EXIT_UNKNOWN_INSTALL_TYPE = 6;
+    public const int EXIT_MISSING_PERMISSIONS = 7;
+
+    protected static $defaultName = 'ibexa:install';
+
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
 
@@ -38,11 +45,6 @@ final class InstallPlatformCommand extends Command
     private $installers = [];
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
-
-    public const EXIT_GENERAL_DATABASE_ERROR = 4;
-    public const EXIT_PARAMETERS_NOT_FOUND = 5;
-    public const EXIT_UNKNOWN_INSTALL_TYPE = 6;
-    public const EXIT_MISSING_PERMISSIONS = 7;
 
     public function __construct(
         Connection $connection,
@@ -61,8 +63,6 @@ final class InstallPlatformCommand extends Command
 
     protected function configure()
     {
-        $this->setName('ibexa:install');
-
         $this->addArgument(
             'type',
             InputArgument::OPTIONAL,
@@ -88,7 +88,7 @@ final class InstallPlatformCommand extends Command
         if (!empty($schemaManager->listTables())) {
             $io = new SymfonyStyle($input, $output);
             if (!$io->confirm('Running this command will delete data in all Ibexa generated tables. Continue?')) {
-                return 0;
+                return self::SUCCESS;
             }
         }
 
@@ -114,7 +114,7 @@ final class InstallPlatformCommand extends Command
             $this->indexData($output, $siteaccess);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function checkPermissions()

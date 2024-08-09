@@ -12,6 +12,7 @@ use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriteriaConverterPass;
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\CriterionFieldValueHandlerRegistryPass;
 use Ibexa\Core\Base\Container\Compiler\Search\Legacy\SortClauseConverterPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class IbexaLegacySearchEngineBundle extends Bundle
@@ -26,7 +27,7 @@ class IbexaLegacySearchEngineBundle extends Bundle
         $container->addCompilerPass(new FieldRegistryPass());
     }
 
-    public function getContainerExtension()
+    public function getContainerExtension(): ?ExtensionInterface
     {
         if (!isset($this->extension)) {
             $this->extension = new DependencyInjection\IbexaLegacySearchEngineExtension();

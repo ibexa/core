@@ -29,7 +29,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezobjectrelationlist';
     }
@@ -37,7 +37,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
     /**
      * {@inheritdoc}
      */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
         parent::supportsLikeWildcard($value);
 
@@ -218,7 +218,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Users' . ' ' . 'Images';
     }
@@ -392,12 +392,12 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return [12];
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): int
     {
         return 11;
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): int
     {
         return 12;
     }

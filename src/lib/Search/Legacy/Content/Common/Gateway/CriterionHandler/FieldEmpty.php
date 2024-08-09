@@ -102,7 +102,7 @@ class FieldEmpty extends FieldBase
         QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
-    ) {
+    ): string {
         $fieldsInformation = $this->getFieldsInformation($criterion->target);
 
         $subSelect = $this->connection->createQueryBuilder();

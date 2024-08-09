@@ -20,6 +20,8 @@ use JMS\TranslationBundle\Translation\LoaderManager;
  */
 class CatalogueMapperFileWriter extends FileWriter
 {
+    private const string XLF_FILE_NAME_REGEX_PATTERN = '/\.[-_a-z]+\.xlf$/i';
+
     /** @var \JMS\TranslationBundle\Translation\LoaderManager */
     private $loaderManager;
 
@@ -74,14 +76,14 @@ class CatalogueMapperFileWriter extends FileWriter
         $this->innerFileWriter->write($newCatalogue, $domain, $filePath, $format);
     }
 
-    /**
-     * @param $filePath
-     *
-     * @return mixed
-     */
-    private function getEnglishFilePath($filePath)
+    private function getEnglishFilePath(string $filePath): string
     {
-        return preg_replace('/\.[-_a-z]+\.xlf$/i', '.en.xlf', $filePath);
+        $enFilePath = preg_replace(self::XLF_FILE_NAME_REGEX_PATTERN, '.en.xlf', $filePath);
+        if (null === $enFilePath) {
+            throw new InvalidArgumentException("failed to get English XLF file path for '$filePath'");
+        }
+
+        return $enFilePath;
     }
 
     /**
@@ -101,7 +103,7 @@ class CatalogueMapperFileWriter extends FileWriter
         );
     }
 
-    private function hasEnglishCatalogue($foreignFilePath)
+    private function hasEnglishCatalogue($foreignFilePath): bool
     {
         return file_exists($this->getEnglishFilePath($foreignFilePath));
     }

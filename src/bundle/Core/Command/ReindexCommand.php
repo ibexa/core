@@ -29,6 +29,10 @@ use Symfony\Component\Process\Process;
 
 class ReindexCommand extends Command
 {
+    protected static $defaultName = 'ibexa:reindex';
+
+    protected static $defaultDescription = 'Recreates or refreshes the search engine index';
+
     /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
     private $searchIndexer;
 
@@ -109,8 +113,6 @@ class ReindexCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:reindex')
-            ->setDescription('Recreates or refreshes the search engine index')
             ->addOption(
                 'iteration-count',
                 'c',
@@ -220,7 +222,7 @@ class ReindexCommand extends Command
                 EOT);
 
                 if (!$io->confirm('Continue?', true)) {
-                    return 0;
+                    return self::SUCCESS;
                 }
             }
 
@@ -230,7 +232,7 @@ class ReindexCommand extends Command
             return $this->indexIncrementally($input, $output, $iterationCount, $commit);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**
@@ -447,7 +449,7 @@ class ReindexCommand extends Command
     /**
      * @return int
      */
-    private function getNumberOfCPUCores()
+    private function getNumberOfCPUCores(): int
     {
         $cores = 1;
         if (is_file('/proc/cpuinfo')) {

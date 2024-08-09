@@ -35,12 +35,7 @@ class TranslationCollectorPassTest extends AbstractCompilerPassTestCase
         $this->assertContainerBuilderHasParameter('available_translations', $availableTranslations);
     }
 
-    /**
-     * @param $path
-     *
-     * @return mixed
-     */
-    private function normalizePath($path)
+    private function normalizePath(string $path): string
     {
         return str_replace('/', \DIRECTORY_SEPARATOR, $path);
     }

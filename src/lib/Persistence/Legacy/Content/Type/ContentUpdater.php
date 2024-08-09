@@ -109,7 +109,7 @@ class ContentUpdater
      *
      * @return bool
      */
-    protected function hasFieldDefinition(Type $type, FieldDefinition $fieldDef)
+    protected function hasFieldDefinition(Type $type, FieldDefinition $fieldDef): bool
     {
         foreach ($type->fieldDefinitions as $existFieldDef) {
             if ($existFieldDef->id == $fieldDef->id) {

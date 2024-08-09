@@ -41,6 +41,8 @@ class ResizeOriginalImagesCommand extends Command
     public const DEFAULT_ITERATION_COUNT = 25;
     public const DEFAULT_REPOSITORY_USER = 'admin';
 
+    protected static $defaultName = 'ibexa:images:resize-original';
+
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;
 
@@ -104,7 +106,6 @@ class ResizeOriginalImagesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:images:resize-original')
             ->addArgument(
                 'imageFieldIdentifier',
                 InputArgument::REQUIRED,
@@ -156,7 +157,7 @@ class ResizeOriginalImagesCommand extends Command
                 )
             );
 
-            return 0;
+            return self::SUCCESS;
         }
 
         try {
@@ -169,7 +170,7 @@ class ResizeOriginalImagesCommand extends Command
                 )
             );
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $query = new Query();
@@ -194,13 +195,13 @@ class ResizeOriginalImagesCommand extends Command
                 )
             );
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('<question>The changes you are going to perform cannot be undone. Remember to do a proper backup before. Would you like to continue?</question> ', false);
         if (!$helper->ask($input, $output, $question)) {
-            return 0;
+            return self::SUCCESS;
         }
 
         $progressBar = new ProgressBar($output, $totalCount);
@@ -227,7 +228,7 @@ class ResizeOriginalImagesCommand extends Command
             )
         );
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

@@ -126,7 +126,7 @@ class Type extends FieldType
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

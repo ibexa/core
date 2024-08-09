@@ -46,12 +46,12 @@ class SearchField implements Indexable
         ];
     }
 
-    public function getDefaultMatchField()
+    public function getDefaultMatchField(): string
     {
         return 'value';
     }
 
-    public function getDefaultSortField()
+    public function getDefaultSortField(): string
     {
         return 'sort_value';
     }

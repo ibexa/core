@@ -81,7 +81,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    public function getDefaultMatchField()
+    public function getDefaultMatchField(): string
     {
         return 'selected_option_index';
     }
@@ -95,7 +95,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    public function getDefaultSortField()
+    public function getDefaultSortField(): string
     {
         return 'sort_value';
     }

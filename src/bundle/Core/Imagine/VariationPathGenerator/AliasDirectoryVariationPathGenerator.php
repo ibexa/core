@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
  */
 class AliasDirectoryVariationPathGenerator implements VariationPathGenerator
 {
-    public function getVariationPath($originalPath, $filter)
+    public function getVariationPath($originalPath, $filter): string
     {
         $info = pathinfo($originalPath);
 

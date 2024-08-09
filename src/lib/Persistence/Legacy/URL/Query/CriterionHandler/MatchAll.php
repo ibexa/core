@@ -17,7 +17,7 @@ class MatchAll implements CriterionHandler
     /**
      * {@inheritdoc}
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\MatchAll;
     }
@@ -29,7 +29,7 @@ class MatchAll implements CriterionHandler
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
         Criterion $criterion
-    ) {
+    ): string {
         return '1 = 1';
     }
 }

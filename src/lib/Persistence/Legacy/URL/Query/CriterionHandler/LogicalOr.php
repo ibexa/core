@@ -17,7 +17,7 @@ class LogicalOr implements CriterionHandler
     /**
      * {@inheritdoc}
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\LogicalOr;
     }

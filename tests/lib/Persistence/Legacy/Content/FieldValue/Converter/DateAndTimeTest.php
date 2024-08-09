@@ -327,7 +327,7 @@ class DateAndTimeTest extends TestCase
      *
      * @return string
      */
-    private function getXMLStringFromDateInterval(DateInterval $dateInterval)
+    private function getXMLStringFromDateInterval(DateInterval $dateInterval): string
     {
         $xmlString = <<<EOT
 <?xml version="1.0" encoding="utf-8"?>

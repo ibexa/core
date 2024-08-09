@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use DateInterval;
 use DateTime;
 use DOMDocument;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\FieldType\DateAndTime\Type as DateAndTimeType;
@@ -147,7 +148,7 @@ class DateAndTimeConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         return 'sort_key_int';
     }
@@ -155,11 +156,10 @@ class DateAndTimeConverter implements Converter
     /**
      * Generates the internal XML structure for $dateInterval, used for date adjustment.
      *
-     * @param \DateInterval $dateInterval
-     *
-     * @return string The generated XML string
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \DOMException
      */
-    protected function generateDateIntervalXML(DateInterval $dateInterval)
+    protected function generateDateIntervalXML(DateInterval $dateInterval): string
     {
         // Constructing XML structure
         $doc = new DOMDocument('1.0', 'utf-8');
@@ -197,7 +197,19 @@ class DateAndTimeConverter implements Converter
 
         $doc->appendChild($root);
 
-        return $doc->saveXML();
+        $xml = $doc->saveXML();
+        if (false === $xml) {
+            $lastError = libxml_get_last_error();
+            throw new InvalidArgumentException(
+                '$dateInterval',
+                sprintf(
+                    'DateAndTimeConverter: an error occurred when trying to save date and time field data: %s',
+                    $lastError !== false ? $lastError->message : 'unknown error'
+                )
+            );
+        }
+
+        return $xml;
     }
 
     /**

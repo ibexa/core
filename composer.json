@@ -16,6 +16,7 @@
         "ext-fileinfo": "*",
         "ext-intl": "*",
         "ext-json": "*",
+        "ext-libxml": "*",
         "ext-mbstring": "*",
         "ext-xsl": "*",
         "composer/package-versions-deprecated": "^1.11",

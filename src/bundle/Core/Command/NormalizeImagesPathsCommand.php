@@ -39,6 +39,8 @@ EOT;
 
     protected static $defaultName = 'ibexa:images:normalize-paths';
 
+    protected static $defaultDescription = 'Normalizes stored paths for images.';
+
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
     private $imageGateway;
 
@@ -73,7 +75,6 @@ EOT;
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
 
         $this
-            ->setDescription('Normalizes stored paths for images.')
             ->addOption(
                 self::SKIP_HASHING_COMMAND_PARAMETER,
                 null,
@@ -112,11 +113,11 @@ EOT
         if ($imagePathsToNormalizeCount === 0) {
             $io->success('No paths to normalize.');
 
-            return 0;
+            return self::SUCCESS;
         }
 
         if (!$io->confirm('Do you want to continue?')) {
-            return 0;
+            return self::SUCCESS;
         }
 
         $io->writeln('Normalizing image paths. Please wait...');
@@ -135,7 +136,7 @@ EOT
         $io->progressFinish();
         $io->success('Done!');
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**
@@ -232,7 +233,7 @@ EOT
         $processedPaths = array_values(
             array_filter(
                 $imagePathsToNormalize,
-                static function (array $data) use ($filePath) {
+                static function (array $data) use ($filePath): bool {
                     return $data['oldPath'] === $filePath;
                 }
             )

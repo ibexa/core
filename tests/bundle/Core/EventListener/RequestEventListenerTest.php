@@ -63,7 +63,7 @@ class RequestEventListenerTest extends TestCase
         $this->event = new RequestEvent(
             $this->httpKernel,
             $this->request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
     }
 
@@ -96,13 +96,13 @@ class RequestEventListenerTest extends TestCase
 
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $semanticPathinfo = '/foo/something';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsForward', true);
         $request->attributes->set('someAttribute', 'someValue');
 
-        $expectedForwardRequest = Request::create($semanticPathinfo, 'GET', $queryParameters, $cookieParameters);
+        $expectedForwardRequest = Request::create($semanticPathinfo, Request::METHOD_GET, $queryParameters, $cookieParameters);
         $expectedForwardRequest->attributes->set('semanticPathinfo', $semanticPathinfo);
         $expectedForwardRequest->attributes->set('someAttribute', 'someValue');
 
@@ -113,7 +113,7 @@ class RequestEventListenerTest extends TestCase
             ->with(self::equalTo($expectedForwardRequest))
             ->will(self::returnValue($response));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestForward($event);
         self::assertSame($response, $event->getResponse());
         self::assertTrue($event->isPropagationStopped());
@@ -132,13 +132,13 @@ class RequestEventListenerTest extends TestCase
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $semanticPathinfo = '/foo/something';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsRedirect', true);
         $request->attributes->set('siteaccess', new SiteAccess('test'));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
@@ -153,14 +153,14 @@ class RequestEventListenerTest extends TestCase
     {
         $queryParameters = ['some' => 'thing'];
         $cookieParameters = ['cookie' => 'value'];
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $semanticPathinfo = '/foo/something';
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsRedirect', true);
         $request->attributes->set('locationId', 123);
         $request->attributes->set('siteaccess', new SiteAccess('test'));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */
@@ -180,7 +180,7 @@ class RequestEventListenerTest extends TestCase
         $siteaccess = new SiteAccess('test', 'foo', $siteaccessMatcher);
         $semanticPathinfo = '/foo/something';
 
-        $request = Request::create('/test_sa/foo/bar', 'GET', $queryParameters, $cookieParameters);
+        $request = Request::create('/test_sa/foo/bar', Request::METHOD_GET, $queryParameters, $cookieParameters);
         $request->attributes->set('semanticPathinfo', $semanticPathinfo);
         $request->attributes->set('needsRedirect', true);
         $request->attributes->set('siteaccess', $siteaccess);
@@ -193,7 +193,7 @@ class RequestEventListenerTest extends TestCase
             ->with($semanticPathinfo)
             ->will(self::returnValue($expectedURI));
 
-        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
         $this->requestEventListener->onKernelRequestRedirect($event);
         self::assertTrue($event->hasResponse());
         /** @var \Symfony\Component\HttpFoundation\RedirectResponse $response */

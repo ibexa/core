@@ -24,7 +24,7 @@ class FloatValueValidatorTest extends TestCase
     /**
      * @return float
      */
-    protected function getMinFloatValue()
+    protected function getMinFloatValue(): float
     {
         return 10 / 7;
     }
@@ -32,7 +32,7 @@ class FloatValueValidatorTest extends TestCase
     /**
      * @return float
      */
-    protected function getMaxFloatValue()
+    protected function getMaxFloatValue(): float
     {
         return 11 / 7;
     }

@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class OriginalRequestListener implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 200],
@@ -28,7 +28,7 @@ class OriginalRequestListener implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event)
     {
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
         }
 
@@ -39,7 +39,7 @@ class OriginalRequestListener implements EventSubscriberInterface
 
         $originalRequest = Request::create(
             $request->getSchemeAndHttpHost() . $request->headers->get('x-fos-original-url'),
-            'GET',
+            Request::METHOD_GET,
             [],
             [],
             [],

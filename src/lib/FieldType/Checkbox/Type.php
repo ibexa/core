@@ -27,7 +27,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezboolean';
     }
@@ -105,7 +105,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return int
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): int
     {
         return (int)$value->bool;
     }
@@ -139,7 +139,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

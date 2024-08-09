@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 
 use DOMDocument;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
@@ -33,10 +34,8 @@ class AuthorConverter implements Converter
     }
 
     /**
-     * Converts data from $value to $storageFieldValue.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
+     * @throws \DOMException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
     {
@@ -97,7 +96,7 @@ class AuthorConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         return 'sort_key_string';
     }
@@ -108,8 +107,11 @@ class AuthorConverter implements Converter
      * @param array $authorValue
      *
      * @return string The generated XML string
+     *
+     * @throws \DOMException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function generateXmlString(array $authorValue)
+    private function generateXmlString(array $authorValue): string
     {
         $doc = new DOMDocument('1.0', 'utf-8');
 
@@ -121,14 +123,26 @@ class AuthorConverter implements Converter
 
         foreach ($authorValue as $author) {
             $authorNode = $doc->createElement('author');
-            $authorNode->setAttribute('id', $author['id']);
+            $authorNode->setAttribute('id', (string)$author['id']);
             $authorNode->setAttribute('name', $author['name']);
             $authorNode->setAttribute('email', $author['email']);
             $authors->appendChild($authorNode);
             unset($authorNode);
         }
 
-        return $doc->saveXML();
+        $xml = $doc->saveXML();
+        if (false === $xml) {
+            $lastError = libxml_get_last_error();
+            throw new InvalidArgumentException(
+                '$authorValue',
+                sprintf(
+                    'AuthorConverter: an error occurred when trying to save author field data: %s',
+                    $lastError !== false ? $lastError->message : 'unknown error'
+                )
+            );
+        }
+
+        return $xml;
     }
 
     /**

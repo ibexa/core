@@ -11,15 +11,21 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Regex\Host;
-use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\SerializerStub;
 use Ibexa\Tests\Core\Search\TestCase;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 final class RegexHostNormalizerTest extends TestCase
 {
     public function testNormalize(): void
     {
         $normalizer = new RegexHostNormalizer();
-        $normalizer->setSerializer(new SerializerStub());
+        $serializer = new Serializer(
+            [
+                $normalizer,
+                new ObjectNormalizer(),
+            ]
+        );
 
         $matcher = new Host([
             'regex' => '/^Foo(.*)/(.*)/',
@@ -33,7 +39,7 @@ final class RegexHostNormalizerTest extends TestCase
                     'itemNumber' => 2,
                 ],
             ],
-            $normalizer->normalize($matcher)
+            $serializer->normalize($matcher)
         );
     }
 

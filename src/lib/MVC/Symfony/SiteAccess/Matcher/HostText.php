@@ -39,7 +39,7 @@ class HostText extends Regex implements VersatileMatcher
         $this->siteAccessesConfiguration = $siteAccessesConfiguration;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'host:text';
     }

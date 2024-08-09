@@ -167,7 +167,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return bool
      */
-    private function isStateGroupUsedForLimitation($stateGroupId, array $limitationValues)
+    private function isStateGroupUsedForLimitation($stateGroupId, array $limitationValues): bool
     {
         $objectStateHandler = $this->persistence->objectStateHandler();
         $states = $objectStateHandler->loadObjectStates($stateGroupId);

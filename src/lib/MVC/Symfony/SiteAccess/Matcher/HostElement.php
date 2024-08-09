@@ -61,7 +61,7 @@ class HostElement implements VersatileMatcher
         return isset($elements[$this->elementNumber - 1]) ? $elements[$this->elementNumber - 1] : false;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'host:element';
     }

@@ -406,7 +406,7 @@ class TrashService implements TrashServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    private function userHasPermissionsToRemove(ContentInfo $contentInfo, Location $location)
+    private function userHasPermissionsToRemove(ContentInfo $contentInfo, Location $location): bool
     {
         $versionInfo = $this->persistenceHandler->contentHandler()->loadVersionInfo(
             $contentInfo->id,

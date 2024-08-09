@@ -22,7 +22,7 @@ class LegacyPathGenerator extends PathGenerator
      *
      * @return string
      */
-    public function getStoragePathForField($fieldId, $versionNo, $languageCode)
+    public function getStoragePathForField($fieldId, $versionNo, $languageCode): string
     {
         return sprintf(
             '%s/%s-%s-%s',
@@ -40,7 +40,7 @@ class LegacyPathGenerator extends PathGenerator
      *
      * @return string
      */
-    private function getDirectoryStructure($id)
+    private function getDirectoryStructure($id): string
     {
         // our base string is the last 4 digits, defaulting to 0, reversed
         $idString = strrev(

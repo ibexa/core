@@ -13,11 +13,21 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 final class SimplifiedRequestNormalizer extends PropertyNormalizer
 {
     /**
-     * @see \Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize
-     *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $object
+     *
+     * @return array{
+     *     scheme: string,
+     *     host: string,
+     *     port: string,
+     *     pathinfo: string,
+     *     queryParams: array<mixed>,
+     *     languages: string[],
+     *     headers: array{}
+     * }
+     *
+     * @see \Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array
     {
         return [
             'scheme' => $object->scheme,
@@ -30,7 +40,7 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
         ];
     }
 
-    public function supportsNormalization($data, $format = null, array $context = [])
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return $data instanceof SimplifiedRequest;
     }
