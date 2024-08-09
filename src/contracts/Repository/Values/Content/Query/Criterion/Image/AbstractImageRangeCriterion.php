@@ -16,25 +16,24 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 abstract class AbstractImageRangeCriterion extends Criterion
 {
     /**
-     * @param numeric $minValue
+     * @param numeric|null $minValue
      * @param numeric|null $maxValue
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function __construct(
         string $fieldDefIdentifier,
-        $minValue = 0,
+        $minValue = null,
         $maxValue = null
     ) {
         $this->validate($minValue, $maxValue);
-
-        $value[] = $minValue;
-        $operator = Operator::GTE;
+        $value[] = $minValue ?? 0;
 
         if ($maxValue > 0) {
-            $operator = Operator::BETWEEN;
             $value[] = $maxValue;
         }
+
+        $operator = $this->getOperator($value);
 
         parent::__construct(
             $fieldDefIdentifier,
@@ -60,13 +59,23 @@ abstract class AbstractImageRangeCriterion extends Criterion
     }
 
     /**
-     * @param numeric $minValue
+     * @param numeric|null $minValue
      * @param numeric|null $maxValue
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     protected function validate($minValue, $maxValue): void
     {
+        if (
+            null === $minValue
+            && null === $maxValue
+        ) {
+            throw new InvalidArgumentException(
+                implode(', ', ['$minValue', '$maxValue']),
+                'At least one value must be specified.'
+            );
+        }
+
         if ($minValue < 0) {
             throw new InvalidArgumentException(
                 '$minValue',
@@ -76,7 +85,7 @@ abstract class AbstractImageRangeCriterion extends Criterion
 
         if (
             null !== $maxValue
-            && $maxValue <= 0
+            && $maxValue < 0
         ) {
             throw new InvalidArgumentException(
                 '$maxValue',
@@ -93,5 +102,17 @@ abstract class AbstractImageRangeCriterion extends Criterion
                 'Value should be greater than' . $maxValue
             );
         }
+    }
+
+    /**
+     * @param array{0: numeric, 1?: numeric|null} $value
+     */
+    private function getOperator(array $value): string
+    {
+        if (count($value) === 2) {
+            return Operator::BETWEEN;
+        }
+
+        return Operator::GTE;
     }
 }

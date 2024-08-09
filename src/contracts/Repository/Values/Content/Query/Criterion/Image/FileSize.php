@@ -12,21 +12,33 @@ final class FileSize extends AbstractImageRangeCriterion
 {
     public function __construct(
         string $fieldDefIdentifier,
-        $minValue = 0,
+        $minValue = null,
         $maxValue = null
     ) {
-        if ($minValue > 0) {
-            $minValue *= 1024 * 1024;
-        }
-
-        if ($maxValue > 0) {
-            $maxValue *= 1024 * 1024;
-        }
+        $minValue = $this->convertToBytes($minValue);
+        $maxValue = $this->convertToBytes($maxValue);
 
         parent::__construct(
             $fieldDefIdentifier,
             $minValue,
             $maxValue
         );
+    }
+
+    /**
+     * @param numeric|null $value
+     */
+    private function convertToBytes($value): ?int
+    {
+        if (
+            null === $value
+            || 0 === $value
+        ) {
+            return null;
+        }
+
+        $value *= 1024 * 1024;
+
+        return (int)$value;
     }
 }
