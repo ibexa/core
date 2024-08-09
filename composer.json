@@ -164,7 +164,7 @@
     "repositories": {
         "twig": {
             "type": "vcs",
-            "url": "git@github.com:fabpot/Twig.git"
+            "url": "https://github.com/fabpot/Twig.git"
         }
     }
 }
