@@ -1,24 +1,24 @@
 --TEST--
 "ez_url" function
 --DEPRECATION--
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 2.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 3.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 4.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 5.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 6.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 7.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 8.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 9.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 10.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 11.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 12.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 13.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 14.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 15.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 16.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 17.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 18.
-Twig Function "ez_url" is deprecated since version 4.0. Use "ibexa_url" instead in index.twig at line 19.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 2.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 3.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 4.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 5.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 6.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 7.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 8.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 9.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 10.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 11.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 12.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 13.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 14.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 15.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 16.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 17.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 18.
+Since  4.0: Twig Function "ez_url" is deprecated. Use "ibexa_url" instead in index.twig at line 19.
 --TEMPLATE--
 {{ ez_url(location) }}
 {{ ez_url(location, {}, true) }}
