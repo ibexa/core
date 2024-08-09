@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface;
-use Traversable;
+use function Ibexa\PolyfillPhp82\iterator_to_array;
 
 final class DateMetadataRangeAggregation extends AbstractRangeAggregation
 {
@@ -37,9 +37,7 @@ final class DateMetadataRangeAggregation extends AbstractRangeAggregation
         RangesGeneratorInterface $generator
     ): self {
         $ranges = $generator->generate();
-        if ($ranges instanceof Traversable) {
-            $ranges = iterator_to_array($ranges);
-        }
+        $ranges = iterator_to_array($ranges);
 
         return new self($name, $type, $ranges);
     }
