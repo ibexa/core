@@ -25,10 +25,14 @@ jobs:
                   coverage: none
                   extensions: 'pdo_sqlite, gd'
                   tools: cs2pr
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - uses: "ramsey/composer-install@v1"
               with:
                   dependency-versions: "highest"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Run code style check
               run: composer run-script check-cs -- --format=checkstyle | cs2pr
