@@ -600,7 +600,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $callNo = 0;
         $fieldValue = new FieldValue();
         $fieldsToCopy = [];
-        foreach ([1, 2, 3] as $fieldDefinitionId) {
+        foreach ([1, 2, 3] as $id => $fieldDefinitionId) {
             $field = new Field(
                 [
                     'fieldDefinitionId' => $fieldDefinitionId,
@@ -613,6 +613,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             // These fields are copied from main language
             if ($fieldDefinitionId == 2 || $fieldDefinitionId == 3) {
                 $originalField = clone $field;
+                $originalField->id = $fieldDefinitionId;
                 $originalField->languageCode = 'eng-GB';
                 $fieldsToCopy[] = [
                     'copy' => clone $field,
@@ -803,20 +804,13 @@ class FieldHandlerTest extends LanguageAwareTestCase
         $field->value = new FieldValue();
         $field->languageCode = 'eng-GB';
 
-        $firstField = clone $field;
-        $firstField->fieldDefinitionId = 1;
+        foreach ([1, 2, 3] as $id) {
+            $contentField = clone $field;
+            $contentField->id = $id;
+            $contentField->fieldDefinitionId = $id;
 
-        $secondField = clone $field;
-        $secondField->fieldDefinitionId = 2;
-
-        $thirdField = clone $field;
-        $thirdField->fieldDefinitionId = 3;
-
-        $content->fields = [
-            $firstField,
-            $secondField,
-            $thirdField,
-        ];
+            $content->fields[] = $contentField;
+        }
 
         return $content;
     }

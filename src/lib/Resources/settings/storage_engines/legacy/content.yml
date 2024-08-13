@@ -68,5 +68,6 @@ services:
             - '@ibexa.persistence.legacy.url_alias.gateway'
             - '@ibexa.spi.persistence.legacy.content_type.handler'
             - '@Ibexa\Core\Persistence\Legacy\Content\TreeHandler'
+            - '@ibexa.spi.persistence.legacy.language.handler'
             - "@logger"
         lazy: true
