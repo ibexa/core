@@ -9,8 +9,8 @@ namespace Ibexa\Core\Persistence\Legacy\Content;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
-use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as BaseContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCreateStruct;
@@ -85,6 +85,8 @@ class Handler implements BaseContentHandler
      */
     protected $treeHandler;
 
+    protected LanguageHandler $languageHandler;
+
     /** @var \Psr\Log\LoggerInterface */
     private $logger;
 
@@ -110,6 +112,7 @@ class Handler implements BaseContentHandler
         UrlAliasGateway $urlAliasGateway,
         ContentTypeHandler $contentTypeHandler,
         TreeHandler $treeHandler,
+        LanguageHandler $languageHandler,
         LoggerInterface $logger = null
     ) {
         $this->contentGateway = $contentGateway;
@@ -120,6 +123,7 @@ class Handler implements BaseContentHandler
         $this->urlAliasGateway = $urlAliasGateway;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->treeHandler = $treeHandler;
+        $this->languageHandler = $languageHandler;
         $this->logger = null !== $logger ? $logger : new NullLogger();
     }
 
@@ -256,6 +260,8 @@ class Handler implements BaseContentHandler
      * @param string|null $languageCode
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     public function createDraftFromVersion($contentId, $srcVersion, $userId, ?string $languageCode = null)
     {
@@ -275,6 +281,14 @@ class Handler implements BaseContentHandler
 
         // Clone fields from previous version and append them to the new one
         $this->fieldHandler->createExistingFieldsInNewVersion($content);
+
+        // Persist virtual fields
+        $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
+        $this->fieldHandler->updateFields($content, new UpdateStruct([
+            'initialLanguageId' => $this->languageHandler->loadByLanguageCode(
+                $content->versionInfo->initialLanguageCode
+            )->id,
+        ]), $contentType);
 
         // Create relations for new version
         $relations = $this->contentGateway->loadRelations($contentId, $srcVersion);
@@ -321,7 +335,9 @@ class Handler implements BaseContentHandler
             $this->contentGateway->loadVersionedNameData([[
                 'id' => $id,
                 'version' => $rows[0]['ezcontentobject_version_version'],
-            ]])
+            ]]),
+            'ezcontentobject_',
+            $translations
         );
         $content = $contentObjects[0];
         unset($rows, $contentObjects);
@@ -372,7 +388,9 @@ class Handler implements BaseContentHandler
             try {
                 $contentList = $this->mapper->extractContentFromRows(
                     $contentItemsRow,
-                    $contentItemNameData[$contentId]
+                    $contentItemNameData[$contentId],
+                    'ezcontentobject_',
+                    $translations
                 );
                 $contentItems[$contentId] = $contentList[0];
             } catch (Exception $e) {
