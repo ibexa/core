@@ -19,6 +19,7 @@ use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
 final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInterface
@@ -52,7 +53,14 @@ final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInt
             return;
         }
 
-        $badge = $event->getPassport()->getBadge(UserBadge::class);
+        $passport = $event->getPassport();
+        //validating password hash is not needed when SelfValidatingPassport is in use - this implementation is generally
+        //used when there are no credentials to be checked (e.g. API token authentication).
+        if ($passport instanceof SelfValidatingPassport) {
+            return;
+        }
+
+        $badge = $passport->getBadge(UserBadge::class);
         if (!$badge instanceof UserBadge) {
             return;
         }
@@ -68,8 +76,6 @@ final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInt
                 $user->getAPIUser(),
                 $user->getPassword() ?? ''
             );
-
-            $event->getAuthenticator()->authenticate($request);
         } catch (UnsupportedPasswordHashType $exception) {
             $this->sleepUsingConstantTimer($startTime);
 

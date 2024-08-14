@@ -24,6 +24,7 @@ use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -112,6 +113,21 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
         );
     }
 
+    public function testSkippingRepositoryUserValidationForSelfValidatingPassport(): void
+    {
+        $user = $this->createMock(User::class);
+        $user->expects(self::never())->method('getAPIUser');
+
+        $userService = $this->createMock(UserService::class);
+        $userService->expects(self::never())->method('checkUserCredentials');
+
+        $selfValidatingPassport = new SelfValidatingPassport(new UserBadge('foo'));
+
+        $this->getSubscriber($userService)->validateRepositoryUser(
+            $this->getCheckPassportEvent($user, $selfValidatingPassport)
+        );
+    }
+
     private function getSubscriber(
         ?UserService $userService = null,
         float $constantAuthTime = 1.0,
@@ -131,22 +147,26 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
         );
     }
 
-    private function getCheckPassportEvent(?UserInterface $user = null): CheckPassportEvent
-    {
+    private function getCheckPassportEvent(
+        ?UserInterface $user = null,
+        ?Passport $passport = null,
+    ): CheckPassportEvent {
+        $authenticator = $this->createMock(AuthenticatorInterface::class);
         $user = $user ?? $this->createMock(User::class);
 
-        $userProvider = $this->createMock(User\APIUserProviderInterface::class);
-        $userProvider
-            ->expects(self::once())
-            ->method('loadUserByUsername')
-            ->willReturn($user);
+        if ($passport === null) {
+            $userProvider = $this->createMock(User\APIUserProviderInterface::class);
+            $userProvider
+                ->expects(self::once())
+                ->method('loadUserByUsername')
+                ->willReturn($user);
 
-        return new CheckPassportEvent(
-            $this->createMock(AuthenticatorInterface::class),
-            new Passport(
+            $passport = new Passport(
                 new UserBadge($user->getUsername(), [$userProvider, 'loadUserByUsername']),
                 new PasswordCredentials($user->getPassword() ?? '')
-            )
-        );
+            );
+        }
+
+        return new CheckPassportEvent($authenticator, $passport);
     }
 }
