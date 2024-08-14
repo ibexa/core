@@ -11481,11 +11481,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Event/ContentCacheClearEvent.php
 
 		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Event\\\\InteractiveLoginEvent\\:\\:\\$apiUser \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Event/InteractiveLoginEvent.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Event\\\\PostSiteAccessMatchEvent\\:\\:__construct\\(\\) has parameter \\$requestType with no type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Event/PostSiteAccessMatchEvent.php
@@ -45719,11 +45714,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Event\\\\ContentCacheClearEventTest\\:\\:testConstruct\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Event/ContentCacheClearEventTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Event\\\\InteractiveLoginEventTest\\:\\:testGetSetAPIUser\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Event/InteractiveLoginEventTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Event\\\\RouteReferenceGenerationEventTest\\:\\:testConstruct\\(\\) has no return type specified\\.$#"
