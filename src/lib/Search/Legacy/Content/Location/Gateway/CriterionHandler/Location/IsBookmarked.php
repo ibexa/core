@@ -6,8 +6,11 @@
  */
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -15,6 +18,17 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 final class IsBookmarked extends CriterionHandler
 {
+    private PermissionResolver $permissionResolver;
+
+    public function __construct(
+        Connection $connection,
+        PermissionResolver $permissionResolver
+    ) {
+        parent::__construct($connection);
+
+        $this->permissionResolver = $permissionResolver;
+    }
+
     public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\Location\IsBookmarked
@@ -23,6 +37,8 @@ final class IsBookmarked extends CriterionHandler
 
     /**
      * @param array{languages: string[]} $languageSettings
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function handle(
         CriteriaConverter $converter,
@@ -30,6 +46,8 @@ final class IsBookmarked extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
+        $userId = $this->getUserId($criterion);
+
         $subQueryBuilder = $this->connection->createQueryBuilder();
         $subQueryBuilder
             ->select(DoctrineDatabase::COLUMN_LOCATION_ID)
@@ -40,15 +58,37 @@ final class IsBookmarked extends CriterionHandler
                 ->eq(
                     DoctrineDatabase::COLUMN_USER_ID,
                     $queryBuilder->createNamedParameter(
-                        $criterion->value[0],
+                        $userId,
                         Types::INTEGER
                     )
                 )
             );
 
-        return $queryBuilder->expr()->in(
-            't.node_id',
-            $subQueryBuilder->getSQL()
-        );
+        return $queryBuilder
+            ->expr()
+            ->in(
+                't.node_id',
+                $subQueryBuilder->getSQL()
+            );
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Exception\InvalidArgumentException
+     */
+    private function getUserId(Criterion $criterion): int
+    {
+        $valueData = $criterion->valueData;
+        if (!$valueData instanceof Criterion\Value\IsBookmarkedValue) {
+            throw new InvalidArgumentException(
+                '$criterion->valueData',
+                sprintf(
+                    'Is expected to be of type: "%s", got "%s"',
+                    Criterion\Value\IsBookmarkedValue::class,
+                    get_debug_type($valueData)
+                )
+            );
+        }
+
+        return $valueData->getUserId() ?? $this->permissionResolver->getCurrentUserReference()->getUserId();
     }
 }
