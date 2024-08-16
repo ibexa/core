@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 
 use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use PDOException;
@@ -78,6 +79,15 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->locationSwapped($location1Id, $location2Id);
+        } catch (DBALException | PDOException $e) {
+            throw DatabaseException::wrap($e);
+        }
+    }
+
+    public function loadUserIdsByLocation(Location $location): array
+    {
+        try {
+            return $this->innerGateway->loadUserIdsByLocation($location);
         } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }

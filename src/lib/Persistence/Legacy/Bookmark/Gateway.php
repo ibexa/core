@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Bookmark;
 
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 
 /**
  * Base class for bookmark gateways.
@@ -40,6 +41,13 @@ abstract class Gateway
      * @return array
      */
     abstract public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array;
+
+    /**
+     * Load user ids by the given $location.
+     *
+     * @return array<int, array{user_id: int}>
+     */
+    abstract public function loadUserIdsByLocation(Location $location): array;
 
     /**
      * Load data for all bookmarks owned by given $userId.
