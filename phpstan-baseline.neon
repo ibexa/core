@@ -14876,6 +14876,11 @@ parameters:
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabase.php
 
 		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Bookmark\\\\Gateway\\\\DoctrineDatabase\\:\\:loadUserIdsByLocation\\(\\) should return array\\<int, array\\{user_id\\: int\\}\\> but returns array\\<int, array\\<string, mixed\\>\\>\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabase.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Bookmark\\\\Gateway\\\\ExceptionConversion\\:\\:loadBookmarkDataByUserIdAndLocationId\\(\\) has parameter \\$locationId with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway/ExceptionConversion.php
