@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\Bookmark;
 
+use Ibexa\Contracts\Core\Persistence\Content\Location;
+
 interface Handler
 {
     /**
@@ -37,6 +39,13 @@ interface Handler
      * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark[]
      */
     public function loadByUserIdAndLocationId(int $userId, array $locationIds): array;
+
+    /**
+     * Get user ids who have bookmarked given location.
+     *
+     * @return array<int>
+     */
+    public function loadUserIdsByLocation(Location $location): array;
 
     /**
      * Loads bookmarks owned by user.
