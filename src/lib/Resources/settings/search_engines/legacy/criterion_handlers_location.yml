@@ -58,3 +58,8 @@ services:
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Visibility
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}
+
+    Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location\IsBookmarked:
+        parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
+        tags:
+            - { name: ibexa.search.legacy.gateway.criterion_handler.location }
