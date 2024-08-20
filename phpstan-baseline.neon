@@ -9226,17 +9226,17 @@ parameters:
 			path: src/lib/FieldType/ISBN/Type.php
 
 		-
-			message: "#^Binary operation \"\\*\" between int\\<\\-3, 3\\> and string results in an error\\.$#"
+			message: "#^Binary operation \"\\*\" between int\\<\\-3, 3\\> and non\\-empty\\-string results in an error\\.$#"
 			count: 1
 			path: src/lib/FieldType/ISBN/Type.php
 
 		-
-			message: "#^Binary operation \"\\*\" between int\\<min, 3\\> and string results in an error\\.$#"
+			message: "#^Binary operation \"\\*\" between int\\<min, 3\\> and non\\-empty\\-string results in an error\\.$#"
 			count: 1
 			path: src/lib/FieldType/ISBN/Type.php
 
 		-
-			message: "#^Binary operation \"\\*\" between string and int\\<1, 10\\> results in an error\\.$#"
+			message: "#^Binary operation \"\\*\" between non\\-empty\\-string and int\\<1, 10\\> results in an error\\.$#"
 			count: 1
 			path: src/lib/FieldType/ISBN/Type.php
 
