@@ -9241,17 +9241,17 @@ parameters:
 			path: src/lib/FieldType/ISBN/Type.php
 
 		-
-			message: "#^Binary operation \"\\*\" between int\\<\\-3, 3\\> and string results in an error\\.$#"
+			message: "#^Binary operation \"\\*\" between int\\<\\-3, 3\\> and non\\-empty\\-string results in an error\\.$#"
 			count: 1
 			path: src/lib/FieldType/ISBN/Type.php
 
 		-
-			message: "#^Binary operation \"\\*\" between int\\<min, 3\\> and string results in an error\\.$#"
+			message: "#^Binary operation \"\\*\" between int\\<min, 3\\> and non\\-empty\\-string results in an error\\.$#"
 			count: 1
 			path: src/lib/FieldType/ISBN/Type.php
 
 		-
-			message: "#^Binary operation \"\\*\" between string and int\\<1, 10\\> results in an error\\.$#"
+			message: "#^Binary operation \"\\*\" between non\\-empty\\-string and int\\<1, 10\\> results in an error\\.$#"
 			count: 1
 			path: src/lib/FieldType/ISBN/Type.php
 
@@ -14846,21 +14846,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Bookmark/Mapper.php
 
 		-
-			message: "#^Access to an undefined property object\\:\\:\\$languageCode\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
-
-		-
-			message: "#^Cannot access offset int\\|string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 3
-			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
-
-		-
-			message: "#^Cannot access offset string on Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\.$#"
-			count: 5
-			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:copyField\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
@@ -14911,11 +14896,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:getFieldMap\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\> but returns array\\<int, array\\<string, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\>\\>\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:loadExternalFieldData\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
@@ -14936,17 +14916,12 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
-			message: "#^Parameter \\#1 \\$field of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:updateField\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field, object given\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
-
-		-
 			message: "#^Parameter \\#2 \\$languageCode of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:getEmptyField\\(\\) expects string, int\\|string given\\.$#"
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 
 		-
-			message: "#^Parameter \\#3 \\$originalField of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldHandler\\:\\:updateCopiedField\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field, object given\\.$#"
+			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Field\\:\\:\\$id \\(int\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldHandler.php
 

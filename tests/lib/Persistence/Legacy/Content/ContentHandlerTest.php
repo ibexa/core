@@ -24,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Handler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
@@ -110,6 +111,11 @@ class ContentHandlerTest extends TestCase
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
      */
     protected $contentTypeHandlerMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     */
+    private LanguageHandler $languageHandlerMock;
 
     /**
      * @todo Current method way to complex to test, refactor!
@@ -376,6 +382,8 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
+        $languageHandlerMock = $this->getLanguageHandlerMock();
+        $contentTypeHandlerMock = $this->getContentTypeHandlerMock();
 
         $handler->expects(self::once())
             ->method('load')
@@ -394,10 +402,17 @@ class ContentHandlerTest extends TestCase
                         [
                             'names' => [],
                             'versionNo' => 3,
+                            'contentInfo' => new ContentInfo(),
                         ]
                     )
                 )
             );
+
+        $languageHandlerMock->method('loadByLanguageCode')
+            ->willReturn(new Content\Language());
+
+        $contentTypeHandlerMock->method('load')
+            ->willReturn(new Type());
 
         $gatewayMock->expects(self::once())
             ->method('insertVersion')
@@ -1516,7 +1531,8 @@ class ContentHandlerTest extends TestCase
                 $this->getSlugConverterMock(),
                 $this->getUrlAliasGatewayMock(),
                 $this->getContentTypeHandlerMock(),
-                $this->getTreeHandlerMock()
+                $this->getTreeHandlerMock(),
+                $this->getLanguageHandlerMock(),
             );
         }
 
@@ -1544,6 +1560,7 @@ class ContentHandlerTest extends TestCase
                     $this->getUrlAliasGatewayMock(),
                     $this->getContentTypeHandlerMock(),
                     $this->getTreeHandlerMock(),
+                    $this->getLanguageHandlerMock(),
                 ]
             )
             ->getMock();
@@ -1575,6 +1592,18 @@ class ContentHandlerTest extends TestCase
         }
 
         return $this->contentTypeHandlerMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\Persistence\Legacy\Content\Language\Handler
+     */
+    protected function getLanguageHandlerMock(): LanguageHandler
+    {
+        if (!isset($this->languageHandlerMock)) {
+            $this->languageHandlerMock = $this->createMock(LanguageHandler::class);
+        }
+
+        return $this->languageHandlerMock;
     }
 
     /**

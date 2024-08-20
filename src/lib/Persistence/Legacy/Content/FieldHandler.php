@@ -359,6 +359,13 @@ class FieldHandler
                     // also update copied field data
                     // Register for processing after all given fields are updated
                     $nonTranslatableCopiesUpdateSet[$fieldDefinition->id][] = $languageCode;
+                } elseif (isset($contentFieldMap[$fieldDefinition->id][$languageCode])) {
+                    $field = clone $contentFieldMap[$fieldDefinition->id][$languageCode];
+                    $field->versionNo = $content->versionInfo->versionNo;
+                    // Persist virtual field
+                    if (null === $field->id) {
+                        $this->createNewField($field, $content);
+                    }
                 }
 
                 // If no above conditions were met - do nothing
@@ -418,7 +425,7 @@ class FieldHandler
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $fields
      * @param array $languageCodes
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field[]
+     * @return array<int, array<string, \Ibexa\Contracts\Core\Persistence\Content\Field>>
      */
     protected function getFieldMap(array $fields, &$languageCodes = null)
     {
