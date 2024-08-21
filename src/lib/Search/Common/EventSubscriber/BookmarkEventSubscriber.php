@@ -11,18 +11,14 @@ namespace Ibexa\Core\Search\Common\EventSubscriber;
 use Ibexa\Contracts\Core\Repository\Events\Bookmark\CreateBookmarkEvent;
 use Ibexa\Contracts\Core\Repository\Events\Bookmark\DeleteBookmarkEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Core\Search\Common\Indexer;
+use Ibexa\Core\Search\Common\IncrementalIndexer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class BookmarkEventSubscriber implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\Search\Common\Indexer&\Ibexa\Core\Search\Common\IncrementalIndexer */
-    private Indexer $indexer;
+    private IncrementalIndexer $indexer;
 
-    /**
-     * @param \Ibexa\Core\Search\Common\Indexer&\Ibexa\Core\Search\Common\IncrementalIndexer $indexer
-     */
-    public function __construct(Indexer $indexer)
+    public function __construct(IncrementalIndexer $indexer)
     {
         $this->indexer = $indexer;
     }
