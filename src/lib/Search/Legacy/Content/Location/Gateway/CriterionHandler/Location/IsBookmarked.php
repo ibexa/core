@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Location;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Types\Types;
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -52,26 +52,24 @@ final class IsBookmarked extends CriterionHandler
 
         $subQueryBuilder = $this->connection->createQueryBuilder();
         $subQueryBuilder
-            ->select(DoctrineDatabase::COLUMN_LOCATION_ID)
-            ->from(DoctrineDatabase::TABLE_BOOKMARKS)
+            ->select('1')
+            ->from(DoctrineDatabase::TABLE_BOOKMARKS, 'b')
             ->andWhere(
                 $queryBuilder
-                ->expr()
-                ->eq(
-                    DoctrineDatabase::COLUMN_USER_ID,
-                    $queryBuilder->createNamedParameter(
-                        $userId,
-                        Types::INTEGER
-                    )
-                )
+                    ->expr()
+                    ->eq(
+                        'b.' . DoctrineDatabase::COLUMN_USER_ID,
+                        $queryBuilder->createNamedParameter($userId, ParameterType::INTEGER)
+                    ),
+                $queryBuilder
+                    ->expr()
+                    ->eq('b.node_id', 't.node_id')
             );
 
-        return $queryBuilder
-            ->expr()
-            ->in(
-                't.node_id',
-                $subQueryBuilder->getSQL()
-            );
+        return sprintf(
+            'EXISTS (%s)',
+            $subQueryBuilder->getSQL()
+        );
     }
 
     /**
