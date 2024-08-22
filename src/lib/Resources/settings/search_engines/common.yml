@@ -47,16 +47,9 @@ services:
     Ibexa\Core\Search\Common\FieldValueMapper\Aggregate:
         class: Ibexa\Core\Search\Common\FieldValueMapper\Aggregate
 
-    Ibexa\Core\Search\Common\EventSubscriber\BookmarkEventSubscriber:
-        autoconfigure: true
-        autowire: true
-        public: false
-        arguments:
-            $indexer: '@ibexa.spi.search.indexer'
-
     Ibexa\Core\Search\Common\EventSubscriber\:
         resource: '../../../Search/Common/EventSubscriber/*'
-        exclude: '../../../Search/Common/EventSubscriber/{AbstractSearchEventSubscriber,BookmarkEventSubscriber.php}'
+        exclude: '../../../Search/Common/EventSubscriber/{AbstractSearchEventSubscriber}'
         autoconfigure: true
         autowire: true
         public: false

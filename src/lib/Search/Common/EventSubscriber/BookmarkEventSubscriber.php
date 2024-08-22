@@ -10,22 +10,13 @@ namespace Ibexa\Core\Search\Common\EventSubscriber;
 
 use Ibexa\Contracts\Core\Repository\Events\Bookmark\CreateBookmarkEvent;
 use Ibexa\Contracts\Core\Repository\Events\Bookmark\DeleteBookmarkEvent;
-use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Core\Search\Common\IncrementalIndexer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * @internal
  */
-final class BookmarkEventSubscriber implements EventSubscriberInterface
+final class BookmarkEventSubscriber extends AbstractSearchEventSubscriber implements EventSubscriberInterface
 {
-    private IncrementalIndexer $indexer;
-
-    public function __construct(IncrementalIndexer $indexer)
-    {
-        $this->indexer = $indexer;
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -37,21 +28,28 @@ final class BookmarkEventSubscriber implements EventSubscriberInterface
     public function onCreateBookmark(CreateBookmarkEvent $event): void
     {
         $location = $event->getLocation();
-
-        $this->updateSearchIndex($location);
+        $this->updateContentIndex($location->getContentId());
+        $this->updateLocationIndex($location->getId());
     }
 
     public function onDeleteBookmark(DeleteBookmarkEvent $event): void
     {
         $location = $event->getLocation();
-
-        $this->updateSearchIndex($location);
+        $this->updateContentIndex($location->getContentId());
+        $this->updateLocationIndex($location->getId());
     }
 
-    private function updateSearchIndex(Location $location): void
+    private function updateContentIndex(int $contentId): void
     {
-        $contentId = $location->getContentId();
+        $persistenceContent = $this->persistenceHandler->contentHandler()->load($contentId);
 
-        $this->indexer->updateSearchIndex([$contentId], true);
+        $this->searchHandler->indexContent($persistenceContent);
+    }
+
+    private function updateLocationIndex(int $locationId): void
+    {
+        $persistenceLocation = $this->persistenceHandler->locationHandler()->load($locationId);
+
+        $this->searchHandler->indexLocation($persistenceLocation);
     }
 }
