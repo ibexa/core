@@ -90,6 +90,3 @@ services:
 
     ibexa.siteaccess.provider:
         alias: Ibexa\Core\MVC\Symfony\SiteAccess\Provider\ChainSiteAccessProvider
-
-    ibexa.spi.search.indexer:
-        alias: Ibexa\Core\Search\Legacy\Content\Indexer
