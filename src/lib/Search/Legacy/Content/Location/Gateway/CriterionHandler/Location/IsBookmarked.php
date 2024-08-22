@@ -11,7 +11,6 @@ namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway\CriterionHandler\Loc
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
@@ -39,8 +38,6 @@ final class IsBookmarked extends CriterionHandler
 
     /**
      * @param array{languages: string[]} $languageSettings
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function handle(
         CriteriaConverter $converter,
@@ -48,7 +45,9 @@ final class IsBookmarked extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
-        $userId = $this->getUserId($criterion);
+        $userId = $this->permissionResolver
+            ->getCurrentUserReference()
+            ->getUserId();
 
         $subQueryBuilder = $this->connection->createQueryBuilder();
         $subQueryBuilder
@@ -66,29 +65,14 @@ final class IsBookmarked extends CriterionHandler
                     ->eq('b.node_id', 't.node_id')
             );
 
-        return sprintf(
-            'EXISTS (%s)',
-            $subQueryBuilder->getSQL()
-        );
-    }
-
-    /**
-     * @throws \Ibexa\Contracts\Core\Exception\InvalidArgumentException
-     */
-    private function getUserId(Criterion $criterion): int
-    {
-        $valueData = $criterion->valueData;
-        if (!$valueData instanceof Criterion\Value\IsBookmarkedValue) {
-            throw new InvalidArgumentException(
-                '$criterion->valueData',
-                sprintf(
-                    'Is expected to be of type: "%s", got "%s"',
-                    Criterion\Value\IsBookmarkedValue::class,
-                    get_debug_type($valueData)
-                )
-            );
+        $query = 'EXISTS (%s)';
+        if (!$criterion->value[0]) {
+            $query = 'NOT ' . $query;
         }
 
-        return $valueData->getUserId() ?? $this->permissionResolver->getCurrentUserReference()->getUserId();
+        return sprintf(
+            $query,
+            $subQueryBuilder->getSQL()
+        );
     }
 }

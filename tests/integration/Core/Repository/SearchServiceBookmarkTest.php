@@ -54,7 +54,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
         yield 'All bookmarked locations' => [
             self::ALL_BOOKMARKED_LOCATIONS,
             [
-                new Query\Criterion\Location\IsBookmarked(self::ADMIN_USER_ID),
+                new Query\Criterion\Location\IsBookmarked(),
             ],
         ];
 
@@ -62,7 +62,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
             1,
             [
                 new Query\Criterion\ContentTypeIdentifier(self::FOLDER_CONTENT_TYPE_IDENTIFIER),
-                new Query\Criterion\Location\IsBookmarked(self::ADMIN_USER_ID),
+                new Query\Criterion\Location\IsBookmarked(),
             ],
         ];
 
@@ -70,7 +70,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
             4,
             [
                 new Query\Criterion\ContentTypeIdentifier('user_group'),
-                new Query\Criterion\Location\IsBookmarked(self::ADMIN_USER_ID),
+                new Query\Criterion\Location\IsBookmarked(),
             ],
         ];
 
@@ -82,10 +82,10 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
             ],
         ];
 
-        yield 'No bookmarked locations for user with id 10' => [
-            0,
+        yield 'All no bookmarked locations' => [
+            12,
             [
-                new Query\Criterion\Location\IsBookmarked(10),
+                new Query\Criterion\Location\IsBookmarked(false),
             ],
         ];
     }
@@ -94,7 +94,7 @@ final class SearchServiceBookmarkTest extends RepositorySearchTestCase
     {
         $query = $this->createQuery(
             [
-                new Query\Criterion\Location\IsBookmarked(self::ADMIN_USER_ID),
+                new Query\Criterion\Location\IsBookmarked(),
             ]
         );
 

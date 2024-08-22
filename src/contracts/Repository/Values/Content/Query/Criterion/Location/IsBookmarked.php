@@ -11,20 +11,16 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Locatio
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value\IsBookmarkedValue;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 final class IsBookmarked extends Location implements FilteringCriterion
 {
-    public function __construct(?int $userId = null)
+    public function __construct(bool $value = true)
     {
-        $valueData = new IsBookmarkedValue($userId);
-
         parent::__construct(
             null,
             Operator::EQ,
-            true,
-            $valueData
+            $value,
         );
     }
 
