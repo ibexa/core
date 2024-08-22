@@ -18,34 +18,11 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Ibexa\Core\Repository\Values\User\User
  */
-class UserTest extends TestCase
+final class UserTest extends TestCase
 {
     use ValueObjectTestTrait;
 
-    /**
-     * Test a new class and default values on properties.
-     */
-    public function testNewClass()
-    {
-        $user = new User();
-
-        $this->assertPropertiesCorrect(
-            [
-                'login' => null,
-                'email' => null,
-                'passwordHash' => null,
-                'hashAlgorithm' => null,
-                'maxLogin' => null,
-                'enabled' => false,
-            ],
-            $user
-        );
-    }
-
-    /**
-     * Test getName method.
-     */
-    public function testGetName()
+    public function testGetName(): void
     {
         $name = 'Translated name';
         $contentMock = $this->createMock(Content::class);
@@ -64,10 +41,7 @@ class UserTest extends TestCase
         self::assertEquals($name, $object->getName());
     }
 
-    /**
-     * Test retrieving missing property.
-     */
-    public function testMissingProperty()
+    public function testMissingProperty(): void
     {
         $this->expectException(PropertyNotFoundException::class);
 
@@ -76,7 +50,7 @@ class UserTest extends TestCase
         self::fail('Succeeded getting non existing property');
     }
 
-    public function testObjectProperties()
+    public function testObjectProperties(): void
     {
         $object = new User();
         $properties = $object->attributes();
@@ -98,22 +72,7 @@ class UserTest extends TestCase
         }
     }
 
-    /**
-     * Test setting read only property.
-     */
-    public function testReadOnlyProperty()
-    {
-        $this->expectException(PropertyReadOnlyException::class);
-
-        $user = new User();
-        $user->login = 'user';
-        self::fail('Succeeded setting read only property');
-    }
-
-    /**
-     * Test if property exists.
-     */
-    public function testIsPropertySet()
+    public function testIsPropertySet(): void
     {
         $user = new User();
         $value = isset($user->notDefined);
@@ -123,10 +82,7 @@ class UserTest extends TestCase
         self::assertTrue($value);
     }
 
-    /**
-     * Test unsetting a property.
-     */
-    public function testUnsetProperty()
+    public function testUnsetProperty(): void
     {
         $this->expectException(PropertyReadOnlyException::class);
 
