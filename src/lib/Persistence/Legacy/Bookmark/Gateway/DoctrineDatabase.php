@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
@@ -115,11 +115,12 @@ class DoctrineDatabase extends Gateway
                         self::COLUMN_LOCATION_ID,
                         $queryBuilder->createNamedParameter(
                             $location->id,
-                            Types::INTEGER
+                            ParameterType::INTEGER
                         )
                     )
             );
 
+        /** @phpstan-var array<array{user_id: int}> */
         return $queryBuilder->execute()->fetchAllAssociative();
     }
 
