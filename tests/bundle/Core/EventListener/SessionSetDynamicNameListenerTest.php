@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
@@ -18,37 +19,43 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class SessionSetDynamicNameListenerTest extends TestCase
+final class SessionSetDynamicNameListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $sessionStorageFactory;
+    /** @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private SessionStorageFactoryInterface $sessionStorageFactory;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $sessionStorage;
+    /** @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private SessionStorageInterface $sessionStorage;
 
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->configResolver = $this->getMockBuilder(ConfigResolverInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+
         $this->sessionStorage = $this->getMockBuilder(NativeSessionStorage::class)
             ->disableOriginalConstructor()
             ->getMock();
+
         $this->sessionStorageFactory = $this->getMockBuilder(SessionStorageFactoryInterface::class)
             ->getMock();
+
         $this->sessionStorageFactory->method('createStorage')
             ->willReturn($this->sessionStorage);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         $listener = new SessionSetDynamicNameListener($this->configResolver, $this->sessionStorageFactory);
+
         self::assertSame(
             [
                 MVCEvents::SITEACCESS => ['onSiteAccessMatch', 250],
@@ -57,18 +64,19 @@ class SessionSetDynamicNameListenerTest extends TestCase
         );
     }
 
-    public function testOnSiteAccessMatchNoSession()
+    public function testOnSiteAccessMatchNoSession(): void
     {
         $request = new Request();
 
         $this->sessionStorage
             ->expects(self::never())
             ->method('setOptions');
+
         $listener = new SessionSetDynamicNameListener($this->configResolver, $this->sessionStorageFactory);
         $listener->onSiteAccessMatch(new PostSiteAccessMatchEvent(new SiteAccess('test'), $request, HttpKernelInterface::MAIN_REQUEST));
     }
 
-    public function testOnSiteAccessMatchSubRequest()
+    public function testOnSiteAccessMatchSubRequest(): void
     {
         $this->sessionStorage
             ->expects(self::never())
@@ -77,7 +85,7 @@ class SessionSetDynamicNameListenerTest extends TestCase
         $listener->onSiteAccessMatch(new PostSiteAccessMatchEvent(new SiteAccess('test'), new Request(), HttpKernelInterface::SUB_REQUEST));
     }
 
-    public function testOnSiteAccessMatchNonNativeSessionStorage()
+    public function testOnSiteAccessMatchNonNativeSessionStorage(): void
     {
         $this->configResolver
             ->expects(self::never())
@@ -92,7 +100,7 @@ class SessionSetDynamicNameListenerTest extends TestCase
     /**
      * @dataProvider onSiteAccessMatchProvider
      */
-    public function testOnSiteAccessMatch(SiteAccess $siteAccess, $configuredSessionStorageOptions, array $expectedSessionStorageOptions)
+    public function testOnSiteAccessMatch(SiteAccess $siteAccess, $configuredSessionStorageOptions, array $expectedSessionStorageOptions): void
     {
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
@@ -111,14 +119,17 @@ class SessionSetDynamicNameListenerTest extends TestCase
         $listener->onSiteAccessMatch(new PostSiteAccessMatchEvent($siteAccess, $request, HttpKernelInterface::MAIN_REQUEST));
     }
 
-    public function onSiteAccessMatchProvider()
+    /**
+     * @return array{array{\Ibexa\Core\MVC\Symfony\SiteAccess, array<string, string>, array<string, string>}}
+     */
+    public function onSiteAccessMatchProvider(): array
     {
         return [
-            [new SiteAccess('foo'), ['name' => 'eZSESSID'], ['name' => 'eZSESSID']],
-            [new SiteAccess('foo'), ['name' => 'eZSESSID{siteaccess_hash}'], ['name' => 'eZSESSID' . md5('foo')]],
-            [new SiteAccess('foo'), ['name' => 'this_is_a_session_name'], ['name' => 'eZSESSID_this_is_a_session_name']],
-            [new SiteAccess('foo'), ['name' => 'something{siteaccess_hash}'], ['name' => 'eZSESSID_something' . md5('foo')]],
-            [new SiteAccess('bar_baz'), ['name' => '{siteaccess_hash}something'], ['name' => 'eZSESSID_' . md5('bar_baz') . 'something']],
+            [new SiteAccess('foo'), ['name' => 'IBX_SESSION_ID'], ['name' => 'IBX_SESSION_ID']],
+            [new SiteAccess('foo'), ['name' => 'IBX_SESSION_ID{siteaccess_hash}'], ['name' => 'IBX_SESSION_ID' . md5('foo')]],
+            [new SiteAccess('foo'), ['name' => 'this_is_a_session_name'], ['name' => 'IBX_SESSION_ID_this_is_a_session_name']],
+            [new SiteAccess('foo'), ['name' => 'something{siteaccess_hash}'], ['name' => 'IBX_SESSION_ID_something' . md5('foo')]],
+            [new SiteAccess('bar_baz'), ['name' => '{siteaccess_hash}something'], ['name' => 'IBX_SESSION_ID_' . md5('bar_baz') . 'something']],
             [
                 new SiteAccess('foo'),
                 [
@@ -130,7 +141,7 @@ class SessionSetDynamicNameListenerTest extends TestCase
                     'cookie_httponly' => true,
                 ],
                 [
-                    'name' => 'eZSESSID_this_is_a_session_name',
+                    'name' => 'IBX_SESSION_ID_this_is_a_session_name',
                     'cookie_path' => '/foo',
                     'cookie_domain' => 'foo.com',
                     'cookie_lifetime' => 86400,
@@ -141,14 +152,14 @@ class SessionSetDynamicNameListenerTest extends TestCase
         ];
     }
 
-    public function testOnSiteAccessMatchNoConfiguredSessionName()
+    public function testOnSiteAccessMatchNoConfiguredSessionName(): void
     {
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage('some_default_name')));
 
         $configuredSessionStorageOptions = ['cookie_path' => '/bar'];
         $sessionName = 'some_default_name';
-        $sessionOptions = $configuredSessionStorageOptions + ['name' => "eZSESSID_$sessionName"];
+        $sessionOptions = $configuredSessionStorageOptions + ['name' => "IBX_SESSION_ID_$sessionName"];
 
         $this->sessionStorage
             ->expects(self::once())

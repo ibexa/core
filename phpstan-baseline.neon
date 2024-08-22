@@ -2141,11 +2141,6 @@ parameters:
 			path: src/bundle/Core/EventListener/SessionInitByPostListener.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListener\\:\\:onSiteAccessMatch\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/EventListener/SessionSetDynamicNameListener.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\EventListener\\\\SiteAccessListener\\:\\:generateViewParametersArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Core/EventListener/SiteAccessListener.php
@@ -24446,46 +24441,6 @@ parameters:
 			path: tests/bundle/Core/EventListener/RoutingListenerTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionInitByPostListenerTest\\:\\:testGetSubscribedEvents\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionInitByPostListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionInitByPostListenerTest\\:\\:testOnSiteAccessMatchNewSessionName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionInitByPostListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionInitByPostListenerTest\\:\\:testOnSiteAccessMatchNoSessionService\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionInitByPostListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionInitByPostListenerTest\\:\\:testOnSiteAccessMatchRequestNoSessionName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionInitByPostListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionInitByPostListenerTest\\:\\:testOnSiteAccessMatchSubRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionInitByPostListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:onSiteAccessMatchProvider\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testGetSubscribedEvents\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testOnSiteAccessMatch\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testOnSiteAccessMatch\\(\\) has parameter \\$configuredSessionStorageOptions with no type specified\\.$#"
 			count: 1
 			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
@@ -24493,36 +24448,6 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testOnSiteAccessMatch\\(\\) has parameter \\$expectedSessionStorageOptions with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testOnSiteAccessMatchNoConfiguredSessionName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testOnSiteAccessMatchNoSession\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testOnSiteAccessMatchNonNativeSessionStorage\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListenerTest\\:\\:testOnSiteAccessMatchSubRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$configResolver of class Ibexa\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListener constructor expects Ibexa\\\\Contracts\\\\Core\\\\SiteAccess\\\\ConfigResolverInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 6
-			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$sessionStorageFactory of class Ibexa\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListener constructor expects Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\Storage\\\\SessionStorageFactoryInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 5
 			path: tests/bundle/Core/EventListener/SessionSetDynamicNameListenerTest.php
 
 		-
@@ -44704,16 +44629,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Limitation\\\\SubtreeLimitationTypeTest\\:\\:testValueSchema\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Limitation/SubtreeLimitationTypeTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\SimplifiedRequestNormalizerTest\\:\\:testNormalize\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\SimplifiedRequestNormalizerTest\\:\\:testSupportsNormalization\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizerTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\Stubs\\\\CompoundStub\\:\\:__construct\\(\\) has parameter \\$subMatchers with no value type specified in iterable type array\\.$#"
