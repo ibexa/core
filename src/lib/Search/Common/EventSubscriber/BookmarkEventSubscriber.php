@@ -14,6 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Search\Common\IncrementalIndexer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @internal
+ */
 final class BookmarkEventSubscriber implements EventSubscriberInterface
 {
     private IncrementalIndexer $indexer;
