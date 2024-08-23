@@ -45,7 +45,7 @@ abstract class Gateway
     /**
      * Load user ids by the given $location.
      *
-     * @return array<int, array{user_id: int}>
+     * @return array<int>
      */
     abstract public function loadUserIdsByLocation(Location $location): array;
 

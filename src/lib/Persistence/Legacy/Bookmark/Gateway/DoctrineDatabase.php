@@ -120,8 +120,7 @@ class DoctrineDatabase extends Gateway
                     )
             );
 
-        /** @phpstan-var array<array{user_id: int}> */
-        return $queryBuilder->execute()->fetchAllAssociative();
+        return $queryBuilder->execute()->fetchFirstColumn();
     }
 
     /**

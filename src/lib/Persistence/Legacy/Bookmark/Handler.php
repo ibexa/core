@@ -102,12 +102,10 @@ class Handler implements HandlerInterface
 
     public function loadUserIdsByLocation(Location $location): array
     {
-        $userIds = [];
-        foreach ($this->gateway->loadUserIdsByLocation($location) as $row) {
-            $userIds[] = (int)$row['user_id'];
-        }
-
-        return $userIds;
+        return array_map(
+            static fn ($userId): int => (int)$userId,
+            $this->gateway->loadUserIdsByLocation($location)
+        );
     }
 }
 
