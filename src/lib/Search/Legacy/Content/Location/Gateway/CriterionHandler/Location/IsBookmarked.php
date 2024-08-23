@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use LogicException;
 
 final class IsBookmarked extends CriterionHandler
 {
@@ -45,6 +46,10 @@ final class IsBookmarked extends CriterionHandler
         Criterion $criterion,
         array $languageSettings
     ) {
+        if (!is_array($criterion->value)) {
+            throw new LogicException('Expected IsBookmarked Criterion value to be an array');
+        }
+
         $userId = $this->permissionResolver
             ->getCurrentUserReference()
             ->getUserId();
