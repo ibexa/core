@@ -206,7 +206,7 @@ class PermissionResolver implements PermissionResolverInterface
              * These are already filtered by hasAccess and given hasAccess did not return boolean
              * there must be some, so only return true if one of them says yes.
              *
-             * @var \Ibexa\Contracts\Core\Repository\Values\User\Policy
+             * @var \Ibexa\Contracts\Core\Repository\Values\User\Policy $policy
              */
             foreach ($permissionSet['policies'] as $policy) {
                 $limitations = $policy->getLimitations();
