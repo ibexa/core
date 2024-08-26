@@ -45,9 +45,14 @@ final class BookmarkHandlerTest extends RepositoryTestCase
         // Location is not bookmarked yet
         self::assertSameArrayWithUserIds([], $location);
 
-        $this->addToBookmark($location);
+        $bookmark = $this->addToBookmark($location);
 
         self::assertSameArrayWithUserIds([self::ADMIN_USER_ID], $location);
+
+        $this->deleteBookmark($bookmark->id);
+
+        // Check if location has been removed from bookmarks
+        self::assertSameArrayWithUserIds([], $location);
     }
 
     /**
@@ -78,5 +83,10 @@ final class BookmarkHandlerTest extends RepositoryTestCase
         $createStruct->locationId = $location->id;
 
         return $this->bookmarkHandler->create($createStruct);
+    }
+
+    private function deleteBookmark(int $bookmarkId): void
+    {
+        $this->bookmarkHandler->delete($bookmarkId);
     }
 }
