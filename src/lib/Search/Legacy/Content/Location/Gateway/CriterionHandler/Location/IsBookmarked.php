@@ -47,7 +47,11 @@ final class IsBookmarked extends CriterionHandler
         array $languageSettings
     ) {
         if (!is_array($criterion->value)) {
-            throw new LogicException('Expected IsBookmarked Criterion value to be an array');
+            throw new LogicException(sprintf(
+                'Expected %s Criterion value to be an array, %s received'
+                IsBookmarked::class,
+                get_debug_type($criterion->value),
+            ));
         }
 
         $userId = $this->permissionResolver
