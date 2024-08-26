@@ -48,7 +48,7 @@ final class IsBookmarked extends CriterionHandler
     ) {
         if (!is_array($criterion->value)) {
             throw new LogicException(sprintf(
-                'Expected %s Criterion value to be an array, %s received'
+                'Expected %s Criterion value to be an array, %s received',
                 IsBookmarked::class,
                 get_debug_type($criterion->value),
             ));
