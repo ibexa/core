@@ -13,6 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
+/**
+ * This criterion only works for current user reference.
+ */
 final class IsBookmarked extends Location implements FilteringCriterion
 {
     public function __construct(bool $value = true)
