@@ -18,6 +18,8 @@ final class SqliteGateway implements Gateway
      */
     private const FATAL_ERROR_CODE = 7;
 
+    private const DB_INT_MAX = 2147483647;
+
     /** @var array<string, int> */
     private $lastInsertedIds = [];
 
@@ -27,7 +29,7 @@ final class SqliteGateway implements Gateway
         string $sequenceName
     ): ?int {
         $lastId = $this->lastInsertedIds[$sequenceName] ?? 0;
-        $nextId = (int)hrtime(true);
+        $nextId = (int)hrtime(true) % self::DB_INT_MAX;
 
         // $lastId === $nextId shouldn't happen using high-resolution time, but better safe than sorry
         return $this->lastInsertedIds[$sequenceName] = $lastId === $nextId ? $nextId + 1 : $nextId;
