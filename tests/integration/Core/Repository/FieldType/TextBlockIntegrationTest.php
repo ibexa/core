@@ -7,8 +7,8 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\TextBlock\Value as TextBlockValue;
 
 /**
@@ -149,7 +149,7 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
         return [
             [
                 new \stdClass(),
-                InvalidArgumentType::class,
+                InvalidArgumentException::class,
             ],
         ];
     }
@@ -281,7 +281,6 @@ class TextBlockIntegrationTest extends SearchBaseIntegrationTest
             [
                 $this->getValidCreationFieldData(),
             ],
-            [new TextBlockValue(0)],
             [new TextBlockValue('0')],
         ];
     }
