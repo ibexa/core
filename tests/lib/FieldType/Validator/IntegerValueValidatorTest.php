@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Core\FieldType;
+namespace Ibexa\Tests\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
