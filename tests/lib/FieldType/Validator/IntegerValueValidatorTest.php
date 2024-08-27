@@ -8,30 +8,35 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\FieldType\Validator;
 
-use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
-use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Ibexa\Core\FieldType\Integer\Value as IntegerValue;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Validator\IntegerValueValidator;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Ibexa\Core\FieldType\Validator\IntegerValueValidator
  *
+ * @extends BaseNumericValidatorTestCase<IntegerValueValidator>
+ *
  * @group fieldType
  * @group validator
  */
-final class IntegerValueValidatorTest extends TestCase
+final class IntegerValueValidatorTest extends BaseNumericValidatorTestCase
 {
-    private const string VALUE_TOO_LOW_VALIDATION_MESSAGE = 'The value can not be lower than %size%.';
-    private const string VALUE_TOO_HIGH_VALIDATION_MESSAGE = 'The value can not be higher than %size%.';
-    private const string MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE = "Validator parameter 'minIntegerValue' value must be of integer type";
-    private const string MAX_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE = "Validator parameter 'maxIntegerValue' value must be of integer type";
-    private const string WRONG_MIN_INT_VALUE = 'five thousand bytes';
-    private const string WRONG_MAX_INT_VALUE = 'ten billion bytes';
-    private const string UNKNOWN_PARAM_VALIDATION_MESSAGE = "Validator parameter 'brljix' is unknown";
-    public const string SIZE_PARAM = '%size%';
+    protected function getValidatorInstance(): Validator
+    {
+        return new IntegerValueValidator();
+    }
+
+    protected function getMinNumericValueName(): string
+    {
+        return 'minIntegerValue';
+    }
+
+    protected function getMaxNumericValueName(): string
+    {
+        return 'maxIntegerValue';
+    }
 
     protected function getMinIntegerValue(): int
     {
@@ -43,58 +48,30 @@ final class IntegerValueValidatorTest extends TestCase
         return 15;
     }
 
-    public function testConstructor(): void
+    public static function providerForConstraintsInitializeSetGet(): iterable
     {
-        self::assertInstanceOf(
-            Validator::class,
-            new IntegerValueValidator()
-        );
-    }
-
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
-     */
-    public function testConstraintsInitializeGet(): void
-    {
-        $constraints = [
-            'minIntegerValue' => 0,
-            'maxIntegerValue' => 100,
+        yield [
+            [
+                'minIntegerValue' => 0,
+                'maxIntegerValue' => 100,
+            ],
         ];
-        $validator = new IntegerValueValidator();
-        $validator->initializeWithConstraints(
-            $constraints
-        );
-        self::assertSame($constraints['minIntegerValue'], $validator->minIntegerValue);
-        self::assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
     }
 
     public function testGetConstraintsSchema(): void
     {
         $constraintsSchema = [
-            'minIntegerValue' => [
+            $this->getMinNumericValueName() => [
                 'type' => 'int',
                 'default' => 0,
             ],
-            'maxIntegerValue' => [
+            $this->getMaxNumericValueName() => [
                 'type' => 'int',
                 'default' => null,
             ],
         ];
-        $validator = new IntegerValueValidator();
+        $validator = $this->getValidatorInstance();
         self::assertSame($constraintsSchema, $validator->getConstraintsSchema());
-    }
-
-    public function testConstraintsSetGet(): void
-    {
-        $constraints = [
-            'minIntegerValue' => 0,
-            'maxIntegerValue' => 100,
-        ];
-        $validator = new IntegerValueValidator();
-        $validator->minIntegerValue = $constraints['minIntegerValue'];
-        $validator->maxIntegerValue = $constraints['maxIntegerValue'];
-        self::assertSame($constraints['minIntegerValue'], $validator->minIntegerValue);
-        self::assertSame($constraints['maxIntegerValue'], $validator->maxIntegerValue);
     }
 
     public function testInitializeBadConstraint(): void
@@ -104,26 +81,10 @@ final class IntegerValueValidatorTest extends TestCase
         $constraints = [
             'unexisting' => 0,
         ];
-        $validator = new IntegerValueValidator();
+        $validator = $this->getValidatorInstance();
         $validator->initializeWithConstraints(
             $constraints
         );
-    }
-
-    public function testSetBadConstraint(): void
-    {
-        $validator = new IntegerValueValidator();
-
-        $this->expectException(PropertyNotFoundException::class);
-        $validator->unexisting = 0;
-    }
-
-    public function testGetBadConstraint(): void
-    {
-        $validator = new IntegerValueValidator();
-
-        $this->expectException(PropertyNotFoundException::class);
-        $null = $validator->unexisting;
     }
 
     /**
@@ -131,7 +92,7 @@ final class IntegerValueValidatorTest extends TestCase
      */
     public function testValidateCorrectValues(int $value): void
     {
-        $validator = new IntegerValueValidator();
+        $validator = $this->getValidatorInstance();
         $validator->minIntegerValue = 10;
         $validator->maxIntegerValue = 15;
         self::assertTrue($validator->validate(new IntegerValue($value)));
@@ -158,26 +119,13 @@ final class IntegerValueValidatorTest extends TestCase
      *
      * @dataProvider providerForValidateKO
      */
-    public function testValidateWrongValues($value, $message): void
+    public function testValidateWrongValues(int $value, string $message): void
     {
-        $validator = new IntegerValueValidator();
+        $validator = $this->getValidatorInstance();
         $validator->minIntegerValue = $this->getMinIntegerValue();
         $validator->maxIntegerValue = $this->getMaxIntegerValue();
         self::assertFalse($validator->validate(new IntegerValue($value)));
-        $messages = $validator->getMessage();
-        self::assertCount(1, $messages);
-        self::assertInstanceOf(
-            ValidationError::class,
-            $messages[0]
-        );
-        self::assertInstanceOf(
-            Message::class,
-            $messages[0]->getTranslatableMessage()
-        );
-        self::assertEquals(
-            $message,
-            $messages[0]->getTranslatableMessage()
-        );
+        self::assertWrongValueValidationMessage($validator->getMessage(), $message);
     }
 
     /**
@@ -193,139 +141,22 @@ final class IntegerValueValidatorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerForValidateConstraintsOK
-     *
-     * @param array<string, mixed> $constraints
-     */
-    public function testValidateConstraintsCorrectValues(array $constraints): void
+    public function providerForValidateConstraintsOK(): iterable
     {
-        $validator = new IntegerValueValidator();
+        yield [[]];
+        yield [[self::MIN => 5]];
+        yield [[self::MAX => 2]];
+        yield [[self::MIN => null, self::MAX => null]];
+        yield [[self::MIN => -5, self::MAX => null]];
+        yield [[self::MIN => null, self::MAX => 12]];
+        yield [[self::MIN => 6, self::MAX => 8]];
+    }
 
-        self::assertEmpty(
-            $validator->validateConstraints($constraints)
+    protected function getIncorrectNumericTypeValidationMessage(string $parameterName): string
+    {
+        return sprintf(
+            "Validator parameter '%s' value must be of integer type",
+            $parameterName
         );
-    }
-
-    /**
-     * @return list<list<array<string, mixed>>>
-     */
-    public function providerForValidateConstraintsOK(): array
-    {
-        return [
-            [
-                [],
-                [
-                    'minIntegerValue' => 5,
-                ],
-                [
-                    'maxIntegerValue' => 2,
-                ],
-                [
-                    'minIntegerValue' => null,
-                    'maxIntegerValue' => null,
-                ],
-                [
-                    'minIntegerValue' => -5,
-                    'maxIntegerValue' => null,
-                ],
-                [
-                    'minIntegerValue' => null,
-                    'maxIntegerValue' => 12,
-                ],
-                [
-                    'minIntegerValue' => 6,
-                    'maxIntegerValue' => 8,
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider providerForValidateConstraintsKO
-     *
-     * @param array<string, mixed> $constraints
-     * @param array<int, string> $expectedMessages
-     */
-    public function testValidateConstraintsWrongValues(array $constraints, array $expectedMessages): void
-    {
-        $validator = new IntegerValueValidator();
-        $messages = $validator->validateConstraints($constraints);
-
-        foreach ($expectedMessages as $index => $expectedMessage) {
-            self::assertInstanceOf(
-                Message::class,
-                $messages[0]->getTranslatableMessage()
-            );
-            self::assertEquals(
-                $expectedMessage,
-                (string)$messages[$index]->getTranslatableMessage()
-            );
-        }
-    }
-
-    /**
-     * @return list<array{array<string, mixed>, string[]}>
-     */
-    public function providerForValidateConstraintsKO(): array
-    {
-        return [
-            [
-                [
-                    'minIntegerValue' => true,
-                ],
-                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
-            ],
-            [
-                [
-                    'minIntegerValue' => self::WRONG_MIN_INT_VALUE,
-                ],
-                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
-            ],
-            [
-                [
-                    'minIntegerValue' => self::WRONG_MIN_INT_VALUE,
-                    'maxIntegerValue' => 1234,
-                ],
-                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
-            ],
-            [
-                [
-                    'maxIntegerValue' => new \DateTime(),
-                    'minIntegerValue' => 1234,
-                ],
-                [self::MAX_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
-            ],
-            [
-                [
-                    'minIntegerValue' => true,
-                    'maxIntegerValue' => 1234,
-                ],
-                [self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE],
-            ],
-            [
-                [
-                    'minIntegerValue' => self::WRONG_MIN_INT_VALUE,
-                    'maxIntegerValue' => self::WRONG_MAX_INT_VALUE,
-                ],
-                [
-                    self::MIN_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE,
-                    self::MAX_VALUE_OF_INT_TYPE_VALIDATION_MESSAGE,
-                ],
-            ],
-            [
-                [
-                    'brljix' => 12345,
-                ],
-                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
-            ],
-            [
-                [
-                    'minIntegerValue' => 12345,
-                    'brljix' => 12345,
-                ],
-                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
-            ],
-        ];
     }
 }

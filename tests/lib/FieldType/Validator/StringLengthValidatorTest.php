@@ -114,6 +114,7 @@ final class StringLengthValidatorTest extends TestCase
         $validator = new StringLengthValidator();
 
         $this->expectException(PropertyNotFoundException::class);
+        /** @phpstan-ignore-next-line */
         $validator->unexisting = 0;
     }
 
@@ -122,7 +123,8 @@ final class StringLengthValidatorTest extends TestCase
         $validator = new StringLengthValidator();
 
         $this->expectException(PropertyNotFoundException::class);
-        $null = $validator->unexisting;
+        /** @phpstan-ignore-next-line */
+        $validator->unexisting;
     }
 
     /**
