@@ -42261,11 +42261,6 @@ parameters:
 			path: tests/lib/FieldType/FloatTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Core\\\\FieldType\\\\Validator\\\\FloatValueValidator\\:\\:\\$unexisting\\.$#"
-			count: 2
-			path: tests/lib/FieldType/FloatValueValidatorTest.php
-
-		-
 			message: "#^Class Symfony\\\\Component\\\\Validator\\\\ConstraintViolation constructor invoked with 1 parameter, 6\\-10 required\\.$#"
 			count: 1
 			path: tests/lib/FieldType/Generic/GenericTest.php
@@ -42746,21 +42741,6 @@ parameters:
 			path: tests/lib/FieldType/IntegerTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Core\\\\FieldType\\\\Validator\\\\IntegerValueValidator\\:\\:\\$unexisting\\.$#"
-			count: 2
-			path: tests/lib/FieldType/IntegerValueValidatorTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\IntegerValueValidatorTest\\:\\:testValidateWrongValues\\(\\) has parameter \\$message with no type specified\\.$#"
-			count: 1
-			path: tests/lib/FieldType/IntegerValueValidatorTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\IntegerValueValidatorTest\\:\\:testValidateWrongValues\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: tests/lib/FieldType/IntegerValueValidatorTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\KeywordTest\\:\\:getSettingsSchemaExpectation\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/FieldType/KeywordTest.php
@@ -43104,11 +43084,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$selection of class Ibexa\\\\Core\\\\FieldType\\\\Selection\\\\Value constructor expects array\\<int\\>, array\\<int, string\\> given\\.$#"
 			count: 4
 			path: tests/lib/FieldType/SelectionTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Core\\\\FieldType\\\\Validator\\\\StringLengthValidator\\:\\:\\$unexisting\\.$#"
-			count: 2
-			path: tests/lib/FieldType/StringLengthValidatorTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\FieldType\\\\TimeTest\\:\\:getSettingsSchemaExpectation\\(\\) return type has no value type specified in iterable type array\\.$#"
