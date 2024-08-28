@@ -231,7 +231,7 @@ class DoctrineStorage extends Gateway
      *
      * @return int
      */
-    public function countImageReferences($uri)
+    public function countImageReferences($uri): int
     {
         $path = $this->redecorator->redecorateFromSource($uri);
 

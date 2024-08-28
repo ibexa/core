@@ -111,7 +111,7 @@ class FloatConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         return 'sort_key_string';
     }
@@ -127,7 +127,7 @@ class FloatConverter implements Converter
      *
      * @return int
      */
-    private function getStorageDefValidatorState($minValue, $maxValue)
+    private function getStorageDefValidatorState($minValue, $maxValue): int
     {
         $state = 0;
 

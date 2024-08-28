@@ -114,7 +114,7 @@ class UserGroupLimitationType extends AbstractPersistenceLimitationType implemen
      *
      * @return bool
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null)
+    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, ValueObject $object, array $targets = null): bool
     {
         if (!$value instanceof APIUserGroupLimitation) {
             throw new InvalidArgumentException('$value', 'Must be of type: APIUserGroupLimitation');

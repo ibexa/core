@@ -45,7 +45,7 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         parent::__construct($metadataHandlerRegistry, $binarydataHandlerRegistry, $logger);
     }
 
-    public function countFiles()
+    public function countFiles(): int
     {
         return count($this->fileList);
     }

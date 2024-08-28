@@ -24,7 +24,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezgmaplocation';
     }
@@ -114,7 +114,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Bielefeld';
     }

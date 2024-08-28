@@ -21,6 +21,8 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
  *
  * Field type representing a list of authors, consisting of author name, and
  * author email.
+ *
+ * @phpstan-type TAuthorHash list<array{id: int, name: string, email:string}>
  */
 class Type extends FieldType implements TranslationContainerInterface
 {
@@ -48,7 +50,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezauthor';
     }
@@ -123,9 +125,9 @@ class Type extends FieldType implements TranslationContainerInterface
     }
 
     /**
-     * Converts an $hash to the Value defined by the field type.
+     * Converts a $hash to the Value defined by the field type.
      *
-     * @param mixed $hash
+     * @phpstan-param TAuthorHash $hash
      *
      * @return \Ibexa\Core\FieldType\Author\Value $value
      */
@@ -146,9 +148,9 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @param \Ibexa\Core\FieldType\Author\Value $value
      *
-     * @return mixed
+     * @phpstan-return TAuthorHash
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         return array_map(
             static function ($author) {
@@ -163,7 +165,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

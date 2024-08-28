@@ -153,7 +153,7 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         $this->setUrlStatus($url, $this->isSuccessful(curl_getinfo($handler, CURLINFO_HTTP_CODE)));
     }
 
-    private function isSuccessful($statusCode)
+    private function isSuccessful($statusCode): bool
     {
         return $statusCode >= 200 && $statusCode < 300;
     }

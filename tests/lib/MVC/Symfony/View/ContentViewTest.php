@@ -43,13 +43,13 @@ class ContentViewTest extends AbstractViewTest
             ['another::identifier', []],
             ['oops:i_did_it:again', ['singer' => 'Britney Spears']],
             [
-                static function () {
+                static function (): bool {
                     return true;
                 },
                 [],
             ],
             [
-                static function () {
+                static function (): bool {
                     return true;
                 },
                 ['truc' => 'muche'],

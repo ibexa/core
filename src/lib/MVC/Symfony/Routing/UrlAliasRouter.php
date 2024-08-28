@@ -263,7 +263,7 @@ class UrlAliasRouter implements ChainedRouterInterface, RequestMatcherInterface
      *
      * @return \Symfony\Component\Routing\RouteCollection A RouteCollection instance
      */
-    public function getRouteCollection()
+    public function getRouteCollection(): RouteCollection
     {
         return new RouteCollection();
     }

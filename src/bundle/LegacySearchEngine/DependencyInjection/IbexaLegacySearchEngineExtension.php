@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbexaLegacySearchEngineExtension extends Extension
 {
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'ibexa_legacy_search_engine';
     }

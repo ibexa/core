@@ -296,7 +296,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezobjectrelationlist';
     }
@@ -400,7 +400,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): string
     {
         return implode(',', $value->destinationContentIds);
     }
@@ -434,7 +434,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }
@@ -479,7 +479,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    private function isValidSelectionMethod($selectionMethod)
+    private function isValidSelectionMethod($selectionMethod): bool
     {
         return in_array($selectionMethod, [
             self::SELECTION_BROWSE,

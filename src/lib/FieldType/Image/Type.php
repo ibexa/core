@@ -75,7 +75,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezimage';
     }
@@ -335,7 +335,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): bool
     {
         return false;
     }

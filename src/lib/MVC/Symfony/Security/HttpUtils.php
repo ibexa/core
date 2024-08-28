@@ -54,7 +54,7 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
      *
      * @return bool
      */
-    private function isRouteName($path)
+    private function isRouteName($path): bool
     {
         return $path && strpos($path, 'http') !== 0 && strpos($path, '/') !== 0;
     }

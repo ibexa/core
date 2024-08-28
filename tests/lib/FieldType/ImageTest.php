@@ -38,7 +38,7 @@ class ImageTest extends FieldTypeTest
         'pgif',
     ];
 
-    public function getImageInputPath()
+    public function getImageInputPath(): string
     {
         return __DIR__ . '/../_fixtures/squirrel-developers.jpg';
     }
@@ -483,7 +483,7 @@ class ImageTest extends FieldTypeTest
         ];
     }
 
-    protected function provideFieldTypeIdentifier()
+    protected function provideFieldTypeIdentifier(): string
     {
         return 'ezimage';
     }

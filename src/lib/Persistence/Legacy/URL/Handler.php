@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Persistence\Legacy\URL;
 
 use Ibexa\Contracts\Core\Persistence\URL\Handler as HandlerInterface;
+use Ibexa\Contracts\Core\Persistence\URL\URL;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
@@ -72,7 +73,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadById($id)
+    public function loadById($id): URL
     {
         $url = $this->urlMapper->extractURLsFromRows(
             $this->urlGateway->loadUrlData($id)
@@ -88,7 +89,7 @@ class Handler implements HandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function loadByUrl($url)
+    public function loadByUrl($url): URL
     {
         $urls = $this->urlMapper->extractURLsFromRows(
             $this->urlGateway->loadUrlDataByUrl($url)

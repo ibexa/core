@@ -466,12 +466,9 @@ class Handler implements BaseContentHandler
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadVersionInfo($contentId, $versionNo = null)
+    public function loadVersionInfo($contentId, $versionNo = null): VersionInfo
     {
-        $rows = $this->contentGateway->loadVersionInfo($contentId, $versionNo);
+        $rows = $this->contentGateway->loadVersionInfo((int)$contentId, $versionNo);
         if (empty($rows)) {
             throw new NotFound('content', $contentId);
         }
@@ -481,7 +478,12 @@ class Handler implements BaseContentHandler
             $this->contentGateway->loadVersionedNameData([['id' => $contentId, 'version' => $rows[0]['ezcontentobject_version_version']]])
         );
 
-        return reset($versionInfo);
+        $versionInfo = reset($versionInfo);
+        if (false === $versionInfo) {
+            throw new NotFound('versionInfo', $contentId);
+        }
+
+        return $versionInfo;
     }
 
     public function countDraftsForUser(int $userId): int
@@ -933,7 +935,7 @@ class Handler implements BaseContentHandler
         // get all [languageCode => name] entries except the removed Translation
         $names = array_filter(
             $versionInfo->names,
-            static function ($lang) use ($languageCode) {
+            static function ($lang) use ($languageCode): bool {
                 return $lang !== $languageCode;
             },
             ARRAY_FILTER_USE_KEY

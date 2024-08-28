@@ -24,7 +24,7 @@ class Utf8Converter
      *
      * @return string
      */
-    public static function toUTF8Character($charCode)
+    public static function toUTF8Character($charCode): string
     {
         switch ($charCode) {
             case 0:

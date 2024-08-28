@@ -71,7 +71,7 @@ class LocaleListenerTest extends TestCase
             new RequestEvent(
                 $this->createMock(HttpKernelInterface::class),
                 $request,
-                HttpKernelInterface::MASTER_REQUEST
+                HttpKernelInterface::MAIN_REQUEST
             )
         );
         self::assertSame($expectedLocale, $request->attributes->get('_locale'));

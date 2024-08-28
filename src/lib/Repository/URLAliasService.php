@@ -487,7 +487,7 @@ class URLAliasService implements URLAliasServiceInterface
         ?string $languageCode,
         bool $showAllTranslations,
         array $prioritizedLanguageList
-    ) {
+    ): bool {
         if (isset($languageCode) && !in_array($languageCode, $spiUrlAlias->languageCodes)) {
             return false;
         }
@@ -521,7 +521,7 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * @return bool
      */
-    protected function isPathLoadable(array $pathData, array $languageCodes)
+    protected function isPathLoadable(array $pathData, array $languageCodes): bool
     {
         if ($this->languageResolver->getShowAllTranslations()) {
             return true;

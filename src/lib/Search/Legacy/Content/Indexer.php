@@ -27,7 +27,7 @@ class Indexer extends IncrementalIndexer
         parent::__construct($logger, $persistenceHandler, $connection, $searchHandler);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Ibexa Legacy (SQL) Search Engine';
     }

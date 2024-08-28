@@ -15,6 +15,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ValidatePasswordHashesCommand extends Command
 {
+    protected static $defaultName = 'ibexa:user:validate-password-hashes';
+
     /** @var \Ibexa\Core\FieldType\User\UserStorage */
     private $userStorage;
 
@@ -31,11 +33,6 @@ final class ValidatePasswordHashesCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
-    {
-        $this->setName('ibexa:user:validate-password-hashes');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $unsupportedHashesCounter = $this->userStorage->countUsersWithUnsupportedHashType(
@@ -49,6 +46,6 @@ final class ValidatePasswordHashesCommand extends Command
             $output->writeln('OK - <info>All users have supported password hash types</info>');
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

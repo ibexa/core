@@ -17,7 +17,7 @@ final class RegexHostNormalizer extends AbstractPropertyWhitelistNormalizer
         return ['siteAccessesConfiguration'];
     }
 
-    public function supportsNormalization($data, string $format = null)
+    public function supportsNormalization($data, string $format = null): bool
     {
         return $data instanceof Host;
     }

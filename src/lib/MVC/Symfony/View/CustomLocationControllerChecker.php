@@ -29,7 +29,7 @@ class CustomLocationControllerChecker
      *
      * @return bool
      */
-    public function usesCustomController(Content $content, Location $location, $viewMode = 'full')
+    public function usesCustomController(Content $content, Location $location, $viewMode = 'full'): bool
     {
         $contentView = new ContentView(null, [], $viewMode);
         $contentView->setContent($content);

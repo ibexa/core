@@ -23,7 +23,7 @@ class Depth extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(Location $location)
+    public function matchLocation(Location $location): bool
     {
         return isset($this->values[$location->depth]);
     }
@@ -35,7 +35,7 @@ class Depth extends MultipleValued
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
+    public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $location = $this->repository->sudo(
             static function (Repository $repository) use ($contentInfo) {

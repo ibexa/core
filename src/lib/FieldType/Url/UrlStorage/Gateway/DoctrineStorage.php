@@ -99,9 +99,9 @@ class DoctrineStorage extends Gateway
      *
      * @param string $url The URL to insert in the database
      *
-     * @return string
+     * @throws \Doctrine\DBAL\Exception
      */
-    public function insertUrl($url)
+    public function insertUrl($url): int
     {
         $time = time();
 

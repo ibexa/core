@@ -102,7 +102,7 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function loadAllGroups($offset = 0, $limit = -1)
+    public function loadAllGroups($offset = 0, $limit = -1): array
     {
         $stateGroups = $this->getListCacheValue(
             $this->cacheIdentifierGenerator->generateKey(self::STATE_GROUP_ALL_IDENTIFIER, [], true),

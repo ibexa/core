@@ -31,14 +31,20 @@ class CleanupVersionsCommand extends Command
 - Run this command in production environment using <info>--env=prod</info>
 EOT;
     public const VERSION_DRAFT = 'draft';
+
     public const VERSION_ARCHIVED = 'archived';
     public const VERSION_PUBLISHED = 'published';
     public const VERSION_ALL = 'all';
+
     public const VERSION_STATUS = [
         self::VERSION_DRAFT => VersionInfo::STATUS_DRAFT,
         self::VERSION_ARCHIVED => VersionInfo::STATUS_ARCHIVED,
         self::VERSION_PUBLISHED => VersionInfo::STATUS_PUBLISHED,
     ];
+
+    protected static $defaultName = 'ibexa:content:cleanup-versions';
+
+    protected static $defaultDescription = 'Removes unwanted content versions. Keeps the published version untouched. By default, also keeps the last archived/draft version.';
 
     private readonly Repository $repository;
 
@@ -62,8 +68,6 @@ EOT;
     {
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
         $this
-            ->setName('ibexa:content:cleanup-versions')
-            ->setDescription('Removes unwanted content versions. Keeps the published version untouched. By default, also keeps the last archived/draft version.')
             ->addOption(
                 'status',
                 't',
@@ -144,7 +148,7 @@ EOT
         if ($contentIdsCount === 0) {
             $output->writeln('<info>There is no content matching the given Criteria.</info>');
 
-            return 0;
+            return self::SUCCESS;
         }
 
         $output->writeln(sprintf(
@@ -182,7 +186,7 @@ EOT
                 ), OutputInterface::VERBOSITY_VERBOSE);
 
                 if ($removeAll) {
-                    $versions = array_filter($versions, static function (VersionInfo $version) {
+                    $versions = array_filter($versions, static function (VersionInfo $version): bool {
                         return $version->status !== VersionInfo::STATUS_PUBLISHED;
                     });
                 }
@@ -225,7 +229,7 @@ EOT
             $contentIdsCount
         ));
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**

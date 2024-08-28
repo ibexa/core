@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ValueObjectsIds implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [View\ViewEvents::FILTER_VIEW_PARAMETERS => 'injectValueObjectsIds'];
     }

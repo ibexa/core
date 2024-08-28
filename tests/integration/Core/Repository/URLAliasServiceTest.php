@@ -1757,7 +1757,7 @@ class URLAliasServiceTest extends BaseTest
      *
      * @return int Number of new rows
      */
-    private function insertBrokenUrlAliasTableFixtures(Connection $connection)
+    private function insertBrokenUrlAliasTableFixtures(Connection $connection): int
     {
         $rows = [
             // link to non-existent location

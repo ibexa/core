@@ -24,6 +24,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class DeleteContentTranslationCommand extends Command
 {
+    protected static $defaultName = 'ibexa:delete-content-translation';
+
+    protected static $defaultDescription = 'Deletes a translation from all versions of a Content item';
+
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     private $repository;
 
@@ -51,7 +55,6 @@ class DeleteContentTranslationCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('ibexa:delete-content-translation')
             ->addArgument('content-id', InputArgument::REQUIRED, 'Content Object Id')
             ->addArgument(
                 'language-code',
@@ -64,8 +67,7 @@ class DeleteContentTranslationCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Ibexa username (with Role containing at least content Policies: read, versionread, edit, remove, versionremove)',
                 'admin'
-            )
-            ->setDescription('Deletes a translation from all versions of a Content item');
+            );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -125,7 +127,7 @@ class DeleteContentTranslationCommand extends Command
                 $this->repository->rollback();
                 $this->output->writeln('Reverting and aborting.');
 
-                return 0;
+                return self::SUCCESS;
             }
 
             // Delete Translation
@@ -142,7 +144,7 @@ class DeleteContentTranslationCommand extends Command
             throw $e;
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**
@@ -167,7 +169,7 @@ class DeleteContentTranslationCommand extends Command
         // get main Translation candidates w/o Translation being removed
         $mainTranslationCandidates = array_filter(
             $lastVersionLanguageCodes,
-            static function ($versionLanguageCode) use ($languageCode) {
+            static function ($versionLanguageCode) use ($languageCode): bool {
                 return $versionLanguageCode !== $languageCode;
             }
         );

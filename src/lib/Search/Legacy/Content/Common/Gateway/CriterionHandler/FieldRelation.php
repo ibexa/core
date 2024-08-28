@@ -37,7 +37,7 @@ class FieldRelation extends FieldBase
      *
      * @return bool
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\FieldRelation;
     }

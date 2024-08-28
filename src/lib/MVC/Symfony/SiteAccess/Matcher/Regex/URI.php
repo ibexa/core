@@ -37,7 +37,7 @@ class URI extends Regex implements Matcher
         $this->siteAccessesConfiguration = $siteAccessesConfiguration;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'uri:regexp';
     }

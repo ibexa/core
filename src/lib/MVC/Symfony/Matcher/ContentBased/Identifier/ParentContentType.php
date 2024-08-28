@@ -24,7 +24,7 @@ class ParentContentType extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(APILocation $location)
+    public function matchLocation(APILocation $location): bool
     {
         $parentContentType = $this->repository->sudo(
             static function (Repository $repository) use ($location) {

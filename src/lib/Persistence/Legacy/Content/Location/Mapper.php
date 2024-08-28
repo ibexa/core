@@ -61,7 +61,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[]
      */
-    public function createLocationsFromRows(array $rows, $prefix = '', ?Location $location = null)
+    public function createLocationsFromRows(array $rows, $prefix = '', ?Location $location = null): array
     {
         $locations = [];
 

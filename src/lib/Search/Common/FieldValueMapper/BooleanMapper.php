@@ -21,7 +21,7 @@ class BooleanMapper extends FieldValueMapper
         return $field->getType() instanceof BooleanField;
     }
 
-    public function map(Field $field)
+    public function map(Field $field): bool
     {
         return (bool)$field->getValue();
     }

@@ -38,7 +38,7 @@ class EmailAddressTest extends FieldTypeTest
             ->with(self::anything(), 'lowercase')
             ->will(
                 self::returnCallback(
-                    static function ($value, $group) {
+                    static function ($value, $group): string {
                         return strtolower($value);
                     }
                 )
@@ -366,7 +366,7 @@ class EmailAddressTest extends FieldTypeTest
         ];
     }
 
-    protected function provideFieldTypeIdentifier()
+    protected function provideFieldTypeIdentifier(): string
     {
         return 'ezemail';
     }

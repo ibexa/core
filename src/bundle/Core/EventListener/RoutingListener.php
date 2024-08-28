@@ -35,7 +35,7 @@ class RoutingListener implements EventSubscriberInterface
         $this->urlAliasGenerator = $urlAliasGenerator;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             MVCEvents::SITEACCESS => ['onSiteAccessMatch', 200],

@@ -25,7 +25,7 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezisbn';
     }
@@ -116,7 +116,7 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return '9789722514095';
     }
@@ -310,12 +310,12 @@ class ISBNIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): string
     {
         return '9780099067504';
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): string
     {
         return '9780380448340';
     }

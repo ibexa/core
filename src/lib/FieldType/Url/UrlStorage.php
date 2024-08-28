@@ -36,16 +36,7 @@ class UrlStorage extends GatewayBasedStorage
         $this->logger = $logger;
     }
 
-    /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context
-     *
-     * @return bool|mixed
-     */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context): bool
     {
         $url = $field->value->externalData;
 
@@ -55,11 +46,7 @@ class UrlStorage extends GatewayBasedStorage
 
         $map = $this->gateway->getUrlIdMap([$url]);
 
-        if (isset($map[$url])) {
-            $urlId = $map[$url];
-        } else {
-            $urlId = $this->gateway->insertUrl($url);
-        }
+        $urlId = $map[$url] ?? $this->gateway->insertUrl($url);
 
         $this->gateway->linkUrl($urlId, $field->id, $versionInfo->versionNo);
 
@@ -116,19 +103,13 @@ class UrlStorage extends GatewayBasedStorage
      *
      * @return bool
      */
-    public function hasFieldData()
+    public function hasFieldData(): bool
     {
         return true;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context
-     *
-     * @return \Ibexa\Contracts\Core\Search\Field[]
-     */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
     {
+        return [];
     }
 }

@@ -23,7 +23,7 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
         return new LegacyDFSCluster();
     }
 
-    public function provideExpectedParentServiceId()
+    public function provideExpectedParentServiceId(): string
     {
         return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }

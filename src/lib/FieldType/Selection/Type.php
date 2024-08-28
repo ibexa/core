@@ -121,7 +121,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezselection';
     }
@@ -243,7 +243,7 @@ class Type extends FieldType implements TranslationContainerInterface
 
         //@todo: find a way to include selection language
         if (isset($fieldSettings['multilingualOptions'])) {
-            $possibleOptionIndexesByLanguage = array_map(static function ($languageOptionIndexes) {
+            $possibleOptionIndexesByLanguage = array_map(static function ($languageOptionIndexes): array {
                 return array_keys($languageOptionIndexes);
             }, $fieldSettings['multilingualOptions']);
 
@@ -273,7 +273,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): string
     {
         return implode('-', $value->selection);
     }
@@ -307,7 +307,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

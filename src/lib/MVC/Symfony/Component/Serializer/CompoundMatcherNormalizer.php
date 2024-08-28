@@ -12,9 +12,11 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer
 {
     /**
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound::__sleep.
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     *
+     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound::__sleep
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize($object, string $format = null, array $context = []): array
     {
         $data = parent::normalize($object, $format, $context);
         $data['config'] = [];

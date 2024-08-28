@@ -44,7 +44,7 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
         $this->searchHandler = $searchHandler;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::TERMINATE => 'reindex',

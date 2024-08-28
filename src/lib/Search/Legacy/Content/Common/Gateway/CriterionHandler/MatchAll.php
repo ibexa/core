@@ -24,7 +24,7 @@ class MatchAll extends CriterionHandler
      *
      * @return bool
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\MatchAll;
     }
@@ -34,7 +34,7 @@ class MatchAll extends CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
-    ) {
+    ): string {
         return '1 = 1';
     }
 }

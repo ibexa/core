@@ -12,7 +12,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map;
 
 class Host extends Map
 {
-    public function getName()
+    public function getName(): string
     {
         return 'host:map';
     }

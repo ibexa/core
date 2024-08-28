@@ -20,7 +20,7 @@ class FileInfoTest extends TestCase
         $this->mimeTypeDetector = new MimeTypeDetector();
     }
 
-    protected function getFixture()
+    protected function getFixture(): string
     {
         return __DIR__ . '/../../_fixtures/squirrel-developers.jpg';
     }

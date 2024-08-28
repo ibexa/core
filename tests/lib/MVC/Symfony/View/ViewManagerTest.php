@@ -146,7 +146,7 @@ class ViewManagerTest extends TestCase
         );
 
         // Configuring view provider behaviour
-        $closure = static function ($params) {
+        $closure = static function ($params): string {
             return serialize(array_keys($params));
         };
         $params = ['foo' => 'bar'];
@@ -279,7 +279,7 @@ class ViewManagerTest extends TestCase
         $location = new Location(['contentInfo' => new ContentInfo()]);
 
         // Configuring view provider behaviour
-        $closure = static function ($params) {
+        $closure = static function ($params): string {
             return serialize(array_keys($params));
         };
         $params = ['foo' => 'bar'];

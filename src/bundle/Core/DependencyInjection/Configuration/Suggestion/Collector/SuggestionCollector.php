@@ -37,7 +37,7 @@ class SuggestionCollector implements SuggestionCollectorInterface
     /**
      * @return bool
      */
-    public function hasSuggestions()
+    public function hasSuggestions(): bool
     {
         return !empty($this->suggestions);
     }

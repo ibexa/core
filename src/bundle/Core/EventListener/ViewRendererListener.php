@@ -24,7 +24,7 @@ class ViewRendererListener implements EventSubscriberInterface
         $this->viewRenderer = $viewRenderer;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [KernelEvents::VIEW => 'renderView'];
     }

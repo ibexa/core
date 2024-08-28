@@ -24,7 +24,7 @@ class SiteAccessCollector extends DataCollector
         ];
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'ezpublish.debug.siteaccess';
     }
