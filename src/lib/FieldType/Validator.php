@@ -83,7 +83,7 @@ abstract class Validator
     /**
      * @param mixed $constraints
      *
-     * @return mixed
+     * @return array<\Ibexa\Contracts\Core\FieldType\ValidationError>
      */
     abstract public function validateConstraints($constraints);
 
@@ -95,8 +95,6 @@ abstract class Validator
      *
      * When a check against a constraint has failed, an entry will be added to the
      * $errors array.
-     *
-     * @param \Ibexa\Core\FieldType\Value $value
      *
      * @return bool
      */
