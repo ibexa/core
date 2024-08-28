@@ -7,10 +7,14 @@
 
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase as ContentTypeGateway;
@@ -19,6 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper as ContentTypeMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as ContentTypeUpdateHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -138,5 +143,55 @@ class AbstractTestCase extends LanguageAwareTestCase
         );
 
         return $eventDispatcher;
+    }
+
+    protected function getContentMapperMock(): ContentMapper & MockObject
+    {
+        $mapperMock = $this->createMock(ContentMapper::class);
+        $mapperMock
+            ->method('extractContentInfoFromRows')
+            ->with(self::isType('array'))
+            ->willReturnCallback(
+                static function (array $rows): array {
+                    $contentInfoObjs = [];
+                    foreach ($rows as $row) {
+                        $contentId = (int)$row['id'];
+                        if (!isset($contentInfoObjs[$contentId])) {
+                            $contentInfoObjs[$contentId] = new ContentInfo();
+                            $contentInfoObjs[$contentId]->id = $contentId;
+                        }
+                    }
+
+                    return array_values($contentInfoObjs);
+                }
+            )
+        ;
+
+        return $mapperMock;
+    }
+
+    protected function getLocationMapperMock(): LocationMapper & MockObject
+    {
+        $mapperMock = $this->createMock(LocationMapper::class);
+
+        $mapperMock
+            ->method('createLocationsFromRows')
+            ->with(self::isType('array'))
+            ->willReturnCallback(
+                static function ($rows): array {
+                    $locations = [];
+                    foreach ($rows as $row) {
+                        $locationId = (int)$row['node_id'];
+                        if (!isset($locations[$locationId])) {
+                            $locations[$locationId] = new SPILocation();
+                            $locations[$locationId]->id = $locationId;
+                        }
+                    }
+
+                    return array_values($locations);
+                }
+            );
+
+        return $mapperMock;
     }
 }

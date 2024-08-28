@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -16,13 +17,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
+final class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener */
-    private $eventListener;
+    private RejectExplicitFrontControllerRequestsListener $eventListener;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $httpKernel;
+    private HttpKernelInterface & MockObject $httpKernel;
 
     protected function setUp(): void
     {
@@ -76,210 +75,93 @@ class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
         $this->eventListener->onKernelRequest($event);
     }
 
-    public function validRequestDataProvider(): array
+    /**
+     * @return iterable<string, array{\Symfony\Component\HttpFoundation\Request}>
+     */
+    public function validRequestDataProvider(): iterable
     {
-        return [
-            [
-                Request::create(
-                    'https://example.com',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/admin/dashboard',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/admin/dashboard',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/admin/dashboard/',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/admin/dashboard/',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/Folder/Content',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/Folder/Content',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/Folder/Content/',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/Folder/Content/',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/app.php-foo',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/app.php-foo',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/app.php.foo',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php.foo',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/folder/folder/app.php',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/folder/folder/app.php',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
+        yield 'site root' => [
+            $this->buildRequest('https://example.com', 'https://example.com/app.php'),
+        ];
+
+        yield 'site root with slash' => [
+            $this->buildRequest('https://example.com/', 'https://example.com/app.php/'),
+        ];
+
+        yield 'with path' => [
+            $this->buildRequest('https://example.com/admin/dashboard', 'https://example.com/app.php/admin/dashboard'),
+        ];
+
+        yield 'with path with slash' => [
+            $this->buildRequest('https://example.com/admin/dashboard/', 'https://example.com/app.php/admin/dashboard/'),
+        ];
+
+        yield 'with capital leading letter path' => [
+            $this->buildRequest('https://example.com/Folder/Content', 'https://example.com/app.php/Folder/Content'),
+        ];
+
+        yield 'with capital leading letter path with slash' => [
+            $this->buildRequest('https://example.com/Folder/Content/', 'https://example.com/app.php/Folder/Content/'),
+        ];
+
+        yield 'with php-foo extension' => [
+            $this->buildRequest('https://example.com/app.php-foo', 'https://example.com/app.php/app.php-foo'),
+        ];
+
+        yield 'with php.foo extension' => [
+            $this->buildRequest('https://example.com/app.php.foo', 'https://example.com/app.php.foo'),
+        ];
+
+        yield 'with php extension' => [
+            $this->buildRequest(
+                'https://example.com/folder/folder/app.php',
+                'https://example.com/app.php/folder/folder/app.php'
+            ),
         ];
     }
 
-    public function prohibitedRequestDataProvider(): array
+    /**
+     * @return iterable<string, array{\Symfony\Component\HttpFoundation\Request}>
+     */
+    public function prohibitedRequestDataProvider(): iterable
     {
-        return [
-            [
-                Request::create(
-                    'https://example.com/app.php',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/app.php/app.php',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/app.php',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/folder/app.php',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/folder/app.php',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/app.php/foo',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/app.php/foo',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/app.php?foo=bar',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/app.php?foo=bar',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
-            [
-                Request::create(
-                    'https://example.com/app.php#foo',
-                    'GET',
-                    [],
-                    [],
-                    [],
-                    [
-                        'REQUEST_URI' => 'https://example.com/app.php/app.php#foo',
-                        'SCRIPT_FILENAME' => 'app.php',
-                    ]
-                ),
-            ],
+        yield 'with explicit front controller' => [
+            $this->buildRequest('https://example.com/app.php', 'https://example.com/app.php'),
         ];
+
+        yield 'with front controller in path' => [
+            $this->buildRequest('https://example.com/app.php/app.php', 'https://example.com/app.php/app.php'),
+        ];
+
+        yield 'with an arbitrary path' => [
+            $this->buildRequest('https://example.com/folder/app.php', 'https://example.com/app.php/folder/app.php'),
+        ];
+
+        yield 'with path after front controller' => [
+            $this->buildRequest('https://example.com/app.php/foo', 'https://example.com/app.php/app.php/foo'),
+        ];
+
+        yield 'with query parameter' => [
+            $this->buildRequest('https://example.com/app.php?foo=bar', 'https://example.com/app.php/app.php?foo=bar'),
+        ];
+
+        yield 'with fragment' => [
+            $this->buildRequest('https://example.com/app.php#foo', 'https://example.com/app.php/app.php#foo'),
+        ];
+    }
+
+    private function buildRequest(string $uri, string $requestUri): Request
+    {
+        return Request::create(
+            $uri,
+            Request::METHOD_GET,
+            [],
+            [],
+            [],
+            [
+                'REQUEST_URI' => $requestUri,
+                'SCRIPT_FILENAME' => 'app.php',
+            ]
+        );
     }
 }
