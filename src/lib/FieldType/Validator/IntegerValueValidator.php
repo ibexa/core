@@ -10,7 +10,6 @@ namespace Ibexa\Core\FieldType\Validator;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Value as BaseValue;
-use function is_int;
 
 /**
  * Validate ranges of integer value.
