@@ -10,7 +10,7 @@ namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
-class HostText extends PrefixSuffixBasedTextMatcher
+class HostText extends AffixBasedTextMatcher
 {
     protected function buildRegex(): string
     {

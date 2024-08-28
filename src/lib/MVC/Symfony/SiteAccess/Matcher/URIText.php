@@ -11,7 +11,7 @@ use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
-class URIText extends PrefixSuffixBasedTextMatcher implements URILexer
+class URIText extends AffixBasedTextMatcher implements URILexer
 {
     protected function buildRegex(): string
     {

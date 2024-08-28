@@ -15,14 +15,11 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
  *
  * @phpstan-type TSiteAccessConfigurationArray array{prefix?: string, suffix?: string}
  */
-abstract class PrefixSuffixBasedTextMatcher extends Regex implements VersatileMatcher
+abstract class AffixBasedTextMatcher extends Regex implements VersatileMatcher
 {
-    protected string $prefix;
+    protected readonly string $prefix;
 
-    protected string $suffix;
-
-    /** @phpstan-var TSiteAccessConfigurationArray */
-    protected array $siteAccessesConfiguration;
+    protected readonly string $suffix;
 
     abstract protected function buildRegex(): string;
 
@@ -31,10 +28,8 @@ abstract class PrefixSuffixBasedTextMatcher extends Regex implements VersatileMa
     /**
      * @phpstan-param TSiteAccessConfigurationArray $siteAccessesConfiguration
      */
-    public function __construct(array $siteAccessesConfiguration)
+    public function __construct(private readonly array $siteAccessesConfiguration)
     {
-        $this->siteAccessesConfiguration = $siteAccessesConfiguration;
-
         $this->prefix = $this->siteAccessesConfiguration['prefix'] ?? '';
         $this->suffix = $this->siteAccessesConfiguration['suffix'] ?? '';
 
