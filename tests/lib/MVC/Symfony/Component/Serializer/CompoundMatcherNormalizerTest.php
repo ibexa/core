@@ -15,20 +15,30 @@ use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\CompoundStub;
 use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\MatcherStub;
 use Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs\SerializerStub;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 final class CompoundMatcherNormalizerTest extends TestCase
 {
     public function testNormalization(): void
     {
         $matcher = new CompoundStub([]);
-        $matcher->setSubMatchers([
-            'foo' => new MatcherStub('foo'),
-            'bar' => new MatcherStub('bar'),
-            'baz' => new MatcherStub('baz'),
-        ]);
+        $matcher->setSubMatchers(
+            [
+                'foo' => new MatcherStub('foo'),
+                'bar' => new MatcherStub('bar'),
+                'baz' => new MatcherStub('baz'),
+            ]
+        );
 
         $normalizer = new CompoundMatcherNormalizer();
-        $normalizer->setSerializer(new SerializerStub());
+        $serializer = new Serializer(
+            [
+                $normalizer,
+                new SerializerStub(),
+                new ObjectNormalizer(),
+            ]
+        );
 
         self::assertEquals(
             [
@@ -40,7 +50,7 @@ final class CompoundMatcherNormalizerTest extends TestCase
                 'config' => [],
                 'matchersMap' => [],
             ],
-            $normalizer->normalize($matcher)
+            $serializer->normalize($matcher)
         );
     }
 
@@ -52,6 +62,9 @@ final class CompoundMatcherNormalizerTest extends TestCase
         self::assertFalse($normalizer->supportsNormalization($this->createMock(Matcher::class)));
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function testSupportsDenormalization(): void
     {
         $normalizer = new CompoundMatcherNormalizer();
@@ -63,7 +76,8 @@ final class CompoundMatcherNormalizerTest extends TestCase
                 ],
                 'config' => [],
                 'matchersMap' => [],
-            ]
+            ],
+            JSON_THROW_ON_ERROR
         );
 
         self::assertTrue($normalizer->supportsDenormalization($data, Compound::class, 'json'));

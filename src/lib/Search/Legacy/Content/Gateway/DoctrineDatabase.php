@@ -105,7 +105,7 @@ final class DoctrineDatabase extends Gateway
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function getLanguageMask(array $languageSettings)
+    private function getLanguageMask(array $languageSettings): int
     {
         $mask = 0;
         if ($languageSettings['useAlwaysAvailable']) {
@@ -173,7 +173,7 @@ final class DoctrineDatabase extends Gateway
      *
      * @return int
      */
-    private function getResultCount(Criterion $filter, array $languageFilter)
+    private function getResultCount(Criterion $filter, array $languageFilter): int
     {
         $query = $this->connection->createQueryBuilder();
 

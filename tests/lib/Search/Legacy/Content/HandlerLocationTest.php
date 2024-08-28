@@ -182,7 +182,7 @@ class HandlerLocationTest extends AbstractTestCase
             ->with(self::isType('array'))
             ->will(
                 self::returnCallback(
-                    static function ($rows) {
+                    static function ($rows): array {
                         $locations = [];
                         foreach ($rows as $row) {
                             $locationId = (int)$row['node_id'];

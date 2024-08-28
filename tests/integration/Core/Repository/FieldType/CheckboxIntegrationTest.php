@@ -32,7 +32,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezboolean';
     }
@@ -116,7 +116,7 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return '1';
     }
@@ -280,12 +280,12 @@ class CheckboxIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): bool
     {
         return false;
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): bool
     {
         return true;
     }

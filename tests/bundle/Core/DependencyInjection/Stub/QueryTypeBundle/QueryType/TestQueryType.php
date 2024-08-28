@@ -19,7 +19,7 @@ class TestQueryType implements QueryType
     {
     }
 
-    public static function getName()
+    public static function getName(): string
     {
         return 'Test:Test';
     }

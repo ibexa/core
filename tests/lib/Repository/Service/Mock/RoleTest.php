@@ -204,7 +204,7 @@ class RoleTest extends BaseServiceMockTest
             ->method('__get')
             ->will(
                 self::returnCallback(
-                    static function ($propertyName) {
+                    static function ($propertyName): ?string {
                         switch ($propertyName) {
                             case 'module':
                                 return 'mockModule';

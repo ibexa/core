@@ -50,7 +50,7 @@ class ContentPreviewContext extends RawMinkContext
     /**
      * @return string
      */
-    private function mapToVersionViewUri(VersionInfo $version)
+    private function mapToVersionViewUri(VersionInfo $version): string
     {
         return sprintf(
             '/content/versionview/%s/%s/%s',

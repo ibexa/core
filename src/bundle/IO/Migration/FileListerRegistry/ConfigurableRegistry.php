@@ -49,7 +49,7 @@ final class ConfigurableRegistry implements FileListerRegistry
      *
      * @return string[] Array of identifier strings.
      */
-    public function getIdentifiers()
+    public function getIdentifiers(): array
     {
         return array_keys($this->registry);
     }

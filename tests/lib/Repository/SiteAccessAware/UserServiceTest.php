@@ -24,12 +24,12 @@ use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 
 class UserServiceTest extends AbstractServiceTest
 {
-    public function getAPIServiceClassName()
+    public function getAPIServiceClassName(): string
     {
         return APIService::class;
     }
 
-    public function getSiteAccessAwareServiceClassName()
+    public function getSiteAccessAwareServiceClassName(): string
     {
         return UserService::class;
     }

@@ -306,7 +306,7 @@ class PermissionResolver implements PermissionResolverInterface
                     $possibleLimitations[] = $limitation;
                 }
 
-                $limitationFilter = static function (Limitation $limitation) use ($limitationsIdentifiers) {
+                $limitationFilter = static function (Limitation $limitation) use ($limitationsIdentifiers): bool {
                     return \in_array($limitation->getIdentifier(), $limitationsIdentifiers, true);
                 };
 
@@ -448,7 +448,7 @@ class PermissionResolver implements PermissionResolverInterface
         // BC: for TargetAware Limitations return only instances of Target, for others return only non-Target instances
         $targets = array_filter(
             $targets,
-            static function ($target) use ($isTargetAware) {
+            static function ($target) use ($isTargetAware): bool {
                 $isTarget = $target instanceof Target;
 
                 return $isTargetAware ? $isTarget : !$isTarget;

@@ -25,7 +25,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezfloat';
     }
@@ -127,7 +127,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return '23.5';
     }
@@ -299,12 +299,12 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): float
     {
         return 25.519;
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): float
     {
         return 25.59;
     }

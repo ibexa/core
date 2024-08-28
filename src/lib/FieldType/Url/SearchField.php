@@ -61,7 +61,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    public function getDefaultMatchField()
+    public function getDefaultMatchField(): string
     {
         return 'value_url';
     }

@@ -275,7 +275,7 @@ abstract class BaseTest extends TestCase
      */
     private function sortItems(array &$items)
     {
-        $sorter = function ($a, $b) {
+        $sorter = function ($a, $b): int {
             if (!is_scalar($a) || !is_scalar($b)) {
                 $this->fail('Wrong usage: method ' . __METHOD__ . ' accepts only an array of scalar values');
             }

@@ -33,7 +33,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezuser';
     }
@@ -155,7 +155,7 @@ class UserIntegrationTest extends BaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return self::TEST_LOGIN;
     }

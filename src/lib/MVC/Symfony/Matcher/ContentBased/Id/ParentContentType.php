@@ -23,7 +23,7 @@ class ParentContentType extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(APILocation $location)
+    public function matchLocation(APILocation $location): bool
     {
         $parent = $this->repository->sudo(
             static function (Repository $repository) use ($location) {
@@ -52,7 +52,7 @@ class ParentContentType extends MultipleValued
         return $this->matchLocation($location);
     }
 
-    public function match(View $view)
+    public function match(View $view): bool
     {
         if (!$view instanceof LocationValueView) {
             return false;

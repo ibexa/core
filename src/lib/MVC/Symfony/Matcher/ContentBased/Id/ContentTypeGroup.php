@@ -51,7 +51,7 @@ class ContentTypeGroup extends MultipleValued
     /**
      * @return bool
      */
-    private function matchContentTypeId($contentTypeId)
+    private function matchContentTypeId($contentTypeId): bool
     {
         $contentTypeGroups = $this->repository
             ->getContentTypeService()

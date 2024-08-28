@@ -28,6 +28,7 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
 use Ibexa\Core\QueryType\QueryType;
 use InvalidArgumentException;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -85,7 +86,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $this->suggestionCollector = new SuggestionCollector();
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return self::EXTENSION_NAME;
     }
@@ -168,12 +169,9 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * @param array $config
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     *
-     * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration
+     * @param array<mixed> $config
      */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface
     {
         $configuration = new Configuration(
             $this->getMainConfigParser(),

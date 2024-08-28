@@ -506,7 +506,7 @@ class BinaryFileTest extends BinaryBaseTest
         ];
     }
 
-    protected function provideFieldTypeIdentifier()
+    protected function provideFieldTypeIdentifier(): string
     {
         return 'ezbinaryfile';
     }

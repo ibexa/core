@@ -165,7 +165,7 @@ abstract class TestCase extends BaseTestCase
         return implode(
             "\n",
             array_map(
-                static function ($row) {
+                static function ($row): string {
                     return implode(', ', $row);
                 },
                 $result
@@ -297,7 +297,7 @@ abstract class TestCase extends BaseTestCase
         $refl = new ReflectionObject($object);
 
         return array_map(
-            static function ($prop) {
+            static function ($prop): string {
                 return $prop->getName();
             },
             $refl->getProperties(ReflectionProperty::IS_PUBLIC)

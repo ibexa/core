@@ -20,12 +20,12 @@ use Ibexa\Core\Repository\Values\Content\VersionInfo;
 
 class LocationServiceTest extends AbstractServiceTest
 {
-    public function getAPIServiceClassName()
+    public function getAPIServiceClassName(): string
     {
         return APIService::class;
     }
 
-    public function getSiteAccessAwareServiceClassName()
+    public function getSiteAccessAwareServiceClassName(): string
     {
         return LocationService::class;
     }

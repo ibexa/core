@@ -121,7 +121,7 @@ class FullText extends CriterionHandler
      *
      * @return bool
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\FullText;
     }
@@ -129,13 +129,13 @@ class FullText extends CriterionHandler
     /**
      * Tokenize String.
      *
-     * @param string $string
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function tokenizeString($string)
+    protected function tokenizeString(string $string): array
     {
-        return preg_split('/[^\w|*]/u', $string, -1, PREG_SPLIT_NO_EMPTY);
+        $tokens = preg_split('/[^\w|*]/u', $string, -1, PREG_SPLIT_NO_EMPTY);
+
+        return false !== $tokens ? $tokens : [];
     }
 
     /**

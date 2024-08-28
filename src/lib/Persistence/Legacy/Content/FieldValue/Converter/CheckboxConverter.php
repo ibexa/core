@@ -84,7 +84,7 @@ class CheckboxConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         return 'sort_key_int';
     }

@@ -309,7 +309,7 @@ class Handler implements BaseObjectStateHandler
      *
      * @return bool
      */
-    public function setContentState($contentId, $groupId, $stateId)
+    public function setContentState($contentId, $groupId, $stateId): bool
     {
         $this->objectStateGateway->setContentState($contentId, $groupId, $stateId);
 

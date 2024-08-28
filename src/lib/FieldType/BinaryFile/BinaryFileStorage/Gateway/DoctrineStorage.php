@@ -21,7 +21,7 @@ class DoctrineStorage extends BaseDoctrineStorage
     /**
      * {@inheritdoc}
      */
-    protected function getStorageTable()
+    protected function getStorageTable(): string
     {
         return 'ezbinaryfile';
     }

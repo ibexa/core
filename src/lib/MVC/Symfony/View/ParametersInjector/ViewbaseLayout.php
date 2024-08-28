@@ -29,7 +29,7 @@ class ViewbaseLayout implements EventSubscriberInterface
         $this->configResolver = $configResolver;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [ViewEvents::FILTER_VIEW_PARAMETERS => 'injectViewbaseLayout'];
     }

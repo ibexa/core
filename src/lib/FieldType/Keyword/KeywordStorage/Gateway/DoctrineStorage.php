@@ -141,7 +141,7 @@ class DoctrineStorage extends Gateway
      *
      * @return int
      */
-    protected function loadContentTypeId($fieldDefinitionId)
+    protected function loadContentTypeId($fieldDefinitionId): int
     {
         $query = $this->connection->createQueryBuilder();
         $query

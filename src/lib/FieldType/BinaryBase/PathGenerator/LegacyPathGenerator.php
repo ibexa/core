@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 class LegacyPathGenerator extends PathGenerator
 {
-    public function getStoragePathForField(Field $field, VersionInfo $versionInfo)
+    public function getStoragePathForField(Field $field, VersionInfo $versionInfo): string
     {
         $extension = pathinfo($field->value->externalData['fileName'], PATHINFO_EXTENSION);
 
@@ -29,7 +29,7 @@ class LegacyPathGenerator extends PathGenerator
      *
      * @return string
      */
-    protected function getFirstPartOfMimeType($mimeType)
+    protected function getFirstPartOfMimeType($mimeType): string
     {
         return substr($mimeType, 0, strpos($mimeType, '/'));
     }

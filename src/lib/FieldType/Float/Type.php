@@ -45,7 +45,7 @@ class Type extends BaseNumericType
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezfloat';
     }
@@ -70,7 +70,7 @@ class Type extends BaseNumericType
     /**
      * @param \Ibexa\Core\FieldType\Float\Value $value
      */
-    public function isEmptyValue(SPIValue $value)
+    public function isEmptyValue(SPIValue $value): bool
     {
         return $value->value === null;
     }

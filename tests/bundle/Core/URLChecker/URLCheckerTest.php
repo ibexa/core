@@ -113,7 +113,7 @@ class URLCheckerTest extends TestCase
     {
         $this->handlerRegistry
             ->method('supported')
-            ->willReturnCallback(static function ($scheme) use ($schemes) {
+            ->willReturnCallback(static function ($scheme) use ($schemes): bool {
                 return isset($schemes[$scheme]);
             });
 

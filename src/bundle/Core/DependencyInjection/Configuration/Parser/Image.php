@@ -87,7 +87,7 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
                                 ->useAttributeAsKey('options')
                                 ->beforeNormalization()
                                     ->ifTrue(
-                                        static function ($v) {
+                                        static function ($v): bool {
                                             // Check if passed array only contains a "params" key (BC with <=5.3).
                                             return is_array($v) && count($v) === 1 && isset($v['params']);
                                         }

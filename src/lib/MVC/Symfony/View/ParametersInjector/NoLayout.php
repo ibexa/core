@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class NoLayout implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [ViewEvents::FILTER_VIEW_PARAMETERS => 'injectCustomParameters'];
     }

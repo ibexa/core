@@ -19,12 +19,12 @@ use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
 
 class ObjectStateServiceTest extends AbstractServiceTest
 {
-    public function getAPIServiceClassName()
+    public function getAPIServiceClassName(): string
     {
         return APIService::class;
     }
 
-    public function getSiteAccessAwareServiceClassName()
+    public function getSiteAccessAwareServiceClassName(): string
     {
         return ObjectStateService::class;
     }

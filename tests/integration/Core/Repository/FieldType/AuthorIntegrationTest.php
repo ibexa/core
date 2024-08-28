@@ -27,7 +27,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezauthor';
     }
@@ -128,7 +128,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Hans Mueller';
     }
@@ -422,12 +422,12 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         return 'Ferdinand';
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         return 'Greta';
     }

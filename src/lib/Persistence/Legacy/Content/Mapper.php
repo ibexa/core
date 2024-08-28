@@ -476,7 +476,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
      */
-    public function extractVersionInfoListFromRows(array $rows, array $nameRows)
+    public function extractVersionInfoListFromRows(array $rows, array $nameRows): array
     {
         $nameData = [];
         foreach ($nameRows as $row) {

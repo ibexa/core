@@ -681,7 +681,7 @@ final class DoctrineDatabase extends Gateway
             $query
                 ->addSelect(
                     array_map(
-                        static function (string $columnName) use ($tableAlias) {
+                        static function (string $columnName) use ($tableAlias): string {
                             // do not alias data for top level url part
                             $columnAlias = 'u' === $tableAlias
                                 ? $columnName
@@ -1051,7 +1051,7 @@ final class DoctrineDatabase extends Gateway
             $rowLanguageMask = (int)$row['lang_mask'];
             $languageIdsToBeRemoved = array_filter(
                 $languageIds,
-                static function ($languageId) use ($rowLanguageMask) {
+                static function ($languageId) use ($rowLanguageMask): int {
                     return $languageId & $rowLanguageMask;
                 }
             );
@@ -1346,7 +1346,7 @@ final class DoctrineDatabase extends Gateway
     {
         $originalUrlAliases = array_filter(
             $urlAliasesData,
-            static function ($urlAliasData) {
+            static function ($urlAliasData): bool {
                 // filter is_original=true ignoring broken parent records (cleaned up elsewhere)
                 return (bool)$urlAliasData['is_original'] && $urlAliasData['existing_parent'] !== null;
             }

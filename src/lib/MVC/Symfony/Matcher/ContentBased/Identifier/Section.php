@@ -23,7 +23,7 @@ class Section extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(Location $location)
+    public function matchLocation(Location $location): bool
     {
         $section = $this->repository->sudo(
             static function (Repository $repository) use ($location) {
@@ -43,7 +43,7 @@ class Section extends MultipleValued
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
+    public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         $section = $this->repository->sudo(
             static function (Repository $repository) use ($contentInfo) {
@@ -56,7 +56,7 @@ class Section extends MultipleValued
         return isset($this->values[$section->identifier]);
     }
 
-    public function match(View $view)
+    public function match(View $view): bool
     {
         if (!$view instanceof ContentValueView) {
             return false;

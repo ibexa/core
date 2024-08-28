@@ -39,7 +39,7 @@ class IbexaRepositoryInstallerBundleTest extends TestCase
         self::assertNotEmpty(
             array_filter(
                 $container->getCompilerPassConfig()->getPasses(),
-                static function (CompilerPassInterface $compilerPass) {
+                static function (CompilerPassInterface $compilerPass): bool {
                     return $compilerPass instanceof InstallerTagPass;
                 }
             )

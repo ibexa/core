@@ -22,7 +22,7 @@ class Location extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(APILocation $location)
+    public function matchLocation(APILocation $location): bool
     {
         return isset($this->values[$location->id]);
     }
@@ -34,12 +34,12 @@ class Location extends MultipleValued
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
+    public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         return isset($this->values[$contentInfo->mainLocationId]);
     }
 
-    public function match(View $view)
+    public function match(View $view): bool
     {
         if (!$view instanceof LocationValueView) {
             return false;

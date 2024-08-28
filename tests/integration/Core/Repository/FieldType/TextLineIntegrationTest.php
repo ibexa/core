@@ -25,7 +25,7 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezstring';
     }
@@ -127,7 +127,7 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'Example';
     }
@@ -303,23 +303,23 @@ class TextLineIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): string
     {
         return 'aaa';
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         // ensure case-insensitivity
         return strtoupper($this->getValidSearchValueOne());
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): string
     {
         return 'bbb';
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         // ensure case-insensitivity
         return strtoupper($this->getValidSearchValueTwo());

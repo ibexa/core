@@ -12,6 +12,7 @@
         "ext-fileinfo": "*",
         "ext-intl": "*",
         "ext-json": "*",
+        "ext-libxml": "*",
         "ext-mbstring": "*",
         "ext-PDO": "*",
         "ext-SPL": "*",

@@ -92,7 +92,7 @@ class StringLengthValidator extends Validator
      *
      * @return bool
      */
-    protected function validateConstraintsOrder($constraints)
+    protected function validateConstraintsOrder($constraints): bool
     {
         return !isset($constraints['minStringLength'], $constraints['maxStringLength'])
             || ($constraints['minStringLength'] <= $constraints['maxStringLength']);
@@ -107,7 +107,7 @@ class StringLengthValidator extends Validator
      *
      * @return bool
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
+    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
     {
         $isValid = true;
 

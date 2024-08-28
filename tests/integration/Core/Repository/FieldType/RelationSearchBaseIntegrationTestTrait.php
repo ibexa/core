@@ -81,7 +81,7 @@ trait RelationSearchBaseIntegrationTestTrait
     {
         usort(
             $relations,
-            static function (Relation $a, Relation $b) {
+            static function (Relation $a, Relation $b): int {
                 if ($a->type == $b->type) {
                     return $a->destinationContentInfo->id < $b->destinationContentInfo->id ? 1 : -1;
                 }

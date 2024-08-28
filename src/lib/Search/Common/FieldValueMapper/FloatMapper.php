@@ -21,7 +21,7 @@ class FloatMapper extends FieldValueMapper
         return $field->getType() instanceof FloatField;
     }
 
-    public function map(Field $field)
+    public function map(Field $field): string
     {
         return sprintf('%F', (float)$field->getValue());
     }

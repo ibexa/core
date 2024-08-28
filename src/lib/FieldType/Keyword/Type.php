@@ -28,7 +28,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return string
      */
-    public function getFieldTypeIdentifier()
+    public function getFieldTypeIdentifier(): string
     {
         return 'ezkeyword';
     }
@@ -93,7 +93,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): string
     {
         return implode(',', $value->values);
     }
@@ -127,7 +127,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return bool
      */
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return true;
     }

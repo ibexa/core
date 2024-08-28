@@ -50,7 +50,7 @@ class Configuration extends SiteAccessConfiguration
      *
      * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('ibexa');
 
@@ -276,7 +276,7 @@ EOT;
                             ->info('Absolute path of ImageMagick / GraphicsMagick "convert" binary.')
                             ->beforeNormalization()
                                 ->ifTrue(
-                                    static function ($v) {
+                                    static function ($v): bool {
                                         $basename = basename($v);
                                         // If there is a space in the basename, just drop it and everything after it.
                                         if (($wsPos = strpos($basename, ' ')) !== false) {
@@ -330,14 +330,14 @@ EOT;
                             ->defaultValue('local')
                             ->beforeNormalization()
                                 ->ifTrue(
-                                    static function ($v) {
+                                    static function ($v): bool {
                                         $http = ['multiple_http' => true, 'single_http' => true];
 
                                         return isset($http[$v]);
                                     }
                                 )
                                 ->then(
-                                    static function () {
+                                    static function (): string {
                                         return 'http';
                                     }
                                 )

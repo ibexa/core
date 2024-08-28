@@ -25,7 +25,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezemail';
     }
@@ -115,7 +115,7 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'spam@ibexa.co';
     }
@@ -301,23 +301,23 @@ class EmailAddressIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): string
     {
         return 'holmes4@ibexa.co';
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): string
     {
         // ensure case-insensitivity
         return strtoupper($this->getValidSearchValueOne());
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): string
     {
         return 'wyoming.knott@o2.ru';
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): string
     {
         // ensure case-insensitivity
         return strtoupper($this->getValidSearchValueTwo());

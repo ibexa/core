@@ -24,7 +24,7 @@ class LogicalNot extends CriterionHandler
      *
      * @return bool
      */
-    public function accept(Criterion $criterion)
+    public function accept(Criterion $criterion): bool
     {
         return $criterion instanceof Criterion\LogicalNot;
     }
@@ -34,7 +34,7 @@ class LogicalNot extends CriterionHandler
         QueryBuilder $queryBuilder,
         Criterion $criterion,
         array $languageSettings
-    ) {
+    ): string {
         return sprintf(
             'NOT (%s)',
             $converter->convertCriteria($queryBuilder, $criterion->criteria[0], $languageSettings)

@@ -28,7 +28,7 @@ class IbexaCoreCollector extends DataCollector
         }
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'ezpublish.debug.toolbar';
     }

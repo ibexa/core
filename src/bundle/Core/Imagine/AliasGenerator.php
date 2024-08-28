@@ -161,7 +161,7 @@ class AliasGenerator implements VariationHandler
         return $this->filterManager->applyFilter($image, $variationName);
     }
 
-    public function supportsValue(Value $value)
+    public function supportsValue(Value $value): bool
     {
         return $value instanceof ImageValue;
     }

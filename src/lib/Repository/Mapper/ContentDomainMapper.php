@@ -780,7 +780,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return bool
      */
-    public function isValidLocationSortField($sortField)
+    public function isValidLocationSortField($sortField): bool
     {
         switch ($sortField) {
             case APILocation::SORT_FIELD_PATH:
@@ -808,7 +808,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return bool
      */
-    public function isValidLocationSortOrder($sortOrder)
+    public function isValidLocationSortOrder($sortOrder): bool
     {
         switch ($sortOrder) {
             case APILocation::SORT_ORDER_DESC:
@@ -826,7 +826,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return bool
      */
-    public function isValidLocationPriority($priority)
+    public function isValidLocationPriority($priority): bool
     {
         if ($priority === null) {
             return true;
@@ -885,7 +885,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return string
      */
-    public function getUniqueHash($object)
+    public function getUniqueHash($object): string
     {
         return md5(uniqid(get_class($object), true));
     }

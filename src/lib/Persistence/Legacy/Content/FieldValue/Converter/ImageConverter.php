@@ -109,7 +109,7 @@ class ImageConverter extends BinaryFileConverter
      *
      * @return string
      */
-    protected function fillXml($imageData, $pathInfo, $timestamp)
+    protected function fillXml($imageData, $pathInfo, $timestamp): string
     {
         $additionalData = $this->buildAdditionalDataTag($imageData['additionalData'] ?? []);
 

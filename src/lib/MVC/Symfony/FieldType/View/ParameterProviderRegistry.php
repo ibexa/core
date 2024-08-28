@@ -20,7 +20,7 @@ class ParameterProviderRegistry implements ParameterProviderRegistryInterface
      *
      * @return bool
      */
-    public function hasParameterProvider($fieldTypeIdentifier)
+    public function hasParameterProvider($fieldTypeIdentifier): bool
     {
         return isset($this->providers[$fieldTypeIdentifier]);
     }

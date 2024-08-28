@@ -16,12 +16,12 @@ use Ibexa\Core\Repository\Values\Content\Content;
 
 class SearchServiceTest extends AbstractServiceTest
 {
-    public function getAPIServiceClassName()
+    public function getAPIServiceClassName(): string
     {
         return APIService::class;
     }
 
-    public function getSiteAccessAwareServiceClassName()
+    public function getSiteAccessAwareServiceClassName(): string
     {
         return SearchService::class;
     }
