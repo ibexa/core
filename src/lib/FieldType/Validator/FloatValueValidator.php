@@ -9,7 +9,6 @@ namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\ValidationError;
-use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
 /**
@@ -21,7 +20,7 @@ use Ibexa\Core\FieldType\Value as BaseValue;
  * @property float $minFloatValue Minimum value for float.
  * @property float $maxFloatValue Maximum value for float.
  */
-class FloatValueValidator extends Validator
+class FloatValueValidator extends BaseNumericValidator
 {
     protected $constraints = [
         'minFloatValue' => null,
@@ -39,73 +38,43 @@ class FloatValueValidator extends Validator
         ],
     ];
 
-    public function validateConstraints($constraints)
+    protected function getConstraintsValidationErrorMessage(string $name, mixed $value): ?string
     {
-        $validationErrors = [];
-
-        foreach ($constraints as $name => $value) {
-            switch ($name) {
-                case 'minFloatValue':
-                case 'maxFloatValue':
-                    if ($value !== null && !is_numeric($value)) {
-                        $validationErrors[] = new ValidationError(
-                            "Validator parameter '%parameter%' value must be of numeric type",
-                            null,
-                            [
-                                '%parameter%' => $name,
-                            ]
-                        );
-                    }
-                    break;
-                default:
-                    $validationErrors[] = new ValidationError(
-                        "Validator parameter '%parameter%' is unknown",
-                        null,
-                        [
-                            '%parameter%' => $name,
-                        ]
-                    );
-            }
-        }
-
-        return $validationErrors;
+        return match ($name) {
+            'minFloatValue', 'maxFloatValue' => $value !== null && !is_numeric($value)
+                ? "Validator parameter '%parameter%' value must be of numeric type"
+                : null,
+            default => "Validator parameter '%parameter%' is unknown",
+        };
     }
 
     /**
-     * Perform validation on $value.
-     *
-     * Will return true when all constraints are matched. If one or more
-     * constraints fail, the method will return false.
-     *
-     * When a check against a constant has failed, an entry will be added to the
-     * $errors array.
-     *
      * @param \Ibexa\Core\FieldType\Float\Value $value
-     *
-     * @return bool
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null)
+    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
     {
         $isValid = true;
 
-        if ($this->constraints['maxFloatValue'] !== null && $value->value > $this->constraints['maxFloatValue']) {
+        if (isset($this->constraints['maxFloatValue']) && $value->value > $this->constraints['maxFloatValue']) {
             $this->errors[] = new ValidationError(
                 'The value can not be higher than %size%.',
                 null,
                 [
                     '%size%' => $this->constraints['maxFloatValue'],
-                ]
+                ],
+                'value'
             );
             $isValid = false;
         }
 
-        if ($this->constraints['minFloatValue'] !== null && $value->value < $this->constraints['minFloatValue']) {
+        if (isset($this->constraints['minFloatValue']) && $value->value < $this->constraints['minFloatValue']) {
             $this->errors[] = new ValidationError(
                 'The value can not be lower than %size%.',
                 null,
                 [
                     '%size%' => $this->constraints['minFloatValue'],
-                ]
+                ],
+                'value'
             );
             $isValid = false;
         }
