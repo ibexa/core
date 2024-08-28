@@ -52,9 +52,9 @@ abstract class BaseNumericValidatorTestCase extends TestCase
     abstract protected function getIncorrectNumericTypeValidationMessage(string $parameterName): string;
 
     /**
-     * @return list<array{array<string, mixed>, array<string>}>
+     * @return iterable<string, array{array<string, mixed>, array<string>}>
      */
-    final public function providerForValidateConstraintsKO(): array
+    final public function providerForValidateConstraintsKO(): iterable
     {
         $minNumericValueName = $this->getMinNumericValueName();
         $minValueNumericTypeValidationMessage = $this->getIncorrectNumericTypeValidationMessage(
@@ -65,66 +65,71 @@ abstract class BaseNumericValidatorTestCase extends TestCase
             $maxNumericValueName
         );
 
-        return [
+        yield 'invalid min type (bool), max not set' => [
             [
-                [
-                    $minNumericValueName => true,
-                ],
-                [$minValueNumericTypeValidationMessage],
+                $minNumericValueName => true,
+            ],
+            [$minValueNumericTypeValidationMessage],
+        ];
+
+        yield 'invalid min type (string), max not set' => [
+            [
+                $minNumericValueName => self::WRONG_NUMERIC_MIN_VALUE,
+            ],
+            [$minValueNumericTypeValidationMessage],
+        ];
+
+        yield 'invalid min type (string), valid max' => [
+            [
+                $minNumericValueName => self::WRONG_NUMERIC_MIN_VALUE,
+                $maxNumericValueName => 1234,
+            ],
+            [$minValueNumericTypeValidationMessage],
+        ];
+
+        yield 'valid min, invalid max type (DateTime object)' => [
+            [
+                $maxNumericValueName => new \DateTime(),
+                $minNumericValueName => 1234,
+            ],
+            [$maxValueNumericTypeValidationMessage],
+        ];
+
+        yield 'invalid min type (bool), valid max, with a parameter' => [
+            [
+                $minNumericValueName => true,
+                $maxNumericValueName => 1234,
+            ],
+            [$minValueNumericTypeValidationMessage],
+            [
+                ['%parameter%' => $minNumericValueName],
+            ],
+        ];
+
+        yield 'invalid min and max types (strings)' => [
+            [
+                $minNumericValueName => self::WRONG_NUMERIC_MIN_VALUE,
+                $maxNumericValueName => self::WRONG_NUMERIC_MAX_VALUE,
             ],
             [
-                [
-                    $minNumericValueName => self::WRONG_NUMERIC_MIN_VALUE,
-                ],
-                [$minValueNumericTypeValidationMessage],
+                $minValueNumericTypeValidationMessage,
+                $maxValueNumericTypeValidationMessage,
             ],
+        ];
+
+        yield 'unknown parameter' => [
             [
-                [
-                    $minNumericValueName => self::WRONG_NUMERIC_MIN_VALUE,
-                    $maxNumericValueName => 1234,
-                ],
-                [$minValueNumericTypeValidationMessage],
+                'brljix' => 12345,
             ],
+            [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
+        ];
+
+        yield 'unknown parameter, valid min' => [
             [
-                [
-                    $maxNumericValueName => new \DateTime(),
-                    $minNumericValueName => 1234,
-                ],
-                [$maxValueNumericTypeValidationMessage],
+                $minNumericValueName => 12345,
+                'brljix' => 12345,
             ],
-            [
-                [
-                    $minNumericValueName => true,
-                    $maxNumericValueName => 1234,
-                ],
-                [$minValueNumericTypeValidationMessage],
-                [
-                    ['%parameter%' => $minNumericValueName],
-                ],
-            ],
-            [
-                [
-                    $minNumericValueName => self::WRONG_NUMERIC_MIN_VALUE,
-                    $maxNumericValueName => self::WRONG_NUMERIC_MAX_VALUE,
-                ],
-                [
-                    $minValueNumericTypeValidationMessage,
-                    $maxValueNumericTypeValidationMessage,
-                ],
-            ],
-            [
-                [
-                    'brljix' => 12345,
-                ],
-                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
-            ],
-            [
-                [
-                    $minNumericValueName => 12345,
-                    'brljix' => 12345,
-                ],
-                [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
-            ],
+            [self::UNKNOWN_PARAM_VALIDATION_MESSAGE],
         ];
     }
 

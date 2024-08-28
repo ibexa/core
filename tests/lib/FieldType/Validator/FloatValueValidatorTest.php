@@ -23,6 +23,9 @@ use Ibexa\Core\FieldType\Validator\FloatValueValidator;
  */
 final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
 {
+    private const float MIN_FLOAT_VALUE = 1.4285714285714;
+    private const float MAX_FLOAT_VALUE = 1.5714285714286;
+
     protected function getValidatorInstance(): Validator
     {
         return new FloatValueValidator();
@@ -40,12 +43,12 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
 
     protected function getMinFloatValue(): float
     {
-        return 10 / 7;
+        return self::MIN_FLOAT_VALUE;
     }
 
     protected function getMaxFloatValue(): float
     {
-        return 11 / 7;
+        return self::MAX_FLOAT_VALUE;
     }
 
     public static function providerForConstraintsInitializeSetGet(): iterable
@@ -53,7 +56,7 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
         yield [
             [
                 'minFloatValue' => 0.5,
-                'maxFloatValue' => 22 / 7,
+                'maxFloatValue' => 3.1428571428571,
             ],
         ];
     }
@@ -96,8 +99,8 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     public function testValidateCorrectValues(float $value): void
     {
         $validator = $this->getValidatorInstance();
-        $validator->minFloatValue = 10 / 7;
-        $validator->maxFloatValue = 11 / 7;
+        $validator->minFloatValue = self::MIN_FLOAT_VALUE;
+        $validator->maxFloatValue = self::MAX_FLOAT_VALUE;
         self::assertTrue($validator->validate(new FloatValue($value)));
         self::assertSame([], $validator->getMessage());
     }
@@ -108,11 +111,21 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     public function providerForValidateOK(): array
     {
         return [
-            [100 / 70],
-            [101 / 70],
-            [105 / 70],
-            [109 / 70],
-            [110 / 70],
+            [
+                1.4285714285714286,
+            ],
+            [
+                1.4428571428571428,
+            ],
+            [
+                1.5,
+            ],
+            [
+                1.5571428571428572,
+            ],
+            [
+                1.5714285714285714,
+            ],
         ];
     }
 
@@ -134,10 +147,13 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     public function providerForValidateKO(): array
     {
         return [
-            [-10 / 7, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
+            [-self::MIN_FLOAT_VALUE, strtr(
+                self::VALUE_TOO_LOW_VALIDATION_MESSAGE,
+                [self::SIZE_PARAM => $this->getMinFloatValue()]
+            )],
             [0, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
-            [99 / 70, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
-            [111 / 70, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMaxFloatValue()])],
+            [1.4142857142857, strtr(self::VALUE_TOO_LOW_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMinFloatValue()])],
+            [1.5857142857143, strtr(self::VALUE_TOO_HIGH_VALIDATION_MESSAGE, [self::SIZE_PARAM => $this->getMaxFloatValue()])],
         ];
     }
 
