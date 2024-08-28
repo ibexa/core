@@ -10,46 +10,24 @@ namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 
-class HostText extends Regex implements VersatileMatcher
+class HostText extends AffixBasedTextMatcher
 {
-    private $prefix;
-
-    private $suffix;
-
-    /**
-     * The property needed to allow correct deserialization with Symfony serializer.
-     *
-     * @var array
-     */
-    private $siteAccessesConfiguration;
-
-    /**
-     * Constructor.
-     *
-     * @param array $siteAccessesConfiguration SiteAccesses configuration.
-     */
-    public function __construct(array $siteAccessesConfiguration)
+    protected function buildRegex(): string
     {
-        $this->prefix = isset($siteAccessesConfiguration['prefix']) ? $siteAccessesConfiguration['prefix'] : '';
-        $this->suffix = isset($siteAccessesConfiguration['suffix']) ? $siteAccessesConfiguration['suffix'] : '';
-        parent::__construct(
-            '^' . preg_quote($this->prefix, '@') . "(\w+)" . preg_quote($this->suffix, '@') . '$',
-            1
-        );
-        $this->siteAccessesConfiguration = $siteAccessesConfiguration;
+        return '^' . preg_quote($this->prefix, '@') . "(\w+)" . preg_quote($this->suffix, '@') . '$';
     }
 
-    public function getName()
+    protected function getMatchedItemNumber(): int
+    {
+        return 1;
+    }
+
+    public function getName(): string
     {
         return 'host:text';
     }
 
-    /**
-     * Injects the request object to match against.
-     *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
-     */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->element) {
             $this->setMatchElement($request->host);
@@ -58,14 +36,14 @@ class HostText extends Regex implements VersatileMatcher
         parent::setRequest($request);
     }
 
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch($siteAccessName): ?VersatileMatcher
     {
         $this->request->setHost($this->prefix . $siteAccessName . $this->suffix);
 
         return $this;
     }
 
-    public function getRequest()
+    public function getRequest(): SimplifiedRequest
     {
         return $this->request;
     }

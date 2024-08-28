@@ -12356,36 +12356,6 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostElement.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:__construct\\(\\) has parameter \\$siteAccessesConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:setRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$prefix has no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$siteAccessesConfiguration is never read, only written\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$siteAccessesConfiguration type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\HostText\\:\\:\\$suffix has no type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/HostText.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\Map\\:\\:__construct\\(\\) has parameter \\$map with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map.php
@@ -12549,31 +12519,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIElement.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:__construct\\(\\) has parameter \\$siteAccessesConfiguration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:analyseURI\\(\\) should return string but returns string\\|null\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:setRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:\\$siteAccessesConfiguration is never read, only written\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\URIText\\:\\:\\$siteAccessesConfiguration type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/URIText.php
 
 		-
 			message: "#^Call to an undefined method object\\:\\:setRequest\\(\\)\\.$#"
