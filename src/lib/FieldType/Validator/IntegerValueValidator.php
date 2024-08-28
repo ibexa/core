@@ -46,17 +46,7 @@ class IntegerValueValidator extends BaseNumericValidator
     }
 
     /**
-     * Perform validation on $value.
-     *
-     * Will return true when all constraints are matched. If one or more
-     * constraints fail, the method will return false.
-     *
-     * When a check against a constraint has failed, an entry will be added to the
-     * $errors array.
-     *
      * @param \Ibexa\Core\FieldType\Integer\Value $value
-     *
-     * @return bool
      */
     public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
     {

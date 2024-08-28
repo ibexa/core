@@ -96,8 +96,6 @@ abstract class Validator
      * When a check against a constraint has failed, an entry will be added to the
      * $errors array.
      *
-     * @param \Ibexa\Core\FieldType\Value $value
-     *
      * @return bool
      */
     abstract public function validate(Value $value, ?FieldDefinition $fieldDefinition = null);
