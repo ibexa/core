@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\User;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 /**
@@ -24,63 +25,36 @@ abstract class User extends Content implements UserReference
     /**
      * @var int[] List of supported (by default) hash types.
      */
-    public const SUPPORTED_PASSWORD_HASHES = [
+    public const array SUPPORTED_PASSWORD_HASHES = [
         self::PASSWORD_HASH_BCRYPT,
         self::PASSWORD_HASH_PHP_DEFAULT,
+        self::PASSWORD_HASH_INVALID,
     ];
 
-    /** @var int Passwords in bcrypt */
-    public const PASSWORD_HASH_BCRYPT = 6;
+    public const int PASSWORD_HASH_BCRYPT = 6;
 
-    /** @var int Passwords hashed by PHPs default algorithm, which may change over time */
-    public const PASSWORD_HASH_PHP_DEFAULT = 7;
+    public const int PASSWORD_HASH_PHP_DEFAULT = 7;
 
-    /** @var int Default password hash, used when none is specified, may change over time */
-    public const DEFAULT_PASSWORD_HASH = self::PASSWORD_HASH_PHP_DEFAULT;
+    public const int PASSWORD_HASH_INVALID = 256;
 
-    /**
-     * User login.
-     *
-     * @var string
-     */
-    protected $login;
+    public const int DEFAULT_PASSWORD_HASH = self::PASSWORD_HASH_PHP_DEFAULT;
 
-    /**
-     * User E-Mail address.
-     *
-     * @var string
-     */
-    protected $email;
+    protected string $login;
 
-    /**
-     * User password hash.
-     *
-     * @var string
-     */
-    protected $passwordHash;
+    protected string $email;
 
-    /**
-     * Datetime of last password update.
-     *
-     * @var \DateTimeInterface|null
-     */
-    protected $passwordUpdatedAt;
+    protected string $passwordHash;
 
-    /**
-     * Hash algorithm used to hash the password.
-     *
-     * @var int
-     */
-    protected $hashAlgorithm;
+    protected ?DateTimeInterface $passwordUpdatedAt;
+
+    protected int $hashAlgorithm;
 
     /**
      * Flag to signal if user is enabled or not.
      *
-     * User can not login if false
-     *
-     * @var bool
+     * User cannot login if false
      */
-    protected $enabled = false;
+    protected bool $enabled = false;
 
     /**
      * Max number of time user is allowed to login.
@@ -90,7 +64,7 @@ abstract class User extends Content implements UserReference
      *
      * @var int
      */
-    protected $maxLogin;
+    protected int $maxLogin;
 
     public function getUserId(): int
     {

@@ -10,7 +10,7 @@ namespace Ibexa\Core\Repository\User\Exception;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
-class UnsupportedPasswordHashType extends InvalidArgumentException
+final class UnsupportedPasswordHashType extends InvalidArgumentException
 {
     public function __construct(int $hashType)
     {

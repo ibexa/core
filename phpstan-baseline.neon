@@ -60561,41 +60561,6 @@ parameters:
 			path: tests/lib/Repository/Values/User/UserTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserTest\\:\\:testGetName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserTest\\:\\:testIsPropertySet\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserTest\\:\\:testMissingProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserTest\\:\\:testNewClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserTest\\:\\:testObjectProperties\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserTest\\:\\:testReadOnlyProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\User\\\\UserTest\\:\\:testUnsetProperty\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/User/UserTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Search\\\\Common\\\\FieldValueMapper\\\\RemoteIdentifierMapperTest\\:\\:getDataForTestCanMap\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/lib/Search/Common/FieldValueMapper/RemoteIdentifierMapperTest.php

@@ -15,10 +15,9 @@ use PHPUnit\Framework\TestCase;
 
 final class PasswordHashServiceTest extends TestCase
 {
-    private const NON_EXISTING_PASSWORD_HASH = PHP_INT_MAX;
+    private const int NON_EXISTING_PASSWORD_HASH = PHP_INT_MAX;
 
-    /** @var \Ibexa\Core\Repository\User\PasswordHashService */
-    private $passwordHashService;
+    private PasswordHashService $passwordHashService;
 
     protected function setUp(): void
     {
@@ -31,6 +30,7 @@ final class PasswordHashServiceTest extends TestCase
             [
                 User::PASSWORD_HASH_BCRYPT,
                 User::PASSWORD_HASH_PHP_DEFAULT,
+                User::PASSWORD_HASH_INVALID,
             ],
             $this->passwordHashService->getSupportedHashTypes()
         );
