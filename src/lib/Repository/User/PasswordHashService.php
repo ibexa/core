@@ -8,16 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\User;
 
+use Ibexa\Contracts\Core\Repository\PasswordHashService as APIPasswordHashService;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 
 /**
  * @internal
  */
-final class PasswordHashService implements PasswordHashServiceInterface
+final class PasswordHashService implements APIPasswordHashService
 {
-    /** @var int */
-    private $defaultHashType;
+    private int $defaultHashType;
 
     public function __construct(int $hashType = User::DEFAULT_PASSWORD_HASH)
     {
@@ -56,6 +56,9 @@ final class PasswordHashService implements PasswordHashServiceInterface
             case User::PASSWORD_HASH_PHP_DEFAULT:
                 return password_hash($password, PASSWORD_DEFAULT);
 
+            case User::PASSWORD_HASH_INVALID:
+                return '';
+
             default:
                 throw new UnsupportedPasswordHashType($hashType);
         }
@@ -68,7 +71,11 @@ final class PasswordHashService implements PasswordHashServiceInterface
         string $passwordHash,
         ?int $hashType = null
     ): bool {
-        if ($hashType === User::PASSWORD_HASH_BCRYPT || $hashType === User::PASSWORD_HASH_PHP_DEFAULT) {
+        if (
+            $hashType === User::PASSWORD_HASH_BCRYPT
+            || $hashType === User::PASSWORD_HASH_PHP_DEFAULT
+            || $hashType === User::PASSWORD_HASH_INVALID
+        ) {
             // In case of bcrypt let PHP's password functionality do its magic
             return password_verify($plainPassword, $passwordHash);
         }
