@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use PDO;
 
@@ -98,6 +100,27 @@ class DoctrineDatabase extends Gateway
             ->setParameter(':location_id', $locationIds, Connection::PARAM_INT_ARRAY);
 
         return $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function loadUserIdsByLocation(Location $location): array
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select(self::COLUMN_USER_ID)
+            ->from(self::TABLE_BOOKMARKS)
+            ->andWhere(
+                $queryBuilder
+                    ->expr()
+                    ->eq(
+                        self::COLUMN_LOCATION_ID,
+                        $queryBuilder->createNamedParameter(
+                            $location->id,
+                            ParameterType::INTEGER
+                        )
+                    )
+            );
+
+        return $queryBuilder->execute()->fetchFirstColumn();
     }
 
     /**

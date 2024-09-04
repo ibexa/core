@@ -49,7 +49,7 @@ services:
 
     Ibexa\Core\Search\Common\EventSubscriber\:
         resource: '../../../Search/Common/EventSubscriber/*'
-        exclude: '../../../Search/Common/EventSubscriber/{AbstractSearchEventSubscriber.php}'
+        exclude: '../../../Search/Common/EventSubscriber/{AbstractSearchEventSubscriber}'
         autoconfigure: true
         autowire: true
         public: false

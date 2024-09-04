@@ -11,6 +11,7 @@ namespace Ibexa\Core\Persistence\Cache;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 
 class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterface
 {
@@ -119,5 +120,14 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
 
         // Cache clearing is already done by locationHandler
         $this->persistenceHandler->bookmarkHandler()->locationSwapped($location1Id, $location2Id);
+    }
+
+    public function loadUserIdsByLocation(Location $location): array
+    {
+        $this->logger->logCall(__METHOD__, [
+            'locationId' => $location->id,
+        ]);
+
+        return $this->persistenceHandler->bookmarkHandler()->loadUserIdsByLocation($location);
     }
 }

@@ -13,6 +13,7 @@ use Doctrine\DBAL\Connection;
 use FOS\JsRoutingBundle\FOSJsRoutingBundle;
 use Ibexa\Bundle\Core\IbexaCoreBundle;
 use Ibexa\Bundle\LegacySearchEngine\IbexaLegacySearchEngineBundle;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
@@ -90,6 +91,8 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
         Repository\UserService::class,
         Repository\TokenService::class,
         Repository\URLAliasService::class,
+        Repository\BookmarkService::class,
+        Handler::class,
     ];
 
     /**

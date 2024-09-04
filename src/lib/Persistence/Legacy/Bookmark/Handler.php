@@ -11,6 +11,7 @@ namespace Ibexa\Core\Persistence\Legacy\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as HandlerInterface;
+use Ibexa\Contracts\Core\Persistence\Content\Location;
 
 /**
  * Storage Engine handler for bookmarks.
@@ -97,5 +98,13 @@ class Handler implements HandlerInterface
     public function locationSwapped(int $location1Id, int $location2Id): void
     {
         $this->gateway->locationSwapped($location1Id, $location2Id);
+    }
+
+    public function loadUserIdsByLocation(Location $location): array
+    {
+        return array_map(
+            static fn ($userId): int => (int)$userId,
+            $this->gateway->loadUserIdsByLocation($location)
+        );
     }
 }
