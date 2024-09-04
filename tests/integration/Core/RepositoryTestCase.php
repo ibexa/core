@@ -17,6 +17,7 @@ use InvalidArgumentException;
 abstract class RepositoryTestCase extends IbexaKernelTestCase
 {
     public const CONTENT_TREE_ROOT_ID = 2;
+    public const ADMIN_USER_ID = 14;
 
     private const CONTENT_TYPE_FOLDER_IDENTIFIER = 'folder';
     private const MAIN_USER_GROUP_REMOTE_ID = 'f5c88a2209584891056f987fd965b0ba';
