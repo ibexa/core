@@ -12,6 +12,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Event emitted before action execution.
+ *
+ * @link https://github.com/symfony/symfony/blob/5.4/src/Symfony/Contracts/EventDispatcher/Event.php Symfony\Contracts\EventDispatcher\Event
  */
 abstract class BeforeEvent extends Event
 {
