@@ -38,7 +38,6 @@ parameters:
         name_field_identifier: name
         parent_location_id: 51
 
-    ibexa.site_access.config.default.pagelayout: '%ibexa.default_templates.pagelayout%'
     ibexa.site_access.config.default.page_layout: '%ibexa.default_templates.pagelayout%'
 
     # List of content type identifiers to display as image when embedded
