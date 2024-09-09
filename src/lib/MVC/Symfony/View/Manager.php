@@ -26,26 +26,6 @@ class Manager implements ViewManagerInterface
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
-    /**
-     * @var array Array indexed by priority.
-     *            Each priority key is an array of Content View Provider objects having this priority.
-     *            The highest priority number is the highest priority
-     */
-    protected $contentViewProviders = [];
-
-    /**
-     * @var array Array indexed by priority.
-     *            Each priority key is an array of Location View Provider objects having this priority.
-     *            The highest priority number is the highest priority
-     */
-    protected $locationViewProviders = [];
-
-    /** @var \Ibexa\Core\MVC\Symfony\View\Provider\Content[] */
-    protected $sortedContentViewProviders;
-
-    /** @var \Ibexa\Core\MVC\Symfony\View\Provider\Location[] */
-    protected $sortedLocationViewProviders;
-
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     protected $repository;
 
@@ -82,91 +62,6 @@ class Manager implements ViewManagerInterface
         $this->viewBaseLayout = $viewBaseLayout;
         $this->logger = $logger;
         $this->viewConfigurator = $viewConfigurator;
-    }
-
-    /**
-     * Helper for {@see addContentViewProvider()} and {@see addLocationViewProvider()}.
-     *
-     * @param array $property
-     * @param \Ibexa\Core\MVC\Symfony\View\ViewProvider $viewProvider
-     * @param int $priority
-     */
-    private function addViewProvider(&$property, $viewProvider, $priority)
-    {
-        $priority = (int)$priority;
-        if (!isset($property[$priority])) {
-            $property[$priority] = [];
-        }
-
-        $property[$priority][] = $viewProvider;
-    }
-
-    /**
-     * Registers $viewProvider as a valid content view provider.
-     * When this view provider will be called in the chain depends on $priority. The highest $priority is, the earliest the router will be called.
-     *
-     * @param \Ibexa\Core\MVC\Symfony\View\ViewProvider $viewProvider
-     * @param int $priority
-     */
-    public function addContentViewProvider(ViewProvider $viewProvider, $priority = 0)
-    {
-        $this->addViewProvider($this->contentViewProviders, $viewProvider, $priority);
-    }
-
-    /**
-     * Registers $viewProvider as a valid location view provider.
-     * When this view provider will be called in the chain depends on $priority. The highest $priority is, the earliest the router will be called.
-     *
-     * @param \Ibexa\Core\MVC\Symfony\View\ViewProvider $viewProvider
-     * @param int $priority
-     */
-    public function addLocationViewProvider(ViewProvider $viewProvider, $priority = 0)
-    {
-        $this->addViewProvider($this->locationViewProviders, $viewProvider, $priority);
-    }
-
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\View\ViewProvider[]
-     */
-    public function getAllContentViewProviders()
-    {
-        if (empty($this->sortedContentViewProviders)) {
-            $this->sortedContentViewProviders = $this->sortViewProviders($this->contentViewProviders);
-        }
-
-        return $this->sortedContentViewProviders;
-    }
-
-    /**
-     * @return \Ibexa\Core\MVC\Symfony\View\ViewProvider[]
-     */
-    public function getAllLocationViewProviders()
-    {
-        if (empty($this->sortedLocationViewProviders)) {
-            $this->sortedLocationViewProviders = $this->sortViewProviders($this->locationViewProviders);
-        }
-
-        return $this->sortedLocationViewProviders;
-    }
-
-    /**
-     * Sort the registered view providers by priority.
-     * The highest priority number is the highest priority (reverse sorting).
-     *
-     * @param array $property view providers to sort
-     *
-     * @return \Ibexa\Core\MVC\Symfony\View\Provider\Content[]|\Ibexa\Core\MVC\Symfony\View\Provider\Location[]
-     */
-    protected function sortViewProviders($property)
-    {
-        $sortedViewProviders = [];
-        krsort($property);
-
-        foreach ($property as $viewProvider) {
-            $sortedViewProviders = array_merge($sortedViewProviders, $viewProvider);
-        }
-
-        return $sortedViewProviders;
     }
 
     /**
