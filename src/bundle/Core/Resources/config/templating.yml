@@ -18,17 +18,6 @@ services:
         tags:
             - {name: twig.extension}
 
-    Ibexa\Bundle\Core\View\Manager:
-        class: Ibexa\Bundle\Core\View\Manager
-        arguments:
-          - "@twig"
-          - "@event_dispatcher"
-          - '@ibexa.siteaccessaware.repository'
-          - '@ibexa.config.resolver'
-          - '%ibexa.content_view.viewbase_layout%'
-          - '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
-          - "@?logger"
-
     Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface:
         alias: Ibexa\Bundle\Core\Matcher\ViewMatcherRegistry
 
@@ -322,3 +311,9 @@ services:
     Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\UserPreferenceRuntime:
         autowire: true
         autoconfigure: true
+
+    Ibexa\Core\MVC\Symfony\View\Manager:
+        autowire: true
+        autoconfigure: true
+
+    Ibexa\Core\MVC\Symfony\View\ViewManagerInterface: '@Ibexa\Core\MVC\Symfony\View\Manager'
