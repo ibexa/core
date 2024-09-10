@@ -16,7 +16,6 @@ services:
             $gateway: '@Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage'
             $ioService: '@Ibexa\Core\FieldType\Image\IO\Legacy'
             $pathGenerator: '@Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator'
-            $imageSizeMetadataHandler: '@Ibexa\Core\IO\MetadataHandler\ImageSize'
             $aliasCleaner: '@Ibexa\Core\FieldType\Image\AliasCleanerInterface'
             $filePathNormalizer: '@Ibexa\Core\IO\FilePathNormalizerInterface'
             $fileExtensionBlackListValidator: '@Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator'
@@ -59,6 +58,3 @@ services:
         arguments: ['@Ibexa\Core\FieldType\User\UserStorage\Gateway\DoctrineStorage']
         tags:
             - {name: ibexa.field_type.storage.external.handler, alias: ezuser}
-
-    Ibexa\Core\IO\MetadataHandler\ImageSize:
-        class: Ibexa\Core\IO\MetadataHandler\ImageSize

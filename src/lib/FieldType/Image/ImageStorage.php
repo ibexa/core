@@ -29,9 +29,6 @@ class ImageStorage extends GatewayBasedStorage
     /** @var \Ibexa\Core\FieldType\Image\PathGenerator */
     protected $pathGenerator;
 
-    /** @var \Ibexa\Core\IO\MetadataHandler */
-    protected $imageSizeMetadataHandler;
-
     /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface */
     protected $aliasCleaner;
 
@@ -48,7 +45,6 @@ class ImageStorage extends GatewayBasedStorage
         StorageGatewayInterface $gateway,
         IOServiceInterface $ioService,
         PathGenerator $pathGenerator,
-        MetadataHandler $imageSizeMetadataHandler,
         AliasCleanerInterface $aliasCleaner,
         FilePathNormalizerInterface $filePathNormalizer,
         FileExtensionBlackListValidator $fileExtensionBlackListValidator
@@ -56,7 +52,6 @@ class ImageStorage extends GatewayBasedStorage
         parent::__construct($gateway);
         $this->ioService = $ioService;
         $this->pathGenerator = $pathGenerator;
-        $this->imageSizeMetadataHandler = $imageSizeMetadataHandler;
         $this->aliasCleaner = $aliasCleaner;
         $this->filePathNormalizer = $filePathNormalizer;
         $this->fileExtensionBlackListValidator = $fileExtensionBlackListValidator;
