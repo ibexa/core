@@ -17,16 +17,8 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 /**
  * Configuration parser handling all basic configuration (aka "Image").
  */
-class Image extends AbstractParser implements SuggestionCollectorAwareInterface
+class Image extends AbstractParser
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface */
-    private $suggestionCollector;
-
-    public function setSuggestionCollector(SuggestionCollectorInterface $suggestionCollector)
-    {
-        $this->suggestionCollector = $suggestionCollector;
-    }
-
     /**
      * Adds semantic configuration definition.
      *
@@ -35,13 +27,6 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
     public function addSemanticConfig(NodeBuilder $nodeBuilder)
     {
         $nodeBuilder
-            ->arrayNode('imagemagick')
-                ->info('DEPRECATED.')
-                ->children()
-                    ->scalarNode('pre_parameters')->info('Parameters that must be run BEFORE the filenames and filters')->end()
-                    ->scalarNode('post_parameters')->info('Parameters that must be run AFTER the filenames and filters')->end()
-                ->end()
-            ->end()
             ->arrayNode('image_variations')
                 ->info('Configuration for your image variations (aka "image aliases")')
                 ->example(
@@ -119,7 +104,7 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
             ->end()
             ->scalarNode('image_host')
                 ->info('Images host. All system images URLs are prefixed with given host if configured.')
-                ->example('https://ezplatform.com')
+                ->example('https://ibexa.co')
             ->end();
     }
 
@@ -132,11 +117,5 @@ class Image extends AbstractParser implements SuggestionCollectorAwareInterface
 
     public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
     {
-        if (isset($scopeSettings['imagemagick'])) {
-            $suggestion = new ConfigSuggestion(
-                '"imagemagick" settings are deprecated. Just remove them from your configuration file.'
-            );
-            $this->suggestionCollector->addSuggestion($suggestion);
-        }
     }
 }
