@@ -30,12 +30,12 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
     public function normalize($object, $format = null, array $context = []): array
     {
         return [
-            'scheme' => $object->scheme,
-            'host' => $object->host,
-            'port' => $object->port,
-            'pathinfo' => $object->pathinfo,
-            'queryParams' => $object->queryParams,
-            'languages' => $object->languages,
+            'scheme' => $object->getScheme(),
+            'host' => $object->getHost(),
+            'port' => $object->getPort(),
+            'pathinfo' => $object->getPathInfo(),
+            'queryParams' => $object->getQueryParams(),
+            'languages' => $object->getLanguages(),
             'headers' => [],
         ];
     }

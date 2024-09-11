@@ -91,7 +91,7 @@ class RouterHostElementTest extends RouterBaseTest
         $matcher->setRequest($request);
         $result = $matcher->reverseMatch($siteAccessName);
         self::assertInstanceOf(HostElement::class, $result);
-        self::assertSame($expectedHost, $result->getRequest()->host);
+        self::assertSame($expectedHost, $result->getRequest()->getHost());
     }
 
     public function reverseMatchProvider()

@@ -50,7 +50,7 @@ class Host extends Regex implements Matcher
     public function setRequest(SimplifiedRequest $request)
     {
         if (!$this->element) {
-            $this->setMatchElement($request->host);
+            $this->setMatchElement($request->getHost());
         }
 
         parent::setRequest($request);

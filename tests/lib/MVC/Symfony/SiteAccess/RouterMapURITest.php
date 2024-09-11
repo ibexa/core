@@ -108,6 +108,6 @@ class RouterMapURITest extends TestCase
         self::assertInstanceOf(URIMapMatcher::class, $result);
         self::assertSame($request, $matcher->getRequest());
         self::assertSame('toutouyoutou', $result->getMapKey());
-        self::assertSame('/toutouyoutou/foo', $result->getRequest()->pathinfo);
+        self::assertSame('/toutouyoutou/foo', $result->getRequest()->getPathInfo());
     }
 }
