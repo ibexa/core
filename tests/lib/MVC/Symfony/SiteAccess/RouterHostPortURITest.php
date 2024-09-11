@@ -116,7 +116,7 @@ class RouterHostPortURITest extends RouterBaseTest
         self::assertInstanceOf(Host::class, $result);
         self::assertSame($request, $matcher->getRequest());
         self::assertSame('phoenix-rises.fm', $result->getMapKey());
-        self::assertSame('phoenix-rises.fm', $result->getRequest()->host);
+        self::assertSame('phoenix-rises.fm', $result->getRequest()->getHost());
     }
 
     public function testSetGetRequestMapPort()
@@ -152,8 +152,8 @@ class RouterHostPortURITest extends RouterBaseTest
         self::assertInstanceOf(Port::class, $result);
         self::assertSame($request, $matcher->getRequest());
         self::assertSame(8000, $result->getMapKey());
-        self::assertSame(8000, $result->getRequest()->port);
-        self::assertSame('http', $result->getRequest()->scheme);
+        self::assertSame(8000, $result->getRequest()->getPort());
+        self::assertSame('http', $result->getRequest()->getScheme());
     }
 
     protected function createRouter(): Router

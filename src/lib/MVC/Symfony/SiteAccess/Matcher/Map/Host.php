@@ -25,7 +25,7 @@ class Host extends Map
     public function setRequest(SimplifiedRequest $request)
     {
         if (!$this->key) {
-            $this->setMapKey($request->host);
+            $this->setMapKey($request->getHost());
         }
 
         parent::setRequest($request);

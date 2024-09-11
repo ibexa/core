@@ -120,7 +120,7 @@ class RouterURIElementTest extends RouterBaseTest
         $matcher->setRequest(new SimplifiedRequest(['pathinfo' => $originalPathinfo]));
         $result = $matcher->reverseMatch($siteAccessName);
         self::assertInstanceOf(URIElement::class, $result);
-        self::assertSame("/{$siteAccessName}{$originalPathinfo}", $result->getRequest()->pathinfo);
+        self::assertSame("/{$siteAccessName}{$originalPathinfo}", $result->getRequest()->getPathInfo());
         self::assertSame("/$siteAccessName/some/linked/uri", $result->analyseLink('/some/linked/uri'));
         self::assertSame('/foo/bar/baz', $result->analyseURI("/$siteAccessName/foo/bar/baz"));
     }

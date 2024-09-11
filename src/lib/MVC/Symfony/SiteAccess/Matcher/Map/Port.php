@@ -25,10 +25,10 @@ class Port extends Map
     public function setRequest(SimplifiedRequest $request)
     {
         if (!$this->key) {
-            if (!empty($request->port)) {
-                $key = $request->port;
+            if (!empty($request->getPort())) {
+                $key = $request->getPort();
             } else {
-                switch ($request->scheme) {
+                switch ($request->getScheme()) {
                     case 'https':
                         $key = 443;
                         break;

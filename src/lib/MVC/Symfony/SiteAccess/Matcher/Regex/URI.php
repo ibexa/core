@@ -50,7 +50,7 @@ class URI extends Regex implements Matcher
     public function setRequest(SimplifiedRequest $request)
     {
         if (!$this->element) {
-            $this->setMatchElement($request->pathinfo);
+            $this->setMatchElement($request->getPathInfo());
         }
 
         parent::setRequest($request);
