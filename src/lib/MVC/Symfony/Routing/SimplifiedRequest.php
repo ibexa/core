@@ -9,67 +9,69 @@ namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
-/**
- * @property-read string $scheme @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getScheme()} instead.
- * @property-read string $host @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getHost()} instead.
- * @property-read string $port @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getPort()} instead.
- * @property-read string $pathinfo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getPathInfo()} instead.
- * @property-read array $queryParams @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getQueryParams()} instead.
- * @property-read array $languages @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getLanguages()} instead.
- * @property-read array $headers @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getHeaders()} instead.
- */
 class SimplifiedRequest extends ValueObject
 {
     /**
      * The request scheme (http or https).
-     *
-     * @var string
      */
-    protected $scheme;
+    protected string $scheme;
 
     /**
      * The host name.
-     *
-     * @var string
      */
-    protected $host;
+    protected string $host;
 
     /**
      * The port the request is made on.
-     *
-     * @var string
      */
-    protected $port;
+    protected string $port;
 
     /**
      * The path being requested relative to the executed script.
      * The path info always starts with a /.
-     *
-     * @var string
      */
-    protected $pathinfo;
+    protected string $pathinfo;
 
     /**
      * Array of parameters extracted from the query string.
-     *
-     * @var array
      */
-    protected $queryParams;
+    protected array $queryParams;
 
     /**
      * List of languages acceptable by the client browser.
      * The languages are ordered in the user browser preferences.
-     *
-     * @var array
      */
-    protected $languages;
+    protected array $languages;
 
     /**
      * Hash of request headers.
-     *
-     * @var array
      */
-    protected $headers;
+    protected array $headers;
+
+    public function __construct(
+        $properties = [],
+//        string $scheme = '', string $host = '', string $port = '', string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
+    ) {
+        $args = func_get_args();
+
+        if (func_num_args() === 1 && is_array($args[0]) && !empty($args[0])) {
+            trigger_deprecation(
+                'ibexa/core',
+                '5.0',
+                'The signature of method "%s()" now requires explicit arguments: "string $scheme, string $host, string $port, string $pathinfo, array $queryParams, array $languages, array $headers", using ValueObject array constructor is deprecated.',
+                __METHOD__
+            );
+            parent::__construct($properties);
+        } else {
+            $this->scheme = $args[0];
+            $this->host = $args[1];
+            $this->port = $args[2];
+            $this->pathinfo = $args[3];
+            $this->queryParams = $args[4];
+            $this->languages = $args[5];
+            $this->headers = $args[6];
+        }
+    }
 
     /**
      * @param array $headers
