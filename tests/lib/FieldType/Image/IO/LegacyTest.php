@@ -47,20 +47,6 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testGetExternalPath()
-    {
-        $this->publishedIoServiceMock
-            ->expects(self::once())
-            ->method('getExternalPath')
-            ->with('var/test/storage/images/path/file.png')
-            ->will(self::returnValue('path/file.png'));
-
-        self::assertEquals(
-            'path/file.png',
-            $this->service->getExternalPath('var/test/storage/images/path/file.png')
-        );
-    }
-
     public function testNewBinaryCreateStructFromLocalFile()
     {
         $path = '/tmp/file.png';
@@ -92,25 +78,6 @@ class LegacyTest extends TestCase
 
         self::assertTrue(
             $this->service->exists($path)
-        );
-    }
-
-    public function testGetInternalPath()
-    {
-        $id = 'path/file.png';
-        $internalPath = 'var/test/storage/images/path/file.png';
-
-        $this->publishedIoServiceMock
-            ->expects(self::once())
-            ->method('getInternalPath')
-            ->with($id)
-            ->will(self::returnValue($internalPath));
-
-        $this->draftIoServiceMock->expects(self::never())->method('getInternalPath');
-
-        self::assertEquals(
-            $internalPath,
-            $this->service->getInternalPath($id)
         );
     }
 
@@ -147,14 +114,8 @@ class LegacyTest extends TestCase
 
         $this->draftIoServiceMock
             ->expects(self::once())
-            ->method('getExternalPath')
+            ->method('loadBinaryFileByUri')
             ->with($internalId)
-            ->will(self::returnValue($id));
-
-        $this->draftIoServiceMock
-            ->expects(self::once())
-            ->method('loadBinaryFile')
-            ->with($id)
             ->will(self::returnValue($binaryFile));
 
         $this->publishedIoServiceMock->expects(self::never())->method('loadBinaryFile');
@@ -176,13 +137,7 @@ class LegacyTest extends TestCase
 
         $this->publishedIoServiceMock
             ->expects(self::once())
-            ->method('getExternalPath')
-            ->with($internalId)
-            ->will(self::returnValue($id));
-
-        $this->publishedIoServiceMock
-            ->expects(self::once())
-            ->method('loadBinaryFile')
+            ->method('loadBinaryFileByUri')
             ->with($id)
             ->will(self::returnValue($binaryFile));
 
@@ -201,9 +156,6 @@ class LegacyTest extends TestCase
     {
         $id = 'path/file.jpg';
         $binaryFile = new BinaryFile(['id' => $id]);
-
-        $this->draftIoServiceMock->expects(self::never())->method('getExternalPath');
-        $this->publishedIoServiceMock->expects(self::never())->method('getExternalPath');
 
         $this->publishedIoServiceMock
             ->expects(self::once())

@@ -23,17 +23,6 @@ interface IOServiceInterface
     public function setPrefix($prefix);
 
     /**
-     * Returns the external path to $internalPath.
-     *
-     * @param string $internalId
-     *
-     * @deprecated Since 5.4. Use loadBinaryFileByUri.
-     *
-     * @return string
-     */
-    public function getExternalPath($internalId);
-
-    /**
      * Creates a BinaryFileCreateStruct object from $localFile.
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException When given a non existing / unreadable file
@@ -52,17 +41,6 @@ interface IOServiceInterface
      * @return bool
      */
     public function exists($binaryFileId);
-
-    /**
-     * Returns the internal, handler level path to $externalPath.
-     *
-     * @param string $externalId
-     *
-     * @deprecated Since 5.4. Use the uri property.
-     *
-     * @return string
-     */
-    public function getInternalPath($externalId);
 
     /**
      * Loads the binary file with $id.

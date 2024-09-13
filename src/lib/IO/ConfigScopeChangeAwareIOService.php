@@ -43,11 +43,6 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
         $this->innerIOService->setPrefix($prefix);
     }
 
-    public function getExternalPath($internalId): string
-    {
-        return $this->innerIOService->getExternalPath($internalId);
-    }
-
     public function newBinaryCreateStructFromLocalFile($localFile): BinaryFileCreateStruct
     {
         return $this->innerIOService->newBinaryCreateStructFromLocalFile($localFile);
@@ -56,11 +51,6 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
     public function exists($binaryFileId): bool
     {
         return $this->innerIOService->exists($binaryFileId);
-    }
-
-    public function getInternalPath($externalId): string
-    {
-        return $this->innerIOService->getInternalPath($externalId);
     }
 
     public function loadBinaryFile($binaryFileId): BinaryFile
