@@ -197,16 +197,6 @@ class IOService implements IOServiceInterface
         );
     }
 
-    public function getInternalPath($binaryFileId)
-    {
-        return $this->binarydataHandler->getUri($this->getPrefixedUri($binaryFileId));
-    }
-
-    public function getExternalPath($internalId)
-    {
-        return $this->loadBinaryFileByUri($internalId)->id;
-    }
-
     public function getUri($binaryFileId)
     {
         return $this->binarydataHandler->getUri($binaryFileId);
