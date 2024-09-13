@@ -64,7 +64,7 @@ class PreviewLocationProviderTest extends TestCase
             ->with($contentId)
             ->will(self::returnValue([new Location(['id' => $parentLocationId])]));
 
-        $location = $this->provider->loadMainLocation($contentId);
+        $location = $this->provider->loadMainLocationByContent($content);
         self::assertInstanceOf(APILocation::class, $location);
         self::assertSame($content, $location->getContent());
         self::assertNull($location->id);
@@ -96,7 +96,7 @@ class PreviewLocationProviderTest extends TestCase
 
         $this->locationHandler->expects(self::never())->method('loadParentLocationsForDraftContent');
 
-        $returnedLocation = $this->provider->loadMainLocation($contentId);
+        $returnedLocation = $this->provider->loadMainLocationByContent($content);
         self::assertSame($location, $returnedLocation);
         self::assertSame($content, $location->getContent());
     }
@@ -120,7 +120,7 @@ class PreviewLocationProviderTest extends TestCase
 
         $this->locationHandler->expects(self::never())->method('loadLocationsByContent');
 
-        self::assertNull($this->provider->loadMainLocation($contentId));
+        self::assertNull($this->provider->loadMainLocationByContent($content));
     }
 
     private function getContentMock(int $contentId, ?int $mainLocationId = null, bool $published = false): Content

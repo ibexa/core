@@ -44,31 +44,6 @@ class PreviewLocationProvider
     }
 
     /**
-     * Loads the main location for $contentId.
-     *
-     * If the content does not have a location (yet), but has a Location draft, it is returned instead.
-     * Location drafts do not have an id (it is set to null), and can be tested using the isDraft() method.
-     *
-     * If the content doesn't have a location nor a location draft, null is returned.
-     *
-     * @deprecated Since 7.5.4, rather use loadMainLocationByContent.
-     * @see loadMainLocationByContent
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     *
-     * @param mixed $contentId
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location|null
-     */
-    public function loadMainLocation($contentId)
-    {
-        return $this->loadMainLocationByContent(
-            $this->contentService->loadContent($contentId)
-        );
-    }
-
-    /**
      * Loads the main location for $content.
      *
      * If the content does not have a location (yet), but has a Location draft, it is returned instead.
