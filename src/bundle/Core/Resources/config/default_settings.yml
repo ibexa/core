@@ -83,7 +83,6 @@ parameters:
     ibexa.repositories: {}
     ibexa.site_access.config.default.repository: ~
     ibexa.session_name.default: "IBX_SESSION_ID{siteaccess_hash}"
-    ibexa.site_access.config.default.session_name: '%ibexa.session_name.default%'    # Using "{siteaccess_hash}" in session name makes it unique per siteaccess
     ibexa.site_access.config.default.session: { name: '%ibexa.session_name.default%' } # Session options that will override options from framework
     ibexa.site_access.config.default.url_alias_router: true                       # Use UrlAliasRouter by default
     ibexa.site_access.config.default.index_page: ~                    # The page to show when accessing IndexPage (/)
@@ -97,7 +96,7 @@ parameters:
     ibexa.site_access.config.default.binary_dir: "original"
     ibexa.site_access.config.default.anonymous_user_id: 10            # The ID of the user to be used for everyone who is not logged in
     ibexa.site_access.config.default.user_content_type_identifier: ['user']
-    ibexa.site_access.config.default.api_keys: { google_maps: ~ }     # Google Maps APIs v3 key (https://developers.google.com/maps/documentation/javascript/get-api-key)
+    ibexa.site_access.config.default.api_keys: {}     # Google Maps APIs v3 key (https://developers.google.com/maps/documentation/javascript/get-api-key)
 
     # IO
     ibexa.site_access.config.default.io.metadata_handler: "default"
