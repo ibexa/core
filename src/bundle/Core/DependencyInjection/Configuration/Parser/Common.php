@@ -17,11 +17,8 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 /**
  * Configuration parser handling all basic configuration (aka "common").
  */
-class Common extends AbstractParser implements SuggestionCollectorAwareInterface
+class Common extends AbstractParser
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface */
-    private $suggestionCollector;
-
     /**
      * Adds semantic configuration definition.
      *
@@ -31,28 +28,6 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
     {
         $nodeBuilder
             ->scalarNode('repository')->info('The repository to use. Choose among ibexa.repositories.')->end()
-            // @deprecated
-            // Use ibexa.repositories / repository settings instead.
-            ->arrayNode('database')
-                ->info('DEPRECATED. Use ibexa.repositories / repository settings instead.')
-                ->children()
-                    ->enumNode('type')->values(['mysql', 'pgsql', 'sqlite'])->info('The database driver. Can be mysql, pgsql or sqlite.')->end()
-                    ->scalarNode('server')->end()
-                    ->scalarNode('port')->end()
-                    ->scalarNode('user')->cannotBeEmpty()->end()
-                    ->scalarNode('password')->end()
-                    ->scalarNode('database_name')->cannotBeEmpty()->end()
-                    ->scalarNode('charset')->defaultValue('utf8')->end()
-                    ->scalarNode('socket')->end()
-                    ->arrayNode('options')
-                        ->info('Arbitrary options, supported by your DB driver ("driver-opts" in PDO)')
-                        ->example(['foo' => 'bar', 'someOptionName' => ['one', 'two', 'three']])
-                        ->useAttributeAsKey('key')
-                        ->prototype('variable')->end()
-                    ->end()
-                    ->scalarNode('dsn')->info('Full database DSN. Will replace settings above.')->example('mysql://root:root@localhost:3306/ezdemo')->end()
-                ->end()
-            ->end()
             ->scalarNode('cache_service_name')
                 ->example('cache.app')
                 ->info('The cache pool service name to use for a siteaccess / siteaccess-group, *must* be present.')
@@ -66,10 +41,6 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
                 ->info('Collection of API keys')
                 ->addDefaultsIfNotSet()
                 ->children()
-                    ->scalarNode('google_maps')
-                        ->setDeprecated('The child node "%node%" at path "%path%" is no longer used and deprecated.')
-                        ->info('Google Maps API Key, required as of Google Maps v3 to make sure maps show up correctly.')
-                    ->end()
                 ->end()
             ->end()
             ->scalarNode('storage_dir')
@@ -79,10 +50,6 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
             ->scalarNode('binary_dir')
                 ->cannotBeEmpty()
                 ->info('Directory where binary files (from ezbinaryfile field type) are stored. Default value is "original"')
-            ->end()
-            // @deprecated since 5.3. Will be removed in 6.x.
-            ->scalarNode('session_name')
-                ->info('DEPRECATED. Use session.name instead.')
             ->end()
             ->arrayNode('session')
                 ->info('Session options. Will override options defined in Symfony framework.session.*')
@@ -147,9 +114,6 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
 
     public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer)
     {
-        if (isset($scopeSettings['database'])) {
-            $this->addDatabaseConfigSuggestion($currentScope, $scopeSettings['database']);
-        }
         if (isset($scopeSettings['repository'])) {
             $contextualizer->setContextualParameter('repository', $currentScope, $scopeSettings['repository']);
         }
@@ -169,19 +133,6 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
         $contextualizer->setContextualParameter('api_keys', $currentScope, $scopeSettings['api_keys']);
         foreach ($scopeSettings['api_keys'] as $key => $value) {
             $contextualizer->setContextualParameter('api_keys.' . $key, $currentScope, $value);
-        }
-
-        // session_name setting is deprecated in favor of session.name
-        $container = $contextualizer->getContainer();
-        $sessionOptions = $container->hasParameter("ibexa.site_access.config.$currentScope.session") ? $container->getParameter("ibexa.site_access.config.$currentScope.session") : [];
-        if (isset($sessionOptions['name'])) {
-            $contextualizer->setContextualParameter('session_name', $currentScope, $sessionOptions['name']);
-        }
-        // @deprecated session_name is deprecated, but if present, in addition to session.name, consider it instead (BC).
-        if (isset($scopeSettings['session_name'])) {
-            $sessionOptions['name'] = $scopeSettings['session_name'];
-            $contextualizer->setContextualParameter('session_name', $currentScope, $scopeSettings['session_name']);
-            $contextualizer->setContextualParameter('session', $currentScope, $sessionOptions);
         }
 
         if (isset($scopeSettings['http_cache']['purge_servers'])) {
@@ -205,90 +156,5 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
         if (isset($scopeSettings['page_layout'])) {
             $contextualizer->setContextualParameter('page_layout', $currentScope, $scopeSettings['page_layout']);
         }
-    }
-
-    /**
-     * Injects SuggestionCollector.
-     *
-     * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface $suggestionCollector
-     */
-    public function setSuggestionCollector(SuggestionCollectorInterface $suggestionCollector)
-    {
-        $this->suggestionCollector = $suggestionCollector;
-    }
-
-    private function addDatabaseConfigSuggestion($sa, array $databaseConfig)
-    {
-        $suggestion = new ConfigSuggestion(
-            <<<EOT
-Database configuration has changed for Ibexa Content repository.
-Please define:
- - An entry in ibexa.repositories
- - A Doctrine connection (You may check configuration reference for Doctrine "config:dump-reference doctrine" console command.)
- - A reference to configured repository in ibexa.system.$sa.repository
-EOT
-        );
-        $suggestion->setMandatory(true);
-        $suggestionArray = [
-            'driver' => 'pdo_mysql',
-            'host' => 'localhost',
-            'dbname' => 'my_database',
-            'user' => 'my_user',
-            'password' => 'some_password',
-            'charset' => 'UTF8',
-        ];
-
-        if (!empty($databaseConfig)) {
-            $suggestionArray['dbname'] = $databaseConfig['database_name'];
-            $suggestionArray['host'] = $databaseConfig['server'];
-            $driverMap = [
-                'mysql' => 'pdo_mysql',
-                'pgsql' => 'pdo_pgsql',
-                'sqlite' => 'pdo_sqlite',
-            ];
-            if (isset($driverMap[$databaseConfig['type']])) {
-                $suggestionArray['driver'] = $driverMap[$databaseConfig['type']];
-            } else {
-                $suggestionArray['driver'] = $databaseConfig['type'];
-            }
-            if (isset($databaseConfig['socket'])) {
-                $suggestionArray['unix_socket'] = $databaseConfig['socket'];
-            }
-            $suggestionArray['options'] = $databaseConfig['options'];
-            $suggestionArray['user'] = $databaseConfig['user'];
-            $suggestionArray['password'] = $databaseConfig['password'];
-        }
-        $suggestion->setSuggestion(
-            [
-                'doctrine' => [
-                    'dbal' => [
-                        'connections' => [
-                            'default' => $suggestionArray,
-                        ],
-                    ],
-                ],
-                'ibexa' => [
-                    'repositories' => [
-                        'my_repository' => [
-                            'storage' => [
-                                'engine' => 'legacy',
-                                'connection' => 'default',
-                            ],
-                            'search' => [
-                                'engine' => 'legacy',
-                                'connection' => 'default',
-                            ],
-                        ],
-                    ],
-                    'system' => [
-                        $sa => [
-                            'repository' => 'my_repository',
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $this->suggestionCollector->addSuggestion($suggestion);
     }
 }
