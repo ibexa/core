@@ -55,25 +55,6 @@ class LocaleConverter implements LocaleConverterInterface
         return $this->conversionMap[$ezpLocale];
     }
 
-    /**
-     * Converts a locale in POSIX format to Ibexa internal format.
-     * Returns null if conversion cannot be made.
-     *
-     * @param string $posixLocale
-     *
-     * @return string|null
-     */
-    public function convertToEz($posixLocale)
-    {
-        if (!isset($this->reverseConversionMap[$posixLocale])) {
-            $this->logger->warning("Could not convert locale '$posixLocale' to Ibexa format. Please check your locale configuration in ezplatform.yml");
-
-            return;
-        }
-
-        return $this->reverseConversionMap[$posixLocale];
-    }
-
     public function convertToRepository(string $posixLocale): ?string
     {
         if (!isset($this->reverseConversionMap[$posixLocale])) {

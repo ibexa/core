@@ -77,20 +77,6 @@ final class LocaleConverterTest extends TestCase
     /**
      * @dataProvider convertToRepositoryProvider
      */
-    public function testConvertToEz(string $posixLocale, ?string $expected): void
-    {
-        if ($expected === null) {
-            $this->logger
-                ->expects(self::once())
-                ->method('warning');
-        }
-
-        self::assertSame($expected, $this->localeConverter->convertToEz($posixLocale));
-    }
-
-    /**
-     * @dataProvider convertToRepositoryProvider
-     */
     public function testConvertToRepository(string $posixLocale, ?string $expected): void
     {
         if ($expected === null) {
