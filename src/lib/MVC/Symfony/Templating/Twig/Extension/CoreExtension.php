@@ -27,8 +27,6 @@ class CoreExtension extends AbstractExtension implements GlobalsInterface
     public function getGlobals(): array
     {
         return [
-            /** @deprecated ezplatform is deprecated since 4.0, use ibexa instead */
-            'ezplatform' => $this->globalHelper,
             'ibexa' => $this->globalHelper,
         ];
     }
