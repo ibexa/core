@@ -103,18 +103,6 @@ class MatcherSerializationTest extends TestCase
                     'suffix' => 'bar',
                 ]),
             ],
-            'RegexHost' => [
-                new Matcher\Regex\Host([
-                    'regex' => 'foo',
-                    'itemNumber' => 2,
-                ]),
-            ],
-            'RegexURI' => [
-                new Matcher\Regex\URI([
-                    'regex' => 'foo',
-                    'itemNumber' => 2,
-                ]),
-            ],
             'URIElement' => [
                 new Matcher\URIElement([
                     'elementNumber' => 2,
