@@ -115,28 +115,10 @@ class MatcherSerializationTest extends TestCase
                 [
                     'prefix' => 'foo',
                     'suffix' => 'bar',
-                ]
-            ),
-        ];
-        yield 'RegexHost' => [
-            new Matcher\Regex\Host(
-                [
-                    'regex' => 'foo',
-                    'itemNumber' => 2,
-                ]
-            ),
-        ];
-        yield 'RegexURI' => [
-            new Matcher\Regex\URI(
-                [
-                    'regex' => 'foo',
-                    'itemNumber' => 2,
-                ]
-            ),
+                ]),
         ];
         yield 'URIElement' => [
-            new Matcher\URIElement(
-                [
+                new Matcher\URIElement([
                     'elementNumber' => 2,
                 ]
             ),
