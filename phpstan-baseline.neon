@@ -9606,11 +9606,6 @@ parameters:
 			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: "#^Cannot call method fetchFirstColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
-			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\Keyword\\\\KeywordStorage\\\\Gateway\\\\DoctrineStorage\\:\\:assignKeywords\\(\\) has parameter \\$keywordMap with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
@@ -10173,11 +10168,6 @@ parameters:
 		-
 			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
 			count: 3
-			path: src/lib/FieldType/Url/UrlStorage/Gateway/DoctrineStorage.php
-
-		-
-			message: "#^Cannot call method fetchFirstColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
 			path: src/lib/FieldType/Url/UrlStorage/Gateway/DoctrineStorage.php
 
 		-
@@ -16108,11 +16098,6 @@ parameters:
 		-
 			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
 			count: 12
-			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
-
-		-
-			message: "#^Cannot call method fetchFirstColumn\\(\\) on Doctrine\\\\DBAL\\\\ForwardCompatibility\\\\Result\\|int\\|string\\.$#"
-			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabase.php
 
 		-
