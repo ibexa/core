@@ -11,7 +11,7 @@
   >
   <php>
     <ini name="error_reporting" value="-1" />
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[total]=576&amp;verbose=0"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[total]=631&amp;verbose=0"/>
   </php>
   <testsuites>
     <testsuite name="unit_core">
