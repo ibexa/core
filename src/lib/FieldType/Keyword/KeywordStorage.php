@@ -32,16 +32,15 @@ class KeywordStorage extends GatewayBasedStorage
      *
      * @return mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
         $contentTypeId = $this->gateway->getContentTypeId($field);
 
         return $this->gateway->storeFieldData($field, $contentTypeId);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
-        // @todo: This should already retrieve the ContentType ID
         return $this->gateway->getFieldData($field);
     }
 
@@ -52,7 +51,7 @@ class KeywordStorage extends GatewayBasedStorage
      *
      * @return bool
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context): bool
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
     {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->deleteFieldData($fieldId, $versionInfo->versionNo);
@@ -69,10 +68,5 @@ class KeywordStorage extends GatewayBasedStorage
     public function hasFieldData(): bool
     {
         return true;
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        return [];
     }
 }

@@ -16,24 +16,19 @@ use Ibexa\Core\FieldType\GatewayBasedStorage;
  */
 class GatewayBasedStorageHandler extends GatewayBasedStorage
 {
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {
     }
 
     public function hasFieldData()
     {
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        return [];
     }
 }

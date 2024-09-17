@@ -66,10 +66,10 @@ class BinaryBaseStorage extends GatewayBasedStorage
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
         if ($field->value->externalData === null) {
-            $this->deleteFieldData($versionInfo, [$field->id], $context);
+            $this->deleteFieldData($versionInfo, [$field->id]);
 
             return false;
         }
@@ -105,13 +105,13 @@ class BinaryBaseStorage extends GatewayBasedStorage
 
         $referenced = $this->gateway->getReferencedFiles([$field->id], $versionInfo->versionNo);
         if ($referenced === null || !in_array($field->value->externalData['id'], $referenced)) {
-            $this->removeOldFile($field->id, $versionInfo->versionNo, $context);
+            $this->removeOldFile($field->id, $versionInfo->versionNo);
         }
 
         $this->gateway->storeFileReference($versionInfo, $field);
     }
 
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField, array $context)
+    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField)
     {
         if ($originalField->value->externalData === null) {
             return false;
@@ -133,7 +133,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
      * @param string $versionNo
      * @param array $context
      */
-    protected function removeOldFile($fieldId, $versionNo, array $context)
+    protected function removeOldFile($fieldId, $versionNo)
     {
         $fileReference = $this->gateway->getFileReferenceData($fieldId, $versionNo);
         if ($fileReference === null) {
@@ -151,7 +151,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
         $field->value->externalData = $this->gateway->getFileReferenceData($field->id, $versionInfo->versionNo);
         if ($field->value->externalData !== null) {
@@ -175,7 +175,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {
         if (empty($fieldIds)) {
             return;
@@ -198,10 +198,5 @@ class BinaryBaseStorage extends GatewayBasedStorage
     public function hasFieldData()
     {
         return true;
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        return [];
     }
 }

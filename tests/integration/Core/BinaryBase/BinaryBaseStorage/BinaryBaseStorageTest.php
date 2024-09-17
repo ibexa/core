@@ -102,7 +102,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
             ->with($binaryFileCreateStruct)
             ->willReturn(new BinaryFile());
 
-        $this->storage->storeFieldData($versionInfo, $field, $this->getContext());
+        $this->storage->storeFieldData($versionInfo, $field);
 
         $this->expectNotToPerformAssertions();
     }
@@ -126,7 +126,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
             ],
         ]);
 
-        $flag = $this->storage->copyLegacyField($versionInfo, $field, $originalField, $this->getContext());
+        $flag = $this->storage->copyLegacyField($versionInfo, $field, $originalField);
 
         self::assertFalse($flag);
     }
