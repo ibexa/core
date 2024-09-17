@@ -28,11 +28,6 @@ interface Installer
     public function importData();
 
     /**
-     * @deprecated Inactive since 6.1, further info: https://issues.ibexa.co/browse/EZP-25369
-     */
-    public function createConfiguration();
-
-    /**
      * Handle optional import of binary files to var folder.
      */
     public function importBinaries();
