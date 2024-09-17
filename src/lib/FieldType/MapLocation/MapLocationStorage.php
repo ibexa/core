@@ -19,50 +19,23 @@ class MapLocationStorage extends GatewayBasedStorage
     /** @var \Ibexa\Core\FieldType\MapLocation\MapLocationStorage\Gateway */
     protected $gateway;
 
-    /**
-     * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context
-     *
-     * @return mixed
-     */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
         return $this->gateway->storeFieldData($versionInfo, $field);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
         $this->gateway->getFieldData($versionInfo, $field);
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param array $fieldIds
-     * @param array $context
-     *
-     * @return bool
-     */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {
         $this->gateway->deleteFieldData($versionInfo, $fieldIds);
     }
 
-    /**
-     * Checks if field type has external data to deal with.
-     *
-     * @return bool
-     */
     public function hasFieldData(): bool
     {
         return true;
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        // Handled by @see \Ibexa\Core\FieldType\MapLocation\SearchField::getIndexData()
-        return [];
     }
 }

@@ -14,8 +14,6 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  * Interface for setting field type data.
  *
  * Methods in this interface are called by storage engine.
- *
- * $context array passed to most methods is deprecated and will be dropped in the next major version.
  */
 interface FieldStorage
 {
@@ -32,18 +30,15 @@ interface FieldStorage
      * database back end on create, before the external data source may be
      * called from storing).
      *
-     * The context array is deprecated and will be dropped in the next major version.
-     *
      * This method might return true if $field needs to be updated after storage done here (to store a PK for instance).
      * In any other case, this method must not return anything (null).
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context Deprecated. Rely on injected Connection instead.
      *
      * @return mixed null|true
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context);
+    public function storeFieldData(VersionInfo $versionInfo, Field $field);
 
     /**
      * Populates $field value property based on the external data.
@@ -53,9 +48,8 @@ interface FieldStorage
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context Deprecated. Rely on injected Connection instead.
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context);
+    public function getFieldData(VersionInfo $versionInfo, Field $field);
 
     /**
      * Deletes field data for all $fieldIds in the version identified by
@@ -63,11 +57,10 @@ interface FieldStorage
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param array $fieldIds Array of field IDs
-     * @param array $context Deprecated. Rely on injected Connection instead.
      *
      * @return bool
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context);
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds);
 
     /**
      * Checks if field type has external data to deal with.
@@ -75,17 +68,4 @@ interface FieldStorage
      * @return bool
      */
     public function hasFieldData();
-
-    /**
-     * Get index data for external data for search backend.
-     *
-     * @deprecated Use {@see \Ibexa\Contracts\Core\FieldType\Indexable}
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context Deprecated. Rely on injected Connection instead.
-     *
-     * @return \Ibexa\Contracts\Core\Search\Field[]
-     */
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context);
 }
