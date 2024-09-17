@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\URL;
 
+use DateTimeInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 class URL extends ValueObject
@@ -53,4 +54,34 @@ class URL extends ValueObject
      * @var \DateTimeInterface
      */
     protected $modified;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function isValid(): bool
+    {
+        return $this->isValid;
+    }
+
+    public function getLastChecked(): ?DateTimeInterface
+    {
+        return $this->lastChecked;
+    }
+
+    public function getCreated(): ?DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function getModified(): ?DateTimeInterface
+    {
+        return $this->modified;
+    }
 }
