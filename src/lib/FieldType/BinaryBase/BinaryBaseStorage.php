@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\FieldType\BinaryBase;
 
-use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator;
+use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGeneratorInterface;
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\FieldType\StorageGatewayInterface;
@@ -30,14 +30,12 @@ class BinaryBaseStorage extends GatewayBasedStorage
      */
     protected $ioService;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator */
-    protected $pathGenerator;
+    protected PathGeneratorInterface $pathGenerator;
 
     /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector */
     protected $mimeTypeDetector;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator */
-    protected $downloadUrlGenerator;
+    protected PathGeneratorInterface $downloadUrlGenerator;
 
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway */
     protected $gateway;
@@ -48,7 +46,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
     public function __construct(
         StorageGatewayInterface $gateway,
         IOServiceInterface $ioService,
-        PathGenerator $pathGenerator,
+        PathGeneratorInterface $pathGenerator,
         MimeTypeDetector $mimeTypeDetector,
         FileExtensionBlackListValidator $fileExtensionBlackListValidator
     ) {
@@ -59,10 +57,7 @@ class BinaryBaseStorage extends GatewayBasedStorage
         $this->fileExtensionBlackListValidator = $fileExtensionBlackListValidator;
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator $downloadUrlGenerator
-     */
-    public function setDownloadUrlGenerator(PathGenerator $downloadUrlGenerator)
+    public function setDownloadUrlGenerator(PathGeneratorInterface $downloadUrlGenerator)
     {
         $this->downloadUrlGenerator = $downloadUrlGenerator;
     }

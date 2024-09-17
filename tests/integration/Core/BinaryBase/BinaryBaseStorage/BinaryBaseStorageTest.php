@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\BinaryBase\BinaryBaseStorage;
 
-use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator;
+use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGeneratorInterface;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
@@ -22,14 +22,14 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
 {
     /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
     protected $gateway;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $pathGeneratorMock;
+    protected PathGeneratorInterface&MockObject $pathGeneratorMock;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $ioServiceMock;
@@ -45,7 +45,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
         parent::setUp();
 
         $this->gateway = $this->getStorageGateway();
-        $this->pathGeneratorMock = $this->createMock(PathGenerator::class);
+        $this->pathGeneratorMock = $this->createMock(PathGeneratorInterface::class);
         $this->ioServiceMock = $this->createMock(IOServiceInterface::class);
         $this->fileExtensionBlackListValidatorMock = $this->createMock(
             FileExtensionBlackListValidator::class
