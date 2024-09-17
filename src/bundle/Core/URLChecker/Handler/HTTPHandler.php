@@ -7,7 +7,9 @@
 
 namespace Ibexa\Bundle\Core\URLChecker\Handler;
 
+use CurlHandle;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
+use LogicException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HTTPHandler extends AbstractConfigResolverBasedURLHandler
@@ -108,14 +110,9 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
     /**
      * Initialize and return a cURL session for given URL.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL $url
-     * @param array $handlers
-     * @param int $connectionTimeout
-     * @param int $timeout
-     *
-     * @return resource
+     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\URL\URL> $handlers
      */
-    private function createCurlHandlerForUrl(URL $url, array &$handlers, int $connectionTimeout, int $timeout)
+    private function createCurlHandlerForUrl(URL $url, array &$handlers, int $connectionTimeout, int $timeout): CurlHandle
     {
         $options = $this->getOptions();
         $handler = curl_init();
@@ -138,6 +135,10 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         }
 
         $handlers[(int)$handler] = $url;
+
+        if (false === $handler) {
+            throw new LogicException('Failed to create Curl handler for url', 1);
+        }
 
         return $handler;
     }
