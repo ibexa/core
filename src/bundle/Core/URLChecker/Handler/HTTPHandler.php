@@ -118,7 +118,7 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         $handler = curl_init();
 
         curl_setopt_array($handler, [
-            CURLOPT_URL => $url->url,
+            CURLOPT_URL => $url->getUrl(),
             CURLOPT_RETURNTRANSFER => false,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_CONNECTTIMEOUT => $connectionTimeout,
@@ -137,7 +137,7 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
         $handlers[(int)$handler] = $url;
 
         if (false === $handler) {
-            throw new LogicException('Failed to create Curl handler for url', 1);
+            throw new LogicException("Failed to create Curl handler for '{$url->getUrl()}' URL", 1);
         }
 
         return $handler;
