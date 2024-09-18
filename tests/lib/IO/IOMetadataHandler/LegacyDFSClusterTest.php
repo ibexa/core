@@ -132,7 +132,6 @@ class LegacyDFSClusterTest extends TestCase
         $expectedSpiBinaryFile->id = 'prefix/my/file.png';
         $expectedSpiBinaryFile->size = 123;
         $expectedSpiBinaryFile->mtime = new DateTime('@1307155200');
-        $expectedSpiBinaryFile->mimeType = 'image/png';
 
         self::assertEquals(
             $expectedSpiBinaryFile,

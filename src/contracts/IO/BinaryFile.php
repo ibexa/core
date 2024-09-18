@@ -43,15 +43,4 @@ class BinaryFile
      * @var string
      */
     public $uri;
-
-    /**
-     * The file's mime type.
-     *
-     * Example: text/xml
-     *
-     * @deprecated Since 5.3.3, use IO\Handler::getMimeType()
-     *
-     * @var string
-     */
-    public $mimeType;
 }
