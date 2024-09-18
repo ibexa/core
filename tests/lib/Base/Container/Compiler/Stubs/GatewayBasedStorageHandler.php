@@ -7,9 +7,9 @@
 
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Stubs;
 
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Core\FieldType\GatewayBasedStorage;
 
 /**
  * Stub implementation of GatewayBasedStorage.
