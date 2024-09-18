@@ -247,7 +247,6 @@ class IOService implements IOServiceInterface
                 'mtime' => $spiBinaryFile->mtime,
                 'id' => $this->removeUriPrefix($spiBinaryFile->id),
                 'uri' => $spiBinaryFile->uri,
-                'mimeType' => $spiBinaryFile->mimeType ?: $this->metadataHandler->getMimeType($spiBinaryFile->id),
             ]
         );
     }

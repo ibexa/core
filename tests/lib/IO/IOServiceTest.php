@@ -53,39 +53,6 @@ class IOServiceTest extends TestCase
         );
     }
 
-    /**
-     * Test creating new BinaryCreateStruct from uploaded file.
-     */
-    public function testNewBinaryCreateStructFromUploadedFile()
-    {
-        self::markTestSkipped('Test skipped as it seems to depend on php-cgi');
-        $uploadTest = $this->getFileUploadTest();
-        $result = $uploadTest->run(); // Fails because of unset cgi param and missing php-cgi exe
-        // Params bellow makes the code execute but fails:
-        //->run( null, array( 'cgi' => 'php' ) );
-
-        if ($result->failureCount() > 0) {
-            self::fail(
-                'Failed file upload test, failureCount() > 0: ' .
-                $this->expandFailureMessages($result->failures())
-            );
-        }
-
-        if ($result->errorCount() > 0) {
-            self::fail(
-                'Failed file upload test, errorCount() > 0: ' .
-                $this->expandFailureMessages($result->errors())
-            );
-        }
-
-        if ($result->skippedCount() > 0) {
-            self::fail(
-                'Failed file upload test, skippedCount() > 0: ' .
-                $this->expandFailureMessages($result->skipped())
-            );
-        }
-    }
-
     public function testNewBinaryCreateStructFromLocalFile()
     {
         $file = __FILE__;
@@ -121,7 +88,6 @@ class IOServiceTest extends TestCase
         $spiBinaryFile->id = $id;
         $spiBinaryFile->uri = $id;
         $spiBinaryFile->size = filesize(__FILE__);
-        $spiBinaryFile->mimeType = 'text/x-php';
 
         $this->binarydataHandlerMock
             ->expects(self::once())
@@ -159,7 +125,6 @@ class IOServiceTest extends TestCase
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $spiId;
         $spiBinaryFile->size = 12345;
-        $spiBinaryFile->mimeType = 'application/any';
         $spiBinaryFile->uri = $spiId;
 
         $this->metadataHandlerMock
@@ -220,7 +185,6 @@ class IOServiceTest extends TestCase
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $spiId;
         $spiBinaryFile->size = 12345;
-        $spiBinaryFile->mimeType = 'application/any';
         $spiBinaryFile->uri = $spiId;
 
         $this->binarydataHandlerMock
@@ -366,9 +330,6 @@ class IOServiceTest extends TestCase
         $this->getIOService()->deleteDirectory('some/directory');
     }
 
-    /**
-     * @return mixed Whatever deleteBinaryFile returned
-     */
     public function testDeleteBinaryFileNotFound()
     {
         $this->expectException(BinaryFileNotFoundException::class);
