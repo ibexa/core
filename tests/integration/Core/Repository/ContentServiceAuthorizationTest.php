@@ -720,9 +720,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
@@ -734,13 +732,11 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
 
-        $this->contentService->loadContentDrafts();
+        $this->contentService->loadContentDraftList();
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts($user)
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
      */
@@ -751,7 +747,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
 
-        $this->contentService->loadContentDrafts($this->administratorUser);
+        $this->contentService->loadContentDraftList($this->administratorUser);
     }
 
     /**

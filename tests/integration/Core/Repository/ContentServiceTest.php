@@ -2402,25 +2402,21 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
     public function testLoadContentDraftsReturnsEmptyArrayByDefault()
     {
-        $contentDrafts = $this->contentService->loadContentDrafts();
+        $contentDrafts = $this->contentService->loadContentDraftList();
 
-        self::assertSame([], $contentDrafts);
+        self::assertSame([], $contentDrafts->items);
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      *
      * @depends testCreateContentDraft
      */
-    public function testLoadContentDrafts()
+    public function testLoadContentDraftList()
     {
         // "Media" content object
         $mediaContentInfo = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
@@ -2433,7 +2429,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->createContentDraft($demoDesignContentInfo);
 
         // Now $contentDrafts should contain two drafted versions
-        $draftedVersions = iterator_to_array($this->contentService->loadContentDrafts());
+        $draftedVersions = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 
         $actual = [
             $draftedVersions[0]->status,
@@ -2455,9 +2451,7 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts($user)
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      */
     public function testLoadContentDraftsWithFirstParameter()
     {
@@ -2479,8 +2473,8 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->permissionResolver->setCurrentUserReference($oldCurrentUser);
 
         // Now $contentDrafts for the previous current user and the new user
-        $newCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDrafts($user));
-        $oldCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDrafts());
+        $newCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList($user)->getIterator());
+        $oldCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 
         self::assertSame([], $oldCurrentUserDrafts);
 
@@ -2502,7 +2496,7 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadContentDraftList() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
     public function testLoadContentDraftListWithPaginationParameters()
     {
@@ -2528,7 +2522,7 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadContentDraftList() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts($user)
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      */
     public function testLoadContentDraftListWithForUserWithLimitation()
     {
@@ -2567,9 +2561,9 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadContentDraftList() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
-    public function testLoadAllContentDrafts()
+    public function testLoadAllContentDraftList()
     {
         // Create more drafts then default pagination limit
         $this->createContentDrafts(12);
@@ -4985,7 +4979,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @depends testCreateContent
      * @depends testLoadContentInfo
-     * @depends testLoadContentDrafts
+     * @depends testLoadContentDraftList
      */
     public function testDeleteVersionInTransactionWithRollback()
     {
@@ -5013,9 +5007,9 @@ class ContentServiceTest extends BaseContentServiceTest
         $repository->rollback();
 
         // This array will be empty
-        $drafts = $this->contentService->loadContentDrafts();
+        $drafts = $this->contentService->loadContentDraftList();
 
-        self::assertSame([], $drafts);
+        self::assertSame([], $drafts->items);
     }
 
     /**
@@ -5053,9 +5047,9 @@ class ContentServiceTest extends BaseContentServiceTest
         }
 
         // This array will contain no element
-        $drafts = $this->contentService->loadContentDrafts();
+        $drafts = $this->contentService->loadContentDraftList();
 
-        self::assertSame([], $drafts);
+        self::assertSame([], $drafts->items);
     }
 
     /**

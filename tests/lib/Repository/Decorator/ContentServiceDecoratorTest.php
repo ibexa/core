@@ -248,16 +248,16 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->createContentDraft(...$parameters);
     }
 
-    public function testLoadContentDraftsDecorator()
+    public function testLoadContentDraftListDecorator()
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [$this->createMock(User::class)];
 
-        $serviceMock->expects(self::once())->method('loadContentDrafts')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects(self::once())->method('loadContentDraftList')->with(...$parameters)->willReturn([]);
 
-        $decoratedService->loadContentDrafts(...$parameters);
+        $decoratedService->loadContentDraftList(...$parameters);
     }
 
     public function testUpdateContentDecorator()
