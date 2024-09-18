@@ -157,11 +157,6 @@ class ContentService implements ContentServiceInterface
         return $this->service->countContentDrafts($user);
     }
 
-    public function loadContentDrafts(?User $user = null): iterable
-    {
-        return $this->service->loadContentDrafts($user);
-    }
-
     public function loadContentDraftList(?User $user = null, int $offset = 0, int $limit = -1): ContentDraftList
     {
         return $this->service->loadContentDraftList($user, $offset, $limit);

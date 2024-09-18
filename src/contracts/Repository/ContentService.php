@@ -288,21 +288,6 @@ interface ContentService
     public function countContentDrafts(?User $user = null): int;
 
     /**
-     * Loads drafts for a user.
-     *
-     * If no user is given the drafts for the authenticated user are returned
-     *
-     * @deprecated Please use {@see ContentService::loadContentDraftList()} instead to avoid risking loading too much data.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current-user is not allowed to load the draft list
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user The user to load drafts for, if defined, otherwise drafts for current-user
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] the drafts ({@see VersionInfo}) owned by the given user
-     */
-    public function loadContentDrafts(?User $user = null): iterable;
-
-    /**
      * Loads drafts for a user when content is not in the trash. The list is sorted by modification date.
      *
      * If no user is given the drafts for the authenticated user are returned
