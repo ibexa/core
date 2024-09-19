@@ -1961,21 +1961,6 @@ class ContentService implements ContentServiceInterface
         return $this->internalLoadContentById($content->id);
     }
 
-    public function loadRelations(APIVersionInfo $versionInfo): iterable
-    {
-        if ($versionInfo->isPublished()) {
-            $function = 'read';
-        } else {
-            $function = 'versionread';
-        }
-
-        if (!$this->permissionResolver->canUser('content', $function, $versionInfo)) {
-            throw new UnauthorizedException('content', $function);
-        }
-
-        return $this->internalLoadRelations($versionInfo);
-    }
-
     /**
      * Loads all outgoing relations for the given version without checking the permissions.
      *

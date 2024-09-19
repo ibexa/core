@@ -23,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -1385,7 +1386,7 @@ class ContentServiceTest extends BaseContentServiceTest
             ],
             [
                 'fieldCount' => count($draft->getFields()),
-                'relationCount' => count($this->getRepository()->getContentService()->loadRelations($draft->getVersionInfo())),
+                'relationCount' => count($this->getRepository()->getContentService()->loadRelationList($draft->getVersionInfo())->items),
             ]
         );
     }
@@ -3512,7 +3513,10 @@ class ContentServiceTest extends BaseContentServiceTest
 
         self::assertInstanceOf(Relation::class, $relation);
 
-        return $this->contentService->loadRelations($draft->getVersionInfo());
+        return array_filter(array_map(
+            static fn (RelationListItemInterface $relationListItem): ?Relation => $relationListItem->getRelation(),
+            $this->contentService->loadRelationList($draft->getVersionInfo())->items
+        ));
     }
 
     /**
@@ -3590,7 +3594,10 @@ class ContentServiceTest extends BaseContentServiceTest
         $content = $this->contentService->publishVersion($draft->versionInfo);
         $newDraft = $this->contentService->createContentDraft($content->contentInfo);
 
-        return $this->contentService->loadRelations($newDraft->getVersionInfo());
+        return array_filter(array_map(
+            static fn (RelationListItemInterface $relationListItem): ?Relation => $relationListItem->getRelation(),
+            $this->contentService->loadRelationList($newDraft->getVersionInfo())->items
+        ));
     }
 
     /**
@@ -3649,57 +3656,10 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadRelations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends testAddRelation
-     */
-    public function testLoadRelations()
-    {
-        $draft = $this->createContentWithRelations();
-
-        $relations = iterator_to_array($this->contentService->loadRelations($draft->getVersionInfo()));
-
-        usort(
-            $relations,
-            static function ($rel1, $rel2): int {
-                return strcasecmp(
-                    $rel2->getDestinationContentInfo()->remoteId,
-                    $rel1->getDestinationContentInfo()->remoteId
-                );
-            }
-        );
-
-        self::assertEquals(
-            [
-                [
-                    'sourceContentInfo' => 'abcdef0123456789abcdef0123456789',
-                    'destinationContentInfo' => self::MEDIA_REMOTE_ID,
-                ],
-                [
-                    'sourceContentInfo' => 'abcdef0123456789abcdef0123456789',
-                    'destinationContentInfo' => self::DEMO_DESIGN_REMOTE_ID,
-                ],
-            ],
-            [
-                [
-                    'sourceContentInfo' => $relations[0]->sourceContentInfo->remoteId,
-                    'destinationContentInfo' => $relations[0]->destinationContentInfo->remoteId,
-                ],
-                [
-                    'sourceContentInfo' => $relations[1]->sourceContentInfo->remoteId,
-                    'destinationContentInfo' => $relations[1]->destinationContentInfo->remoteId,
-                ],
-            ]
-        );
-    }
-
-    /**
-     * Test for the loadRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
-     *
-     * @depends testAddRelation
-     * @depends testLoadRelations
+     * @depends loadRelationList
      */
     public function testLoadRelationsSkipsArchivedContent()
     {
@@ -3730,7 +3690,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $trashService->trash($demoDesignLocation);
 
         // Load all relations
-        $relations = iterator_to_array($this->contentService->loadRelations($draft->getVersionInfo()));
+        $relations = iterator_to_array($this->contentService->loadRelationList($draft->getVersionInfo())->getIterator());
 
         self::assertCount(1, $relations);
         self::assertEquals(
@@ -3752,10 +3712,10 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadRelations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends testAddRelation
-     * @depends testLoadRelations
+     * @depends loadRelationList
      */
     public function testLoadRelationsSkipsDraftContent()
     {
@@ -3781,7 +3741,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $demoDesign
         );
 
-        $relations = iterator_to_array($this->contentService->loadRelations($mediaDraft->getVersionInfo()));
+        $relations = iterator_to_array($this->contentService->loadRelationList($mediaDraft->getVersionInfo())->getIterator());
 
         self::assertCount(1, $relations);
         self::assertEquals(
@@ -4014,7 +3974,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->publishVersion($mediaDraft->getVersionInfo());
         $this->contentService->publishVersion($demoDesignDraft->getVersionInfo());
 
-        $relations = $this->contentService->loadRelations($versionInfo);
+        $relations = $this->contentService->loadRelationList($versionInfo);
         $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($contentInfo));
 
         self::assertEquals($contentInfo->id, $relation1->getDestinationContentInfo()->id);
@@ -4106,7 +4066,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $trashService->trash($demoDesignLocation);
 
         // Load all relations
-        $relations = $this->contentService->loadRelations($versionInfo);
+        $relations = $this->contentService->loadRelationList($versionInfo);
         $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($contentInfo));
 
         self::assertEquals($contentInfo->id, $relation1->getDestinationContentInfo()->id);
@@ -4170,7 +4130,7 @@ class ContentServiceTest extends BaseContentServiceTest
         // We will not publish new Content draft, therefore relation from it
         // will not be loaded as reverse relation for "Media" page
 
-        $relations = $this->contentService->loadRelations($media->versionInfo);
+        $relations = $this->contentService->loadRelationList($media->versionInfo);
         $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($media->contentInfo));
 
         self::assertEquals($media->contentInfo->id, $relation1->getDestinationContentInfo()->id);
@@ -4374,7 +4334,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteRelation()
      *
-     * @depends testLoadRelations
+     * @depends testLoadRelationList
      */
     public function testDeleteRelation()
     {
@@ -4391,7 +4351,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->deleteRelation($draft->getVersionInfo(), $media);
 
         // The relations array now contains only one element
-        $relations = $this->contentService->loadRelations($draft->getVersionInfo());
+        $relations = $this->contentService->loadRelationList($draft->getVersionInfo());
 
         self::assertCount(1, $relations);
     }
