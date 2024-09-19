@@ -14,47 +14,50 @@ class SimplifiedRequest extends ValueObject
     /**
      * The request scheme (http or https).
      */
-    protected string $scheme;
+    protected ?string $scheme = null;
 
     /**
      * The host name.
      */
-    protected string $host;
+    protected ?string $host = null;
 
     /**
      * The port the request is made on.
      */
-    protected string $port;
+    protected ?int $port = null;
 
     /**
      * The path being requested relative to the executed script.
      * The path info always starts with a /.
      */
-    protected string $pathinfo;
+    protected ?string $pathinfo = null;
 
     /**
      * Array of parameters extracted from the query string.
      */
-    protected array $queryParams;
+    protected ?array $queryParams = null;
 
     /**
      * List of languages acceptable by the client browser.
      * The languages are ordered in the user browser preferences.
      */
-    protected array $languages;
+    protected ?array $languages = null;
 
     /**
      * Hash of request headers.
      */
-    protected array $headers;
+    protected ?array $headers = null;
 
     public function __construct(
+        //string $scheme = '', string $host = '', string $port = '', string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
         $properties = [],
-//        string $scheme = '', string $host = '', string $port = '', string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
     ) {
         $args = func_get_args();
 
-        if (func_num_args() === 1 && is_array($args[0]) && !empty($args[0])) {
+        if (
+            (func_num_args() === 1 && is_array($args[0])) ||
+            empty($args)
+        ) {
             trigger_deprecation(
                 'ibexa/core',
                 '5.0',
@@ -63,13 +66,13 @@ class SimplifiedRequest extends ValueObject
             );
             parent::__construct($properties);
         } else {
-            $this->scheme = $args[0];
-            $this->host = $args[1];
-            $this->port = $args[2];
-            $this->pathinfo = $args[3];
-            $this->queryParams = $args[4];
-            $this->languages = $args[5];
-            $this->headers = $args[6];
+            $this->scheme = $args[0] ?? null;
+            $this->host = $args[1] ?? null;
+            $this->port = isset($args[2]) ? (int)$args[2] : null;
+            $this->pathinfo = $args[3] ?? null;
+            $this->queryParams = $args[4] ?? null;
+            $this->languages = $args[5] ?? null;
+            $this->headers = $args[6] ?? null;
         }
     }
 
@@ -106,7 +109,7 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @param string $port
+     * @param int $port
      */
     public function setPort($port)
     {
@@ -151,7 +154,15 @@ class SimplifiedRequest extends ValueObject
         // Remove unwanted keys returned by parse_url() so that we don't have them as properties.
         unset($elements['path'], $elements['query'], $elements['user'], $elements['pass'], $elements['fragment']);
 
-        return new static($elements);
+        return new static(
+            $elements['scheme'] ?? null,
+            $elements['host'] ?? null,
+            $elements['port'] ?? null,
+            $elements['pathinfo'] ?? null,
+            $elements['queryParams'] ?? null,
+            $elements['languages'] ?? null,
+            $elements['headers'] ?? null,
+        );
     }
 
     public function __sleep()
@@ -165,17 +176,17 @@ class SimplifiedRequest extends ValueObject
     /**
      * The request scheme - http or https.
      */
-    public function getScheme(): string
+    public function getScheme(): ?string
     {
         return $this->scheme;
     }
 
-    public function getHost(): string
+    public function getHost(): ?string
     {
         return $this->host;
     }
 
-    public function getPort(): string
+    public function getPort(): ?int
     {
         return $this->port;
     }
@@ -183,23 +194,23 @@ class SimplifiedRequest extends ValueObject
     /**
      * The path being requested relative to the executed script.
      */
-    public function getPathInfo(): string
+    public function getPathInfo(): ?string
     {
         return $this->pathinfo;
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed>|null
      */
-    public function getQueryParams(): array
+    public function getQueryParams(): ?array
     {
         return $this->queryParams;
     }
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
-    public function getLanguages(): array
+    public function getLanguages(): ?array
     {
         return $this->languages;
     }
@@ -213,9 +224,9 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @return array<string, array<string>>
+     * @return array<string, array<string>>|null
      */
-    public function getHeaders(): array
+    public function getHeaders(): ?array
     {
         return $this->headers;
     }

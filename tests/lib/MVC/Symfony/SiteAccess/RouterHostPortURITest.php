@@ -143,7 +143,7 @@ class RouterHostPortURITest extends RouterBaseTest
             '443' => 'another_siteaccess',
             8000 => 'ibexa_demo_site',
         ];
-        $request = new SimplifiedRequest(['scheme' => 'http', 'host' => 'ibexa.co']);
+        $request = new SimplifiedRequest('http', 'ibexa.co');
         $matcher = new Port($config);
         $matcher->setRequest($request);
         self::assertSame(80, $matcher->getMapKey());
