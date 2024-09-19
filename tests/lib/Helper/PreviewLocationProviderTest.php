@@ -48,12 +48,6 @@ class PreviewLocationProviderTest extends TestCase
         $parentLocationId = 456;
         $content = $this->getContentMock($contentId);
 
-        $this->contentService
-            ->expects(self::once())
-            ->method('loadContent')
-            ->with($contentId)
-            ->willReturn($content);
-
         $this->locationService
             ->expects(self::never())
             ->method('loadLocation');
@@ -82,12 +76,6 @@ class PreviewLocationProviderTest extends TestCase
             ->setConstructorArgs([['id' => $locationId, 'content' => $content]])
             ->getMockForAbstractClass();
 
-        $this->contentService
-            ->expects(self::once())
-            ->method('loadContent')
-            ->with($contentId)
-            ->willReturn($content);
-
         $this->locationService
             ->expects(self::once())
             ->method('loadLocation')
@@ -105,12 +93,6 @@ class PreviewLocationProviderTest extends TestCase
     {
         $contentId = 123;
         $content = $this->getContentMock($contentId);
-
-        $this->contentService
-            ->expects(self::once())
-            ->method('loadContent')
-            ->with($contentId)
-            ->willReturn($content);
 
         $this->locationHandler
             ->expects(self::once())
