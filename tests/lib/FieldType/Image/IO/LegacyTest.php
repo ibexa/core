@@ -138,7 +138,7 @@ class LegacyTest extends TestCase
         $this->publishedIoServiceMock
             ->expects(self::once())
             ->method('loadBinaryFileByUri')
-            ->with($id)
+            ->with($internalId)
             ->will(self::returnValue($binaryFile));
 
         $this->draftIoServiceMock->expects(self::never())->method('loadBinaryFile');
