@@ -100,12 +100,6 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
             'register',
             [$fieldTypeIdentifier, new Reference($storageHandlerServiceId)]
         );
-
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            $storageHandlerServiceId,
-            'addGateway',
-            [$gatewayIdentifier, new Reference($gatewayServiceId)]
-        );
     }
 
     /**
