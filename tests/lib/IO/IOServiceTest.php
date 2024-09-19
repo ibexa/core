@@ -284,10 +284,10 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('getMimeType')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)))
-            ->will(self::returnValue($binaryFile->mimeType));
+            ->willReturn('text/x-php');
 
         self::assertEquals(
-            $binaryFile->mimeType,
+            'text/x-php',
             $this->getIOService()->getMimeType(
                 $binaryFile->id
             )
