@@ -9,6 +9,8 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Core\Repository\Values\Content\Relation;
 
 /**
@@ -47,8 +49,8 @@ trait RelationSearchBaseIntegrationTestTrait
             $this->normalizeRelations(
                 $this->getCreateExpectedRelations($content)
             ),
-            $this->normalizeRelations(
-                $this->getRepository()->getContentService()->loadRelations($content->versionInfo)
+            $this->getRelations(
+                $this->getRepository()->getContentService()->loadRelationList($content->versionInfo)
             )
         );
     }
@@ -65,7 +67,9 @@ trait RelationSearchBaseIntegrationTestTrait
                 $this->getUpdateExpectedRelations($content)
             ),
             $this->normalizeRelations(
-                $this->getRepository()->getContentService()->loadRelations($content->versionInfo)
+                $this->getRelations(
+                    $this->getRepository()->getContentService()->loadRelationList($content->versionInfo)
+                )
             )
         );
     }
@@ -125,7 +129,9 @@ trait RelationSearchBaseIntegrationTestTrait
                 $this->getUpdateExpectedRelations($copy)
             ),
             $this->normalizeRelations(
-                $this->getRepository()->getContentService()->loadRelations($copy->versionInfo)
+                $this->getRelations(
+                    $this->getRepository()->getContentService()->loadRelationList($copy->versionInfo)
+                )
             )
         );
 
@@ -135,7 +141,9 @@ trait RelationSearchBaseIntegrationTestTrait
                 $this->getCreateExpectedRelations($firstVersion)
             ),
             $this->normalizeRelations(
-                $this->getRepository()->getContentService()->loadRelations($firstVersion->versionInfo)
+                $this->getRelations(
+                    $this->getRepository()->getContentService()->loadRelationList($firstVersion->versionInfo)
+                )
             )
         );
     }
@@ -157,13 +165,27 @@ trait RelationSearchBaseIntegrationTestTrait
         );
 
         $copy = $contentService->loadContent($copiedLocation->getContentInfo()->id);
+
         $this->assertEquals(
             $this->normalizeRelations(
                 $this->getCreateExpectedRelations($copy)
             ),
             $this->normalizeRelations(
-                $this->getRepository()->getContentService()->loadRelations($copy->versionInfo)
+                $this->getRelations(
+                    $this->getRepository()->getContentService()->loadRelationList($copy->versionInfo)
+                )
             )
         );
+    }
+
+    /**
+     * @return \Ibexa\Core\Repository\Values\Content\Relation[]
+     */
+    private function getRelations(RelationList $relationList): array
+    {
+        return array_filter(array_map(
+            static fn (RelationListItemInterface $relationListItem): ?Relation => $relationListItem->getRelation(),
+            $relationList->items
+        ));
     }
 }

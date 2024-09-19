@@ -183,11 +183,6 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo);
     }
 
-    public function loadRelations(VersionInfo $versionInfo): iterable
-    {
-        return $this->innerService->loadRelations($versionInfo);
-    }
-
     public function countRelations(VersionInfo $versionInfo): int
     {
         return $this->innerService->countRelations($versionInfo);

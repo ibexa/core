@@ -327,16 +327,16 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->copyContent(...$parameters);
     }
 
-    public function testLoadRelationsDecorator()
+    public function testLoadRelationListDecorator()
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [$this->createMock(VersionInfo::class)];
 
-        $serviceMock->expects(self::once())->method('loadRelations')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects(self::once())->method('loadRelationList')->with(...$parameters)->willReturn([]);
 
-        $decoratedService->loadRelations(...$parameters);
+        $decoratedService->loadRelationList(...$parameters);
     }
 
     public function testLoadReverseRelationsDecorator()

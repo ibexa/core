@@ -186,11 +186,6 @@ class ContentService implements ContentServiceInterface
         return $this->service->copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo);
     }
 
-    public function loadRelations(VersionInfo $versionInfo): iterable
-    {
-        return $this->service->loadRelations($versionInfo);
-    }
-
     public function countRelations(VersionInfo $versionInfo): int
     {
         return $this->service->countRelations($versionInfo);
