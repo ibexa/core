@@ -25,8 +25,6 @@ trait SerializerTrait
                 new MapNormalizer(),
                 new URITextNormalizer(),
                 new HostTextNormalizer(),
-                new RegexURINormalizer(),
-                new RegexHostNormalizer(),
                 new RegexNormalizer(),
                 new URIElementNormalizer(),
                 new SimplifiedRequestNormalizer(),
