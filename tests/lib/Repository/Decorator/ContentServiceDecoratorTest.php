@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -335,7 +336,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [$this->createMock(VersionInfo::class)];
 
-        $serviceMock->expects(self::once())->method('loadRelationList')->with(...$parameters)->willReturn(new ContentDraftList());
+        $serviceMock->expects(self::once())->method('loadRelationList')->with(...$parameters)->willReturn(new RelationList());
 
         $decoratedService->loadRelationList(...$parameters);
     }
