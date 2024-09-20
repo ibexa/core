@@ -315,5 +315,8 @@ services:
     Ibexa\Core\MVC\Symfony\View\Manager:
         autowire: true
         autoconfigure: true
+        arguments:
+            $viewBaseLayout: '%ibexa.content_view.viewbase_layout%'
+            $viewConfigurator: '@Ibexa\Core\MVC\Symfony\View\Configurator\ViewProvider'
 
     Ibexa\Core\MVC\Symfony\View\ViewManagerInterface: '@Ibexa\Core\MVC\Symfony\View\Manager'
