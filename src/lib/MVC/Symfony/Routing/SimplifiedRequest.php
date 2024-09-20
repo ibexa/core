@@ -58,12 +58,14 @@ class SimplifiedRequest extends ValueObject
             (func_num_args() === 1 && is_array($args[0])) ||
             empty($args)
         ) {
-            trigger_deprecation(
-                'ibexa/core',
-                '5.0',
-                'The signature of method "%s()" now requires explicit arguments: "string $scheme, string $host, string $port, string $pathinfo, array $queryParams, array $languages, array $headers", using ValueObject array constructor is deprecated.',
-                __METHOD__
-            );
+            if (!empty($args)) {
+                trigger_deprecation(
+                    'ibexa/core',
+                    '5.0',
+                    'The signature of method "%s()" now requires explicit arguments: "string $scheme, string $host, string $port, string $pathinfo, array $queryParams, array $languages, array $headers", using ValueObject array constructor is deprecated.',
+                    __METHOD__
+                );
+            }
             parent::__construct($properties);
         } else {
             $this->scheme = $args[0] ?? null;
