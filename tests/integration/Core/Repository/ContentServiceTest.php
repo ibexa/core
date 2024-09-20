@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\DraftList\Item\UnauthorizedContentDraftListItem;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
@@ -2432,13 +2433,14 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->createContentDraft($demoDesignContentInfo);
 
         // Now $contentDrafts should contain two drafted versions
+        /** @var ContentDraftListItemInterface[] $draftedVersions */
         $draftedVersions = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 
         $actual = [
-            $draftedVersions[0]->status,
-            $draftedVersions[0]->getContentInfo()->remoteId,
-            $draftedVersions[1]->status,
-            $draftedVersions[1]->getContentInfo()->remoteId,
+            $draftedVersions[0]->getVersionInfo()->status,
+            $draftedVersions[0]->getVersionInfo()->getContentInfo()->remoteId,
+            $draftedVersions[1]->getVersionInfo()->status,
+            $draftedVersions[1]->getVersionInfo()->getContentInfo()->remoteId,
         ];
         sort($actual, SORT_STRING);
 
@@ -2476,6 +2478,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->permissionResolver->setCurrentUserReference($oldCurrentUser);
 
         // Now $contentDrafts for the previous current user and the new user
+        /** @var ContentDraftListItemInterface[] $newCurrentUserDrafts */
         $newCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList($user)->getIterator());
         $oldCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 
@@ -2487,13 +2490,13 @@ class ContentServiceTest extends BaseContentServiceTest
                 self::MEDIA_REMOTE_ID,
             ],
             [
-                $newCurrentUserDrafts[0]->status,
-                $newCurrentUserDrafts[0]->getContentInfo()->remoteId,
+                $newCurrentUserDrafts[0]->getVersionInfo()->status,
+                $newCurrentUserDrafts[0]->getVersionInfo()->getContentInfo()->remoteId,
             ]
         );
-        self::assertTrue($newCurrentUserDrafts[0]->isDraft());
-        self::assertFalse($newCurrentUserDrafts[0]->isArchived());
-        self::assertFalse($newCurrentUserDrafts[0]->isPublished());
+        self::assertTrue($newCurrentUserDrafts[0]->getVersionInfo()->isDraft());
+        self::assertFalse($newCurrentUserDrafts[0]->getVersionInfo()->isArchived());
+        self::assertFalse($newCurrentUserDrafts[0]->getVersionInfo()->isPublished());
     }
 
     /**
