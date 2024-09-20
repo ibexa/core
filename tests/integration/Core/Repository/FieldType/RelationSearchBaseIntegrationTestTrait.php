@@ -49,8 +49,10 @@ trait RelationSearchBaseIntegrationTestTrait
             $this->normalizeRelations(
                 $this->getCreateExpectedRelations($content)
             ),
-            $this->getRelations(
-                $this->getRepository()->getContentService()->loadRelationList($content->versionInfo)
+            $this->normalizeRelations(
+                $this->getRelations(
+                    $this->getRepository()->getContentService()->loadRelationList($content->versionInfo)
+                )
             )
         );
     }
