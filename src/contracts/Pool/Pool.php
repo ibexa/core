@@ -16,7 +16,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
  */
 final class Pool implements PoolInterface
 {
-    private const DEFAULT_EXCEPTION_MESSAGE_TEMPLATE = 'could not find %s for \'%s\'. Valid values are: %s';
+    private const DEFAULT_EXCEPTION_MESSAGE_TEMPLATE = 'Could not find %s for \'%s\'. Valid values are: %s';
 
     private string $class;
 

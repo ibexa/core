@@ -50,7 +50,7 @@ final class PoolTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             sprintf(
-                "Argument '%s' is invalid: could not find stdClass for 'baz'. Valid values are: 'foo', 'bar'",
+                "Argument '%s' is invalid: Could not find stdClass for 'baz'. Valid values are: 'foo', 'bar'",
                 '$alias'
             )
         );
