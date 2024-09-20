@@ -1,45 +1,36 @@
-<?xml version = '1.0' encoding = 'utf-8'?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="bootstrap.php"
-         processIsolation="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         beStrictAboutTestsThatDoNotTestAnything="false"
-         colors="true"
-         >
-    <php>
-        <env name="setupFactory" value="\Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy" />
-        <env name="backendVersion" value="5" />
-        <env name="fixtureDir" value="Legacy" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
-        <ini name="error_reporting" value="-1" />
-        <env name="DATABASE_URL" value="sqlite://:memory:" />
-        <env name="KERNEL_CLASS" value="Ibexa\Contracts\Core\Test\IbexaTestKernel"/>
-        <env name="SEARCH_ENGINE" value="legacy"/>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
-    </php>
-    <testsuites>
-        <testsuite name="integration_core">
-            <directory>tests/integration/Core</directory>
-        </testsuite>
-        <testsuite name="integration_debug">
-            <directory>tests/integration/Debug</directory>
-        </testsuite>
-        <testsuite name="integration_io">
-            <directory>tests/integration/IO</directory>
-        </testsuite>
-        <testsuite name="integration_legacy_search_engine">
-            <directory>tests/integration/LegacySearchEngine</directory>
-        </testsuite>
-        <testsuite name="integration_repository_installer">
-            <directory>tests/integration/RepositoryInstaller</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">tests/integration</directory>
-        </whitelist>
-    </filter>
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="bootstrap.php" processIsolation="false" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">tests/integration</directory>
+    </include>
+  </coverage>
+  <php>
+    <env name="setupFactory" value="\Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy"/>
+    <env name="backendVersion" value="5"/>
+    <env name="fixtureDir" value="Legacy"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+    <ini name="error_reporting" value="-1"/>
+    <env name="DATABASE_URL" value="sqlite://:memory:"/>
+    <env name="KERNEL_CLASS" value="Ibexa\Contracts\Core\Test\IbexaTestKernel"/>
+    <env name="SEARCH_ENGINE" value="legacy"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+  </php>
+  <testsuites>
+    <testsuite name="integration_core">
+      <directory>tests/integration/Core</directory>
+    </testsuite>
+    <testsuite name="integration_debug">
+      <directory>tests/integration/Debug</directory>
+    </testsuite>
+    <testsuite name="integration_io">
+      <directory>tests/integration/IO</directory>
+    </testsuite>
+    <testsuite name="integration_legacy_search_engine">
+      <directory>tests/integration/LegacySearchEngine</directory>
+    </testsuite>
+    <testsuite name="integration_repository_installer">
+      <directory>tests/integration/RepositoryInstaller</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
