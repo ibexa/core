@@ -71,7 +71,6 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('var_dir', 'var', 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('storage_dir', 'storage', 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('binary_dir', 'original', 'ibexa_demo_site');
-        $this->assertConfigResolverParameterValue('session_name', '%ibexa.session_name.default%', 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('http_cache.purge_servers', [], 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('anonymous_user_id', 10, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('index_page', null, 'ibexa_demo_site');
@@ -99,7 +98,6 @@ class CommonTest extends AbstractParserTestCase
                         'var_dir' => $varDir,
                         'storage_dir' => $storageDir,
                         'binary_dir' => $binaryDir,
-                        'session_name' => $sessionName,
                         'index_page' => $indexPage,
                         'http_cache' => [
                             'purge_servers' => $cachePurgeServers,
@@ -114,7 +112,6 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('var_dir', $varDir, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('storage_dir', $storageDir, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('binary_dir', $binaryDir, 'ibexa_demo_site');
-        $this->assertConfigResolverParameterValue('session_name', $sessionName, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('index_page', $indexPage, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('http_cache.purge_servers', $cachePurgeServers, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('anonymous_user_id', $anonymousUserId, 'ibexa_demo_site');
@@ -189,7 +186,6 @@ class CommonTest extends AbstractParserTestCase
         );
 
         $this->assertConfigResolverParameterValue('session', $expected['session'], 'ibexa_demo_site');
-        $this->assertConfigResolverParameterValue('session_name', $expected['session_name'], 'ibexa_demo_site');
     }
 
     public function sessionSettingsProvider()
@@ -215,44 +211,8 @@ class CommonTest extends AbstractParserTestCase
                         'cookie_secure' => false,
                         'cookie_httponly' => true,
                     ],
-                    'session_name' => 'foo',
                 ],
-            ],
-            [
-                [
-                    'session' => [
-                        'name' => 'foo',
-                        'cookie_path' => '/foo',
-                        'cookie_domain' => 'foo.com',
-                        'cookie_lifetime' => 86400,
-                        'cookie_secure' => false,
-                        'cookie_httponly' => true,
-                    ],
-                    'session_name' => 'bar',
-                ],
-                [
-                    'session' => [
-                        'name' => 'bar',
-                        'cookie_path' => '/foo',
-                        'cookie_domain' => 'foo.com',
-                        'cookie_lifetime' => 86400,
-                        'cookie_secure' => false,
-                        'cookie_httponly' => true,
-                    ],
-                    'session_name' => 'bar',
-                ],
-            ],
-            [
-                [
-                    'session_name' => 'some_other_session_name',
-                ],
-                [
-                    'session' => [
-                        'name' => 'some_other_session_name',
-                    ],
-                    'session_name' => 'some_other_session_name',
-                ],
-            ],
+            ]
         ];
     }
 }
