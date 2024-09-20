@@ -16,13 +16,8 @@ class CommonTest extends AbstractParserTestCase
 {
     private $minimalConfig;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $suggestionCollector;
-
     protected function getContainerExtensions(): array
     {
-        $this->suggestionCollector = $this->createMock(SuggestionCollectorInterface::class);
-
         return [new IbexaCoreExtension([new Common()])];
     }
 
@@ -63,48 +58,6 @@ class CommonTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('default_page', $defaultPage1, 'ibexa_demo_site');
         $this->assertConfigResolverParameterValue('default_page', $defaultPage2, 'ibexa_demo_site_admin');
         $this->assertConfigResolverParameterValue('index_page', null, self::EMPTY_SA_GROUP);
-    }
-
-    public function testDatabaseSingleSiteaccess()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $this->load(
-            [
-                'system' => [
-                    'ibexa_demo_site' => [
-                        'database' => [
-                            'type' => 'sqlite',
-                            'server' => 'localhost',
-                            'user' => 'root',
-                            'password' => 'root',
-                            'database_name' => 'ezdemo',
-                        ],
-                    ],
-                ],
-            ]
-        );
-    }
-
-    public function testDatabaseSiteaccessGroup()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $this->load(
-            [
-                'system' => [
-                    'ibexa_demo_group' => [
-                        'database' => [
-                            'type' => 'sqlite',
-                            'server' => 'localhost',
-                            'user' => 'root',
-                            'password' => 'root',
-                            'database_name' => 'ezdemo',
-                        ],
-                    ],
-                ],
-            ]
-        );
     }
 
     /**
