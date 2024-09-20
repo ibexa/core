@@ -203,7 +203,8 @@ class RouterTest extends RouterBaseTest
         $router->setSiteAccess(new SiteAccess('test', 'test', $matcherInitialSA));
         $matcherInitialSA
             ->expects(self::once())
-            ->method('analyseURI');
+            ->method('analyseURI')
+            ->willReturn('');
 
         $matcher = $this->createMock(VersatileMatcher::class);
         $matcherBuilder

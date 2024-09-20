@@ -49,7 +49,7 @@ class SimplifiedRequest extends ValueObject
     protected ?array $headers = null;
 
     public function __construct(
-        //string $scheme = '', string $host = '', string $port = '', string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
+        //string $scheme = '', string $host = '', int $port = '', string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
         $properties = [],
     ) {
         $args = func_get_args();

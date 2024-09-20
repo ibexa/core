@@ -44,7 +44,7 @@ class SimplifiedRequestTest extends TestCase
         self::assertSame($languages, $request->getLanguages());
         self::assertSame('https', $request->getScheme());
         self::assertSame('host.invalid', $request->getHost());
-        self::assertSame('8080', $request->getPort());
+        self::assertSame(8080, $request->getPort());
         self::assertSame('/foo', $request->getPathInfo());
         self::assertSame(['param' => 'bar', 'param2' => 'bar2'], $request->getQueryParams());
     }

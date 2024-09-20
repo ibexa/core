@@ -121,7 +121,7 @@ class RouterHostPortURITest extends RouterBaseTest
 
     public function testSetGetRequestMapPort()
     {
-        $mapKey = '8000';
+        $mapKey = 8000;
         $request = new SimplifiedRequest(['port' => $mapKey]);
         $matcher = new Port(['foo' => $mapKey]);
         $matcher->setRequest($request);
@@ -131,7 +131,7 @@ class RouterHostPortURITest extends RouterBaseTest
 
     public function testReversePortMatchFail()
     {
-        $config = ['foo' => '8080'];
+        $config = ['foo' => 8080];
         $matcher = new Port($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
