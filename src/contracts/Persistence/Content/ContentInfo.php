@@ -20,9 +20,6 @@ class ContentInfo extends ValueObject
     public const STATUS_PUBLISHED = 1;
     public const STATUS_TRASHED = 2;
 
-    /** @deprecated Use {@see ContentInfo::STATUS_TRASHED} */
-    public const STATUS_ARCHIVED = self::STATUS_TRASHED;
-
     /**
      * Content's unique ID.
      *
