@@ -49,22 +49,4 @@ class FieldHelper
             ->getFieldType($fieldDefinition->fieldTypeIdentifier)
             ->isEmptyValue($field->value);
     }
-
-    /**
-     * Returns FieldDefinition object based on $contentInfo and $fieldDefIdentifier.
-     *
-     * @deprecated If you have Content you can instead do: $content->getContentType()->getFieldDefinition($identifier)
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param string $fieldDefIdentifier
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
-     */
-    public function getFieldDefinition(ContentInfo $contentInfo, $fieldDefIdentifier)
-    {
-        return $this
-            ->contentTypeService
-            ->loadContentType($contentInfo->contentTypeId)
-            ->getFieldDefinition($fieldDefIdentifier);
-    }
 }
