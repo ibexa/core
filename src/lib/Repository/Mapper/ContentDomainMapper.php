@@ -382,7 +382,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
                 'name' => $spiContentInfo->name,
                 'sectionId' => $spiContentInfo->sectionId,
                 'currentVersionNo' => $spiContentInfo->currentVersionNo,
-                'published' => $spiContentInfo->isPublished,
+                'published' => $spiContentInfo->status === ContentInfo::STATUS_PUBLISHED,
                 'ownerId' => $spiContentInfo->ownerId,
                 'modificationDate' => $spiContentInfo->modificationDate == 0 ?
                     null :

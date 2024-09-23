@@ -57,15 +57,6 @@ class ContentInfo extends ValueObject
     public $currentVersionNo;
 
     /**
-     * @deprecated Use {@see ContentInfo::$status} (with value {@see ContentInfo::STATUS_PUBLISHED})
-     *
-     * Flag indicating if content is currently published.
-     *
-     * @var bool
-     */
-    public $isPublished;
-
-    /**
      * Content owner's id.
      *
      * @var int

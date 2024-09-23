@@ -82,7 +82,7 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
             try {
                 // In case version has changed we make sure to fetch fresh ContentInfo
                 $contentInfo = $contentHandler->loadContentInfo($contentInfo->id);
-                if ($contentInfo->isPublished) {
+                if ($contentInfo->status === ContentInfo::STATUS_PUBLISHED) {
                     $this->searchHandler->indexContent(
                         $contentHandler->load($contentInfo->id, $contentInfo->currentVersionNo)
                     );
@@ -109,7 +109,7 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
             try {
                 // In case version has changed we make sure to fetch fresh ContentInfo
                 $contentInfo = $contentHandler->loadContentInfo($location->contentId);
-                if ($contentInfo->isPublished) {
+                if ($contentInfo->status === ContentInfo::STATUS_PUBLISHED) {
                     $this->searchHandler->indexContent(
                         $contentHandler->load($contentInfo->id, $contentInfo->currentVersionNo)
                     );

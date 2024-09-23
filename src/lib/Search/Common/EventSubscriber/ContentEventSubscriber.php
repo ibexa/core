@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Common\EventSubscriber;
 
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Events\Content\CopyContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteTranslationEvent;
@@ -65,7 +66,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
             $event->getContentInfo()->id
         );
 
-        if (!$contentInfo->isPublished) {
+        if ($contentInfo->status !== ContentInfo::STATUS_PUBLISHED) {
             return;
         }
 
@@ -123,7 +124,7 @@ class ContentEventSubscriber extends AbstractSearchEventSubscriber implements Ev
     public function onUpdateContentMetadata(UpdateContentMetadataEvent $event)
     {
         $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo($event->getContent()->id);
-        if (!$contentInfo->isPublished) {
+        if ($contentInfo->status !== ContentInfo::STATUS_PUBLISHED) {
             return;
         }
         $this->searchHandler->indexContent(

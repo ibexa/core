@@ -35,7 +35,6 @@ $versionInfo->contentInfo->alwaysAvailable = false;
 $versionInfo->contentInfo->modificationDate = 1313061404;
 $versionInfo->contentInfo->publicationDate = 1313047907;
 $versionInfo->contentInfo->currentVersionNo = 2;
-$versionInfo->contentInfo->isPublished = true;
 $versionInfo->contentInfo->mainLanguageCode = 'eng-US';
 $versionInfo->contentInfo->name = 'Something';
 $versionInfo->contentInfo->mainLocationId = 228;
