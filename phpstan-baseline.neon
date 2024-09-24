@@ -21126,6 +21126,21 @@ parameters:
 			path: src/lib/Repository/URLWildcardService.php
 
 		-
+			message: "#^Result of \\|\\| is always false\\.$#"
+			count: 1
+			path: src/lib/Repository/URLWildcardService.php
+
+		-
+			message: "#^Variable \\$patterns in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: src/lib/Repository/URLWildcardService.php
+
+		-
+			message: "#^Variable \\$placeholders in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: src/lib/Repository/URLWildcardService.php
+
+		-
 			message: "#^Parameter \\#3 \\$hashType of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\PasswordHashService\\:\\:isValidPassword\\(\\) expects int\\|null, string given\\.$#"
 			count: 1
 			path: src/lib/Repository/User/PasswordValidator.php
