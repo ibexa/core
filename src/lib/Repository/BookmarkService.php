@@ -50,7 +50,6 @@ class BookmarkService implements BookmarkServiceInterface
         }
 
         $createStruct = new CreateStruct();
-        $createStruct->name = $loadedLocation->contentInfo->name;
         $createStruct->locationId = $loadedLocation->id;
         $createStruct->userId = $this->getCurrentUserId();
 

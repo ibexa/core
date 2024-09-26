@@ -29,13 +29,11 @@ class MapperTest extends TestCase
     public function testCreateBookmarkFromCreateStruct()
     {
         $createStruct = new CreateStruct([
-            'name' => 'Contact',
             'locationId' => 54,
             'userId' => 87,
         ]);
 
         self::assertEquals(new Bookmark([
-            'name' => 'Contact',
             'locationId' => 54,
             'userId' => 87,
         ]), $this->mapper->createBookmarkFromCreateStruct($createStruct));
@@ -46,13 +44,13 @@ class MapperTest extends TestCase
         $rows = [
             [
                 'id' => '12',
-                'name' => 'Home',
+                'name' => '',
                 'node_id' => '2',
                 'user_id' => '78',
             ],
             [
                 'id' => '75',
-                'name' => 'Contact',
+                'name' => '',
                 'node_id' => '54',
                 'user_id' => '87',
             ],
@@ -61,13 +59,11 @@ class MapperTest extends TestCase
         $objects = [
             new Bookmark([
                 'id' => 12,
-                'name' => 'Home',
                 'locationId' => 2,
                 'userId' => 78,
             ]),
             new Bookmark([
                 'id' => 75,
-                'name' => 'Contact',
                 'locationId' => 54,
                 'userId' => 87,
             ]),
