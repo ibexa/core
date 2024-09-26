@@ -21,6 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -193,9 +194,14 @@ class SiteAccessMatchListener implements EventSubscriberInterface
         string $matcherClass,
         string $serializedMatcher
     ): SiteAccess\Matcher {
-        $matcher = null;
         if ($this->siteAccessMatcherRegistry->hasMatcher($matcherClass)) {
             $matcher = $this->siteAccessMatcherRegistry->getMatcher($matcherClass);
+            $matcher = $serializer->deserialize(
+                $serializedMatcher,
+                $matcherClass,
+                'json',
+                [AbstractNormalizer::OBJECT_TO_POPULATE => $matcher]
+            );
         } else {
             $matcher = $serializer->deserialize(
                 $serializedMatcher,
