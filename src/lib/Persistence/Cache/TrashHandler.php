@@ -35,8 +35,14 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $this->logger->logCall(__METHOD__, ['locationId' => $locationId]);
 
         $location = $this->persistenceHandler->locationHandler()->load($locationId);
-        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelations($location->contentId);
+        $limit = $this->persistenceHandler->contentHandler()->countRelations(
+            $location->contentId,
+        );
 
+        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $location->contentId,
+            $limit
+        );
         $return = $this->persistenceHandler->trashHandler()->trashSubtree($locationId);
 
         $relationTags = [];
@@ -71,7 +77,15 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $return = $this->persistenceHandler->trashHandler()->recover($trashedId, $newParentId);
 
         $location = $this->persistenceHandler->locationHandler()->load($return);
-        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelations($location->contentId);
+
+        $limit = $this->persistenceHandler->contentHandler()->countRelations(
+            $location->contentId,
+        );
+
+        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $location->contentId,
+            $limit
+        );
 
         $relationTags = [];
         if (!empty($reverseRelations)) {

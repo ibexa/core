@@ -860,7 +860,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRelations()
+    public function testLoadRelationList()
     {
         $handler = $this->getContentHandler();
 
@@ -868,11 +868,9 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
 
         $gatewayMock->expects(self::once())
-            ->method('loadRelations')
+            ->method('listRelations')
             ->with(
-                self::equalTo(23),
-                self::equalTo(null),
-                self::equalTo(null)
+                self::equalTo(23)
             )->will(
                 self::returnValue([42])
             );
@@ -880,13 +878,13 @@ class ContentHandlerTest extends TestCase
         $mapperMock->expects(self::once())
             ->method('extractRelationsFromRows')
             ->with(self::equalTo([42]))
-            ->will(self::returnValue($this->getRelationFixture()));
+            ->will(self::returnValue([$this->getRelationFixture()]));
 
-        $result = $handler->loadRelations(23);
+        $result = $handler->loadRelationList(23, 10);
 
         self::assertEquals(
             $result,
-            $this->getRelationFixture()
+            [$this->getRelationFixture()]
         );
     }
 

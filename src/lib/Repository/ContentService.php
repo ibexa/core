@@ -1971,9 +1971,17 @@ class ContentService implements ContentServiceInterface
     protected function internalLoadRelations(APIVersionInfo $versionInfo): array
     {
         $contentInfo = $versionInfo->getContentInfo();
-        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelations(
-            $contentInfo->id,
+
+        $limit = $this->persistenceHandler->contentHandler()->countRelations(
+            $contentInfo->getId(),
             $versionInfo->versionNo
+        );
+
+        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $contentInfo->getId(),
+            $limit,
+            0,
+            $versionInfo->versionNo,
         );
 
         /** @var $relations \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] */
@@ -2258,18 +2266,26 @@ class ContentService implements ContentServiceInterface
             throw new UnauthorizedException('content', 'edit', ['contentId' => $sourceVersion->contentInfo->id]);
         }
 
-        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelations(
-            $sourceVersion->getContentInfo()->id,
+        $spiRelationsCount = $this->persistenceHandler->contentHandler()->countRelations(
+            $sourceVersion->getContentInfo()->getId(),
             $sourceVersion->versionNo,
             APIRelation::COMMON
         );
 
-        if (empty($spiRelations)) {
+        if ($spiRelationsCount === 0) {
             throw new InvalidArgumentException(
                 '$sourceVersion',
                 'There are no Relations of type COMMON for the given destination'
             );
         }
+
+        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $sourceVersion->getContentInfo()->getId(),
+            $spiRelationsCount,
+            0,
+            $sourceVersion->versionNo,
+            APIRelation::COMMON
+        );
 
         // there should be only one relation of type COMMON for each destination,
         // but in case there were ever more then one, we will remove them all

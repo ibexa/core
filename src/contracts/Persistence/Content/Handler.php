@@ -282,22 +282,6 @@ interface Handler
     public function removeRelation($relationId, $type, ?int $destinationContentId = null);
 
     /**
-     * Loads relations from $sourceContentId. Optionally, loads only those with $type and $sourceContentVersionNo.
-     *
-     * @deprecated 4.5.7 It will be removed in 5.0. Use {@see \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()} instead.
-     *
-     * @param mixed $sourceContentId Source Content ID
-     * @param mixed|null $sourceContentVersionNo Source Content Version, null if not specified
-     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation[]
-     */
-    public function loadRelations($sourceContentId, $sourceContentVersionNo = null, $type = null);
-
-    /**
      * Counts all outgoing relations for the given version.
      */
     public function countRelations(
