@@ -250,28 +250,4 @@ class Handler implements PersistenceHandlerInterface
     {
         return $this->userPreferenceHandler;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction()
-    {
-        $this->transactionHandler->beginTransaction();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function commit()
-    {
-        $this->transactionHandler->commit();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback()
-    {
-        $this->transactionHandler->rollback();
-    }
 }

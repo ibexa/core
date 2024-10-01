@@ -26,7 +26,6 @@ services:
             $relationProcessor: '@Ibexa\Core\Repository\Helper\RelationProcessor'
             $fieldTypeRegistry: '@Ibexa\Core\FieldType\FieldTypeRegistry'
             $passwordHashService: '@Ibexa\Core\Repository\User\PasswordHashService'
-            $thumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
             $proxyDomainMapperFactory: '@Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory'
             $contentDomainMapper: '@Ibexa\Core\Repository\Mapper\ContentDomainMapper'
             $contentTypeDomainMapper: '@Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper'
@@ -40,6 +39,7 @@ services:
             $passwordValidator: '@Ibexa\Core\Repository\User\PasswordValidatorInterface'
             $configResolver: '@Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface'
             $nameSchemaService: '@Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface'
+            $transactionHandler: '@ibexa.repository.transaction_handler'
 
     Ibexa\Core\Repository\ContentService:
         class: Ibexa\Core\Repository\ContentService

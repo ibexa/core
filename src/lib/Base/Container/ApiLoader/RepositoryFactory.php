@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInte
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
@@ -77,7 +78,6 @@ final class RepositoryFactory implements LoggerAwareInterface
         RelationProcessor $relationProcessor,
         FieldTypeRegistry $fieldTypeRegistry,
         PasswordHashService $passwordHashService,
-        ThumbnailStrategy $thumbnailStrategy,
         ProxyDomainMapperFactoryInterface $proxyDomainMapperFactory,
         Mapper\ContentDomainMapper $contentDomainMapper,
         Mapper\ContentTypeDomainMapper $contentTypeDomainMapper,
@@ -90,7 +90,8 @@ final class RepositoryFactory implements LoggerAwareInterface
         LocationFilteringHandler $locationFilteringHandler,
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
-        NameSchemaServiceInterface $nameSchemaService
+        NameSchemaServiceInterface $nameSchemaService,
+        TransactionHandler $transactionHandler
     ): Repository {
         $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
@@ -101,7 +102,6 @@ final class RepositoryFactory implements LoggerAwareInterface
             $relationProcessor,
             $fieldTypeRegistry,
             $passwordHashService,
-            $thumbnailStrategy,
             $proxyDomainMapperFactory,
             $contentDomainMapper,
             $contentTypeDomainMapper,
@@ -116,6 +116,7 @@ final class RepositoryFactory implements LoggerAwareInterface
             $passwordValidator,
             $configResolver,
             $nameSchemaService,
+            $transactionHandler,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,
