@@ -11,15 +11,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Value as BaseValue;
 
-/**
- * Value for Image field type.
- *
- * @property string $path @deprecated BC with 5.0 (EZP-20948). Equivalent to $id or $inputUri, depending on which one is set
- * .
- *
- * @todo Mime type?
- * @todo Dimensions?
- */
 class Value extends BaseValue
 {
     /**
@@ -162,25 +153,5 @@ class Value extends BaseValue
     public function __toString()
     {
         return (string)$this->fileName;
-    }
-
-    public function __get($propertyName)
-    {
-        if ($propertyName === 'path') {
-            return $this->inputUri ?: $this->id;
-        }
-
-        throw new PropertyNotFoundException($propertyName, static::class);
-    }
-
-    public function __set($propertyName, $propertyValue)
-    {
-        if ($propertyName === 'path') {
-            $this->inputUri = $propertyValue;
-
-            return;
-        }
-
-        throw new PropertyNotFoundException($propertyName, static::class);
     }
 }
