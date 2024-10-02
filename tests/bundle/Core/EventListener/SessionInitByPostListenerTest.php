@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
@@ -18,10 +19,9 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class SessionInitByPostListenerTest extends TestCase
+final class SessionInitByPostListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\SessionInitByPostListener */
-    private $listener;
+    private SessionInitByPostListener $listener;
 
     protected function setUp(): void
     {
@@ -29,7 +29,7 @@ class SessionInitByPostListenerTest extends TestCase
         $this->listener = new SessionInitByPostListener();
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -39,7 +39,7 @@ class SessionInitByPostListenerTest extends TestCase
         );
     }
 
-    public function testOnSiteAccessMatchNoSessionService()
+    public function testOnSiteAccessMatchNoSessionService(): void
     {
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
@@ -49,7 +49,7 @@ class SessionInitByPostListenerTest extends TestCase
         self::assertNull($listener->onSiteAccessMatch($event));
     }
 
-    public function testOnSiteAccessMatchSubRequest()
+    public function testOnSiteAccessMatchSubRequest(): void
     {
         $session = $this->createMock(SessionInterface::class);
         $session
@@ -63,9 +63,9 @@ class SessionInitByPostListenerTest extends TestCase
         $this->listener->onSiteAccessMatch($event);
     }
 
-    public function testOnSiteAccessMatchRequestNoSessionName()
+    public function testOnSiteAccessMatchRequestNoSessionName(): void
     {
-        $sessionName = 'eZSESSID';
+        $sessionName = 'IBX_SESSION_ID';
 
         $session = $this->createMock(SessionInterface::class);
         $session
@@ -90,9 +90,9 @@ class SessionInitByPostListenerTest extends TestCase
         $this->listener->onSiteAccessMatch($event);
     }
 
-    public function testOnSiteAccessMatchNewSessionName()
+    public function testOnSiteAccessMatchNewSessionName(): void
     {
-        $sessionName = 'eZSESSID';
+        $sessionName = 'IBX_SESSION_ID';
         $sessionId = 'foobar123';
         $session = $this->createMock(SessionInterface::class);
 
