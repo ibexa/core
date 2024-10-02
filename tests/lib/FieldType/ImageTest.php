@@ -356,7 +356,6 @@ class ImageTest extends FieldTypeTest
                 ),
                 [
                     'id' => $this->getImageInputPath(),
-                    'path' => $this->getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
@@ -369,11 +368,10 @@ class ImageTest extends FieldTypeTest
                     'mime' => 'image/jpeg',
                 ],
             ],
-            // BC with 5.0 (EZP-20948). Path can be used as input instead of $inputUri.
             [
                 new ImageValue(
                     [
-                        'path' => $this->getImageInputPath(),
+                        'inputUri' => $this->getImageInputPath(),
                         'fileName' => 'Sindelfingen-Squirrels.jpg',
                         'fileSize' => 23,
                         'alternativeText' => 'This is so Sindelfingen!',
@@ -384,7 +382,6 @@ class ImageTest extends FieldTypeTest
                 ),
                 [
                     'id' => null,
-                    'path' => $this->getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
@@ -463,7 +460,7 @@ class ImageTest extends FieldTypeTest
             // BC with 5.0 (EZP-20948). Path can be used as input instead of ID.
             [
                 [
-                    'path' => $this->getImageInputPath(),
+                    'inputUri' => $this->getImageInputPath(),
                     'fileName' => 'Sindelfingen-Squirrels.jpg',
                     'fileSize' => 23,
                     'alternativeText' => 'This is so Sindelfingen!',
@@ -924,7 +921,6 @@ class ImageTest extends FieldTypeTest
                 new ImageValue(
                     [
                         'id' => $this->getImageInputPath(),
-                        'path' => $this->getImageInputPath(),
                         'fileName' => 'Sindelfingen-Squirrels.jpg',
                         'fileSize' => 23,
                         'alternativeText' => 'This is so Sindelfingen!',

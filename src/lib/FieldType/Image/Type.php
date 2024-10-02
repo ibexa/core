@@ -371,7 +371,6 @@ class Type extends FieldType implements TranslationContainerInterface
 
         return [
             'id' => $value->id,
-            'path' => $value->inputUri ?: $value->id,
             'alternativeText' => $value->alternativeText,
             'fileName' => $value->fileName,
             'fileSize' => $value->fileSize,
