@@ -39,7 +39,6 @@ class Mapper
         $location->remoteId = $data[$prefix . 'remote_id'];
         $location->contentId = (int)$data[$prefix . 'contentobject_id'];
         $location->parentId = (int)$data[$prefix . 'parent_node_id'];
-        $location->pathIdentificationString = $data[$prefix . 'path_identification_string'];
         $location->pathString = $data[$prefix . 'path_string'];
         $location->depth = (int)$data[$prefix . 'depth'];
         $location->sortField = (int)$data[$prefix . 'sort_field'];
@@ -92,7 +91,6 @@ class Mapper
         $struct->invisible = $data['is_invisible'];
         $struct->mainLocationId = $data['main_node_id'];
         $struct->parentId = $data['parent_node_id'];
-        $struct->pathIdentificationString = $data['path_identification_string'];
         $struct->priority = $data['priority'];
         $struct->remoteId = md5(uniqid(static::class, true));
         $struct->sortField = $data['sort_field'];

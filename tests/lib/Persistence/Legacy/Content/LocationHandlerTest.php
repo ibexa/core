@@ -609,7 +609,6 @@ class LocationHandlerTest extends TestCase
         }
         $lastContentHandlerIndex = $index * 2 + 1;
 
-        $pathStrings = [$destinationData['node_id'] => $destinationData['path_identification_string']];
         foreach ($subtreeContentRows as $index => $row) {
             $mapper = new Mapper();
             $createStruct = $mapper->getLocationCreateStruct($row);
@@ -624,8 +623,6 @@ class LocationHandlerTest extends TestCase
             $createStruct->parentId = $index === 0 ? $destinationData['node_id'] : $createStruct->parentId + $offset;
             $createStruct->invisible = true;
             $createStruct->mainLocationId = $mainLocationsMap[$index];
-            $createStruct->pathIdentificationString = $pathStrings[$createStruct->parentId] . '/' . $row['path_identification_string'];
-            $pathStrings[$row['node_id'] + $offset] = $createStruct->pathIdentificationString;
             $handler
                 ->expects(self::at($index))
                 ->method('create')
@@ -638,7 +635,6 @@ class LocationHandlerTest extends TestCase
                                 'contentId' => $row['contentobject_id'],
                                 'hidden' => false,
                                 'invisible' => true,
-                                'pathIdentificationString' => $createStruct->pathIdentificationString,
                             ]
                         )
                     )

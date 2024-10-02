@@ -763,8 +763,6 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
                 'remoteId' => $remoteId,
                 'contentId' => $contentId,
                 'contentVersion' => $contentVersionNo,
-                // pathIdentificationString will be set in storage
-                'pathIdentificationString' => null,
                 'mainLocationId' => $mainLocation,
                 'sortField' => $locationCreateStruct->sortField !== null ? $locationCreateStruct->sortField : Location::SORT_FIELD_NAME,
                 'sortOrder' => $locationCreateStruct->sortOrder !== null ? $locationCreateStruct->sortOrder : Location::SORT_ORDER_ASC,
