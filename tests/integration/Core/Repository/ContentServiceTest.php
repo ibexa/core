@@ -6741,7 +6741,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $locationsArray[] = $location;
         }
 
-        return array_values($locationsArray);
+        return $locationsArray;
     }
 
     /**
