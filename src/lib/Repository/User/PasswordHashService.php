@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\User;
 
-use Ibexa\Contracts\Core\Repository\PasswordHashService as APIPasswordHashService;
+use Ibexa\Contracts\Core\Repository\PasswordHashService as PasswordHashServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 
 /**
  * @internal
  */
-final class PasswordHashService implements APIPasswordHashService
+final class PasswordHashService implements PasswordHashServiceInterface
 {
     private int $defaultHashType;
 
