@@ -109,7 +109,7 @@ class Type extends FieldType implements TranslationContainerInterface
     protected function createValueFromInput($inputValue)
     {
         if (is_string($inputValue)) {
-            $inputValue = Value::fromString($inputValue);
+            $inputValue = $this->acceptValue($inputValue);
         }
 
         if (is_array($inputValue)) {

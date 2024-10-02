@@ -111,36 +111,6 @@ class Value extends BaseValue
     }
 
     /**
-     * Creates a value only from a file path.
-     *
-     * @param string $path
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
-     *
-     * @return Value
-     *
-     * @deprecated Starting with 5.3.3, handled by Image\Type::acceptValue()
-     */
-    public static function fromString($path)
-    {
-        if (!file_exists($path)) {
-            throw new InvalidArgumentType(
-                '$path',
-                'existing file',
-                $path
-            );
-        }
-
-        return new static(
-            [
-                'inputUri' => $path,
-                'fileName' => basename($path),
-                'fileSize' => filesize($path),
-            ]
-        );
-    }
-
-    /**
      * Returns the image file size in byte.
      *
      * @return int
