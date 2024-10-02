@@ -28166,11 +28166,6 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$input of function array_values expects array\\<T\\>, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$locationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:loadLocation\\(\\) expects int, int\\|null given\\.$#"
 			count: 12
 			path: tests/integration/Core/Repository/ContentServiceTest.php
