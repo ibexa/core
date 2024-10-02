@@ -2136,7 +2136,7 @@ parameters:
 			path: src/bundle/Core/EventListener/SessionInitByPostListener.php
 
 		-
-			message: "#^Parameter \\#1 \\$id of method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:setId\\(\\) expects string, bool\\|float\\|int\\|string given\\.$#"
+			message: "#^Parameter \\#1 \\$id of method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:setId\\(\\) expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
 			count: 1
 			path: src/bundle/Core/EventListener/SessionInitByPostListener.php
 
@@ -19717,7 +19717,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentId\\.$#"
-			count: 4
+			count: 2
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
@@ -19727,7 +19727,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 2
+			count: 1
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
@@ -23582,6 +23582,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\SiteAccessAware\\\\ConfigurationProcessorTest\\:\\:testMapSetting\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
+
+		-
+			message: "#^Offset 'sa1'\\|'sa2' on array\\{sa1\\: array\\{foo\\: 'bar', hello\\: 'world', an_integer\\: 123, a_bool\\: true\\}, sa2\\: array\\{foo\\: 'bar2', hello\\: 'universe', an_integer\\: 456, a_bool\\: false\\}\\} in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
 
@@ -27636,7 +27641,7 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_values expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_values expects array\\<T\\>, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
