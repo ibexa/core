@@ -83,7 +83,7 @@ parameters:
     # Common settings
     ibexa.repositories: {}
     ibexa.site_access.config.default.repository: ~
-    ibexa.session_name.default: "eZSESSID{siteaccess_hash}"
+    ibexa.session_name.default: "IBX_SESSION_ID{siteaccess_hash}"
     ibexa.site_access.config.default.session_name: '%ibexa.session_name.default%'    # Using "{siteaccess_hash}" in session name makes it unique per siteaccess
     ibexa.site_access.config.default.session: { name: '%ibexa.session_name.default%' } # Session options that will override options from framework
     ibexa.site_access.config.default.url_alias_router: true                       # Use UrlAliasRouter by default

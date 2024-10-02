@@ -89,7 +89,7 @@ class Common extends AbstractParser implements SuggestionCollectorAwareInterface
                 ->children()
                     ->scalarNode('name')
                         ->info('The session name. If you want a session name per siteaccess, use "{siteaccess_hash}" token. Will override default session name from framework.session.name')
-                        ->example('eZSESSID{siteaccess_hash}')
+                        ->example('IBX_SESSION_ID{siteaccess_hash}')
                     ->end()
                     ->scalarNode('cookie_lifetime')->end()
                     ->scalarNode('cookie_path')->end()
