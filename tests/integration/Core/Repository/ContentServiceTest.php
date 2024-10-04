@@ -6589,7 +6589,13 @@ class ContentServiceTest extends BaseContentServiceTest
             $this->createFolder([self::ENG_US => 'P3'], $parentLocationId)->contentInfo->mainLocationId,
         ];
 
-        return array_values($this->locationService->loadLocationList($parentFoldersLocationsIds));
+        $locations = $this->locationService->loadLocationList($parentFoldersLocationsIds);
+        $locationsArray = [];
+        foreach ($locations as $location) {
+            $locationsArray[] = $location;
+        }
+
+        return $locationsArray;
     }
 
     /**

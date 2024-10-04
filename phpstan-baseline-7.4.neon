@@ -371,11 +371,6 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$input of function array_values expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$str of function md5 expects string, float given\\.$#"
 			count: 3
 			path: tests/integration/Core/Repository/ContentServiceTest.php
