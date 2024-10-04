@@ -44,7 +44,7 @@ class SessionInitByPostListener implements EventSubscriberInterface
             && !$request->hasPreviousSession()
             && $request->request->has($sessionName)
         ) {
-            $session->setId($request->request->get($sessionName));
+            $session->setId($request->request->getAlnum($sessionName));
             $session->start();
         }
     }
