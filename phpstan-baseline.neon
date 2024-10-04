@@ -2191,11 +2191,6 @@ parameters:
 			path: src/bundle/Core/EventListener/SessionInitByPostListener.php
 
 		-
-			message: "#^Parameter \\#1 \\$id of method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:setId\\(\\) expects string, bool\\|float\\|int\\|string given\\.$#"
-			count: 1
-			path: src/bundle/Core/EventListener/SessionInitByPostListener.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\EventListener\\\\SessionSetDynamicNameListener\\:\\:onSiteAccessMatch\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/EventListener/SessionSetDynamicNameListener.php
@@ -20057,7 +20052,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentId\\.$#"
-			count: 4
+			count: 2
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-

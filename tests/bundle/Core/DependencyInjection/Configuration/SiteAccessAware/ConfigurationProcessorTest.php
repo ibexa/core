@@ -104,7 +104,6 @@ class ConfigurationProcessorTest extends TestCase
 
         $mapperClosure = static function (array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config, $availableSAs, $saNodeName, $expectedContextualizer) {
             self::assertTrue(isset($availableSAs[$currentScope]));
-            self::assertTrue(isset($config[$saNodeName][$currentScope]));
             self::assertSame($config[$saNodeName][$currentScope], $scopeSettings);
             self::assertSame($expectedContextualizer, $contextualizer);
         };
