@@ -2136,11 +2136,6 @@ parameters:
 			path: src/bundle/Core/EventListener/SessionInitByPostListener.php
 
 		-
-			message: "#^Parameter \\#1 \\$id of method Symfony\\\\Component\\\\HttpFoundation\\\\Session\\\\SessionInterface\\:\\:setId\\(\\) expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
-			count: 1
-			path: src/bundle/Core/EventListener/SessionInitByPostListener.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\EventListener\\\\SiteAccessListener\\:\\:generateViewParametersArray\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/bundle/Core/EventListener/SiteAccessListener.php
@@ -23577,11 +23572,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\SiteAccessAware\\\\ConfigurationProcessorTest\\:\\:testMapSetting\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
-
-		-
-			message: "#^Offset 'sa1'\\|'sa2' on array\\{sa1\\: array\\{foo\\: 'bar', hello\\: 'world', an_integer\\: 123, a_bool\\: true\\}, sa2\\: array\\{foo\\: 'bar2', hello\\: 'universe', an_integer\\: 456, a_bool\\: false\\}\\} in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ConfigurationProcessorTest.php
 
