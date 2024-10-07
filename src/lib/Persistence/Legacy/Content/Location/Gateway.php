@@ -140,16 +140,6 @@ abstract class Gateway
     abstract public function moveSubtreeNodes(array $fromPathString, array $toPathString): void;
 
     /**
-     * Updated subtree modification time for all nodes on path.
-     *
-     * @deprecated Not supposed to be in use anymore.
-     */
-    abstract public function updateSubtreeModificationTime(
-        string $pathString,
-        ?int $timestamp = null
-    ): void;
-
-    /**
      * Update node assignment table.
      */
     abstract public function updateNodeAssignment(

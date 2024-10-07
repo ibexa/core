@@ -493,28 +493,6 @@ final class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    public function updateSubtreeModificationTime(string $pathString, ?int $timestamp = null): void
-    {
-        $nodes = array_filter(explode('/', $pathString));
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->update(self::CONTENT_TREE_TABLE)
-            ->set(
-                'modified_subnode',
-                $query->createPositionalParameter(
-                    $timestamp ?: time(),
-                    ParameterType::INTEGER
-                )
-            )
-            ->where(
-                $query->expr()->in(
-                    'node_id',
-                    $nodes
-                )
-            );
-        $query->execute();
-    }
-
     public function hideSubtree(string $pathString): void
     {
         $this->setNodeWithChildrenInvisible($pathString);

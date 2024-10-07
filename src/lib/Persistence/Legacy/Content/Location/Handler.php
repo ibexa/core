@@ -419,22 +419,6 @@ class Handler implements BaseLocationHandler
     }
 
     /**
-     * Marks the given nodes and all ancestors as modified.
-     *
-     * Optionally a time stamp with the modification date may be specified,
-     * otherwise the current time is used.
-     *
-     * @param int|string $locationId
-     * @param int $timestamp
-     */
-    public function markSubtreeModified($locationId, $timestamp = null)
-    {
-        $nodeData = $this->locationGateway->getBasicNodeData($locationId);
-        $timestamp = $timestamp ?: time();
-        $this->locationGateway->updateSubtreeModificationTime($nodeData['path_string'], $timestamp);
-    }
-
-    /**
      * Sets a location to be hidden, and it self + all children to invisible.
      *
      * @param mixed $id Location ID

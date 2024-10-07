@@ -401,32 +401,6 @@ class LocationHandlerTest extends TestCase
         $handler->setSectionForSubtree(69, 3);
     }
 
-    public function testMarkSubtreeModified()
-    {
-        $handler = $this->getLocationHandler();
-
-        $this->locationGateway
-            ->expects(self::at(0))
-            ->method('getBasicNodeData')
-            ->with(69)
-            ->will(
-                self::returnValue(
-                    [
-                        'node_id' => 69,
-                        'path_string' => '/1/2/69/',
-                        'contentobject_id' => 67,
-                    ]
-                )
-            );
-
-        $this->locationGateway
-            ->expects(self::at(1))
-            ->method('updateSubtreeModificationTime')
-            ->with('/1/2/69/');
-
-        $handler->markSubtreeModified(69);
-    }
-
     public function testChangeMainLocation()
     {
         $handler = $this->getLocationHandler();

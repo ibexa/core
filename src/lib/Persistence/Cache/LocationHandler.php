@@ -284,15 +284,6 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
     /**
      * {@inheritdoc}
      */
-    public function markSubtreeModified($locationId, $timestamp = null)
-    {
-        $this->logger->logCall(__METHOD__, ['location' => $locationId, 'time' => $timestamp]);
-        $this->persistenceHandler->locationHandler()->markSubtreeModified($locationId, $timestamp);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function hide($locationId)
     {
         $this->logger->logCall(__METHOD__, ['location' => $locationId]);

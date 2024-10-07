@@ -146,15 +146,6 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function updateSubtreeModificationTime(string $pathString, ?int $timestamp = null): void
-    {
-        try {
-            $this->innerGateway->updateSubtreeModificationTime($pathString, $timestamp);
-        } catch (DBALException | PDOException $e) {
-            throw DatabaseException::wrap($e);
-        }
-    }
-
     public function updateNodeAssignment(
         int $contentObjectId,
         int $oldParent,

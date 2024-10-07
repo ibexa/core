@@ -367,28 +367,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateSubtreeModificationTime()
-    {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
-        $gateway = $this->getLocationGateway();
-        $time = time();
-        $gateway->updateSubtreeModificationTime('/1/2/69/');
-
-        $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
-            [
-                ['/1/'],
-                ['/1/2/'],
-                ['/1/2/69/'],
-            ],
-            $query
-                ->select('path_string')
-                ->from('ezcontentobject_tree')
-                ->where($query->expr()->gte('modified_subnode', $time))
-                ->orderBy('path_string')
-        );
-    }
-
     public function testHideUpdateHidden()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
