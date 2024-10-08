@@ -691,16 +691,6 @@ class UserHandler extends AbstractInMemoryPersistenceHandler implements UserHand
     /**
      * {@inheritdoc}
      */
-    public function loadPoliciesByUserId($userId)
-    {
-        $this->logger->logCall(__METHOD__, ['user' => $userId]);
-
-        return $this->persistenceHandler->userHandler()->loadPoliciesByUserId($userId);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function assignRole($contentId, $roleId, array $limitation = null)
     {
         $this->logger->logCall(__METHOD__, ['group' => $contentId, 'role' => $roleId, 'limitation' => $limitation]);
