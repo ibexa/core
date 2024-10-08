@@ -790,7 +790,6 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
             case APILocation::SORT_FIELD_CLASS_NAME:
             case APILocation::SORT_FIELD_PRIORITY:
             case APILocation::SORT_FIELD_NAME:
-            case APILocation::SORT_FIELD_MODIFIED_SUBNODE:
             case APILocation::SORT_FIELD_NODE_ID:
             case APILocation::SORT_FIELD_CONTENTOBJECT_ID:
                 return true;
