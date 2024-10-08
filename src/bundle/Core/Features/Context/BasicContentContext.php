@@ -41,7 +41,7 @@ class BasicContentContext implements Context
         ContentTypeService $contentTypeService,
         ContentService $contentService
     ) {
-        $this->$repository = $repository;
+        $this->repository = $repository;
         $this->contentTypeService = $contentTypeService;
         $this->contentService = $contentService;
     }
