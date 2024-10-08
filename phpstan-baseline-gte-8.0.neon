@@ -16,11 +16,6 @@ parameters:
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, array\\|iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
 			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
