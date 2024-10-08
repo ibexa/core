@@ -47,15 +47,6 @@ abstract class Indexer
     }
 
     /**
-     * Create search engine index.
-     *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param int $iterationCount
-     * @param bool $commit commit changes after each iteration
-     */
-    abstract public function createSearchIndex(OutputInterface $output, $iterationCount, $commit);
-
-    /**
      * Get DB Statement to fetch metadata about content objects to be indexed.
      *
      * @param array $fields fields to select

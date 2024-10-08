@@ -191,48 +191,31 @@ class ReindexCommand extends Command
             throw new InvalidArgumentException('--iteration-count', "The value must be > 0, you provided '{$iterationCount}'");
         }
 
-        if (!$this->searchIndexer instanceof IncrementalIndexer) {
-            $output->writeln(<<<EOT
-                DEPRECATED:
-                Running indexing against an Indexer that has not been updated to use IncrementalIndexer abstract.
-                
-                Options that won't be taken into account:
-                - since
-                - content-ids
-                - subtree
-                - processes
-                - no-purge
+        if (\in_array($input->getOption('processes'), ['0', '1'])) {
+            $io = new SymfonyStyle($input, $output);
+            $xdebugState = \extension_loaded('xdebug') ? 'enabled' : 'disabled';
+            $memoryLimit = ini_get('memory_limit');
+
+            $io->warning(<<<EOT
+                It's not recommended to run this command in a single process mode with a large dataset!
+
+                For optimal performance, before running this command, make sure that:
+                - the xdebug extension is disabled (you have it $xdebugState),
+                - you're running the command in "prod" environment (default: dev), 
+                - memory limit for big databases is set to "-1" or an adequately high value (your value: $memoryLimit),
+                - --iteration-count is low enough (default: 50),
+                - number of processes for parallel batch operations is high enough (default: 'auto' is a good choice).
             EOT);
-            $this->searchIndexer->createSearchIndex($output, (int) $iterationCount, !$commit);
-        } else {
-            if (\in_array($input->getOption('processes'), ['0', '1'])) {
-                $io = new SymfonyStyle($input, $output);
-                $xdebugState = \extension_loaded('xdebug') ? 'enabled' : 'disabled';
-                $memoryLimit = ini_get('memory_limit');
 
-                $io->warning(<<<EOT
-                    It's not recommended to run this command in a single process mode with a large dataset!
-
-                    For optimal performance, before running this command, make sure that:
-                    - the xdebug extension is disabled (you have it $xdebugState),
-                    - you're running the command in "prod" environment (default: dev), 
-                    - memory limit for big databases is set to "-1" or an adequately high value (your value: $memoryLimit),
-                    - --iteration-count is low enough (default: 50),
-                    - number of processes for parallel batch operations is high enough (default: 'auto' is a good choice).
-                EOT);
-
-                if (!$io->confirm('Continue?', true)) {
-                    return self::SUCCESS;
-                }
+            if (!$io->confirm('Continue?', true)) {
+                return self::SUCCESS;
             }
-
-            $output->writeln('Re-indexing started for search engine: ' . $this->searchIndexer->getName());
-            $output->writeln('');
-
-            return $this->indexIncrementally($input, $output, $iterationCount, $commit);
         }
 
-        return self::SUCCESS;
+        $output->writeln('Re-indexing started for search engine: ' . $this->searchIndexer->getName());
+        $output->writeln('');
+
+        return $this->indexIncrementally($input, $output, $iterationCount, $commit);
     }
 
     /**
@@ -253,7 +236,7 @@ class ReindexCommand extends Command
 
             $this->searchIndexer->updateSearchIndex($contentIds, $commit);
 
-            return 0;
+            return self::SUCCESS;
         }
 
         if ($since = $input->getOption('since')) {
@@ -278,7 +261,7 @@ class ReindexCommand extends Command
         if (!$count) {
             $output->writeln('<error>Could not find any items to index, aborting.</error>');
 
-            return 1;
+            return self::FAILURE;
         }
 
         $iterations = ceil($count / $iterationCount);
@@ -326,7 +309,7 @@ class ReindexCommand extends Command
         // clear leftover progress bar parts
         $progress->clear();
 
-        return 0;
+        return self::SUCCESS;
     }
 
     /**
