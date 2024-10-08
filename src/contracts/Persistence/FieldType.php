@@ -7,6 +7,8 @@
 
 namespace Ibexa\Contracts\Core\Persistence;
 
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
+
 /**
  * The field type interface which field types available to storage engines have to implement.
  *
@@ -20,4 +22,6 @@ interface FieldType
      * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
      */
     public function getEmptyValue();
+
+    public function isEmptyValue(FieldValue $fieldValue): bool;
 }
