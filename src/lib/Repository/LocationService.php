@@ -86,15 +86,6 @@ class LocationService implements LocationServiceInterface
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $handler
-     * @param \Ibexa\Core\Repository\Mapper\ContentDomainMapper $contentDomainMapper
-     * @param \Ibexa\Core\Repository\Helper\NameSchemaService $nameSchemaService
-     * @param \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver $permissionCriterionResolver
-     * @param \Ibexa\Contracts\Core\Repository\ContentTypeService $contentTypeService
-     * @param array $settings
-     * @param \Psr\Log\LoggerInterface|null $logger
      */
     public function __construct(
         RepositoryInterface $repository,

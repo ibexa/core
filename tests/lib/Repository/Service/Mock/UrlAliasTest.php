@@ -14,14 +14,15 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as ApiNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Base\Exceptions\ForbiddenException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
-use Ibexa\Core\Repository\Helper\NameSchemaService;
 use Ibexa\Core\Repository\LocationService;
 use Ibexa\Core\Repository\URLAliasService;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Mock test case for UrlAlias Service.
@@ -3391,12 +3392,9 @@ class UrlAliasTest extends BaseServiceMockTest
         $mockedService->removeAliases($aliasList);
     }
 
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Helper\NameSchemaService
-     */
-    protected function getNameSchemaServiceMock()
+    protected function getNameSchemaServiceMock(): MockObject&NameSchemaServiceInterface
     {
-        return $this->createMock(NameSchemaService::class);
+        return $this->createMock(NameSchemaServiceInterface::class);
     }
 
     /**
