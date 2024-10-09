@@ -18,12 +18,12 @@ interface PoolInterface
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @return T
+     * @phpstan-return T
      */
     public function get(string $alias);
 
     /**
-     * @return iterable<string,T>
+     * @phpstan-return iterable<string,T>
      */
     public function getEntries(): iterable;
 
