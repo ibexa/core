@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -30,14 +31,7 @@ class FieldRelation extends FieldBase
      */
     private const CONTENT_ITEM_REL_COLUMN = 'c_rel.to_contentobject_id';
 
-    /**
-     * Check if this criterion handler accepts to handle the given criterion.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return bool
-     */
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\FieldRelation;
     }
@@ -78,7 +72,7 @@ class FieldRelation extends FieldBase
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         $fieldDefinitionIds = $this->getFieldDefinitionsIds($criterion->target);

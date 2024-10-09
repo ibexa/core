@@ -11,7 +11,7 @@ use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use PDOException;
@@ -349,7 +349,7 @@ final class ExceptionConversion extends Gateway
         int $offset,
         ?int $limit,
         array $sort = null,
-        ?Criterion $criterion = null
+        ?CriterionInterface $criterion = null
     ): array {
         try {
             return $this->innerGateway->listTrashed($offset, $limit, $sort, $criterion);
@@ -358,7 +358,7 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function countTrashed(?Criterion $criterion = null): int
+    public function countTrashed(?CriterionInterface $criterion = null): int
     {
         try {
             return $this->innerGateway->countTrashed($criterion);

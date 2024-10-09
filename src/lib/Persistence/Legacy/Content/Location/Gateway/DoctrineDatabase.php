@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
@@ -1238,7 +1238,7 @@ final class DoctrineDatabase extends Gateway
         int $offset,
         ?int $limit,
         array $sort = null,
-        ?Criterion $criterion = null
+        ?CriterionInterface $criterion = null
     ): array {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -1259,7 +1259,7 @@ final class DoctrineDatabase extends Gateway
         return $statement->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function countTrashed(?Criterion $criterion = null): int
+    public function countTrashed(?CriterionInterface $criterion = null): int
     {
         $query = $this->connection->createQueryBuilder()
             ->select($this->dbPlatform->getCountExpression(1))
@@ -1594,7 +1594,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    private function addConditionsByCriterion(?Criterion $criterion, QueryBuilder $query): void
+    private function addConditionsByCriterion(?CriterionInterface $criterion, QueryBuilder $query): void
     {
         if (null === $criterion) {
             return;

@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermission
 use Ibexa\Contracts\Core\Repository\PermissionResolver as APIPermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -152,7 +152,7 @@ class CachedPermissionService implements PermissionService
         return $returnValue;
     }
 
-    public function getQueryPermissionsCriterion(): Criterion
+    public function getQueryPermissionsCriterion(): CriterionInterface
     {
         return $this->permissionCriterionResolver->getQueryPermissionsCriterion();
     }

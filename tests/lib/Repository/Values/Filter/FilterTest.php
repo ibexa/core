@@ -188,7 +188,7 @@ final class FilterTest extends TestCase
      */
     public function testBuildingComplexFilter(
         Filter $filter,
-        ?Criterion $expectedCriterion,
+        ?Query\CriterionInterface $expectedCriterion,
         array $expectedSortClauses,
         int $expectedLimit = 0,
         int $expectedOffset = 0

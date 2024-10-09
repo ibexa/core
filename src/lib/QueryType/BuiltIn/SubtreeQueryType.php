@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class SubtreeQueryType extends AbstractLocationQueryType
@@ -33,7 +34,7 @@ final class SubtreeQueryType extends AbstractLocationQueryType
         $resolver->setAllowedTypes('depth', 'int');
     }
 
-    protected function getQueryFilter(array $parameters): Criterion
+    protected function getQueryFilter(array $parameters): CriterionInterface
     {
         $location = $this->resolveLocation($parameters);
 

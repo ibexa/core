@@ -9,14 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * Note that the class should ideally have been in a Logical namespace, but it would have then be named 'And',
  * and 'And' is a PHP reserved word.
  */
-abstract class LogicalOperator extends Criterion
+abstract class LogicalOperator implements CriterionInterface
 {
     /**
      * The set of criteria combined by the logical operator.
@@ -28,31 +27,18 @@ abstract class LogicalOperator extends Criterion
     /**
      * Creates a Logic operation with the given criteria.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[] $criteria
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface[] $criteria
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
      */
     public function __construct(array $criteria)
     {
         foreach ($criteria as $key => $criterion) {
-            if (!$criterion instanceof Criterion) {
-                throw new InvalidCriterionArgumentException($key, $criterion, Criterion::class);
+            if (!$criterion instanceof CriterionInterface) {
+                throw new InvalidCriterionArgumentException($key, $criterion, CriterionInterface::class);
             }
 
             $this->criteria[] = $criterion;
         }
-    }
-
-    /**
-     * @return array
-     *
-     * @deprecated in LogicalOperators since 7.2.
-     * It will be removed in 8.0 when Logical Operator no longer extends Criterion.
-     */
-    public function getSpecifications(): array
-    {
-        @trigger_error('The ' . __METHOD__ . ' method is deprecated since version 7.2 and will be removed in 8.0.', E_USER_DEPRECATED);
-
-        throw new NotImplementedException('getSpecifications() not implemented for LogicalOperators');
     }
 }

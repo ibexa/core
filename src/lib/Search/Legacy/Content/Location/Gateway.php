@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Location;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * Base class for location search gateways.
@@ -30,7 +30,7 @@ abstract class Gateway
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if a given Criterion Handler or Sort Clause is not implemented
      */
     abstract public function find(
-        Criterion $criterion,
+        CriterionInterface $criterion,
         $offset,
         $limit,
         array $sortClauses = null,

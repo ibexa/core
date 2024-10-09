@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\Trash\Query\Criterion as TrashCriterion;
 
@@ -22,11 +22,9 @@ class LogicalNot extends LogicalOperator implements FilteringCriterion, TrashCri
      *
      * Will match of the given criterion doesn't match
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[] $criteria One criterion, as an array
-     *
      * @throws \InvalidArgumentException if more than one criterion is given in the array parameter
      */
-    public function __construct(Criterion $criterion)
+    public function __construct(CriterionInterface $criterion)
     {
         parent::__construct([$criterion]);
     }

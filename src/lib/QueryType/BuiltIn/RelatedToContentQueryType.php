@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FieldRelation;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -48,7 +49,7 @@ final class RelatedToContentQueryType extends AbstractQueryType
         });
     }
 
-    protected function getQueryFilter(array $parameters): Criterion
+    protected function getQueryFilter(array $parameters): CriterionInterface
     {
         return new FieldRelation(
             $parameters['field'],

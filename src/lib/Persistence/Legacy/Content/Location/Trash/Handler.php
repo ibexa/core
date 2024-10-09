@@ -10,7 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Location\Trash;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as BaseTrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\TrashResult;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList;
 use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
@@ -161,7 +161,7 @@ class Handler implements BaseTrashHandler
     /**
      * {@inheritdoc}.
      */
-    public function findTrashItems(Criterion $criterion = null, $offset = 0, $limit = null, array $sort = null)
+    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null)
     {
         $totalCount = $this->locationGateway->countTrashed($criterion);
         if ($totalCount === 0) {

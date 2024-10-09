@@ -7,7 +7,7 @@
 
 namespace Ibexa\Contracts\Core\Persistence\Content\Location\Trash;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * The Trash Handler interface defines operations on Location elements in the storage engine.
@@ -72,7 +72,7 @@ interface Handler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location\Trashed[]|\Ibexa\Contracts\Core\Persistence\Content\Location\Trash\TrashResult
      */
-    public function findTrashItems(Criterion $criterion = null, $offset = 0, $limit = null, array $sort = null);
+    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null);
 
     /**
      * Empties the trash

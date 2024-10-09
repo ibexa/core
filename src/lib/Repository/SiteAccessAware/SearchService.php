@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\SearchService as SearchServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
@@ -67,7 +67,7 @@ class SearchService implements SearchServiceInterface
         return $this->service->findContentInfo($query, $languageFilter, $filterOnUserPermissions);
     }
 
-    public function findSingle(Criterion $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content
+    public function findSingle(CriterionInterface $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content
     {
         $languageFilter['languages'] = $this->languageResolver->getPrioritizedLanguages(
             $languageFilter['languages'] ?? null
@@ -80,7 +80,7 @@ class SearchService implements SearchServiceInterface
         return $this->service->findSingle($filter, $languageFilter, $filterOnUserPermissions);
     }
 
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, Criterion $filter = null)
+    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, CriterionInterface $filter = null)
     {
         return $this->service->suggest($prefix, $fieldPaths, $limit, $filter);
     }

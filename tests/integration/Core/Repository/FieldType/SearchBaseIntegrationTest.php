@@ -1363,7 +1363,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
      */
-    protected function findContent(Repository $repository, Criterion $criterion, $filter)
+    protected function findContent(Repository $repository, Query\CriterionInterface $criterion, $filter)
     {
         $searchService = $repository->getSearchService();
 
@@ -1414,13 +1414,11 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
     /**
      * Returns SearchResult of the tested Locations for the given $criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param bool $filter Denotes search by filtering if true, search by querying if false
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
      */
-    protected function findLocations(Repository $repository, Criterion $criterion, $filter)
+    protected function findLocations(Repository $repository, Query\CriterionInterface $criterion, $filter)
     {
         $searchService = $repository->getSearchService();
 
@@ -1516,7 +1514,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      */
     protected function assertFindResult(
         array $context,
-        Criterion $criterion,
+        Query\CriterionInterface $criterion,
         $includesOne,
         $includesTwo,
         $filter,

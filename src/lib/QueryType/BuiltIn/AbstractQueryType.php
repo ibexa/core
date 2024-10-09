@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\QueryType\OptionsResolverBasedQueryType;
@@ -80,7 +81,7 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
         $resolver->setAllowedTypes('limit', 'int');
     }
 
-    abstract protected function getQueryFilter(array $parameters): Criterion;
+    abstract protected function getQueryFilter(array $parameters): CriterionInterface;
 
     protected function createQuery(): Query
     {
@@ -102,7 +103,7 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
         return $query;
     }
 
-    private function buildFilters(array $parameters): Criterion
+    private function buildFilters(array $parameters): CriterionInterface
     {
         $criteria = [
             $this->getQueryFilter($parameters),

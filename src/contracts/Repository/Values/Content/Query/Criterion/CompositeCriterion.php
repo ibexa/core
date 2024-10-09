@@ -10,13 +10,14 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 abstract class CompositeCriterion extends Criterion
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion */
     public $criteria;
 
-    public function __construct(Criterion $criteria)
+    public function __construct(CriterionInterface $criteria)
     {
         $this->criteria = $criteria;
     }

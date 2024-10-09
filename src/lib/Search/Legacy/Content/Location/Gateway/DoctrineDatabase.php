@@ -11,7 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
@@ -67,7 +67,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     public function find(
-        Criterion $criterion,
+        CriterionInterface $criterion,
         $offset,
         $limit,
         array $sortClauses = null,
@@ -172,7 +172,7 @@ final class DoctrineDatabase extends Gateway
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    private function getTotalCount(Criterion $criterion, array $languageFilter): int
+    private function getTotalCount(CriterionInterface $criterion, array $languageFilter): int
     {
         $query = $this->connection->createQueryBuilder();
         $query

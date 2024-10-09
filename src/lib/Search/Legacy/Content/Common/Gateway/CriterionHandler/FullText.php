@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
@@ -114,14 +115,7 @@ class FullText extends CriterionHandler
         $this->languageMaskGenerator = $languageMaskGenerator;
     }
 
-    /**
-     * Check if this criterion handler accepts to handle the given criterion.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return bool
-     */
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\FullText;
     }
@@ -207,7 +201,7 @@ class FullText extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         $subSelect = $this->connection->createQueryBuilder();

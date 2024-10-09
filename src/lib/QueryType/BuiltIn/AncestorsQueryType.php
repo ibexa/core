@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 final class AncestorsQueryType extends AbstractLocationQueryType
 {
@@ -22,7 +23,7 @@ final class AncestorsQueryType extends AbstractLocationQueryType
         return 'Ancestors';
     }
 
-    protected function getQueryFilter(array $parameters): Criterion
+    protected function getQueryFilter(array $parameters): CriterionInterface
     {
         $location = $this->resolveLocation($parameters);
 

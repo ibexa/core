@@ -12,6 +12,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -60,14 +61,7 @@ class Field extends FieldBase
         $this->transformationProcessor = $transformationProcessor;
     }
 
-    /**
-     * Check if this criterion handler accepts to handle the given criterion.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return bool
-     */
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\Field;
     }
@@ -129,7 +123,7 @@ class Field extends FieldBase
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ): string {
         $fieldsInformation = $this->getFieldsInformation($criterion->target);

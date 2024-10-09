@@ -12,6 +12,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Psr\Log\LoggerInterface;
@@ -45,14 +46,7 @@ class ContentTypeIdentifier extends CriterionHandler
         $this->logger = $logger ?? new NullLogger();
     }
 
-    /**
-     * Check if this criterion handler accepts to handle the given criterion.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return bool
-     */
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\ContentTypeIdentifier;
     }
@@ -60,7 +54,7 @@ class ContentTypeIdentifier extends CriterionHandler
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         $idList = [];

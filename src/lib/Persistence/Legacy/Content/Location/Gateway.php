@@ -10,7 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\UpdateStruct;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * Base class for location gateways.
@@ -296,7 +296,7 @@ abstract class Gateway
      * @param int $offset
      * @param int|null $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $criterion
+     * @param CriterionInterface|null $criterion
      *
      * @return array entries from ezcontentobject_trash.
      */
@@ -304,13 +304,13 @@ abstract class Gateway
         int $offset,
         ?int $limit,
         array $sort = null,
-        ?Criterion $criterion = null
+        ?CriterionInterface $criterion = null
     ): array;
 
     /**
      * Count trashed items.
      */
-    abstract public function countTrashed(?Criterion $criterion = null): int;
+    abstract public function countTrashed(?CriterionInterface $criterion = null): int;
 
     /**
      * Removes trashed element identified by $id from trash.

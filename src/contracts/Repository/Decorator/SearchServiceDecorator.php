@@ -12,7 +12,7 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 abstract class SearchServiceDecorator implements SearchService
@@ -42,7 +42,7 @@ abstract class SearchServiceDecorator implements SearchService
     }
 
     public function findSingle(
-        Criterion $filter,
+        CriterionInterface $filter,
         array $languageFilter = [],
         bool $filterOnUserPermissions = true
     ): Content {
@@ -53,7 +53,7 @@ abstract class SearchServiceDecorator implements SearchService
         string $prefix,
         array $fieldPaths = [],
         int $limit = 10,
-        Criterion $filter = null
+        CriterionInterface $filter = null
     ) {
         return $this->innerService->suggest($prefix, $fieldPaths, $limit, $filter);
     }
