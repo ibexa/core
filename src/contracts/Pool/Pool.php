@@ -21,7 +21,7 @@ final class Pool implements PoolInterface
 
     private string $class;
 
-    /** @var iterable<string,T> */
+    /** @phpstan-var iterable<string,T> */
     private iterable $entries;
 
     private string $exceptionArgumentName = '$alias';
@@ -29,7 +29,7 @@ final class Pool implements PoolInterface
     private string $exceptionMessageTemplate = self::DEFAULT_EXCEPTION_MESSAGE_TEMPLATE;
 
     /**
-     * @param iterable<string,T> $entries
+     * @phpstan-param iterable<string,T> $entries
      */
     public function __construct(string $class, iterable $entries = [])
     {
@@ -45,7 +45,7 @@ final class Pool implements PoolInterface
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @return T
+     * @phpstan-return T
      */
     public function get(string $alias)
     {
@@ -65,7 +65,7 @@ final class Pool implements PoolInterface
     }
 
     /**
-     * @return T|null
+     * @phpstan-return T|null
      */
     private function findEntry(string $needle)
     {
@@ -79,7 +79,7 @@ final class Pool implements PoolInterface
     }
 
     /**
-     * @return iterable<string,T>
+     * @phpstan-return iterable<string,T>
      */
     public function getEntries(): iterable
     {
