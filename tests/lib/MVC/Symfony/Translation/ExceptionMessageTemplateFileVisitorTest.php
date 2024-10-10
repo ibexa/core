@@ -13,7 +13,6 @@ use Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
-use PhpParser\Lexer;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +21,7 @@ use SplFileInfo;
 
 final class ExceptionMessageTemplateFileVisitorTest extends TestCase
 {
-    private const FIXTURES_DIR = __DIR__ . '/fixtures/';
+    private const string FIXTURES_DIR = __DIR__ . '/fixtures/';
 
     private Parser $phpParser;
 
@@ -34,9 +33,8 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
         $fileSourceFactory = new FileSourceFactory(
             self::FIXTURES_DIR,
         );
-        $lexer = new Lexer();
         $factory = new ParserFactory();
-        $this->phpParser = $factory->create(ParserFactory::PREFER_PHP7, $lexer);
+        $this->phpParser = $factory->createForHostVersion();
         $this->exceptionMessageTemplateFileVisitor = new ExceptionMessageTemplateFileVisitor(
             $docParser,
             $fileSourceFactory
@@ -49,7 +47,7 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
         $file = self::FIXTURES_DIR . 'SetMessageTemplate.php';
         $fileInfo = new SplFileInfo($file);
 
-        $ast = $this->phpParser->parse(file_get_contents($file));
+        $ast = $this->getASTFromFile($file);
         $this->exceptionMessageTemplateFileVisitor->visitPhpFile(
             $fileInfo,
             $messageCatalogue,
@@ -69,7 +67,7 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
         $file = self::FIXTURES_DIR . 'NoTranslationToExtract.php';
         $fileInfo = new SplFileInfo($file);
 
-        $ast = $this->phpParser->parse(file_get_contents($file));
+        $ast = $this->getASTFromFile($file);
         $this->exceptionMessageTemplateFileVisitor->visitPhpFile(
             $fileInfo,
             $messageCatalogue,
@@ -85,7 +83,7 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
         $file = self::FIXTURES_DIR . 'WrongTranslationId.php';
         $fileInfo = new SplFileInfo($file);
 
-        $ast = $this->phpParser->parse(file_get_contents($file));
+        $ast = $this->getASTFromFile($file);
 
         $logger = $this->createMock(LoggerInterface::class);
         $logger
@@ -98,5 +96,19 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
             $messageCatalogue,
             $ast
         );
+    }
+
+    /**
+     * @return \PhpParser\Node\Stmt[]
+     */
+    private function getASTFromFile(string $filePath): array
+    {
+        $fileContents = file_get_contents($filePath);
+        assert($fileContents !== false, "Failed to read $filePath");
+
+        $ast = $this->phpParser->parse($fileContents);
+        assert($ast !== null, "Failed to parse AST of $filePath");
+
+        return $ast;
     }
 }
