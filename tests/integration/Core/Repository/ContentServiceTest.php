@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct;
-use Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\DraftList\Item\UnauthorizedContentDraftListItem;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
@@ -2433,7 +2432,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->createContentDraft($demoDesignContentInfo);
 
         // Now $contentDrafts should contain two drafted versions
-        /** @var ContentDraftListItemInterface[] $draftedVersions */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface[] $draftedVersions */
         $draftedVersions = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 
         $actual = [
@@ -2478,7 +2477,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->permissionResolver->setCurrentUserReference($oldCurrentUser);
 
         // Now $contentDrafts for the previous current user and the new user
-        /** @var ContentDraftListItemInterface[] $newCurrentUserDrafts */
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface[] $newCurrentUserDrafts */
         $newCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList($user)->getIterator());
         $oldCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 

@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
-use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
@@ -1197,7 +1196,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
 
         // assert each relation
         /**
-         * @var RelationListItemInterface $relationListItem
+         * @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface $relationListItem
          */
         foreach ($actualRelations as $relationListItem) {
             $relation = $relationListItem->getRelation();
