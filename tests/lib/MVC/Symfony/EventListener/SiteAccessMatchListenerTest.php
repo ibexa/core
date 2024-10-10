@@ -155,7 +155,7 @@ class SiteAccessMatchListenerTest extends TestCase
         $this->assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
-    public function testOnKernelRequestSerializedSAWithMatcherInMatcherRegistry()
+    public function testOnKernelRequestSerializedSAWithMatcherInMatcherRegistry(): void
     {
         $matcher = new CustomMatcher([]);
         $matcherRegistryMock = $this->createMock(SiteAccessMatcherRegistryInterface::class);

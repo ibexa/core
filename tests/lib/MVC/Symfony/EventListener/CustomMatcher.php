@@ -11,7 +11,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map\URI;
 
 class CustomMatcher extends URI implements Matcher
 {
-    public function setMatchingConfiguration($matchingConfiguration)
+    public function setMatchingConfiguration($matchingConfiguration): void
     {
     }
 }
