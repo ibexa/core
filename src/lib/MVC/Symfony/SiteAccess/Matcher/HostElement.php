@@ -83,7 +83,7 @@ class HostElement implements VersatileMatcher
 
     public function reverseMatch($siteAccessName)
     {
-        $hostElements = explode('.', $this->request->getHost());
+        $hostElements = explode('.', (string)$this->request->getHost());
         $elementNumber = $this->elementNumber - 1;
         if (!isset($hostElements[$elementNumber])) {
             return null;

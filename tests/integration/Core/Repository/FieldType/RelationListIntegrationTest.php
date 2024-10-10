@@ -259,10 +259,8 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
 
     /**
      * Get update field externals data.
-     *
-     * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): RelationListValue
     {
         return new RelationListValue([49, 54, 4]);
     }
@@ -271,10 +269,8 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      * Get externals updated field data values.
      *
      * This is a PHPUnit data provider
-     *
-     * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(RelationListValue::class, $field->value);
 
@@ -300,7 +296,7 @@ class RelationListIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             RelationListValue::class,

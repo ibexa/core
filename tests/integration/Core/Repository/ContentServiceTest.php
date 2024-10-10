@@ -2419,7 +2419,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @depends testCreateContentDraft
      */
-    public function testLoadContentDraftList()
+    public function testLoadContentDraftList(): void
     {
         // "Media" content object
         $mediaContentInfo = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
@@ -2435,11 +2435,17 @@ class ContentServiceTest extends BaseContentServiceTest
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface[] $draftedVersions */
         $draftedVersions = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $draftedVersionInfo0 */
+        $draftedVersionInfo0 = $draftedVersions[0]->getVersionInfo();
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $draftedVersionInfo1 */
+        $draftedVersionInfo1 = $draftedVersions[1]->getVersionInfo();
+
         $actual = [
-            $draftedVersions[0]->getVersionInfo()->status,
-            $draftedVersions[0]->getVersionInfo()->getContentInfo()->remoteId,
-            $draftedVersions[1]->getVersionInfo()->status,
-            $draftedVersions[1]->getVersionInfo()->getContentInfo()->remoteId,
+            $draftedVersionInfo0->status,
+            $draftedVersionInfo0->getContentInfo()->remoteId,
+            $draftedVersionInfo1->status,
+            $draftedVersionInfo1->getContentInfo()->remoteId,
         ];
         sort($actual, SORT_STRING);
 
@@ -2483,19 +2489,21 @@ class ContentServiceTest extends BaseContentServiceTest
 
         self::assertSame([], $oldCurrentUserDrafts);
 
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $newCurrentUserDraftVersionInfo */
+        $newCurrentUserDraftVersionInfo = $newCurrentUserDrafts[0]->getVersionInfo();
         self::assertEquals(
             [
                 VersionInfo::STATUS_DRAFT,
                 self::MEDIA_REMOTE_ID,
             ],
             [
-                $newCurrentUserDrafts[0]->getVersionInfo()->status,
-                $newCurrentUserDrafts[0]->getVersionInfo()->getContentInfo()->remoteId,
+                $newCurrentUserDraftVersionInfo->status,
+                $newCurrentUserDraftVersionInfo->getContentInfo()->remoteId,
             ]
         );
-        self::assertTrue($newCurrentUserDrafts[0]->getVersionInfo()->isDraft());
-        self::assertFalse($newCurrentUserDrafts[0]->getVersionInfo()->isArchived());
-        self::assertFalse($newCurrentUserDrafts[0]->getVersionInfo()->isPublished());
+        self::assertTrue($newCurrentUserDraftVersionInfo->isDraft());
+        self::assertFalse($newCurrentUserDraftVersionInfo->isArchived());
+        self::assertFalse($newCurrentUserDraftVersionInfo->isPublished());
     }
 
     /**
@@ -2503,7 +2511,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
-    public function testLoadContentDraftListWithPaginationParameters()
+    public function testLoadContentDraftListWithPaginationParameters(): void
     {
         // Create some drafts
         $publishedContent = $this->createContentVersion1();
@@ -2529,7 +2537,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      */
-    public function testLoadContentDraftListWithForUserWithLimitation()
+    public function testLoadContentDraftListWithForUserWithLimitation(): void
     {
         $oldUser = $this->permissionResolver->getCurrentUserReference();
 
@@ -2568,7 +2576,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
-    public function testLoadAllContentDraftList()
+    public function testLoadAllContentDraftList(): void
     {
         // Create more drafts then default pagination limit
         $this->createContentDrafts(12);
@@ -6757,7 +6765,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $this->createFolder([self::ENG_US => 'P3'], $parentLocationId)->contentInfo->mainLocationId,
         ];
 
-        return array_values($this->locationService->loadLocationList($parentFoldersLocationsIds));
+        return array_values([...$this->locationService->loadLocationList($parentFoldersLocationsIds)]);
     }
 
     /**

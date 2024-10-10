@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation as RelationContract;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Core\Repository\Values\Content\Relation;
@@ -79,7 +80,7 @@ trait RelationSearchBaseIntegrationTestTrait
     /**
      * Normalizes given $relations for easier comparison.
      *
-     * @param \Ibexa\Core\Repository\Values\Content\Relation[] $relations
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
      *
      * @return \Ibexa\Core\Repository\Values\Content\Relation[]
      */
@@ -87,7 +88,7 @@ trait RelationSearchBaseIntegrationTestTrait
     {
         usort(
             $relations,
-            static function (Relation $a, Relation $b): int {
+            static function (RelationContract $a, RelationContract $b): int {
                 if ($a->type == $b->type) {
                     return $a->destinationContentInfo->id < $b->destinationContentInfo->id ? 1 : -1;
                 }
@@ -96,7 +97,7 @@ trait RelationSearchBaseIntegrationTestTrait
             }
         );
         $normalized = array_map(
-            static function (Relation $relation) {
+            static function (RelationContract $relation) {
                 $newRelation = new Relation(
                     [
                         'id' => null,
@@ -181,12 +182,12 @@ trait RelationSearchBaseIntegrationTestTrait
     }
 
     /**
-     * @return \Ibexa\Core\Repository\Values\Content\Relation[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
     private function getRelations(RelationList $relationList): array
     {
         return array_filter(array_map(
-            static fn (RelationListItemInterface $relationListItem): ?Relation => $relationListItem->getRelation(),
+            static fn (RelationListItemInterface $relationListItem): ?RelationContract => $relationListItem->getRelation(),
             $relationList->items
         ));
     }

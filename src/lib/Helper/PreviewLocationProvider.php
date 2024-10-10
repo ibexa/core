@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Helper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
@@ -22,24 +21,18 @@ class PreviewLocationProvider
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
-
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
     private $locationHandler;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location\Handler $locationHandler
      */
     public function __construct(
         LocationService $locationService,
-        ContentService $contentService,
         PersistenceLocationHandler $locationHandler
     ) {
         $this->locationService = $locationService;
-        $this->contentService = $contentService;
         $this->locationHandler = $locationHandler;
     }
 

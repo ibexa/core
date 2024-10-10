@@ -39,7 +39,7 @@ class Port extends Map
                 }
             }
 
-            $this->setMapKey($key);
+            $this->setMapKey((string)$key);
         }
 
         parent::setRequest($request);
@@ -49,7 +49,7 @@ class Port extends Map
     {
         $matcher = parent::reverseMatch($siteAccessName);
         if ($matcher instanceof self) {
-            $matcher->getRequest()->setPort($matcher->getMapKey());
+            $matcher->getRequest()->setPort((int)$matcher->getMapKey());
         }
 
         return $matcher;

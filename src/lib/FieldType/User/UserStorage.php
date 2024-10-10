@@ -46,9 +46,7 @@ class UserStorage extends GatewayBasedStorage
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param int[] $fieldIds Array of field Ids
-     * @param array $context
      *
      * @return bool
      *

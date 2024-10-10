@@ -32,13 +32,13 @@ class ContentServiceDecoratorTest extends TestCase
     private const EXAMPLE_CONTENT_REMOTE_ID = 'example';
     private const EXAMPLE_VERSION_NO = 1;
 
-    protected function createDecorator(MockObject $service): ContentService
+    protected function createDecorator(ContentService&MockObject $service): ContentService
     {
         return new class($service) extends ContentServiceDecorator {
         };
     }
 
-    protected function createServiceMock(): MockObject
+    protected function createServiceMock(): ContentService&MockObject
     {
         return $this->createMock(ContentService::class);
     }
@@ -250,7 +250,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->createContentDraft(...$parameters);
     }
 
-    public function testLoadContentDraftListDecorator()
+    public function testLoadContentDraftListDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -329,7 +329,7 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->copyContent(...$parameters);
     }
 
-    public function testLoadRelationListDecorator()
+    public function testLoadRelationListDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

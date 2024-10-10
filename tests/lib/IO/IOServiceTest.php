@@ -330,7 +330,7 @@ class IOServiceTest extends TestCase
         $this->getIOService()->deleteDirectory('some/directory');
     }
 
-    public function testDeleteBinaryFileNotFound()
+    public function testDeleteBinaryFileNotFound(): void
     {
         $this->expectException(BinaryFileNotFoundException::class);
 
