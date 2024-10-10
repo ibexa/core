@@ -46186,6 +46186,16 @@ parameters:
 			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
 
 		-
+			message: "#^Parameter \\#1 \\$siteAccessRouter of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListener constructor expects Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Router, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
+			count: 1
+			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$eventDispatcher of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListener constructor expects Symfony\\\\Component\\\\EventDispatcher\\\\EventDispatcherInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
+			count: 1
+			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\FieldType\\\\ImageAsset\\\\ParameterProviderTest\\:\\:dataProviderForTestGetViewParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/FieldType/ImageAsset/ParameterProviderTest.php
