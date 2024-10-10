@@ -155,6 +155,66 @@ class SiteAccessMatchListenerTest extends TestCase
         $this->assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
+    public function testOnKernelRequestSerializedSAWithMatcherInMatcherRegistry()
+    {
+        $matcher = new CustomMatcher([]);
+        $matcherRegistryMock = $this->createMock(SiteAccessMatcherRegistryInterface::class);
+        $matcherRegistryMock->method('hasMatcher')->willReturn(true);
+        $matcherRegistryMock->method('getMatcher')->willReturn($matcher);
+        $matcher2 = new CustomMatcher([]);
+        $matcher2->setMapKey('key_foobar');
+
+        $matcherRegistryMock
+            ->expects($this->once())
+            ->method('getMatcher')
+            ->with('Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher');
+        $this->listener = new SiteAccessMatchListener(
+            $this->saRouter,
+            $this->eventDispatcher,
+            $matcherRegistryMock
+        );
+
+        $siteAccess = new SiteAccess(
+            'test',
+            'matching_type',
+            $matcher2,
+            null,
+            [new SiteAccessGroup('test_group')]
+        );
+        $request = new Request();
+        $request->attributes->set('serialized_siteaccess', json_encode($siteAccess));
+        $request->attributes->set(
+            'serialized_siteaccess_matcher',
+            $this->getSerializer()->serialize(
+                $siteAccess->matcher,
+                'json',
+                [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder']]
+            )
+        );
+        $event = new RequestEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MASTER_REQUEST
+        );
+
+        $this->saRouter
+            ->expects($this->never())
+            ->method('match');
+
+        $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
+
+        $this->listener->onKernelRequest($event);
+        $this->assertEquals($siteAccess, $request->attributes->get('siteaccess'));
+        /** @var CustomMatcher $siteAccessMatcher */
+        $siteAccessMatcher = $siteAccess->matcher;
+        $this->assertEquals('key_foobar', $siteAccessMatcher->getMapKey());
+        $this->assertFalse($request->attributes->has('serialized_siteaccess'));
+    }
+
     public function testOnKernelRequestSiteAccessPresent()
     {
         $siteAccess = new SiteAccess('test');
