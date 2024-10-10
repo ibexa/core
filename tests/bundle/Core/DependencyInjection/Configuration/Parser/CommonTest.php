@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\Common;
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Symfony\Component\Yaml\Yaml;
 
@@ -212,7 +211,7 @@ class CommonTest extends AbstractParserTestCase
                         'cookie_httponly' => true,
                     ],
                 ],
-            ]
+            ],
         ];
     }
 }

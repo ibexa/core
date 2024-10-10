@@ -49,7 +49,7 @@ final class SimplifiedRequestNormalizerTest extends TestCase
     public function testNormalizeWithNewConstructor(): void
     {
         $request = new SimplifiedRequest(
-        'http',
+            'http',
             'www.example.com',
             8080,
             '/foo',

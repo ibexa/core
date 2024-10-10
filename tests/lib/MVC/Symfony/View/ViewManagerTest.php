@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\View\Configurator;
 use Ibexa\Core\MVC\Symfony\View\Manager;
 use Ibexa\Core\MVC\Symfony\View\View;
-use Ibexa\Core\MVC\Symfony\View\ViewProvider;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;

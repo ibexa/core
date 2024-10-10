@@ -46,11 +46,11 @@ class LegacyDFSCluster implements IOMetadataHandler
      * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $spiBinaryFileCreateStruct
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
+     *
      *@throws \RuntimeException if a DBAL error occurs
-     *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException if the $binaryFileCreateStruct is invalid
-     * @since 6.10 The mtime of the $binaryFileCreateStruct must be a DateTime, as specified in the struct doc.
      *
+     * @since 6.10 The mtime of the $binaryFileCreateStruct must be a DateTime, as specified in the struct doc.
      */
     public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct)
     {
