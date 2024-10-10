@@ -20,10 +20,16 @@ use Ibexa\Tests\Core\Search\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 abstract class BaseRenderStrategyTest extends TestCase
 {
+    /**
+     * @phpstan-param class-string<\Ibexa\Contracts\Core\MVC\Templating\BaseRenderStrategy> $typeClass
+     *
+     * @param \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface[] $fragmentRenderers
+     */
     public function createRenderStrategy(
         string $typeClass,
         array $fragmentRenderers,
@@ -48,19 +54,11 @@ abstract class BaseRenderStrategyTest extends TestCase
         string $name = 'inline',
         string $rendered = null
     ): FragmentRendererInterface {
-        return new class($name, $rendered) implements FragmentRendererInterface {
-            /** @var string */
-            private $name;
-
-            /** @var string */
-            private $rendered;
-
+        return new readonly class($name, $rendered) implements FragmentRendererInterface {
             public function __construct(
-                string $name,
-                ?string $rendered
+                private string $name,
+                private ?string $rendered
             ) {
-                $this->name = $name;
-                $this->rendered = $rendered;
             }
 
             public function getName(): string
@@ -68,8 +66,11 @@ abstract class BaseRenderStrategyTest extends TestCase
                 return $this->name;
             }
 
+            /**
+             * @param array<string, mixed> $options
+             */
             public function render(
-                $uri,
+                string|ControllerReference $uri,
                 Request $request,
                 array $options = []
             ): Response {
