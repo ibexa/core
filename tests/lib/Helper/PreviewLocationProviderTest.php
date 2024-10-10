@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Helper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
@@ -20,9 +19,6 @@ use PHPUnit\Framework\TestCase;
 
 class PreviewLocationProviderTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentService;
-
     /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
     private $locationService;
 
@@ -36,10 +32,9 @@ class PreviewLocationProviderTest extends TestCase
     {
         parent::setUp();
 
-        $this->contentService = $this->createMock(ContentService::class);
         $this->locationService = $this->createMock(LocationService::class);
         $this->locationHandler = $this->createMock(SPILocationHandler::class);
-        $this->provider = new PreviewLocationProvider($this->locationService, $this->contentService, $this->locationHandler);
+        $this->provider = new PreviewLocationProvider($this->locationService, $this->locationHandler);
     }
 
     public function testGetPreviewLocationDraft()

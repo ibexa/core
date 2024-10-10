@@ -31,7 +31,7 @@ class URIText extends AffixBasedTextMatcher implements URILexer
     public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->element) {
-            $this->setMatchElement($request->getPathInfo());
+            $this->setMatchElement((string)$request->getPathInfo());
         }
 
         parent::setRequest($request);

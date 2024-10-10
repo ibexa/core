@@ -131,7 +131,6 @@ class BinaryBaseStorage extends GatewayBasedStorage
      *
      * @param mixed $fieldId
      * @param string $versionNo
-     * @param array $context
      */
     protected function removeOldFile($fieldId, $versionNo)
     {

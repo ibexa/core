@@ -26,10 +26,6 @@ class KeywordStorage extends GatewayBasedStorage
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context
-     *
      * @return mixed
      */
     public function storeFieldData(VersionInfo $versionInfo, Field $field)
@@ -45,11 +41,7 @@ class KeywordStorage extends GatewayBasedStorage
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param array $fieldIds
-     * @param array $context
-     *
-     * @return bool
      */
     public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
     {
@@ -60,11 +52,6 @@ class KeywordStorage extends GatewayBasedStorage
         return true;
     }
 
-    /**
-     * Checks if field type has external data to deal with.
-     *
-     * @return bool
-     */
     public function hasFieldData(): bool
     {
         return true;

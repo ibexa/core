@@ -30,7 +30,7 @@ class HostText extends AffixBasedTextMatcher
     public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->element) {
-            $this->setMatchElement($request->getHost());
+            $this->setMatchElement((string)$request->getHost());
         }
 
         parent::setRequest($request);

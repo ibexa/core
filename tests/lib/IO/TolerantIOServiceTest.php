@@ -58,7 +58,7 @@ class TolerantIOServiceTest extends IOServiceTest
     /**
      * Overridden to change the expected exception (none).
      */
-    public function testDeleteBinaryFileNotFound()
+    public function testDeleteBinaryFileNotFound(): void
     {
         $this->deleteBinaryFileNotFound();
     }

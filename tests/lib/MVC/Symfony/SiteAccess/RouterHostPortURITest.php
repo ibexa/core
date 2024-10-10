@@ -126,7 +126,7 @@ class RouterHostPortURITest extends RouterBaseTest
         $matcher = new Port(['foo' => $mapKey]);
         $matcher->setRequest($request);
         self::assertSame($request, $matcher->getRequest());
-        self::assertSame($mapKey, $matcher->getMapKey());
+        self::assertSame((string)$mapKey, $matcher->getMapKey());
     }
 
     public function testReversePortMatchFail()
@@ -146,7 +146,7 @@ class RouterHostPortURITest extends RouterBaseTest
         $request = new SimplifiedRequest('http', 'ibexa.co');
         $matcher = new Port($config);
         $matcher->setRequest($request);
-        self::assertSame(80, $matcher->getMapKey());
+        self::assertSame('80', $matcher->getMapKey());
 
         $result = $matcher->reverseMatch('ibexa_demo_site');
         self::assertInstanceOf(Port::class, $result);
