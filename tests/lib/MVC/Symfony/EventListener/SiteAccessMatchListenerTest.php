@@ -13,6 +13,7 @@ use Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
 use PHPUnit\Framework\TestCase;
@@ -58,16 +59,33 @@ class SiteAccessMatchListenerTest extends TestCase
         );
     }
 
-    public function testOnKernelRequestSerializedSA()
-    {
-        $matcher = new SiteAccess\Matcher\URIElement(1);
-        $siteAccess = new SiteAccess(
+    /**
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccessGroup[] $groups
+     */
+    protected function createSiteAccess(
+        ?Matcher $matcher = null,
+        ?string $provider = null,
+        array $groups = []
+    ): SiteAccess {
+        return new SiteAccess(
             'test',
             'matching_type',
             $matcher,
-            null,
-            [new SiteAccessGroup('test_group')]
+            $provider,
+            $groups
         );
+    }
+
+    /**
+     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
+     *
+     * @return \Symfony\Component\HttpFoundation\Request
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function createRequest(SiteAccess $siteAccess): Request
+    {
         $request = new Request();
         $request->attributes->set('serialized_siteaccess', json_encode($siteAccess));
         $request->attributes->set(
@@ -96,6 +114,15 @@ class SiteAccessMatchListenerTest extends TestCase
 
         $this->listener->onKernelRequest($event);
         $this->assertEquals($siteAccess, $request->attributes->get('siteaccess'));
+
+        return $request;
+    }
+
+    public function testOnKernelRequestSerializedSA()
+    {
+        $matcher = new SiteAccess\Matcher\URIElement(1);
+        $siteAccess = $this->createSiteAccess($matcher, null, [new SiteAccessGroup('test_group')]);
+        $request = $this->createRequest($siteAccess);
         $this->assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
@@ -152,6 +179,38 @@ class SiteAccessMatchListenerTest extends TestCase
 
         $this->listener->onKernelRequest($event);
         $this->assertEquals($siteAccess, $request->attributes->get('siteaccess'));
+        $this->assertFalse($request->attributes->has('serialized_siteaccess'));
+    }
+
+    public function testOnKernelRequestSerializedSAWithMatcherInMatcherRegistry(): void
+    {
+        $matcher = new CustomMatcher([]);
+        $matcherRegistryMock = $this->createMock(SiteAccessMatcherRegistryInterface::class);
+        $matcherRegistryMock->method('hasMatcher')->willReturn(true);
+        $matcherRegistryMock->method('getMatcher')->willReturn($matcher);
+        $matcher2 = new CustomMatcher([]);
+        $matcher2->setMapKey('key_foobar');
+
+        $matcherRegistryMock
+            ->expects($this->once())
+            ->method('getMatcher')
+            ->with('Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher');
+        $this->listener = new SiteAccessMatchListener(
+            $this->saRouter,
+            $this->eventDispatcher,
+            $matcherRegistryMock
+        );
+
+        $siteAccess = $this->createSiteAccess(
+            $matcher2,
+            null,
+            [new SiteAccessGroup('test_group')]
+        );
+
+        $request = $this->createRequest($siteAccess);
+        /** @var CustomMatcher $siteAccessMatcher */
+        $siteAccessMatcher = $siteAccess->matcher;
+        $this->assertEquals('key_foobar', $siteAccessMatcher->getMapKey());
         $this->assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
