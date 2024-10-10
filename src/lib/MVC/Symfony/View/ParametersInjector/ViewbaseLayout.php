@@ -44,8 +44,6 @@ class ViewbaseLayout implements EventSubscriberInterface
         $pageLayout = $this->getPageLayout();
 
         $event->getParameterBag()->set('view_base_layout', $this->viewbaseLayout);
-        // @deprecated since 8.0. Use `page_layout` instead
-        $event->getParameterBag()->set('pagelayout', $pageLayout);
         $event->getParameterBag()->set('page_layout', $pageLayout);
     }
 }

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Base\Container\Compiler\Storage;
 
-use Ibexa\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -86,41 +85,6 @@ class ExternalStorageRegistryPass implements CompilerPassInterface
                             $serviceId,
                             self::EXTERNAL_STORAGE_HANDLER_SERVICE_TAG
                         )
-                    );
-                }
-
-                // If the storage handler is gateway based, then we need to add a corresponding gateway to it.
-                // Will throw a LogicException if no gateway is defined for this field type.
-                $storageHandlerDef = $container->findDefinition($serviceId);
-                $storageHandlerClass = $storageHandlerDef->getClass();
-                if (preg_match('/^%([^%\s]+)%$/', (string)$storageHandlerClass, $match)) {
-                    $storageHandlerClass = $container->getParameter($match[1]);
-                }
-
-                if (
-                    is_subclass_of(
-                        $storageHandlerClass,
-                        GatewayBasedStorage::class
-                    )
-                ) {
-                    if (!isset($externalStorageGateways[$attribute['alias']])) {
-                        throw new LogicException(
-                            sprintf(
-                                'External storage handler "%s" for Field Type "%s" needs a storage gateway. ' .
-                                'Consider defining a storage gateway as a service for this Field Type and add the "%s" tag',
-                                $serviceId,
-                                $attribute['alias'],
-                                self::EXTERNAL_STORAGE_HANDLER_GATEWAY_SERVICE_TAG
-                            )
-                        );
-                    }
-
-                    $storageHandlerDef->addMethodCall(
-                        'addGateway',
-                        [
-                            $externalStorageGateways[$attribute['alias']]['identifier'],
-                            new Reference($externalStorageGateways[$attribute['alias']]['id']),
-                        ]
                     );
                 }
 

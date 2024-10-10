@@ -26,33 +26,24 @@ class KeywordStorage extends GatewayBasedStorage
     /**
      * @see \Ibexa\Contracts\Core\FieldType\FieldStorage
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param array $context
-     *
      * @return mixed
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
         $contentTypeId = $this->gateway->getContentTypeId($field);
 
         return $this->gateway->storeFieldData($field, $contentTypeId);
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
-        // @todo: This should already retrieve the ContentType ID
         return $this->gateway->getFieldData($field);
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param array $fieldIds
-     * @param array $context
-     *
-     * @return bool
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context): bool
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): bool
     {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->deleteFieldData($fieldId, $versionInfo->versionNo);
@@ -61,18 +52,8 @@ class KeywordStorage extends GatewayBasedStorage
         return true;
     }
 
-    /**
-     * Checks if field type has external data to deal with.
-     *
-     * @return bool
-     */
     public function hasFieldData(): bool
     {
         return true;
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        return [];
     }
 }

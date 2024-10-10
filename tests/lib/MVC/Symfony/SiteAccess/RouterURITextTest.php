@@ -124,7 +124,7 @@ class RouterURITextTest extends RouterBaseTest
         self::assertInstanceOf(URIText::class, $result);
         $request = $result->getRequest();
         self::assertInstanceOf(SimplifiedRequest::class, $request);
-        self::assertSame("/foosomethingbar{$semanticURI}", $request->pathinfo);
+        self::assertSame("/foosomethingbar{$semanticURI}", $request->getPathInfo());
     }
 
     protected function createRouter(): Router

@@ -45,7 +45,7 @@ class UrlStorageTest extends TestCase
             );
 
         $storage = $this->getPartlyMockedStorage($gateway);
-        $result = $storage->storeFieldData($versionInfo, $field, $this->getContext());
+        $result = $storage->storeFieldData($versionInfo, $field);
 
         self::assertTrue($result);
         self::assertEquals(12, $field->value->data['urlId']);
@@ -85,7 +85,7 @@ class UrlStorageTest extends TestCase
             );
 
         $storage = $this->getPartlyMockedStorage($gateway);
-        $result = $storage->storeFieldData($versionInfo, $field, $this->getContext());
+        $result = $storage->storeFieldData($versionInfo, $field);
 
         self::assertTrue($result);
         self::assertEquals(12, $field->value->data['urlId']);
@@ -115,7 +115,7 @@ class UrlStorageTest extends TestCase
             ->method('unlinkUrl');
 
         $storage = $this->getPartlyMockedStorage($gateway);
-        $result = $storage->storeFieldData($versionInfo, $field, $this->getContext());
+        $result = $storage->storeFieldData($versionInfo, $field);
 
         self::assertFalse($result);
         self::assertNull($field->value->data);
@@ -135,7 +135,7 @@ class UrlStorageTest extends TestCase
             ->will(self::returnValue([12 => 'http://ibexa.co']));
 
         $storage = $this->getPartlyMockedStorage($gateway);
-        $storage->getFieldData($versionInfo, $field, $this->getContext());
+        $storage->getFieldData($versionInfo, $field);
 
         self::assertEquals('http://ibexa.co', $field->value->externalData);
     }
@@ -160,7 +160,7 @@ class UrlStorageTest extends TestCase
             ->method('error')
             ->with("URL with ID '12' not found");
 
-        $storage->getFieldData($versionInfo, $field, $this->getContext());
+        $storage->getFieldData($versionInfo, $field);
 
         self::assertEquals('', $field->value->externalData);
     }
@@ -182,7 +182,7 @@ class UrlStorageTest extends TestCase
             ->method('error');
 
         $storage = $this->getPartlyMockedStorage($gateway);
-        $storage->getFieldData($versionInfo, $field, $this->getContext());
+        $storage->getFieldData($versionInfo, $field);
 
         self::assertNull($field->value->externalData);
     }
@@ -201,7 +201,7 @@ class UrlStorageTest extends TestCase
         }
 
         $storage = $this->getPartlyMockedStorage($gateway);
-        $storage->deleteFieldData($versionInfo, $fieldIds, $this->getContext());
+        $storage->deleteFieldData($versionInfo, $fieldIds);
     }
 
     public function testHasFieldData()
@@ -227,14 +227,6 @@ class UrlStorageTest extends TestCase
                 ]
             )
             ->getMock();
-    }
-
-    /**
-     * @return array
-     */
-    protected function getContext()
-    {
-        return ['context'];
     }
 
     /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */

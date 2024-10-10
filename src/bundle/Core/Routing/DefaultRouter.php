@@ -160,27 +160,27 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
     public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest)
     {
         $context = clone $this->context;
-        if ($simplifiedRequest->scheme) {
-            $context->setScheme($simplifiedRequest->scheme);
+        if ($simplifiedRequest->getScheme()) {
+            $context->setScheme($simplifiedRequest->getScheme());
         }
 
-        if ($simplifiedRequest->port) {
-            switch ($simplifiedRequest->scheme) {
+        if ($simplifiedRequest->getPort()) {
+            switch ($simplifiedRequest->getScheme()) {
                 case 'https':
-                    $context->setHttpsPort($simplifiedRequest->port);
+                    $context->setHttpsPort($simplifiedRequest->getPort());
                     break;
                 default:
-                    $context->setHttpPort($simplifiedRequest->port);
+                    $context->setHttpPort($simplifiedRequest->getPort());
                     break;
             }
         }
 
-        if ($simplifiedRequest->host) {
-            $context->setHost($simplifiedRequest->host);
+        if ($simplifiedRequest->getHost()) {
+            $context->setHost($simplifiedRequest->getHost());
         }
 
-        if ($simplifiedRequest->pathinfo) {
-            $context->setPathInfo($simplifiedRequest->pathinfo);
+        if ($simplifiedRequest->getPathInfo()) {
+            $context->setPathInfo($simplifiedRequest->getPathInfo());
         }
 
         return $context;

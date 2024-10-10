@@ -74,23 +74,6 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $this->ioService->setPrefix(self::PREFIX);
     }
 
-    public function testGetExternalPath(): void
-    {
-        $internalId = 10;
-        $expectedExternalPath = '/example/external/path';
-
-        $this->innerIOService
-            ->expects(self::once())
-            ->method('getExternalPath')
-            ->with($internalId)
-            ->willReturn($expectedExternalPath)
-        ;
-
-        $externalPath = $this->ioService->getExternalPath($internalId);
-
-        self::assertEquals($expectedExternalPath, $externalPath);
-    }
-
     public function testNewBinaryCreateStructFromLocalFile(): void
     {
         $expectedBinaryFileCreateStruct = new BinaryFileCreateStruct();
@@ -120,23 +103,6 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         ;
 
         self::assertTrue($this->innerIOService->exists($binaryFileId));
-    }
-
-    public function testGetInternalPath(): void
-    {
-        $expectedInternalPath = new BinaryFileCreateStruct();
-        $externalId = 'test-id';
-
-        $this->innerIOService
-            ->expects(self::once())
-            ->method('getInternalPath')
-            ->with($externalId)
-            ->willReturn($expectedInternalPath)
-        ;
-
-        $internalPath = $this->innerIOService->getInternalPath($externalId);
-
-        self::assertEquals($expectedInternalPath, $internalPath);
     }
 
     public function testLoadBinaryFile(): void

@@ -12,11 +12,13 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Decorator\ContentServiceDecorator;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -30,13 +32,13 @@ class ContentServiceDecoratorTest extends TestCase
     private const EXAMPLE_CONTENT_REMOTE_ID = 'example';
     private const EXAMPLE_VERSION_NO = 1;
 
-    protected function createDecorator(MockObject $service): ContentService
+    protected function createDecorator(ContentService&MockObject $service): ContentService
     {
         return new class($service) extends ContentServiceDecorator {
         };
     }
 
-    protected function createServiceMock(): MockObject
+    protected function createServiceMock(): ContentService&MockObject
     {
         return $this->createMock(ContentService::class);
     }
@@ -248,16 +250,16 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->createContentDraft(...$parameters);
     }
 
-    public function testLoadContentDraftsDecorator()
+    public function testLoadContentDraftListDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [$this->createMock(User::class)];
 
-        $serviceMock->expects(self::once())->method('loadContentDrafts')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects(self::once())->method('loadContentDraftList')->with(...$parameters)->willReturn(new ContentDraftList());
 
-        $decoratedService->loadContentDrafts(...$parameters);
+        $decoratedService->loadContentDraftList(...$parameters);
     }
 
     public function testUpdateContentDecorator()
@@ -327,16 +329,16 @@ class ContentServiceDecoratorTest extends TestCase
         $decoratedService->copyContent(...$parameters);
     }
 
-    public function testLoadRelationsDecorator()
+    public function testLoadRelationListDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
         $parameters = [$this->createMock(VersionInfo::class)];
 
-        $serviceMock->expects(self::once())->method('loadRelations')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects(self::once())->method('loadRelationList')->with(...$parameters)->willReturn(new RelationList());
 
-        $decoratedService->loadRelations(...$parameters);
+        $decoratedService->loadRelationList(...$parameters);
     }
 
     public function testLoadReverseRelationsDecorator()

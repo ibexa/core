@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
@@ -720,9 +721,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
@@ -734,13 +733,11 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
 
-        $this->contentService->loadContentDrafts();
+        $this->contentService->loadContentDraftList();
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts($user)
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadContentDrafts
      */
@@ -751,7 +748,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
 
-        $this->contentService->loadContentDrafts($this->administratorUser);
+        $this->contentService->loadContentDraftList($this->administratorUser);
     }
 
     /**
@@ -916,9 +913,9 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
     /**
      * Test for the loadRelations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelations
+     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelationList
      */
     public function testLoadRelationsThrowsUnauthorizedException()
     {
@@ -937,15 +934,15 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'read\' \'content\'/');
 
-        $this->contentService->loadRelations($versionInfo);
+        $this->contentService->loadRelationList($versionInfo);
     }
 
     /**
      * Test for the loadRelations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
-     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelations
+     * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testLoadRelationList
      */
     public function testLoadRelationsForDraftVersionThrowsUnauthorizedException()
     {
@@ -956,7 +953,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessageMatches('/\'versionread\' \'content\'/');
 
-        $this->contentService->loadRelations($draft->versionInfo);
+        $this->contentService->loadRelationList($draft->versionInfo);
     }
 
     /**
@@ -1073,7 +1070,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
      * related object, executing loadRelations() would not throw any exception,
      * only that the non-readable related object(s) won't be loaded.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\ContentServiceTest::testAddRelation
      */
@@ -1180,7 +1177,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         $this->permissionResolver->setCurrentUserReference($this->anonymousUser);
 
         // finaly load relations ( verify no exception is thrown )
-        $actualRelations = $this->contentService->loadRelations($testFolder->getVersionInfo());
+        $actualRelations = $this->contentService->loadRelationList($testFolder->getVersionInfo());
 
         // assert results
         // verify that the only expected relations are from the 2 readable objects
@@ -1193,13 +1190,18 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         // assert there are as many expected relations as actual ones
         self::assertEquals(
             count($expectedRelations),
-            count($actualRelations),
+            count($actualRelations->items),
             "Expected '" . count($expectedRelations)
-            . "' relations found '" . count($actualRelations) . "'"
+            . "' relations found '" . count($actualRelations->items) . "'"
         );
 
         // assert each relation
-        foreach ($actualRelations as $relation) {
+        /**
+         * @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface $relationListItem
+         */
+        foreach ($actualRelations as $relationListItem) {
+            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation $relation */
+            $relation = $relationListItem->getRelation();
             $destination = $relation->destinationContentInfo;
             $expected = $expectedRelations[$destination->id]->destinationContentInfo;
             self::assertNotEmpty($expected, "Non expected relation with '{$destination->id}' id found");
@@ -1222,8 +1224,8 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTest
         self::assertCount(
             0,
             $expectedRelations,
-            "Expected to find '" . (count($expectedRelations) + count($actualRelations))
-            . "' relations found '" . count($actualRelations) . "'"
+            "Expected to find '" . (count($expectedRelations) + count($actualRelations->items))
+            . "' relations found '" . count($actualRelations->items) . "'"
         );
     }
 

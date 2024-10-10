@@ -39,8 +39,7 @@ class StorageHandlerTest extends TestCase
             ->method('storeFieldData')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
-                self::isInstanceOf(Field::class),
-                self::equalTo($this->getContextMock())
+                self::isInstanceOf(Field::class)
             );
 
         $storageRegistryMock->expects(self::once())
@@ -68,8 +67,7 @@ class StorageHandlerTest extends TestCase
             ->method('getFieldData')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
-                self::isInstanceOf(Field::class),
-                self::equalTo($this->getContextMock())
+                self::isInstanceOf(Field::class)
             );
 
         $storageRegistryMock->expects(self::once())
@@ -144,8 +142,7 @@ class StorageHandlerTest extends TestCase
             ->method('deleteFieldData')
             ->with(
                 self::isInstanceOf(VersionInfo::class),
-                self::equalTo([1, 2, 3]),
-                self::equalTo($this->getContextMock())
+                self::equalTo([1, 2, 3])
             );
 
         $storageRegistryMock->expects(self::once())

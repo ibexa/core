@@ -130,7 +130,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
         $this->registerRepositoriesConfiguration($config, $container);
         $this->registerSiteAccessConfiguration($config, $container);
-        $this->registerImageMagickConfiguration($config, $container);
         $this->registerUrlAliasConfiguration($config, $container);
         $this->registerUrlWildcardsConfiguration($config, $container);
         $this->registerOrmConfiguration($config, $container);
@@ -297,21 +296,6 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         }
         $container->setParameter('ibexa.site_access.groups_by_site_access', $groupsBySiteaccess);
         ConfigurationProcessor::setGroupsBySiteAccess($groupsBySiteaccess);
-    }
-
-    private function registerImageMagickConfiguration(array $config, ContainerBuilder $container)
-    {
-        if (isset($config['imagemagick'])) {
-            $container->setParameter('ibexa.image.imagemagick.enabled', $config['imagemagick']['enabled']);
-            if ($config['imagemagick']['enabled']) {
-                $container->setParameter('ibexa.image.imagemagick.executable_path', dirname($config['imagemagick']['path']));
-                $container->setParameter('ibexa.image.imagemagick.executable', basename($config['imagemagick']['path']));
-            }
-        }
-
-        $filters = isset($config['imagemagick']['filters']) ? $config['imagemagick']['filters'] : [];
-        $filters = $filters + $container->getParameter('ibexa.image.imagemagick.filters');
-        $container->setParameter('ibexa.image.imagemagick.filters', $filters);
     }
 
     private function registerOrmConfiguration(array $config, ContainerBuilder $container): void

@@ -7,11 +7,11 @@
 
 namespace Ibexa\Core\FieldType\BinaryBase\PathGenerator;
 
-use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator;
+use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGeneratorInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
-class LegacyPathGenerator extends PathGenerator
+class LegacyPathGenerator implements PathGeneratorInterface
 {
     public function getStoragePathForField(Field $field, VersionInfo $versionInfo): string
     {
