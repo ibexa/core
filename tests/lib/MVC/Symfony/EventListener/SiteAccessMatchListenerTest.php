@@ -7,7 +7,18 @@
 namespace Ibexa\Tests\Core\MVC\Symfony\EventListener;
 
 use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
@@ -22,32 +33,38 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class SiteAccessMatchListenerTest extends TestCase
 {
-    use SerializerTrait;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $saRouter;
+    /** @var \PHPUnit\Framework\MockObject\MockObject & \Ibexa\Core\MVC\Symfony\SiteAccess\Router */
+    private Router $saRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $eventDispatcher;
+    /** @var \PHPUnit\Framework\MockObject\MockObject & \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    private EventDispatcherInterface $eventDispatcher;
 
-    /** @var \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener */
-    private $listener;
+    /** @var \PHPUnit\Framework\MockObject\MockObject & \Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface  */
+    private SiteAccessMatcherRegistryInterface $registry;
+
+    private SiteAccessMatchListener $listener;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->saRouter = $this->createMock(Router::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $matcherRegistryMock = $this->createMock(SiteAccessMatcherRegistryInterface::class);
-        $matcherRegistryMock->method('hasMatcher')->willReturn(false);
+        $this->registry = $this->createMock(SiteAccessMatcherRegistryInterface::class);
         $this->listener = new SiteAccessMatchListener(
             $this->saRouter,
             $this->eventDispatcher,
-            $matcherRegistryMock
+            $this->registry,
+            $this->getSerializer()
         );
     }
 
@@ -185,20 +202,27 @@ class SiteAccessMatchListenerTest extends TestCase
     public function testOnKernelRequestSerializedSAWithMatcherInMatcherRegistry(): void
     {
         $matcher = new CustomMatcher([]);
-        $matcherRegistryMock = $this->createMock(SiteAccessMatcherRegistryInterface::class);
-        $matcherRegistryMock->method('hasMatcher')->willReturn(true);
-        $matcherRegistryMock->method('getMatcher')->willReturn($matcher);
+
         $matcher2 = new CustomMatcher([]);
         $matcher2->setMapKey('key_foobar');
 
-        $matcherRegistryMock
-            ->expects($this->once())
+        $this->registry
+            ->expects(self::once())
+            ->method('hasMatcher')
+            ->with('Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher')
+            ->willReturn(true);
+
+        $this->registry
+            ->expects(self::once())
             ->method('getMatcher')
-            ->with('Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher');
+            ->with('Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher')
+            ->willReturn($matcher);
+
         $this->listener = new SiteAccessMatchListener(
             $this->saRouter,
             $this->eventDispatcher,
-            $matcherRegistryMock
+            $this->registry,
+            $this->getSerializer(),
         );
 
         $siteAccess = $this->createSiteAccess(
@@ -323,6 +347,28 @@ class SiteAccessMatchListenerTest extends TestCase
 
         $this->listener->onKernelRequest($event);
         $this->assertSame($siteAccess, $request->attributes->get('siteaccess'));
+    }
+
+    private function getSerializer(): SerializerInterface
+    {
+        return new Serializer(
+            [
+                new MatcherDenormalizer($this->registry),
+                new CompoundMatcherNormalizer(),
+                new HostElementNormalizer(),
+                new MapNormalizer(),
+                new URITextNormalizer(),
+                new HostTextNormalizer(),
+                new RegexURINormalizer(),
+                new RegexHostNormalizer(),
+                new RegexNormalizer(),
+                new URIElementNormalizer(),
+                new SimplifiedRequestNormalizer(),
+                new JsonSerializableNormalizer(),
+                new PropertyNormalizer(),
+            ],
+            [new JsonEncoder()]
+        );
     }
 }
 

@@ -14,12 +14,64 @@ services:
         calls:
             - [setContext, ["@router.request_context"]]
 
+    ibexa.core.mvc.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer'
+                - '@ibexa.core.mvc.serializer.normalizer.json_serializable_normalizer'
+                - '@ibexa.core.mvc.serializer.normalizer.property_normalizer'
+            $encoders:
+                - '@ibexa.core.mvc.serializer.json_encoder'
+
+    ibexa.core.mvc.serializer.json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer:
+        arguments:
+            $registry: '@Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface'
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer: ~
+
+    ibexa.core.mvc.serializer.normalizer.json_serializable_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer
+
+    ibexa.core.mvc.serializer.normalizer.property_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+
     ibexa.siteaccess_match_listener:
         class: Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
         arguments:
             $siteAccessRouter: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
             $eventDispatcher: '@event_dispatcher'
             $siteAccessMatcherRegistry: '@Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface'
+            $serializer: '@ibexa.core.mvc.serializer'
         tags:
             - { name: kernel.event_subscriber }
 

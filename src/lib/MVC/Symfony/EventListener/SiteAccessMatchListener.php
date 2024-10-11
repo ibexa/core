@@ -41,14 +41,18 @@ class SiteAccessMatchListener implements EventSubscriberInterface
     /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface */
     private $siteAccessMatcherRegistry;
 
+    private SerializerInterface $serializer;
+
     public function __construct(
         SiteAccessRouter $siteAccessRouter,
         EventDispatcherInterface $eventDispatcher,
-        SiteAccessMatcherRegistryInterface $siteAccessMatcherRegistry
+        SiteAccessMatcherRegistryInterface $siteAccessMatcherRegistry,
+        SerializerInterface $serializer
     ) {
         $this->siteAccessRouter = $siteAccessRouter;
         $this->eventDispatcher = $eventDispatcher;
         $this->siteAccessMatcherRegistry = $siteAccessMatcherRegistry;
+        $this->serializer = $serializer;
     }
 
     public static function getSubscribedEvents()
@@ -76,7 +80,6 @@ class SiteAccessMatchListener implements EventSubscriberInterface
             $siteAccess = $serializer->deserialize($request->attributes->get('serialized_siteaccess'), SiteAccess::class, 'json');
             if ($siteAccess->matcher !== null) {
                 $siteAccess->matcher = $this->deserializeMatcher(
-                    $serializer,
                     $siteAccess->matcher,
                     $request->attributes->get('serialized_siteaccess_matcher'),
                     $request->attributes->get('serialized_siteaccess_sub_matchers')
@@ -133,7 +136,6 @@ class SiteAccessMatchListener implements EventSubscriberInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     private function deserializeMatcher(
-        SerializerInterface $serializer,
         string $matcherFQCN,
         string $serializedMatcher,
         ?array $serializedSubMatchers
@@ -141,7 +143,6 @@ class SiteAccessMatchListener implements EventSubscriberInterface
         $matcher = null;
         if (in_array(SiteAccess\Matcher::class, class_implements($matcherFQCN), true)) {
             $matcher = $this->buildMatcherFromSerializedClass(
-                $serializer,
                 $matcherFQCN,
                 $serializedMatcher
             );
@@ -159,7 +160,6 @@ class SiteAccessMatchListener implements EventSubscriberInterface
             $subMatchers = [];
             foreach ($serializedSubMatchers as $subMatcherFQCN => $serializedData) {
                 $subMatchers[$subMatcherFQCN] = $this->buildMatcherFromSerializedClass(
-                    $serializer,
                     $subMatcherFQCN,
                     $serializedData
                 );
@@ -190,27 +190,14 @@ class SiteAccessMatchListener implements EventSubscriberInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     private function buildMatcherFromSerializedClass(
-        SerializerInterface $serializer,
         string $matcherClass,
         string $serializedMatcher
     ): SiteAccess\Matcher {
-        if ($this->siteAccessMatcherRegistry->hasMatcher($matcherClass)) {
-            $matcher = $this->siteAccessMatcherRegistry->getMatcher($matcherClass);
-            $matcher = $serializer->deserialize(
-                $serializedMatcher,
-                $matcherClass,
-                'json',
-                [AbstractNormalizer::OBJECT_TO_POPULATE => $matcher]
-            );
-        } else {
-            $matcher = $serializer->deserialize(
-                $serializedMatcher,
-                $matcherClass,
-                'json'
-            );
-        }
-
-        return $matcher;
+        return $this->serializer->deserialize(
+            $serializedMatcher,
+            $matcherClass,
+            'json',
+        );
     }
 }
 
