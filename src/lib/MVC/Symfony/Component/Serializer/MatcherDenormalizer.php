@@ -1,15 +1,25 @@
 <?php
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, ContextAwareDenormalizerInterface
+/**
+ * @internal
+ */
+final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, ContextAwareDenormalizerInterface
 {
     private const MATCHER_NORMALIZER_ALREADY_WORKED = self::class . '_ALREADY_CALLED';
 
@@ -22,6 +32,10 @@ class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInt
         $this->registry = $registry;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function denormalize($data, string $type, ?string $format = null, array $context = []): object
     {
         $matcher = $this->registry->getMatcher($type);
@@ -38,6 +52,6 @@ class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInt
             return false;
         }
 
-        return $this->registry->hasMatcher($type);
+        return is_subclass_of($type, Matcher::class) && $this->registry->hasMatcher($type);
     }
 }

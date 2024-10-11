@@ -1,0 +1,58 @@
+services:
+    ibexa.core.mvc.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            $normalizers:
+                - '@ibexa.core.mvc.serializer.normalizer.array_denormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\SiteAccessNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\CompoundMatcherNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer'
+                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer'
+                - '@ibexa.core.mvc.serializer.normalizer.json_serializable_normalizer'
+                - '@ibexa.core.mvc.serializer.normalizer.property_normalizer'
+            $encoders:
+                - '@ibexa.core.mvc.serializer.json_encoder'
+
+    ibexa.core.mvc.serializer.json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer:
+        arguments:
+            $registry: '@Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface'
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\SiteAccessNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer: ~
+
+    Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer: ~
+
+    ibexa.core.mvc.serializer.normalizer.json_serializable_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer
+
+    ibexa.core.mvc.serializer.normalizer.property_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\PropertyNormalizer
+
+    ibexa.core.mvc.serializer.normalizer.array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
