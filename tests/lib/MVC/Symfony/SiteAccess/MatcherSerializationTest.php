@@ -19,10 +19,20 @@ class MatcherSerializationTest extends TestCase
      *
      * @dataProvider matcherProvider
      */
-    public function testDeserialize(Matcher $matcher, $expected = null)
+    public function testDeserialize(Matcher $matcher, $expected = null): void
     {
         $serializedMatcher = $this->serializeMatcher($matcher);
-        $unserializedMatcher = $this->deserializeMatcher($serializedMatcher, get_class($matcher));
+
+        $context = [];
+        // BC layer
+        if ($matcher instanceof Matcher\CompoundInterface) {
+            $subMatchers = $matcher->getSubMatchers();
+            foreach ($subMatchers as $subMatcher) {
+                $context['serialized_siteaccess_sub_matchers'][get_class($subMatcher)] = $this->serializeMatcher($subMatcher);
+            }
+        }
+        // --
+        $unserializedMatcher = $this->deserializeMatcher($serializedMatcher, get_class($matcher), $context);
         $expected = $expected ?? $matcher;
 
         $this->assertEquals($expected, $unserializedMatcher);
@@ -40,29 +50,31 @@ class MatcherSerializationTest extends TestCase
     }
 
     /**
-     * @param string $serializedMatcher
-     * @param string $matcherFQCN
-     *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher|object
+     * @param array<string, mixed> $context
      */
-    private function deserializeMatcher($serializedMatcher, $matcherFQCN)
+    private function deserializeMatcher(string $serializedMatcher, string $matcherFQCN, array $context): Matcher
     {
         return $this->getSerializer()->deserialize(
             $serializedMatcher,
             $matcherFQCN,
-            'json'
+            'json',
+            $context
         );
     }
 
-    public function matcherProvider()
+    /**
+     * @return iterable<string, array{0: \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, 1?: \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}>
+     */
+    public function matcherProvider(): iterable
     {
         $subMatchers = [
-            'Map\URI' => [
-                'map' => ['key' => 'value'],
-            ],
-            'Map\Host' => [
-                'map' => ['key' => 'value'],
-            ],
+            Matcher\Map\URI::class => new Matcher\Map\URI(['map' => ['key' => 'value']]),
+            Matcher\Map\Host::class => new Matcher\Map\Host(['map' => ['key' => 'value']]),
+        ];
+        // data truncated due to https://issues.ibexa.co/browse/EZP-31810
+        $expectedSubMatchers = [
+            Matcher\Map\URI::class => new Matcher\Map\URI([]),
+            Matcher\Map\Host::class => new Matcher\Map\Host([]),
         ];
         $logicalAnd = new Matcher\Compound\LogicalAnd(
             [
@@ -73,7 +85,7 @@ class MatcherSerializationTest extends TestCase
         );
         $logicalAnd->setSubMatchers($subMatchers);
         $expectedLogicalAnd = new Matcher\Compound\LogicalAnd([]);
-        $expectedLogicalAnd->setSubMatchers($subMatchers);
+        $expectedLogicalAnd->setSubMatchers($expectedSubMatchers);
 
         $logicalOr = new Matcher\Compound\LogicalOr(
             [
@@ -84,60 +96,73 @@ class MatcherSerializationTest extends TestCase
         );
         $logicalOr->setSubMatchers($subMatchers);
         $expectedLogicalOr = new Matcher\Compound\LogicalOr([]);
-        $expectedLogicalOr->setSubMatchers($subMatchers);
+        $expectedLogicalOr->setSubMatchers($expectedSubMatchers);
 
         $expectedMapURI = new Matcher\Map\URI([]);
         $expectedMapURI->setMapKey('site');
 
-        return [
-            'URIText' => [
-                new Matcher\URIText([
+        yield 'URIText' => [
+            new Matcher\URIText(
+                [
                     'prefix' => 'foo',
                     'suffix' => 'bar',
-                ]),
-            ],
-            'HostText' => [
-                new Matcher\HostText([
+                ]
+            ),
+        ];
+        yield 'HostText' => [
+            new Matcher\HostText(
+                [
                     'prefix' => 'foo',
                     'suffix' => 'bar',
-                ]),
-            ],
-            'RegexHost' => [
-                new Matcher\Regex\Host([
+                ]
+            ),
+        ];
+        yield 'RegexHost' => [
+            new Matcher\Regex\Host(
+                [
                     'regex' => 'foo',
                     'itemNumber' => 2,
-                ]),
-            ],
-            'RegexURI' => [
-                new Matcher\Regex\URI([
+                ]
+            ),
+        ];
+        yield 'RegexURI' => [
+            new Matcher\Regex\URI(
+                [
                     'regex' => 'foo',
                     'itemNumber' => 2,
-                ]),
-            ],
-            'URIElement' => [
-                new Matcher\URIElement([
+                ]
+            ),
+        ];
+        yield 'URIElement' => [
+            new Matcher\URIElement(
+                [
                     'elementNumber' => 2,
-                ]),
-            ],
-            'HostElement' => [
-                new Matcher\HostElement([
+                ]
+            ),
+        ];
+        yield 'HostElement' => [
+            new Matcher\HostElement(
+                [
                     'elementNumber' => 2,
-                ]),
-            ],
-            'MapURI' => $this->getMapURIMatcherTestCase(),
-            'MapPort' => $this->getMapPortMatcherTestCase(),
-            'MapHost' => $this->getMapHostMatcherTestCase(),
-            'CompoundAnd' => [
-                $logicalAnd,
-                $expectedLogicalAnd,
-            ],
-            'CompoundOr' => [
-                $logicalOr,
-                $expectedLogicalOr,
-            ],
+                ]
+            ),
+        ];
+        yield 'MapURI' => $this->getMapURIMatcherTestCase();
+        yield 'MapPort' => $this->getMapPortMatcherTestCase();
+        yield 'MapHost' => $this->getMapHostMatcherTestCase();
+        yield 'CompoundAnd' => [
+            $logicalAnd,
+            $expectedLogicalAnd,
+        ];
+        yield 'CompoundOr' => [
+            $logicalOr,
+            $expectedLogicalOr,
         ];
     }
 
+    /**
+     * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
+     */
     private function getMapPortMatcherTestCase(): array
     {
         $matcherBeforeSerialization = new Matcher\Map\Port(['map' => ['key' => 'value']]);
@@ -149,6 +174,9 @@ class MatcherSerializationTest extends TestCase
         return [$matcherBeforeSerialization, $matcherAfterDeserialization];
     }
 
+    /**
+     * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
+     */
     private function getMapHostMatcherTestCase(): array
     {
         $matcherBeforeSerialization = new Matcher\Map\Host(['map' => ['key' => 'value']]);
@@ -160,6 +188,9 @@ class MatcherSerializationTest extends TestCase
         return [$matcherBeforeSerialization, $matcherAfterDeserialization];
     }
 
+    /**
+     * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
+     */
     private function getMapURIMatcherTestCase(): array
     {
         $matcherBeforeSerialization = new Matcher\Map\URI(['map' => ['key' => 'value']]);

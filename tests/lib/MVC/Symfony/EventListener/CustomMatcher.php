@@ -4,6 +4,8 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Tests\Core\MVC\Symfony\EventListener;
 
 use Ibexa\Bundle\Core\SiteAccess\Matcher;
@@ -13,5 +15,6 @@ class CustomMatcher extends URI implements Matcher
 {
     public function setMatchingConfiguration($matchingConfiguration): void
     {
+        // nothing to do
     }
 }

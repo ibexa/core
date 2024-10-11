@@ -15,8 +15,8 @@ use Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer;
-use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\SiteAccessNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
@@ -35,21 +35,24 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class SiteAccessMatchListenerTest extends TestCase
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
+ */
+final class SiteAccessMatchListenerTest extends TestCase
 {
-
-    /** @var \PHPUnit\Framework\MockObject\MockObject & \Ibexa\Core\MVC\Symfony\SiteAccess\Router */
+    /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Core\MVC\Symfony\SiteAccess\Router */
     private Router $saRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject & \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\EventDispatcher\EventDispatcherInterface */
     private EventDispatcherInterface $eventDispatcher;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject & \Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface  */
+    /** @var \PHPUnit\Framework\MockObject\MockObject&\Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface */
     private SiteAccessMatcherRegistryInterface $registry;
 
     private SiteAccessMatchListener $listener;
@@ -63,14 +66,13 @@ class SiteAccessMatchListenerTest extends TestCase
         $this->listener = new SiteAccessMatchListener(
             $this->saRouter,
             $this->eventDispatcher,
-            $this->registry,
             $this->getSerializer()
         );
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
-        $this->assertSame(
+        self::assertSame(
             [KernelEvents::REQUEST => ['onKernelRequest', 45]],
             SiteAccessMatchListener::getSubscribedEvents()
         );
@@ -94,56 +96,46 @@ class SiteAccessMatchListenerTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess
-     *
-     * @return \Symfony\Component\HttpFoundation\Request
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function createRequest(SiteAccess $siteAccess): Request
+    public function createAndDispatchRequest(SiteAccess $siteAccess): Request
     {
         $request = new Request();
-        $request->attributes->set('serialized_siteaccess', json_encode($siteAccess));
-        $request->attributes->set(
-            'serialized_siteaccess_matcher',
-            $this->getSerializer()->serialize(
-                $siteAccess->matcher,
-                'json',
-                [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder']]
-            )
-        );
-        $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
-            $request,
-            HttpKernelInterface::MASTER_REQUEST
-        );
+        $request->attributes->set('serialized_siteaccess', $this->serializeSiteAccess($siteAccess));
 
-        $this->saRouter
-            ->expects($this->never())
-            ->method('match');
+        $request->attributes->set('serialized_siteaccess_matcher', $this->serializeMatcher($siteAccess));
+        if ($siteAccess->matcher instanceof Matcher\Compound) {
+            $request->attributes->set(
+                'serialized_siteaccess_sub_matchers',
+                $this->serializeSubMatchers($siteAccess->matcher)
+            );
+        }
 
-        $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
-        $this->eventDispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
-
-        $this->listener->onKernelRequest($event);
-        $this->assertEquals($siteAccess, $request->attributes->get('siteaccess'));
+        $this->dispatchRequestEvent($request, $siteAccess);
+        self::assertEquals($siteAccess, $request->attributes->get('siteaccess'));
 
         return $request;
     }
 
-    public function testOnKernelRequestSerializedSA()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testOnKernelRequestSerializedSA(): void
     {
         $matcher = new SiteAccess\Matcher\URIElement(1);
         $siteAccess = $this->createSiteAccess($matcher, null, [new SiteAccessGroup('test_group')]);
-        $request = $this->createRequest($siteAccess);
-        $this->assertFalse($request->attributes->has('serialized_siteaccess'));
+        $request = $this->createAndDispatchRequest($siteAccess);
+
+        self::assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
-    public function testOnKernelRequestSerializedSAWithCompoundMatcher()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testOnKernelRequestSerializedSAWithCompoundMatcher(): void
     {
         $compoundMatcher = new SiteAccess\Matcher\Compound\LogicalAnd([]);
         $subMatchers = [
@@ -156,49 +148,14 @@ class SiteAccessMatchListenerTest extends TestCase
             'matching_type',
             $compoundMatcher
         );
-        $request = new Request();
-        $request->attributes->set('serialized_siteaccess', json_encode($siteAccess));
-        $request->attributes->set(
-            'serialized_siteaccess_matcher',
-            $this->getSerializer()->serialize(
-                $siteAccess->matcher,
-                'json',
-                [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder']]
-            )
-        );
-        $serializedSubMatchers = [];
-        foreach ($subMatchers as $subMatcher) {
-            $serializedSubMatchers[get_class($subMatcher)] = $this->getSerializer()->serialize(
-                $subMatcher,
-                'json',
-                [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder']]
-            );
-        }
-        $request->attributes->set(
-            'serialized_siteaccess_sub_matchers',
-            $serializedSubMatchers
-        );
-        $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
-            $request,
-            HttpKernelInterface::MASTER_REQUEST
-        );
-
-        $this->saRouter
-            ->expects($this->never())
-            ->method('match');
-
-        $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
-        $this->eventDispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
-
-        $this->listener->onKernelRequest($event);
-        $this->assertEquals($siteAccess, $request->attributes->get('siteaccess'));
-        $this->assertFalse($request->attributes->has('serialized_siteaccess'));
+        $request = $this->createAndDispatchRequest($siteAccess);
+        self::assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function testOnKernelRequestSerializedSAWithMatcherInMatcherRegistry(): void
     {
         $matcher = new CustomMatcher([]);
@@ -209,21 +166,14 @@ class SiteAccessMatchListenerTest extends TestCase
         $this->registry
             ->expects(self::once())
             ->method('hasMatcher')
-            ->with('Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher')
+            ->with(CustomMatcher::class)
             ->willReturn(true);
 
         $this->registry
             ->expects(self::once())
             ->method('getMatcher')
-            ->with('Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher')
+            ->with(CustomMatcher::class)
             ->willReturn($matcher);
-
-        $this->listener = new SiteAccessMatchListener(
-            $this->saRouter,
-            $this->eventDispatcher,
-            $this->registry,
-            $this->getSerializer(),
-        );
 
         $siteAccess = $this->createSiteAccess(
             $matcher2,
@@ -231,39 +181,31 @@ class SiteAccessMatchListenerTest extends TestCase
             [new SiteAccessGroup('test_group')]
         );
 
-        $request = $this->createRequest($siteAccess);
-        /** @var CustomMatcher $siteAccessMatcher */
+        $request = $this->createAndDispatchRequest($siteAccess);
+        /** @var \Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher $siteAccessMatcher */
         $siteAccessMatcher = $siteAccess->matcher;
-        $this->assertEquals('key_foobar', $siteAccessMatcher->getMapKey());
-        $this->assertFalse($request->attributes->has('serialized_siteaccess'));
+        self::assertEquals('key_foobar', $siteAccessMatcher->getMapKey());
+        self::assertFalse($request->attributes->has('serialized_siteaccess'));
     }
 
-    public function testOnKernelRequestSiteAccessPresent()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testOnKernelRequestSiteAccessPresent(): void
     {
         $siteAccess = new SiteAccess('test');
         $request = new Request();
         $request->attributes->set('siteaccess', $siteAccess);
-        $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
-            $request,
-            HttpKernelInterface::MASTER_REQUEST
-        );
-
-        $this->saRouter
-            ->expects($this->never())
-            ->method('match');
-
-        $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
-        $this->eventDispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
-
-        $this->listener->onKernelRequest($event);
+        $this->dispatchRequestEvent($request, $siteAccess);
         $this->assertSame($siteAccess, $request->attributes->get('siteaccess'));
     }
 
-    public function testOnKernelRequest()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    public function testOnKernelRequest(): void
     {
         $siteAccess = new SiteAccess('test');
         $scheme = 'https';
@@ -271,41 +213,14 @@ class SiteAccessMatchListenerTest extends TestCase
         $port = 1234;
         $path = '/foo/bar';
         $request = Request::create(sprintf('%s://%s:%d%s', $scheme, $host, $port, $path));
-        $event = new RequestEvent(
-            $this->createMock(HttpKernelInterface::class),
-            $request,
-            HttpKernelInterface::MASTER_REQUEST
-        );
-
-        $simplifiedRequest = new SimplifiedRequest(
-            [
-                'scheme' => $request->getScheme(),
-                'host' => $request->getHost(),
-                'port' => $request->getPort(),
-                'pathinfo' => $request->getPathInfo(),
-                'queryParams' => $request->query->all(),
-                'languages' => $request->getLanguages(),
-                'headers' => $request->headers->all(),
-            ]
-        );
-
-        $this->saRouter
-            ->expects($this->once())
-            ->method('match')
-            ->with($this->equalTo($simplifiedRequest))
-            ->will($this->returnValue($siteAccess));
-
-        $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
-        $this->eventDispatcher
-            ->expects($this->once())
-            ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
-
-        $this->listener->onKernelRequest($event);
-        $this->assertSame($siteAccess, $request->attributes->get('siteaccess'));
+        $this->assertRequestHasSiteAccess($request, null, $siteAccess);
     }
 
-    public function testOnKernelRequestUserHashWithOriginalRequest()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testOnKernelRequestUserHashWithOriginalRequest(): void
     {
         $siteAccess = new SiteAccess('test');
         $scheme = 'https';
@@ -315,10 +230,28 @@ class SiteAccessMatchListenerTest extends TestCase
         $originalRequest = Request::create(sprintf('%s://%s:%d%s', $scheme, $host, $port, $path));
         $request = Request::create('http://localhost/_fos_user_hash');
         $request->attributes->set('_ez_original_request', $originalRequest);
+        $this->assertRequestHasSiteAccess($request, $originalRequest, $siteAccess);
+    }
+
+    private function serializeSiteAccess(SiteAccess $siteAccess): string
+    {
+        return $this->getSerializer()->serialize($siteAccess, 'json');
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    private function assertRequestHasSiteAccess(
+        Request $request,
+        ?Request $originalRequest,
+        SiteAccess $siteAccess
+    ): void {
+        $originalRequest ??= $request;
         $event = new RequestEvent(
             $this->createMock(HttpKernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
 
         $simplifiedRequest = new SimplifiedRequest(
@@ -334,29 +267,58 @@ class SiteAccessMatchListenerTest extends TestCase
         );
 
         $this->saRouter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('match')
-            ->with($this->equalTo($simplifiedRequest))
-            ->will($this->returnValue($siteAccess));
+            ->with($simplifiedRequest)
+            ->willReturn($siteAccess)
+        ;
 
         $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
         $this->eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS);
+            ->with($this->equalTo($postSAMatchEvent), MVCEvents::SITEACCESS)
+        ;
 
         $this->listener->onKernelRequest($event);
         $this->assertSame($siteAccess, $request->attributes->get('siteaccess'));
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     */
+    private function dispatchRequestEvent(Request $request, SiteAccess $siteAccess): void
+    {
+        $event = new RequestEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST
+        );
+
+        $this->saRouter
+            ->expects(self::never())
+            ->method('match');
+
+        $postSAMatchEvent = new PostSiteAccessMatchEvent($siteAccess, $request, $event->getRequestType());
+        $this->eventDispatcher
+            ->expects(self::once())
+            ->method('dispatch')
+            ->with($postSAMatchEvent, MVCEvents::SITEACCESS);
+
+        $this->listener->onKernelRequest($event);
     }
 
     private function getSerializer(): SerializerInterface
     {
         return new Serializer(
             [
+                new ArrayDenormalizer(),
+                new SiteAccessNormalizer(),
                 new MatcherDenormalizer($this->registry),
                 new CompoundMatcherNormalizer(),
-                new HostElementNormalizer(),
                 new MapNormalizer(),
+                new HostElementNormalizer(),
                 new URITextNormalizer(),
                 new HostTextNormalizer(),
                 new RegexURINormalizer(),
@@ -369,6 +331,32 @@ class SiteAccessMatchListenerTest extends TestCase
             ],
             [new JsonEncoder()]
         );
+    }
+
+    private function serializeMatcher(SiteAccess $siteAccess): string
+    {
+        return $this->getSerializer()->serialize(
+            $siteAccess->matcher,
+            'json',
+            [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder']]
+        );
+    }
+
+    /**
+     * @phpstan-return array<class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher>, string>
+     */
+    private function serializeSubMatchers(Matcher\Compound $compoundMatcher): array
+    {
+        $serializedSubMatchers = [];
+        foreach ($compoundMatcher->getSubMatchers() as $subMatcher) {
+            $serializedSubMatchers[get_class($subMatcher)] = $this->getSerializer()->serialize(
+                $subMatcher,
+                'json',
+                [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder']]
+            );
+        }
+
+        return $serializedSubMatchers;
     }
 }
 
