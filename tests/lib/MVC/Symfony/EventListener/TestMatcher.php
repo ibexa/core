@@ -11,7 +11,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\EventListener;
 use Ibexa\Bundle\Core\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Map\URI;
 
-class CustomMatcher extends URI implements Matcher
+class TestMatcher extends URI implements Matcher
 {
     public function setMatchingConfiguration($matchingConfiguration): void
     {

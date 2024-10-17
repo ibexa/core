@@ -158,21 +158,21 @@ final class SiteAccessMatchListenerTest extends TestCase
      */
     public function testOnKernelRequestSerializedSAWithMatcherInMatcherRegistry(): void
     {
-        $matcher = new CustomMatcher([]);
+        $matcher = new TestMatcher([]);
 
-        $matcher2 = new CustomMatcher([]);
+        $matcher2 = new TestMatcher([]);
         $matcher2->setMapKey('key_foobar');
 
         $this->registry
             ->expects(self::once())
             ->method('hasMatcher')
-            ->with(CustomMatcher::class)
+            ->with(TestMatcher::class)
             ->willReturn(true);
 
         $this->registry
             ->expects(self::once())
             ->method('getMatcher')
-            ->with(CustomMatcher::class)
+            ->with(TestMatcher::class)
             ->willReturn($matcher);
 
         $siteAccess = $this->createSiteAccess(
@@ -182,7 +182,7 @@ final class SiteAccessMatchListenerTest extends TestCase
         );
 
         $request = $this->createAndDispatchRequest($siteAccess);
-        /** @var \Ibexa\Tests\Core\MVC\Symfony\EventListener\CustomMatcher $siteAccessMatcher */
+        /** @var \Ibexa\Tests\Core\MVC\Symfony\EventListener\TestMatcher $siteAccessMatcher */
         $siteAccessMatcher = $siteAccess->matcher;
         self::assertEquals('key_foobar', $siteAccessMatcher->getMapKey());
         self::assertFalse($request->attributes->has('serialized_siteaccess'));
