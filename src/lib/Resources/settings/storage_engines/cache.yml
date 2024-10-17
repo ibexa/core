@@ -121,7 +121,7 @@ parameters:
         content_locations: 'cl-%s'
         content_relations_count_with_by_version_type_suffix: 'crc-%%s-v-%%s-t-%%s'
         content_relations_list_with_by_version_type_suffix: 'crl-%%s-l-%%s-o-%%s-v-%%s-t-%%s'
-        content_reverse_relations_count: 'crrc-%s'
+        content_reverse_relations_count: 'crrc-%%s-t-%%s'
         content_version_info: 'cvi-%s'
         content_version_list: 'c-%s-vl'
         content_version: 'c-%%s-v-%%s'
