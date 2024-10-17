@@ -134,13 +134,13 @@ class PreviewController
                 false
             );
         } catch (APINotFoundException $e) {
-            $message = 'Location not found or not available in requested language';
+            $message = sprintf('Location (%s) not found or not available in requested language (%s)', $location->id, $language);
             $this->logger->warning(
-                'Location not found or not available in requested language when loading the preview page',
+                sprintf('%s %s', $message, 'when loading the preview page'),
                 ['exception' => $e]
             );
             if ($this->debugMode) {
-                throw new BadStateException($message, 1, $e);
+                throw new BadStateException('Preview page', $message, $e);
             }
 
             return new Response($message);
@@ -232,7 +232,7 @@ EOF;
 EOF;
 
         if ($this->debugMode) {
-            throw new BadStateException($message, 1, $e);
+            throw new BadStateException('Preview page', $message, $e);
         }
 
         return new Response($message);
