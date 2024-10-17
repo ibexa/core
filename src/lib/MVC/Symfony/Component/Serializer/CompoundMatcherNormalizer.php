@@ -44,7 +44,7 @@ class CompoundMatcherNormalizer extends AbstractPropertyWhitelistNormalizer impl
 
     public function supportsDenormalization($data, string $type, string $format = null): bool
     {
-        return is_subclass_of($type, Matcher\Compound::class) || $type === Matcher\Compound::class;
+        return is_a($type, Matcher\Compound::class, true);
     }
 
     /**
