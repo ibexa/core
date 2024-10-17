@@ -140,7 +140,7 @@ class PreviewController
                 ['exception' => $e]
             );
             if ($this->debugMode) {
-                throw new BadStateException($message, 1, $e);
+                throw new BadStateException('Preview page', $message, $e);
             }
 
             return new Response($message);
@@ -232,7 +232,7 @@ EOF;
 EOF;
 
         if ($this->debugMode) {
-            throw new BadStateException($message, 1, $e);
+            throw new BadStateException('Preview page', $message, $e);
         }
 
         return new Response($message);
