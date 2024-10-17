@@ -21,6 +21,13 @@ services:
             $encoders:
                 - '@ibexa.core.mvc.serializer.json_encoder'
 
+    Ibexa\Bundle\Core\Fragment\SiteAccessSerializer:
+        arguments:
+            $serializer: '@ibexa.core.mvc.serializer'
+
+    Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface:
+        alias: Ibexa\Bundle\Core\Fragment\SiteAccessSerializer
+
     ibexa.core.mvc.serializer.json_encoder:
         class: Symfony\Component\Serializer\Encoder\JsonEncoder
 
