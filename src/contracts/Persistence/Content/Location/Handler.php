@@ -216,6 +216,11 @@ interface Handler
     public function removeSubtree($locationId);
 
     /**
+     * Removes all draft contents that have no location assigned to them under the given parent location.
+     */
+    public function deleteChildrenDrafts(int $locationId): void;
+
+    /**
      * Set section on all content objects in the subtree.
      * Only main locations will be updated.
      *
