@@ -453,6 +453,18 @@ class LocationHandlerTest extends TestCase
         $handler->removeSubtree(42);
     }
 
+    public function testDeleteChildrenDrafts(): void
+    {
+        $handler = $this->getLocationHandler();
+
+        $this->treeHandler
+            ->expects(self::once())
+            ->method('deleteChildrenDrafts')
+            ->with(42);
+
+        $handler->deleteChildrenDrafts(42);
+    }
+
     /**
      * Test for the copySubtree() method.
      */
