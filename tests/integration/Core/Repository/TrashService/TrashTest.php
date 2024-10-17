@@ -54,7 +54,7 @@ final class TrashTest extends RepositoryTestCase
             $secondDepthChildFolderLocationId,
         );
 
-        $locationToTrash = $this->getLocationService()->loadLocation($folderMainLocationId);
+        $locationToTrash = self::getLocationService()->loadLocation($folderMainLocationId);
 
         $trashService->trash($locationToTrash);
 
