@@ -415,6 +415,20 @@ class LocationHandler extends AbstractInMemoryPersistenceHandler implements Loca
         return $return;
     }
 
+    public function deleteChildrenDrafts(int $locationId): void
+    {
+        $this->logger->logCall(__METHOD__, ['location' => $locationId]);
+
+        $this->persistenceHandler->locationHandler()->deleteChildrenDrafts($locationId);
+
+        $this->cache->invalidateTags([
+            $this->cacheIdentifierGenerator->generateTag(
+                self::LOCATION_PATH_IDENTIFIER,
+                [$locationId],
+            ),
+        ]);
+    }
+
     /**
      * {@inheritdoc}
      */
