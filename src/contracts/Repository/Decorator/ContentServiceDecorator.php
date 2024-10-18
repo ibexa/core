@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -193,29 +194,37 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->loadRelations($versionInfo);
     }
 
-    public function countRelations(VersionInfo $versionInfo): int
+    public function countRelations(VersionInfo $versionInfo, ?RelationType $type = null): int
     {
-        return $this->innerService->countRelations($versionInfo);
+        return $this->innerService->countRelations($versionInfo, $type);
     }
 
-    public function loadRelationList(VersionInfo $versionInfo, int $offset = 0, int $limit = self::DEFAULT_PAGE_SIZE): RelationList
-    {
-        return $this->innerService->loadRelationList($versionInfo, $offset, $limit);
+    public function loadRelationList(
+        VersionInfo $versionInfo,
+        int $offset = 0,
+        int $limit = self::DEFAULT_PAGE_SIZE,
+        ?RelationType $type = null
+    ): RelationList {
+        return $this->innerService->loadRelationList($versionInfo, $offset, $limit, $type);
     }
 
-    public function countReverseRelations(ContentInfo $contentInfo): int
+    public function countReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): int
     {
-        return $this->innerService->countReverseRelations($contentInfo);
+        return $this->innerService->countReverseRelations($contentInfo, $type);
     }
 
-    public function loadReverseRelations(ContentInfo $contentInfo): iterable
+    public function loadReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): iterable
     {
-        return $this->innerService->loadReverseRelations($contentInfo);
+        return $this->innerService->loadReverseRelations($contentInfo, $type);
     }
 
-    public function loadReverseRelationList(ContentInfo $contentInfo, int $offset = 0, int $limit = -1): RelationList
-    {
-        return $this->innerService->loadReverseRelationList($contentInfo, $offset, $limit);
+    public function loadReverseRelationList(
+        ContentInfo $contentInfo,
+        int $offset = 0,
+        int $limit = -1,
+        ?RelationType $type = null
+    ): RelationList {
+        return $this->innerService->loadReverseRelationList($contentInfo, $offset, $limit, $type);
     }
 
     public function addRelation(

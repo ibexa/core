@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -419,7 +420,8 @@ interface ContentService
     public function loadRelationList(
         VersionInfo $versionInfo,
         int $offset = 0,
-        int $limit = self::DEFAULT_PAGE_SIZE
+        int $limit = self::DEFAULT_PAGE_SIZE,
+        ?RelationType $type = null,
     ): RelationList;
 
     /**
@@ -428,7 +430,7 @@ interface ContentService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    public function countRelations(VersionInfo $versionInfo): int;
+    public function countRelations(VersionInfo $versionInfo, ?RelationType $type = null): int;
 
     /**
      * Counts all incoming relations for the given content object.
@@ -437,7 +439,7 @@ interface ContentService
      *
      * @return int The number of reverse relations ({@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation})
      */
-    public function countReverseRelations(ContentInfo $contentInfo): int;
+    public function countReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): int;
 
     /**
      * Loads all incoming relations for a content object.
@@ -446,11 +448,9 @@ interface ContentService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    public function loadReverseRelations(ContentInfo $contentInfo): iterable;
+    public function loadReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): iterable;
 
     /**
      * Loads all incoming relations for a content object.
@@ -458,14 +458,13 @@ interface ContentService
      * The relations come only from published versions of the source content objects.
      * If the user is not allowed to read specific version then UnauthorizedRelationListItem is returned
      * {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem}
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param int $offset
-     * @param int $limit
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\RelationList
      */
-    public function loadReverseRelationList(ContentInfo $contentInfo, int $offset = 0, int $limit = -1): RelationList;
+    public function loadReverseRelationList(
+        ContentInfo $contentInfo,
+        int $offset = 0,
+        int $limit = -1,
+        ?RelationType $type = null
+    ): RelationList;
 
     /**
      * Adds a relation of type common.
