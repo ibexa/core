@@ -11316,6 +11316,11 @@ parameters:
 			path: src/lib/MVC/Symfony/ConfigDumperInterface.php
 
 		-
+			message: "#^Cannot call method warning\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
+			count: 3
+			path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\QueryController\\:\\:runPagingQuery\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Controller/Content/QueryController.php
