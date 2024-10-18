@@ -46,6 +46,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\RelationListItem;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\UnauthorizedRelationListItem;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -2045,7 +2046,7 @@ class ContentService implements ContentServiceInterface
         return $relations;
     }
 
-    public function countRelations(APIVersionInfo $versionInfo): int
+    public function countRelations(APIVersionInfo $versionInfo, ?RelationType $type = null): int
     {
         $function = $versionInfo->isPublished() ? 'read' : 'versionread';
 
@@ -2057,12 +2058,17 @@ class ContentService implements ContentServiceInterface
 
         return $this->persistenceHandler->contentHandler()->countRelations(
             $contentInfo->id,
-            $versionInfo->versionNo
+            $versionInfo->versionNo,
+            $type?->value
         );
     }
 
-    public function loadRelationList(APIVersionInfo $versionInfo, int $offset = 0, int $limit = self::DEFAULT_PAGE_SIZE): RelationList
-    {
+    public function loadRelationList(
+        APIVersionInfo $versionInfo,
+        int $offset = 0,
+        int $limit = self::DEFAULT_PAGE_SIZE,
+        ?RelationType $type = null
+    ): RelationList {
         $function = $versionInfo->isPublished() ? 'read' : 'versionread';
 
         $list = new RelationList();
@@ -2074,7 +2080,8 @@ class ContentService implements ContentServiceInterface
         $contentInfo = $versionInfo->getContentInfo();
         $list->totalCount = $this->persistenceHandler->contentHandler()->countRelations(
             $contentInfo->id,
-            $versionInfo->versionNo
+            $versionInfo->versionNo,
+            $type?->value
         );
 
         if ($list->totalCount === 0) {
@@ -2086,6 +2093,7 @@ class ContentService implements ContentServiceInterface
             $limit,
             $offset,
             $versionInfo->versionNo,
+            $type?->value
         );
 
         $destinationContentIds = array_column($persistenceRelationList, 'destinationContentId');
@@ -2120,13 +2128,13 @@ class ContentService implements ContentServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function countReverseRelations(ContentInfo $contentInfo): int
+    public function countReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): int
     {
         if (!$this->permissionResolver->canUser('content', 'reverserelatedlist', $contentInfo)) {
             return 0;
         }
 
-        return $this->persistenceHandler->contentHandler()->countReverseRelations($contentInfo->getId());
+        return $this->persistenceHandler->contentHandler()->countReverseRelations($contentInfo->getId(), $type?->value);
     }
 
     /**
@@ -2136,18 +2144,17 @@ class ContentService implements ContentServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    public function loadReverseRelations(ContentInfo $contentInfo): iterable
+    public function loadReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): iterable
     {
         if (!$this->permissionResolver->canUser('content', 'reverserelatedlist', $contentInfo)) {
             throw new UnauthorizedException('content', 'reverserelatedlist', ['contentId' => $contentInfo->id]);
         }
 
         $spiRelations = $this->persistenceHandler->contentHandler()->loadReverseRelations(
-            $contentInfo->id
+            $contentInfo->id,
+            $type?->value
         );
 
         $returnArray = [];
@@ -2169,22 +2176,33 @@ class ContentService implements ContentServiceInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param int $offset
+     * @param int $limit
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\RelationType|null $type
      */
-    public function loadReverseRelationList(ContentInfo $contentInfo, int $offset = 0, int $limit = -1): RelationList
-    {
+    public function loadReverseRelationList(
+        ContentInfo $contentInfo,
+        int $offset = 0,
+        int $limit = -1,
+        ?RelationType $type = null
+    ): RelationList {
         $list = new RelationList();
         if (!$this->repository->getPermissionResolver()->canUser('content', 'reverserelatedlist', $contentInfo)) {
             return $list;
         }
 
         $list->totalCount = $this->persistenceHandler->contentHandler()->countReverseRelations(
-            $contentInfo->id
+            $contentInfo->id,
+            $type?->value
         );
         if ($list->totalCount > 0) {
             $spiRelationList = $this->persistenceHandler->contentHandler()->loadReverseRelationList(
                 $contentInfo->id,
                 $offset,
-                $limit
+                $limit,
+                $type?->value
             );
             foreach ($spiRelationList as $spiRelation) {
                 $sourceContentInfo = $this->internalLoadContentInfoById($spiRelation->sourceContentId);
