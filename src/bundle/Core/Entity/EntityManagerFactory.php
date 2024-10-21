@@ -17,15 +17,18 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
  */
 class EntityManagerFactory
 {
-    /** @var \Symfony\Component\DependencyInjection\ServiceLocator */
-    private $serviceLocator;
+    /** @phpstan-var \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> */
+    private ServiceLocator $serviceLocator;
 
     /** @var string */
-    private $defaultConnection;
+    private string $defaultConnection;
 
     /** @var array<string, string> */
-    private $entityManagers;
+    private array $entityManagers;
 
+    /**
+     * @phpstan-param \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> $serviceLocator
+     */
     public function __construct(
         private readonly RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         ServiceLocator $serviceLocator,
