@@ -45,7 +45,8 @@ abstract class FragmentRendererBaseTestCase extends TestCase
             ->expects(self::once())
             ->method('render')
             ->with($reference, $request, $options)
-            ->willReturn($expectedReturn);
+            ->willReturn($expectedReturn)
+        ;
 
         $renderer = $this->getRenderer();
         self::assertSame($expectedReturn, $renderer->render($reference, $request, $options));
@@ -62,7 +63,22 @@ abstract class FragmentRendererBaseTestCase extends TestCase
             $reference->attributes['serialized_siteaccess_matcher']
         );
         self::assertArrayHasKey('serialized_siteaccess_sub_matchers', $reference->attributes);
-        foreach ($siteAccess->matcher->getSubMatchers() as $subMatcher) {
+        if ($siteAccess->matcher instanceof SiteAccess\Matcher\CompoundInterface) {
+            $this->assertSubMatchers($reference, $siteAccess->matcher);
+        }
+
+        return $reference;
+    }
+
+    abstract public function getRequest(SiteAccess $siteAccess): Request;
+
+    abstract public function getRenderer(): FragmentRendererInterface;
+
+    private function assertSubMatchers(
+        ControllerReference $reference,
+        SiteAccess\Matcher\CompoundInterface $compoundMatcher
+    ): void {
+        foreach ($compoundMatcher->getSubMatchers() as $subMatcher) {
             self::assertSame(
                 $this->getSerializer()->serialize(
                     $subMatcher,
@@ -72,11 +88,5 @@ abstract class FragmentRendererBaseTestCase extends TestCase
                 $reference->attributes['serialized_siteaccess_sub_matchers'][get_class($subMatcher)]
             );
         }
-
-        return $reference;
     }
-
-    abstract public function getRequest(SiteAccess $siteAccess): Request;
-
-    abstract public function getRenderer(): FragmentRendererInterface;
 }
