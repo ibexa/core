@@ -9,9 +9,10 @@ namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
-use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
@@ -20,12 +21,9 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 /**
  * @covers \Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer
  */
-class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
+class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
 {
-    use SerializerTrait;
-
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\PHPUnit\Framework\MockObject\MockObject */
-    protected FragmentRendererInterface $innerRenderer;
+    protected FragmentRendererInterface & MockObject $innerRenderer;
 
     protected function setUp(): void
     {
@@ -33,7 +31,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         $this->innerRenderer = $this->createMock(FragmentRendererInterface::class);
     }
 
-    public function testSetFragmentPathNotRoutableRenderer()
+    public function testSetFragmentPathNotRoutableRenderer(): void
     {
         $matcher = $this->createMock(SiteAccess\URILexer::class);
         $siteAccess = new SiteAccess('test', 'test', $matcher);
@@ -48,7 +46,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         }
     }
 
-    public function testSetFragmentPath()
+    public function testSetFragmentPath(): void
     {
         $matcher = $this->createMock(SiteAccess\URILexer::class);
         $siteAccess = new SiteAccess('test', 'test', $matcher);
@@ -56,7 +54,7 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
             ->expects(self::once())
             ->method('analyseLink')
             ->with('/foo')
-            ->will(self::returnValue('/bar/foo'));
+            ->willReturn('/bar/foo');
 
         $innerRenderer = $this->createMock(RoutableFragmentRenderer::class);
         $innerRenderer
@@ -68,35 +66,35 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         $renderer->setFragmentPath('/foo');
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $name = 'test';
         $this->innerRenderer
             ->expects(self::once())
             ->method('getName')
-            ->will(self::returnValue($name));
+            ->willReturn($name);
 
         $renderer = $this->getRenderer();
         self::assertSame($name, $renderer->getName());
     }
 
-    public function testRendererAbsoluteUrl()
+    public function testRendererAbsoluteUrl(): void
     {
         $url = 'http://phoenix-rises.fm/foo/bar';
         $request = new Request();
         $options = ['foo' => 'bar'];
-        $expectedReturn = '/_fragment?foo=bar';
+        $expectedReturn = new Response('/_fragment?foo=bar');
         $this->innerRenderer
             ->expects(self::once())
             ->method('render')
             ->with($url, $request, $options)
-            ->will(self::returnValue($expectedReturn));
+            ->willReturn($expectedReturn);
 
         $renderer = $this->getRenderer();
-        self::assertSame($expectedReturn, $renderer->render($url, $request, $options));
+        self::assertEquals($expectedReturn, $renderer->render($url, $request, $options));
     }
 
-    public function testRendererControllerReference()
+    public function testRendererControllerReference(): void
     {
         $reference = new ControllerReference('FooBundle:bar:baz');
         $matcher = new SiteAccess\Matcher\URIElement(1);
@@ -108,12 +106,12 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTest
         $request = new Request();
         $request->attributes->set('siteaccess', $siteAccess);
         $options = ['foo' => 'bar'];
-        $expectedReturn = '/_fragment?foo=bar';
+        $expectedReturn = new Response('/_fragment?foo=bar');
         $this->innerRenderer
             ->expects(self::once())
             ->method('render')
             ->with($reference, $request, $options)
-            ->will(self::returnValue($expectedReturn));
+            ->willReturn($expectedReturn);
 
         $renderer = $this->getRenderer();
         self::assertSame($expectedReturn, $renderer->render($reference, $request, $options));
