@@ -9,15 +9,19 @@ namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
-abstract class FragmentRendererBaseTest extends TestCase
+abstract class FragmentRendererBaseTestCase extends TestCase
 {
     use SerializerTrait;
+
+    protected FragmentRendererInterface & MockObject $innerRenderer;
 
     public function testRendererControllerReferenceWithCompoundMatcher(): ControllerReference
     {
@@ -36,12 +40,12 @@ abstract class FragmentRendererBaseTest extends TestCase
 
         $request = $this->getRequest($siteAccess);
         $options = ['foo' => 'bar'];
-        $expectedReturn = '/_fragment?foo=bar';
+        $expectedReturn = new Response('/_fragment?foo=bar');
         $this->innerRenderer
             ->expects(self::once())
             ->method('render')
             ->with($reference, $request, $options)
-            ->will(self::returnValue($expectedReturn));
+            ->willReturn($expectedReturn);
 
         $renderer = $this->getRenderer();
         self::assertSame($expectedReturn, $renderer->render($reference, $request, $options));
