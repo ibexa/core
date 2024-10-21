@@ -37,19 +37,22 @@ final class FirstMatchingFieldStrategy implements ThumbnailStrategy
         $fieldDefinitions = $contentType->getFieldDefinitions();
 
         foreach ($fieldDefinitions as $fieldDefinition) {
-            $field = $this->getFieldByIdentifier($fieldDefinition->getIdentifier(), $fields);
+            if (!$fieldDefinition->isThumbnail()) {
+                continue;
+            }
 
+            $field = $this->getFieldByIdentifier($fieldDefinition->getIdentifier(), $fields);
             if ($field === null) {
+                continue;
+            }
+
+            if (!$this->contentFieldStrategy->hasStrategy($field->getFieldTypeIdentifier())) {
                 continue;
             }
 
             $fieldType = $this->fieldTypeService->getFieldType($fieldDefinition->getFieldTypeIdentifier());
 
-            if (
-                $fieldDefinition->isThumbnail()
-                && $this->contentFieldStrategy->hasStrategy($field->getFieldTypeIdentifier())
-                && !$fieldType->isEmptyValue($field->getValue())
-            ) {
+            if (!$fieldType->isEmptyValue($field->getValue())) {
                 return $this->contentFieldStrategy->getThumbnail($field, $versionInfo);
             }
         }
