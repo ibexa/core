@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\Core\Fragment;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\Fragment\InlineFragmentRenderer as BaseRenderer;
@@ -17,11 +18,9 @@ use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
 class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
 {
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface */
-    private $innerRenderer;
+    private FragmentRendererInterface $innerRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private SiteAccess $siteAccess;
 
     private SiteAccessSerializerInterface $siteAccessSerializer;
 
@@ -33,19 +32,22 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
         $this->siteAccessSerializer = $siteAccessSerializer;
     }
 
-    public function setFragmentPath($path)
+    public function setFragmentPath($path): void
     {
         if ($this->innerRenderer instanceof RoutableFragmentRenderer) {
             $this->innerRenderer->setFragmentPath($path);
         }
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
 
-    public function render($uri, Request $request, array $options = [])
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function render(string|ControllerReference $uri, Request $request, array $options = []): Response
     {
         if ($uri instanceof ControllerReference) {
             if ($request->attributes->has('siteaccess')) {
@@ -64,7 +66,7 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
         return $this->innerRenderer->render($uri, $request, $options);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->innerRenderer->getName();
     }
