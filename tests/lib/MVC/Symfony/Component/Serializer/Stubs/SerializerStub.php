@@ -13,12 +13,18 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class SerializerStub implements SerializerInterface, NormalizerInterface
 {
-    public function serialize($data, $format, array $context = [])
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function serialize(mixed $data, string $format, array $context = []): string
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function deserialize($data, $type, $format, array $context = [])
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     */
+    public function deserialize(mixed $data, string $type, string $format, array $context = []): mixed
     {
         throw new NotImplementedException(__METHOD__);
     }
