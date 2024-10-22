@@ -10,6 +10,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Compiler\FragmentPass;
 use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\FragmentListenerFactory;
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
+use Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -65,7 +66,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $decoratedInlineDef = $this->container->getDefinition('fragment.renderer.inline');
         $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedInlineDef->getTags());
         $this->assertEquals(
-            [new Reference('fragment.renderer.inline.inner')],
+            [new Reference('fragment.renderer.inline.inner'), new Reference(SiteAccessSerializerInterface::class)],
             $decoratedInlineDef->getArguments()
         );
         $this->assertSame(InlineFragmentRenderer::class, $decoratedInlineDef->getClass());
@@ -74,7 +75,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $decoratedEsiDef = $this->container->getDefinition('fragment.renderer.esi');
         $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedEsiDef->getTags());
         $this->assertEquals(
-            [new Reference('fragment.renderer.esi.inner')],
+            [new Reference('fragment.renderer.esi.inner'), new Reference(SiteAccessSerializerInterface::class)],
             $decoratedEsiDef->getArguments()
         );
 
@@ -82,7 +83,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $decoratedHincludeDef = $this->container->getDefinition('fragment.renderer.hinclude');
         $this->assertSame(['kernel.fragment_renderer' => [[]]], $decoratedHincludeDef->getTags());
         $this->assertEquals(
-            [new Reference('fragment.renderer.hinclude.inner')],
+            [new Reference('fragment.renderer.hinclude.inner'), new Reference(SiteAccessSerializerInterface::class)],
             $decoratedHincludeDef->getArguments()
         );
     }

@@ -1,3 +1,6 @@
+imports:
+    - { resource: routing/serializers.yml }
+
 parameters:
     ibexa.default_router.non_site_access_aware_routes: ['_assetic_', '_wdt', '_profiler', '_configurator_', 'ibexa.user_hash']
     # characters that may require encoding in the urlalias generator
@@ -19,7 +22,7 @@ services:
         arguments:
             $siteAccessRouter: '@Ibexa\Core\MVC\Symfony\SiteAccess\Router'
             $eventDispatcher: '@event_dispatcher'
-            $siteAccessMatcherRegistry: '@Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface'
+            $serializer: '@ibexa.core.mvc.serializer'
         tags:
             - { name: kernel.event_subscriber }
 

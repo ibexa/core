@@ -15,17 +15,20 @@ use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
 class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccessAware
 {
-    use SiteAccessSerializationTrait;
-
     /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface */
     private $innerRenderer;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     private $siteAccess;
 
-    public function __construct(FragmentRendererInterface $innerRenderer)
-    {
+    private SiteAccessSerializerInterface $siteAccessSerializer;
+
+    public function __construct(
+        FragmentRendererInterface $innerRenderer,
+        SiteAccessSerializerInterface $siteAccessSerializer
+    ) {
         $this->innerRenderer = $innerRenderer;
+        $this->siteAccessSerializer = $siteAccessSerializer;
     }
 
     /**
@@ -61,10 +64,10 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
     public function render($uri, Request $request, array $options = [])
     {
         if ($uri instanceof ControllerReference && $request->attributes->has('siteaccess')) {
-            // Serialize the siteaccess to get it back after.
+            // Serialize a SiteAccess to get it back after.
             // @see \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
             $siteAccess = $request->attributes->get('siteaccess');
-            $this->serializeSiteAccess($siteAccess, $uri);
+            $this->siteAccessSerializer->serializeSiteAccessAsControllerAttributes($siteAccess, $uri);
         }
 
         return $this->innerRenderer->render($uri, $request, $options);
