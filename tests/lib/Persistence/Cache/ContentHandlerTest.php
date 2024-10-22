@@ -93,7 +93,8 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
 
         // string $method, array $arguments, string $key, array? $tagGeneratingArguments, array? $tagGeneratingResults, array? $keyGeneratingArguments, array? $keyGeneratingResults, mixed? $data, bool $multi = false, array $additionalCalls
         return [
-            ['countReverseRelations', [2], 'ibx-crrc-2', null, null, [['content_reverse_relations_count', [2], true]], ['ibx-crrc-2'], 10],
+            ['countReverseRelations', [2, null], 'ibx-crrc-2-t-', null, null, [['content_reverse_relations_count', [2, null], true]], ['ibx-crrc-2-t-'], 10],
+            ['countReverseRelations', [2, 8], 'ibx-crrc-2-t-8', null, null, [['content_reverse_relations_count', [2, 8], true]], ['ibx-crrc-2-t-8'], 10],
             ['countRelations', [2], 'ibx-crc-2-v--t-', null, null, [['content_relations_count_with_by_version_type_suffix', [2, null, null], true]], ['ibx-crc-2-v--t-'], 10],
             ['countRelations', [2, 2], 'ibx-crc-2-v-2-t-', null, null, [['content_relations_count_with_by_version_type_suffix', [2, 2, null], true]], ['ibx-crc-2-v-2-t-'], 10],
             ['countRelations', [2, null, 1], 'ibx-crc-2-v--t-1', null, null, [['content_relations_count_with_by_version_type_suffix', [2, null, 1], true]], ['ibx-crc-2-v--t-1'], 10],
@@ -136,15 +137,29 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             [
                 'countReverseRelations',
                 [2],
-                'ibx-crrc-2',
+                'ibx-crrc-2-t-',
                 [
                     ['content', [2], false],
                 ],
                 ['c-2'],
                 [
-                    ['content_reverse_relations_count', [2], true],
+                    ['content_reverse_relations_count', [2, null], true],
                 ],
-                ['ibx-crrc-2'],
+                ['ibx-crrc-2-t-'],
+                10,
+            ],
+            [
+                'countReverseRelations',
+                [2, 8],
+                'ibx-crrc-2-t-8',
+                [
+                    ['content', [2], false],
+                ],
+                ['c-2'],
+                [
+                    ['content_reverse_relations_count', [2, 8], true],
+                ],
+                ['ibx-crrc-2-t-8'],
                 10,
             ],
             [
