@@ -366,11 +366,6 @@ parameters:
 			path: src/bundle/Core/Command/VirtualFieldDuplicateFixCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverter\\:\\:getSupportedClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Converter/ContentParamConverter.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverter\\:\\:loadValueObject\\(\\) has parameter \\$id with no type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/Converter/ContentParamConverter.php
