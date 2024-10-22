@@ -164,7 +164,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
             ->from('ezcontentobject_attribute', 'a')
             ->having('instances > 1');
 
-        $count = $query->execute()->rowCount();
+        $count = (int) $query->execute()->rowCount();
 
         if ($count > 0) {
             $style->warning(
@@ -245,13 +245,18 @@ final class VirtualFieldDuplicateFixCommand extends Command
         );
     }
 
-    private function deleteAttributes($ids): int
+    /**
+     * @param int[] $ids
+     *
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function deleteAttributes(array $ids): int
     {
         $query = $this->connection->createQueryBuilder();
 
         $query
             ->delete('ezcontentobject_attribute')
-            ->andWhere($query->expr()->in('id', $ids));
+            ->andWhere($query->expr()->in('id', array_map('strval', $ids)));
 
         return (int)$query->execute();
     }
