@@ -621,18 +621,18 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
                 self::CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER,
-                [$destinationContentId],
+                [$destinationContentId, $type],
                 true
             )
         );
 
         if ($cacheItem->isHit()) {
-            $this->logger->logCacheHit(['content' => $destinationContentId]);
+            $this->logger->logCacheHit(['content' => $destinationContentId, 'type' => $type]);
 
             return $cacheItem->get();
         }
 
-        $this->logger->logCacheMiss(['content' => $destinationContentId]);
+        $this->logger->logCacheMiss(['content' => $destinationContentId, 'type' => $type]);
         $reverseRelationsCount = $this->persistenceHandler->contentHandler()->countReverseRelations($destinationContentId, $type);
         $cacheItem->set($reverseRelationsCount);
         $tags = [
