@@ -57,9 +57,9 @@ class Mapper
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct $struct
      *
-     * @todo $description is not supported by database, yet
-     *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group
+     *
+     * @todo $description is not supported by database, yet
      */
     public function createGroupFromCreateStruct(GroupCreateStruct $struct)
     {
@@ -119,6 +119,16 @@ class Mapper
         $types = [];
         $fields = [];
 
+        $rowsByAttributeId = [];
+        foreach ($rows as $row) {
+            $attributeId = (int)$row['ezcontentclass_attribute_id'];
+            if (!isset($rowsByAttributeId[$attributeId])) {
+                $rowsByAttributeId[$attributeId] = [];
+            }
+
+            $rowsByAttributeId[$attributeId][] = $row;
+        }
+
         foreach ($rows as $row) {
             $typeId = (int)$row['ezcontentclass_id'];
             if (!isset($types[$typeId])) {
@@ -128,9 +138,7 @@ class Mapper
             $fieldId = (int)$row['ezcontentclass_attribute_id'];
 
             if ($fieldId && !isset($fields[$fieldId])) {
-                $fieldDataRows = array_filter($rows, static function (array $row) use ($fieldId) {
-                    return (int) $row['ezcontentclass_attribute_id'] === (int) $fieldId;
-                });
+                $fieldDataRows = $rowsByAttributeId[$fieldId];
 
                 $multilingualData = $this->extractMultilingualData($fieldDataRows);
 
