@@ -66,6 +66,14 @@ services:
         autowire: true
         autoconfigure: true
 
+    Ibexa\Bundle\Core\Command\VirtualFieldDuplicateFixCommand:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $connection: '@ibexa.persistence.connection'
+        tags:
+            - { name: console.command }
+
     # Dedicated services for commands
     Ibexa\Bundle\Core\Command\Indexer\ContentIdList\ContentTypeInputGeneratorStrategy:
         autowire: true
