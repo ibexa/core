@@ -3911,7 +3911,7 @@ class ContentServiceTest extends BaseContentServiceTest
         );
         self::assertEquals(
             $draft->getId(),
-            $relationList->items[0]->getRelation()->getDestinationContentInfo()->getId()
+            $relationList->items[0]->getRelation()?->getDestinationContentInfo()->getId()
         );
     }
 
@@ -4371,7 +4371,7 @@ class ContentServiceTest extends BaseContentServiceTest
         );
         self::assertEquals(
             $draft->getId(),
-            $relationList->items[0]->getRelation()->getDestinationContentInfo()->getId()
+            $relationList->items[0]->getRelation()?->getDestinationContentInfo()->getId()
         );
     }
 
