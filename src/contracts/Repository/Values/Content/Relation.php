@@ -26,7 +26,7 @@ abstract class Relation extends ValueObject
      *
      * @var int
      *
-     * @deprecated 5.0.0 accessing magic getter is deprecated and will be removed in 6.0.0. Use {@see RelationType::COMMON} instead.
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::COMMON} instead.
      */
     public const COMMON = 1;
 
@@ -35,7 +35,7 @@ abstract class Relation extends ValueObject
      *
      * @var int
      *
-     * @deprecated 5.0.0 accessing magic getter is deprecated and will be removed in 6.0.0. Use {@see RelationType::EMBED} instead.
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::EMBED} instead.
      */
     public const EMBED = 2;
 
@@ -44,7 +44,7 @@ abstract class Relation extends ValueObject
      *
      * @var int
      *
-     * @deprecated 5.0.0 accessing magic getter is deprecated and will be removed in 6.0.0. Use {@see RelationType::LINK} instead.
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::LINK} instead.
      */
     public const LINK = 4;
 
@@ -53,7 +53,7 @@ abstract class Relation extends ValueObject
      *
      * @var int
      *
-     * @deprecated 5.0.0 accessing magic getter is deprecated and will be removed in 6.0.0. Use {@see RelationType::FIELD} instead.
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::FIELD} instead.
      */
     public const FIELD = 8;
 
@@ -62,7 +62,7 @@ abstract class Relation extends ValueObject
      *
      * @var int
      *
-     * @deprecated 5.0.0 accessing magic getter is deprecated and will be removed in 6.0.0. Use {@see RelationType::ASSET} instead.
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::ASSET} instead.
      */
     public const ASSET = 16;
 
