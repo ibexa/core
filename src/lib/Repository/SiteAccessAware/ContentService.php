@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
@@ -196,35 +197,40 @@ class ContentService implements ContentServiceInterface
         return $this->service->loadRelations($versionInfo);
     }
 
-    public function countRelations(VersionInfo $versionInfo): int
+    public function countRelations(VersionInfo $versionInfo, ?RelationType $type = null): int
     {
-        return $this->service->countRelations($versionInfo);
+        return $this->service->countRelations($versionInfo, $type);
     }
 
     public function loadRelationList(
         VersionInfo $versionInfo,
         int $offset = 0,
-        int $limit = self::DEFAULT_PAGE_SIZE
+        int $limit = self::DEFAULT_PAGE_SIZE,
+        ?RelationType $type = null
     ): RelationList {
-        return $this->service->loadRelationList($versionInfo, $offset, $limit);
+        return $this->service->loadRelationList($versionInfo, $offset, $limit, $type);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function countReverseRelations(ContentInfo $contentInfo): int
+    public function countReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): int
     {
-        return $this->service->countReverseRelations($contentInfo);
+        return $this->service->countReverseRelations($contentInfo, $type);
     }
 
-    public function loadReverseRelations(ContentInfo $contentInfo): iterable
+    public function loadReverseRelations(ContentInfo $contentInfo, ?RelationType $type = null): iterable
     {
-        return $this->service->loadReverseRelations($contentInfo);
+        return $this->service->loadReverseRelations($contentInfo, $type);
     }
 
-    public function loadReverseRelationList(ContentInfo $contentInfo, int $offset = 0, int $limit = -1): RelationList
-    {
-        return $this->service->loadReverseRelationList($contentInfo, $offset, $limit);
+    public function loadReverseRelationList(
+        ContentInfo $contentInfo,
+        int $offset = 0,
+        int $limit = -1,
+        ?RelationType $type = null
+    ): RelationList {
+        return $this->service->loadReverseRelationList($contentInfo, $offset, $limit, $type);
     }
 
     public function addRelation(VersionInfo $sourceVersion, ContentInfo $destinationContent): Relation

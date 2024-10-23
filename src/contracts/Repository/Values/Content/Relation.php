@@ -25,6 +25,8 @@ abstract class Relation extends ValueObject
      * The relation type COMMON is a general relation between object set by a user.
      *
      * @var int
+     *
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::COMMON} instead.
      */
     public const COMMON = 1;
 
@@ -32,6 +34,8 @@ abstract class Relation extends ValueObject
      * the relation type EMBED is set for a relation which is anchored as embedded link in an attribute value.
      *
      * @var int
+     *
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::EMBED} instead.
      */
     public const EMBED = 2;
 
@@ -39,6 +43,8 @@ abstract class Relation extends ValueObject
      * the relation type LINK is set for a relation which is anchored as link in an attribute value.
      *
      * @var int
+     *
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::LINK} instead.
      */
     public const LINK = 4;
 
@@ -46,6 +52,8 @@ abstract class Relation extends ValueObject
      * the relation type FIELD is set for a relation which is part of an relation attribute value.
      *
      * @var int
+     *
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::FIELD} instead.
      */
     public const FIELD = 8;
 
@@ -53,6 +61,8 @@ abstract class Relation extends ValueObject
      * the relation type ASSET is set for a relation to asset in an attribute value.
      *
      * @var int
+     *
+     * @deprecated 5.0.0 const is deprecated and will be removed in 6.0.0. Use {@see RelationType::ASSET} instead.
      */
     public const ASSET = 16;
 

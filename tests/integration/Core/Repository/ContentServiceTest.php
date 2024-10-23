@@ -22,6 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -31,6 +32,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException as CoreUnauthorizedException;
+use Ibexa\Core\FieldType\Relation\Value as RelationValue;
 use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use InvalidArgumentException;
 
@@ -3827,6 +3829,21 @@ class ContentServiceTest extends BaseContentServiceTest
         self::assertSame(0, $this->contentService->countRelations($draft->getVersionInfo()));
     }
 
+    public function testCountRelationsWithType(): void
+    {
+        $draft = $this->createContentDraft('folder', 56, ['name' => 'relation target']);
+        $content = $this->createContentWithFieldRelation($this->contentService->publishVersion($draft->getVersionInfo()));
+
+        self::assertEquals(
+            0,
+            $this->contentService->countRelations($content->getVersionInfo(), RelationType::ASSET)
+        );
+        self::assertEquals(
+            1,
+            $this->contentService->countRelations($content->getVersionInfo(), RelationType::FIELD)
+        );
+    }
+
     public function testLoadRelationList(): void
     {
         $draft = $this->createContentWithRelations();
@@ -3882,6 +3899,22 @@ class ContentServiceTest extends BaseContentServiceTest
         );
     }
 
+    public function testLoadRelationListWithType(): void
+    {
+        $draft = $this->createContentDraft('folder', 56, ['name' => 'relation target']);
+        $content = $this->createContentWithFieldRelation($this->contentService->publishVersion($draft->getVersionInfo()));
+
+        $relationList = $this->contentService->loadRelationList($content->getVersionInfo(), 0, 10, RelationType::FIELD);
+        self::assertCount(
+            1,
+            $relationList->items
+        );
+        self::assertEquals(
+            $draft->getId(),
+            $relationList->items[0]->getRelation()?->getDestinationContentInfo()->getId()
+        );
+    }
+
     /**
      * Test for the countReverseRelations() method.
      *
@@ -3901,6 +3934,22 @@ class ContentServiceTest extends BaseContentServiceTest
         $contentInfo = $contentWithReverseRelations->content->getVersionInfo()->getContentInfo();
 
         self::assertEquals(2, $this->contentService->countReverseRelations($contentInfo));
+    }
+
+    public function testCountReverseRelationsWithType(): void
+    {
+        $draft = $this->createContentDraft('folder', 56, ['name' => 'relation target']);
+        $relationTargetContent = $this->contentService->publishVersion($draft->getVersionInfo());
+        $this->createContentWithFieldRelation($relationTargetContent);
+
+        self::assertEquals(
+            0,
+            $this->contentService->countReverseRelations($relationTargetContent->getContentInfo(), RelationType::ASSET)
+        );
+        self::assertEquals(
+            1,
+            $this->contentService->countReverseRelations($relationTargetContent->getContentInfo(), RelationType::FIELD)
+        );
     }
 
     /**
@@ -4306,6 +4355,23 @@ class ContentServiceTest extends BaseContentServiceTest
         self::assertEquals(
             $contentWithReverseRelations->reverseRelations[0]->contentInfo,
             $reverseRelationList->items[0]->getRelation()->sourceContentInfo
+        );
+    }
+
+    public function testLoadReverseRelationListWithType(): void
+    {
+        $draft = $this->createContentDraft('folder', 56, ['name' => 'relation target']);
+        $targetContent = $this->contentService->publishVersion($draft->getVersionInfo());
+        $this->createContentWithFieldRelation($targetContent);
+
+        $relationList = $this->contentService->loadReverseRelationList($targetContent->getContentInfo(), 0, 10, RelationType::FIELD);
+        self::assertCount(
+            1,
+            $relationList->items
+        );
+        self::assertEquals(
+            $draft->getId(),
+            $relationList->items[0]->getRelation()?->getDestinationContentInfo()->getId()
         );
     }
 
@@ -6896,5 +6962,19 @@ class ContentServiceTest extends BaseContentServiceTest
         );
 
         return $draft;
+    }
+
+    private function createContentWithFieldRelation(Content $targetContent): Content
+    {
+        $draft = $this->createContentDraft(
+            'gallery',
+            56,
+            [
+                'name' => 'Content With Single Relation',
+                'image' => new RelationValue($targetContent->getId()),
+            ]
+        );
+
+        return $this->contentService->publishVersion($draft->getVersionInfo());
     }
 }
