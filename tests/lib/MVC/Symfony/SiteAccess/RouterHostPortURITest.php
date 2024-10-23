@@ -116,22 +116,22 @@ class RouterHostPortURITest extends RouterBaseTest
         self::assertInstanceOf(Host::class, $result);
         self::assertSame($request, $matcher->getRequest());
         self::assertSame('phoenix-rises.fm', $result->getMapKey());
-        self::assertSame('phoenix-rises.fm', $result->getRequest()->host);
+        self::assertSame('phoenix-rises.fm', $result->getRequest()->getHost());
     }
 
     public function testSetGetRequestMapPort()
     {
-        $mapKey = '8000';
+        $mapKey = 8000;
         $request = new SimplifiedRequest(['port' => $mapKey]);
         $matcher = new Port(['foo' => $mapKey]);
         $matcher->setRequest($request);
         self::assertSame($request, $matcher->getRequest());
-        self::assertSame($mapKey, $matcher->getMapKey());
+        self::assertSame((string)$mapKey, $matcher->getMapKey());
     }
 
     public function testReversePortMatchFail()
     {
-        $config = ['foo' => '8080'];
+        $config = ['foo' => 8080];
         $matcher = new Port($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
@@ -143,17 +143,17 @@ class RouterHostPortURITest extends RouterBaseTest
             '443' => 'another_siteaccess',
             8000 => 'ibexa_demo_site',
         ];
-        $request = new SimplifiedRequest(['scheme' => 'http', 'host' => 'ibexa.co']);
+        $request = new SimplifiedRequest('http', 'ibexa.co');
         $matcher = new Port($config);
         $matcher->setRequest($request);
-        self::assertSame(80, $matcher->getMapKey());
+        self::assertSame('80', $matcher->getMapKey());
 
         $result = $matcher->reverseMatch('ibexa_demo_site');
         self::assertInstanceOf(Port::class, $result);
         self::assertSame($request, $matcher->getRequest());
         self::assertSame(8000, $result->getMapKey());
-        self::assertSame(8000, $result->getRequest()->port);
-        self::assertSame('http', $result->getRequest()->scheme);
+        self::assertSame(8000, $result->getRequest()->getPort());
+        self::assertSame('http', $result->getRequest()->getScheme());
     }
 
     protected function createRouter(): Router

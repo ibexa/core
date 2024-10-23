@@ -94,7 +94,7 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Content\ViewController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
         arguments:
-            - '@Ibexa\Bundle\Core\View\Manager'
+            - '@Ibexa\Core\MVC\Symfony\View\ViewManagerInterface'
             - "@security.authorization_checker"
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:

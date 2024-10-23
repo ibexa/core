@@ -16,13 +16,13 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $object
      *
      * @return array{
-     *     scheme: string,
-     *     host: string,
-     *     port: string,
-     *     pathinfo: string,
-     *     queryParams: array<mixed>,
-     *     languages: string[],
-     *     headers: array{}
+     *     scheme: ?string,
+     *     host: ?string,
+     *     port: ?int,
+     *     pathinfo: ?string,
+     *     queryParams: ?array<mixed>,
+     *     languages: ?string[],
+     *     headers: ?array{}
      * }
      *
      * @see \Symfony\Component\Serializer\Normalizer\NormalizerInterface::normalize
@@ -30,12 +30,12 @@ final class SimplifiedRequestNormalizer extends PropertyNormalizer
     public function normalize($object, $format = null, array $context = []): array
     {
         return [
-            'scheme' => $object->scheme,
-            'host' => $object->host,
-            'port' => $object->port,
-            'pathinfo' => $object->pathinfo,
-            'queryParams' => $object->queryParams,
-            'languages' => $object->languages,
+            'scheme' => $object->getScheme(),
+            'host' => $object->getHost(),
+            'port' => $object->getPort(),
+            'pathinfo' => $object->getPathInfo(),
+            'queryParams' => $object->getQueryParams(),
+            'languages' => $object->getLanguages(),
             'headers' => [],
         ];
     }

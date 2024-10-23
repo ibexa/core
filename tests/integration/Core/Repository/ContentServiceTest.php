@@ -22,6 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Section;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -1383,7 +1384,7 @@ class ContentServiceTest extends BaseContentServiceTest
             ],
             [
                 'fieldCount' => count($draft->getFields()),
-                'relationCount' => count($this->getRepository()->getContentService()->loadRelations($draft->getVersionInfo())),
+                'relationCount' => count($this->getRepository()->getContentService()->loadRelationList($draft->getVersionInfo())->items),
             ]
         );
     }
@@ -2402,25 +2403,21 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
     public function testLoadContentDraftsReturnsEmptyArrayByDefault()
     {
-        $contentDrafts = $this->contentService->loadContentDrafts();
+        $contentDrafts = $this->contentService->loadContentDraftList();
 
-        self::assertSame([], $contentDrafts);
+        self::assertSame([], $contentDrafts->items);
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      *
      * @depends testCreateContentDraft
      */
-    public function testLoadContentDrafts()
+    public function testLoadContentDraftList(): void
     {
         // "Media" content object
         $mediaContentInfo = $this->contentService->loadContentInfoByRemoteId(self::MEDIA_REMOTE_ID);
@@ -2433,13 +2430,20 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->createContentDraft($demoDesignContentInfo);
 
         // Now $contentDrafts should contain two drafted versions
-        $draftedVersions = iterator_to_array($this->contentService->loadContentDrafts());
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface[] $draftedVersions */
+        $draftedVersions = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $draftedVersionInfo0 */
+        $draftedVersionInfo0 = $draftedVersions[0]->getVersionInfo();
+
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $draftedVersionInfo1 */
+        $draftedVersionInfo1 = $draftedVersions[1]->getVersionInfo();
 
         $actual = [
-            $draftedVersions[0]->status,
-            $draftedVersions[0]->getContentInfo()->remoteId,
-            $draftedVersions[1]->status,
-            $draftedVersions[1]->getContentInfo()->remoteId,
+            $draftedVersionInfo0->status,
+            $draftedVersionInfo0->getContentInfo()->remoteId,
+            $draftedVersionInfo1->status,
+            $draftedVersionInfo1->getContentInfo()->remoteId,
         ];
         sort($actual, SORT_STRING);
 
@@ -2455,9 +2459,7 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
-     * Test for the loadContentDrafts() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts($user)
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      */
     public function testLoadContentDraftsWithFirstParameter()
     {
@@ -2479,32 +2481,35 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->permissionResolver->setCurrentUserReference($oldCurrentUser);
 
         // Now $contentDrafts for the previous current user and the new user
-        $newCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDrafts($user));
-        $oldCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDrafts());
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\DraftList\ContentDraftListItemInterface[] $newCurrentUserDrafts */
+        $newCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList($user)->getIterator());
+        $oldCurrentUserDrafts = iterator_to_array($this->contentService->loadContentDraftList()->getIterator());
 
         self::assertSame([], $oldCurrentUserDrafts);
 
+        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $newCurrentUserDraftVersionInfo */
+        $newCurrentUserDraftVersionInfo = $newCurrentUserDrafts[0]->getVersionInfo();
         self::assertEquals(
             [
                 VersionInfo::STATUS_DRAFT,
                 self::MEDIA_REMOTE_ID,
             ],
             [
-                $newCurrentUserDrafts[0]->status,
-                $newCurrentUserDrafts[0]->getContentInfo()->remoteId,
+                $newCurrentUserDraftVersionInfo->status,
+                $newCurrentUserDraftVersionInfo->getContentInfo()->remoteId,
             ]
         );
-        self::assertTrue($newCurrentUserDrafts[0]->isDraft());
-        self::assertFalse($newCurrentUserDrafts[0]->isArchived());
-        self::assertFalse($newCurrentUserDrafts[0]->isPublished());
+        self::assertTrue($newCurrentUserDraftVersionInfo->isDraft());
+        self::assertFalse($newCurrentUserDraftVersionInfo->isArchived());
+        self::assertFalse($newCurrentUserDraftVersionInfo->isPublished());
     }
 
     /**
      * Test for the loadContentDraftList() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
-    public function testLoadContentDraftListWithPaginationParameters()
+    public function testLoadContentDraftListWithPaginationParameters(): void
     {
         // Create some drafts
         $publishedContent = $this->createContentVersion1();
@@ -2528,9 +2533,9 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadContentDraftList() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts($user)
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList($user)
      */
-    public function testLoadContentDraftListWithForUserWithLimitation()
+    public function testLoadContentDraftListWithForUserWithLimitation(): void
     {
         $oldUser = $this->permissionResolver->getCurrentUserReference();
 
@@ -2567,9 +2572,9 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadContentDraftList() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDrafts()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentDraftList()
      */
-    public function testLoadAllContentDrafts()
+    public function testLoadAllContentDraftList(): void
     {
         // Create more drafts then default pagination limit
         $this->createContentDrafts(12);
@@ -3516,7 +3521,10 @@ class ContentServiceTest extends BaseContentServiceTest
 
         self::assertInstanceOf(Relation::class, $relation);
 
-        return $this->contentService->loadRelations($draft->getVersionInfo());
+        return array_filter(array_map(
+            static fn (RelationListItemInterface $relationListItem): ?Relation => $relationListItem->getRelation(),
+            $this->contentService->loadRelationList($draft->getVersionInfo())->items
+        ));
     }
 
     /**
@@ -3594,7 +3602,10 @@ class ContentServiceTest extends BaseContentServiceTest
         $content = $this->contentService->publishVersion($draft->versionInfo);
         $newDraft = $this->contentService->createContentDraft($content->contentInfo);
 
-        return $this->contentService->loadRelations($newDraft->getVersionInfo());
+        return array_filter(array_map(
+            static fn (RelationListItemInterface $relationListItem): ?Relation => $relationListItem->getRelation(),
+            $this->contentService->loadRelationList($newDraft->getVersionInfo())->items
+        ));
     }
 
     /**
@@ -3653,57 +3664,10 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadRelations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends testAddRelation
-     */
-    public function testLoadRelations()
-    {
-        $draft = $this->createContentWithRelations();
-
-        $relations = iterator_to_array($this->contentService->loadRelations($draft->getVersionInfo()));
-
-        usort(
-            $relations,
-            static function ($rel1, $rel2): int {
-                return strcasecmp(
-                    $rel2->getDestinationContentInfo()->remoteId,
-                    $rel1->getDestinationContentInfo()->remoteId
-                );
-            }
-        );
-
-        self::assertEquals(
-            [
-                [
-                    'sourceContentInfo' => 'abcdef0123456789abcdef0123456789',
-                    'destinationContentInfo' => self::MEDIA_REMOTE_ID,
-                ],
-                [
-                    'sourceContentInfo' => 'abcdef0123456789abcdef0123456789',
-                    'destinationContentInfo' => self::DEMO_DESIGN_REMOTE_ID,
-                ],
-            ],
-            [
-                [
-                    'sourceContentInfo' => $relations[0]->sourceContentInfo->remoteId,
-                    'destinationContentInfo' => $relations[0]->destinationContentInfo->remoteId,
-                ],
-                [
-                    'sourceContentInfo' => $relations[1]->sourceContentInfo->remoteId,
-                    'destinationContentInfo' => $relations[1]->destinationContentInfo->remoteId,
-                ],
-            ]
-        );
-    }
-
-    /**
-     * Test for the loadRelations() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
-     *
-     * @depends testAddRelation
-     * @depends testLoadRelations
+     * @depends loadRelationList
      */
     public function testLoadRelationsSkipsArchivedContent()
     {
@@ -3734,7 +3698,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $trashService->trash($demoDesignLocation);
 
         // Load all relations
-        $relations = iterator_to_array($this->contentService->loadRelations($draft->getVersionInfo()));
+        $relations = iterator_to_array($this->contentService->loadRelationList($draft->getVersionInfo())->getIterator());
 
         self::assertCount(1, $relations);
         self::assertEquals(
@@ -3756,10 +3720,10 @@ class ContentServiceTest extends BaseContentServiceTest
     /**
      * Test for the loadRelations() method.
      *
-     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelations()
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()
      *
      * @depends testAddRelation
-     * @depends testLoadRelations
+     * @depends loadRelationList
      */
     public function testLoadRelationsSkipsDraftContent()
     {
@@ -3785,7 +3749,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $demoDesign
         );
 
-        $relations = iterator_to_array($this->contentService->loadRelations($mediaDraft->getVersionInfo()));
+        $relations = iterator_to_array($this->contentService->loadRelationList($mediaDraft->getVersionInfo())->getIterator());
 
         self::assertCount(1, $relations);
         self::assertEquals(
@@ -3971,7 +3935,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->publishVersion($mediaDraft->getVersionInfo());
         $this->contentService->publishVersion($demoDesignDraft->getVersionInfo());
 
-        $relations = $this->contentService->loadRelations($versionInfo);
+        $relations = $this->contentService->loadRelationList($versionInfo);
         $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($contentInfo));
 
         self::assertEquals($contentInfo->id, $relation1->getDestinationContentInfo()->id);
@@ -4063,7 +4027,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $trashService->trash($demoDesignLocation);
 
         // Load all relations
-        $relations = $this->contentService->loadRelations($versionInfo);
+        $relations = $this->contentService->loadRelationList($versionInfo);
         $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($contentInfo));
 
         self::assertEquals($contentInfo->id, $relation1->getDestinationContentInfo()->id);
@@ -4127,7 +4091,7 @@ class ContentServiceTest extends BaseContentServiceTest
         // We will not publish new Content draft, therefore relation from it
         // will not be loaded as reverse relation for "Media" page
 
-        $relations = $this->contentService->loadRelations($media->versionInfo);
+        $relations = $this->contentService->loadRelationList($media->versionInfo);
         $reverseRelations = iterator_to_array($this->contentService->loadReverseRelations($media->contentInfo));
 
         self::assertEquals($media->contentInfo->id, $relation1->getDestinationContentInfo()->id);
@@ -4314,7 +4278,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteRelation()
      *
-     * @depends testLoadRelations
+     * @depends testLoadRelationList
      */
     public function testDeleteRelation()
     {
@@ -4331,7 +4295,7 @@ class ContentServiceTest extends BaseContentServiceTest
         $this->contentService->deleteRelation($draft->getVersionInfo(), $media);
 
         // The relations array now contains only one element
-        $relations = $this->contentService->loadRelations($draft->getVersionInfo());
+        $relations = $this->contentService->loadRelationList($draft->getVersionInfo());
 
         self::assertCount(1, $relations);
     }
@@ -4985,7 +4949,7 @@ class ContentServiceTest extends BaseContentServiceTest
      *
      * @depends testCreateContent
      * @depends testLoadContentInfo
-     * @depends testLoadContentDrafts
+     * @depends testLoadContentDraftList
      */
     public function testDeleteVersionInTransactionWithRollback()
     {
@@ -5013,9 +4977,9 @@ class ContentServiceTest extends BaseContentServiceTest
         $repository->rollback();
 
         // This array will be empty
-        $drafts = $this->contentService->loadContentDrafts();
+        $drafts = $this->contentService->loadContentDraftList();
 
-        self::assertSame([], $drafts);
+        self::assertSame([], $drafts->items);
     }
 
     /**
@@ -5053,9 +5017,9 @@ class ContentServiceTest extends BaseContentServiceTest
         }
 
         // This array will contain no element
-        $drafts = $this->contentService->loadContentDrafts();
+        $drafts = $this->contentService->loadContentDraftList();
 
-        self::assertSame([], $drafts);
+        self::assertSame([], $drafts->items);
     }
 
     /**
@@ -6735,7 +6699,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $this->createFolder([self::ENG_US => 'P3'], $parentLocationId)->contentInfo->mainLocationId,
         ];
 
-        return array_values($this->locationService->loadLocationList($parentFoldersLocationsIds));
+        return array_values([...$this->locationService->loadLocationList($parentFoldersLocationsIds)]);
     }
 
     /**

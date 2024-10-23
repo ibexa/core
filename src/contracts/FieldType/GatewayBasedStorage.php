@@ -46,12 +46,11 @@ abstract class GatewayBasedStorage implements FieldStorage
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $originalField
-     * @param array $context
      *
      * @return bool|null Same as {@see \Ibexa\Contracts\Core\FieldType\FieldStorage::storeFieldData()}.
      */
-    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField, array $context)
+    public function copyLegacyField(VersionInfo $versionInfo, Field $field, Field $originalField)
     {
-        return $this->storeFieldData($versionInfo, $field, $context);
+        return $this->storeFieldData($versionInfo, $field);
     }
 }

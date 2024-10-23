@@ -8,7 +8,6 @@
 namespace Ibexa\Core\Helper;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
-use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
@@ -22,50 +21,19 @@ class PreviewLocationProvider
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
-
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
     private $locationHandler;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
-     * @param \Ibexa\Contracts\Core\Repository\ContentService $contentService
      * @param \Ibexa\Contracts\Core\Persistence\Content\Location\Handler $locationHandler
      */
     public function __construct(
         LocationService $locationService,
-        ContentService $contentService,
         PersistenceLocationHandler $locationHandler
     ) {
         $this->locationService = $locationService;
-        $this->contentService = $contentService;
         $this->locationHandler = $locationHandler;
-    }
-
-    /**
-     * Loads the main location for $contentId.
-     *
-     * If the content does not have a location (yet), but has a Location draft, it is returned instead.
-     * Location drafts do not have an id (it is set to null), and can be tested using the isDraft() method.
-     *
-     * If the content doesn't have a location nor a location draft, null is returned.
-     *
-     * @deprecated Since 7.5.4, rather use loadMainLocationByContent.
-     * @see loadMainLocationByContent
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     *
-     * @param mixed $contentId
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location|null
-     */
-    public function loadMainLocation($contentId)
-    {
-        return $this->loadMainLocationByContent(
-            $this->contentService->loadContent($contentId)
-        );
     }
 
     /**

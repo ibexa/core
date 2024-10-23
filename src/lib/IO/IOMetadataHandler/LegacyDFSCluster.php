@@ -43,30 +43,30 @@ class LegacyDFSCluster implements IOMetadataHandler
     /**
      * Inserts a new reference to file $spiBinaryFileId.
      *
-     * @since 6.10 The mtime of the $binaryFileCreateStruct must be a DateTime, as specified in the struct doc.
-     *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $binaryFileCreateStruct
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException if the $binaryFileCreateStruct is invalid
-     * @throws \RuntimeException if a DBAL error occurs
+     * @param \Ibexa\Contracts\Core\IO\BinaryFileCreateStruct $spiBinaryFileCreateStruct
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
+     *
+     *@throws \RuntimeException if a DBAL error occurs
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException if the $binaryFileCreateStruct is invalid
+     *
+     * @since 6.10 The mtime of the $binaryFileCreateStruct must be a DateTime, as specified in the struct doc.
      */
-    public function create(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
+    public function create(SPIBinaryFileCreateStruct $spiBinaryFileCreateStruct)
     {
-        if (!($binaryFileCreateStruct->mtime instanceof DateTime)) {
+        if (!($spiBinaryFileCreateStruct->mtime instanceof DateTime)) {
             throw new InvalidArgumentException('$binaryFileCreateStruct', 'Property \'mtime\' must be a DateTime');
         }
 
-        $path = (string)$this->addPrefix($binaryFileCreateStruct->id);
+        $path = (string)$this->addPrefix($spiBinaryFileCreateStruct->id);
         $params = [
             'name' => $path,
             'name_hash' => md5($path),
-            'name_trunk' => $this->getNameTrunk($binaryFileCreateStruct),
-            'mtime' => $binaryFileCreateStruct->mtime->getTimestamp(),
-            'size' => $binaryFileCreateStruct->size,
-            'scope' => $this->getScope($binaryFileCreateStruct),
-            'datatype' => $binaryFileCreateStruct->mimeType,
+            'name_trunk' => $this->getNameTrunk($spiBinaryFileCreateStruct),
+            'mtime' => $spiBinaryFileCreateStruct->mtime->getTimestamp(),
+            'size' => $spiBinaryFileCreateStruct->size,
+            'scope' => $this->getScope($spiBinaryFileCreateStruct),
+            'datatype' => $spiBinaryFileCreateStruct->mimeType,
         ];
 
         try {
@@ -82,7 +82,7 @@ class LegacyDFSCluster implements IOMetadataHandler
             ]);
         }
 
-        return $this->mapSPIBinaryFileCreateStructToSPIBinaryFile($binaryFileCreateStruct);
+        return $this->mapSPIBinaryFileCreateStructToSPIBinaryFile($spiBinaryFileCreateStruct);
     }
 
     /**
@@ -304,7 +304,6 @@ class LegacyDFSCluster implements IOMetadataHandler
         $spiBinaryFile->id = $properties['id'];
         $spiBinaryFile->size = $properties['size'];
         $spiBinaryFile->mtime = new DateTime('@' . $properties['mtime']);
-        $spiBinaryFile->mimeType = $properties['datatype'];
 
         return $spiBinaryFile;
     }
@@ -320,7 +319,6 @@ class LegacyDFSCluster implements IOMetadataHandler
         $spiBinaryFile->id = $binaryFileCreateStruct->id;
         $spiBinaryFile->mtime = $binaryFileCreateStruct->mtime;
         $spiBinaryFile->size = $binaryFileCreateStruct->size;
-        $spiBinaryFile->mimeType = $binaryFileCreateStruct->mimeType;
 
         return $spiBinaryFile;
     }

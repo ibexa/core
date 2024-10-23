@@ -92,7 +92,7 @@ class RouterHostTextTest extends RouterBaseTest
         self::assertInstanceOf(HostTextMatcher::class, $result);
         $request = $result->getRequest();
         self::assertInstanceOf(SimplifiedRequest::class, $request);
-        self::assertSame('www.foobar.com', $request->host);
+        self::assertSame('www.foobar.com', $request->getHost());
     }
 
     protected function createRouter(): Router
