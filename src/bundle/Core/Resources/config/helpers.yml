@@ -65,3 +65,7 @@ services:
     Ibexa\Bundle\Core\SiteAccess\Config\IOConfigResolver:
         arguments:
             $complexConfigProcessor: '@Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor'
+
+    Ibexa\Core\Helper\RelationListHelper:
+        arguments:
+            $contentService: '@ibexa.api.service.content'
