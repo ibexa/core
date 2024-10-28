@@ -7,16 +7,11 @@
 
 namespace Ibexa\Core\MVC\Symfony\EventListener;
 
-// @todo Move SiteAccessMatcherRegistryInterface to \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher
-use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router as SiteAccessRouter;
-use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,25 +25,20 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class SiteAccessMatchListener implements EventSubscriberInterface
 {
-    use SerializerTrait;
+    protected SiteAccess\Router $siteAccessRouter;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\Router */
-    protected $siteAccessRouter;
+    protected EventDispatcherInterface $eventDispatcher;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
-
-    /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface */
-    private $siteAccessMatcherRegistry;
+    private SerializerInterface $serializer;
 
     public function __construct(
         SiteAccessRouter $siteAccessRouter,
         EventDispatcherInterface $eventDispatcher,
-        SiteAccessMatcherRegistryInterface $siteAccessMatcherRegistry
+        SerializerInterface $serializer
     ) {
         $this->siteAccessRouter = $siteAccessRouter;
         $this->eventDispatcher = $eventDispatcher;
-        $this->siteAccessMatcherRegistry = $siteAccessMatcherRegistry;
+        $this->serializer = $serializer;
     }
 
     public static function getSubscribedEvents(): array
@@ -71,19 +61,15 @@ class SiteAccessMatchListener implements EventSubscriberInterface
 
         // We have a serialized siteaccess object from a fragment (sub-request), we need to get it back.
         if ($request->attributes->has('serialized_siteaccess')) {
-            $serializer = $this->getSerializer();
             /** @var \Ibexa\Core\MVC\Symfony\SiteAccess $siteAccess */
-            $siteAccess = $serializer->deserialize($request->attributes->get('serialized_siteaccess'), SiteAccess::class, 'json');
-            if ($siteAccess->matcher !== null) {
-                $siteAccess->matcher = $this->deserializeMatcher(
-                    $serializer,
-                    $siteAccess->matcher,
-                    $request->attributes->get('serialized_siteaccess_matcher'),
-                    $request->attributes->get('serialized_siteaccess_sub_matchers')
-                );
-            }
-            $siteAccess->groups = $this->buildGroups(
-                $siteAccess->groups
+            $siteAccess = $this->serializer->deserialize(
+                $request->attributes->get('serialized_siteaccess'),
+                SiteAccess::class,
+                'json',
+                [
+                    'serialized_siteaccess_matcher' => $request->attributes->get('serialized_siteaccess_matcher'),
+                    'serialized_siteaccess_sub_matchers' => $request->attributes->get('serialized_siteaccess_sub_matchers'),
+                ]
             );
             $request->attributes->set(
                 'siteaccess',
@@ -126,85 +112,5 @@ class SiteAccessMatchListener implements EventSubscriberInterface
                 ]
             )
         );
-    }
-
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     */
-    private function deserializeMatcher(
-        SerializerInterface $serializer,
-        string $matcherFQCN,
-        string $serializedMatcher,
-        ?array $serializedSubMatchers
-    ): SiteAccess\Matcher {
-        $matcher = null;
-        if (in_array(SiteAccess\Matcher::class, class_implements($matcherFQCN), true)) {
-            $matcher = $this->buildMatcherFromSerializedClass(
-                $serializer,
-                $matcherFQCN,
-                $serializedMatcher
-            );
-        } else {
-            throw new InvalidArgumentException(
-                'matcher',
-                sprintf(
-                    'SiteAccess matcher must implement %s or %s',
-                    SiteAccess\Matcher::class,
-                    SiteAccess\URILexer::class
-                )
-            );
-        }
-        if (!empty($serializedSubMatchers)) {
-            $subMatchers = [];
-            foreach ($serializedSubMatchers as $subMatcherFQCN => $serializedData) {
-                $subMatchers[$subMatcherFQCN] = $this->buildMatcherFromSerializedClass(
-                    $serializer,
-                    $subMatcherFQCN,
-                    $serializedData
-                );
-            }
-            $matcher->setSubMatchers($subMatchers);
-        }
-
-        return $matcher;
-    }
-
-    /**
-     * @param array<array{'name': string}> $serializedGroups
-     *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccessGroup[]
-     */
-    private function buildGroups(
-        array $serializedGroups
-    ): array {
-        return array_map(
-            static function (array $serializedGroup): SiteAccessGroup {
-                return new SiteAccessGroup($serializedGroup['name']);
-            },
-            $serializedGroups
-        );
-    }
-
-    /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     */
-    private function buildMatcherFromSerializedClass(
-        SerializerInterface $serializer,
-        string $matcherClass,
-        string $serializedMatcher
-    ): SiteAccess\Matcher {
-        $matcher = null;
-        if ($this->siteAccessMatcherRegistry->hasMatcher($matcherClass)) {
-            $matcher = $this->siteAccessMatcherRegistry->getMatcher($matcherClass);
-        } else {
-            $matcher = $serializer->deserialize(
-                $serializedMatcher,
-                $matcherClass,
-                'json'
-            );
-        }
-
-        return $matcher;
     }
 }

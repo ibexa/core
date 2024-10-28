@@ -8,14 +8,21 @@
 namespace Ibexa\Tests\Bundle\Core\Fragment;
 
 use Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer;
+use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
+use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
+/**
+ * @covers \Ibexa\Bundle\Core\Fragment\InlineFragmentRenderer
+ */
 class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
 {
+    use SerializerTrait;
+
     public function testRendererControllerReference()
     {
         $reference = new ControllerReference('FooBundle:bar:baz');
@@ -37,7 +44,7 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
             ->with($reference, $request, $options)
             ->will(self::returnValue($expectedReturn));
 
-        $renderer = new InlineFragmentRenderer($this->innerRenderer);
+        $renderer = $this->getRenderer();
         self::assertSame($expectedReturn, $renderer->render($reference, $request, $options));
         self::assertTrue(isset($reference->attributes['serialized_siteaccess']));
         $serializedSiteAccess = json_encode($siteAccess);
@@ -81,6 +88,6 @@ class InlineFragmentRendererTest extends DecoratedFragmentRendererTest
 
     public function getRenderer(): FragmentRendererInterface
     {
-        return new InlineFragmentRenderer($this->innerRenderer);
+        return new InlineFragmentRenderer($this->innerRenderer, new SiteAccessSerializer($this->getSerializer()));
     }
 }

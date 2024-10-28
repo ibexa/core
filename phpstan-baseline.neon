@@ -11401,31 +11401,6 @@ parameters:
 			path: src/lib/MVC/Symfony/EventListener/LanguageSwitchListener.php
 
 		-
-			message: "#^Call to an undefined method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\:\\:setSubMatchers\\(\\)\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/EventListener/SiteAccessMatchListener.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListener\\:\\:deserializeMatcher\\(\\) has parameter \\$serializedSubMatchers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/EventListener/SiteAccessMatchListener.php
-
-		-
-			message: "#^Parameter \\#1 \\$serializedGroups of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListener\\:\\:buildGroups\\(\\) expects array\\<array\\{name\\: string\\}\\>, array\\<Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccessGroup\\> given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/EventListener/SiteAccessMatchListener.php
-
-		-
-			message: "#^Parameter \\#2 \\$haystack of function in_array expects array, array\\<string, class\\-string\\>\\|false given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/EventListener/SiteAccessMatchListener.php
-
-		-
-			message: "#^Parameter \\#2 \\$matcherFQCN of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListener\\:\\:deserializeMatcher\\(\\) expects string, Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/EventListener/SiteAccessMatchListener.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\ExpressionLanguage\\\\TwigVariableProviderExtension\\:\\:hasParameterProvider\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/ExpressionLanguage/TwigVariableProviderExtension.php
@@ -24671,11 +24646,6 @@ parameters:
 			path: tests/bundle/Core/Fragment/DecoratedFragmentRendererTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$innerRenderer of class Ibexa\\\\Bundle\\\\Core\\\\Fragment\\\\DecoratedFragmentRenderer constructor expects Symfony\\\\Component\\\\HttpKernel\\\\Fragment\\\\FragmentRendererInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 5
-			path: tests/bundle/Core/Fragment/DecoratedFragmentRendererTest.php
-
-		-
 			message: "#^Binary operation \"\\.\" between 'rendered_' and \\(Closure\\(array\\<string, mixed\\>\\)\\: string\\)\\|string results in an error\\.$#"
 			count: 1
 			path: tests/bundle/Core/Fragment/DirectFragmentRendererTest.php
@@ -24718,11 +24688,6 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Fragment\\\\InlineFragmentRendererTest\\:\\:testRendererControllerReference\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: tests/bundle/Core/Fragment/InlineFragmentRendererTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$innerRenderer of class Ibexa\\\\Bundle\\\\Core\\\\Fragment\\\\InlineFragmentRenderer constructor expects Symfony\\\\Component\\\\HttpKernel\\\\Fragment\\\\FragmentRendererInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
-			count: 2
 			path: tests/bundle/Core/Fragment/InlineFragmentRendererTest.php
 
 		-
@@ -44756,36 +44721,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/EventListener/LanguageSwitchListenerTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListenerTest\\:\\:testGetSubscribedEvents\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListenerTest\\:\\:testOnKernelRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListenerTest\\:\\:testOnKernelRequestSerializedSA\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListenerTest\\:\\:testOnKernelRequestSerializedSAWithCompoundMatcher\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListenerTest\\:\\:testOnKernelRequestSiteAccessPresent\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\EventListener\\\\SiteAccessMatchListenerTest\\:\\:testOnKernelRequestUserHashWithOriginalRequest\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/EventListener/SiteAccessMatchListenerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\FieldType\\\\ImageAsset\\\\ParameterProviderTest\\:\\:dataProviderForTestGetViewParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/FieldType/ImageAsset/ParameterProviderTest.php
@@ -46149,36 +46084,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$matcherBuilder of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\Compound\\:\\:setMatcherBuilder\\(\\) expects Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\MatcherBuilderInterface, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
 			count: 6
 			path: tests/lib/MVC/Symfony/SiteAccess/Compound/CompoundOrTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\MatcherSerializationTest\\:\\:getMapHostMatcherTestCase\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/MatcherSerializationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\MatcherSerializationTest\\:\\:getMapPortMatcherTestCase\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/MatcherSerializationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\MatcherSerializationTest\\:\\:getMapURIMatcherTestCase\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/MatcherSerializationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\MatcherSerializationTest\\:\\:matcherProvider\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/MatcherSerializationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\MatcherSerializationTest\\:\\:testDeserialize\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/MatcherSerializationTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$subMatchers of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\\\Compound\\:\\:setSubMatchers\\(\\) expects array\\<Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Matcher\\>, array\\<string, array\\<string, array\\<string, string\\>\\>\\> given\\.$#"
-			count: 4
-			path: tests/lib/MVC/Symfony/SiteAccess/MatcherSerializationTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\Provider\\\\ChainSiteAccessProviderTest\\:\\:getExistingSiteProvider\\(\\) return type has no value type specified in iterable type array\\.$#"

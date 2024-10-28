@@ -8,24 +8,31 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Fragment;
 
-use Ibexa\Core\MVC\Symfony\Component\Serializer\SerializerTrait;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * @deprecated Deprecated since 4.6. Inject an instance of {@see \Ibexa\Bundle\Core\Fragment\SiteAccessSerializerInterface}
- *  instead.
+ * @internal
  */
-trait SiteAccessSerializationTrait
+final class SiteAccessSerializer implements SiteAccessSerializerInterface
 {
-    use SerializerTrait;
+    private SerializerInterface $serializer;
 
-    public function serializeSiteAccess(SiteAccess $siteAccess, ControllerReference $uri): void
+    public function __construct(SerializerInterface $serializer)
     {
-        // Serialize the siteaccess to get it back after. @see \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
-        $uri->attributes['serialized_siteaccess'] = json_encode($siteAccess);
-        $uri->attributes['serialized_siteaccess_matcher'] = $this->getSerializer()->serialize(
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    public function serializeSiteAccessAsControllerAttributes(SiteAccess $siteAccess, ControllerReference $controller): void
+    {
+        // Serialize the SiteAccess to get it back after. @see \Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener
+        $controller->attributes['serialized_siteaccess'] = json_encode($siteAccess, JSON_THROW_ON_ERROR);
+        $controller->attributes['serialized_siteaccess_matcher'] = $this->serializer->serialize(
             $siteAccess->matcher,
             'json',
             [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder', 'connection']]
@@ -33,7 +40,7 @@ trait SiteAccessSerializationTrait
         if ($siteAccess->matcher instanceof SiteAccess\Matcher\CompoundInterface) {
             $subMatchers = $siteAccess->matcher->getSubMatchers();
             foreach ($subMatchers as $subMatcher) {
-                $uri->attributes['serialized_siteaccess_sub_matchers'][get_class($subMatcher)] = $this->getSerializer()->serialize(
+                $controller->attributes['serialized_siteaccess_sub_matchers'][get_class($subMatcher)] = $this->serializer->serialize(
                     $subMatcher,
                     'json',
                     [AbstractNormalizer::IGNORED_ATTRIBUTES => ['request', 'container', 'matcherBuilder', 'connection']]
