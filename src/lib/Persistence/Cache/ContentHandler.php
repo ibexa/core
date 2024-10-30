@@ -446,6 +446,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
                 self::CONTENT_IDENTIFIER,
                 [$relation->destinationContentId]
             ),
+            $this->cacheIdentifierGenerator->generateTag(
+                self::CONTENT_IDENTIFIER,
+                [$relation->sourceContentId]
+            ),
         ]);
 
         return $this->persistenceHandler->contentHandler()->addRelation($relation);
