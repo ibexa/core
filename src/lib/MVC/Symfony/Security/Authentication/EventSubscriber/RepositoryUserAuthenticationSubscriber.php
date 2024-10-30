@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
@@ -66,7 +67,7 @@ final class RepositoryUserAuthenticationSubscriber implements EventSubscriberInt
         }
 
         $user = $badge->getUser();
-        if (!$user instanceof IbexaUserInterface) {
+        if (!$user instanceof IbexaUserInterface || !$user instanceof PasswordAuthenticatedUserInterface) {
             return;
         }
 
