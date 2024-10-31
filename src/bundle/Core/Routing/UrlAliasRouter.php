@@ -7,6 +7,7 @@
 
 namespace Ibexa\Bundle\Core\Routing;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter as BaseUrlAliasRouter;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,15 +15,19 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class UrlAliasRouter extends BaseUrlAliasRouter
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
-    public function setConfigResolver(ConfigResolverInterface $configResolver)
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
     }
 
-    public function matchRequest(Request $request)
+    /**
+     * @return array<string, mixed> an array of parameters
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function matchRequest(Request $request): array
     {
         // UrlAliasRouter might be disabled from configuration.
         // An example is for running the admin interface: it needs to be entirely run through the legacy kernel.
@@ -34,26 +39,25 @@ class UrlAliasRouter extends BaseUrlAliasRouter
     }
 
     /**
-     * Will return the right UrlAlias in regards to configured root location.
+     * Will return the right UrlAlias with respect to configured root location.
      *
-     * @param string $pathinfo
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the path does not exist or is not valid for the given language
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function getUrlAlias($pathinfo)
+    protected function getUrlAlias(string $pathInfo): URLAlias
     {
-        $pathPrefix = $this->generator->getPathPrefixByRootLocationId($this->rootLocationId);
+        $pathPrefix = $this->rootLocationId !== null
+            ? $this->generator->getPathPrefixByRootLocationId($this->rootLocationId)
+            : '/';
 
         if (
             $this->rootLocationId === null ||
-            $this->generator->isUriPrefixExcluded($pathinfo) ||
-            $pathPrefix === '/'
+            $pathPrefix === '/' ||
+            $this->generator->isUriPrefixExcluded($pathInfo)
         ) {
-            return parent::getUrlAlias($pathinfo);
+            return parent::getUrlAlias($pathInfo);
         }
 
-        return $this->urlAliasService->lookup($pathPrefix . $pathinfo);
+        return $this->urlAliasService->lookup($pathPrefix . $pathInfo);
     }
 }
