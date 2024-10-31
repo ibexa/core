@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\Routing;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
@@ -16,7 +17,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  * Extension of Symfony default router implementing RequestMatcherInterface.
@@ -152,37 +153,10 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
 
     /**
      * Merges context from $simplifiedRequest into a clone of the current context.
-     *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $simplifiedRequest
-     *
-     * @return \Symfony\Component\Routing\RequestContext
      */
-    public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest)
+    public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest): RequestContext
     {
-        $context = clone $this->context;
-        if ($simplifiedRequest->getScheme()) {
-            $context->setScheme($simplifiedRequest->getScheme());
-        }
-
-        if ($simplifiedRequest->getPort()) {
-            switch ($simplifiedRequest->getScheme()) {
-                case 'https':
-                    $context->setHttpsPort($simplifiedRequest->getPort());
-                    break;
-                default:
-                    $context->setHttpPort($simplifiedRequest->getPort());
-                    break;
-            }
-        }
-
-        if ($simplifiedRequest->getHost()) {
-            $context->setHost($simplifiedRequest->getHost());
-        }
-
-        if ($simplifiedRequest->getPathInfo()) {
-            $context->setPathInfo($simplifiedRequest->getPathInfo());
-        }
-
-        return $context;
+        // inline-instantiated on purpose as it's lightweight and injecting it here through DI can be complicated
+        return (new RequestContextFactory($this->context))->getContextBySimplifiedRequest($simplifiedRequest);
     }
 }

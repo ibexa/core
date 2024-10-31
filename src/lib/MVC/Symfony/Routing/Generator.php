@@ -82,7 +82,10 @@ abstract class Generator implements SiteAccessAware
         if (isset($parameters['siteaccess'])) {
             $siteAccess = $this->siteAccessRouter->matchByName($parameters['siteaccess']);
             if ($siteAccess instanceof SiteAccess && $siteAccess->matcher instanceof SiteAccess\VersatileMatcher) {
-                $requestContext = $this->getContextBySimplifiedRequest($siteAccess->matcher->getRequest());
+                // inline-instantiated on purpose, as it's lightweight and difficult to inject into DefaultRouter which also uses it
+                $requestContext = (new RequestContextFactory($this->requestContext))->getContextBySimplifiedRequest(
+                    $siteAccess->matcher->getRequest()
+                );
             } elseif ($this->logger) {
                 $siteAccess = $this->siteAccess;
                 $this->logger->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
@@ -135,41 +138,5 @@ abstract class Generator implements SiteAccessAware
         }
 
         return $scheme . '://' . $requestContext->getHost() . $port . $uri;
-    }
-
-    /**
-     * Merges context from $simplifiedRequest into a clone of the current context.
-     *
-     * @param SimplifiedRequest $simplifiedRequest
-     *
-     * @return \Symfony\Component\Routing\RequestContext
-     */
-    private function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest)
-    {
-        $context = clone $this->requestContext;
-        if ($simplifiedRequest->getScheme()) {
-            $context->setScheme($simplifiedRequest->getScheme());
-        }
-
-        if ($simplifiedRequest->getPort()) {
-            switch ($simplifiedRequest->getScheme()) {
-                case 'https':
-                    $context->setHttpsPort($simplifiedRequest->getPort());
-                    break;
-                default:
-                    $context->setHttpPort($simplifiedRequest->getPort());
-                    break;
-            }
-        }
-
-        if ($simplifiedRequest->getHost()) {
-            $context->setHost($simplifiedRequest->getHost());
-        }
-
-        if ($simplifiedRequest->getPathInfo()) {
-            $context->setPathInfo($simplifiedRequest->getPathInfo());
-        }
-
-        return $context;
     }
 }
