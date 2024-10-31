@@ -19,46 +19,30 @@ use Symfony\Component\Routing\RequestContext;
  */
 abstract class Generator implements SiteAccessAware
 {
-    /** @var \Symfony\Component\Routing\RequestContext */
-    protected $requestContext;
+    protected RequestContext $requestContext;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */
-    protected $siteAccessRouter;
+    protected SiteAccessRouterInterface $siteAccessRouter;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    protected $siteAccess;
+    protected ?SiteAccess $siteAccess;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected ?LoggerInterface $logger;
 
-    /**
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
-     */
-    public function setRequestContext(RequestContext $requestContext)
+    public function setRequestContext(RequestContext $requestContext): void
     {
         $this->requestContext = $requestContext;
     }
 
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface $siteAccessRouter
-     */
-    public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter)
+    public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter): void
     {
         $this->siteAccessRouter = $siteAccessRouter;
     }
 
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
-     */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
 
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger = null)
+    public function setLogger(?LoggerInterface $logger = null): void
     {
         $this->logger = $logger;
     }
@@ -67,13 +51,11 @@ abstract class Generator implements SiteAccessAware
      * Triggers URL generation for $urlResource and $parameters.
      *
      * @param mixed $urlResource Type can be anything, depending on the context. It's up to the router to pass the appropriate value to the implementor.
-     * @param array $parameters Arbitrary hash of parameters to generate a link.
+     * @param array<string, mixed> $parameters An arbitrary hash of parameters to generate a link.
      *                          SiteAccess name can be provided as 'siteaccess' to generate a link to it (cross siteaccess link).
      * @param int $referenceType The type of reference to be generated (one of the constants)
-     *
-     * @return string
      */
-    public function generate($urlResource, array $parameters, $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    public function generate(mixed $urlResource, array $parameters, int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         $siteAccess = $this->siteAccess;
         $requestContext = $this->requestContext;
@@ -86,7 +68,7 @@ abstract class Generator implements SiteAccessAware
                 $requestContext = (new RequestContextFactory($this->requestContext))->getContextBySimplifiedRequest(
                     $siteAccess->matcher->getRequest()
                 );
-            } elseif ($this->logger) {
+            } elseif (isset($this->logger)) {
                 $siteAccess = $this->siteAccess;
                 $this->logger->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
                 unset($parameters['siteaccess']);
@@ -96,7 +78,7 @@ abstract class Generator implements SiteAccessAware
         $url = $this->doGenerate($urlResource, $parameters);
 
         // Add the SiteAccess URI back if needed.
-        if ($siteAccess && $siteAccess->matcher instanceof SiteAccess\URILexer) {
+        if (null !== $siteAccess && $siteAccess->matcher instanceof SiteAccess\URILexer) {
             $url = $siteAccess->matcher->analyseLink($url);
         }
 
@@ -112,28 +94,17 @@ abstract class Generator implements SiteAccessAware
     /**
      * Generates the URL from $urlResource and $parameters.
      *
-     * @param mixed $urlResource
-     * @param array $parameters
-     *
-     * @return string
+     * @param array<string, mixed> $parameters
      */
-    abstract public function doGenerate($urlResource, array $parameters);
+    abstract public function doGenerate(mixed $urlResource, array $parameters): string;
 
-    /**
-     * Generates an absolute URL from $uri and the request context.
-     *
-     * @param string $uri
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
-     *
-     * @return string
-     */
-    protected function generateAbsoluteUrl($uri, RequestContext $requestContext)
+    protected function generateAbsoluteUrl(string $uri, RequestContext $requestContext): string
     {
         $scheme = $requestContext->getScheme();
         $port = '';
-        if ($scheme === 'http' && $requestContext->getHttpPort() != 80) {
+        if ($scheme === 'http' && $requestContext->getHttpPort() !== 80) {
             $port = ':' . $requestContext->getHttpPort();
-        } elseif ($scheme === 'https' && $requestContext->getHttpsPort() != 443) {
+        } elseif ($scheme === 'https' && $requestContext->getHttpsPort() !== 443) {
             $port = ':' . $requestContext->getHttpsPort();
         }
 

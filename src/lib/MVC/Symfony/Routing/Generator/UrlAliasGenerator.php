@@ -20,38 +20,33 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class UrlAliasGenerator extends Generator
 {
-    public const INTERNAL_CONTENT_VIEW_ROUTE = 'ibexa.content.view';
+    public const string INTERNAL_CONTENT_VIEW_ROUTE = 'ibexa.content.view';
 
-    /** @var \Ibexa\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
-    /**
-     * The default router (that works with declared routes).
-     *
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    private $defaultRouter;
+    private RouterInterface $defaultRouter;
 
-    /** @var int */
-    private $rootLocationId;
+    private int $rootLocationId;
 
-    /** @var array */
-    private $excludedUriPrefixes = [];
+    /** @var string[] */
+    private array $excludedUriPrefixes = [];
 
-    /** @var array */
-    private $pathPrefixMap = [];
+    /** @var array<string, array<int, string>> */
+    private array $pathPrefixMap = [];
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     /**
      * Array of characters that are potentially unsafe for output for (x)html, json, etc,
      * and respective url-encoded value.
      *
-     * @var array
+     * @var array<string, string>
      */
-    private $unsafeCharMap;
+    private array $unsafeCharMap;
 
+    /**
+     * @param array<string, string> $unsafeCharMap
+     */
     public function __construct(Repository $repository, RouterInterface $defaultRouter, ConfigResolverInterface $configResolver, array $unsafeCharMap = [])
     {
         $this->repository = $repository;
@@ -64,18 +59,15 @@ class UrlAliasGenerator extends Generator
      * Generates the URL from $urlResource and $parameters.
      * Entries in $parameters will be added in the query string.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     * @param array $parameters
-     *
-     * @return string
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $urlResource
      */
-    public function doGenerate($location, array $parameters): string
+    public function doGenerate(mixed $urlResource, array $parameters): string
     {
         $siteAccess = $parameters['siteaccess'] ?? null;
 
         unset($parameters['language'], $parameters['contentId'], $parameters['siteaccess']);
 
-        $pathString = $this->createPathString($location, $siteAccess);
+        $pathString = $this->createPathString($urlResource, $siteAccess);
         $queryString = $this->createQueryString($parameters);
         $url = $pathString . $queryString;
 
@@ -84,18 +76,16 @@ class UrlAliasGenerator extends Generator
 
     /**
      * Injects current root locationId that will be used for link generation.
-     *
-     * @param int $rootLocationId
      */
-    public function setRootLocationId($rootLocationId)
+    public function setRootLocationId(int $rootLocationId): void
     {
         $this->rootLocationId = $rootLocationId;
     }
 
     /**
-     * @param array $excludedUriPrefixes
+     * @param string[] $excludedUriPrefixes
      */
-    public function setExcludedUriPrefixes(array $excludedUriPrefixes)
+    public function setExcludedUriPrefixes(array $excludedUriPrefixes): void
     {
         $this->excludedUriPrefixes = $excludedUriPrefixes;
     }
@@ -103,26 +93,22 @@ class UrlAliasGenerator extends Generator
     /**
      * Returns path corresponding to $rootLocationId.
      *
-     * @param int $rootLocationId
      * @param array<string>|null $languages
-     * @param string $siteaccess
-     *
-     * @return string
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function getPathPrefixByRootLocationId($rootLocationId, $languages = null, $siteaccess = null)
+    public function getPathPrefixByRootLocationId(?int $rootLocationId, ?array $languages = null, ?string $siteAccess = null): string
     {
-        if (!$rootLocationId) {
+        if ($rootLocationId === null || $rootLocationId === 0) {
             return '';
         }
 
-        if (!isset($this->pathPrefixMap[$siteaccess])) {
-            $this->pathPrefixMap[$siteaccess] = [];
+        if (!isset($this->pathPrefixMap[$siteAccess])) {
+            $this->pathPrefixMap[$siteAccess] = [];
         }
 
-        if (!isset($this->pathPrefixMap[$siteaccess][$rootLocationId])) {
-            $this->pathPrefixMap[$siteaccess][$rootLocationId] = $this->repository
+        if (!isset($this->pathPrefixMap[$siteAccess][$rootLocationId])) {
+            $this->pathPrefixMap[$siteAccess][$rootLocationId] = $this->repository
                 ->getURLAliasService()
                 ->reverseLookup(
                     $this->loadLocation($rootLocationId, $languages),
@@ -133,17 +119,13 @@ class UrlAliasGenerator extends Generator
                 ->path;
         }
 
-        return $this->pathPrefixMap[$siteaccess][$rootLocationId];
+        return $this->pathPrefixMap[$siteAccess][$rootLocationId];
     }
 
     /**
      * Checks if passed URI has an excluded prefix, when a root location is defined.
-     *
-     * @param string $uri
-     *
-     * @return bool
      */
-    public function isUriPrefixExcluded($uri): bool
+    public function isUriPrefixExcluded(string $uri): bool
     {
         foreach ($this->excludedUriPrefixes as $excludedPrefix) {
             $excludedPrefix = '/' . ltrim($excludedPrefix, '/');
@@ -159,32 +141,23 @@ class UrlAliasGenerator extends Generator
      * Loads a location by its locationId, regardless to user limitations since the router is invoked BEFORE security (no user authenticated yet).
      * Not to be used for link generation.
      *
-     * @param int $locationId
      * @param array<string>|null $languages
-     *
-     * @return \Ibexa\Core\Repository\Values\Content\Location
      */
-    public function loadLocation($locationId, ?array $languages = null)
+    public function loadLocation(int $locationId, ?array $languages = null): Location
     {
         return $this->repository->sudo(
-            static function (Repository $repository) use ($locationId, $languages) {
+            static function (Repository $repository) use ($locationId, $languages): Location {
                 /* @var $repository \Ibexa\Core\Repository\Repository */
                 return $repository->getLocationService()->loadLocation($locationId, $languages);
             }
         );
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     * @param string|null $siteAccess
-     *
-     * @return string
-     */
     private function createPathString(Location $location, ?string $siteAccess = null): string
     {
         $urlAliasService = $this->repository->getURLAliasService();
 
-        if ($siteAccess) {
+        if (!empty($siteAccess)) {
             // We generate for a different SiteAccess, so potentially in a different language.
             $languages = $this->configResolver->getParameter('languages', null, $siteAccess);
             $urlAliases = iterator_to_array(
@@ -195,7 +168,7 @@ class UrlAliasGenerator extends Generator
         } else {
             $languages = null;
             $urlAliases = iterator_to_array($urlAliasService->listLocationAliases($location, false));
-            $rootLocationId = $this->rootLocationId;
+            $rootLocationId = $this->rootLocationId ?? null;
         }
 
         if (!empty($urlAliases)) {
@@ -226,9 +199,7 @@ class UrlAliasGenerator extends Generator
      * Creates query string from parameters. If `_fragment` parameter is provided then
      * fragment identifier is added at the end of the URL.
      *
-     * @param array $parameters
-     *
-     * @return string
+     * @param array<string, mixed> $parameters
      */
     private function createQueryString(array $parameters): string
     {
@@ -253,10 +224,6 @@ class UrlAliasGenerator extends Generator
 
     /**
      * Replace potentially unsafe characters with url-encoded counterpart.
-     *
-     * @param string $url
-     *
-     * @return string
      */
     private function filterCharactersOfURL(string $url): string
     {
