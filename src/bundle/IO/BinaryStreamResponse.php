@@ -7,11 +7,9 @@
 
 namespace Ibexa\Bundle\IO;
 
-use DateTime;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use LogicException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,32 +18,31 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BinaryStreamResponse extends Response
 {
-    protected static $trustXSendfileTypeHeader = false;
+    protected BinaryFile $file;
 
-    /** @var \Ibexa\Core\IO\Values\BinaryFile */
-    protected $file;
+    protected IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    protected $ioService;
+    protected int $offset;
 
-    protected $offset;
-
-    protected $maxlen;
+    protected int $maxlen;
 
     /**
-     * Constructor.
+     * @param array<string, array<string>> $headers An array of response headers
+     * @param bool $public Files are public by default
      *
-     * @param \Ibexa\Core\IO\Values\BinaryFile          $binaryFile         The name of the file to stream
-     * @param \Ibexa\Core\IO\IOServiceInterface  $ioService          The name of the file to stream
-     * @param int                 $status             The response status code
-     * @param array               $headers            An array of response headers
-     * @param bool                $public             Files are public by default
-     * @param string|null         $contentDisposition The type of Content-Disposition to set automatically with the filename
-     * @param bool                $autoEtag           Whether the ETag header should be automatically set
-     * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
+     * @phpstan-param \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_*|null $contentDisposition The type of Content-Disposition to set automatically with the filename
+     *
+     * @param bool $autoLastModified Whether the Last-Modified header should be automatically set
      */
-    public function __construct(BinaryFile $binaryFile, IOServiceInterface $ioService, $status = 200, $headers = [], $public = true, $contentDisposition = null, $autoLastModified = true)
-    {
+    public function __construct(
+        BinaryFile $binaryFile,
+        IOServiceInterface $ioService,
+        int $status = 200,
+        array $headers = [],
+        bool $public = true,
+        ?string $contentDisposition = null,
+        bool $autoLastModified = true
+    ) {
         $this->ioService = $ioService;
 
         parent::__construct(null, $status, $headers);
@@ -58,16 +55,9 @@ class BinaryStreamResponse extends Response
     }
 
     /**
-     * Sets the file to stream.
-     *
-     * @param \SplFileInfo|string $file The file to stream
-     * @param string $contentDisposition
-     * @param bool $autoEtag
-     * @param bool $autoLastModified
-     *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @phpstan-param \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_*|null $contentDisposition
      */
-    public function setFile($file, $contentDisposition = null, $autoLastModified = true)
+    public function setFile(BinaryFile $file, ?string $contentDisposition = null, bool $autoLastModified = true): static
     {
         $this->file = $file;
 
@@ -75,19 +65,14 @@ class BinaryStreamResponse extends Response
             $this->setAutoLastModified();
         }
 
-        if ($contentDisposition) {
+        if (!empty($contentDisposition)) {
             $this->setContentDisposition($contentDisposition);
         }
 
         return $this;
     }
 
-    /**
-     * Gets the file.
-     *
-     * @return \Ibexa\Core\IO\Values\BinaryFile The file to stream
-     */
-    public function getFile()
+    public function getFile(): BinaryFile
     {
         return $this->file;
     }
@@ -95,9 +80,9 @@ class BinaryStreamResponse extends Response
     /**
      * Automatically sets the Last-Modified header according the file modification date.
      */
-    public function setAutoLastModified()
+    public function setAutoLastModified(): static
     {
-        $this->setLastModified(DateTime::createFromFormat('U', $this->file->mtime->getTimestamp()));
+        $this->setLastModified($this->file->mtime);
 
         return $this;
     }
@@ -105,13 +90,12 @@ class BinaryStreamResponse extends Response
     /**
      * Sets the Content-Disposition header with the given filename.
      *
-     * @param string $disposition ResponseHeaderBag::DISPOSITION_INLINE or ResponseHeaderBag::DISPOSITION_ATTACHMENT
+     * @phpstan-param \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_* $disposition
+     *
      * @param string $filename Optionally use this filename instead of the real name of the file
      * @param string $filenameFallback A fallback filename, containing only ASCII characters. Defaults to an automatically encoded filename
-     *
-     * @return BinaryStreamResponse
      */
-    public function setContentDisposition($disposition, $filename = '', $filenameFallback = '')
+    public function setContentDisposition(string $disposition, string $filename = '', string $filenameFallback = ''): BinaryStreamResponse
     {
         if ($filename === '') {
             $filename = $this->file->id;
@@ -127,12 +111,9 @@ class BinaryStreamResponse extends Response
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepare(Request $request)
+    public function prepare(Request $request): static
     {
-        $this->headers->set('Content-Length', $this->file->size);
+        $this->headers->set('Content-Length', (string)$this->file->size);
         $this->headers->set('Accept-Ranges', 'bytes');
         $this->headers->set('Content-Transfer-Encoding', 'binary');
 
@@ -143,7 +124,7 @@ class BinaryStreamResponse extends Response
             );
         }
 
-        if ('HTTP/1.0' != $request->server->get('SERVER_PROTOCOL')) {
+        if ('HTTP/1.0' !== $request->server->get('SERVER_PROTOCOL')) {
             $this->setProtocolVersion('1.1');
         }
 
@@ -152,36 +133,8 @@ class BinaryStreamResponse extends Response
         $this->offset = 0;
         $this->maxlen = -1;
 
-        if ($request->headers->has('Range')) {
-            // Process the range headers.
-            if (!$request->headers->has('If-Range') || $this->getEtag() == $request->headers->get('If-Range')) {
-                $range = $request->headers->get('Range');
-                $fileSize = $this->file->size;
-
-                list($start, $end) = explode('-', substr($range, 6), 2) + [0];
-
-                $end = ('' === $end) ? $fileSize - 1 : (int)$end;
-
-                if ('' === $start) {
-                    $start = $fileSize - $end;
-                    $end = $fileSize - 1;
-                } else {
-                    $start = (int)$start;
-                }
-
-                if ($start <= $end) {
-                    if ($start < 0 || $end > $fileSize - 1) {
-                        $this->setStatusCode(Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE); // HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
-                    } elseif ($start !== 0 || $end !== $fileSize - 1) {
-                        $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
-                        $this->offset = $start;
-
-                        $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT); // HTTP_PARTIAL_CONTENT
-                        $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
-                        $this->headers->set('Content-Length', $end - $start + 1);
-                    }
-                }
-            }
+        if ($this->isRangeRequest($request)) {
+            $this->processRangeRequest($request);
         }
 
         return $this;
@@ -189,40 +142,89 @@ class BinaryStreamResponse extends Response
 
     /**
      * Sends the file.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function sendContent()
+    public function sendContent(): static
     {
         if (!$this->isSuccessful()) {
             parent::sendContent();
 
-            return;
+            return $this;
         }
 
-        if (0 === $this->maxlen) {
-            return;
+        if ($this->maxlen > 0) {
+            $out = fopen('php://output', 'wb');
+            if ($out === false) {
+                throw new LogicException('Failed to create binary output stream');
+            }
+
+            $in = $this->ioService->getFileInputStream($this->file);
+            stream_copy_to_stream($in, $out, $this->maxlen, $this->offset);
+
+            fclose($out);
         }
 
-        $out = fopen('php://output', 'wb');
-        $in = $this->ioService->getFileInputStream($this->file);
-        stream_copy_to_stream($in, $out, $this->maxlen, $this->offset);
-
-        fclose($out);
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \LogicException when the content is not null
      */
-    public function setContent($content)
+    public function setContent(?string $content): static
     {
         if (null !== $content) {
             throw new LogicException('The content cannot be set on a BinaryStreamResponse instance.');
         }
+
+        return $this;
     }
 
-    public function getContent()
+    public function getContent(): false
     {
-        return null;
+        return false;
+    }
+
+    /**
+     * @phpstan-assert-if-true !null $request->headers->get('Range')
+     */
+    private function isRangeRequest(Request $request): bool
+    {
+        return $request->headers->has('Range')
+            && (
+                !$request->headers->has('If-Range') || $this->getEtag() === $request->headers->get('If-Range')
+            );
+    }
+
+    private function processRangeRequest(Request $request): void
+    {
+        $range = $request->headers->get('Range');
+        $fileSize = $this->file->size;
+
+        [$start, $end] = explode('-', substr($range, 6), 2) + [0];
+
+        $end = ('' === $end) ? $fileSize - 1 : (int)$end;
+
+        if ('' === $start) {
+            $start = $fileSize - $end;
+            $end = $fileSize - 1;
+        } else {
+            $start = (int)$start;
+        }
+
+        if ($start <= $end) {
+            if ($start < 0 || $end > $fileSize - 1) {
+                $this->setStatusCode(
+                    Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
+                ); // HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
+            } elseif ($start !== 0 || $end !== $fileSize - 1) {
+                $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
+                $this->offset = $start;
+
+                $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT); // HTTP_PARTIAL_CONTENT
+                $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
+                $this->headers->set('Content-Length', $end - $start + 1);
+            }
+        }
     }
 }
