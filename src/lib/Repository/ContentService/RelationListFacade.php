@@ -36,7 +36,8 @@ final class RelationListFacade implements ContentService\RelationListFacade
         foreach ($relationListIterator as $relationListItem) {
             if ($relationListItem->hasRelation()) {
                 /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation $relation */
-                yield $relationListItem->getRelation();
+                $relation = $relationListItem->getRelation();
+                yield $relation;
             }
         }
     }

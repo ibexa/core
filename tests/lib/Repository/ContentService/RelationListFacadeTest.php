@@ -14,15 +14,16 @@ use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\ContentService\RelationListFacade;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class RelationListFacadeTest extends TestCase
 {
-    private ContentService $contentService;
+    private ContentService&MockObject $contentService;
 
     private RelationListFacade $relationListFacade;
 
-    private VersionInfo $versionInfo;
+    private VersionInfo&MockObject $versionInfo;
 
     protected function setUp(): void
     {
