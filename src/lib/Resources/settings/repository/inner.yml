@@ -272,3 +272,9 @@ services:
 
     Ibexa\Core\Repository\Validator\TargetContentValidatorInterface:
         alias: Ibexa\Core\Repository\Validator\TargetContentValidator
+
+    Ibexa\Contracts\Core\Repository\ContentService\RelationListFacade: '@Ibexa\Core\Repository\ContentService\RelationListFacade'
+
+    Ibexa\Core\Repository\ContentService\RelationListFacade:
+        arguments:
+            $contentService: '@ibexa.api.service.content'

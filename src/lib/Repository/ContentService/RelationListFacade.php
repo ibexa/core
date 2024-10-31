@@ -6,14 +6,14 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Core\Helper;
+namespace Ibexa\Core\Repository\ContentService;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIterator;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\RelationListIteratorAdapter;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
-final class RelationListHelper
+final class RelationListFacade implements ContentService\RelationListFacade
 {
     public function __construct(
         private readonly ContentService $contentService
@@ -21,9 +21,9 @@ final class RelationListHelper
     }
 
     /**
-     * @return \Ibexa\Core\Repository\Values\Content\Relation[]
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    public function getRelations(VersionInfo $versionInfo): array
+    public function getRelations(VersionInfo $versionInfo): iterable
     {
         $relationListIterator = new BatchIterator(
             new RelationListIteratorAdapter(
@@ -32,16 +32,12 @@ final class RelationListHelper
             )
         );
 
-        $relations = [];
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface $relationListItem */
         foreach ($relationListIterator as $relationListItem) {
             if ($relationListItem->hasRelation()) {
-                /** @var \Ibexa\Core\Repository\Values\Content\Relation $relation */
-                $relation = $relationListItem->getRelation();
-                $relations[] = $relation;
+                /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation $relation */
+                yield $relationListItem->getRelation();
             }
         }
-
-        return $relations;
     }
 }
