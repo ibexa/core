@@ -11086,6 +11086,11 @@ parameters:
 			path: src/lib/MVC/Symfony/EventListener/LanguageSwitchListener.php
 
 		-
+			message: "#^Parameter \\#1 \\$properties of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest constructor expects array, string given\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/EventListener/SiteAccessMatchListener.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\ExpressionLanguage\\\\TwigVariableProviderExtension\\:\\:hasParameterProvider\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/ExpressionLanguage/TwigVariableProviderExtension.php

@@ -115,13 +115,15 @@ class MatcherSerializationTest extends TestCase
                 [
                     'prefix' => 'foo',
                     'suffix' => 'bar',
-                ]),
-        ];
-        yield 'URIElement' => [
-                new Matcher\URIElement([
-                    'elementNumber' => 2,
                 ]
             ),
+        ];
+        yield 'URIElement' => [
+                new Matcher\URIElement(
+                    [
+                    'elementNumber' => 2,
+                ]
+                ),
         ];
         yield 'HostElement' => [
             new Matcher\HostElement(
