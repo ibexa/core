@@ -10691,6 +10691,21 @@ parameters:
 			path: src/lib/MVC/RepositoryAwareInterface.php
 
 		-
+			message: "#^Class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\AbstractPropertyWhitelistNormalizer extends @final class Symfony\\\\Component\\\\Serializer\\\\Normalizer\\\\PropertyNormalizer\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
+
+		-
+			message: "#^Class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\MapNormalizer extends @final class Symfony\\\\Component\\\\Serializer\\\\Normalizer\\\\PropertyNormalizer\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Component/Serializer/MapNormalizer.php
+
+		-
+			message: "#^Class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\SimplifiedRequestNormalizer extends @final class Symfony\\\\Component\\\\Serializer\\\\Normalizer\\\\PropertyNormalizer\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizer.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\SimplifiedRequestNormalizer\\:\\:supportsNormalization\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizer.php
