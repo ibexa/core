@@ -13,10 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 /**
  * @internal
  */
-interface RelationListFacade
+interface RelationListFacadeInterface
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Relation>
      */
     public function getRelations(VersionInfo $versionInfo): iterable;
 }

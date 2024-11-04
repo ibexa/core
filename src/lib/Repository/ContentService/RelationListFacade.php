@@ -13,16 +13,13 @@ use Ibexa\Contracts\Core\Repository\Iterator\BatchIterator;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\RelationListIteratorAdapter;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
-final class RelationListFacade implements ContentService\RelationListFacade
+final class RelationListFacade implements ContentService\RelationListFacadeInterface
 {
     public function __construct(
         private readonly ContentService $contentService
     ) {
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     */
     public function getRelations(VersionInfo $versionInfo): iterable
     {
         $relationListIterator = new BatchIterator(
@@ -35,9 +32,7 @@ final class RelationListFacade implements ContentService\RelationListFacade
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface $relationListItem */
         foreach ($relationListIterator as $relationListItem) {
             if ($relationListItem->hasRelation()) {
-                /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation $relation */
-                $relation = $relationListItem->getRelation();
-                yield $relation;
+                yield $relationListItem->getRelation();
             }
         }
     }

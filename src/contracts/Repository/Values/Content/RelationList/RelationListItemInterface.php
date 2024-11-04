@@ -18,7 +18,7 @@ interface RelationListItemInterface
     public function getRelation(): ?Relation;
 
     /**
-     * @return bool
+     * @phpstan-assert-if-true !null $this->getRelation()
      */
     public function hasRelation(): bool;
 }

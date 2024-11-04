@@ -38,7 +38,8 @@ final class RelationListFacadeTest extends TestCase
         $relationList->method('getIterator')
             ->willReturn(new \ArrayIterator([]));
 
-        $this->contentService->expects(self::once())
+        $this->contentService
+            ->expects(self::once())
             ->method('loadRelationList')
             ->with($this->versionInfo)
             ->willReturn($relationList);
@@ -52,7 +53,6 @@ final class RelationListFacadeTest extends TestCase
     {
         $relationListItem = $this->createMock(RelationListItemInterface::class);
         $relationListItem
-            ->expects(self::any())
             ->method('hasRelation')
             ->willReturn(false);
 
@@ -60,9 +60,10 @@ final class RelationListFacadeTest extends TestCase
         $relationList->method('getIterator')
             ->willReturn(new \ArrayIterator([$relationListItem]));
 
-        $this->contentService->expects(self::once())
+        $this->contentService
+            ->expects(self::once())
             ->method('loadRelationList')
-            ->with($this->versionInfo)
+            ->with(self::identicalTo($this->versionInfo))
             ->willReturn($relationList);
 
         $result = iterator_to_array($this->relationListFacade->getRelations($this->versionInfo));
@@ -75,10 +76,10 @@ final class RelationListFacadeTest extends TestCase
         $relation = $this->createMock(Relation::class);
 
         $relationListItem = $this->createMock(RelationListItemInterface::class);
-        $relationListItem->expects(self::any())
+        $relationListItem
             ->method('hasRelation')
             ->willReturn(true);
-        $relationListItem->expects(self::any())
+        $relationListItem
             ->method('getRelation')
             ->willReturn($relation);
 
@@ -86,7 +87,8 @@ final class RelationListFacadeTest extends TestCase
         $relationList->method('getIterator')
             ->willReturn(new \ArrayIterator([$relationListItem]));
 
-        $this->contentService->expects(self::once())
+        $this->contentService
+            ->expects(self::once())
             ->method('loadRelationList')
             ->with($this->versionInfo)
             ->willReturn($relationList);
