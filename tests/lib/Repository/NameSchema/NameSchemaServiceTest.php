@@ -76,13 +76,13 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         yield 'Default: Field Map and Languages taken from Content Version' => [
             [],
             [
-                'eng-GB' => ['text2' => 'two'],
-                'cro-HR' => ['text2' => 'dva'],
+                'eng-GB' => ['text1' => 'one', 'text2' => 'two'],
+                'cro-HR' => ['text1' => 'jedan', 'text2' => 'dva'],
             ],
             [],
             [
-                'eng-GB' => 'two',
-                'cro-HR' => 'dva',
+                'eng-GB' => 'one - two (testString)',
+                'cro-HR' => 'jedan - dva (testString)',
             ],
         ];
 
@@ -98,8 +98,8 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
             ],
             ['eng-GB', 'cro-HR'],
             [
-                'eng-GB' => 'three',
-                'cro-HR' => 'Dva',
+                'eng-GB' => 'three (testString)',
+                'cro-HR' => ' - Dva (testString)',
             ],
         ];
     }
@@ -119,11 +119,11 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         array $expectedNames
     ): void {
         $content = $this->buildTestContentObject();
-        $nameSchema = '<text3|text2>';
+        $nameSchema = '<text3|(<text1> - <text2>)> (testString)';
         $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
         $event = new ResolveContentNameSchemaEvent(
             $content,
-            ['field' => ['text3', 'text2']],
+            ['field' => ['text3', 'text2', 'text1']],
             $contentType,
             $fieldMap,
             $languageCodes
