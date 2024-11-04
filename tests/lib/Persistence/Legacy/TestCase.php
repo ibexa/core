@@ -324,6 +324,7 @@ abstract class TestCase extends BaseTestCase
                 new CriterionHandler\ContentTypeId($connection),
                 new CriterionHandler\DateMetadata($connection),
                 new CriterionHandler\UserMetadata($connection),
+                new CriterionHandler\ContentName($connection),
             ]
         );
     }
