@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Cache\Adapter;
 
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Psr\Cache\CacheItemInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
@@ -16,34 +17,34 @@ use Symfony\Contracts\Cache\ItemInterface;
 /**
  * Internal proxy adapter invalidating our isolated in-memory cache, and defer shared pool changes during transactions.
  *
- * @internal For type hinting inside {@see \Ibexa\Core\Persistence\Cache\}. For external, type hint on TagAwareAdapterInterface.
+ * @internal For type hinting inside {@see \Ibexa\Core\Persistence\Cache\}. For external, type hint on
+ * {@see \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface}.
  */
 class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterface
 {
-    /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface */
-    protected $sharedPool;
+    protected TagAwareAdapterInterface $sharedPool;
 
-    /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache[] */
-    private $inMemoryPools;
+    /** @var iterable<\Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache> */
+    private iterable $inMemoryPools;
 
     /** @var int */
-    protected $transactionDepth;
+    protected int $transactionDepth;
 
-    /** @var array To be unique and simplify lookup hash key is cache tag, value is only true value */
-    protected $deferredTagsInvalidation;
+    /** @var array<string, true> To be unique and simplify lookup hash key is cache tag, value is only true value */
+    protected array $deferredTagsInvalidation;
 
-    /** @var array To be unique and simplify lookup hash key is cache key, value is only true value */
-    protected $deferredItemsDeletion;
+    /** @var array<string, true> To be unique and simplify lookup hash key is cache key, value is only true value */
+    protected array $deferredItemsDeletion;
 
     /** @var \Closure Callback for use by {@see markItemsAsDeferredMissIfNeeded()} when items are misses by deferred action */
-    protected $setCacheItemAsMiss;
+    protected \Closure $setCacheItemAsMiss;
 
     /**
      * @param \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface $sharedPool
      * @param \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache[] $inMemoryPools
      * @param int $transactionDepth
-     * @param array $deferredTagsInvalidation
-     * @param array $deferredItemsDeletion
+     * @param array<string, true> $deferredTagsInvalidation
+     * @param array<string, true> $deferredItemsDeletion
      */
     public function __construct(
         TagAwareAdapterInterface $sharedPool,
@@ -69,29 +70,31 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Ibexa\Contracts\Core\Exception\InvalidArgumentException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function getItem($key)
+    public function getItem($key): CacheItem
     {
-        return $this->markItemsAsDeferredMissIfNeeded(
-            [$this->sharedPool->getItem($key)]
-        )[0];
+        $item = current(
+            $this->markItemsAsDeferredMissIfNeeded(
+                [$key => $this->sharedPool->getItem($key)]
+            )
+        );
+        if ($item === false) {
+            throw new InvalidArgumentException('$key', "Unknown cache key: $key");
+        }
+
+        return $item;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getItems(array $keys = [])
+    public function getItems(array $keys = []): iterable
     {
         return $this->markItemsAsDeferredMissIfNeeded(
             $this->sharedPool->getItems($keys)
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasItem($key)
+    public function hasItem(string $key): bool
     {
         if (isset($this->deferredItemsDeletion[$key])) {
             return false;
@@ -100,10 +103,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         return $this->sharedPool->hasItem($key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteItem($key)
+    public function deleteItem(string $key): bool
     {
         foreach ($this->inMemoryPools as $inMemory) {
             $inMemory->deleteMulti([$key]);
@@ -118,10 +118,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         return $this->sharedPool->deleteItem($key);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteItems(array $keys)
+    public function deleteItems(array $keys): bool
     {
         foreach ($this->inMemoryPools as $inMemory) {
             $inMemory->deleteMulti($keys);
@@ -136,10 +133,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         return $this->sharedPool->deleteItems($keys);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function invalidateTags(array $tags)
+    public function invalidateTags(array $tags): bool
     {
         // No tracking of tags in in-memory, as it's anyway meant to only optimize for reads (GETs) and not writes.
         $this->clearInMemoryPools();
@@ -153,10 +147,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         return $this->sharedPool->invalidateTags($tags);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function clear(string $prefix = '')
+    public function clear(string $prefix = ''): bool
     {
         $this->clearInMemoryPools();
 
@@ -168,10 +159,7 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         return $this->sharedPool->clear($prefix);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function save(CacheItemInterface $item)
+    public function save(CacheItemInterface $item): bool
     {
         if ($this->transactionDepth > 0) {
             $this->deferredItemsDeletion[$item->getKey()] = true;
@@ -182,16 +170,13 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         return $this->sharedPool->save($item);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function beginTransaction(): void
     {
         ++$this->transactionDepth;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function commitTransaction(): void
     {
@@ -216,9 +201,6 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rollbackTransaction(): void
     {
         $this->transactionDepth = 0;
@@ -229,21 +211,17 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     }
 
     /**
-     * {@inheritdoc}
-     *
      * Symfony cache feature for deferring saves, not used by Ibexa & not related to transaction handling here.
      */
-    public function saveDeferred(CacheItemInterface $item)
+    public function saveDeferred(CacheItemInterface $item): bool
     {
         return $this->sharedPool->saveDeferred($item);
     }
 
     /**
-     * {@inheritdoc}
-     *
      * Symfony cache feature for committing deferred saves, not used by Ibexa & not related to transaction handling here.
      */
-    public function commit()
+    public function commit(): bool
     {
         return $this->sharedPool->commit();
     }
@@ -251,11 +229,11 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
     /**
      * For use by getItem(s) to mark items as a miss if it's going to be cleared on transaction commit.
      *
-     * @param \Symfony\Component\Cache\CacheItem[] $items
+     * @param iterable<string, \Symfony\Component\Cache\CacheItem> $items
      *
-     * @return \Symfony\Component\Cache\CacheItem[]
+     * @return iterable<string, \Symfony\Component\Cache\CacheItem>
      */
-    private function markItemsAsDeferredMissIfNeeded(iterable $items)
+    private function markItemsAsDeferredMissIfNeeded(iterable $items): iterable
     {
         if ($this->transactionDepth === 0) {
             return $items;
@@ -279,11 +257,6 @@ class TransactionalInMemoryCacheAdapter implements TransactionAwareAdapterInterf
         return $iteratedItems;
     }
 
-    /**
-     * @param \Symfony\Component\Cache\CacheItem $item
-     *
-     * @return bool
-     */
     private function itemIsDeferredMiss(CacheItem $item): bool
     {
         if (isset($this->deferredItemsDeletion[$item->getKey()])) {
