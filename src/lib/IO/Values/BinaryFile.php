@@ -31,12 +31,12 @@ class BinaryFile extends ValueObject
     /**
      * File size, in bytes.
      */
-    protected int $size;
+    protected ?int $size = null;
 
     /**
      * File modification time.
      */
-    protected DateTime $mtime;
+    protected ?DateTime $mtime = null;
 
     /**
      * URI to the binary file.
