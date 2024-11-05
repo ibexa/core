@@ -8,7 +8,7 @@
 namespace Ibexa\Contracts\Core\IO;
 
 /**
- * This class provides an abstract access to binary files.
+ * This class provides abstract access to binary files.
  *
  * It allows reading & writing of files in a unified way
  */
