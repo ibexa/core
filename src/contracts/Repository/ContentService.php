@@ -49,7 +49,7 @@ interface ContentService
      *
      * @param array<int, int> $contentIds
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> List of ContentInfo with Content Ids as keys
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo> List of ContentInfo with content ids as keys
      */
     public function loadContentInfoList(array $contentIds): iterable;
 
@@ -132,7 +132,9 @@ interface ContentService
      * If no version number is given, the method returns the current version
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content or version with the given id and languages doesn't exist.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user has no access to "read content", or, in case of un-published content, "read versions".
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user lacks:
+     *                         - `content/read` permission for published content, or
+     *                         - `content/read` and `content/versionread` permissions for draft content.
      *
      * @param array<int, string> $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
@@ -147,7 +149,9 @@ interface ContentService
      * If no version is given, the method returns the current version
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the content or version with the given remote id doesn't exist.
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user has no access to "read content", or, in case of un-published content, "read versions".
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user lacks:
+     *                         - `content/read` permission for published content, or
+     *                         - `content/read` and `content/versionread` permissions for draft content.
      *
      * @param string[] $languages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
@@ -261,7 +265,7 @@ interface ContentService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current user is not allowed to load the draft list
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $user The user to load drafts for, if defined; otherwise drafts for current user.
+     * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $user The user to load drafts for. If `null`, the current user's drafts are loaded.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] The drafts owned by the given user.
      */
