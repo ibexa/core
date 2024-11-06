@@ -8,8 +8,8 @@ parameters:
     ibexa.io.binary_file.storage.prefix: original
     ibexa.site_access.list: [test]
     ibexa.site_access.config.default.anonymous_user_id: 10
-    ibexa.site_access.config.default.io.permissions.files: 0644
-    ibexa.site_access.config.default.io.permissions.directories: 0755
+    ibexa.site_access.config.default.io.permissions.files: 0o644
+    ibexa.site_access.config.default.io.permissions.directories: 0o755
 
 services:
     ibexa.api.persistence_handler:

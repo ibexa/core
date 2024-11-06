@@ -104,8 +104,8 @@ parameters:
     ibexa.site_access.config.default.io.url_prefix: "$var_dir$/$storage_dir$"
     ibexa.site_access.config.default.io.legacy_url_prefix: "$var_dir$/$storage_dir$"
     ibexa.site_access.config.default.io.root_dir: "%webroot_dir%/$var_dir$/$storage_dir$"
-    ibexa.site_access.config.default.io.permissions.files: 0644
-    ibexa.site_access.config.default.io.permissions.directories: 0755
+    ibexa.site_access.config.default.io.permissions.files: 0o644
+    ibexa.site_access.config.default.io.permissions.directories: 0o755
     # Blacklist against storing certain file types, validation will be refused for these
     ibexa.site_access.config.default.io.file_storage.file_type_blacklist:
         - php
