@@ -79,8 +79,9 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
      */
     public function testStoreFieldData(VersionInfo $versionInfo, Field $field): void
     {
+        $binaryFileIdentifier = 'qwerty12345';
         $binaryFileCreateStruct = new BinaryFileCreateStruct([
-            'id' => 'qwerty12345',
+            'id' => $binaryFileIdentifier,
             'size' => '372949',
             'mimeType' => 'image/jpeg',
         ]);
@@ -88,7 +89,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
         $this->ioServiceMock
             ->expects(self::once())
             ->method('newBinaryCreateStructFromLocalFile')
-            ->will(self::returnValue($binaryFileCreateStruct));
+            ->willReturn($binaryFileCreateStruct);
 
         $this->pathGeneratorMock
             ->expects(self::once())
@@ -100,7 +101,7 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTest
             ->expects(self::once())
             ->method('createBinaryFile')
             ->with($binaryFileCreateStruct)
-            ->willReturn(new BinaryFile());
+            ->willReturn(new BinaryFile(['id' => $binaryFileIdentifier, 'uri' => '/foo']));
 
         $this->storage->storeFieldData($versionInfo, $field);
 
