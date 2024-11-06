@@ -16,19 +16,18 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 
+/**
+ * @covers \Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle
+ */
 class IbexaRepositoryInstallerBundleTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle */
-    private $bundle;
+    private IbexaRepositoryInstallerBundle $bundle;
 
     public function setUp(): void
     {
         $this->bundle = new IbexaRepositoryInstallerBundle();
     }
 
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle::build
-     */
     public function testBuild(): void
     {
         $container = new ContainerBuilder();
@@ -46,9 +45,6 @@ class IbexaRepositoryInstallerBundleTest extends TestCase
         );
     }
 
-    /**
-     * @covers \Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle::build
-     */
     public function testBuildFailsWithoutDoctrineSchemaBundle(): void
     {
         $container = new ContainerBuilder();
