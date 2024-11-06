@@ -22,13 +22,13 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class IbexaIOExtension extends Extension
 {
-    public const EXTENSION_NAME = 'ibexa_io';
+    public const string EXTENSION_NAME = 'ibexa_io';
 
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
-    private $metadataHandlerFactories;
+    /** @var \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory> */
+    private ArrayObject $metadataHandlerFactories;
 
-    /** @var \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject */
-    private $binarydataHandlerFactories;
+    /** @var \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory> */
+    private ArrayObject $binarydataHandlerFactories;
 
     public function __construct()
     {
@@ -38,38 +38,32 @@ class IbexaIOExtension extends Extension
 
     /**
      * Registers a metadata handler configuration $factory for handler with $alias.
-     *
-     * @param string $alias
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory $factory
      */
-    public function addMetadataHandlerFactory($alias, ConfigurationFactory $factory)
+    public function addMetadataHandlerFactory(string $alias, ConfigurationFactory $factory): void
     {
         $this->metadataHandlerFactories[$alias] = $factory;
     }
 
     /**
-     * Registers a binarydata handler configuration $factory for handler with $alias.
-     *
-     * @param string $alias
-     * @param \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory $factory
+     * Registers a binary data handler configuration $factory for handler with $alias.
      */
-    public function addBinarydataHandlerFactory($alias, ConfigurationFactory $factory)
+    public function addBinarydataHandlerFactory(string $alias, ConfigurationFactory $factory): void
     {
         $this->binarydataHandlerFactories[$alias] = $factory;
     }
 
     /**
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject
+     * @return \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory>
      */
-    public function getMetadataHandlerFactories()
+    public function getMetadataHandlerFactories(): ArrayObject
     {
         return $this->metadataHandlerFactories;
     }
 
     /**
-     * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory[]|\ArrayObject
+     * @return \ArrayObject<string, \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory>
      */
-    public function getBinarydataHandlerFactories()
+    public function getBinarydataHandlerFactories(): ArrayObject
     {
         return $this->binarydataHandlerFactories;
     }
@@ -80,12 +74,13 @@ class IbexaIOExtension extends Extension
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
+        /** @var \Ibexa\Bundle\IO\DependencyInjection\Configuration $configuration */
         $configuration = $this->getConfiguration($configs, $container);
 
         $config = $this->processConfiguration($configuration, $configs);
@@ -100,10 +95,10 @@ class IbexaIOExtension extends Extension
     /**
      * Processes the config key $key, and registers the result in ez_io.$key.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param string $key Configuration key, either binarydata or metadata
+     * @param array<mixed> $config
+     * @param string $key Configuration key, either binary data or metadata
      */
-    private function processHandlers(ContainerBuilder $container, $config, $key)
+    private function processHandlers(ContainerBuilder $container, array $config, string $key): void
     {
         $handlers = [];
         if (isset($config[$key])) {
@@ -120,6 +115,9 @@ class IbexaIOExtension extends Extension
         $container->setParameter("ibexa.io.{$key}", $handlers);
     }
 
+    /**
+     * @param array<mixed> $config
+     */
     public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         $configuration = new Configuration();
