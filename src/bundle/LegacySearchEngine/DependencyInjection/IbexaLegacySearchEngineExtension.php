@@ -19,7 +19,10 @@ class IbexaLegacySearchEngineExtension extends Extension
         return 'ibexa_legacy_search_engine';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * @throws \Exception
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         // Loading configuration from ./src/lib/Resources/settings/policies.yml
         $loader = new YamlFileLoader(
