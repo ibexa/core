@@ -47,27 +47,9 @@ class QueryRenderingExtension extends AbstractExtension
 
         return [
             new TwigFunction(
-                'ez_render_*_query',
-                $typeCallable,
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_*_query',
-                ]
-            ),
-            new TwigFunction(
                 'ibexa_render_*_query',
                 $typeCallable,
                 ['is_safe' => ['html']]
-            ),
-            new TwigFunction(
-                'ez_render_*_query_*',
-                $typeAndRendererCallable,
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_*_query_',
-                ]
             ),
             new TwigFunction(
                 'ibexa_render_*_query_*',

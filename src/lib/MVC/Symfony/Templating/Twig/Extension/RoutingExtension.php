@@ -44,40 +44,14 @@ class RoutingExtension extends AbstractExtension
     {
         return [
             new TwigFunction(
-                'ez_route',
-                [$this, 'getRouteReference'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_route',
-                ]
-            ),
-            new TwigFunction(
                 'ibexa_route',
                 [$this, 'getRouteReference']
-            ),
-            new TwigFunction(
-                'ez_path',
-                [$this, 'getPath'],
-                [
-                    'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_path',
-                ]
             ),
             new TwigFunction(
                 'ibexa_path',
                 [$this, 'getPath'],
                 [
                     'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
-                ]
-            ),
-            new TwigFunction(
-                'ez_url',
-                [$this, 'getUrl'],
-                [
-                    'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_url',
                 ]
             ),
             new TwigFunction(
