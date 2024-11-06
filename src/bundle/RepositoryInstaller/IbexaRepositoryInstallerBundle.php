@@ -18,7 +18,7 @@ class IbexaRepositoryInstallerBundle extends Bundle
     /**
      * @throws \RuntimeException
      */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         if (!$container->hasExtension('ibexa_doctrine_schema')) {
             throw new RuntimeException(
