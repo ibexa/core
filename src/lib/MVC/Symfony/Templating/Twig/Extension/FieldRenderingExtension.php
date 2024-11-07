@@ -65,29 +65,9 @@ class FieldRenderingExtension extends AbstractExtension
 
         return [
             new TwigFunction(
-                'ez_render_field',
-                $renderFieldCallable,
-                [
-                    'is_safe' => ['html'],
-                    'needs_environment' => true,
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_field',
-                ]
-            ),
-            new TwigFunction(
                 'ibexa_render_field',
                 $renderFieldCallable,
                 ['is_safe' => ['html'], 'needs_environment' => true]
-            ),
-            new TwigFunction(
-                'ez_render_field_definition_settings',
-                $renderFieldDefinitionSettingsCallable,
-                [
-                    'is_safe' => ['html'],
-                    'needs_environment' => true,
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_field_definition_settings',
-                ]
             ),
             new TwigFunction(
                 'ibexa_render_field_definition_settings',

@@ -76,7 +76,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
      */
     protected function getFixturesDir()
     {
-        return __DIR__ . '/_fixtures/functions/ez_file_size';
+        return __DIR__ . '/_fixtures/functions/ibexa_file_size';
     }
 
     /**
