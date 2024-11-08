@@ -288,21 +288,6 @@ interface ContentService
     public function countContentDrafts(?User $user = null): int;
 
     /**
-     * Loads drafts for a user.
-     *
-     * If no user is given the drafts for the authenticated user are returned
-     *
-     * @deprecated Please use {@see ContentService::loadContentDraftList()} instead to avoid risking loading too much data.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current-user is not allowed to load the draft list
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User $user The user to load drafts for, if defined, otherwise drafts for current-user
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] the drafts ({@see VersionInfo}) owned by the given user
-     */
-    public function loadContentDrafts(?User $user = null): iterable;
-
-    /**
      * Loads drafts for a user when content is not in the trash. The list is sorted by modification date.
      *
      * If no user is given the drafts for the authenticated user are returned
@@ -395,17 +380,6 @@ interface ContentService
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
     public function copyContent(ContentInfo $contentInfo, LocationCreateStruct $destinationLocationCreateStruct, ?VersionInfo $versionInfo = null): Content;
-
-    /**
-     * Loads all outgoing relations for the given version.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to read this version
-     *
-     * @deprecated 4.5.7 The "ContentService::loadRelations()" method is deprecated, will be removed in 5.0.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
-     */
-    public function loadRelations(VersionInfo $versionInfo): iterable;
 
     /**
      * Loads all outgoing relations for the given version.

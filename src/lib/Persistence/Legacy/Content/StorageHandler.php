@@ -51,8 +51,7 @@ class StorageHandler
     {
         return $this->storageRegistry->getStorage($field->type)->storeFieldData(
             $versionInfo,
-            $field,
-            $this->context
+            $field
         );
     }
 
@@ -66,8 +65,7 @@ class StorageHandler
         return $this->storageRegistry->getStorage($field->type)->copyLegacyField(
             $versionInfo,
             $field,
-            $originalField,
-            $this->context
+            $originalField
         );
     }
 
@@ -81,7 +79,7 @@ class StorageHandler
     {
         $storage = $this->storageRegistry->getStorage($field->type);
         if ($field->id !== null && $storage->hasFieldData()) {
-            $storage->getFieldData($versionInfo, $field, $this->context);
+            $storage->getFieldData($versionInfo, $field);
         }
     }
 
@@ -95,6 +93,6 @@ class StorageHandler
     public function deleteFieldData($fieldType, VersionInfo $versionInfo, array $ids)
     {
         $this->storageRegistry->getStorage($fieldType)
-            ->deleteFieldData($versionInfo, $ids, $this->context);
+            ->deleteFieldData($versionInfo, $ids);
     }
 }

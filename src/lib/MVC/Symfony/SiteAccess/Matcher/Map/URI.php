@@ -21,7 +21,7 @@ class URI extends Map implements URILexer
     public function setRequest(SimplifiedRequest $request)
     {
         if (!$this->key) {
-            sscanf($request->pathinfo, '/%[^/]', $key);
+            sscanf((string)$request->getPathInfo(), '/%[^/]', $key);
             $this->setMapKey(rawurldecode((string)$key));
         }
 
@@ -82,7 +82,7 @@ class URI extends Map implements URILexer
         if ($matcher instanceof self) {
             $request = $matcher->getRequest();
             // Clean up "old" siteaccess prefix and add the new prefix.
-            $request->setPathinfo($this->analyseLink($request->pathinfo));
+            $request->setPathinfo($this->analyseLink((string)$request->getPathInfo()));
         }
 
         return $matcher;

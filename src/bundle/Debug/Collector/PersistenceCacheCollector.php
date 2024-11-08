@@ -41,18 +41,6 @@ class PersistenceCacheCollector extends DataCollector
     }
 
     /**
-     * Returns call count.
-     *
-     * @deprecated since 7.5, use getStats().
-     *
-     * @return int
-     */
-    public function getCount()
-    {
-        return $this->data['stats']['call'] + $this->data['stats']['miss'];
-    }
-
-    /**
      * Returns stats on Persistance cache usage.
      *
      * @since 7.5

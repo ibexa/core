@@ -109,7 +109,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
     }
 
     /**
-     * @covers \Ibexa\Contracts\Core\Repository\Tests\FieldType\BaseIntegrationTest::getValidatorSchema()
+     * @covers \Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTest::getValidatorSchema()
      */
     public function getValidatorSchema()
     {
@@ -230,10 +230,8 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
 
     /**
      * Get update field externals data.
-     *
-     * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): RelationValue
     {
         return new RelationValue(49);
     }
@@ -242,10 +240,8 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      * Get externals updated field data values.
      *
      * This is a PHPUnit data provider
-     *
-     * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(RelationValue::class, $field->value);
 
@@ -271,7 +267,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             RelationValue::class,

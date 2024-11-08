@@ -19,7 +19,6 @@ use Ibexa\Core\FieldType\Image\PathGenerator;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
-use Ibexa\Core\IO\MetadataHandler;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
@@ -32,9 +31,6 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 
     /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $redecorator;
-
-    /** @var \Ibexa\Core\IO\MetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
-    private $imageSizeMetadataHandler;
 
     /** @var \Ibexa\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
     private $pathGenerator;
@@ -60,7 +56,6 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 
         $this->redecorator = $this->createMock(UrlRedecoratorInterface::class);
         $this->gateway = new DoctrineStorage($this->redecorator, $this->getDatabaseConnection());
-        $this->imageSizeMetadataHandler = $this->createMock(MetadataHandler::class);
         $this->pathGenerator = $this->createMock(PathGenerator::class);
         $this->aliasCleaner = $this->createMock(AliasCleanerInterface::class);
         $this->filePathNormalizer = $this->createMock(FilePathNormalizerInterface::class);
@@ -70,7 +65,6 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
             $this->gateway,
             $this->ioService,
             $this->pathGenerator,
-            $this->imageSizeMetadataHandler,
             $this->aliasCleaner,
             $this->filePathNormalizer,
             $this->fileExtensionBlackListValidator
@@ -80,14 +74,6 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
     public function testHasFieldData(): void
     {
         self::assertTrue($this->storage->hasFieldData());
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private function getContext(): array
-    {
-        return ['identifier' => 'LegacyStorage'];
     }
 
     /**
@@ -106,7 +92,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
             ->with($binaryFile->uri)
             ->willReturn($binaryFile->uri);
 
-        $this->storage->storeFieldData($versionInfo, $field, $this->getContext());
+        $this->storage->storeFieldData($versionInfo, $field);
 
         self::assertSame(1, $this->gateway->countImageReferences($binaryFile->uri));
     }
@@ -126,7 +112,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
             ->with($binaryFile->uri)
             ->willReturn($binaryFile->uri);
 
-        $this->storage->storeFieldData($versionInfo, $field, $this->getContext());
+        $this->storage->storeFieldData($versionInfo, $field);
 
         self::assertSame(1, $this->gateway->countImageReferences($binaryFile->uri));
     }
@@ -168,7 +154,7 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
             ->with($binaryFile->uri)
             ->willReturn($binaryFile->uri);
 
-        $this->storage->storeFieldData($versionInfo, $field, $this->getContext());
+        $this->storage->storeFieldData($versionInfo, $field);
 
         self::assertSame(1, $this->gateway->countImageReferences($binaryFile->uri));
     }
@@ -208,8 +194,8 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 
     /**
      * @return iterable<array{
-     *     Ibexa\Contracts\Core\Persistence\Content\VersionInfo,
-     *     Ibexa\Contracts\Core\Persistence\Content\Field
+     *     \Ibexa\Contracts\Core\Persistence\Content\VersionInfo,
+     *     \Ibexa\Contracts\Core\Persistence\Content\Field
      * }>
      */
     public function providerOfFieldData(): iterable

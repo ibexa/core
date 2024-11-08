@@ -47,11 +47,8 @@ final class UpdateContentTest extends RepositoryTestCase
 
         // Read relations & check if count($relations) is unchanged
         self::setAdministratorUser();
-        $relations = $contentService->loadRelations($folder->getVersionInfo());
-        if ($relations instanceof \Traversable) {
-            $relations = iterator_to_array($relations);
-        }
-        self::assertCount(1, $relations);
+        $relations = $contentService->loadRelationList($folder->getVersionInfo());
+        self::assertCount(1, $relations->items);
     }
 
     /**

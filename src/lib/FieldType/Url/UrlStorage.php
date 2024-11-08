@@ -36,7 +36,7 @@ class UrlStorage extends GatewayBasedStorage
         $this->logger = $logger;
     }
 
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context): bool
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
     {
         $url = $field->value->externalData;
 
@@ -62,7 +62,7 @@ class UrlStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
         $id = $field->value->data['urlId'];
         if (empty($id)) {
@@ -81,17 +81,7 @@ class UrlStorage extends GatewayBasedStorage
         $field->value->externalData = isset($map[$id]) ? $map[$id] : '';
     }
 
-    /**
-     * Deletes field data for all $fieldIds in the version identified by
-     * $versionInfo.
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param array $fieldIds
-     * @param array $context
-     *
-     * @return bool
-     */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {
         foreach ($fieldIds as $fieldId) {
             $this->gateway->unlinkUrl($fieldId, $versionInfo->versionNo);
@@ -106,10 +96,5 @@ class UrlStorage extends GatewayBasedStorage
     public function hasFieldData(): bool
     {
         return true;
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        return [];
     }
 }

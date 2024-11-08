@@ -1163,43 +1163,6 @@ class ContentService implements ContentServiceInterface
         );
     }
 
-    /**
-     * Loads drafts for a user.
-     *
-     * If no user is given the drafts for the authenticated user are returned
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\User|null $user
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo[] Drafts owned by the given user
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     */
-    public function loadContentDrafts(?User $user = null): iterable
-    {
-        // throw early if user has absolutely no access to versionread
-        if ($this->permissionResolver->hasAccess('content', 'versionread') === false) {
-            throw new UnauthorizedException('content', 'versionread');
-        }
-
-        $spiVersionInfoList = $this->persistenceHandler->contentHandler()->loadDraftsForUser(
-            $this->resolveUser($user)->getUserId()
-        );
-        $versionInfoList = [];
-        foreach ($spiVersionInfoList as $spiVersionInfo) {
-            $versionInfo = $this->contentDomainMapper->buildVersionInfoDomainObject($spiVersionInfo);
-            // @todo: Change this to filter returned drafts by permissions instead of throwing
-            if (!$this->permissionResolver->canUser('content', 'versionread', $versionInfo)) {
-                throw new UnauthorizedException('content', 'versionread', ['contentId' => $versionInfo->contentInfo->id]);
-            }
-
-            $versionInfoList[] = $versionInfo;
-        }
-
-        return $versionInfoList;
-    }
-
     public function loadContentDraftList(?User $user = null, int $offset = 0, int $limit = -1): ContentDraftList
     {
         $list = new ContentDraftList();
@@ -1996,21 +1959,6 @@ class ContentService implements ContentServiceInterface
         }
 
         return $this->internalLoadContentById($content->id);
-    }
-
-    public function loadRelations(APIVersionInfo $versionInfo): iterable
-    {
-        if ($versionInfo->isPublished()) {
-            $function = 'read';
-        } else {
-            $function = 'versionread';
-        }
-
-        if (!$this->permissionResolver->canUser('content', $function, $versionInfo)) {
-            throw new UnauthorizedException('content', $function);
-        }
-
-        return $this->internalLoadRelations($versionInfo);
     }
 
     /**

@@ -109,7 +109,6 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
             $result = $storage->storeFieldData(
                 $content->versionInfo,
                 $field,
-                []
             );
 
             if ($result === true) {
@@ -129,8 +128,7 @@ final class ResolveVirtualFieldSubscriber implements EventSubscriberInterface
 
         $storage->getFieldData(
             $content->versionInfo,
-            $field,
-            []
+            $field
         );
 
         $event->setField($field);

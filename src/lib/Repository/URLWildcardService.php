@@ -317,10 +317,6 @@ class URLWildcardService implements URLWildcardServiceInterface
         preg_match_all('(\\*)', $sourceUrl, $patterns);
         preg_match_all('({(\d+)})', $destinationUrl, $placeholders);
 
-        if (empty($patterns) || empty($placeholders)) {
-            throw new ContentValidationException('Invalid URL wildcards provided.');
-        }
-
         $patterns = array_map('intval', $patterns[0]);
         $placeholders = array_map('intval', $placeholders[1]);
 

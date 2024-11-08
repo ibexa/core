@@ -234,23 +234,6 @@ class UserService extends UserServiceDecorator
         User $user,
         string $newPassword
     ): User {
-        $eventData = [
-            $user,
-            new UserUpdateStruct([
-                'password' => $newPassword,
-            ]),
-        ];
-
-        /**
-         * @deprecated since eZ Platform by Ibexa v3.1. listening on BeforeUpdateUserEvent when updating password has been deprecated. Use BeforeUpdateUserPasswordEvent instead.
-         */
-        $beforeEvent = new BeforeUpdateUserEvent(...$eventData);
-
-        $this->eventDispatcher->dispatch($beforeEvent);
-        if ($beforeEvent->isPropagationStopped()) {
-            return $beforeEvent->getUpdatedUser();
-        }
-
         $beforePasswordEvent = new BeforeUpdateUserPasswordEvent($user, $newPassword);
 
         $this->eventDispatcher->dispatch($beforePasswordEvent);
@@ -258,21 +241,11 @@ class UserService extends UserServiceDecorator
             return $beforePasswordEvent->getUpdatedUser();
         }
 
-        if ($beforeEvent->hasUpdatedUser()) {
-            $updatedUser = $beforeEvent->getUpdatedUser();
-        } elseif ($beforePasswordEvent->hasUpdatedUser()) {
+        if ($beforePasswordEvent->hasUpdatedUser()) {
             $updatedUser = $beforePasswordEvent->getUpdatedUser();
         } else {
             $updatedUser = $this->innerService->updateUserPassword($user, $newPassword);
         }
-
-        /**
-         * @deprecated since eZ Platform by Ibexa v3.1. Listening on UpdateUserEvent when updating password has been deprecated. Use UpdateUserPasswordEvent instead.
-         */
-        $afterEvent = new UpdateUserEvent($updatedUser, ...$eventData);
-        $this->eventDispatcher->dispatch(
-            $afterEvent
-        );
 
         $afterPasswordEvent = new UpdateUserPasswordEvent($updatedUser, $user, $newPassword);
         $this->eventDispatcher->dispatch(

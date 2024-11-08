@@ -148,11 +148,6 @@ abstract class ContentServiceDecorator implements ContentService
         return $this->innerService->countContentDrafts($user);
     }
 
-    public function loadContentDrafts(?User $user = null): iterable
-    {
-        return $this->innerService->loadContentDrafts($user);
-    }
-
     public function loadContentDraftList(?User $user = null, int $offset = 0, int $limit = -1): ContentDraftList
     {
         return $this->innerService->loadContentDraftList($user, $offset, $limit);
@@ -187,11 +182,6 @@ abstract class ContentServiceDecorator implements ContentService
         ?VersionInfo $versionInfo = null
     ): Content {
         return $this->innerService->copyContent($contentInfo, $destinationLocationCreateStruct, $versionInfo);
-    }
-
-    public function loadRelations(VersionInfo $versionInfo): iterable
-    {
-        return $this->innerService->loadRelations($versionInfo);
     }
 
     public function countRelations(VersionInfo $versionInfo, ?RelationType $type = null): int

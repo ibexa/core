@@ -9,67 +9,79 @@ namespace Ibexa\Core\MVC\Symfony\Routing;
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
-/**
- * @property-read string $scheme @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getScheme()} instead.
- * @property-read string $host @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getHost()} instead.
- * @property-read string $port @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getPort()} instead.
- * @property-read string $pathinfo @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getPathInfo()} instead.
- * @property-read array $queryParams @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getQueryParams()} instead.
- * @property-read array $languages @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getLanguages()} instead.
- * @property-read array $headers @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see SimplifiedRequest::getHeaders()} instead.
- */
 class SimplifiedRequest extends ValueObject
 {
     /**
      * The request scheme (http or https).
-     *
-     * @var string
      */
-    protected $scheme;
+    protected ?string $scheme = null;
 
     /**
      * The host name.
-     *
-     * @var string
      */
-    protected $host;
+    protected ?string $host = null;
 
     /**
      * The port the request is made on.
-     *
-     * @var string
      */
-    protected $port;
+    protected ?int $port = null;
 
     /**
      * The path being requested relative to the executed script.
      * The path info always starts with a /.
-     *
-     * @var string
      */
-    protected $pathinfo;
+    protected ?string $pathinfo = null;
 
     /**
      * Array of parameters extracted from the query string.
      *
-     * @var array
+     * @var array<mixed>|null
      */
-    protected $queryParams;
+    protected ?array $queryParams = null;
 
     /**
      * List of languages acceptable by the client browser.
      * The languages are ordered in the user browser preferences.
      *
-     * @var array
+     * @var string[]|null
      */
-    protected $languages;
+    protected ?array $languages = null;
 
     /**
      * Hash of request headers.
      *
-     * @var array
+     * @var array<string, array<string>>|null
      */
-    protected $headers;
+    protected ?array $headers = null;
+
+    public function __construct(
+        //string $scheme = 'http', string $host = '', int $port = 80, string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
+    ) {
+        $args = func_get_args();
+
+        if (
+            empty($args) ||
+            (func_num_args() === 1 && is_array($args[0]))
+        ) {
+            if (!empty($args)) {
+                trigger_deprecation(
+                    'ibexa/core',
+                    '5.0',
+                    'The signature of method "%s()" now requires explicit arguments: "string $scheme, string $host, string $port, string $pathinfo, array $queryParams, array $languages, array $headers", using ValueObject array constructor is deprecated.',
+                    __METHOD__
+                );
+            }
+            parent::__construct($args[0] ?? []);
+        } else {
+            $this->scheme = $args[0] ?? null;
+            $this->host = $args[1] ?? null;
+            $this->port = isset($args[2]) ? (int)$args[2] : null;
+            $this->pathinfo = $args[3] ?? null;
+            $this->queryParams = $args[4] ?? null;
+            $this->languages = $args[5] ?? null;
+            $this->headers = $args[6] ?? null;
+        }
+    }
 
     /**
      * @param array $headers
@@ -104,7 +116,7 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @param string $port
+     * @param int $port
      */
     public function setPort($port)
     {
@@ -149,7 +161,15 @@ class SimplifiedRequest extends ValueObject
         // Remove unwanted keys returned by parse_url() so that we don't have them as properties.
         unset($elements['path'], $elements['query'], $elements['user'], $elements['pass'], $elements['fragment']);
 
-        return new static($elements);
+        return new static(
+            $elements['scheme'] ?? null,
+            $elements['host'] ?? null,
+            $elements['port'] ?? null,
+            $elements['pathinfo'] ?? null,
+            $elements['queryParams'] ?? null,
+            $elements['languages'] ?? null,
+            $elements['headers'] ?? null,
+        );
     }
 
     public function __sleep()
@@ -163,17 +183,17 @@ class SimplifiedRequest extends ValueObject
     /**
      * The request scheme - http or https.
      */
-    public function getScheme(): string
+    public function getScheme(): ?string
     {
         return $this->scheme;
     }
 
-    public function getHost(): string
+    public function getHost(): ?string
     {
         return $this->host;
     }
 
-    public function getPort(): string
+    public function getPort(): ?int
     {
         return $this->port;
     }
@@ -181,23 +201,23 @@ class SimplifiedRequest extends ValueObject
     /**
      * The path being requested relative to the executed script.
      */
-    public function getPathInfo(): string
+    public function getPathInfo(): ?string
     {
         return $this->pathinfo;
     }
 
     /**
-     * @return array<mixed>
+     * @return array<mixed>|null
      */
-    public function getQueryParams(): array
+    public function getQueryParams(): ?array
     {
         return $this->queryParams;
     }
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
-    public function getLanguages(): array
+    public function getLanguages(): ?array
     {
         return $this->languages;
     }
@@ -211,9 +231,9 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @return array<string, array<string>>
+     * @return array<string, array<string>>|null
      */
-    public function getHeaders(): array
+    public function getHeaders(): ?array
     {
         return $this->headers;
     }

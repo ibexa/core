@@ -101,15 +101,13 @@ class SiteAccessMatchListener implements EventSubscriberInterface
     {
         return $this->siteAccessRouter->match(
             new SimplifiedRequest(
-                [
-                    'scheme' => $request->getScheme(),
-                    'host' => $request->getHost(),
-                    'port' => $request->getPort(),
-                    'pathinfo' => $request->getPathInfo(),
-                    'queryParams' => $request->query->all(),
-                    'languages' => $request->getLanguages(),
-                    'headers' => $request->headers->all(),
-                ]
+                $request->getScheme(),
+                $request->getHost(),
+                $request->getPort(),
+                $request->getPathInfo(),
+                $request->query->all(),
+                $request->getLanguages(),
+                $request->headers->all()
             )
         );
     }

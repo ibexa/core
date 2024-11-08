@@ -91,7 +91,7 @@ class RouterHostElementTest extends RouterBaseTest
         $matcher->setRequest($request);
         $result = $matcher->reverseMatch($siteAccessName);
         self::assertInstanceOf(HostElement::class, $result);
-        self::assertSame($expectedHost, $result->getRequest()->host);
+        self::assertSame($expectedHost, $result->getRequest()->getHost());
     }
 
     public function reverseMatchProvider()
@@ -107,18 +107,18 @@ class RouterHostElementTest extends RouterBaseTest
     public function testReverseMatchFail()
     {
         $matcher = new HostElement([3]);
-        $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co']));
+        $matcher->setRequest(new SimplifiedRequest('http', 'ibexa.co'));
         self::assertNull($matcher->reverseMatch('foo'));
     }
 
     public function testSerialize()
     {
         $matcher = new HostElement([1]);
-        $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co', 'pathinfo' => '/foo/bar']));
+        $matcher->setRequest(new SimplifiedRequest('http', 'ibexa.co', 80, '/foo/bar'));
         $sa = new SiteAccess('test', 'test', $matcher);
         $serializedSA1 = serialize($sa);
 
-        $matcher->setRequest(new SimplifiedRequest(['host' => 'ibexa.co', 'pathinfo' => '/foo/bar/baz']));
+        $matcher->setRequest(new SimplifiedRequest('http', 'ibexa.co', 80, '/foo/bar/baz'));
         $serializedSA2 = serialize($sa);
 
         self::assertSame($serializedSA1, $serializedSA2);

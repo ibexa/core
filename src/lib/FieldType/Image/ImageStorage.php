@@ -16,7 +16,6 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
-use Ibexa\Core\IO\MetadataHandler;
 
 /**
  * Converter for Image field type external storage.
@@ -28,9 +27,6 @@ class ImageStorage extends GatewayBasedStorage
 
     /** @var \Ibexa\Core\FieldType\Image\PathGenerator */
     protected $pathGenerator;
-
-    /** @var \Ibexa\Core\IO\MetadataHandler */
-    protected $imageSizeMetadataHandler;
 
     /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface */
     protected $aliasCleaner;
@@ -48,7 +44,6 @@ class ImageStorage extends GatewayBasedStorage
         StorageGatewayInterface $gateway,
         IOServiceInterface $ioService,
         PathGenerator $pathGenerator,
-        MetadataHandler $imageSizeMetadataHandler,
         AliasCleanerInterface $aliasCleaner,
         FilePathNormalizerInterface $filePathNormalizer,
         FileExtensionBlackListValidator $fileExtensionBlackListValidator
@@ -56,7 +51,6 @@ class ImageStorage extends GatewayBasedStorage
         parent::__construct($gateway);
         $this->ioService = $ioService;
         $this->pathGenerator = $pathGenerator;
-        $this->imageSizeMetadataHandler = $imageSizeMetadataHandler;
         $this->aliasCleaner = $aliasCleaner;
         $this->filePathNormalizer = $filePathNormalizer;
         $this->fileExtensionBlackListValidator = $fileExtensionBlackListValidator;
@@ -67,7 +61,7 @@ class ImageStorage extends GatewayBasedStorage
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context): bool
+    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
     {
         $contentMetaData = [
             'fieldId' => $field->id,
@@ -153,7 +147,7 @@ class ImageStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
         if ($field->value->data !== null) {
             $field->value->data['imageId'] = $this->buildImageId($versionInfo, $field);
@@ -164,7 +158,7 @@ class ImageStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {
         $fieldXmls = $this->gateway->getXmlForImages($versionInfo->versionNo, $fieldIds);
 
@@ -190,11 +184,6 @@ class ImageStorage extends GatewayBasedStorage
     public function hasFieldData(): bool
     {
         return true;
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        return [];
     }
 
     /**

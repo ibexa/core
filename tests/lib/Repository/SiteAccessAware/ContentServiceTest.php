@@ -84,9 +84,6 @@ class ContentServiceTest extends AbstractServiceTest
             ['countContentDrafts', [], 0],
             ['countContentDrafts', [$user], 0],
 
-            ['loadContentDrafts', [], [$content]],
-            ['loadContentDrafts', [$user], [$content]],
-
             ['loadContentDraftList', [], new ContentDraftList()],
             ['loadContentDraftList', [$user], new ContentDraftList()],
             ['loadContentDraftList', [$user, 1], new ContentDraftList()],
@@ -103,7 +100,6 @@ class ContentServiceTest extends AbstractServiceTest
             ['copyContent', [$contentInfo, $locationCreateStruct], $content],
             ['copyContent', [$contentInfo, $locationCreateStruct, $versionInfo], $content],
 
-            ['loadRelations', [$versionInfo], [$relation]],
             ['loadRelationList', [$versionInfo], $relationList],
             ['countRelations', [$versionInfo], 0],
 

@@ -7,13 +7,12 @@
 
 namespace Ibexa\Core\MVC\Symfony\FieldType\BinaryBase;
 
-use Ibexa\Contracts\Core\FieldType\BinaryBase\PathGenerator;
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Symfony\Component\Routing\RouterInterface;
 
-class ContentDownloadUrlGenerator extends PathGenerator implements RouteAwarePathGenerator
+class ContentDownloadUrlGenerator implements RouteAwarePathGenerator
 {
     /** @var \Symfony\Component\Routing\RouterInterface */
     private $router;

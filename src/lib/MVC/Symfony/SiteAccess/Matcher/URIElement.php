@@ -81,7 +81,7 @@ class URIElement implements VersatileMatcher, URILexer
         }
 
         $elements = array_slice(
-            explode('/', $this->request->pathinfo),
+            explode('/', $this->request->getPathInfo()),
             1,
             $this->elementNumber
         );
@@ -178,7 +178,7 @@ class URIElement implements VersatileMatcher, URILexer
             return null;
         }
 
-        $pathinfo = '/' . implode('/', $elements) . '/' . ltrim($this->request->pathinfo, '/');
+        $pathinfo = '/' . implode('/', $elements) . '/' . ltrim((string)$this->request->getPathInfo(), '/');
         $this->request->setPathinfo($pathinfo);
 
         return $this;

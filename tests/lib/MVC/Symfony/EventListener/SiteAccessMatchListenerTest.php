@@ -13,9 +13,7 @@ use Ibexa\Core\MVC\Symfony\Component\Serializer\HostElementNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\MatcherDenormalizer;
-use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer;
-use Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\SiteAccessNormalizer;
 use Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer;
@@ -256,15 +254,13 @@ final class SiteAccessMatchListenerTest extends TestCase
         );
 
         $simplifiedRequest = new SimplifiedRequest(
-            [
-                'scheme' => $originalRequest->getScheme(),
-                'host' => $originalRequest->getHost(),
-                'port' => $originalRequest->getPort(),
-                'pathinfo' => $originalRequest->getPathInfo(),
-                'queryParams' => $originalRequest->query->all(),
-                'languages' => $originalRequest->getLanguages(),
-                'headers' => $originalRequest->headers->all(),
-            ]
+            $originalRequest->getScheme(),
+            $originalRequest->getHost(),
+            $originalRequest->getPort(),
+            $originalRequest->getPathInfo(),
+            $originalRequest->query->all(),
+            $originalRequest->getLanguages(),
+            $originalRequest->headers->all(),
         );
 
         $this->saRouter
@@ -322,8 +318,6 @@ final class SiteAccessMatchListenerTest extends TestCase
                 new HostElementNormalizer(),
                 new URITextNormalizer(),
                 new HostTextNormalizer(),
-                new RegexURINormalizer(),
-                new RegexHostNormalizer(),
                 new RegexNormalizer(),
                 new URIElementNormalizer(),
                 new SimplifiedRequestNormalizer(),

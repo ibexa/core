@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\View\Configurator;
 use Ibexa\Core\MVC\Symfony\View\Manager;
 use Ibexa\Core\MVC\Symfony\View\View;
-use Ibexa\Core\MVC\Symfony\View\ViewProvider;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
@@ -63,46 +62,6 @@ class ViewManagerTest extends TestCase
             $this->configResolverMock,
             $this->viewBaseLayout,
             $this->viewConfigurator
-        );
-    }
-
-    public function testAddContentViewProvider()
-    {
-        self::assertSame([], $this->viewManager->getAllContentViewProviders());
-        $viewProvider = $this->createMock(ViewProvider::class);
-        $this->viewManager->addContentViewProvider($viewProvider);
-        self::assertSame([$viewProvider], $this->viewManager->getAllContentViewProviders());
-    }
-
-    public function testAddLocationViewProvider()
-    {
-        self::assertSame([], $this->viewManager->getAllLocationViewProviders());
-        $viewProvider = $this->createMock(ViewProvider::class);
-        $this->viewManager->addLocationViewProvider($viewProvider);
-        self::assertSame([$viewProvider], $this->viewManager->getAllLocationViewProviders());
-    }
-
-    public function testContentViewProvidersPriority()
-    {
-        [$high, $medium, $low] = $this->createContentViewProviderMocks();
-        $this->viewManager->addContentViewProvider($medium, 33);
-        $this->viewManager->addContentViewProvider($high, 100);
-        $this->viewManager->addContentViewProvider($low, -100);
-        self::assertSame(
-            [$high, $medium, $low],
-            $this->viewManager->getAllContentViewProviders()
-        );
-    }
-
-    public function testLocationViewProvidersPriority()
-    {
-        [$high, $medium, $low] = $this->createLocationViewProviderMocks();
-        $this->viewManager->addLocationViewProvider($medium, 33);
-        $this->viewManager->addLocationViewProvider($high, 100);
-        $this->viewManager->addLocationViewProvider($low, -100);
-        self::assertSame(
-            [$high, $medium, $low],
-            $this->viewManager->getAllLocationViewProviders()
         );
     }
 
@@ -324,23 +283,5 @@ class ViewManagerTest extends TestCase
         sort($templateResult);
 
         self::assertSame($expectedTemplateResult, $templateResult);
-    }
-
-    private function createContentViewProviderMocks()
-    {
-        return [
-            $this->createMock(ViewProvider::class),
-            $this->createMock(ViewProvider::class),
-            $this->createMock(ViewProvider::class),
-        ];
-    }
-
-    private function createLocationViewProviderMocks()
-    {
-        return [
-            $this->createMock(ViewProvider::class),
-            $this->createMock(ViewProvider::class),
-            $this->createMock(ViewProvider::class),
-        ];
     }
 }

@@ -246,12 +246,7 @@ class DefaultRouterTest extends TestCase
         $siteAccessName = 'foo_test';
         $siteAccessRouter = $this->createMock(SiteAccess\SiteAccessRouterInterface::class);
         $versatileMatcher = $this->createMock(SiteAccess\VersatileMatcher::class);
-        $simplifiedRequest = new SimplifiedRequest(
-            [
-                'host' => 'phoenix-rises.fm',
-                'scheme' => 'http',
-            ]
-        );
+        $simplifiedRequest = new SimplifiedRequest('http', 'phoenix-rises.fm');
         $versatileMatcher
             ->expects(self::once())
             ->method('getRequest')

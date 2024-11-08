@@ -31,7 +31,7 @@ class URIText extends AffixBasedTextMatcher implements URILexer
     public function setRequest(SimplifiedRequest $request): void
     {
         if (!$this->element) {
-            $this->setMatchElement($request->pathinfo);
+            $this->setMatchElement((string)$request->getPathInfo());
         }
 
         parent::setRequest($request);
@@ -54,7 +54,7 @@ class URIText extends AffixBasedTextMatcher implements URILexer
 
     public function reverseMatch($siteAccessName): ?VersatileMatcher
     {
-        $this->request->setPathinfo("/{$this->prefix}{$siteAccessName}{$this->suffix}{$this->request->pathinfo}");
+        $this->request->setPathinfo("/{$this->prefix}{$siteAccessName}{$this->suffix}{$this->request->getPathInfo()}");
 
         return $this;
     }

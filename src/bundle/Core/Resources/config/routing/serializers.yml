@@ -11,8 +11,6 @@ services:
                 - '@Ibexa\Core\MVC\Symfony\Component\Serializer\MapNormalizer'
                 - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer'
                 - '@Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer'
-                - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer'
                 - '@Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer'
                 - '@Ibexa\Core\MVC\Symfony\Component\Serializer\URIElementNormalizer'
                 - '@Ibexa\Core\MVC\Symfony\Component\Serializer\SimplifiedRequestNormalizer'
@@ -44,10 +42,6 @@ services:
     Ibexa\Core\MVC\Symfony\Component\Serializer\URITextNormalizer: ~
 
     Ibexa\Core\MVC\Symfony\Component\Serializer\HostTextNormalizer: ~
-
-    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexURINormalizer: ~
-
-    Ibexa\Core\MVC\Symfony\Component\Serializer\RegexHostNormalizer: ~
 
     Ibexa\Core\MVC\Symfony\Component\Serializer\RegexNormalizer: ~
 

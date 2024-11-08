@@ -103,11 +103,6 @@ class Legacy implements IOServiceInterface
         $this->publishedPrefix = implode('/', array_merge($pathArray, [$this->optionsProvider->getPublishedImagesDir()]));
     }
 
-    public function getExternalPath($internalId)
-    {
-        return $this->publishedIOService->getExternalPath($internalId);
-    }
-
     public function newBinaryCreateStructFromLocalFile($localFile)
     {
         return $this->publishedIOService->newBinaryCreateStructFromLocalFile($localFile);
@@ -118,21 +113,16 @@ class Legacy implements IOServiceInterface
         return $this->publishedIOService->exists($binaryFileId);
     }
 
-    public function getInternalPath($externalId)
-    {
-        return $this->publishedIOService->getInternalPath($externalId);
-    }
-
     public function loadBinaryFile($binaryFileId)
     {
         // If the id is an internal (absolute) path to a draft image, use the draft service to get external path & load
         if ($this->isDraftImagePath($binaryFileId)) {
-            return $this->draftIOService->loadBinaryFile($this->draftIOService->getExternalPath($binaryFileId));
+            return $this->draftIOService->loadBinaryFileByUri($binaryFileId);
         }
 
         // If the id is an internal path (absolute) to a published image, replace with the internal path
         if ($this->isPublishedImagePath($binaryFileId)) {
-            $binaryFileId = $this->publishedIOService->getExternalPath($binaryFileId);
+            return $this->publishedIOService->loadBinaryFileByUri($binaryFileId);
         }
 
         try {
@@ -199,12 +189,14 @@ class Legacy implements IOServiceInterface
     {
         // If the id is an internal (absolute) path to a draft image, use the draft service to get external path & load
         if ($this->isDraftImagePath($binaryFileId)) {
-            return $this->draftIOService->getMimeType($this->draftIOService->getExternalPath($binaryFileId));
+            return $this->draftIOService->getMimeType(
+                $this->draftIOService->loadBinaryFileByUri($binaryFileId)->id
+            );
         }
 
         // If the id is an internal path (absolute) to a published image, replace with the internal path
         if ($this->isPublishedImagePath($binaryFileId)) {
-            $binaryFileId = $this->publishedIOService->getExternalPath($binaryFileId);
+            $binaryFileId = $this->publishedIOService->loadBinaryFileByUri($binaryFileId)->id;
         }
 
         if ($this->draftIOService->exists($binaryFileId)) {

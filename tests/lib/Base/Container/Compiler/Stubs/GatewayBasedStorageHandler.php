@@ -7,33 +7,28 @@
 
 namespace Ibexa\Tests\Core\Base\Container\Compiler\Stubs;
 
+use Ibexa\Contracts\Core\FieldType\GatewayBasedStorage;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
-use Ibexa\Core\FieldType\GatewayBasedStorage;
 
 /**
  * Stub implementation of GatewayBasedStorage.
  */
 class GatewayBasedStorageHandler extends GatewayBasedStorage
 {
-    public function storeFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function storeFieldData(VersionInfo $versionInfo, Field $field)
     {
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field, array $context)
+    public function getFieldData(VersionInfo $versionInfo, Field $field)
     {
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds, array $context)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
     {
     }
 
     public function hasFieldData()
     {
-    }
-
-    public function getIndexData(VersionInfo $versionInfo, Field $field, array $context): array
-    {
-        return [];
     }
 }

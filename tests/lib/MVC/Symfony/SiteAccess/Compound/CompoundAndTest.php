@@ -320,11 +320,11 @@ class CompoundAndTest extends TestCase
     public function testSerialize()
     {
         $matcher = new LogicalAnd([]);
-        $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/foo/bar']));
+        $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar'));
         $sa = new SiteAccess('test', 'test', $matcher);
         $serializedSA1 = serialize($sa);
 
-        $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/foo/bar/baz']));
+        $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar/baz'));
         $serializedSA2 = serialize($sa);
 
         self::assertSame($serializedSA1, $serializedSA2);

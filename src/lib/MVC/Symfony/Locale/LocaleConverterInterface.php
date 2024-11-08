@@ -27,18 +27,6 @@ interface LocaleConverterInterface
     public function convertToPOSIX($ezpLocale);
 
     /**
-     * Converts a locale in POSIX format to Ibexa internal format.
-     * Returns null if conversion cannot be made.
-     *
-     * @deprecated 4.5.2 To be removed in 5.0. Use {@see convertToRepository()} instead.
-     *
-     * @param string $posixLocale
-     *
-     * @return string|null
-     */
-    public function convertToEz($posixLocale);
-
-    /**
      * Converts a locale in POSIX format to Repository internal format.
      * Returns null if conversion cannot be made.
      */
