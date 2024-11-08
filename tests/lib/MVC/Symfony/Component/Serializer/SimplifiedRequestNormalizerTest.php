@@ -14,6 +14,9 @@ use stdClass;
 
 final class SimplifiedRequestNormalizerTest extends TestCase
 {
+    /**
+     * @todo Remove together with old syntax for \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest::__construct in 6.0.0
+     */
     public function testNormalize(): void
     {
         $request = new SimplifiedRequest([

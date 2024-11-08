@@ -22,7 +22,7 @@ class RouterMapURITest extends TestCase
      */
     public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
     {
-        $request = new SimplifiedRequest(['pathinfo' => $pathinfo]);
+        $request = new SimplifiedRequest('http', '', 80, $pathinfo);
         $matcher = new URIMapMatcher($config);
         $matcher->setRequest($request);
         self::assertSame($request, $matcher->getRequest());
@@ -39,7 +39,7 @@ class RouterMapURITest extends TestCase
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
-            new SimplifiedRequest(['pathinfo' => $uri])
+            new SimplifiedRequest('http', '', 80, $uri)
         );
         self::assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
         // Unserialized matcher should have the same behavior
@@ -57,7 +57,7 @@ class RouterMapURITest extends TestCase
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
-            new SimplifiedRequest(['pathinfo' => $fullUri])
+            new SimplifiedRequest('http', '', 80, $fullUri)
         );
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
         // Unserialized matcher should have the same behavior
@@ -100,7 +100,7 @@ class RouterMapURITest extends TestCase
             'something_else' => 'another_siteaccess',
             'toutouyoutou' => 'ibexa_demo_site',
         ];
-        $request = new SimplifiedRequest(['pathinfo' => '/foo']);
+        $request = new SimplifiedRequest('http', '', 80, '/foo');
         $matcher = new URIMapMatcher($config);
         $matcher->setRequest($request);
 

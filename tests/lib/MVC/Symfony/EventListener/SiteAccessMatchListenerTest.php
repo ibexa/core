@@ -254,15 +254,13 @@ final class SiteAccessMatchListenerTest extends TestCase
         );
 
         $simplifiedRequest = new SimplifiedRequest(
-            [
-                'scheme' => $originalRequest->getScheme(),
-                'host' => $originalRequest->getHost(),
-                'port' => $originalRequest->getPort(),
-                'pathinfo' => $originalRequest->getPathInfo(),
-                'queryParams' => $originalRequest->query->all(),
-                'languages' => $originalRequest->getLanguages(),
-                'headers' => $originalRequest->headers->all(),
-            ]
+            $originalRequest->getScheme(),
+            $originalRequest->getHost(),
+            $originalRequest->getPort(),
+            $originalRequest->getPathInfo(),
+            $originalRequest->query->all(),
+            $originalRequest->getLanguages(),
+            $originalRequest->headers->all(),
         );
 
         $this->saRouter

@@ -78,7 +78,7 @@ class RouterURIElement2Test extends RouterBaseTest
     {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
-            new SimplifiedRequest(['pathinfo' => $uri])
+            new SimplifiedRequest('http', '', 80, $uri)
         );
         self::assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
     }
@@ -94,7 +94,7 @@ class RouterURIElement2Test extends RouterBaseTest
     {
         $matcher = new URIElementMatcher($level);
         $matcher->setRequest(
-            new SimplifiedRequest(['pathinfo' => $uri])
+            new SimplifiedRequest('http', '', 80, $uri)
         );
         self::assertSame($expectedFixedUpURI, $matcher->analyseURI($uri));
     }
@@ -110,7 +110,7 @@ class RouterURIElement2Test extends RouterBaseTest
     {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
-            new SimplifiedRequest(['pathinfo' => $fullUri])
+            new SimplifiedRequest('http', '', 80, $fullUri)
         );
         self::assertSame($fullUri, $matcher->analyseLink($linkUri));
     }
@@ -140,7 +140,7 @@ class RouterURIElement2Test extends RouterBaseTest
     {
         $expectedSiteAccessPath = str_replace('_', '/', $siteAccessName);
         $matcher = new URIElementMatcher([2]);
-        $matcher->setRequest(new SimplifiedRequest(['pathinfo' => $originalPathinfo]));
+        $matcher->setRequest(new SimplifiedRequest('http', '', 80, $originalPathinfo));
 
         $result = $matcher->reverseMatch($siteAccessName);
         self::assertInstanceOf(URIElement::class, $result);
@@ -160,18 +160,18 @@ class RouterURIElement2Test extends RouterBaseTest
     public function testReverseMatchFail()
     {
         $matcher = new URIElementMatcher([2]);
-        $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/my/siteaccess/foo/bar']));
+        $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/my/siteaccess/foo/bar'));
         self::assertNull($matcher->reverseMatch('another_siteaccess_again_dont_tell_me'));
     }
 
     public function testSerialize()
     {
         $matcher = new URIElementMatcher([2]);
-        $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/foo/bar']));
+        $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar'));
         $sa = new SiteAccess('test', 'test', $matcher);
         $serializedSA1 = serialize($sa);
 
-        $matcher->setRequest(new SimplifiedRequest(['pathinfo' => '/foo/bar/baz']));
+        $matcher->setRequest(new SimplifiedRequest('http', '', 80, '/foo/bar/baz'));
         $serializedSA2 = serialize($sa);
 
         self::assertSame($serializedSA1, $serializedSA2);

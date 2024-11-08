@@ -86,7 +86,7 @@ class RouterHostTextTest extends RouterBaseTest
             ]
         );
 
-        $matcher->setRequest(new SimplifiedRequest(['host' => 'www.my_siteaccess.com']));
+        $matcher->setRequest(new SimplifiedRequest('http', 'www.my_siteaccess.com'));
 
         $result = $matcher->reverseMatch('foobar');
         self::assertInstanceOf(HostTextMatcher::class, $result);

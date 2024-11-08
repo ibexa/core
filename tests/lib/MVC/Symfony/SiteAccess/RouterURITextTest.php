@@ -118,7 +118,7 @@ class RouterURITextTest extends RouterBaseTest
                 'suffix' => 'bar',
             ]
         );
-        $matcher->setRequest(new SimplifiedRequest(['pathinfo' => $semanticURI]));
+        $matcher->setRequest(new SimplifiedRequest('http', '', 80, 'pathinfo'));
 
         $result = $matcher->reverseMatch('something');
         self::assertInstanceOf(URIText::class, $result);

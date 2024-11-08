@@ -86,7 +86,7 @@ class RouterHostPortURITest extends RouterBaseTest
     public function testSetGetRequestMapHost()
     {
         $mapKey = 'phoenix-rises.fm';
-        $request = new SimplifiedRequest(['host' => $mapKey]);
+        $request = new SimplifiedRequest('http', $mapKey);
         $matcher = new Host(['foo' => $mapKey]);
         $matcher->setRequest($request);
         self::assertSame($request, $matcher->getRequest());
@@ -107,7 +107,7 @@ class RouterHostPortURITest extends RouterBaseTest
             'something_else' => 'another_siteaccess',
             'phoenix-rises.fm' => 'ibexa_demo_site',
         ];
-        $request = new SimplifiedRequest(['host' => 'ibexa.co']);
+        $request = new SimplifiedRequest('http', 'ibexa.co');
         $matcher = new Host($config);
         $matcher->setRequest($request);
         self::assertSame('ibexa.co', $matcher->getMapKey());
@@ -122,7 +122,7 @@ class RouterHostPortURITest extends RouterBaseTest
     public function testSetGetRequestMapPort()
     {
         $mapKey = 8000;
-        $request = new SimplifiedRequest(['port' => $mapKey]);
+        $request = new SimplifiedRequest('http', '', $mapKey);
         $matcher = new Port(['foo' => $mapKey]);
         $matcher->setRequest($request);
         self::assertSame($request, $matcher->getRequest());
