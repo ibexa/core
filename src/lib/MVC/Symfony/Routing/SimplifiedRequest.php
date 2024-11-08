@@ -34,29 +34,34 @@ class SimplifiedRequest extends ValueObject
 
     /**
      * Array of parameters extracted from the query string.
+     *
+     * @var array<mixed>|null
      */
     protected ?array $queryParams = null;
 
     /**
      * List of languages acceptable by the client browser.
      * The languages are ordered in the user browser preferences.
+     *
+     * @var string[]|null
      */
     protected ?array $languages = null;
 
     /**
      * Hash of request headers.
+     *
+     * @var array<string, array<string>>|null
      */
     protected ?array $headers = null;
 
     public function __construct(
         //string $scheme = 'http', string $host = '', int $port = 80, string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
-        $properties = [],
     ) {
         $args = func_get_args();
 
         if (
-            (func_num_args() === 1 && is_array($args[0])) ||
-            empty($args)
+            empty($args) ||
+            (func_num_args() === 1 && is_array($args[0]))
         ) {
             if (!empty($args)) {
                 trigger_deprecation(
@@ -66,7 +71,7 @@ class SimplifiedRequest extends ValueObject
                     __METHOD__
                 );
             }
-            parent::__construct($properties);
+            parent::__construct($args[0] ?? []);
         } else {
             $this->scheme = $args[0] ?? null;
             $this->host = $args[1] ?? null;
