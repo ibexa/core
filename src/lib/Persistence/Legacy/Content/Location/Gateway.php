@@ -111,6 +111,13 @@ abstract class Gateway
      */
     abstract public function getSubtreeContent(int $sourceId, bool $onlyIds = false): array;
 
+    /**
+     * Finds draft contents created under the given parent location.
+     *
+     * @return array<int>
+     */
+    abstract public function getSubtreeChildrenDraftContentIds(int $sourceId): array;
+
     abstract public function getSubtreeSize(string $path): int;
 
     /**

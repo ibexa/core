@@ -19011,11 +19011,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Mapper.php
 
 		-
-			message: "#^array\\|string does not accept array\\<int, mixed\\>\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/User/Mapper.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\User\\\\Role\\\\Gateway\\:\\:addPolicyLimitations\\(\\) has parameter \\$limitations with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Role/Gateway.php
@@ -27091,13 +27086,13 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Cannot access offset 0 on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\.$#"
-			count: 12
+			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 7
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Cannot access offset 0 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
-			count: 7
+			message: "#^Cannot access offset 0 on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\.$#"
+			count: 12
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
@@ -27106,13 +27101,13 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Cannot access offset 1 on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\.$#"
-			count: 4
+			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
-			count: 2
+			message: "#^Cannot access offset 1 on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\.$#"
+			count: 4
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
@@ -27141,12 +27136,12 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Cannot access offset mixed on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\>\\.$#"
+			message: "#^Cannot access offset int on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Cannot access offset int on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			message: "#^Cannot access offset mixed on iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
