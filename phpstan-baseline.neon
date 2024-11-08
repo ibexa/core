@@ -11086,11 +11086,6 @@ parameters:
 			path: src/lib/MVC/Symfony/EventListener/LanguageSwitchListener.php
 
 		-
-			message: "#^Parameter \\#1 \\$properties of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest constructor expects array, string given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/EventListener/SiteAccessMatchListener.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\ExpressionLanguage\\\\TwigVariableProviderExtension\\:\\:hasParameterProvider\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/ExpressionLanguage/TwigVariableProviderExtension.php
@@ -11516,11 +11511,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest\\:\\:setHeaders\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
@@ -11567,21 +11557,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest\\:\\:setScheme\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest\\:\\:\\$languages type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest\\:\\:\\$queryParams type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Routing/SimplifiedRequest.php
 
@@ -18247,11 +18222,6 @@ parameters:
 
 		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\Role\\:\\:\\$policies \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\Policy\\>\\) does not accept array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\PolicyCreateStruct\\>\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/User/Mapper.php
-
-		-
-			message: "#^array\\|string does not accept array\\<int, mixed\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Mapper.php
 
@@ -43946,11 +43916,6 @@ parameters:
 			path: tests/lib/Limitation/SubtreeLimitationTypeTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$properties of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest constructor expects array, string given\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Component/Serializer/SimplifiedRequestNormalizerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Component\\\\Serializer\\\\Stubs\\\\CompoundStub\\:\\:__construct\\(\\) has parameter \\$subMatchers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Component/Serializer/Stubs/CompoundStub.php
@@ -45552,11 +45517,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\\\RouterHostPortURITest\\:\\:testSetGetRequestMapPort\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/SiteAccess/RouterHostPortURITest.php
-
-		-
-			message: "#^Parameter \\#1 \\$properties of class Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Routing\\\\SimplifiedRequest constructor expects array, string given\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/SiteAccess/RouterHostPortURITest.php
 
