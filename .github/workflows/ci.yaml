@@ -178,6 +178,8 @@ jobs:
         name: "Solr integration tests"
         runs-on: "ubuntu-22.04"
         timeout-minutes: 30
+        env:
+            COMPOSER_ROOT_VERSION: dev-ibx-8470-symfony-6
         permissions:
             packages: read
             contents: read
@@ -215,7 +217,9 @@ jobs:
             
             - name: Add solr dependency
               run: |
-                VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
+                export COMPOSER_ROOT_VERSION=dev-ibx-8470-symfony-6
+                VERSION="$COMPOSER_ROOT_VERSION as 5.0.x-dev"
+                echo "COMPOSER_ROOT_VERSION: $COMPOSER_ROOT_VERSION"
                 composer require --no-update "ibexa/solr:$VERSION"
 
             - uses: ramsey/composer-install@v3
