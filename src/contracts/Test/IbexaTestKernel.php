@@ -92,6 +92,7 @@ class IbexaTestKernel extends Kernel implements IbexaTestKernelInterface
         Repository\TokenService::class,
         Repository\URLAliasService::class,
         Repository\BookmarkService::class,
+        Repository\TrashService::class,
         Handler::class,
     ];
 

@@ -46,17 +46,17 @@ parameters:
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_slice expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_slice expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
@@ -5401,11 +5401,6 @@ parameters:
 			path: src/contracts/Persistence/User/Policy.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentService\\:\\:loadContentByContentInfo\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/ContentService.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentService\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/ContentService.php
@@ -5414,21 +5409,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentService\\:\\:validate\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/ContentService.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$contentId with type mixed is not subtype of native type int\\.$#"
-			count: 1
-			path: src/contracts/Repository/ContentService.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Language\\|null if not set the draft is created with the initialLanguage code of the source version or if not present with the main language\\.\\)\\: Unexpected token \"if\", expected variable at offset 870$#"
-			count: 1
-			path: src/contracts/Repository/ContentService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\ContentServiceDecorator\\:\\:loadContentByContentInfo\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/ContentServiceDecorator.php
 
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\ContentServiceDecorator\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
@@ -8431,7 +8411,7 @@ parameters:
 			path: src/lib/Base/Utils/DeprecationWarnerInterface.php
 
 		-
-			message: "#^Parameter \\#1 \\$locations of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Events\\\\Content\\\\DeleteContentEvent constructor expects array, array\\|iterable\\<int\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$locations of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Events\\\\Content\\\\DeleteContentEvent constructor expects array, array\\|iterable\\<int, int\\> given\\.$#"
 			count: 1
 			path: src/lib/Event/ContentService.php
 
@@ -11121,7 +11101,7 @@ parameters:
 			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
 
@@ -18981,11 +18961,6 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\ContentService\\:\\:loadContentByContentInfo\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\ContentService\\:\\:loadContentByRemoteId\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/ContentService.php
@@ -19036,7 +19011,7 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: "#^Parameter \\#3 \\$prioritizedLanguages of method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildContentDomainObjectFromPersistence\\(\\) expects array\\<string\\>, array\\<string\\>\\|null given\\.$#"
+			message: "#^Parameter \\#3 \\$prioritizedLanguages of method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildContentDomainObjectFromPersistence\\(\\) expects array\\<string\\>, array\\<int, string\\>\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/ContentService.php
 
@@ -19984,11 +19959,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$serializedValue of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Setting\\\\Handler\\:\\:update\\(\\) expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/lib/Repository/SettingService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentService\\:\\:loadContentByContentInfo\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/ContentService.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\ContentService\\:\\:validate\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
@@ -26756,7 +26726,7 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:testLoadVersions\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> but returns iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:testLoadVersions\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> but returns iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -27021,7 +26991,7 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -53606,7 +53576,7 @@ parameters:
 			path: tests/lib/Repository/Decorator/ContentServiceDecoratorTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$contentIds of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentService\\:\\:loadContentInfoList\\(\\) expects array\\<int\\>, array\\<int, string\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$contentIds of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentService\\:\\:loadContentInfoList\\(\\) expects array\\<int, int\\>, array\\<int, string\\> given\\.$#"
 			count: 1
 			path: tests/lib/Repository/Decorator/ContentServiceDecoratorTest.php
 

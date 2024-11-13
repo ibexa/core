@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\RoleService;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\SectionService;
+use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
@@ -168,6 +169,11 @@ trait IbexaKernelTestTrait
     protected static function getUrlAliasService(): URLAliasService
     {
         return self::getServiceByClassName(URLAliasService::class);
+    }
+
+    protected static function getTrashService(): TrashService
+    {
+        return self::getServiceByClassName(TrashService::class);
     }
 
     protected static function setAnonymousUser(): void

@@ -239,6 +239,29 @@ final class DoctrineDatabase extends Gateway
             : $results;
     }
 
+    /**
+     * @return array<int>
+     *
+     * @throws \Doctrine\DBAL\Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
+     */
+    public function getSubtreeChildrenDraftContentIds(int $sourceId): array
+    {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('contentobject_id')
+            ->from('eznode_assignment', 'n')
+            ->innerJoin('n', 'ezcontentobject', 'c', 'n.contentobject_id = c.id')
+            ->andWhere('n.parent_node = :parentNode')
+            ->andWhere('c.status = :status')
+            ->setParameter(':parentNode', $sourceId, ParameterType::INTEGER)
+            ->setParameter(':status', ContentInfo::STATUS_DRAFT, ParameterType::INTEGER);
+
+        $statement = $query->execute();
+
+        return $statement->fetchFirstColumn();
+    }
+
     public function getSubtreeSize(string $path): int
     {
         $query = $this->createNodeQueryBuilder([$this->dbPlatform->getCountExpression('node_id')]);

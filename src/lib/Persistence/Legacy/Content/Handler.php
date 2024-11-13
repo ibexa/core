@@ -653,6 +653,7 @@ class Handler implements BaseContentHandler
             $this->removeRawContent($contentId);
         } else {
             foreach ($contentLocations as $locationId) {
+                $this->treeHandler->deleteChildrenDrafts($locationId);
                 $this->treeHandler->removeSubtree($locationId);
             }
         }

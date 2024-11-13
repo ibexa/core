@@ -401,6 +401,61 @@ class TreeHandlerTest extends TestCase
         self::assertTrue($location instanceof Location);
     }
 
+    public function testDeleteChildrenDraftsRecursive(): void
+    {
+        $locationGatewayMock = $this->getLocationGatewayMock();
+        $contentGatewayMock = $this->getContentGatewayMock();
+        $contentMapperMock = $this->getContentMapperMock();
+
+        $locationGatewayMock
+            ->expects(self::exactly(3))
+            ->method('getChildren')
+            ->willReturnMap([
+                [42, [
+                    ['node_id' => 201],
+                    ['node_id' => 202],
+                ]],
+                [201, []],
+                [202, []],
+            ]);
+
+        $locationGatewayMock
+            ->expects(self::exactly(3))
+            ->method('getSubtreeChildrenDraftContentIds')
+            ->willReturnMap([
+                [201, [101]],
+                [202, [102]],
+                [42, [99]],
+            ]);
+
+        $contentGatewayMock
+            ->expects(self::exactly(3))
+            ->method('loadContentInfo')
+            ->willReturnMap([
+                [101, ['main_node_id' => 201]],
+                [102, ['main_node_id' => 202]],
+                [99, ['main_node_id' => 42]],
+            ]);
+
+        $contentMapperMock
+            ->expects(self::exactly(3))
+            ->method('extractContentInfoFromRow')
+            ->willReturnCallback(static function (array $row): ContentInfo {
+                return new ContentInfo(['mainLocationId' => $row['main_node_id']]);
+            });
+
+        $contentGatewayMock
+            ->expects(self::exactly(3))
+            ->method('deleteContent')
+            ->willReturnCallback(static function (int $contentId): void {
+                self::assertContains($contentId, [99, 101, 102]);
+            });
+
+        $treeHandler = $this->getTreeHandler();
+
+        $treeHandler->deleteChildrenDrafts(42);
+    }
+
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Location\Gateway */
     protected $locationGatewayMock;
 
