@@ -56,6 +56,8 @@ class BinaryStreamResponse extends Response
 
     /**
      * @phpstan-param \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_*|null $contentDisposition
+     *
+     * @return $this
      */
     public function setFile(BinaryFile $file, ?string $contentDisposition = null, bool $autoLastModified = true): static
     {
@@ -79,6 +81,8 @@ class BinaryStreamResponse extends Response
 
     /**
      * Automatically sets the Last-Modified header according the file modification date.
+     *
+     * @return $this
      */
     public function setAutoLastModified(): static
     {
@@ -94,6 +98,8 @@ class BinaryStreamResponse extends Response
      *
      * @param string $filename Optionally use this filename instead of the real name of the file
      * @param string $filenameFallback A fallback filename, containing only ASCII characters. Defaults to an automatically encoded filename
+     *
+     * @return $this
      */
     public function setContentDisposition(string $disposition, string $filename = '', string $filenameFallback = ''): BinaryStreamResponse
     {
@@ -111,6 +117,9 @@ class BinaryStreamResponse extends Response
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function prepare(Request $request): static
     {
         $this->headers->set('Content-Length', (string)$this->file->size);
@@ -144,6 +153,8 @@ class BinaryStreamResponse extends Response
      * Sends the file.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     *
+     * @return $this
      */
     public function sendContent(): static
     {
@@ -170,6 +181,8 @@ class BinaryStreamResponse extends Response
 
     /**
      * @throws \LogicException when the content is not null
+     *
+     * @return $this
      */
     public function setContent(?string $content): static
     {
@@ -216,12 +229,12 @@ class BinaryStreamResponse extends Response
             if ($start < 0 || $end > $fileSize - 1) {
                 $this->setStatusCode(
                     Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
-                ); // HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
+                );
             } elseif ($start !== 0 || $end !== $fileSize - 1) {
                 $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
                 $this->offset = $start;
 
-                $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT); // HTTP_PARTIAL_CONTENT
+                $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT);
                 $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
                 $this->headers->set('Content-Length', $end - $start + 1);
             }
