@@ -17,7 +17,6 @@ use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
 class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccessAware
 {
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface */
     private FragmentRendererInterface $innerRenderer;
 
     private ?SiteAccess $siteAccess;

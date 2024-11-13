@@ -24,7 +24,7 @@ use Symfony\Component\Routing\RequestContext;
  */
 class DefaultRouter extends Router implements SiteAccessAware
 {
-    protected ?SiteAccess $siteAccess;
+    protected ?SiteAccess $siteAccess = null;
 
     /** @var string[] */
     protected array $nonSiteAccessAwareRoutes = [];
@@ -80,7 +80,7 @@ class DefaultRouter extends Router implements SiteAccessAware
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
-        $siteAccess = $this->siteAccess ?? null;
+        $siteAccess = $this->siteAccess;
         $originalContext = $context = $this->getContext();
         $isSiteAccessAware = $this->isSiteAccessAwareRoute($name);
 
