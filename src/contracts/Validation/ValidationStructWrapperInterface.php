@@ -9,7 +9,7 @@ namespace Ibexa\Contracts\Core\Validation;
 /**
  * @template T of object
  */
-interface ValidatorStructWrapperInterface
+interface ValidationStructWrapperInterface
 {
     public function getStructName(): string;
 

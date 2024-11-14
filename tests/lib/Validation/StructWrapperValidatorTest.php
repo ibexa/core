@@ -6,8 +6,8 @@
  */
 namespace Ibexa\Tests\Core\Validation;
 
-use Ibexa\Contracts\Core\Validation\StructValidator;
-use Ibexa\Contracts\Core\Validation\ValidatorStructWrapperInterface;
+use Ibexa\Contracts\Core\Validation\StructWrapperValidator;
+use Ibexa\Contracts\Core\Validation\ValidationStructWrapperInterface;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -17,19 +17,19 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @covers \Ibexa\Contracts\Core\Validation\StructValidator
+ * @covers \Ibexa\Contracts\Core\Validation\StructWrapperValidator
  */
-final class StructValidatorTest extends TestCase
+final class StructWrapperValidatorTest extends TestCase
 {
     /** @var \Symfony\Component\Validator\Validator\ValidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
     private ValidatorInterface $validator;
 
-    private StructValidator $structValidator;
+    private StructWrapperValidator $structValidator;
 
     protected function setUp(): void
     {
         $this->validator = $this->createMock(ValidatorInterface::class);
-        $this->structValidator = new StructValidator($this->validator);
+        $this->structValidator = new StructWrapperValidator($this->validator);
     }
 
     public function testAssertValidStructWithValidStruct(): void
@@ -80,7 +80,7 @@ final class StructValidatorTest extends TestCase
         $initialError = $this->createExampleConstraintViolation();
         $initialErrors = $this->createExampleConstraintViolationList($initialError);
 
-        $wrapper = $this->createMock(ValidatorStructWrapperInterface::class);
+        $wrapper = $this->createMock(ValidationStructWrapperInterface::class);
         $wrapper->expects(self::once())
             ->method('getStructName')
             ->willReturn('$struct');

@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Mapping\MetadataInterface;
 use Symfony\Component\Validator\Validator\ContextualValidatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class StructValidator implements ValidatorInterface
+final class StructWrapperValidator implements ValidatorInterface
 {
     private ValidatorInterface $inner;
 
@@ -37,7 +37,7 @@ final class StructValidator implements ValidatorInterface
     {
         $result = $this->inner->validate($value, $constraints, $groups);
 
-        if (!$value instanceof ValidatorStructWrapperInterface) {
+        if (!$value instanceof ValidationStructWrapperInterface) {
             return $result;
         }
 
