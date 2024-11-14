@@ -1,0 +1,123 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+namespace Ibexa\Tests\Core\Validation;
+
+use Ibexa\Contracts\Core\Validation\StructValidator;
+use Ibexa\Contracts\Core\Validation\ValidatorStructWrapperInterface;
+use PHPUnit\Framework\TestCase;
+use stdClass;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+/**
+ * @covers \Ibexa\Contracts\Core\Validation\StructValidator
+ */
+final class StructValidatorTest extends TestCase
+{
+    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private ValidatorInterface $validator;
+
+    private StructValidator $structValidator;
+
+    protected function setUp(): void
+    {
+        $this->validator = $this->createMock(ValidatorInterface::class);
+        $this->structValidator = new StructValidator($this->validator);
+    }
+
+    public function testAssertValidStructWithValidStruct(): void
+    {
+        $struct = new stdClass();
+        $initialErrors = $this->createMock(ConstraintViolationListInterface::class);
+        $initialErrors->method('count')->willReturn(0);
+
+        $this->validator
+            ->expects(self::once())
+            ->method('validate')
+            ->with(
+                $struct,
+                null,
+                ['Default', 'group']
+            )->willReturn($initialErrors);
+
+        $errors = $this->structValidator->validate(new stdClass(), null, ['Default', 'group']);
+        self::assertSame($initialErrors, $errors);
+        self::assertCount(0, $errors);
+    }
+
+    public function testAssertValidStructWithInvalidStruct(): void
+    {
+        $initialError = $this->createExampleConstraintViolation();
+        $initialErrors = $this->createExampleConstraintViolationList($initialError);
+
+        $this->validator
+            ->method('validate')
+            ->with(
+                new stdClass(),
+                null,
+                ['Default', 'group']
+            )->willReturn($initialErrors);
+
+        $errors = $this->structValidator->validate(new stdClass(), null, ['Default', 'group']);
+        self::assertSame($initialErrors, $errors);
+        self::assertCount(1, $errors);
+
+        $error = $errors->get(0);
+        self::assertSame($initialError, $error);
+        self::assertEquals('validation error', $error->getMessage());
+        self::assertEquals('struct.property', $error->getPropertyPath());
+    }
+
+    public function testAssertValidStructWithInvalidWrapperStruct(): void
+    {
+        $initialError = $this->createExampleConstraintViolation();
+        $initialErrors = $this->createExampleConstraintViolationList($initialError);
+
+        $struct = $this->createMock(ValidatorStructWrapperInterface::class);
+        $struct->expects(self::once())
+            ->method('getStructName')
+            ->willReturn('$struct');
+
+        $this->validator
+            ->method('validate')
+            ->with(
+                $struct,
+                null,
+                ['Default', 'group']
+            )->willReturn($initialErrors);
+
+        $errors = $this->structValidator->validate($struct, null, ['Default', 'group']);
+        self::assertNotSame($initialErrors, $errors);
+        self::assertCount(1, $errors);
+
+        $error = $errors->get(0);
+        self::assertNotSame($error, $initialError);
+        self::assertSame('validation error', $error->getMessage());
+        self::assertSame('property', $error->getPropertyPath());
+    }
+
+    private function createExampleConstraintViolation(): ConstraintViolationInterface
+    {
+        return new ConstraintViolation(
+            'validation error',
+            null,
+            [],
+            '',
+            'struct.property',
+            'example'
+        );
+    }
+
+    private function createExampleConstraintViolationList(
+        ConstraintViolationInterface ...$errors
+    ): ConstraintViolationListInterface {
+        return new ConstraintViolationList($errors);
+    }
+}

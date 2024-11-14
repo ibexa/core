@@ -370,3 +370,9 @@ services:
             $entityManagers: '%doctrine.entity_managers%'
 
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
+
+    Ibexa\Contracts\Core\Validation\StructValidator:
+        decorates: 'validator'
+        decoration_priority: -10
+        arguments:
+          $inner: '@.inner'
