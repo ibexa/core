@@ -376,4 +376,4 @@ services:
         # Decorator priority is higher than debug.validator to ensure profiler receives struct errors
         decoration_priority: 500
         arguments:
-          $inner: '@.inner'
+            $inner: '@.inner'
