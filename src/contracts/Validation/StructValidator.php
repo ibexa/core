@@ -47,15 +47,17 @@ final class StructValidator implements ValidatorInterface
         $prefix = ltrim($value->getStructName(), '$') . '.';
         foreach ($result as $error) {
             $path = $error->getPropertyPath();
+            $root = $error->getRoot();
             if (str_starts_with($path, $prefix)) {
                 $path = substr($path, strlen($prefix));
+                $root = $value->getStruct();
             }
 
             $unwrappedError = new ConstraintViolation(
                 $error->getMessage(),
                 $error->getMessageTemplate(),
                 $error->getParameters(),
-                $error->getRoot(),
+                $root,
                 $path,
                 $error->getInvalidValue(),
                 $error->getPlural(),

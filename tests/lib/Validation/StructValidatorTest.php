@@ -71,8 +71,8 @@ final class StructValidatorTest extends TestCase
 
         $error = $errors->get(0);
         self::assertSame($initialError, $error);
-        self::assertEquals('validation error', $error->getMessage());
-        self::assertEquals('struct.property', $error->getPropertyPath());
+        self::assertSame('validation error', $error->getMessage());
+        self::assertSame('struct.property', $error->getPropertyPath());
     }
 
     public function testAssertValidStructWithInvalidWrapperStruct(): void
@@ -80,26 +80,32 @@ final class StructValidatorTest extends TestCase
         $initialError = $this->createExampleConstraintViolation();
         $initialErrors = $this->createExampleConstraintViolationList($initialError);
 
-        $struct = $this->createMock(ValidatorStructWrapperInterface::class);
-        $struct->expects(self::once())
+        $wrapper = $this->createMock(ValidatorStructWrapperInterface::class);
+        $wrapper->expects(self::once())
             ->method('getStructName')
             ->willReturn('$struct');
+
+        $struct = new stdClass();
+        $wrapper->expects(self::once())
+            ->method('getStruct')
+            ->willReturn($struct);
 
         $this->validator
             ->method('validate')
             ->with(
-                $struct,
+                $wrapper,
                 null,
                 ['Default', 'group']
             )->willReturn($initialErrors);
 
-        $errors = $this->structValidator->validate($struct, null, ['Default', 'group']);
+        $errors = $this->structValidator->validate($wrapper, null, ['Default', 'group']);
         self::assertNotSame($initialErrors, $errors);
         self::assertCount(1, $errors);
 
         $error = $errors->get(0);
         self::assertNotSame($error, $initialError);
         self::assertSame('validation error', $error->getMessage());
+        self::assertSame($struct, $error->getRoot());
         self::assertSame('property', $error->getPropertyPath());
     }
 

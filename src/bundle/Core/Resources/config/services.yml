@@ -373,6 +373,7 @@ services:
 
     Ibexa\Contracts\Core\Validation\StructValidator:
         decorates: 'validator'
-        decoration_priority: -10
+        # Decorator priority is higher than debug.validator to ensure profiler receives struct errors
+        decoration_priority: 500
         arguments:
           $inner: '@.inner'

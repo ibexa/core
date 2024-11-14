@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @template T of object
+ *
+ * @implements \Ibexa\Contracts\Core\Validation\ValidatorStructWrapperInterface<T>
  */
 abstract class AbstractValidationStructWrapper implements ValidatorStructWrapperInterface
 {

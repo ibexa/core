@@ -6,7 +6,15 @@
  */
 namespace Ibexa\Contracts\Core\Validation;
 
+/**
+ * @template T of object
+ */
 interface ValidatorStructWrapperInterface
 {
     public function getStructName(): string;
+
+    /**
+     * @phpstan-return T
+     */
+    public function getStruct(): object;
 }
