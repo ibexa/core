@@ -8,8 +8,29 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform;
 
-final class PostgresqlGateway extends AbstractGateway
+use Doctrine\DBAL\Connection;
+use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway;
+
+/**
+ * @internal
+ */
+abstract class AbstractGateway implements Gateway
 {
+    protected Connection $connection;
+
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    public function getColumnNextIntegerValue(
+        string $tableName,
+        string $columnName,
+        string $sequenceName
+    ): ?int {
+        return null;
+    }
+
     /**
      * Return a language sub select query for setName.
      *
@@ -24,11 +45,16 @@ final class PostgresqlGateway extends AbstractGateway
             (SELECT
                 CASE
                     WHEN (initial_language_id = :language_id AND (language_mask & :language_id) <> 0 )
-                    THEN (cast(:language_id as BIGINT) | 1)
+                    THEN (:language_id | 1)
                     ELSE :language_id
                 END
                 FROM ezcontentobject
                 WHERE id = :content_id)
             SQL;
+    }
+
+    public function getLastInsertedId(string $sequenceName): int
+    {
+        return (int)$this->connection->lastInsertId($sequenceName);
     }
 }

@@ -6,6 +6,8 @@ services:
         bind:
             $connection: '@ibexa.persistence.connection'
 
+    Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\AbstractGateway: ~
+
     Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway: ~
 
     Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\SqliteGateway:
