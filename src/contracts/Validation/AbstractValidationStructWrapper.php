@@ -10,8 +10,6 @@ namespace Ibexa\Contracts\Core\Validation;
 
 /**
  * @template T of object
- *
- * @implements \Ibexa\Contracts\Core\Validation\ValidationStructWrapperInterface<T>
  */
 abstract class AbstractValidationStructWrapper implements ValidationStructWrapperInterface
 {

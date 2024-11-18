@@ -10,14 +10,9 @@ namespace Ibexa\Contracts\Core\Validation;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @template T of object
- */
 interface ValidationStructWrapperInterface
 {
     /**
-     * @phpstan-return T
-     *
      * @Assert\Valid()
      */
     public function getStruct(): object;
