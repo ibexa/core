@@ -22642,7 +22642,7 @@ parameters:
 
 		-
 			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
-			count: 2
+			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Location/IsMainLocation.php
 
 		-
@@ -22702,7 +22702,7 @@ parameters:
 
 		-
 			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
-			count: 2
+			count: 1
 			path: src/lib/Search/Legacy/Content/Location/Gateway/CriterionHandler/Visibility.php
 
 		-
