@@ -371,6 +371,8 @@ services:
 
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
 
+    Ibexa\Contracts\Core\Validation\StructValidator: ~
+
     Ibexa\Contracts\Core\Validation\StructWrapperValidator:
         decorates: 'validator'
         # Decorator priority is higher than debug.validator to ensure profiler receives struct errors
