@@ -96,7 +96,7 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseContentServiceTes
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function testCreateContentHavingMaximumLanguageCount()
+    public function testCreateContentHavingMaximumLanguageCount(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
