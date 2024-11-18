@@ -11,7 +11,7 @@ namespace Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform;
 use Doctrine\DBAL\Connection;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway;
 
-final class FallbackGateway implements Gateway
+final class PostgresqlGateway implements Gateway
 {
     /** @var \Doctrine\DBAL\Connection */
     private $connection;
@@ -29,6 +29,11 @@ final class FallbackGateway implements Gateway
         return null;
     }
 
+    public function getLastInsertedId(string $sequenceName): int
+    {
+        return (int)$this->connection->lastInsertId($sequenceName);
+    }
+
     /**
      * Return a language sub select query for setName.
      *
@@ -43,18 +48,11 @@ final class FallbackGateway implements Gateway
             (SELECT
                 CASE
                     WHEN (initial_language_id = :language_id AND (language_mask & :language_id) <> 0 )
-                    THEN (:language_id | 1)
+                    THEN (cast(:language_id as BIGINT) | 1) 
                     ELSE :language_id
                 END
                 FROM ezcontentobject
                 WHERE id = :content_id)
             SQL;
     }
-
-    public function getLastInsertedId(string $sequenceName): int
-    {
-        return (int)$this->connection->lastInsertId($sequenceName);
-    }
 }
-
-class_alias(FallbackGateway::class, 'eZ\Publish\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway');
