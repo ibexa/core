@@ -19,10 +19,8 @@ abstract class AbstractValidationStructWrapper implements ValidationStructWrappe
 {
     /**
      * @phpstan-var T
-     *
-     * @Assert\Valid()
      */
-    private object $struct;
+    protected object $struct;
 
     /**
      * @phpstan-param T $struct
@@ -38,10 +36,5 @@ abstract class AbstractValidationStructWrapper implements ValidationStructWrappe
     final public function getStruct(): object
     {
         return $this->struct;
-    }
-
-    final public function getStructName(): string
-    {
-        return 'struct';
     }
 }
