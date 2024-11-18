@@ -535,7 +535,8 @@ class Mapper
         $result = [];
 
         // Decomposition of $languageMask into its binary components to extract language codes
-        while ($exp <= $languageMask) {
+        // check if $exp has not overflown and became float (happens for the last possible language in the mask)
+        while (is_int($exp) && $exp <= $languageMask) {
             if ($languageMask & $exp) {
                 if (isset($allLanguages[$exp])) {
                     $result[] = $allLanguages[$exp]->languageCode;
