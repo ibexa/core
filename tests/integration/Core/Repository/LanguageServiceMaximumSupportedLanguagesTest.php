@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFactory;
 
 /**
@@ -15,7 +16,7 @@ use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy as LegacySetupFacto
  * @group integration
  * @group language
  */
-class LanguageServiceMaximumSupportedLanguagesTest extends BaseTest
+class LanguageServiceMaximumSupportedLanguagesTest extends BaseContentServiceTest
 {
     /** @var \Ibexa\Contracts\Core\Repository\LanguageService */
     private $languageService;
@@ -88,6 +89,36 @@ class LanguageServiceMaximumSupportedLanguagesTest extends BaseTest
         $languageCreate->languageCode = 'lan-ER';
 
         $this->languageService->createLanguage($languageCreate);
+    }
+
+    /**
+     * Test creating a draft having max number of languages.
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     */
+    public function testCreateContentHavingMaximumLanguageCount()
+    {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+
+        $nameFieldValue = [];
+        foreach ($this->languageService->loadLanguages() as $key => $language) {
+            $nameFieldValue[$language->languageCode] = 'Name ' . $language->languageCode;
+        }
+        $draft = $this->createMultilingualContentDraft(
+            'folder',
+            2,
+            'eng-US',
+            [
+                'name' => $nameFieldValue,
+            ]
+        );
+
+        $contentService->deleteContent($draft->contentInfo);
+        $this->assertInstanceOf(
+            Content::class,
+            $draft
+        );
     }
 }
 
