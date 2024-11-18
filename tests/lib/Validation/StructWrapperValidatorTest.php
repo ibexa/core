@@ -83,9 +83,6 @@ final class StructWrapperValidatorTest extends TestCase
         $initialErrors = $this->createExampleConstraintViolationList($initialError);
 
         $wrapper = $this->createMock(ValidationStructWrapperInterface::class);
-        $wrapper->expects(self::once())
-            ->method('getStructName')
-            ->willReturn('$struct');
 
         $struct = new stdClass();
         $wrapper->expects(self::once())

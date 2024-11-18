@@ -8,15 +8,17 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Validation;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @template T of object
  */
 interface ValidationStructWrapperInterface
 {
-    public function getStructName(): string;
-
     /**
      * @phpstan-return T
+     *
+     * @Assert\Valid()
      */
     public function getStruct(): object;
 }
