@@ -18,7 +18,6 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
  */
 class Ancestor extends CriterionHandler
 {
-
     public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\Ancestor;

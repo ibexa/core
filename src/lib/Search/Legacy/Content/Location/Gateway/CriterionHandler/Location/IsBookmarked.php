@@ -13,6 +13,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -31,7 +32,7 @@ final class IsBookmarked extends CriterionHandler
         $this->permissionResolver = $permissionResolver;
     }
 
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\Location\IsBookmarked
             && $criterion->operator === Criterion\Operator::EQ;
@@ -39,11 +40,12 @@ final class IsBookmarked extends CriterionHandler
 
     /**
      * @param array{languages: string[]} $languageSettings
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsBookmarked $criterion
      */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         if (!is_array($criterion->value)) {

@@ -14,7 +14,6 @@ use Ibexa\Bundle\Core\Command\Indexer\ContentIdListGeneratorStrategyInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Search\Content\IndexerGateway;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
-use Ibexa\Core\Search\Common\IncrementalIndexer;
 use Ibexa\Core\Search\Common\Indexer;
 use Psr\Log\LoggerInterface;
 use RuntimeException;

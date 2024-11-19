@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\QueryType\BuiltIn;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\Depth;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone;

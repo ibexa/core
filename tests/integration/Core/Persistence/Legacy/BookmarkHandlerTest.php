@@ -78,7 +78,6 @@ final class BookmarkHandlerTest extends RepositoryTestCase
     private function addToBookmark(Location $location): Bookmark
     {
         $createStruct = new CreateStruct();
-        $createStruct->name = '';
         $createStruct->userId = self::ADMIN_USER_ID;
         $createStruct->locationId = $location->id;
 

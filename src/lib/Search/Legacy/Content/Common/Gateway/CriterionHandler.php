@@ -48,7 +48,7 @@ abstract class CriterionHandler
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param CriterionInterface $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
      *
      * @return bool
      */

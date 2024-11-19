@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\QueryType\BuiltIn;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Ancestor;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;

@@ -18,7 +18,7 @@ abstract class Gateway
     /**
      * Returns a list of object satisfying the $criterion.
      *
-     * @param CriterionInterface $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
      * @param int $offset
      * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort

@@ -143,7 +143,7 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUserRef
      * @param array|null $targets
      *
-     * @return CriterionInterface|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
      */
     private function getCriterionForLimitation(Limitation $limitation, UserReference $currentUserRef, ?array $targets): CriterionInterface
     {

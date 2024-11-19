@@ -14,7 +14,6 @@ use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Base class for the Search Engine Indexer Service aimed to recreate Search Engine Index.

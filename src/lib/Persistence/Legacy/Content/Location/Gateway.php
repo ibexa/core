@@ -296,7 +296,7 @@ abstract class Gateway
      * @param int $offset
      * @param int|null $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
-     * @param CriterionInterface|null $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|null $criterion
      *
      * @return array entries from ezcontentobject_trash.
      */
