@@ -40,7 +40,7 @@ final class RoutingExtensionTest extends IntegrationTestCase
 
     protected function getFixturesDir(): string
     {
-        if (PHP_VERSION_ID < 8_00_00) {
+        if (\PHP_VERSION_ID < 8_00_00) {
             return __DIR__ . '/_fixtures/routing_functions/7.4';
         }
 

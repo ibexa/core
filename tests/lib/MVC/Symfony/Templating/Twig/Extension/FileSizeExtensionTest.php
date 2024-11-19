@@ -72,7 +72,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
 
     protected function getFixturesDir(): string
     {
-        if (PHP_VERSION_ID < 8_00_00) {
+        if (\PHP_VERSION_ID < 8_00_00) {
             return __DIR__ . '/_fixtures/functions/ez_file_size/7.4';
         }
 

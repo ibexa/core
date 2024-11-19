@@ -17,7 +17,7 @@ trait DeprecationOptionsTrait
      * @phpstan-param non-empty-string $newFunction
      *
      * @phpstan-return array{
-     *     deprecation_info: \Twig\DeprecatedCallableInfo,
+     *     deprecation_info: object,
      * }|array{
      *     deprecated: non-empty-string,
      *     deprecating_package: non-empty-string,
