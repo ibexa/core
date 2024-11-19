@@ -22,7 +22,11 @@ class DataAttributesExtensionTest extends IntegrationTestCase
 
     protected function getFixturesDir(): string
     {
-        return __DIR__ . '/_fixtures/filters';
+        if (PHP_VERSION_ID < 8_00_00) {
+            return __DIR__ . '/_fixtures/filters/7.4';
+        }
+
+        return __DIR__ . '/_fixtures/filters/8.0';
     }
 }
 

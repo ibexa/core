@@ -26,6 +26,8 @@ use Twig\TwigFunction;
 
 class RoutingExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGeneratorInterface */
     private $routeReferenceGenerator;
 
@@ -46,10 +48,7 @@ class RoutingExtension extends AbstractExtension
             new TwigFunction(
                 'ez_route',
                 [$this, 'getRouteReference'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_route',
-                ]
+                $this->getDeprecationOptions('ibexa_route'),
             ),
             new TwigFunction(
                 'ibexa_route',
@@ -58,11 +57,12 @@ class RoutingExtension extends AbstractExtension
             new TwigFunction(
                 'ez_path',
                 [$this, 'getPath'],
-                [
-                    'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_path',
-                ]
+                array_merge(
+                    [
+                        'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_path'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_path',
@@ -74,11 +74,12 @@ class RoutingExtension extends AbstractExtension
             new TwigFunction(
                 'ez_url',
                 [$this, 'getUrl'],
-                [
-                    'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_url',
-                ]
+                array_merge(
+                    [
+                        'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_url'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_url',

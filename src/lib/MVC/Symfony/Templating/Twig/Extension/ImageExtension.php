@@ -18,6 +18,8 @@ use Twig\TwigFunction;
 
 class ImageExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
     private $imageVariationService;
 
@@ -30,17 +32,18 @@ class ImageExtension extends AbstractExtension
         $this->assetMapper = $assetMapper;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
                 'ez_image_alias',
                 [$this, 'getImageVariation'],
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_image_alias',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_image_alias'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_image_alias',
@@ -50,11 +53,12 @@ class ImageExtension extends AbstractExtension
             new TwigFunction(
                 'ez_content_field_identifier_image_asset',
                 [$this, 'getImageAssetContentFieldIdentifier'],
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_content_field_identifier_image_asset',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_content_field_identifier_image_asset'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_content_field_identifier_image_asset',

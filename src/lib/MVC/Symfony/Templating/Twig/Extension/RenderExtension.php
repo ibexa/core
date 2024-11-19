@@ -22,6 +22,8 @@ use Twig\TwigFunction;
  */
 final class RenderExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /** @var \Ibexa\Contracts\Core\MVC\Templating\RenderStrategy */
     private $renderStrategy;
 
@@ -42,11 +44,12 @@ final class RenderExtension extends AbstractExtension
             new TwigFunction(
                 'ez_render',
                 [$this, 'render'],
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_render'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_render',

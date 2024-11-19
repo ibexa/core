@@ -16,6 +16,7 @@ use Ibexa\Core\Helper\FieldHelper;
 use Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList;
 use Ibexa\Core\Helper\TranslationHelper;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -25,6 +26,8 @@ use Twig\TwigFunction;
  */
 class ContentExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     protected $repository;
 
@@ -50,24 +53,19 @@ class ContentExtension extends AbstractExtension
         $this->translationHelper = $translationHelper;
         $this->fieldHelper = $fieldHelper;
         $this->fieldsGroupsList = $fieldsGroupsList;
-        $this->logger = $logger;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
      * Returns a list of functions to add to the existing list.
-     *
-     * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
                 'ez_content_name',
                 [$this, 'getTranslatedContentName'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_content_name',
-                ]
+                $this->getDeprecationOptions('ibexa_content_name'),
             ),
             new TwigFunction(
                 'ibexa_content_name',
@@ -76,10 +74,7 @@ class ContentExtension extends AbstractExtension
             new TwigFunction(
                 'ez_field_value',
                 [$this, 'getTranslatedFieldValue'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_field_value',
-                ]
+                $this->getDeprecationOptions('ibexa_field_value'),
             ),
             new TwigFunction(
                 'ibexa_field_value',
@@ -88,10 +83,7 @@ class ContentExtension extends AbstractExtension
             new TwigFunction(
                 'ez_field',
                 [$this, 'getTranslatedField'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_field',
-                ]
+                $this->getDeprecationOptions('ibexa_field'),
             ),
             new TwigFunction(
                 'ibexa_field',
@@ -100,10 +92,7 @@ class ContentExtension extends AbstractExtension
             new TwigFunction(
                 'ez_field_is_empty',
                 [$this, 'isFieldEmpty'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_field_is_empty',
-                ]
+                $this->getDeprecationOptions('ibexa_field_is_empty'),
             ),
             new TwigFunction(
                 'ibexa_has_field',
@@ -116,10 +105,7 @@ class ContentExtension extends AbstractExtension
             new TwigFunction(
                 'ez_field_name',
                 [$this, 'getTranslatedFieldDefinitionName'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_field_name',
-                ]
+                $this->getDeprecationOptions('ibexa_field_name'),
             ),
             new TwigFunction(
                 'ibexa_field_name',
@@ -128,10 +114,7 @@ class ContentExtension extends AbstractExtension
             new TwigFunction(
                 'ez_field_description',
                 [$this, 'getTranslatedFieldDefinitionDescription'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_field_description',
-                ]
+                $this->getDeprecationOptions('ibexa_field_description'),
             ),
             new TwigFunction(
                 'ibexa_field_description',
@@ -144,10 +127,7 @@ class ContentExtension extends AbstractExtension
             new TwigFunction(
                 'ez_content_field_identifier_first_filled_image',
                 [$this, 'getFirstFilledImageFieldIdentifier'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_content_field_identifier_first_filled_image',
-                ]
+                $this->getDeprecationOptions('ibexa_content_field_identifier_first_filled_image'),
             ),
             new TwigFunction(
                 'ibexa_content_field_identifier_first_filled_image',
