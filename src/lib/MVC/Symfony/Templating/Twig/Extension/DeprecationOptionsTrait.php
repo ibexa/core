@@ -10,6 +10,8 @@ use Twig\DeprecatedCallableInfo;
 
 /**
  * This trait provides ability to deprecate twig functions, maintaining compatibility with twig/twig prior to 3.15.
+ *
+ * @internal
  */
 trait DeprecationOptionsTrait
 {
