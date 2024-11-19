@@ -11,6 +11,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @covers \Ibexa\Contracts\Core\Repository\ContentService
+ */
 final class MaxLanguagesContentServiceTest extends RepositoryTestCase
 {
     /** @var list<array{languageCode: string, name: string }> */
