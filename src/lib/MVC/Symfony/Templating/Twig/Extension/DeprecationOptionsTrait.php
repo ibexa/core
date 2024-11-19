@@ -4,12 +4,14 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
+
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Twig\DeprecatedCallableInfo;
 
 /**
- * This trait provides ability to deprecate twig functions, maintaining compatibility with twig/twig prior to 3.15.
+ * This trait provides ability to deprecate Twig functions, maintaining compatibility with twig/twig prior to 3.15.
  *
  * @internal
  */
