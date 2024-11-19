@@ -1,9 +1,9 @@
 --TEST--
 "twig" filter
 --DEPRECATION--
-Since  4.0: Twig Function "ez_route" is deprecated. Use "ibexa_route" instead in index.twig at line 2.
-Since  4.0: Twig Function "ez_route" is deprecated. Use "ibexa_route" instead in index.twig at line 3.
-Since  4.0: Twig Function "ez_route" is deprecated. Use "ibexa_route" instead in index.twig at line 4.
+Since ibexa/core 4.0: Twig Function "ez_route" is deprecated. Use "ibexa_route" instead in index.twig at line 2.
+Since ibexa/core 4.0: Twig Function "ez_route" is deprecated. Use "ibexa_route" instead in index.twig at line 3.
+Since ibexa/core 4.0: Twig Function "ez_route" is deprecated. Use "ibexa_route" instead in index.twig at line 4.
 --TEMPLATE--
 {% set route_ref1 = ez_route( "foo_route" ) %}
 {% set route_ref2 = ez_route( "bar_route", {"some": "thing"} ) %}

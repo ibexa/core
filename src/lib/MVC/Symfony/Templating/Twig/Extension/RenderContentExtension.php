@@ -21,6 +21,8 @@ use Twig\TwigFunction;
  */
 final class RenderContentExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy */
     private $renderContentStrategy;
 
@@ -41,11 +43,12 @@ final class RenderContentExtension extends AbstractExtension
             new TwigFunction(
                 'ez_render_content',
                 [$this, 'renderContent'],
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_content',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_render_content'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_render_content',

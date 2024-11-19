@@ -20,6 +20,8 @@ use Twig\TwigFilter;
  */
 class FileSizeExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /**
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator
      */
@@ -77,10 +79,7 @@ class FileSizeExtension extends AbstractExtension
             new TwigFilter(
                 'ez_file_size',
                 [$this, 'sizeFilter'],
-                [
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_file_size',
-                ]
+                $this->getDeprecationOptions('ibexa_file_size'),
             ),
             new TwigFilter(
                 'ibexa_file_size',

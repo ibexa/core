@@ -21,6 +21,8 @@ use Twig\TwigFunction;
  */
 final class RenderLocationExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderLocationStrategy */
     private $renderLocationStrategy;
 
@@ -41,11 +43,12 @@ final class RenderLocationExtension extends AbstractExtension
             new TwigFunction(
                 'ez_render_location',
                 [$this, 'renderLocation'],
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_location',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_render_location'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_render_location',

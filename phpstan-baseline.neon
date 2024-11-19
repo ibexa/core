@@ -12946,11 +12946,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getFunctions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getTranslatedField\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\|null\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
@@ -12961,24 +12956,9 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
 
 		-
-			message: "#^Property Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:\\$logger \\(Psr\\\\Log\\\\LoggerInterface\\) does not accept Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\CoreExtension\\:\\:getGlobals\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/CoreExtension.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\DataAttributesExtension\\:\\:getFilters\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/Twig/Extension/DataAttributesExtension.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\DataAttributesExtension\\:\\:serializeDataAttributes\\(\\) has parameter \\$dataAttributes with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/Twig/Extension/DataAttributesExtension.php
 
 		-
 			message: "#^Parameter \\#1 \\$string of function htmlspecialchars expects string, string\\|false given\\.$#"

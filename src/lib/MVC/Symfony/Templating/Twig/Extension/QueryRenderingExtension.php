@@ -16,6 +16,8 @@ use Twig\TwigFunction;
 
 class QueryRenderingExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     private const VALID_TYPES = ['content', 'location'];
 
     /** @var \Symfony\Component\HttpKernel\Fragment\FragmentHandler */
@@ -49,11 +51,12 @@ class QueryRenderingExtension extends AbstractExtension
             new TwigFunction(
                 'ez_render_*_query',
                 $typeCallable,
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_*_query',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_render_*_query'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_render_*_query',
@@ -63,11 +66,12 @@ class QueryRenderingExtension extends AbstractExtension
             new TwigFunction(
                 'ez_render_*_query_*',
                 $typeAndRendererCallable,
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_*_query_',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_render_*_query_*'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_render_*_query_*',

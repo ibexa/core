@@ -16,10 +16,10 @@ use Twig\TwigFilter;
  */
 class DataAttributesExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /**
      * Returns a list of functions to add to the existing list.
-     *
-     * @return array
      */
     public function getFilters(): array
     {
@@ -27,11 +27,12 @@ class DataAttributesExtension extends AbstractExtension
             new TwigFilter(
                 'ez_data_attributes_serialize',
                 [$this, 'serializeDataAttributes'],
-                [
-                    'is_safe' => ['html'],
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_data_attributes_serialize',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                    ],
+                    $this->getDeprecationOptions('ibexa_data_attributes_serialize'),
+                ),
             ),
             new TwigFilter(
                 'ibexa_data_attributes_serialize',
@@ -45,7 +46,7 @@ class DataAttributesExtension extends AbstractExtension
      * Processes an associative list of data attributes and returns them as HTML attributes list
      * in the form of <code>data-<attribute_name>="<attribute_value>"</code>.
      *
-     * @param array $dataAttributes
+     * @param array<string, mixed> $dataAttributes
      *
      * @return string
      */

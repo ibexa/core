@@ -1,0 +1,55 @@
+--TEST--
+"ibexa_url" function
+--TEMPLATE--
+{{ ibexa_url(location) }}
+{{ ibexa_url(location, {}, true) }}
+{{ ibexa_url(location, {'foo': 'foo'}) }}
+{{ ibexa_url(content) }}
+{{ ibexa_url(content, {}, true) }}
+{{ ibexa_url(content, {'foo': 'foo'}) }}
+{{ ibexa_url(content_info) }}
+{{ ibexa_url(content_info, {}, true) }}
+{{ ibexa_url(content_info, {'foo': 'foo'}) }}
+{{ ibexa_url(content_aware) }}
+{{ ibexa_url(content_aware, {}, true) }}
+{{ ibexa_url(content_aware, {'foo': 'foo'}) }}
+{{ ibexa_url(route_ref) }}
+{{ ibexa_url(route_ref, {}, true) }}
+{{ ibexa_url(route_ref, {'baz': 'baz'}) }}
+{{ ibexa_url(unsupported_object) }}
+{{ ibexa_url(unsupported_object, {}, true) }}
+{{ ibexa_url(unsupported_object, {'baz': 'baz'}) }}
+--DATA--
+return [
+    'location' => $this->getExampleLocation(54),
+    'content' => $this->getExampleContent(2),
+    'content_info' => $this->getExampleContentInfo(2),
+    'content_aware' => $this->getExampleContentAware(64),
+    'route_ref' => $this->getExampleRouteReference(
+        'example_route',
+        [
+            'foo' => 'foo',
+            'bar' => 'bar'
+        ]
+    ),
+    'unsupported_object' => $this->getExampleUnsupportedObject(),
+];
+--EXPECT--
+{"$name":"ibexa.url.alias","$parameters":{"locationId":54},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"locationId":54},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","locationId":54},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":2},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":2},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":64},"$referenceType":0}
+{"$name":"ibexa.url.alias","$parameters":{"contentId":64},"$referenceType":3}
+{"$name":"ibexa.url.alias","$parameters":{"foo":"foo","contentId":64},"$referenceType":0}
+{"$name":"example_route","$parameters":{"foo":"foo","bar":"bar"},"$referenceType":0}
+{"$name":"example_route","$parameters":{"foo":"foo","bar":"bar"},"$referenceType":3}
+{"$name":"example_route","$parameters":{"baz":"baz","foo":"foo","bar":"bar"},"$referenceType":0}
+{"$name":"","$parameters":{"_route_object":{"foo":"foo","bar":"bar"}},"$referenceType":0}
+{"$name":"","$parameters":{"_route_object":{"foo":"foo","bar":"bar"}},"$referenceType":3}
+{"$name":"","$parameters":{"baz":"baz","_route_object":{"foo":"foo","bar":"bar"}},"$referenceType":0}

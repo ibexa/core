@@ -70,12 +70,13 @@ class FileSizeExtensionTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getFixturesDir()
+    protected function getFixturesDir(): string
     {
-        return __DIR__ . '/_fixtures/functions/ez_file_size';
+        if (\PHP_VERSION_ID < 8_00_00) {
+            return __DIR__ . '/_fixtures/functions/ez_file_size/7.4';
+        }
+
+        return __DIR__ . '/_fixtures/functions/ez_file_size/8.0';
     }
 
     /**

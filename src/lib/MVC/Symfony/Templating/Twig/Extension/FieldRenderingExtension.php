@@ -22,6 +22,8 @@ use Twig\TwigFunction;
  */
 class FieldRenderingExtension extends AbstractExtension
 {
+    use DeprecationOptionsTrait;
+
     /** @var \Ibexa\Core\MVC\Symfony\Templating\FieldBlockRendererInterface */
     private $fieldBlockRenderer;
 
@@ -66,12 +68,13 @@ class FieldRenderingExtension extends AbstractExtension
             new TwigFunction(
                 'ez_render_field',
                 $renderFieldCallable,
-                [
-                    'is_safe' => ['html'],
-                    'needs_environment' => true,
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_field',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                        'needs_environment' => true,
+                    ],
+                    $this->getDeprecationOptions('ibexa_render_field'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_render_field',
@@ -81,12 +84,13 @@ class FieldRenderingExtension extends AbstractExtension
             new TwigFunction(
                 'ez_render_field_definition_settings',
                 $renderFieldDefinitionSettingsCallable,
-                [
-                    'is_safe' => ['html'],
-                    'needs_environment' => true,
-                    'deprecated' => '4.0',
-                    'alternative' => 'ibexa_render_field_definition_settings',
-                ]
+                array_merge(
+                    [
+                        'is_safe' => ['html'],
+                        'needs_environment' => true,
+                    ],
+                    $this->getDeprecationOptions('ibexa_render_field_definition_settings'),
+                ),
             ),
             new TwigFunction(
                 'ibexa_render_field_definition_settings',
