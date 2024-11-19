@@ -71,10 +71,7 @@ class FileSizeExtensionTest extends IntegrationTestCase
         ];
     }
 
-    /**
-     * @return string
-     */
-    protected function getFixturesDir()
+    protected function getFixturesDir(): string
     {
         return __DIR__ . '/_fixtures/functions/ibexa_file_size';
     }

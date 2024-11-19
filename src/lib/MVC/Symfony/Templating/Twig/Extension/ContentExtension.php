@@ -17,6 +17,7 @@ use Ibexa\Core\Helper\FieldHelper;
 use Ibexa\Core\Helper\FieldsGroups\FieldsGroupsList;
 use Ibexa\Core\Helper\TranslationHelper;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -51,15 +52,13 @@ class ContentExtension extends AbstractExtension
         $this->translationHelper = $translationHelper;
         $this->fieldHelper = $fieldHelper;
         $this->fieldsGroupsList = $fieldsGroupsList;
-        $this->logger = $logger;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
      * Returns a list of functions to add to the existing list.
-     *
-     * @return array
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(

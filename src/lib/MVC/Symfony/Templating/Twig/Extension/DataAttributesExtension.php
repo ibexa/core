@@ -18,8 +18,6 @@ class DataAttributesExtension extends AbstractExtension
 {
     /**
      * Returns a list of functions to add to the existing list.
-     *
-     * @return array
      */
     public function getFilters(): array
     {
@@ -36,7 +34,7 @@ class DataAttributesExtension extends AbstractExtension
      * Processes an associative list of data attributes and returns them as HTML attributes list
      * in the form of <code>data-<attribute_name>="<attribute_value>"</code>.
      *
-     * @param array $dataAttributes
+     * @param array<string, mixed> $dataAttributes
      *
      * @return string
      */

@@ -31,7 +31,7 @@ class ImageExtension extends AbstractExtension
         $this->assetMapper = $assetMapper;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
