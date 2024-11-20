@@ -1175,11 +1175,8 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      *
      * $fieldName refers to additional field (to the default field) defined in Indexable definition,
      * and is resolved using FieldNameResolver.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
-     * @param string $fieldName
      */
-    protected function modifyFieldCriterion(Criterion $criterion, $fieldName)
+    protected function modifyFieldCriterion(Query\CriterionInterface $criterion, string $fieldName): void
     {
         $setupFactory = $this->getSetupFactory();
         /** @var \Symfony\Component\DependencyInjection\ContainerBuilder $container */
@@ -1232,10 +1229,9 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      *
      * Implemented separately to utilize recursion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[]|\Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $criteriaOrSortClauses
-     * @param string $fieldName
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface[]|\Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion[]|\Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $criteriaOrSortClauses
      */
-    protected function doModifyField(array $criteriaOrSortClauses, $fieldName)
+    protected function doModifyField(array $criteriaOrSortClauses, string $fieldName): void
     {
         foreach ($criteriaOrSortClauses as $criterionOrSortClause) {
             if ($criterionOrSortClause instanceof LogicalOperator) {
@@ -1357,13 +1353,9 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
     /**
      * Returns SearchResult of the tested Content for the given $criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param bool $filter Denotes search by filtering if true, search by querying if false
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
      */
-    protected function findContent(Repository $repository, Query\CriterionInterface $criterion, $filter)
+    protected function findContent(Repository $repository, Query\CriterionInterface $criterion, bool $filter): SearchResult
     {
         $searchService = $repository->getSearchService();
 
@@ -1505,21 +1497,15 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
      * Search result can be empty, contain both Content One and Content Two or only one of them.
      *
      * @param array $context
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
-     * @param bool $includesOne
-     * @param bool $includesTwo
-     * @param bool $filter
-     * @param bool $content
-     * @param string|null $modifyField
      */
     protected function assertFindResult(
         array $context,
         Query\CriterionInterface $criterion,
-        $includesOne,
-        $includesTwo,
-        $filter,
-        $content,
-        $modifyField
+        bool $includesOne,
+        bool $includesTwo,
+        bool $filter,
+        bool $content,
+        ?string $modifyField
     ) {
         [$repository, $contentOneId, $contentTwoId] = $context;
 

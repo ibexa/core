@@ -166,7 +166,6 @@ final class DoctrineDatabase extends Gateway
     /**
      * Returns total results count for $criterion and $sortClauses.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param array $languageFilter
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException

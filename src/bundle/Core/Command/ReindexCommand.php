@@ -211,7 +211,7 @@ class ReindexCommand extends Command
             }
         }
 
-        $output->writeln('Re-indexing started for search engine: ' . $this->searchIndexer->getName());
+        $output->writeln('Re-indexing started for search engine: ' . get_class($this->searchIndexer));
         $output->writeln('');
 
         return $this->indexIncrementally($input, $output, $iterationCount, $commit);

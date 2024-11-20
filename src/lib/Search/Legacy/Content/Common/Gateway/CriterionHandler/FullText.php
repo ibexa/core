@@ -198,6 +198,9 @@ class FullText extends CriterionHandler
         return $subQuery->getSQL();
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FullText $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

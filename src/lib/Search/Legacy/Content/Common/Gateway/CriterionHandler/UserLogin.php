@@ -35,6 +35,9 @@ class UserLogin extends CriterionHandler
         return $criterion instanceof Criterion\UserLogin;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserLogin $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

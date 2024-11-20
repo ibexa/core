@@ -132,7 +132,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         $mainLocation = $contentInfo->getMainLocation();
 
         // For performance reasons 'countLocationsByContent' is moved to if
-        if ($mainLocation === null && $this->locationHandler->countLocationsByContent($contentInfo->getId()) > 0) {
+        if ($mainLocation === null && $this->locationHandler->countLocationsByContent((int)$contentInfo->getId()) > 0) {
             $this->logger->error(
                 sprintf(
                     'Main location for content of ID = %d doesn\'t exist yet this content has locations assigned.',
@@ -157,7 +157,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content $spiContent
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type $spiContentType
-     * @param string[] $prioritizedLanguages Prioritized language codes to filter fields on
+     * @param array<int, string> $prioritizedLanguages Prioritized language codes to filter fields on
      * @param string|null $fieldAlwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
      * @return \Ibexa\Core\Repository\Values\Content\Content

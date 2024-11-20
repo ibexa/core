@@ -51,6 +51,9 @@ class ContentTypeIdentifier extends CriterionHandler
         return $criterion instanceof Criterion\ContentTypeIdentifier;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

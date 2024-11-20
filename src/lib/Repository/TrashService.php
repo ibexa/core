@@ -305,10 +305,6 @@ class TrashService implements TrashServiceInterface
      */
     public function findTrashItems(Query $query): SearchResult
     {
-        if ($query->filter !== null && !$query->filter instanceof Query\CriterionInterface) {
-            throw new InvalidArgumentValue('query->filter', $query->filter, 'Query');
-        }
-
         if ($query->sortClauses !== null) {
             if (!is_array($query->sortClauses)) {
                 throw new InvalidArgumentValue('query->sortClauses', $query->sortClauses, 'Query');

@@ -23,6 +23,9 @@ class Ancestor extends CriterionHandler
         return $criterion instanceof Criterion\Ancestor;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Ancestor $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

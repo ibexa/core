@@ -190,6 +190,7 @@ class RelationProcessor
                 switch ($relationType) {
                     case Relation::FIELD:
                     case Relation::ASSET:
+                        /** @phpstan-var array<int, Relation> $relationEntry */
                         foreach ($relationEntry as $relation) {
                             $this->persistenceHandler->contentHandler()->removeRelation(
                                 $relation->id,
@@ -200,6 +201,7 @@ class RelationProcessor
                         break;
                     case Relation::LINK:
                     case Relation::EMBED:
+                        /** @phpstan-var Relation $relationEntry */
                         $this->persistenceHandler->contentHandler()->removeRelation(
                             $relationEntry->id,
                             $relationType,

@@ -21,6 +21,9 @@ class CompositeCriterion extends CriterionHandler
         return $criterion instanceof Criterion\CompositeCriterion;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\CompositeCriterion $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

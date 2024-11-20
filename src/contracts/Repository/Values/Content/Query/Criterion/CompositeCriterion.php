@@ -14,8 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 abstract class CompositeCriterion extends Criterion
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion */
-    public $criteria;
+    public CriterionInterface $criteria;
 
     public function __construct(CriterionInterface $criteria)
     {

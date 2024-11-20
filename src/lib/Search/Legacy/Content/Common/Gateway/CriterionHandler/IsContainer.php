@@ -25,6 +25,8 @@ final class IsContainer extends CriterionHandler
 
     /**
      * @phpstan-param array{languages: string[]} $languageSettings
+     *
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsContainer $criterion
      */
     public function handle(
         CriteriaConverter $converter,

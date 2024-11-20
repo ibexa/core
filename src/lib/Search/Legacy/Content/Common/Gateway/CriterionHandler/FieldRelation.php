@@ -69,6 +69,9 @@ class FieldRelation extends FieldBase
         return $fieldDefinitionIdList;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\FieldRelation $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

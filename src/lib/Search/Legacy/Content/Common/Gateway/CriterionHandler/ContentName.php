@@ -34,6 +34,7 @@ final class ContentName extends CriterionHandler
      *     languages: array<string>,
      *     useAlwaysAvailable: bool,
      *  } $languageSettings
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentName $criterion
      *
      * @throws \Doctrine\DBAL\Exception
      */

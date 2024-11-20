@@ -8,9 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Filter;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+
 /**
  * Marker for Content & Location filtering Criterion.
  */
-interface FilteringCriterion
+interface FilteringCriterion extends CriterionInterface
 {
 }

@@ -22,6 +22,9 @@ class IsUserEnabled extends CriterionHandler
         return $criterion instanceof Criterion\IsUserEnabled;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserEnabled $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

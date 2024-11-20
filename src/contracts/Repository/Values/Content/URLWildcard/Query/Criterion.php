@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard\Query;
 
-interface Criterion
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+
+interface Criterion extends CriterionInterface
 {
 }

@@ -26,6 +26,9 @@ class DateMetadata extends CriterionHandler
         return $criterion instanceof Criterion\DateMetadata;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\DateMetadata $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

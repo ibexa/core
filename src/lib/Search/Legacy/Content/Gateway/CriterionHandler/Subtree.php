@@ -24,6 +24,9 @@ class Subtree extends CriterionHandler
         return $criterion instanceof Criterion\Subtree;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Subtree $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

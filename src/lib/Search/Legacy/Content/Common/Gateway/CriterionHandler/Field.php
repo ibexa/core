@@ -112,8 +112,7 @@ class Field extends FieldBase
 
     /**
      * @param array $languageSettings
-     *
-     * @return string
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Field $criterion
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException If no searchable fields are found for the given criterion target.
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException

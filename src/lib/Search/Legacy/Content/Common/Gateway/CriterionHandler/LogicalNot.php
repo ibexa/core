@@ -23,6 +23,9 @@ class LogicalNot extends CriterionHandler
         return $criterion instanceof Criterion\LogicalNot;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalNot $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

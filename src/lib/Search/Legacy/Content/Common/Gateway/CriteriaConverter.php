@@ -65,7 +65,7 @@ class CriteriaConverter
         }
 
         throw new NotImplementedException(
-            'No visitor available for: ' . get_class($criterion) . ' with operator ' . $criterion->operator
+            'No visitor available for: ' . get_class($criterion)
         );
     }
 }

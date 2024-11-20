@@ -25,6 +25,9 @@ class Visibility extends CriterionHandler
         return $criterion instanceof Criterion\Visibility;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Visibility $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

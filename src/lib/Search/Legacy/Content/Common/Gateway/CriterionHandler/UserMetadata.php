@@ -27,6 +27,9 @@ class UserMetadata extends CriterionHandler
         return $criterion instanceof Criterion\UserMetadata;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserMetadata $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

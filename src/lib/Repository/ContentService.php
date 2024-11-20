@@ -254,7 +254,7 @@ class ContentService implements ContentServiceInterface
      */
     public function loadVersionInfo(ContentInfo $contentInfo, ?int $versionNo = null): APIVersionInfo
     {
-        return $this->loadVersionInfoById($contentInfo->getId(), $versionNo);
+        return $this->loadVersionInfoById((int)$contentInfo->getId(), $versionNo);
     }
 
     /**
@@ -320,7 +320,7 @@ class ContentService implements ContentServiceInterface
 
         $contentIds = array_map(
             static function (ContentInfo $contentInfo): int {
-                return $contentInfo->getId();
+                return (int)$contentInfo->getId();
             },
             $contentInfoList
         );
@@ -333,7 +333,7 @@ class ContentService implements ContentServiceInterface
         foreach ($persistenceVersionInfos as $persistenceVersionInfo) {
             $versionInfo = $this->contentDomainMapper->buildVersionInfoDomainObject($persistenceVersionInfo);
             if ($this->permissionResolver->canUser('content', 'read', $versionInfo)) {
-                $versionInfoList[$versionInfo->getContentInfo()->getId()] = $versionInfo;
+                $versionInfoList[(int)$versionInfo->getContentInfo()->getId()] = $versionInfo;
             }
         }
 
@@ -1481,7 +1481,7 @@ class ContentService implements ContentServiceInterface
         $versionInfo = $currentVersionContent->getVersionInfo();
         $contentType = $currentVersionContent->getContentType();
 
-        $publishedContent = $this->internalLoadContentById($versionInfo->getContentInfo()->getId());
+        $publishedContent = $this->internalLoadContentById((int)$versionInfo->getContentInfo()->getId());
         $publishedVersionInfo = $publishedContent->getVersionInfo();
 
         if (!$publishedVersionInfo->isPublished()) {
@@ -1551,7 +1551,7 @@ class ContentService implements ContentServiceInterface
         $updateStruct->fields = $persistenceFields;
 
         $this->persistenceHandler->contentHandler()->updateContent(
-            $versionInfo->getContentInfo()->getId(),
+            (int)$versionInfo->getContentInfo()->getId(),
             $versionInfo->versionNo,
             $updateStruct
         );
@@ -1973,12 +1973,12 @@ class ContentService implements ContentServiceInterface
         $contentInfo = $versionInfo->getContentInfo();
 
         $limit = $this->persistenceHandler->contentHandler()->countRelations(
-            $contentInfo->getId(),
+            (int)$contentInfo->getId(),
             $versionInfo->versionNo
         );
 
         $spiRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
-            $contentInfo->getId(),
+            (int)$contentInfo->getId(),
             $limit,
             0,
             $versionInfo->versionNo,
@@ -2090,7 +2090,7 @@ class ContentService implements ContentServiceInterface
             return 0;
         }
 
-        return $this->persistenceHandler->contentHandler()->countReverseRelations($contentInfo->getId(), $type?->value);
+        return $this->persistenceHandler->contentHandler()->countReverseRelations((int)$contentInfo->getId(), $type?->value);
     }
 
     /**
@@ -2267,7 +2267,7 @@ class ContentService implements ContentServiceInterface
         }
 
         $spiRelationsCount = $this->persistenceHandler->contentHandler()->countRelations(
-            $sourceVersion->getContentInfo()->getId(),
+            (int)$sourceVersion->getContentInfo()->getId(),
             $sourceVersion->versionNo,
             APIRelation::COMMON
         );
@@ -2280,7 +2280,7 @@ class ContentService implements ContentServiceInterface
         }
 
         $spiRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
-            $sourceVersion->getContentInfo()->getId(),
+            (int)$sourceVersion->getContentInfo()->getId(),
             $spiRelationsCount,
             0,
             $sourceVersion->versionNo,
@@ -2666,7 +2666,7 @@ class ContentService implements ContentServiceInterface
             $contentItems[] = $this->contentDomainMapper->buildContentDomainObjectFromPersistence(
                 $contentItem->content,
                 $contentItem->type,
-                $languages,
+                $languages ?? [],
             );
         }
 

@@ -17,7 +17,6 @@ abstract class Gateway
     /**
      * Returns total count and data for all Locations satisfying the parameters.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param int $offset
      * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sortClauses

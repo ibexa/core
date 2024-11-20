@@ -65,7 +65,6 @@ interface Handler
      * TrashResult->totalCount will ignore limit and offset and representing the total amount of trashed items
      * matching the criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $criterion
      * @param int $offset Offset to start listing from, 0 by default
      * @param int $limit Limit for the listing. Null by default (no limit)
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort

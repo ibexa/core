@@ -860,7 +860,7 @@ class ContentHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRelationList()
+    public function testLoadRelationList(): void
     {
         $handler = $this->getContentHandler();
 

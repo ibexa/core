@@ -42,7 +42,7 @@ class ParameterProvider implements ParameterProviderInterface
 
         // Start by setting missing ids as false on $available
         $available = array_fill_keys(
-            array_diff($ids, array_keys($list)),
+            array_diff($ids, array_keys(iterator_to_array($list))),
             false
         );
 

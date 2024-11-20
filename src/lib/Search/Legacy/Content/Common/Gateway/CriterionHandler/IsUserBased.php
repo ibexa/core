@@ -21,6 +21,9 @@ class IsUserBased extends CriterionHandler
         return $criterion instanceof Criterion\IsUserBased;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsUserBased $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

@@ -3260,7 +3260,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         self::assertEquals($expectedVersionsOrder, $versions);
 
-        return $versions;
+        return iterator_to_array($versions);
     }
 
     /**
@@ -6055,7 +6055,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $versions = $this->contentService->loadVersions($content->contentInfo, VersionInfo::STATUS_DRAFT);
 
-        self::assertSame(\count($versions), 3);
+        self::assertSame(\iterator_count($versions), 3);
     }
 
     /**
@@ -6073,7 +6073,7 @@ class ContentServiceTest extends BaseContentServiceTest
 
         $versions = $this->contentService->loadVersions($content->contentInfo, VersionInfo::STATUS_ARCHIVED);
 
-        self::assertSame(\count($versions), 2);
+        self::assertSame(\iterator_count($versions), 2);
     }
 
     /**

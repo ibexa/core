@@ -13,7 +13,7 @@ services:
             - "@?logger"
 
     Ibexa\Core\Helper\FieldHelper:
-        arguments: ['@Ibexa\Core\Helper\TranslationHelper', '@ibexa.api.service.content_type', '@ibexa.api.service.field_type']
+        arguments: ['@Ibexa\Core\Helper\TranslationHelper', '@ibexa.api.service.field_type']
 
     Ibexa\Core\Helper\ContentPreviewHelper:
         arguments: ["@event_dispatcher", '@Ibexa\Core\MVC\Symfony\SiteAccess\Router']

@@ -24,6 +24,9 @@ class IsMainLocation extends CriterionHandler
         return $criterion instanceof Criterion\Location\IsMainLocation;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsMainLocation $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

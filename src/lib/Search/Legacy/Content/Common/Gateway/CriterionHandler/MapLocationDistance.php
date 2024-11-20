@@ -79,6 +79,9 @@ class MapLocationDistance extends FieldBase
         return $kilometers / self::DEGREE_KM;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MapLocationDistance $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

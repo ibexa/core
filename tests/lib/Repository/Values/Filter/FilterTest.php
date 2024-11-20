@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause as URLQuerySortClause;
 use function md5;
 use PHPUnit\Framework\TestCase;
@@ -230,6 +231,9 @@ final class FilterTest extends TestCase
             new SortClause\Location\Priority(),
             new SortClause\ContentName(Query::SORT_DESC),
         ];
+        self::assertInstanceOf(FilteringCriterion::class, $criterion->criteria[0]);
+        self::assertInstanceOf(FilteringCriterion::class, $criterion->criteria[1]);
+
         $filter = new Filter();
         $filter
             ->withCriterion($criterion->criteria[0])

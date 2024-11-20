@@ -35,6 +35,9 @@ class LanguageCode extends CriterionHandler
         return $criterion instanceof Criterion\LanguageCode;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

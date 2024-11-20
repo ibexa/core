@@ -7,25 +7,20 @@
 
 namespace Ibexa\Core\Helper;
 
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 class FieldHelper
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
-
     /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
     private $fieldTypeService;
 
     /** @var TranslationHelper */
     private $translationHelper;
 
-    public function __construct(TranslationHelper $translationHelper, ContentTypeService $contentTypeService, FieldTypeService $fieldTypeService)
+    public function __construct(TranslationHelper $translationHelper, FieldTypeService $fieldTypeService)
     {
         $this->fieldTypeService = $fieldTypeService;
-        $this->contentTypeService = $contentTypeService;
         $this->translationHelper = $translationHelper;
     }
 

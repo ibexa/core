@@ -25,6 +25,9 @@ class Depth extends CriterionHandler
         return $criterion instanceof Criterion\Location\Depth;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\Depth $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

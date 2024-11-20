@@ -851,8 +851,6 @@ class ContentTest extends BaseServiceMockTest
         $urlAliasHandler = $this->getPersistenceMock()->urlAliasHandler();
         /** @var \PHPUnit\Framework\MockObject\MockObject $locationHandler */
         $locationHandler = $this->getPersistenceMock()->locationHandler();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
-
         $contentInfo = $this->createMock(APIContentInfo::class);
 
         $contentService->expects(self::once())

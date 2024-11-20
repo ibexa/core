@@ -24,6 +24,9 @@ class RemoteId extends CriterionHandler
         return $criterion instanceof Criterion\RemoteId;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\RemoteId $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

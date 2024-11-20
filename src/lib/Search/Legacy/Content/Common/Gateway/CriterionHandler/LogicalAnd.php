@@ -23,6 +23,9 @@ class LogicalAnd extends CriterionHandler
         return $criterion instanceof Criterion\LogicalAnd;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,

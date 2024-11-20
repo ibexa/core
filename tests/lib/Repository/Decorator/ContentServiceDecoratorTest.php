@@ -60,7 +60,7 @@ class ContentServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = [['random_value_5ced05ce154173.99718966']];
+        $parameters = [[9999]];
 
         $serviceMock->expects(self::once())->method('loadContentInfoList')->with(...$parameters)->willReturn([]);
 

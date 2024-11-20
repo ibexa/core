@@ -24,6 +24,9 @@ class ObjectStateId extends CriterionHandler
         return $criterion instanceof Criterion\ObjectStateId;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
