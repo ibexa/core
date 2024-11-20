@@ -111,10 +111,6 @@ final class Filter
         } elseif ($this->criterion instanceof Criterion\LogicalAnd) {
             $this->criterion->criteria[] = $criterion;
         } else {
-            // $this->criterion is array of \Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion
-            // but \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
-            // accepts only \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
-            /** @phpstan-ignore argument.type */
             $this->criterion = new Criterion\LogicalAnd([$this->criterion, $criterion]);
         }
 
@@ -132,7 +128,6 @@ final class Filter
         } elseif ($this->criterion instanceof Criterion\LogicalOr) {
             $this->criterion->criteria[] = $criterion;
         } else {
-            /** @phpstan-ignore argument.type */
             $this->criterion = new Criterion\LogicalOr([$this->criterion, $criterion]);
         }
 
