@@ -370,3 +370,14 @@ services:
             $entityManagers: '%doctrine.entity_managers%'
 
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
+
+    Ibexa\Contracts\Core\Validation\StructValidator:
+        arguments:
+            $validator: '@validator'
+
+    Ibexa\Contracts\Core\Validation\StructWrapperValidator:
+        decorates: 'validator'
+        # Decorator priority is higher than debug.validator to ensure profiler receives struct errors
+        decoration_priority: 500
+        arguments:
+            $inner: '@.inner'
