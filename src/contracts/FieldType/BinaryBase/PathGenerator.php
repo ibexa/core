@@ -10,7 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 
 /**
- * @deprecated use \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGeneratorInterface instead.
+ * @deprecated use {@see \Ibexa\Contracts\Core\FieldType\BinaryBase\PathGeneratorInterface} instead.
  */
 abstract class PathGenerator implements PathGeneratorInterface
 {
