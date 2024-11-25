@@ -41,4 +41,9 @@ interface Gateway
      * It returns integer as all the IDs in the Ibexa Legacy Storage are (big)integers
      */
     public function getLastInsertedId(string $sequenceName): int;
+
+    /**
+     * Return a language sub select query for setName.
+     */
+    public function getSetNameLanguageMaskSubQuery(): string;
 }

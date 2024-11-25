@@ -9,9 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform;
 
 use Ibexa\Core\Base\Exceptions\DatabaseException;
-use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway;
 
-final class SqliteGateway implements Gateway
+final class SqliteGateway extends AbstractGateway
 {
     /**
      * Error code 7 for a fatal error - taken from an existing driver implementation.
@@ -21,7 +20,7 @@ final class SqliteGateway implements Gateway
     private const DB_INT_MAX = 2147483647;
 
     /** @var array<string, int> */
-    private $lastInsertedIds = [];
+    private array $lastInsertedIds = [];
 
     public function getColumnNextIntegerValue(
         string $tableName,

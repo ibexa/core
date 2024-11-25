@@ -1,0 +1,62 @@
+- { languageCode: alb-SQ, name: Albanian }
+- { languageCode: ara-AR, name: Arabic }
+- { languageCode: aze-AZ, name: Azerbaijani }
+- { languageCode: bos-BS, name: Bosnian }
+- { languageCode: cha-CH, name: Chamorro }
+- { languageCode: chi-ZH, name: Chinese }
+- { languageCode: cze-CS, name: Czech }
+- { languageCode: dan-DA, name: Danish }
+- { languageCode: dut-NL, name: Dutch (Flemish) }
+#- { languageCode: eng-GB, name: English (United Kingdom) } # Pre-exists in the initial db fixture
+#- { languageCode: eng-US, name: English (United States) } # Pre-exists in the initial db fixture
+- { languageCode: eng-AU, name: English (Australia) }
+- { languageCode: epo-EO, name: Esperanto }
+- { languageCode: esp-ES, name: Spanish }
+- { languageCode: esp-MX, name: Spanish (Mexico) }
+- { languageCode: est-ET, name: Estonian }
+- { languageCode: fas-FA, name: Persian (Farsi) }
+- { languageCode: fin-FI, name: Finnish }
+- { languageCode: fre-FR, name: French (France) }
+- { languageCode: fre-BE, name: French (Belgium) }
+- { languageCode: fre-CA, name: French (Canada) }
+- { languageCode: fre-CH, name: French (Switzerland) }
+- { languageCode: fre-LU, name: French (Luxembourg) }
+- { languageCode: geo-KA, name: Georgian }
+#- { languageCode: ger-DE, name: German (Germany) } # Pre-exists in the initial db fixture
+- { languageCode: ger-AT, name: German (Austria) }
+- { languageCode: ger-CH, name: German (Switzerland) }
+- { languageCode: ger-LI, name: German (Liechtenstein) }
+- { languageCode: ger-LU, name: German (Luxembourg) }
+- { languageCode: gle-GA, name: Irish }
+- { languageCode: gla-GD, name: Scottish (Gaelic) }
+- { languageCode: gre-EL, name: Greek }
+- { languageCode: hin-HI, name: Hebrew }
+- { languageCode: heb-HE, name: Hebrew }
+- { languageCode: hrv-HR, name: Croatian }
+- { languageCode: hun-HU, name: Hungarian }
+- { languageCode: ind-ID, name: Indonesian }
+- { languageCode: isl-IS, name: Icelandic }
+- { languageCode: ita-IT, name: Italian }
+- { languageCode: jpn-JA, name: Japanese }
+- { languageCode: kor-KO, name: Korean }
+- { languageCode: lat-LA, name: Latin }
+- { languageCode: lav-LV, name: Latvian }
+- { languageCode: lit-LT, name: Lithuanian }
+- { languageCode: mao-MI, name: Maori (New Zealand) }
+- { languageCode: may-MS, name: Malay }
+- { languageCode: nor-NO, name: Norwegian }
+- { languageCode: pol-PL, name: Polish }
+- { languageCode: por-PT, name: Portuguese (Portugal) }
+- { languageCode: por-BR, name: Portuguese (Brazil) }
+- { languageCode: rum-RO, name: Romanian }
+- { languageCode: slo-SK, name: Slovak }
+- { languageCode: swe-SV, name: Swedish }
+- { languageCode: bul-BG, name: Bulgarian }
+- { languageCode: swa-SW, name: Swahili (Swahili) }
+- { languageCode: tha-TH, name: Thai }
+- { languageCode: tib-BO, name: Tibetan }
+- { languageCode: tlh-TL, name: Klingon }
+- { languageCode: tur-TR, name: Turkish }
+- { languageCode: ukr-UK, name: Ukrainian }
+- { languageCode: wel-CY, name: Welsh (Swahili) }
+- { languageCode: yid-YI, name: Yiddish }
