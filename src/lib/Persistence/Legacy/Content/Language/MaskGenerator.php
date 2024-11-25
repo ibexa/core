@@ -150,7 +150,8 @@ class MaskGenerator
         $result = [];
 
         // Decomposition of $languageMask into its binary components.
-        while ($exp <= $languageMask) {
+        // check if $exp has not overflown and became float (happens for the last possible language in the mask)
+        while (is_int($exp) && $exp <= $languageMask) {
             if ($languageMask & $exp) {
                 $result[] = $exp;
             }

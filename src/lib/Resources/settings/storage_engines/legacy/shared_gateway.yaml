@@ -6,11 +6,17 @@ services:
         bind:
             $connection: '@ibexa.persistence.connection'
 
+    Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\AbstractGateway: ~
+
     Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway: ~
 
     Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\SqliteGateway:
         tags:
             - { name: ibexa.storage.legacy.gateway.shared, platform: sqlite }
+
+    Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\PostgresqlGateway:
+        tags:
+            - { name: ibexa.storage.legacy.gateway.shared, platform: postgresql }
 
     Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory:
         arguments:

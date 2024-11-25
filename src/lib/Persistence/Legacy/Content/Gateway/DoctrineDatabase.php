@@ -1357,16 +1357,7 @@ final class DoctrineDatabase extends Gateway
      */
     private function getSetNameLanguageMaskSubQuery(): string
     {
-        return <<<SQL
-            (SELECT
-                CASE
-                    WHEN (initial_language_id = :language_id AND (language_mask & :language_id) <> 0 )
-                    THEN (:language_id | 1)
-                    ELSE :language_id
-                END
-                FROM ezcontentobject
-                WHERE id = :content_id)
-            SQL;
+        return $this->sharedGateway->getSetNameLanguageMaskSubQuery();
     }
 
     public function deleteContent(int $contentId): void
