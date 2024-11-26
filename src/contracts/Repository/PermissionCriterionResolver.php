@@ -27,7 +27,7 @@ interface PermissionCriterionResolver
      * @param string $function
      * @param array|null $targets
      *
-     * @return bool|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     * @return bool|\Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
     public function getPermissionsCriterion(string $module = 'content', string $function = 'read', ?array $targets = null);
 

@@ -52,7 +52,7 @@ class CachedPermissionService implements PermissionService
      *
      * Value is null if not yet set or cleared.
      *
-     * @var bool|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     * @var null|bool|\Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
     private $permissionCriterion;
 

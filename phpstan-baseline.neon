@@ -19216,11 +19216,6 @@ parameters:
 			path: src/lib/Repository/Permission/CachedPermissionService.php
 
 		-
-			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Permission\\\\CachedPermissionService\\:\\:\\$permissionCriterion \\(bool\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept null\\.$#"
-			count: 1
-			path: src/lib/Repository/Permission/CachedPermissionService.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\LimitationService\\:\\:__construct\\(\\) has parameter \\$limitationTypes with no value type specified in iterable type Traversable\\.$#"
 			count: 1
 			path: src/lib/Repository/Permission/LimitationService.php
@@ -19237,11 +19232,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\PermissionCriterionResolver\\:\\:getPermissionsCriterion\\(\\) has parameter \\$targets with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Permission/PermissionCriterionResolver.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\PermissionCriterionResolver\\:\\:getPermissionsCriterion\\(\\) should return bool\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface\\.$#"
 			count: 1
 			path: src/lib/Repository/Permission/PermissionCriterionResolver.php
 
