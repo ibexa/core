@@ -78,6 +78,7 @@ services:
         tags:
             - { name: ibexa.search.legacy.gateway.criterion_handler.content }
             - { name: ibexa.search.legacy.gateway.criterion_handler.location }
+            - { name: ibexa.search.legacy.trash.gateway.criterion.handler }
 
     Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\ContentTypeGroupId:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
