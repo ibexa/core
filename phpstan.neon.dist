@@ -15,8 +15,6 @@ parameters:
                 - tests/*
         -
             message: "#^Cannot call method warning\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
-            count: 3
-            path: src/lib/MVC/Symfony/Controller/Content/PreviewController.php
     paths:
         - src
         - tests
