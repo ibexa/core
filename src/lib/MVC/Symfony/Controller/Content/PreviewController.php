@@ -60,8 +60,7 @@ class PreviewController
     /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker */
     private $controllerChecker;
 
-    /** @var bool */
-    private $debugMode;
+    private bool $debugMode;
 
     public function __construct(
         ContentService $contentService,
@@ -204,7 +203,7 @@ class PreviewController
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\BadStateException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
     private function buildResponseForGenericPreviewError(Location $location, Content $content, Exception $e): Response
     {
