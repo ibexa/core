@@ -46096,11 +46096,6 @@ parameters:
 			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
 
 		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\:\\:\\$query \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchAdapterTest\\:\\:getAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Pagination/LocationSearchAdapterTest.php
@@ -46127,11 +46122,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchHitAdapterTest\\:\\:testGetSlice\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\:\\:\\$query \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
 			count: 1
 			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
 

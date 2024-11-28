@@ -169,7 +169,7 @@ class SearchService implements SearchServiceInterface
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
 
-        $this->validateContentCriteria([$query->query], '$query');
+        $this->validateContentCriteria($query->query ? [$query->query] : [], '$query');
         $this->validateContentCriteria([$query->filter], '$query');
         $this->validateContentSortClauses($query);
 

@@ -44,10 +44,8 @@ class Query extends ValueObject
      *
      * Can contain multiple criterion, as items of a logical one (by default
      * AND). Defaults to MatchAll.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
      */
-    public $query;
+    public ?CriterionInterface $query = null;
 
     /**
      * Query sorting clauses.
