@@ -9,11 +9,13 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Helper\ContentPreviewHelper;
 use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
@@ -22,6 +24,9 @@ use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttr
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
 use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -30,6 +35,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PreviewController
 {
+    use LoggerAwareTrait;
+
     public const PREVIEW_PARAMETER_NAME = 'isPreview';
     public const CONTENT_VIEW_ROUTE = 'ibexa.content.view';
 
@@ -54,6 +61,8 @@ class PreviewController
     /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker */
     private $controllerChecker;
 
+    private bool $debugMode;
+
     public function __construct(
         ContentService $contentService,
         LocationService $locationService,
@@ -61,7 +70,9 @@ class PreviewController
         ContentPreviewHelper $previewHelper,
         AuthorizationCheckerInterface $authorizationChecker,
         PreviewLocationProvider $locationProvider,
-        CustomLocationControllerChecker $controllerChecker
+        CustomLocationControllerChecker $controllerChecker,
+        bool $debugMode = false,
+        ?LoggerInterface $logger = null
     ) {
         $this->contentService = $contentService;
         $this->locationService = $locationService;
@@ -70,6 +81,8 @@ class PreviewController
         $this->authorizationChecker = $authorizationChecker;
         $this->locationProvider = $locationProvider;
         $this->controllerChecker = $controllerChecker;
+        $this->debugMode = $debugMode;
+        $this->logger = $logger ?? new NullLogger();
     }
 
     /**
@@ -120,18 +133,19 @@ class PreviewController
                 HttpKernelInterface::SUB_REQUEST,
                 false
             );
-        } catch (\Exception $e) {
-            if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
-                // @todo This should probably be an exception that embeds the original one
-                $message = <<<EOF
-<p>The view that rendered this location draft uses a custom controller, and resulted in a fatal error.</p>
-<p>Location View is deprecated, as it causes issues with preview, such as an empty location id when previewing the first version of a content.</p>
-EOF;
-
-                throw new Exception($message, 0, $e);
-            } else {
-                throw $e;
+        } catch (APINotFoundException $e) {
+            $message = sprintf('Location (%s) not found or not available in requested language (%s)', $location->id, $language);
+            $this->logger->warning(
+                sprintf('%s %s', $message, 'when loading the preview page'),
+                ['exception' => $e]
+            );
+            if ($this->debugMode) {
+                throw new BadStateException('Preview page', $message, $e);
             }
+
+            return new Response($message);
+        } catch (Exception $e) {
+            return $this->buildResponseForGenericPreviewError($location, $content, $e);
         }
         $response->headers->addCacheControlDirective('no-cache', true);
         $response->setPrivate();
@@ -187,5 +201,40 @@ EOF;
             null,
             $forwardRequestParameters
         );
+    }
+
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     */
+    private function buildResponseForGenericPreviewError(Location $location, Content $content, Exception $e): Response
+    {
+        $message = '';
+        try {
+            if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
+                $message = <<<EOF
+                    <p>The view that rendered this location draft uses a custom controller, and resulted in a fatal error.</p>
+                    <p>Location View is deprecated, as it causes issues with preview, such as an empty location id when previewing the first version of a content.</p>
+                    EOF;
+            }
+        } catch (Exception $innerException) {
+            $message = 'An exception occurred when handling page preview exception';
+            $this->logger->warning(
+                'Unable to check if location uses a custom controller when loading the preview page',
+                ['exception' => $innerException]
+            );
+        }
+
+        $this->logger->warning('Unable to load the preview page', ['exception' => $e]);
+
+        $message .= <<<EOF
+<p>Unable to load the preview page</p>
+<p>See logs for more information</p>
+EOF;
+
+        if ($this->debugMode) {
+            throw new BadStateException('Preview page', $message, $e);
+        }
+
+        return new Response($message);
     }
 }

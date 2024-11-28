@@ -110,6 +110,8 @@ services:
             $authorizationChecker: "@security.authorization_checker"
             $locationProvider: '@Ibexa\Core\Helper\PreviewLocationProvider'
             $controllerChecker: '@Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker'
+            $debugMode: '%kernel.debug%'
+            $logger: '@logger'
         tags:
             - { name: controller.service_arguments }
 
