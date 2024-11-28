@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Helper\ContentPreviewHelper;
 use Ibexa\Core\Helper\PreviewLocationProvider;
@@ -19,6 +20,7 @@ use Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -51,6 +53,9 @@ final class PreviewControllerTest extends TestCase
     /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker&\PHPUnit\Framework\MockObject\MockObject */
     protected CustomLocationControllerChecker $controllerChecker;
 
+    /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    private LoggerInterface $logger;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -62,6 +67,7 @@ final class PreviewControllerTest extends TestCase
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->locationProvider = $this->createMock(PreviewLocationProvider::class);
         $this->controllerChecker = $this->createMock(CustomLocationControllerChecker::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
     }
 
     protected function getPreviewController(): PreviewController
@@ -73,7 +79,9 @@ final class PreviewControllerTest extends TestCase
             $this->previewHelper,
             $this->authorizationChecker,
             $this->locationProvider,
-            $this->controllerChecker
+            $this->controllerChecker,
+            false,
+            $this->logger
         );
     }
 
@@ -124,6 +132,42 @@ final class PreviewControllerTest extends TestCase
         $this->authorizationChecker->method('isGranted')->willReturn(false);
 
         $this->expectException(AccessDeniedException::class);
+
+        $controller->previewContentAction(new Request(), $contentId, $versionNo, $lang, 'test');
+    }
+
+    public function testPreviewWithLogMessage(): void
+    {
+        $controller = $this->getPreviewController();
+        $contentId = 123;
+        $lang = 'eng-GB';
+        $versionNo = 3;
+        $content = $this->createMock(Content::class);
+
+        $location = $this->createMock(Location::class);
+        $location->method('__get')->with('id')->willReturn('42');
+
+        $siteAccess = $this->createMock(SiteAccess::class);
+        $this->locationProvider
+            ->method('loadMainLocationByContent')
+            ->with($content)
+            ->willReturn($location)
+        ;
+        $this->contentService
+            ->method('loadContent')
+            ->with($contentId, [$lang], $versionNo)
+            ->willReturn($content)
+        ;
+
+        $this->authorizationChecker->method('isGranted')->willReturn(true);
+        $siteAccess->name = 'test';
+        $this->previewHelper->method('getOriginalSiteAccess')->willReturn($siteAccess);
+        $this->httpKernel->method('handle')->willThrowException(new NotFoundException('Foo Property', 'foobar'));
+
+        $this->logger
+            ->expects(self::once())
+            ->method('warning')
+            ->with('Location (42) not found or not available in requested language (eng-GB) when loading the preview page');
 
         $controller->previewContentAction(new Request(), $contentId, $versionNo, $lang, 'test');
     }

@@ -13,6 +13,8 @@ parameters:
             paths:
                 - src/*
                 - tests/*
+        -
+            message: "#^Cannot call method warning\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
     paths:
         - src
         - tests
