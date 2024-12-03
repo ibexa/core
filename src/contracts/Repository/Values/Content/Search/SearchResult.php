@@ -15,6 +15,8 @@ use IteratorAggregate;
 
 /**
  * This class represents a search result.
+ *
+ * @phpstan-implements \IteratorAggregate<array-key, \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit>
  */
 class SearchResult extends ValueObject implements IteratorAggregate, AggregationResultAwareInterface
 {
@@ -77,9 +79,9 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
      *
      * `null` if Query->performCount was set to false and search engine avoids search lookup.
      *
-     * @var int|null
+     * @phpstan-var int<0, max>|null
      */
-    public $totalCount;
+    public ?int $totalCount;
 
     public function __construct(array $properties = [])
     {

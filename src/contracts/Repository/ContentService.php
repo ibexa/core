@@ -525,6 +525,8 @@ interface ContentService
      * @param array<int, string> $languages A list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
+     *
+     * @phpstan-return int<0, max>
      */
     public function count(Filter $filter, ?array $languages = null): int;
 }

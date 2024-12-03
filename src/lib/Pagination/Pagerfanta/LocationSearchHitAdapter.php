@@ -15,6 +15,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 /**
  * Pagerfanta adapter for Ibexa location search.
  * Will return results as SearchHit objects.
+ *
+ * @extends \Ibexa\Core\Pagination\Pagerfanta\AbstractSearchResultAdapter<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
  */
 class LocationSearchHitAdapter extends AbstractSearchResultAdapter
 {
@@ -25,6 +27,8 @@ class LocationSearchHitAdapter extends AbstractSearchResultAdapter
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     protected function executeQuery(SearchService $searchService, Query $query, array $languageFilter): SearchResult
     {

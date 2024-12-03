@@ -15,6 +15,10 @@ use Pagerfanta\Adapter\AdapterInterface;
  * Contract for SearchService based adapters.
  *
  * @see \Ibexa\Contracts\Core\Repository\SearchService
+ *
+ * @template-covariant T
+ *
+ * @extends \Pagerfanta\Adapter\AdapterInterface<T>
  */
 interface SearchResultAdapter extends AdapterInterface
 {

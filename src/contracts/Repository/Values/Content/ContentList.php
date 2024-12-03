@@ -34,6 +34,9 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
         $this->contentItems = $contentItems;
     }
 
+    /**
+     * @phpstan-return int<0, max>
+     */
     public function getTotalCount(): int
     {
         return $this->totalCount;

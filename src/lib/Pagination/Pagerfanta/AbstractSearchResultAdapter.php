@@ -15,34 +15,39 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SpellcheckResult;
 use Pagerfanta\Adapter\AdapterInterface;
 
+/**
+ * @phpstan-type TSearchLanguageFilter array{languages?: string[], useAlwaysAvailable?: bool}
+ *
+ * @template T of \Ibexa\Contracts\Core\Repository\Values\ValueObject
+ *
+ * @phpstan-implements \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<T>>
+ * @phpstan-implements \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<T>>
+ */
 abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchResultAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    private $searchService;
+    private SearchService $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query */
-    private $query;
+    private Query $query;
 
-    /** @var array */
-    private $languageFilter;
+    /** @phpstan-var TSearchLanguageFilter */
+    private array $languageFilter;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection|null */
-    private $aggregations;
+    private ?AggregationResultCollection $aggregations;
 
-    /** @var float|null */
-    private $time;
+    private ?float $time;
 
-    /** @var bool|null */
-    private $timedOut;
+    private ?bool $timedOut;
 
-    /** @var float|null */
-    private $maxScore;
+    private ?float $maxScore;
 
-    /** @var int|null */
-    private $totalCount;
+    /** @phpstan-var int<0, max>|null */
+    private ?int $totalCount;
 
     private ?SpellcheckResult $spellcheck = null;
 
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     */
     public function __construct(Query $query, SearchService $searchService, array $languageFilter = [])
     {
         $this->query = $query;
@@ -50,12 +55,7 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
         $this->languageFilter = $languageFilter;
     }
 
-    /**
-     * Returns the number of results.
-     *
-     * @return int The number of results.
-     */
-    public function getNbResults()
+    public function getNbResults(): int
     {
         if (isset($this->totalCount)) {
             return $this->totalCount;
@@ -74,18 +74,13 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
             $this->languageFilter
         );
 
-        return $this->totalCount = $searchResults->totalCount;
+        return $this->totalCount = $searchResults->totalCount ?? 0;
     }
 
     /**
      * Returns a slice of the results, as SearchHit objects.
-     *
-     * @param int $offset The offset.
-     * @param int $length The length.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[]
      */
-    public function getSlice($offset, $length)
+    public function getSlice(int $offset, int $length): iterable
     {
         $query = clone $this->query;
         $query->offset = $offset;
@@ -167,6 +162,9 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
         return $this->maxScore;
     }
 
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     */
     abstract protected function executeQuery(
         SearchService $searchService,
         Query $query,
