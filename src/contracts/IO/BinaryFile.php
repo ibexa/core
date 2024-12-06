@@ -48,7 +48,7 @@ class BinaryFile
      *
      * Example: text/xml
      *
-     * @deprecated Since 5.3.3, use IO\Handler::getMimeType()
+     * @deprecated Since 5.3.3, use {@see \Ibexa\Core\IO\IOServiceInterface::getMimeType()} or {@see \Ibexa\Core\IO\IOMetadataHandler::getMimeType()}
      *
      * @var string
      */
