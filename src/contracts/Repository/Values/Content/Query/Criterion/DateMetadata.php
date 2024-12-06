@@ -24,13 +24,13 @@ use InvalidArgumentException;
  * BETWEEN: matches content whose date is between (included) the TWO given timestamps
  *
  * Example:
- * <code>
+ * ```
  * $createdCriterion = new Criterion\DateMetadata(
  *     Criterion\DateMetadata::CREATED,
  *     Operator::GTE,
- *     strtotime( 'yesterday' )
+ *     strtotime('yesterday')
  * );
- * </code>
+ * ```
  */
 class DateMetadata extends Criterion implements TrashCriterion, FilteringCriterion
 {
@@ -41,7 +41,7 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     public const PUBLISHED = 'published';
 
     /**
-     * (applies to TrashService::findTrashItems only).
+     * Applies to {@see \Ibexa\Contracts\Core\Repository\TrashService::findTrashItems() only.
      */
     public const TRASHED = 'trashed';
 
