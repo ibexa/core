@@ -446,11 +446,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/UrlAliasTest.php
 
 		-
-			message: "#^Trying to invoke Closure\\|null but it might not be a callable\\.$#"
-			count: 2
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function key expects array\\|object, string given\\.$#"
 			count: 4
 			path: tests/lib/Search/FieldNameResolverTest.php
