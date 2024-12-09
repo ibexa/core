@@ -9211,11 +9211,6 @@ parameters:
 			path: src/lib/FieldType/Image/ImageStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: "#^Cannot call method warning\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
-			count: 2
-			path: src/lib/FieldType/Image/ImageThumbnailStrategy.php
-
-		-
 			message: "#^Parameter \\#3 \\$pad_string of function str_pad expects string, int given\\.$#"
 			count: 1
 			path: src/lib/FieldType/Image/PathGenerator/LegacyPathGenerator.php
@@ -58048,11 +58043,6 @@ parameters:
 		-
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Repository\\\\SiteAccessAware\\\\AbstractServiceTest\\:\\:\\$innerApiServiceMock has unknown class object as its type\\.$#"
 			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
-
-		-
-			message: "#^Trying to invoke Closure\\|null but it might not be a callable\\.$#"
-			count: 2
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTest.php
 
 		-

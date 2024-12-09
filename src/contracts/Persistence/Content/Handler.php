@@ -284,7 +284,7 @@ interface Handler
     /**
      * Loads relations from $sourceContentId. Optionally, loads only those with $type and $sourceContentVersionNo.
      *
-     * @deprecated 4.5.7 The "ContentService::loadRelations()" method is deprecated, will be removed in 5.0.
+     * @deprecated 4.5.7 It will be removed in 5.0. Use {@see \Ibexa\Contracts\Core\Repository\ContentService::loadRelationList()} instead.
      *
      * @param mixed $sourceContentId Source Content ID
      * @param mixed|null $sourceContentVersionNo Source Content Version, null if not specified
