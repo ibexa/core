@@ -16,6 +16,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
+ */
 abstract class AbstractSearchAdapterTest extends TestCase
 {
     protected const EXAMPLE_LANGUAGE_FILTER = [
@@ -59,6 +64,11 @@ abstract class AbstractSearchAdapterTest extends TestCase
         self::assertEquals(25, $originalQuery->limit);
     }
 
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapter<TSearchHitValueObject>
+     */
     abstract protected function createAdapterUnderTest(
         SearchService $searchService,
         Query $query,
