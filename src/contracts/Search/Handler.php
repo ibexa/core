@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
  * The Search handler retrieves sets of of Content objects, based on a
@@ -31,18 +32,18 @@ interface Handler
      *
      * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo>
      */
-    public function findContent(Query $query, array $languageFilter = []);
+    public function findContent(Query $query, array $languageFilter = []): SearchResult;
 
     /**
      * Performs a query for a single content object.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the object was not found by the query or due to permissions
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Criterion is not applicable to its target
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than than one result matching the criterions
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than one result matching the criteria
      *
      * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findSingle()}
      */
-    public function findSingle(CriterionInterface $filter, array $languageFilter = []);
+    public function findSingle(CriterionInterface $filter, array $languageFilter = []): Content\ContentInfo;
 
     /**
      * Finds locations for the given $query.
@@ -51,7 +52,7 @@ interface Handler
      *
      * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
      */
-    public function findLocations(LocationQuery $query, array $languageFilter = []);
+    public function findLocations(LocationQuery $query, array $languageFilter = []): SearchResult;
 
     /**
      * Suggests a list of values for the given prefix.

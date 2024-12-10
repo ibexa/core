@@ -16,6 +16,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
  */
 final class ContentInfoSearchAdapter extends AbstractSearchAdapter
 {
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     protected function executeSearch(Query $query): SearchResult
     {
         return $this->searchService->findContentInfo(

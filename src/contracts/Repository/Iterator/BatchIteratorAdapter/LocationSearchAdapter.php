@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -29,6 +30,17 @@ final class LocationSearchAdapter extends AbstractSearchAdapter
 
     protected function executeSearch(Query $query): SearchResult
     {
+        if (!$query instanceof LocationQuery) {
+            throw new InvalidArgumentException(
+                '$query',
+                sprintf(
+                    'Expected an instance of %s, got %s',
+                    LocationQuery::class,
+                    get_class($query)
+                )
+            );
+        }
+
         return $this->searchService->findLocations(
             $query,
             $this->languageFilter,

@@ -21,18 +21,19 @@ use Iterator;
  */
 abstract class AbstractSearchAdapter implements BatchIteratorAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    protected $searchService;
+    protected SearchService $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query */
-    protected $query;
+    protected Query $query;
 
     /** @phpstan-var TSearchLanguageFilter */
     protected array $languageFilter;
 
     /** @var bool */
-    protected $filterOnUserPermissions;
+    protected bool $filterOnUserPermissions;
 
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     */
     public function __construct(
         SearchService $searchService,
         Query $query,
