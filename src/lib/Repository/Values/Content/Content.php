@@ -22,7 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
  * @property-read \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType convenience getter for $versionInfo->contentInfo->contentType
  * @property-read int $id convenience getter for retrieving the contentId: $versionInfo->content->id
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $versionInfo calls getVersionInfo()
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields Access fields, calls getFields()
+ * @property-read array<string, array<string, \Ibexa\Core\FieldType\Value>> $fields an array of <code>[field definition identifier => [language code => field value]]</code>
  *
  * @internal Meant for internal use by Repository, type hint against API object instead.
  */
@@ -31,8 +31,8 @@ class Content extends APIContent
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail|null */
     protected $thumbnail;
 
-    /** @var mixed[][] An array of array of field values like[$fieldDefIdentifier][$languageCode] */
-    protected $fields;
+    /** @var array<string, array<string, \Ibexa\Core\FieldType\Value>> An array of field values like <code>[field definition identifier => [language code => field value]] => */
+    protected array $fields = [];
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
     protected $versionInfo;
