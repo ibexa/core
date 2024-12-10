@@ -50,7 +50,7 @@ interface Handler
      *
      * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findSingle()}
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\Location>
      */
     public function findLocations(LocationQuery $query, array $languageFilter = []): SearchResult;
 
