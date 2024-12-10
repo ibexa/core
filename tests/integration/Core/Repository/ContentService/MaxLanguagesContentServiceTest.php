@@ -42,6 +42,10 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
      */
     public function testCreateContent(): void
     {
+        if (getenv('SEARCH_ENGINE') !== 'legacy') {
+            self::markTestSkipped('Skipped on non-LSE as it requires specific configuration');
+        }
+
         $names = array_merge(...array_map(
             static fn (array $languageData): array => [
                 $languageData['languageCode'] => $languageData['name'] . ' name',
