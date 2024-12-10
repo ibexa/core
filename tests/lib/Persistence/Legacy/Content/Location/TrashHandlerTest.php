@@ -107,11 +107,6 @@ class TrashHandlerTest extends TestCase
             ->method('removeLocation')
             ->with(21);
 
-        $this->locationHandler
-            ->expects(self::once())
-            ->method('markSubtreeModified')
-            ->with(40);
-
         $this->locationGateway
             ->expects(self::at(5))
             ->method('loadTrashByLocation')
@@ -177,11 +172,6 @@ class TrashHandlerTest extends TestCase
             ->expects(self::at(4))
             ->method('trashLocation')
             ->with(21);
-
-        $this->locationHandler
-            ->expects(self::once())
-            ->method('markSubtreeModified')
-            ->with(40);
 
         $returnValue = $handler->trashSubtree(20);
         self::assertNull($returnValue);
@@ -253,12 +243,7 @@ class TrashHandlerTest extends TestCase
         $this->locationHandler
             ->expects(self::once())
             ->method('changeMainLocation')
-            ->with(11, 100, 101, 102);
-
-        $this->locationHandler
-            ->expects(self::once())
-            ->method('markSubtreeModified')
-            ->with(40);
+            ->with(11, 100);
 
         $this->locationGateway
             ->expects(self::at(6))

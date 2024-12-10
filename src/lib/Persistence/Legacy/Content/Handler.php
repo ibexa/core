@@ -825,25 +825,6 @@ class Handler implements BaseContentHandler
         $this->contentGateway->deleteRelation($relationId, $type);
     }
 
-    /**
-     * Loads relations from $sourceContentId. Optionally, loads only those with $type and $sourceContentVersionNo.
-     *
-     * @param mixed $sourceContentId Source Content ID
-     * @param mixed|null $sourceContentVersionNo Source Content Version, null if not specified
-     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Relation[]
-     */
-    public function loadRelations($sourceContentId, $sourceContentVersionNo = null, $type = null)
-    {
-        return $this->mapper->extractRelationsFromRows(
-            $this->contentGateway->loadRelations($sourceContentId, $sourceContentVersionNo, $type)
-        );
-    }
-
     public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
     {
         return $this->contentGateway->countRelations($sourceContentId, $sourceContentVersionNo, $type);

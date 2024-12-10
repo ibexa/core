@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location as LocationCriterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\Location as LocationSortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Search\Capable;
@@ -168,7 +169,7 @@ class SearchService implements SearchServiceInterface
         $query = clone $query;
         $query->filter = $query->filter ?: new Criterion\MatchAll();
 
-        $this->validateContentCriteria([$query->query], '$query');
+        $this->validateContentCriteria($query->query ? [$query->query] : [], '$query');
         $this->validateContentCriteria([$query->filter], '$query');
         $this->validateContentSortClauses($query);
 
@@ -184,7 +185,7 @@ class SearchService implements SearchServiceInterface
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion[] $criteria
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface[] $criteria
      * @param string $argumentName
      */
     protected function validateContentCriteria(array $criteria, $argumentName)
@@ -225,7 +226,7 @@ class SearchService implements SearchServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if criterion is not valid
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than one result matching the criterions
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $filter
      * @param array $languageFilter Configuration for specifying prioritized languages query will be performed on.
      *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations.
@@ -233,7 +234,7 @@ class SearchService implements SearchServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    public function findSingle(Criterion $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content
+    public function findSingle(CriterionInterface $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content
     {
         $this->validateContentCriteria([$filter], '$filter');
 
@@ -254,12 +255,9 @@ class SearchService implements SearchServiceInterface
     /**
      * Suggests a list of values for the given prefix.
      *
-     * @param string $prefix
      * @param string[] $fieldPaths
-     * @param int $limit
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $filter
      */
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, Criterion $filter = null)
+    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, CriterionInterface $filter = null)
     {
     }
 
@@ -315,12 +313,8 @@ class SearchService implements SearchServiceInterface
      * Adds content, read Permission criteria if needed and return false if no access at all.
      *
      * @uses \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver::getPermissionsCriterion()
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return bool
      */
-    protected function addPermissionsCriterion(Criterion &$criterion): bool
+    protected function addPermissionsCriterion(Query\CriterionInterface &$criterion): bool
     {
         $permissionCriterion = $this->permissionCriterionResolver->getPermissionsCriterion('content', 'read');
         if ($permissionCriterion === true || $permissionCriterion === false) {

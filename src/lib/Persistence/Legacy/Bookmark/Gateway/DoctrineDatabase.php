@@ -41,11 +41,9 @@ class DoctrineDatabase extends Gateway
         $query
             ->insert(self::TABLE_BOOKMARKS)
             ->values([
-                self::COLUMN_NAME => ':name',
                 self::COLUMN_USER_ID => ':user_id',
                 self::COLUMN_LOCATION_ID => ':location_id',
             ])
-            ->setParameter(':name', $bookmark->name, PDO::PARAM_STR)
             ->setParameter(':user_id', $bookmark->userId, PDO::PARAM_INT)
             ->setParameter(':location_id', $bookmark->locationId, PDO::PARAM_INT);
 

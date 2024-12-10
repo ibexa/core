@@ -10,6 +10,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -22,7 +23,7 @@ final class ContentName extends CriterionHandler
     private const CONTENTOBJECT_NAME_ALIAS = 'ezc_n';
     private const CONTENTOBJECT_ALIAS = 'c';
 
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\ContentName
             && $criterion->operator === Criterion\Operator::LIKE;
@@ -33,13 +34,14 @@ final class ContentName extends CriterionHandler
      *     languages: array<string>,
      *     useAlwaysAvailable: bool,
      *  } $languageSettings
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentName $criterion
      *
      * @throws \Doctrine\DBAL\Exception
      */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ): string {
         $subQuery = $this->connection->createQueryBuilder();

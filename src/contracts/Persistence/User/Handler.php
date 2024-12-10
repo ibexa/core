@@ -306,18 +306,6 @@ interface Handler
     public function deletePolicy($policyId, $roleId);
 
     /**
-     * Returns the user policies associated with the user (including inherited policies from user groups).
-     *
-     * @deprecated Since 6.8, not currently in use as permission system needs to know about role assignment limitations.
-     *
-     * @param mixed $userId
-     *              In legacy storage engine this is the content object id roles are assigned to in ezuser_role.
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Policy[]
-     */
-    public function loadPoliciesByUserId($userId);
-
-    /**
      * Assigns role to a user or user group with given limitations.
      *
      * The limitation array looks like:

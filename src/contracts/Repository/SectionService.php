@@ -77,12 +77,6 @@ interface SectionService
 
     /**
      * Counts the contents which $section is assigned to.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Section $section
-     *
-     * @return int
-     *
-     * @deprecated since 6.0
      */
     public function countAssignedContents(Section $section): int;
 

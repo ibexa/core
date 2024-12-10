@@ -368,7 +368,6 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
                 ),
                 [
                     'inputUri' => $path,
-                    'path' => $path,
                     'fileName' => 'Icy-Night-Flower.jpg',
                     'alternativeText' => 'My icy flower at night',
                     'fileSize' => null,
@@ -397,7 +396,6 @@ class ImageIntegrationTest extends FileSearchBaseIntegrationTest
                 ),
                 [
                     'id' => $path,
-                    'path' => $path,
                     'fileName' => 'Icy-Night-Flower.jpg',
                     'alternativeText' => 'My icy flower at night',
                     'fileSize' => 23,

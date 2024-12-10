@@ -10,7 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Location\Trash;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as BaseTrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\TrashResult;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList;
 use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
@@ -99,14 +99,9 @@ class Handler implements BaseTrashHandler
     {
         $locationRows = $this->locationGateway->getSubtreeContent($locationId);
         $isLocationRemoved = false;
-        $parentLocationId = null;
         $removedLocationsContentMap = [];
 
         foreach ($locationRows as $locationRow) {
-            if ($locationRow['node_id'] == $locationId) {
-                $parentLocationId = $locationRow['parent_node_id'];
-            }
-
             if ($this->locationGateway->countLocationsByContentId($locationRow['contentobject_id']) == 1) {
                 $this->locationGateway->trashLocation($locationRow['node_id']);
                 $removedLocationsContentMap[(int)$locationRow['node_id']] = (int)$locationRow['contentobject_id'];
@@ -124,16 +119,10 @@ class Handler implements BaseTrashHandler
 
                     $this->locationHandler->changeMainLocation(
                         $locationRow['contentobject_id'],
-                        $newMainLocationRow['node_id'],
-                        $newMainLocationRow['contentobject_version'],
-                        $newMainLocationRow['parent_node_id']
+                        $newMainLocationRow['node_id']
                     );
                 }
             }
-        }
-
-        if (isset($parentLocationId)) {
-            $this->locationHandler->markSubtreeModified($parentLocationId, time());
         }
 
         if ($isLocationRemoved === true) {
@@ -172,7 +161,7 @@ class Handler implements BaseTrashHandler
     /**
      * {@inheritdoc}.
      */
-    public function findTrashItems(Criterion $criterion = null, $offset = 0, $limit = null, array $sort = null)
+    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null)
     {
         $totalCount = $this->locationGateway->countTrashed($criterion);
         if ($totalCount === 0) {

@@ -9,7 +9,7 @@ namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 class TrashHandler extends AbstractHandler implements TrashHandlerInterface
 {
@@ -35,8 +35,14 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $this->logger->logCall(__METHOD__, ['locationId' => $locationId]);
 
         $location = $this->persistenceHandler->locationHandler()->load($locationId);
-        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelations($location->contentId);
+        $limit = $this->persistenceHandler->contentHandler()->countRelations(
+            $location->contentId
+        );
 
+        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $location->contentId,
+            $limit
+        );
         $return = $this->persistenceHandler->trashHandler()->trashSubtree($locationId);
 
         $relationTags = [];
@@ -71,7 +77,15 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $return = $this->persistenceHandler->trashHandler()->recover($trashedId, $newParentId);
 
         $location = $this->persistenceHandler->locationHandler()->load($return);
-        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelations($location->contentId);
+
+        $limit = $this->persistenceHandler->contentHandler()->countRelations(
+            $location->contentId
+        );
+
+        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            $location->contentId,
+            $limit
+        );
 
         $relationTags = [];
         if (!empty($reverseRelations)) {
@@ -95,7 +109,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function findTrashItems(Criterion $criterion = null, $offset = 0, $limit = null, array $sort = null)
+    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null)
     {
         $this->logger->logCall(__METHOD__, ['criterion' => $criterion ? get_class($criterion) : 'null']);
 

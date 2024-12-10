@@ -128,19 +128,6 @@ interface Handler
     public function move($sourceId, $destinationParentId);
 
     /**
-     * Marks the given nodes and all ancestors as modified.
-     *
-     * Optionally a time stamp with the modification date may be specified,
-     * otherwise the current time is used.
-     *
-     * @deprecated As of 6.8, not been used by repository since 5.x.
-     *
-     * @param int|string $locationId
-     * @param int $timestamp
-     */
-    public function markSubtreeModified($locationId, $timestamp = null);
-
-    /**
      * Sets a location to be hidden, and it self + all children to invisible.
      *
      * @param mixed $id Location ID

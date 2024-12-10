@@ -278,11 +278,6 @@ class Handler implements BaseLocationHandler
                 || $createStruct->hidden
                 || $parentData['hidden']
                 || $parentData['invisible'];
-            $pathString = explode('/', $child['path_identification_string']);
-            $pathString = end($pathString);
-            $createStruct->pathIdentificationString = strlen($pathString) > 0
-                ? $parentData['path_identification_string'] . '/' . $pathString
-                : null;
 
             // Use content main location if already set, otherwise create location as main
             if (isset($mainLocations[$child['contentobject_id']])) {
@@ -307,7 +302,6 @@ class Handler implements BaseLocationHandler
                 'id' => $newLocation->id,
                 'hidden' => $newLocation->hidden,
                 'invisible' => $newLocation->invisible,
-                'path_identification_string' => $newLocation->pathIdentificationString,
             ];
             if ($index === 0) {
                 $copiedSubtreeRootLocation = $newLocation;
@@ -422,22 +416,6 @@ class Handler implements BaseLocationHandler
         if ($destinationParentSectionId !== null) {
             $this->updateSubtreeSectionIfNecessary($sourceLocation, $destinationParentSectionId);
         }
-    }
-
-    /**
-     * Marks the given nodes and all ancestors as modified.
-     *
-     * Optionally a time stamp with the modification date may be specified,
-     * otherwise the current time is used.
-     *
-     * @param int|string $locationId
-     * @param int $timestamp
-     */
-    public function markSubtreeModified($locationId, $timestamp = null)
-    {
-        $nodeData = $this->locationGateway->getBasicNodeData($locationId);
-        $timestamp = $timestamp ?: time();
-        $this->locationGateway->updateSubtreeModificationTime($nodeData['path_string'], $timestamp);
     }
 
     /**

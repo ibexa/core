@@ -254,7 +254,7 @@ class ContentService implements ContentServiceInterface
      */
     public function loadVersionInfo(ContentInfo $contentInfo, ?int $versionNo = null): APIVersionInfo
     {
-        return $this->loadVersionInfoById($contentInfo->getId(), $versionNo);
+        return $this->loadVersionInfoById((int)$contentInfo->getId(), $versionNo);
     }
 
     /**
@@ -320,7 +320,7 @@ class ContentService implements ContentServiceInterface
 
         $contentIds = array_map(
             static function (ContentInfo $contentInfo): int {
-                return $contentInfo->getId();
+                return (int)$contentInfo->getId();
             },
             $contentInfoList
         );
@@ -333,7 +333,7 @@ class ContentService implements ContentServiceInterface
         foreach ($persistenceVersionInfos as $persistenceVersionInfo) {
             $versionInfo = $this->contentDomainMapper->buildVersionInfoDomainObject($persistenceVersionInfo);
             if ($this->permissionResolver->canUser('content', 'read', $versionInfo)) {
-                $versionInfoList[$versionInfo->getContentInfo()->getId()] = $versionInfo;
+                $versionInfoList[(int)$versionInfo->getContentInfo()->getId()] = $versionInfo;
             }
         }
 
@@ -1481,7 +1481,7 @@ class ContentService implements ContentServiceInterface
         $versionInfo = $currentVersionContent->getVersionInfo();
         $contentType = $currentVersionContent->getContentType();
 
-        $publishedContent = $this->internalLoadContentById($versionInfo->getContentInfo()->getId());
+        $publishedContent = $this->internalLoadContentById((int)$versionInfo->getContentInfo()->getId());
         $publishedVersionInfo = $publishedContent->getVersionInfo();
 
         if (!$publishedVersionInfo->isPublished()) {
@@ -1551,7 +1551,7 @@ class ContentService implements ContentServiceInterface
         $updateStruct->fields = $persistenceFields;
 
         $this->persistenceHandler->contentHandler()->updateContent(
-            $versionInfo->getContentInfo()->getId(),
+            (int)$versionInfo->getContentInfo()->getId(),
             $versionInfo->versionNo,
             $updateStruct
         );
@@ -1971,9 +1971,17 @@ class ContentService implements ContentServiceInterface
     protected function internalLoadRelations(APIVersionInfo $versionInfo): array
     {
         $contentInfo = $versionInfo->getContentInfo();
-        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelations(
-            $contentInfo->id,
+
+        $limit = $this->persistenceHandler->contentHandler()->countRelations(
+            (int)$contentInfo->getId(),
             $versionInfo->versionNo
+        );
+
+        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            (int)$contentInfo->getId(),
+            $limit,
+            0,
+            $versionInfo->versionNo,
         );
 
         /** @var $relations \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] */
@@ -2082,7 +2090,7 @@ class ContentService implements ContentServiceInterface
             return 0;
         }
 
-        return $this->persistenceHandler->contentHandler()->countReverseRelations($contentInfo->getId(), $type?->value);
+        return $this->persistenceHandler->contentHandler()->countReverseRelations((int)$contentInfo->getId(), $type?->value);
     }
 
     /**
@@ -2258,18 +2266,26 @@ class ContentService implements ContentServiceInterface
             throw new UnauthorizedException('content', 'edit', ['contentId' => $sourceVersion->contentInfo->id]);
         }
 
-        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelations(
-            $sourceVersion->getContentInfo()->id,
+        $spiRelationsCount = $this->persistenceHandler->contentHandler()->countRelations(
+            (int)$sourceVersion->getContentInfo()->getId(),
             $sourceVersion->versionNo,
             APIRelation::COMMON
         );
 
-        if (empty($spiRelations)) {
+        if ($spiRelationsCount === 0) {
             throw new InvalidArgumentException(
                 '$sourceVersion',
                 'There are no Relations of type COMMON for the given destination'
             );
         }
+
+        $spiRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
+            (int)$sourceVersion->getContentInfo()->getId(),
+            $spiRelationsCount,
+            0,
+            $sourceVersion->versionNo,
+            APIRelation::COMMON
+        );
 
         // there should be only one relation of type COMMON for each destination,
         // but in case there were ever more then one, we will remove them all
@@ -2650,7 +2666,7 @@ class ContentService implements ContentServiceInterface
             $contentItems[] = $this->contentDomainMapper->buildContentDomainObjectFromPersistence(
                 $contentItem->content,
                 $contentItem->type,
-                $languages,
+                $languages ?? [],
             );
         }
 

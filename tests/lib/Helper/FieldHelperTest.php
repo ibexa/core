@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\Helper;
 
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -29,9 +28,6 @@ class FieldHelperTest extends TestCase
     /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService|\PHPUnit\Framework\MockObject\MockObject */
     private $fieldTypeServiceMock;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentTypeServiceMock;
-
     /** @var \Ibexa\Core\Helper\TranslationHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $translationHelper;
 
@@ -39,9 +35,8 @@ class FieldHelperTest extends TestCase
     {
         parent::setUp();
         $this->fieldTypeServiceMock = $this->createMock(FieldTypeService::class);
-        $this->contentTypeServiceMock = $this->createMock(ContentTypeService::class);
         $this->translationHelper = $this->createMock(TranslationHelper::class);
-        $this->fieldHelper = new FieldHelper($this->translationHelper, $this->contentTypeServiceMock, $this->fieldTypeServiceMock);
+        $this->fieldHelper = new FieldHelper($this->translationHelper, $this->fieldTypeServiceMock);
     }
 
     public function testIsFieldEmpty()

@@ -509,23 +509,6 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $relation;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadRelations($sourceContentId, $sourceContentVersionNo = null, $type = null)
-    {
-        $this->logger->logCall(
-            __METHOD__,
-            [
-                'content' => $sourceContentId,
-                'version' => $sourceContentVersionNo,
-                'type' => $type,
-            ]
-        );
-
-        return $this->persistenceHandler->contentHandler()->loadRelations($sourceContentId, $sourceContentVersionNo, $type);
-    }
-
     public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
     {
         $cacheItem = $this->cache->getItem(

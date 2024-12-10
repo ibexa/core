@@ -39,14 +39,13 @@ class DoctrineDatabaseTest extends TestCase
         $id = $this->getGateway()->insertBookmark(new Bookmark([
             'userId' => 14,
             'locationId' => 54,
-            'name' => 'Lorem ipsum dolor...',
         ]));
 
         $data = $this->loadBookmark($id);
 
         self::assertEquals([
             'id' => $id,
-            'name' => 'Lorem ipsum dolor...',
+            'name' => '',
             'node_id' => '54',
             'user_id' => '14',
         ], $data);

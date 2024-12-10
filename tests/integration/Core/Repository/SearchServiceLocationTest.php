@@ -524,6 +524,7 @@ class SearchServiceLocationTest extends BaseTest
                 'sortClauses' => [new SortClause\ContentId()],
             ]
         );
+        self::assertInstanceOf(Criterion::class, $query->query);
         $query->query->setCustomField('user', 'first_name', 'custom_field');
 
         $this->assertQueryFixture(

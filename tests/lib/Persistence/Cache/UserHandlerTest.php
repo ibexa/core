@@ -151,7 +151,6 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
                 null,
                 ['p-13', 'r-9'],
             ],
-            ['loadPoliciesByUserId', [14]],
             [
                 'unassignRole',
                 [14, 9],

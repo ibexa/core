@@ -41,11 +41,6 @@ class PersistenceLoggerTest extends TestCase
         self::assertEquals(PersistenceLogger::NAME, $this->logger->getName());
     }
 
-    public function testGetCount()
-    {
-        self::assertEquals(0, $this->logger->getCount());
-    }
-
     public function testGetCalls()
     {
         self::assertEquals([], $this->logger->getCalls());
@@ -59,18 +54,6 @@ class PersistenceLoggerTest extends TestCase
         $this->logger->logCall(__METHOD__, [33]);
 
         return $this->logger;
-    }
-
-    /**
-     * @depends testLogCall
-     *
-     * @param \Ibexa\Core\Persistence\Cache\PersistenceLogger $logger
-     */
-    public function testGetCountValues($logger)
-    {
-        self::assertEquals(4, $logger->getCount());
-
-        return $logger;
     }
 
     /**

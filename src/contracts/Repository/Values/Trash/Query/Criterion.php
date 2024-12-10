@@ -8,9 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Trash\Query;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+
 /**
  * Marker for Content & Location trash Criterion.
  */
-interface Criterion
+interface Criterion extends CriterionInterface
 {
 }

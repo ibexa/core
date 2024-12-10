@@ -177,6 +177,7 @@ EOT
                     $contentInfo,
                     $removeAll ? null : $this->mapStatusToVersionInfoStatus($status)
                 );
+                $versions = iterator_to_array($versions);
                 $versionsCount = count($versions);
 
                 $output->writeln(sprintf(

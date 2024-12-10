@@ -401,32 +401,6 @@ class LocationHandlerTest extends TestCase
         $handler->setSectionForSubtree(69, 3);
     }
 
-    public function testMarkSubtreeModified()
-    {
-        $handler = $this->getLocationHandler();
-
-        $this->locationGateway
-            ->expects(self::at(0))
-            ->method('getBasicNodeData')
-            ->with(69)
-            ->will(
-                self::returnValue(
-                    [
-                        'node_id' => 69,
-                        'path_string' => '/1/2/69/',
-                        'contentobject_id' => 67,
-                    ]
-                )
-            );
-
-        $this->locationGateway
-            ->expects(self::at(1))
-            ->method('updateSubtreeModificationTime')
-            ->with('/1/2/69/');
-
-        $handler->markSubtreeModified(69);
-    }
-
     public function testChangeMainLocation()
     {
         $handler = $this->getLocationHandler();
@@ -609,7 +583,6 @@ class LocationHandlerTest extends TestCase
         }
         $lastContentHandlerIndex = $index * 2 + 1;
 
-        $pathStrings = [$destinationData['node_id'] => $destinationData['path_identification_string']];
         foreach ($subtreeContentRows as $index => $row) {
             $mapper = new Mapper();
             $createStruct = $mapper->getLocationCreateStruct($row);
@@ -624,8 +597,6 @@ class LocationHandlerTest extends TestCase
             $createStruct->parentId = $index === 0 ? $destinationData['node_id'] : $createStruct->parentId + $offset;
             $createStruct->invisible = true;
             $createStruct->mainLocationId = $mainLocationsMap[$index];
-            $createStruct->pathIdentificationString = $pathStrings[$createStruct->parentId] . '/' . $row['path_identification_string'];
-            $pathStrings[$row['node_id'] + $offset] = $createStruct->pathIdentificationString;
             $handler
                 ->expects(self::at($index))
                 ->method('create')
@@ -638,7 +609,6 @@ class LocationHandlerTest extends TestCase
                                 'contentId' => $row['contentobject_id'],
                                 'hidden' => false,
                                 'invisible' => true,
-                                'pathIdentificationString' => $createStruct->pathIdentificationString,
                             ]
                         )
                     )

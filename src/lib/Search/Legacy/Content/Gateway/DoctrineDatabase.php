@@ -13,7 +13,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
@@ -71,7 +71,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     public function find(
-        Criterion $criterion,
+        CriterionInterface $criterion,
         $offset,
         $limit,
         array $sort = null,
@@ -127,7 +127,7 @@ final class DoctrineDatabase extends Gateway
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     private function getQueryCondition(
-        Criterion $filter,
+        CriterionInterface $filter,
         QueryBuilder $query,
         array $languageFilter
     ) {
@@ -166,14 +166,11 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Get result count.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter
      * @param array $languageFilter
      *
      * @return int
      */
-    private function getResultCount(Criterion $filter, array $languageFilter): int
+    private function getResultCount(CriterionInterface $filter, array $languageFilter): int
     {
         $query = $this->connection->createQueryBuilder();
 
@@ -210,7 +207,7 @@ final class DoctrineDatabase extends Gateway
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
     private function getContentInfoList(
-        Criterion $filter,
+        CriterionInterface $filter,
         ?array $sort,
         ?int $offset,
         ?int $limit,

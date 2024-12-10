@@ -367,28 +367,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         );
     }
 
-    public function testUpdateSubtreeModificationTime()
-    {
-        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
-        $gateway = $this->getLocationGateway();
-        $time = time();
-        $gateway->updateSubtreeModificationTime('/1/2/69/');
-
-        $query = $this->getDatabaseConnection()->createQueryBuilder();
-        $this->assertQueryResult(
-            [
-                ['/1/'],
-                ['/1/2/'],
-                ['/1/2/69/'],
-            ],
-            $query
-                ->select('path_string')
-                ->from('ezcontentobject_tree')
-                ->where($query->expr()->gte('modified_subnode', $time))
-                ->orderBy('path_string')
-        );
-    }
-
     public function testHideUpdateHidden()
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
@@ -664,7 +642,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ['remoteId', 'some_id'],
             ['contentId', '68'],
             ['parentId', '77'],
-            ['pathIdentificationString', ''],
             ['pathString', '/1/2/77/228/'],
             ['depth', 3],
             ['sortField', 1],
@@ -987,7 +964,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ['modified_subnode', time()],
             ['node_id', '228'],
             ['parent_node_id', '77'],
-            ['path_identification_string', null],
             ['path_string', '/1/2/77/228/'],
             ['priority', '101'],
             ['remote_id', 'some_id'],

@@ -49,12 +49,6 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
      *
      * @uses \Ibexa\Contracts\Core\Repository\PermissionResolver::getCurrentUserReference()
      * @uses \Ibexa\Contracts\Core\Repository\PermissionResolver::hasAccess()
-     *
-     * @param string $module
-     * @param string $function
-     * @param array $targets
-     *
-     * @return bool|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
      */
     public function getPermissionsCriterion(string $module = 'content', string $function = 'read', ?array $targets = null)
     {
@@ -155,7 +149,7 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
         return $type->getCriterion($limitation, $currentUserRef);
     }
 
-    public function getQueryPermissionsCriterion(): Criterion
+    public function getQueryPermissionsCriterion(): CriterionInterface
     {
         // Permission Criterion handling work-around to avoid rewriting old architecture of perm. sys.
         $permissionCriterion = $this->getPermissionsCriterion(

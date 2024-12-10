@@ -912,31 +912,6 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadPoliciesForUser()
-    {
-        $this->insertSharedDatabaseFixture();
-        $handler = $this->getUserHandler();
-
-        $policies = $handler->loadPoliciesByUserId(10); // Anonymous user
-
-        // Verify, that we received an array of Policy objects
-        self::assertTrue(
-            array_reduce(
-                array_map(
-                    static function ($policy): bool {
-                        return $policy instanceof Persistence\User\Policy;
-                    },
-                    $policies
-                ),
-                static function ($a, $b): bool {
-                    return $a && $b;
-                },
-                true
-            )
-        );
-        self::assertCount(8, $policies);
-    }
-
     public function testLoadRoleAssignmentsByGroupId()
     {
         $this->insertSharedDatabaseFixture();

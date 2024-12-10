@@ -2930,6 +2930,7 @@ class SearchServiceTest extends BaseTest
                 'sortClauses' => [new SortClause\ContentId()],
             ]
         );
+        self::assertInstanceOf(Criterion::class, $query->query);
         $query->query->setCustomField('user', 'first_name', 'custom_field');
 
         $this->assertQueryFixture(
@@ -4861,15 +4862,21 @@ class SearchServiceTest extends BaseTest
             switch (true) {
                 case $hit->valueObject instanceof Content:
                 case $hit->valueObject instanceof Location:
+                    /** @phpstan-ignore assign.propertyType */
                     $hit->valueObject = [
-                        'id' => $hit->valueObject->contentInfo->id,
-                        'title' => $hit->valueObject->contentInfo->name,
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Location|\Ibexa\Contracts\Core\Repository\Values\Content\Content $hit->valueObject */
+                        'id' => $hit->valueObject->contentInfo->getId(),
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Location|\Ibexa\Contracts\Core\Repository\Values\Content\Content $hit->valueObject */
+                        'title' => $hit->valueObject->contentInfo->getName(),
                     ];
                     break;
 
                 case $hit->valueObject instanceof ContentInfo:
+                    /** @phpstan-ignore assign.propertyType */
                     $hit->valueObject = [
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $hit->valueObject */
                         'id' => $hit->valueObject->id,
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $hit->valueObject */
                         'title' => $hit->valueObject->name,
                     ];
                     break;

@@ -20,9 +20,6 @@ class ContentInfo extends ValueObject
     public const STATUS_PUBLISHED = 1;
     public const STATUS_TRASHED = 2;
 
-    /** @deprecated Use {@see ContentInfo::STATUS_TRASHED} */
-    public const STATUS_ARCHIVED = self::STATUS_TRASHED;
-
     /**
      * Content's unique ID.
      *
@@ -58,15 +55,6 @@ class ContentInfo extends ValueObject
      * @var int
      */
     public $currentVersionNo;
-
-    /**
-     * @deprecated Use {@see ContentInfo::$status} (with value {@see ContentInfo::STATUS_PUBLISHED})
-     *
-     * Flag indicating if content is currently published.
-     *
-     * @var bool
-     */
-    public $isPublished;
 
     /**
      * Content owner's id.

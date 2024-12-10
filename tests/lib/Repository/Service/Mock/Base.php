@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
@@ -98,6 +99,8 @@ abstract class Base extends TestCase
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
     private $locationFilteringHandlerMock;
 
+    private TransactionHandler&MockObject $transactionHandlerMock;
+
     /**
      * Get Real repository with mocked dependencies.
      *
@@ -115,7 +118,6 @@ abstract class Base extends TestCase
                 $this->getRelationProcessorMock(),
                 $this->getFieldTypeRegistryMock(),
                 $this->createMock(PasswordHashService::class),
-                $this->getThumbnailStrategy(),
                 $this->createMock(ProxyDomainMapperFactoryInterface::class),
                 $this->getContentDomainMapperMock(),
                 $this->getContentTypeDomainMapperMock(),
@@ -130,6 +132,7 @@ abstract class Base extends TestCase
                 $this->createMock(PasswordValidatorInterface::class),
                 $this->createMock(ConfigResolverInterface::class),
                 $this->createMock(NameSchemaServiceInterface::class),
+                $this->getTransactionHandlerMock(),
                 $serviceSettings,
             );
 
@@ -309,6 +312,15 @@ abstract class Base extends TestCase
         }
 
         return $this->persistenceMock;
+    }
+
+    protected function getTransactionHandlerMock(): MockObject&TransactionHandler
+    {
+        if (!isset($this->transactionHandlerMock)) {
+            $this->transactionHandlerMock = $this->createMock(TransactionHandler::class);
+        }
+
+        return $this->transactionHandlerMock;
     }
 
     protected function getRelationProcessorMock()

@@ -7,7 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * The Content Search Gateway provides the implementation for one database to
@@ -18,7 +18,7 @@ abstract class Gateway
     /**
      * Returns a list of object satisfying the $criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
      * @param int $offset
      * @param int $limit
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
@@ -31,7 +31,7 @@ abstract class Gateway
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException if a given Criterion Handler or Sort Clause is not implemented
      */
     abstract public function find(
-        Criterion $criterion,
+        CriterionInterface $criterion,
         $offset,
         $limit,
         array $sort = null,

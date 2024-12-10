@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Persistence\FieldType as FieldTypeInterface;
  *
  * @see \Ibexa\Contracts\Core\FieldType\FieldType
  */
-class FieldType implements FieldTypeInterface, FieldTypeInterface\IsEmptyValue
+class FieldType implements FieldTypeInterface
 {
     /**
      * Holds internal FieldType object.

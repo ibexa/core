@@ -20,15 +20,6 @@ class Bookmark extends ValueObject
     public $id;
 
     /**
-     * Name of the bookmarked location.
-     *
-     * @deprecated Property is here purely for BC with 5.x.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * ID of the bookmarked Location.
      *
      * @var int

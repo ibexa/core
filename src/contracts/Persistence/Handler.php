@@ -91,36 +91,4 @@ interface Handler
     public function transactionHandler();
 
     public function settingHandler(): SettingHandler;
-
-    /**
-     * Begin transaction.
-     *
-     * Begins an transaction, make sure you'll call commit or rollback when done,
-     * otherwise work will be lost.
-     *
-     * @deprecated Since 5.3 {@use transactionHandler()->beginTransaction()}
-     */
-    public function beginTransaction();
-
-    /**
-     * Commit transaction.
-     *
-     * Commit transaction, or throw exceptions if no transactions has been started.
-     *
-     * @throws \RuntimeException If no transaction has been started
-     *
-     * @deprecated Since 5.3 {@use transactionHandler()->commit()}
-     */
-    public function commit();
-
-    /**
-     * Rollback transaction.
-     *
-     * Rollback transaction, or throw exceptions if no transactions has been started.
-     *
-     * @throws \RuntimeException If no transaction has been started
-     *
-     * @deprecated Since 5.3 {@use transactionHandler()->rollback()}
-     */
-    public function rollback();
 }

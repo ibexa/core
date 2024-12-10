@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Spellcheck;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
@@ -32,10 +33,8 @@ class Query extends ValueObject
      *
      * Can contain multiple criterion, as items of a logical one (by default
      * AND)
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
      */
-    public $filter;
+    public ?CriterionInterface $filter = null;
 
     /**
      * The Query query.
@@ -45,10 +44,8 @@ class Query extends ValueObject
      *
      * Can contain multiple criterion, as items of a logical one (by default
      * AND). Defaults to MatchAll.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
      */
-    public $query;
+    public ?CriterionInterface $query = null;
 
     /**
      * Query sorting clauses.

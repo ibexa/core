@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -52,7 +53,7 @@ class FieldEmpty extends FieldBase
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      */
-    public function accept(Criterion $criterion): bool
+    public function accept(CriterionInterface $criterion): bool
     {
         return $criterion instanceof Criterion\IsFieldEmpty;
     }
@@ -97,10 +98,13 @@ class FieldEmpty extends FieldBase
         return $fieldMapArray;
     }
 
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsFieldEmpty $criterion
+     */
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ): string {
         $fieldsInformation = $this->getFieldsInformation($criterion->target);

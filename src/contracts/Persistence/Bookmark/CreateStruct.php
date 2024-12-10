@@ -13,15 +13,6 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 class CreateStruct extends ValueObject
 {
     /**
-     * Name of the bookmarked location.
-     *
-     * @deprecated Property is here purely for BC with 5.x.
-     *
-     * @var string
-     */
-    public $name;
-
-    /**
      * ID of the bookmarked Location.
      *
      * @var int

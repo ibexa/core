@@ -8,7 +8,7 @@
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\DBALException;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Search\Legacy\Content\Gateway;
 use PDOException;
@@ -30,7 +30,7 @@ class ExceptionConversion extends Gateway
     }
 
     public function find(
-        Criterion $criterion,
+        CriterionInterface $criterion,
         $offset = 0,
         $limit = null,
         array $sort = null,

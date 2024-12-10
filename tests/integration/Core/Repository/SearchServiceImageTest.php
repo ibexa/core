@@ -356,7 +356,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
         $imageValue = new ImageValue();
         $imageValue->fileName = $fileName;
-        $imageValue->path = $path;
+        $imageValue->inputUri = $path;
 
         $contentCreateStruct->setField('name', new TextValue('Image'), 'eng-GB');
         $contentCreateStruct->setField('image', $imageValue, 'eng-GB');

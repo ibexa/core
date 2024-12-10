@@ -10,6 +10,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * Content locator gateway implementation using the DoctrineDatabase.
@@ -54,7 +55,7 @@ class CriteriaConverter
      */
     public function convertCriteria(
         QueryBuilder $query,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     ) {
         foreach ($this->handlers as $handler) {
@@ -64,7 +65,7 @@ class CriteriaConverter
         }
 
         throw new NotImplementedException(
-            'No visitor available for: ' . get_class($criterion) . ' with operator ' . $criterion->operator
+            'No visitor available for: ' . get_class($criterion)
         );
     }
 }

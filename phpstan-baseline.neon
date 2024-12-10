@@ -46,21 +46,6 @@ parameters:
 			path: src/bundle/Core/Command/CleanupVersionsCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_slice expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CleanupVersionsCommand.php
-
-		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Helper\\\\HelperInterface\\:\\:ask\\(\\)\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/CopySubtreeCommand.php
@@ -5071,11 +5056,6 @@ parameters:
 			path: src/contracts/Persistence/Content/Location/Handler.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Handler\\:\\:markSubtreeModified\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Persistence/Content/Location/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Handler\\:\\:setSectionForSubtree\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Persistence/Content/Location/Handler.php
@@ -5279,21 +5259,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Filter\\\\LazyListIterator\\:\\:\\$iterator type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: src/contracts/Persistence/Filter/LazyListIterator.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Handler\\:\\:beginTransaction\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Persistence/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Handler\\:\\:commit\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Persistence/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Handler\\:\\:rollback\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Persistence/Handler.php
 
 		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Notification\\\\CreateStruct\\:\\:\\$data type has no value type specified in iterable type array\\.$#"
@@ -6901,56 +6866,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Query/Criterion/FullText.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\IsMainLocation\\:\\:createFromQueryBuilder\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/IsMainLocation.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\IsMainLocation\\:\\:createFromQueryBuilder\\(\\) has parameter \\$operator with no type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/IsMainLocation.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\IsMainLocation\\:\\:createFromQueryBuilder\\(\\) has parameter \\$target with no type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/IsMainLocation.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\IsMainLocation\\:\\:createFromQueryBuilder\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/IsMainLocation.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\Priority\\:\\:createFromQueryBuilder\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/Priority.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\Priority\\:\\:createFromQueryBuilder\\(\\) has parameter \\$operator with no type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/Priority.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\Priority\\:\\:createFromQueryBuilder\\(\\) has parameter \\$target with no type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/Priority.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\Location\\\\Priority\\:\\:createFromQueryBuilder\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/Location/Priority.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$criteria$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/LogicalNot.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\LogicalOperator\\:\\:getSpecifications\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/Criterion/LogicalOperator.php
-
-		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\MapLocationDistance\\:\\:\\$boost type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/Criterion/MapLocationDistance.php
@@ -7208,21 +7123,6 @@ parameters:
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\Filter\\:\\:__construct\\(\\) has parameter \\$sortClauses with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/contracts/Repository/Values/Filter/Filter.php
-
-		-
-			message: "#^Parameter \\#1 \\$criteria of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\LogicalAnd constructor expects array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\>, array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\FilteringCriterion\\> given\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Filter/Filter.php
-
-		-
-			message: "#^Parameter \\#1 \\$criteria of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\LogicalOr constructor expects array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\>, array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\FilteringCriterion\\> given\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Filter/Filter.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\LogicalOperator\\:\\:\\$criteria \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\>\\) does not accept array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\FilteringCriterion\\>\\.$#"
-			count: 2
 			path: src/contracts/Repository/Values/Filter/Filter.php
 
 		-
@@ -7504,41 +7404,6 @@ parameters:
 			message: "#^Static property Ibexa\\\\Contracts\\\\Core\\\\Test\\\\Repository\\\\SetupFactory\\\\Legacy\\:\\:\\$serviceContainer \\(Ibexa\\\\Core\\\\Base\\\\ServiceContainer\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: src/contracts/Test/Repository/SetupFactory/Legacy.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\User\\\\Identity\\:\\:addInformation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/User/Identity.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\User\\\\Identity\\:\\:addInformation\\(\\) has parameter \\$information with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/User/Identity.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\User\\\\Identity\\:\\:getInformation\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/User/Identity.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\User\\\\Identity\\:\\:replaceInformation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/User/Identity.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\User\\\\Identity\\:\\:replaceInformation\\(\\) has parameter \\$information with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/User/Identity.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\User\\\\Identity\\:\\:setInformation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/User/Identity.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\User\\\\IdentityAware\\:\\:setIdentity\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/User/IdentityAware.php
 
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Variation\\\\VariationHandler\\:\\:getVariation\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
@@ -8409,11 +8274,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Base\\\\Utils\\\\DeprecationWarnerInterface\\:\\:log\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Base/Utils/DeprecationWarnerInterface.php
-
-		-
-			message: "#^Parameter \\#1 \\$locations of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Events\\\\Content\\\\DeleteContentEvent constructor expects array, array\\|iterable\\<int, int\\> given\\.$#"
-			count: 1
-			path: src/lib/Event/ContentService.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Event\\\\TokenService\\:\\:getToken\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Token\\\\Token but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Token\\\\Token\\|string\\.$#"
@@ -9721,11 +9581,6 @@ parameters:
 			path: src/lib/FieldType/Selection/Type.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\FieldType\\\\StorageGateway\\:\\:setConnection\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/FieldType/StorageGateway.php
-
-		-
 			message: "#^Parameter \\#1 \\$string of function mb_substr expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/lib/FieldType/TextBlock/SearchField.php
@@ -10197,11 +10052,6 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$value on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\|null\\.$#"
-			count: 1
-			path: src/lib/Helper/FieldHelper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Helper\\\\FieldHelper\\:\\:getFieldDefinition\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null\\.$#"
 			count: 1
 			path: src/lib/Helper/FieldHelper.php
 
@@ -11092,11 +10942,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\FieldType\\\\RelationList\\\\ParameterProvider\\:\\:getViewParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
 
@@ -13486,21 +13331,6 @@ parameters:
 			path: src/lib/Persistence/Cache/ContentTypeHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\Handler\\:\\:beginTransaction\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Cache/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\Handler\\:\\:commit\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Cache/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\Handler\\:\\:rollback\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Cache/Handler.php
-
-		-
 			message: "#^Return type \\(Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\URLHandler\\) of method Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\Handler\\:\\:urlHandler\\(\\) should be compatible with return type \\(Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\URL\\\\Handler\\) of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Handler\\:\\:urlHandler\\(\\)$#"
 			count: 1
 			path: src/lib/Persistence/Cache/Handler.php
@@ -13622,11 +13452,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\LocationHandler\\:\\:loadSubtreeIds\\(\\) should return array but returns object\\.$#"
-			count: 1
-			path: src/lib/Persistence/Cache/LocationHandler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\LocationHandler\\:\\:markSubtreeModified\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Persistence/Cache/LocationHandler.php
 
@@ -15791,11 +15616,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Handler\\:\\:markSubtreeModified\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Handler\\:\\:move\\(\\) should return bool but return statement is missing\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
@@ -15836,16 +15656,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
 
 		-
-			message: "#^Parameter \\#1 \\$nodeId of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Gateway\\:\\:getBasicNodeData\\(\\) expects int, int\\|string given\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\CreateStruct\\:\\:\\$pathIdentificationString \\(string\\) does not accept string\\|null\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
-
-		-
 			message: "#^Variable \\$copiedSubtreeRootLocation might not be defined\\.$#"
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/Location/Handler.php
@@ -15869,11 +15679,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Mapper\\:\\:getLocationCreateStruct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Location/Mapper.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Handler\\:\\:changeMainLocation\\(\\) invoked with 4 parameters, 2 required\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Location/Trash/Handler.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Trash\\\\Handler\\:\\:loadTrashItem\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\\\Trashed but returns Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Location\\.$#"
@@ -17636,21 +17441,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/SortClauseVisitor.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Handler\\:\\:beginTransaction\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Handler\\:\\:commit\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Handler\\:\\:rollback\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Notification\\\\Gateway\\:\\:getNotificationById\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Notification/Gateway.php
@@ -18986,11 +18776,6 @@ parameters:
 			path: src/lib/Repository/ContentService.php
 
 		-
-			message: "#^Parameter \\#3 \\$prioritizedLanguages of method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildContentDomainObjectFromPersistence\\(\\) expects array\\<string\\>, array\\<int, string\\>\\|null given\\.$#"
-			count: 1
-			path: src/lib/Repository/ContentService.php
-
-		-
 			message: "#^Parameter \\#5 \\$fieldDefinitionId of method Ibexa\\\\Core\\\\Repository\\\\Helper\\\\RelationProcessor\\:\\:appendFieldRelations\\(\\) expects string, int given\\.$#"
 			count: 2
 			path: src/lib/Repository/ContentService.php
@@ -19064,31 +18849,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\ContentTypeService\\:\\:\\$settings type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/ContentTypeService.php
-
-		-
-			message: "#^Cannot access property \\$fieldTypeIdentifier on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null\\.$#"
-			count: 1
-			path: src/lib/Repository/Helper/NameSchemaService.php
-
-		-
-			message: "#^Parameter \\#2 \\$fieldDefinition of method Ibexa\\\\Contracts\\\\Core\\\\FieldType\\\\FieldType\\:\\:getName\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\|null given\\.$#"
-			count: 1
-			path: src/lib/Repository/Helper/NameSchemaService.php
-
-		-
-			message: "#^Argument of an invalid type array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: src/lib/Repository/Helper/RelationProcessor.php
-
-		-
-			message: "#^Cannot access property \\$destinationContentInfo on array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\.$#"
-			count: 1
-			path: src/lib/Repository/Helper/RelationProcessor.php
-
-		-
-			message: "#^Cannot access property \\$id on array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Relation\\.$#"
-			count: 1
-			path: src/lib/Repository/Helper/RelationProcessor.php
 
 		-
 			message: "#^Cannot call method error\\(\\) on Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
@@ -19456,11 +19216,6 @@ parameters:
 			path: src/lib/Repository/Permission/CachedPermissionService.php
 
 		-
-			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Permission\\\\CachedPermissionService\\:\\:\\$permissionCriterion \\(bool\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept null\\.$#"
-			count: 1
-			path: src/lib/Repository/Permission/CachedPermissionService.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\LimitationService\\:\\:__construct\\(\\) has parameter \\$limitationTypes with no value type specified in iterable type Traversable\\.$#"
 			count: 1
 			path: src/lib/Repository/Permission/LimitationService.php
@@ -19481,23 +19236,8 @@ parameters:
 			path: src/lib/Repository/Permission/PermissionCriterionResolver.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Permission\\\\PermissionCriterionResolver\\:\\:getPermissionsCriterion\\(\\) should return bool\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface\\.$#"
-			count: 1
-			path: src/lib/Repository/Permission/PermissionCriterionResolver.php
-
-		-
 			message: "#^PHPDoc tag @var does not specify variable name\\.$#"
 			count: 1
-			path: src/lib/Repository/Permission/PermissionCriterionResolver.php
-
-		-
-			message: "#^Parameter \\#1 \\$criteria of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\LogicalAnd constructor expects array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\>, array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface\\> given\\.$#"
-			count: 2
-			path: src/lib/Repository/Permission/PermissionCriterionResolver.php
-
-		-
-			message: "#^Parameter \\#1 \\$criteria of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\LogicalOr constructor expects array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\>, array\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface\\> given\\.$#"
-			count: 2
 			path: src/lib/Repository/Permission/PermissionCriterionResolver.php
 
 		-
@@ -19736,11 +19476,6 @@ parameters:
 			path: src/lib/Repository/Repository.php
 
 		-
-			message: "#^Parameter \\#4 \\$nameSchemaService of class Ibexa\\\\Core\\\\Repository\\\\LocationService constructor expects Ibexa\\\\Core\\\\Repository\\\\Helper\\\\NameSchemaService, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\NameSchema\\\\NameSchemaServiceInterface given\\.$#"
-			count: 1
-			path: src/lib/Repository/Repository.php
-
-		-
 			message: "#^Parameter \\#5 \\$backgroundIndexer of class Ibexa\\\\Core\\\\Repository\\\\SearchService constructor expects Ibexa\\\\Core\\\\Search\\\\Common\\\\BackgroundIndexer, Ibexa\\\\Core\\\\Search\\\\Common\\\\BackgroundIndexer\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/Repository.php
@@ -19752,11 +19487,6 @@ parameters:
 
 		-
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Repository\\:\\:\\$serviceSettings type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Repository.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Repository\\:\\:\\$thumbnailStrategy is never read, only written\\.$#"
 			count: 1
 			path: src/lib/Repository/Repository.php
 
@@ -20866,11 +20596,6 @@ parameters:
 			path: src/lib/Search/Common/FieldValueMapper/StringMapper.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Common\\\\IncrementalIndexer\\:\\:createSearchIndex\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Search/Common/IncrementalIndexer.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Common\\\\IncrementalIndexer\\:\\:purge\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Search/Common/IncrementalIndexer.php
@@ -20879,11 +20604,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Common\\\\IncrementalIndexer\\:\\:updateSearchIndex\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Search/Common/IncrementalIndexer.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Common\\\\Indexer\\:\\:createSearchIndex\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/lib/Search/Common/Indexer.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Common\\\\Indexer\\:\\:getContentDbFieldsStmt\\(\\) has parameter \\$fields with no value type specified in iterable type array\\.$#"
@@ -20919,11 +20639,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\:\\:\\$comparatorMap type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:\\$criteria\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/CompositeCriterion.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\CompositeCriterion\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
@@ -21181,11 +20896,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/IsUserEnabled.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:\\$matchAlwaysAvailable\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
-
-		-
 			message: "#^Cannot call method getBitAndComparisonExpression\\(\\) on Doctrine\\\\DBAL\\\\Platforms\\\\AbstractPlatform\\|null\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
@@ -21201,29 +20911,14 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LanguageCode.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:\\$criteria\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LogicalAnd.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\LogicalAnd\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LogicalAnd.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:\\$criteria\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LogicalNot.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\LogicalNot\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LogicalNot.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\:\\:\\$criteria\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/LogicalOr.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Common\\\\Gateway\\\\CriterionHandler\\\\LogicalOr\\:\\:handle\\(\\) has parameter \\$languageSettings with no value type specified in iterable type array\\.$#"
@@ -26701,11 +26396,6 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:testLoadVersions\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> but returns iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\>\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\ContentServiceTest\\:\\:testLoadVersionsAfterDeletingTwoDrafts\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
@@ -26963,11 +26653,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\> given\\.$#"
 			count: 1
-			path: tests/integration/Core/Repository/ContentServiceTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\VersionInfo\\> given\\.$#"
-			count: 2
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
@@ -29451,11 +29136,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:doModifyField\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:findProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
@@ -29477,11 +29157,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:getResultContentIdList\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:modifyFieldCriterion\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
 
@@ -36453,11 +36128,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$parentLocationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:newLocationCreateStruct\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\:\\:\\$valueObject \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\) does not accept array\\<string, int\\|string\\>\\.$#"
-			count: 2
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
@@ -46426,11 +46096,6 @@ parameters:
 			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
 
 		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\:\\:\\$query \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchAdapterTest\\:\\:getAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Pagination/LocationSearchAdapterTest.php
@@ -46457,11 +46122,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchHitAdapterTest\\:\\:testGetSlice\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\:\\:\\$query \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
 			count: 1
 			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
 
@@ -47091,16 +46751,6 @@ parameters:
 			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Cache\\\\PersistenceLoggerTest\\:\\:testGetCount\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Cache\\\\PersistenceLoggerTest\\:\\:testGetCountValues\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Cache\\\\PersistenceLoggerTest\\:\\:testGetName\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Cache/PersistenceLoggerTest.php
@@ -47602,11 +47252,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\ContentHandlerTest\\:\\:testLoadErrorNotFound\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\ContentHandlerTest\\:\\:testLoadRelations\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/ContentHandlerTest.php
 
@@ -49281,11 +48926,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Gateway\\\\DoctrineDatabaseTest\\:\\:testUpdateSubtreeModificationTime\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: "#^Parameter \\#2 \\$y of method Doctrine\\\\DBAL\\\\Query\\\\Expression\\\\ExpressionBuilder\\:\\:in\\(\\) expects array\\<string\\>\\|string, array\\<int, int\\> given\\.$#"
 			count: 11
 			path: tests/lib/Persistence/Legacy/Content/Location/Gateway/DoctrineDatabaseTest.php
@@ -49492,7 +49132,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Handler\\:\\:expects\\(\\)\\.$#"
-			count: 4
+			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Location/TrashHandlerTest.php
 
 		-
@@ -49552,7 +49192,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Location\\\\Gateway\\:\\:expects\\(\\)\\.$#"
-			count: 22
+			count: 20
 			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
 
 		-
@@ -49617,11 +49257,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\LocationHandlerTest\\:\\:testLoadLocationsByContent\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\LocationHandlerTest\\:\\:testMarkSubtreeModified\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/LocationHandlerTest.php
 
@@ -52941,11 +52576,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\User\\\\UserHandlerTest\\:\\:testLoadPoliciesForUser\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\User\\\\UserHandlerTest\\:\\:testLoadRole\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/User/UserHandlerTest.php
@@ -53547,11 +53177,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Decorator\\\\ContentServiceDecoratorTest\\:\\:testUpdateContentMetadataDecorator\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Decorator/ContentServiceDecoratorTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$contentIds of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentService\\:\\:loadContentInfoList\\(\\) expects array\\<int, int\\>, array\\<int, string\\> given\\.$#"
 			count: 1
 			path: tests/lib/Repository/Decorator/ContentServiceDecoratorTest.php
 
@@ -58432,16 +58057,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\FilterTest\\:\\:testConstructorThrowsBadStateException\\(\\) has parameter \\$sortClauses with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Filter/FilterTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$criterion of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\Filter\\:\\:orWithCriterion\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\FilteringCriterion, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion given\\.$#"
-			count: 1
-			path: tests/lib/Repository/Values/Filter/FilterTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$criterion of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\Filter\\:\\:withCriterion\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Filter\\\\FilteringCriterion, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion given\\.$#"
 			count: 1
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
 

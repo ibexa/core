@@ -804,7 +804,6 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
@@ -852,9 +851,6 @@ class ContentTest extends BaseServiceMockTest
         $urlAliasHandler = $this->getPersistenceMock()->urlAliasHandler();
         /** @var \PHPUnit\Framework\MockObject\MockObject $locationHandler */
         $locationHandler = $this->getPersistenceMock()->locationHandler();
-        /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
-        $contentHandler = $this->getPersistenceMock()->contentHandler();
-
         $contentInfo = $this->createMock(APIContentInfo::class);
 
         $contentService->expects(self::once())
@@ -871,7 +867,6 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 
@@ -949,7 +944,6 @@ class ContentTest extends BaseServiceMockTest
                 ]
             );
 
-        $persistenceHandlerMock = $this->getPersistenceMockHandler('Handler');
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandler */
         $contentHandler = $this->getPersistenceMock()->contentHandler();
 

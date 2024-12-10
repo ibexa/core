@@ -543,26 +543,6 @@ class Handler implements BaseUserHandler
     }
 
     /**
-     * Returns the user policies associated with the user (including inherited policies from user groups).
-     *
-     * @param mixed $userId
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\User\Policy[]
-     */
-    public function loadPoliciesByUserId($userId)
-    {
-        $data = $this->roleGateway->loadPoliciesByUserId($userId);
-
-        $policies = $this->mapper->mapPolicies($data);
-
-        foreach ($policies as $policy) {
-            $this->limitationConverter->toSPI($policy);
-        }
-
-        return $policies;
-    }
-
-    /**
      * Assigns role to a user or user group with given limitations.
      *
      * The limitation array looks like:

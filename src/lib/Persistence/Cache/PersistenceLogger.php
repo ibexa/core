@@ -216,16 +216,6 @@ class PersistenceLogger
     }
 
     /**
-     * Counts the total of spi uncached call (cache miss and uncached calls).
-     *
-     * @deprecated Since 7.5, use getStats().
-     */
-    public function getCount(): int
-    {
-        return $this->stats['uncached'] + $this->stats['miss'];
-    }
-
-    /**
      * Get stats (call/miss/hit/memory).
      *
      * @since 7.5

@@ -22,9 +22,9 @@ class RepositoryTest extends BaseServiceMockTest
     public function testBeginTransaction()
     {
         $mockedRepository = $this->getRepository();
-        $persistenceHandlerMock = $this->getPersistenceMock();
+        $transactionHandlerMock = $this->getTransactionHandlerMock();
 
-        $persistenceHandlerMock->expects(
+        $transactionHandlerMock->expects(
             self::once()
         )->method(
             'beginTransaction'
@@ -41,9 +41,9 @@ class RepositoryTest extends BaseServiceMockTest
     public function testCommit()
     {
         $mockedRepository = $this->getRepository();
-        $persistenceHandlerMock = $this->getPersistenceMock();
+        $transactionHandlerMock = $this->getTransactionHandlerMock();
 
-        $persistenceHandlerMock->expects(
+        $transactionHandlerMock->expects(
             self::once()
         )->method(
             'commit'
@@ -62,9 +62,9 @@ class RepositoryTest extends BaseServiceMockTest
         $this->expectException(\RuntimeException::class);
 
         $mockedRepository = $this->getRepository();
-        $persistenceHandlerMock = $this->getPersistenceMock();
+        $transactionHandlerMock = $this->getTransactionHandlerMock();
 
-        $persistenceHandlerMock->expects(
+        $transactionHandlerMock->expects(
             self::once()
         )->method(
             'commit'
@@ -83,9 +83,9 @@ class RepositoryTest extends BaseServiceMockTest
     public function testRollback()
     {
         $mockedRepository = $this->getRepository();
-        $persistenceHandlerMock = $this->getPersistenceMock();
+        $transactionHandlerMock = $this->getTransactionHandlerMock();
 
-        $persistenceHandlerMock->expects(
+        $transactionHandlerMock->expects(
             self::once()
         )->method(
             'rollback'
@@ -104,9 +104,9 @@ class RepositoryTest extends BaseServiceMockTest
         $this->expectException(\RuntimeException::class);
 
         $mockedRepository = $this->getRepository();
-        $persistenceHandlerMock = $this->getPersistenceMock();
+        $transactionHandlerMock = $this->getTransactionHandlerMock();
 
-        $persistenceHandlerMock->expects(
+        $transactionHandlerMock->expects(
             self::once()
         )->method(
             'rollback'

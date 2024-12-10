@@ -11,12 +11,12 @@ use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInte
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository;
-use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Validator\ContentValidator;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -81,7 +81,6 @@ class RepositoryFactory
         RelationProcessor $relationProcessor,
         FieldTypeRegistry $fieldTypeRegistry,
         PasswordHashService $passwordHashService,
-        ThumbnailStrategy $thumbnailStrategy,
         ProxyDomainMapperFactoryInterface $proxyDomainMapperFactory,
         Mapper\ContentDomainMapper $contentDomainMapper,
         Mapper\ContentTypeDomainMapper $contentTypeDomainMapper,
@@ -95,6 +94,7 @@ class RepositoryFactory
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
+        TransactionHandler $transactionHandler
     ): Repository {
         $config = $this->repositoryConfigurationProvider->getRepositoryConfig();
 
@@ -105,7 +105,6 @@ class RepositoryFactory
             $relationProcessor,
             $fieldTypeRegistry,
             $passwordHashService,
-            $thumbnailStrategy,
             $proxyDomainMapperFactory,
             $contentDomainMapper,
             $contentTypeDomainMapper,
@@ -120,6 +119,7 @@ class RepositoryFactory
             $passwordValidator,
             $configResolver,
             $nameSchemaService,
+            $transactionHandler,
             [
                 'role' => [
                     'policyMap' => $this->policyMap,

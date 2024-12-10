@@ -9,6 +9,7 @@ namespace Ibexa\Core\Search\Common;
 
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use RuntimeException;
@@ -94,7 +95,6 @@ class FieldNameResolver
      * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
      * @see \Ibexa\Contracts\Core\FieldType\Indexable
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param string $fieldDefinitionIdentifier
      * @param string|null $fieldTypeIdentifier
      * @param string|null $name
@@ -102,7 +102,7 @@ class FieldNameResolver
      * @return string[]
      */
     public function getFieldNames(
-        Criterion $criterion,
+        CriterionInterface $criterion,
         $fieldDefinitionIdentifier,
         $fieldTypeIdentifier = null,
         $name = null
@@ -123,7 +123,6 @@ class FieldNameResolver
      * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
      * @see \Ibexa\Contracts\Core\FieldType\Indexable
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
      * @param string $fieldDefinitionIdentifier
      * @param string|null $fieldTypeIdentifier
      * @param string|null $name
@@ -131,7 +130,7 @@ class FieldNameResolver
      * @return array<string, \Ibexa\Contracts\Core\Search\FieldType>
      */
     public function getFieldTypes(
-        Criterion $criterion,
+        CriterionInterface $criterion,
         $fieldDefinitionIdentifier,
         $fieldTypeIdentifier = null,
         $name = null

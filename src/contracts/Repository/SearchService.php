@@ -11,7 +11,7 @@ namespace Ibexa\Contracts\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
@@ -166,17 +166,14 @@ interface SearchService
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    public function findSingle(Criterion $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content;
+    public function findSingle(CriterionInterface $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content;
 
     /**
      * Suggests a list of values for the given prefix.
      *
-     * @param string $prefix
      * @param string[] $fieldPaths
-     * @param int $limit
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter
      */
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, Criterion $filter = null);
+    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, CriterionInterface $filter = null);
 
     /**
      * Finds Locations for the given query.

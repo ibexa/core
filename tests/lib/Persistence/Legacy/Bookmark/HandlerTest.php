@@ -38,13 +38,11 @@ class HandlerTest extends TestCase
     public function testCreate()
     {
         $createStruct = new CreateStruct([
-            'name' => 'Contact',
             'locationId' => 54,
             'userId' => 87,
         ]);
 
         $bookmark = new Bookmark([
-            'name' => 'Contact',
             'locationId' => 54,
             'userId' => 87,
         ]);
@@ -90,7 +88,6 @@ class HandlerTest extends TestCase
         ];
 
         $object = new Bookmark([
-            'name' => 'Contact',
             'locationId' => $locationId,
             'userId' => $userId,
         ]);
@@ -139,13 +136,13 @@ class HandlerTest extends TestCase
         $rows = [
             [
                 'id' => '12',
-                'name' => 'Home',
+                'name' => '',
                 'node_id' => '2',
                 'user_id' => $userId,
             ],
             [
                 'id' => '75',
-                'name' => 'Contact',
+                'name' => '',
                 'node_id' => '54',
                 'user_id' => $userId,
             ],
@@ -154,13 +151,11 @@ class HandlerTest extends TestCase
         $objects = [
             new Bookmark([
                 'id' => 12,
-                'name' => 'Home',
                 'locationId' => 2,
                 'userId' => 78,
             ]),
             new Bookmark([
                 'id' => 75,
-                'name' => 'Contact',
                 'locationId' => 54,
                 'userId' => 87,
             ]),

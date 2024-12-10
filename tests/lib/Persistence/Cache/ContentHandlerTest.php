@@ -54,7 +54,6 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ['deleteVersion', [2, 1], [['content_version', [2, 1], false]], null, ['c-2-v-1']],
             ['addRelation', [new RelationCreateStruct(['destinationContentId' => 2, 'sourceContentId' => 4])], [['content', [2], false], ['content', [4], false]], null, ['c-2', 'c-4']],
             ['removeRelation', [66, APIRelation::COMMON, 2], [['content', [2], false], ['relation', [66], false]], null, ['c-2', 're-66']],
-            ['loadRelations', [2, 1, 3]],
             ['loadReverseRelations', [2, 3]],
             ['publish', [2, 3, new MetadataUpdateStruct()], [['content', [2], false]], null, ['c-2']],
             [

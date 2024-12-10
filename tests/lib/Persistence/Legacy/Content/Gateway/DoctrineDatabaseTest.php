@@ -132,7 +132,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $content->versionInfo->contentInfo->alwaysAvailable = true;
         $content->versionInfo->contentInfo->publicationDate = 123;
         $content->versionInfo->contentInfo->modificationDate = 456;
-        $content->versionInfo->contentInfo->isPublished = false;
         $content->versionInfo->contentInfo->name = 'Content name';
 
         return $content;

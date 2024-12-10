@@ -197,9 +197,6 @@ final class DoctrineGatewayDataMapper implements GatewayDataMapper
         $contentInfo->status = (int)$row['content_status'];
         $contentInfo->isHidden = (bool)$row['content_is_hidden'];
 
-        // setting deprecated property for BC reasons
-        $contentInfo->isPublished = $contentInfo->status === ContentInfo::STATUS_PUBLISHED;
-
         return $contentInfo;
     }
 }

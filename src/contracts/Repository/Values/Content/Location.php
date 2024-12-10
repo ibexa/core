@@ -43,11 +43,6 @@ abstract class Location extends ValueObject
     public const SORT_FIELD_PRIORITY = 8;
     public const SORT_FIELD_NAME = 9;
 
-    /**
-     * @deprecated
-     */
-    public const SORT_FIELD_MODIFIED_SUBNODE = 10;
-
     public const SORT_FIELD_NODE_ID = 11;
     public const SORT_FIELD_CONTENTOBJECT_ID = 12;
 
@@ -69,11 +64,8 @@ abstract class Location extends ValueObject
         self::SORT_FIELD_MODIFIED => SortClause\DateModified::class,
         self::SORT_FIELD_SECTION => SortClause\SectionIdentifier::class,
         self::SORT_FIELD_DEPTH => SortClause\Location\Depth::class,
-        //self::SORT_FIELD_CLASS_IDENTIFIER => false,
-        //self::SORT_FIELD_CLASS_NAME => false,
         self::SORT_FIELD_PRIORITY => SortClause\Location\Priority::class,
         self::SORT_FIELD_NAME => SortClause\ContentName::class,
-        //self::SORT_FIELD_MODIFIED_SUBNODE => false,
         self::SORT_FIELD_NODE_ID => SortClause\Location\Id::class,
         self::SORT_FIELD_CONTENTOBJECT_ID => SortClause\ContentId::class,
     ];

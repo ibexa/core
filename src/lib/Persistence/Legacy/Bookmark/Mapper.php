@@ -26,7 +26,6 @@ class Mapper
     public function createBookmarkFromCreateStruct(CreateStruct $createStruct): Bookmark
     {
         $bookmark = new Bookmark();
-        $bookmark->name = $createStruct->name;
         $bookmark->locationId = $createStruct->locationId;
         $bookmark->userId = $createStruct->userId;
 
@@ -61,7 +60,6 @@ class Mapper
     {
         $bookmark = new Bookmark();
         $bookmark->id = (int)$row['id'];
-        $bookmark->name = $row['name'];
         $bookmark->userId = (int)$row['user_id'];
         $bookmark->locationId = (int)$row['node_id'];
 

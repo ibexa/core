@@ -203,42 +203,4 @@ class Handler implements HandlerInterface
     {
         return $this->transactionHandler;
     }
-
-    /**
-     * Begin transaction.
-     *
-     * @deprecated Since 5.3 {@use transactionHandler()->beginTransaction()}
-     */
-    public function beginTransaction()
-    {
-        $this->transactionHandler->beginTransaction();
-    }
-
-    /**
-     * Commit transaction.
-     *
-     * Commit transaction, or throw exceptions if no transactions has been started.
-     *
-     * @throws \RuntimeException If no transaction has been started
-     *
-     * @deprecated Since 5.3 {@use transactionHandler()->beginTransaction()}
-     */
-    public function commit()
-    {
-        $this->transactionHandler->commit();
-    }
-
-    /**
-     * Rollback transaction.
-     *
-     * Rollback transaction, or throw exceptions if no transactions has been started.
-     *
-     * @throws \RuntimeException If no transaction has been started
-     *
-     * @deprecated Since 5.3 {@use transactionHandler()->beginTransaction()}
-     */
-    public function rollback()
-    {
-        $this->transactionHandler->rollback();
-    }
 }

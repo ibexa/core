@@ -10,6 +10,7 @@ namespace Ibexa\Core\QueryType\BuiltIn;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 final class SiblingsQueryType extends AbstractLocationQueryType
 {
@@ -18,7 +19,7 @@ final class SiblingsQueryType extends AbstractLocationQueryType
         return 'Siblings';
     }
 
-    protected function getQueryFilter(array $parameters): Criterion
+    protected function getQueryFilter(array $parameters): CriterionInterface
     {
         $location = $this->resolveLocation($parameters);
 

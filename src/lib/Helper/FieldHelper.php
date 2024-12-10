@@ -7,26 +7,20 @@
 
 namespace Ibexa\Core\Helper;
 
-use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 
 class FieldHelper
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
-
     /** @var \Ibexa\Contracts\Core\Repository\FieldTypeService */
     private $fieldTypeService;
 
     /** @var TranslationHelper */
     private $translationHelper;
 
-    public function __construct(TranslationHelper $translationHelper, ContentTypeService $contentTypeService, FieldTypeService $fieldTypeService)
+    public function __construct(TranslationHelper $translationHelper, FieldTypeService $fieldTypeService)
     {
         $this->fieldTypeService = $fieldTypeService;
-        $this->contentTypeService = $contentTypeService;
         $this->translationHelper = $translationHelper;
     }
 
@@ -48,23 +42,5 @@ class FieldHelper
             ->fieldTypeService
             ->getFieldType($fieldDefinition->fieldTypeIdentifier)
             ->isEmptyValue($field->value);
-    }
-
-    /**
-     * Returns FieldDefinition object based on $contentInfo and $fieldDefIdentifier.
-     *
-     * @deprecated If you have Content you can instead do: $content->getContentType()->getFieldDefinition($identifier)
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
-     * @param string $fieldDefIdentifier
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
-     */
-    public function getFieldDefinition(ContentInfo $contentInfo, $fieldDefIdentifier)
-    {
-        return $this
-            ->contentTypeService
-            ->loadContentType($contentInfo->contentTypeId)
-            ->getFieldDefinition($fieldDefIdentifier);
     }
 }

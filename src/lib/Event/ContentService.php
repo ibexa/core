@@ -134,7 +134,7 @@ class ContentService extends ContentServiceDecorator
             : $this->innerService->deleteContent($contentInfo);
 
         $this->eventDispatcher->dispatch(
-            new DeleteContentEvent($locations, ...$eventData)
+            new DeleteContentEvent(iterator_to_array($locations), ...$eventData)
         );
 
         return $locations;

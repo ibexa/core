@@ -95,7 +95,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
                 ->expects(self::once())
                 ->method('loadContentInfo')
                 ->with(33)
-                ->willReturn(new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'isPublished' => true]));
+                ->willReturn(new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'status' => ContentInfo::STATUS_PUBLISHED]));
 
             $contentHandlerMock
                 ->expects(self::once())
@@ -143,7 +143,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
     public function indexDeleteProvider()
     {
         $location = new Location(['id' => 44, 'contentId' => 33]);
-        $info = new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'isPublished' => true]);
+        $info = new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'status' => ContentInfo::STATUS_PUBLISHED]);
 
         $infoReturn = self::returnValue($info);
         $infoReturnUnPublished = self::returnValue(new ContentInfo(['id' => 33, 'currentVersionNo' => 2]));

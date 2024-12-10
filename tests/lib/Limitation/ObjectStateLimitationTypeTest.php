@@ -295,11 +295,13 @@ class ObjectStateLimitationTypeTest extends Base
         self::assertInstanceOf(LogicalAnd::class, $criterion);
         self::assertIsArray($criterion->criteria);
 
+        self::assertInstanceOf(ObjectStateId::class, $criterion->criteria[0]);
         self::assertIsArray($criterion->criteria[0]->value);
         self::assertIsString($criterion->criteria[0]->operator);
         self::assertEquals(Operator::IN, $criterion->criteria[0]->operator);
         self::assertEquals([1, 2], $criterion->criteria[0]->value);
 
+        self::assertInstanceOf(ObjectStateId::class, $criterion->criteria[1]);
         self::assertIsArray($criterion->criteria[1]->value);
         self::assertIsString($criterion->criteria[1]->operator);
         self::assertEquals(Operator::IN, $criterion->criteria[1]->operator);

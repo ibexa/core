@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 abstract class CriterionHandler
 {
@@ -47,11 +48,11 @@ abstract class CriterionHandler
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterion
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $criterion
      *
      * @return bool
      */
-    abstract public function accept(Criterion $criterion);
+    abstract public function accept(CriterionInterface $criterion);
 
     /**
      * Generate query expression for a Criterion this handler accepts.
@@ -68,7 +69,7 @@ abstract class CriterionHandler
     abstract public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
-        Criterion $criterion,
+        CriterionInterface $criterion,
         array $languageSettings
     );
 

@@ -33,7 +33,6 @@ class LocationHandlerTest extends AbstractInMemoryCacheHandlerTest
         return [
             ['copySubtree', [12, 45]],
             ['move', [12, 45], [['location_path', [12], false]], null, ['lp-12']],
-            ['markSubtreeModified', [12]],
             ['hide', [12], [['location_path', [12], false]], null, ['lp-12']],
             ['unHide', [12], [['location_path', [12], false]], null, ['lp-12']],
             [

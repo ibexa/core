@@ -7,7 +7,7 @@
 
 namespace Ibexa\Contracts\Core\Persistence\Content\Location\Trash;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 
 /**
  * The Trash Handler interface defines operations on Location elements in the storage engine.
@@ -65,14 +65,13 @@ interface Handler
      * TrashResult->totalCount will ignore limit and offset and representing the total amount of trashed items
      * matching the criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $criterion
      * @param int $offset Offset to start listing from, 0 by default
      * @param int $limit Limit for the listing. Null by default (no limit)
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $sort
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location\Trashed[]|\Ibexa\Contracts\Core\Persistence\Content\Location\Trash\TrashResult
      */
-    public function findTrashItems(Criterion $criterion = null, $offset = 0, $limit = null, array $sort = null);
+    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null);
 
     /**
      * Empties the trash

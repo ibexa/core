@@ -12,6 +12,7 @@ use Exception;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
+use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
 use Ibexa\Contracts\Core\Repository\ContentService as ContentServiceInterface;
 use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInterface;
@@ -30,7 +31,6 @@ use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\RoleService as RoleServiceInterface;
 use Ibexa\Contracts\Core\Repository\SearchService as SearchServiceInterface;
 use Ibexa\Contracts\Core\Repository\SectionService as SectionServiceInterface;
-use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\TrashService as TrashServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLAliasService as URLAliasServiceInterface;
 use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
@@ -229,9 +229,6 @@ class Repository implements RepositoryInterface
     /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
     private $passwordHashService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy */
-    private $thumbnailStrategy;
-
     /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory */
     private $proxyDomainMapperFactory;
 
@@ -261,6 +258,8 @@ class Repository implements RepositoryInterface
 
     private ConfigResolverInterface $configResolver;
 
+    private TransactionHandler $transactionHandler;
+
     public function __construct(
         PersistenceHandler $persistenceHandler,
         SearchHandler $searchHandler,
@@ -268,7 +267,6 @@ class Repository implements RepositoryInterface
         RelationProcessor $relationProcessor,
         FieldTypeRegistry $fieldTypeRegistry,
         PasswordHashService $passwordHashGenerator,
-        ThumbnailStrategy $thumbnailStrategy,
         ProxyDomainMapperFactoryInterface $proxyDomainMapperFactory,
         Mapper\ContentDomainMapper $contentDomainMapper,
         Mapper\ContentTypeDomainMapper $contentTypeDomainMapper,
@@ -283,6 +281,7 @@ class Repository implements RepositoryInterface
         PasswordValidatorInterface $passwordValidator,
         ConfigResolverInterface $configResolver,
         NameSchemaServiceInterface $nameSchemaService,
+        TransactionHandler $transactionHandler,
         array $serviceSettings = [],
         ?LoggerInterface $logger = null
     ) {
@@ -292,7 +291,6 @@ class Repository implements RepositoryInterface
         $this->relationProcessor = $relationProcessor;
         $this->fieldTypeRegistry = $fieldTypeRegistry;
         $this->passwordHashService = $passwordHashGenerator;
-        $this->thumbnailStrategy = $thumbnailStrategy;
         $this->proxyDomainMapperFactory = $proxyDomainMapperFactory;
         $this->contentDomainMapper = $contentDomainMapper;
         $this->contentTypeDomainMapper = $contentTypeDomainMapper;
@@ -334,6 +332,7 @@ class Repository implements RepositoryInterface
         $this->passwordValidator = $passwordValidator;
         $this->configResolver = $configResolver;
         $this->nameSchemaService = $nameSchemaService;
+        $this->transactionHandler = $transactionHandler;
     }
 
     public function sudo(callable $callback, ?RepositoryInterface $outerRepository = null)
@@ -787,7 +786,7 @@ class Repository implements RepositoryInterface
      */
     public function beginTransaction(): void
     {
-        $this->persistenceHandler->beginTransaction();
+        $this->transactionHandler->beginTransaction();
     }
 
     /**
@@ -800,7 +799,7 @@ class Repository implements RepositoryInterface
     public function commit(): void
     {
         try {
-            $this->persistenceHandler->commit();
+            $this->transactionHandler->commit();
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage(), 0, $e);
         }
@@ -816,7 +815,7 @@ class Repository implements RepositoryInterface
     public function rollback(): void
     {
         try {
-            $this->persistenceHandler->rollback();
+            $this->transactionHandler->rollback();
         } catch (Exception $e) {
             throw new RuntimeException($e->getMessage(), 0, $e);
         }
