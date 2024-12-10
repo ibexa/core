@@ -17,7 +17,7 @@ use Pagerfanta\Adapter\AdapterInterface;
  *
  * @implements \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
  *
- * @phpstan-type TFilteringLanguageFilter array<int, string>|null
+ * @phpstan-import-type TFilteringLanguageFilter from \Ibexa\Contracts\Core\Repository\ContentService
  */
 final class ContentFilteringAdapter implements AdapterInterface
 {
@@ -25,7 +25,7 @@ final class ContentFilteringAdapter implements AdapterInterface
 
     private Filter $filter;
 
-    /** @var TFilteringLanguageFilter */
+    /** @var TFilteringLanguageFilter|null */
     private ?array $languageFilter;
 
     /** @phpstan-var int<0, max>|null */

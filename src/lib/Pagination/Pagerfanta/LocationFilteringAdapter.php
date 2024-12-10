@@ -12,6 +12,11 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Pagerfanta\Adapter\AdapterInterface;
 
+/**
+ * @implements \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
+ *
+ * @phpstan-import-type TFilteringLanguageFilter from \Ibexa\Contracts\Core\Repository\LocationService
+ */
 final class LocationFilteringAdapter implements AdapterInterface
 {
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
@@ -20,8 +25,8 @@ final class LocationFilteringAdapter implements AdapterInterface
     /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
     private $filter;
 
-    /** @var array|null */
-    private $languageFilter;
+    /** @phpstan-var TFilteringLanguageFilter|null */
+    private ?array $languageFilter;
 
     /** @phpstan-var int<0, max>|null */
     private ?int $totalCount = null;
