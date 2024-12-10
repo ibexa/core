@@ -164,6 +164,8 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
 
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<T>
      */
     abstract protected function executeQuery(
         SearchService $searchService,
