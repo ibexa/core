@@ -42,8 +42,8 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
      */
     public function testCreateContent(): void
     {
-        if (getenv('SEARCH_ENGINE') === 'solr') {
-            self::markTestSkipped('Skipped on Solr as languages are not mapped to solr endpoints');
+        if (getenv('SEARCH_ENGINE') !== 'legacy') {
+            self::markTestSkipped('Skipped on non-LSE as it requires specific configuration');
         }
 
         $names = array_merge(...array_map(
