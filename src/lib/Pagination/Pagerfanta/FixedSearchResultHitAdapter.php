@@ -34,7 +34,7 @@ final class FixedSearchResultHitAdapter implements SearchResultAdapter
         return $this->searchResult->totalCount ?? -1;
     }
 
-    public function getSlice($offset, $length)
+    public function getSlice(int $offset, int $length): iterable
     {
         return $this->searchResult->searchHits;
     }

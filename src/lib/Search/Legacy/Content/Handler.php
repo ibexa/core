@@ -118,28 +118,9 @@ class Handler implements SearchHandlerInterface
         $this->mapper = $mapper;
     }
 
-    /**
-     * Finds content objects for the given query.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Query criterion is not applicable to its target
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param array $languageFilter - a map of language related filters specifying languages query will be performed on.
-     *        Also used to define which field languages are loaded for the returned content.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
-     */
-    public function findContent(Query $query, array $languageFilter = [])
+    public function findContent(Query $query, array $languageFilter = []): SearchResult
     {
-        if (!isset($languageFilter['languages'])) {
-            $languageFilter['languages'] = [];
-        }
-
-        if (!isset($languageFilter['useAlwaysAvailable'])) {
-            $languageFilter['useAlwaysAvailable'] = true;
-        }
+        $languageFilter = $this->setLanguageFilterDefaults($languageFilter);
 
         $start = microtime(true);
         $query->filter = $query->filter ?: new Criterion\MatchAll();
@@ -201,30 +182,9 @@ class Handler implements SearchHandlerInterface
         return null;
     }
 
-    /**
-     * Performs a query for a single content object.
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $filter
-     * @param array $languageFilter - a map of language related filters specifying languages query will be performed on.
-     *        Also used to define which field languages are loaded for the returned content.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the object was not found by the query or due to permissions
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Criterion is not applicable to its target
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than than one result matching the criterions
-     */
-    public function findSingle(CriterionInterface $filter, array $languageFilter = [])
+    public function findSingle(CriterionInterface $filter, array $languageFilter = []): Content\ContentInfo
     {
-        if (!isset($languageFilter['languages'])) {
-            $languageFilter['languages'] = [];
-        }
-
-        if (!isset($languageFilter['useAlwaysAvailable'])) {
-            $languageFilter['useAlwaysAvailable'] = true;
-        }
+        $languageFilter = $this->setLanguageFilterDefaults($languageFilter);
 
         $searchQuery = new Query();
         $searchQuery->filter = $filter;
@@ -241,20 +201,12 @@ class Handler implements SearchHandlerInterface
             throw new InvalidArgumentException('totalCount', 'findSingle() found more then one item for the given $criterion');
         }
 
-        $first = reset($result->searchHits);
-
-        return $first->valueObject;
+        return reset($result->searchHits)->valueObject;
     }
 
-    public function findLocations(LocationQuery $query, array $languageFilter = [])
+    public function findLocations(LocationQuery $query, array $languageFilter = []): SearchResult
     {
-        if (!isset($languageFilter['languages'])) {
-            $languageFilter['languages'] = [];
-        }
-
-        if (!isset($languageFilter['useAlwaysAvailable'])) {
-            $languageFilter['useAlwaysAvailable'] = true;
-        }
+        $languageFilter = $this->setLanguageFilterDefaults($languageFilter);
 
         $start = microtime(true);
         $query->filter = $query->filter ?: new Criterion\MatchAll();

@@ -19,11 +19,10 @@ use Pagerfanta\Adapter\AdapterInterface;
  */
 final class LocationFilteringAdapter implements AdapterInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
-    private $filter;
+    private Filter $filter;
 
     /** @phpstan-var TFilteringLanguageFilter|null */
     private ?array $languageFilter;

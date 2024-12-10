@@ -26,12 +26,12 @@ class LocationSearchHitAdapter extends AbstractSearchResultAdapter
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     protected function executeQuery(SearchService $searchService, Query $query, array $languageFilter): SearchResult
     {
+        assert($query instanceof LocationQuery);
+
         return $searchService->findLocations($query, $languageFilter);
     }
 }

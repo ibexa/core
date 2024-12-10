@@ -32,7 +32,7 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
     /** @phpstan-var TSearchLanguageFilter */
     private array $languageFilter;
 
-    private ?AggregationResultCollection $aggregations;
+    private ?AggregationResultCollection $aggregations = null;
 
     private ?float $time;
 
