@@ -139,9 +139,10 @@ class Handler implements SearchHandlerInterface
             $query->performCount
         );
 
+        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo> $result */
         $result = new SearchResult();
-        $result->time = microtime(true) - $start;
-        $result->totalCount = $data['count'];
+        $result->time = (int) (microtime(true) - $start) * 1000; // time expressed in ms
+        $result->totalCount = $data['count'] !== null ? (int)$data['count'] : 0;
         $contentInfoList = $this->contentMapper->extractContentInfoFromRows(
             $data['rows'],
             '',
@@ -149,6 +150,7 @@ class Handler implements SearchHandlerInterface
         );
 
         foreach ($contentInfoList as $index => $contentInfo) {
+            /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $contentInfo;
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
@@ -223,12 +225,14 @@ class Handler implements SearchHandlerInterface
             $query->performCount
         );
 
+        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\Location> $result */
         $result = new SearchResult();
-        $result->time = microtime(true) - $start;
-        $result->totalCount = $data['count'];
+        $result->time = (int) (microtime(true) - $start) * 1000; // time expressed in ms
+        $result->totalCount = $data['count'] !== null ? (int)$data['count'] : 0;
         $locationList = $this->locationMapper->createLocationsFromRows($data['rows']);
 
         foreach ($locationList as $index => $location) {
+            /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Persistence\Content\Location> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $location;
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
