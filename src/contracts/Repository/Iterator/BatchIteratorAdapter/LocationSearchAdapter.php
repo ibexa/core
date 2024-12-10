@@ -13,6 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
+/**
+ * @extends \Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapter<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
+ */
 final class LocationSearchAdapter extends AbstractSearchAdapter
 {
     public function __construct(

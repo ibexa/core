@@ -126,7 +126,7 @@ interface SearchService
      *
      * @param bool $filterOnUserPermissions if true only the objects which the user is allowed to read are returned.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
      */
     public function findContent(Query $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult;
 
@@ -193,7 +193,9 @@ interface SearchService
      *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
      * @param bool $filterOnUserPermissions if true only the objects which is the user allowed to read are returned.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      */
     public function findLocations(LocationQuery $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult;
 

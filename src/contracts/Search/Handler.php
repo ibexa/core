@@ -29,7 +29,7 @@ interface Handler
      *
      * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findContent}
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult With ContentInfo as SearchHit->valueObject
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo>
      */
     public function findContent(Query $query, array $languageFilter = []);
 
@@ -49,7 +49,7 @@ interface Handler
      *
      * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findSingle()}
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult With Location as SearchHit->valueObject
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
      */
     public function findLocations(LocationQuery $query, array $languageFilter = []);
 

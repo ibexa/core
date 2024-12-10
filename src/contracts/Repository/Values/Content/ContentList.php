@@ -14,6 +14,8 @@ use IteratorAggregate;
 
 /**
  * A filtered Content items list iterator.
+ *
+ * @implements \IteratorAggregate<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
  */
 final class ContentList implements IteratorAggregate, TotalCountAwareInterface
 {
