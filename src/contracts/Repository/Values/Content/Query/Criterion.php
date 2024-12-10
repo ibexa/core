@@ -118,12 +118,12 @@ abstract class Criterion implements CriterionInterface
      *
      * Returns the combination of the Criterion's supported operator/value,
      * as an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications} objects
-     * - Operator is one supported Operator, as an Operator::* constant
-     * - ValueType is the type of input value this operator requires, either array or single
-     * - SupportedTypes is an array of types the operator will accept
-     * - ValueCountLimitation is an integer saying how many values are expected.
+     * - `$operator` is a supported {@see Operator} constant.
+     * - `$valueFormat is the type of input value this operator requires, either array ({@see Specifications::FORMAT_ARRAY}) or single ({@see Specifications::FORMAT_SINGLE}).
+     * - `$valueTypes` are bitwise flags of types the operator will accept ({@see Specifications::TYPE_BOOLEAN}, {@see Specifications::TYPE_INTEGER}, and/or {@see Specifications::TYPE_STRING}).
+     * - `$valueCount` is an integer saying how many values are expected.
      *
-     * <code>
+     * ```
      * // IN and EQ are supported
      * return [
      *     // The EQ operator expects a single value, either as an integer or a string
@@ -139,7 +139,7 @@ abstract class Criterion implements CriterionInterface
      *         Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
      *     )
      * ]
-     * </code>
+     * ```
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications[]
      */
