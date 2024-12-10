@@ -450,12 +450,16 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     private function getNumberOfCPUCores()
     {
         $cores = 1;
-        if (isset($_SERVER['PLATFORM_BRANCH']) && is_file( '/run/config.json')) {
+        if (isset($_SERVER['PLATFORM_BRANCH']) && is_file('/run/config.json')) {
             // Ibexa Cloud: read #cpus from config
             $config_json_encoded = file_get_contents('/run/config.json');
+            if ($config_json_encoded == false) {
+                return 1;
+            }
             $config_json = json_decode($config_json_encoded);
             $cores = isset($config_json->info->limits->cpu) ? max(1, floor($config_json->info->limits->cpu)) : 1;
-            return $cores;
+
+            return (int)$cores;
         } elseif (is_file('/proc/cpuinfo')) {
             // Linux (and potentially Windows with linux sub systems)
             $cpuinfo = file_get_contents('/proc/cpuinfo');
