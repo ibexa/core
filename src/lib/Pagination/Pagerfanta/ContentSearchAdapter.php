@@ -19,7 +19,7 @@ use Pagerfanta\Adapter\AdapterInterface;
  * @implements \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
  * @implements \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
  *
- * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Core\Pagination\Pagerfanta\AbstractSearchResultAdapter
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 class ContentSearchAdapter implements AdapterInterface, SearchResultAdapter
 {

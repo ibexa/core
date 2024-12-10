@@ -46,6 +46,8 @@ use Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway as WordIndexerGateway;
  * 4) Additionally we might need a post-query filtering step, which filters
  * content objects based on criteria, which could not be converted in to
  * database statements.
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 class Handler implements SearchHandlerInterface
 {
@@ -392,5 +394,23 @@ class Handler implements SearchHandlerInterface
     public function supports(int $capabilityFlag): bool
     {
         return false;
+    }
+
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @phpstan-return TSearchLanguageFilter
+     */
+    private function setLanguageFilterDefaults(array $languageFilter): array
+    {
+        if (!isset($languageFilter['languages'])) {
+            $languageFilter['languages'] = [];
+        }
+
+        if (!isset($languageFilter['useAlwaysAvailable'])) {
+            $languageFilter['useAlwaysAvailable'] = true;
+        }
+
+        return $languageFilter;
     }
 }

@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
- * Search service.
+ * @phpstan-type TSearchLanguageFilter array{languages?: string[], useAlwaysAvailable?: bool}
  */
 interface SearchService
 {
@@ -119,11 +119,11 @@ interface SearchService
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param array $languageFilter Configuration for specifying prioritized languages query will be performed on.
-     *        Also used to define which field languages are loaded for the returned content.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
+     * @phpstan-param TSearchLanguageFilter $languageFilter Configuration for specifying prioritized languages the query will be performed on.
+     *                Also used to define which field languages are loaded for the returned content.
+     *                Currently, it supports: <code>['languages' => [<language1>, ...], 'useAlwaysAvailable' => bool]</code>.
+     *                `useAlwaysAvailable` defaults to true to avoid exceptions on missing translations.
+     *
      * @param bool $filterOnUserPermissions if true only the objects which the user is allowed to read are returned.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
@@ -137,7 +137,10 @@ interface SearchService
      * it can be more efficient for use cases where you don't need the full Content. Also including use cases
      * where content will be loaded by separate code, like an ESI based sub requests that takes content ID as input.
      *
-     * @since 0.5.4.5 eZ Publish 5.4 (ezpublish-kernel 5.4)
+     * @phpstan-param TSearchLanguageFilter $languageFilter Configuration for specifying prioritized languages the query will be performed on.
+     *                Also used to define which field languages are loaded for the returned content.
+     *                Currently, it supports: <code>['languages' => [<language1>, ...], 'useAlwaysAvailable' => bool]</code>.
+     *                `useAlwaysAvailable` defaults to true to avoid exceptions on missing translations.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
@@ -158,10 +161,11 @@ interface SearchService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if criterion is not valid
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than than one result matching the criterions
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter
-     * @param array $languageFilter Configuration for specifying prioritized languages query will be performed on.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
+     * @phpstan-param TSearchLanguageFilter $languageFilter Configuration for specifying prioritized languages the query will be performed on.
+     *                Also used to define which field languages are loaded for the returned content.
+     *                Currently, it supports: <code>['languages' => [<language1>, ...], 'useAlwaysAvailable' => bool]</code>.
+     *                `useAlwaysAvailable` defaults to true to avoid exceptions on missing translations.
+     *
      * @param bool $filterOnUserPermissions if true only the objects which is the user allowed to read are returned.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
@@ -178,7 +182,10 @@ interface SearchService
     /**
      * Finds Locations for the given query.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
+     * @phpstan-param TSearchLanguageFilter $languageFilter Configuration for specifying prioritized languages the query will be performed on.
+     *                Also used to define which field languages are loaded for the returned content.
+     *                Currently, it supports: <code>['languages' => [<language1>, ...], 'useAlwaysAvailable' => bool]</code>.
+     *                `useAlwaysAvailable` defaults to true to avoid exceptions on missing translations.
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
      * @param array $languageFilter Configuration for specifying prioritized languages query will be performed on.

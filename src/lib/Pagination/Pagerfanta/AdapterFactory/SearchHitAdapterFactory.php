@@ -18,6 +18,8 @@ use Pagerfanta\Adapter\AdapterInterface;
 
 /**
  * @internal
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
 {
@@ -29,6 +31,11 @@ final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
         $this->searchService = $searchService;
     }
 
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @phpstan-return \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\ValueObject>
+     */
     public function createAdapter(Query $query, array $languageFilter = []): AdapterInterface
     {
         if ($query instanceof LocationQuery) {
@@ -38,6 +45,13 @@ final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
         return new ContentSearchHitAdapter($query, $this->searchService, $languageFilter);
     }
 
+    /**
+     * @phpstan-return \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\ValueObject>
+     *
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function createFixedAdapter(Query $query, array $languageFilter = []): AdapterInterface
     {
         if ($query instanceof LocationQuery) {

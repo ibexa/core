@@ -16,7 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SpellcheckResult;
 use Pagerfanta\Adapter\AdapterInterface;
 
 /**
- * @phpstan-type TSearchLanguageFilter array{languages?: string[], useAlwaysAvailable?: bool}
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  *
  * @template T of \Ibexa\Contracts\Core\Repository\Values\ValueObject
  *
