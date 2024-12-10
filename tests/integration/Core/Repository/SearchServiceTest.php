@@ -4864,9 +4864,9 @@ class SearchServiceTest extends BaseTest
                 case $hit->valueObject instanceof Location:
                     /** @phpstan-ignore assign.propertyType */
                     $hit->valueObject = [
-                        /** @phpstan-var Location|Content $hit->valueObject */
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Location|\Ibexa\Contracts\Core\Repository\Values\Content\Content $hit->valueObject */
                         'id' => $hit->valueObject->contentInfo->getId(),
-                        /** @phpstan-var Location|Content $hit->valueObject */
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Location|\Ibexa\Contracts\Core\Repository\Values\Content\Content $hit->valueObject */
                         'title' => $hit->valueObject->contentInfo->getName(),
                     ];
                     break;
@@ -4874,9 +4874,9 @@ class SearchServiceTest extends BaseTest
                 case $hit->valueObject instanceof ContentInfo:
                     /** @phpstan-ignore assign.propertyType */
                     $hit->valueObject = [
-                        /** @phpstan-var ContentInfo $hit->valueObject */
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $hit->valueObject */
                         'id' => $hit->valueObject->id,
-                        /** @phpstan-var ContentInfo $hit->valueObject */
+                        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $hit->valueObject */
                         'title' => $hit->valueObject->name,
                     ];
                     break;

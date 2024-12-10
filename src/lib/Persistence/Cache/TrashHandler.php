@@ -36,7 +36,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
 
         $location = $this->persistenceHandler->locationHandler()->load($locationId);
         $limit = $this->persistenceHandler->contentHandler()->countRelations(
-            $location->contentId,
+            $location->contentId
         );
 
         $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
@@ -79,7 +79,7 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $location = $this->persistenceHandler->locationHandler()->load($return);
 
         $limit = $this->persistenceHandler->contentHandler()->countRelations(
-            $location->contentId,
+            $location->contentId
         );
 
         $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelationList(
