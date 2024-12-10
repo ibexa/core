@@ -23,8 +23,8 @@ final class LocationFilteringAdapter implements AdapterInterface
     /** @var array|null */
     private $languageFilter;
 
-    /** @var int|null */
-    private $totalCount;
+    /** @phpstan-var int<0, max>|null */
+    private ?int $totalCount = null;
 
     public function __construct(
         LocationService $locationService,

@@ -29,7 +29,7 @@ final class ContentFilteringAdapter implements AdapterInterface
     private ?array $languageFilter;
 
     /** @phpstan-var int<0, max>|null */
-    private ?int $totalCount;
+    private ?int $totalCount = null;
 
     /**
      * @param array<int, string>|null $languageFilter
