@@ -24,6 +24,10 @@ use RuntimeException;
  * @group integration
  * @group search
  * @group language_fallback
+ *
+ * @template TSearchHitValueObject
+ *
+ * @phpstan-type TIndexMap array{dedicated: string, shared: string, single: string, cloud: string}
  */
 class SearchServiceTranslationLanguageFallbackTest extends BaseTest
 {
@@ -1694,7 +1698,12 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         throw new RuntimeException("Backend cores setup '{$coresSetup}' is not handled");
     }
 
-    protected function getIndexName($indexMap)
+    /**
+     * @phpstan-param TIndexMap $indexMap
+     *
+     * @throws \ErrorException
+     */
+    protected function getIndexName(array $indexMap): ?string
     {
         $setupFactory = $this->getSetupFactory();
 
@@ -1882,6 +1891,10 @@ class SearchServiceTranslationLanguageFallbackTest extends BaseTest
         }
     }
 
+    /**
+     * @phpstan-param TIndexMap $indexMap
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<TSearchHitValueObject> $searchHit
+     */
     private function assertIndexName(array $indexMap, SearchHit $searchHit): void
     {
         $indexName = $this->getIndexName($indexMap);
