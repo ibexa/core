@@ -14,6 +14,8 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 
 /**
+ * Version builder.
+ *
  * Builder of {@see \Ibexa\Contracts\Core\Limitation\Target\Version} instance.
  */
 final class VersionBuilder
@@ -28,6 +30,8 @@ final class VersionBuilder
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $updatedFields
+     *
+     * @return VersionBuilder
      */
     public function updateFields(array $updatedFields): self
     {
@@ -41,7 +45,7 @@ final class VersionBuilder
      *
      * @param array $languageCodes
      *
-     * @return self
+     * @return VersionBuilder
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -61,9 +65,9 @@ final class VersionBuilder
     /**
      * Set intent to create Content from unspecified (yet) content type, any from the given list.
      *
-     * @param int[] $contentTypeIds
+     * @param array<int, int> $contentTypeIds
      *
-     * @return self
+     * @return VersionBuilder
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -83,13 +87,13 @@ final class VersionBuilder
     /**
      * Set intent to change Version status.
      *
-     * Supported: <code>VersionInfo::STATUS_DRAFT, VersionInfo::STATUS_PUBLISHED, VersionInfo::STATUS_ARCHIVED</code>
+     * Supported: {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_DRAFT}, {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_PUBLISHED}, {@see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo::STATUS_ARCHIVED}
      *
      * @see \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo
      *
      * @param int $status
      *
-     * @return self
+     * @return VersionBuilder
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -114,9 +118,9 @@ final class VersionBuilder
      * Set intent to update Content Version Fields.
      *
      * @param string|null $initialLanguageCode
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field[] $fields
+     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Field> $fields
      *
-     * @return self
+     * @return VersionBuilder
      */
     public function updateFieldsTo(?string $initialLanguageCode, array $fields): self
     {
@@ -138,9 +142,9 @@ final class VersionBuilder
     /**
      * Set intent to publish, to specified translations, all from the given list.
      *
-     * @param string[] $languageCodes
+     * @param array<int, string> $languageCodes
      *
-     * @return self
+     * @return VersionBuilder
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
