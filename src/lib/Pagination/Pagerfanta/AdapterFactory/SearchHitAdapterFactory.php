@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\Pagination\Pagerfanta\ContentSearchHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\FixedSearchResultHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\LocationSearchHitAdapter;
-use Pagerfanta\Adapter\AdapterInterface;
+use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 
 /**
  * @internal
@@ -24,19 +24,14 @@ use Pagerfanta\Adapter\AdapterInterface;
 final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
 {
     /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    private $searchService;
+    private SearchService $searchService;
 
     public function __construct(SearchService $searchService)
     {
         $this->searchService = $searchService;
     }
 
-    /**
-     * @phpstan-param TSearchLanguageFilter $languageFilter
-     *
-     * @phpstan-return \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\ValueObject>
-     */
-    public function createAdapter(Query $query, array $languageFilter = []): AdapterInterface
+    public function createAdapter(Query $query, array $languageFilter = []): SearchResultAdapter
     {
         if ($query instanceof LocationQuery) {
             return new LocationSearchHitAdapter($query, $this->searchService, $languageFilter);
@@ -45,14 +40,7 @@ final class SearchHitAdapterFactory implements SearchHitAdapterFactoryInterface
         return new ContentSearchHitAdapter($query, $this->searchService, $languageFilter);
     }
 
-    /**
-     * @phpstan-return \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\ValueObject>
-     *
-     * @phpstan-param TSearchLanguageFilter $languageFilter
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     */
-    public function createFixedAdapter(Query $query, array $languageFilter = []): AdapterInterface
+    public function createFixedAdapter(Query $query, array $languageFilter = []): SearchResultAdapter
     {
         if ($query instanceof LocationQuery) {
             $searchResults = $this->searchService->findLocations($query, $languageFilter);
