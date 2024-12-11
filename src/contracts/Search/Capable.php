@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Search;
 
 /**
+ * Capability interface for search engines.
+ *
  * Capability interface for search engines needed for {@see \Ibexa\Contracts\Core\Repository\SearchService::supports()}.
  *
  * @since 6.12 And ported to 6.7.6 for search engine forward compatibility.
