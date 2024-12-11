@@ -15,11 +15,16 @@ use Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInter
 use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
 use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 use Ibexa\Core\Query\QueryFactoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @phpstan-type TOptionsArray array<string, mixed>
+ * @covers \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
+ *
+ * @phpstan-import-type TOptionsArray from \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
+ *
+ * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
  */
 final class QueryRenderControllerTest extends TestCase
 {
@@ -53,14 +58,11 @@ final class QueryRenderControllerTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Query\QueryFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $queryFactory;
+    private QueryFactoryInterface & MockObject $queryFactory;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $searchHitAdapterFactory;
+    private SearchHitAdapterFactoryInterface & MockObject $searchHitAdapterFactory;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController */
-    private $controller;
+    private QueryRenderController $controller;
 
     protected function setUp(): void
     {
