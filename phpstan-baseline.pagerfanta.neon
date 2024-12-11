@@ -11,16 +11,6 @@ parameters:
 			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactory.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AdapterFactory\\\\SearchHitAdapterFactoryInterface\\:\\:createAdapter\\(\\) return type with generic interface Pagerfanta\\\\Adapter\\\\AdapterInterface does not specify its types\\: T$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactoryInterface.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AdapterFactory\\\\SearchHitAdapterFactoryInterface\\:\\:createFixedAdapter\\(\\) return type with generic interface Pagerfanta\\\\Adapter\\\\AdapterInterface does not specify its types\\: T$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactoryInterface.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\FixedSearchResultHitAdapter\\:\\:getNbResults\\(\\) should return int\\<0, max\\> but returns int\\<\\-1, max\\>\\.$#"
 			count: 1
 			path: src/lib/Pagination/Pagerfanta/FixedSearchResultHitAdapter.php
@@ -79,31 +69,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\URL\\\\UsageSearchResult\\:\\:\\$totalCount \\(int\\) does not accept int\\<0, max\\>\\|null\\.$#"
 			count: 1
 			path: src/lib/Repository/URLService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\UserService\\:\\:searchSubGroups\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
-			count: 1
-			path: src/lib/Repository/UserService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Handler\\:\\:findContent\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Handler\\:\\:findLocations\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\:\\:\\$time \\(int\\) does not accept float\\.$#"
-			count: 2
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\:\\:\\$totalCount \\(int\\<0, max\\>\\|null\\) does not accept array\\.$#"
-			count: 2
-			path: src/lib/Search/Legacy/Content/Handler.php
 
 		-
 			message: "#^Parameter \\#1 \\$totalCount of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList constructor expects int\\<0, max\\>, int given\\.$#"
@@ -231,11 +196,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\:\\:\\$valueObject \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\) does not accept array\\<string, int\\|string\\>\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\:\\:\\$totalCount \\(int\\<0, max\\>\\|null\\) does not accept int\\<\\-1, max\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTest.php
@@ -264,16 +224,6 @@ parameters:
 			message: "#^Template type TItem of method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderControllerTest\\:\\:configureMocks\\(\\) is not referenced in a parameter\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Controller/QueryRenderControllerTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\:\\:\\$query \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Pagination/BaseContentSearchResultAdapterTestCase.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\:\\:\\$query \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\CriterionInterface&PHPUnit\\\\Framework\\\\MockObject\\\\MockObject\\.$#"
-			count: 1
-			path: tests/lib/Pagination/BaseLocationSearchResultAdapterTestCase.php
 
 		-
 			message: "#^Parameter \\#1 \\$totalCount of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList constructor expects int\\<0, max\\>, int given\\.$#"
