@@ -19,16 +19,16 @@ use InvalidArgumentException;
  * group, modifier).
  *
  * Supported Operators:
- * EQ, IN: Matches the provided user ID(s) against the user IDs in the database
+ * - {@see Operator::EQ EQ}, {@see Operator::IN}: Matches the provided user ID(s) against the user IDs in the database.
  *
- * Example:
- * <code>
+ * The following example is a criterion for contents owned by a user with ID 10 or 14:
+ * ```
  * $createdCriterion = new Criterion\UserMetadata(
  *     Criterion\UserMetadata::OWNER,
- *     Operator::IN,
- *     array( 10, 14 )
+ *     Criterion\Operator::IN,
+ *     [10, 14]
  * );
- * </code>
+ * ```
  */
 class UserMetadata extends Criterion implements TrashCriterion, FilteringCriterion
 {
@@ -48,13 +48,13 @@ class UserMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     public const MODIFIER = 'modifier';
 
     /**
-     * Creates a new UserMetadata criterion on $metadata.
+     * Creates a new UserMetadata criterion.
      *
      * @throws \InvalidArgumentException If target is unknown
      *
-     * @param string $target One of UserMetadata::OWNER, UserMetadata::GROUP or UserMetadata::MODIFIED
-     * @param string|null $operator The operator the Criterion uses. If null is given, will default to Operator::IN if $value is an array, Operator::EQ if it is not.
-     * @param mixed $value The match value, either as an array of as a single value, depending on the operator
+     * @param string $target One of {@see UserMetadata::OWNER}, {@see UserMetadata::GROUP}, or {@see UserMetadata::MODIFIED}.
+     * @param string|null $operator The operator the Criterion uses. If null is given, will default to {@see Operator::IN} if $value is an array, {@see Operator::EQ} if it isn't.
+     * @param mixed $value The match value, either as an array of as a single value, depending on the operator.
      */
     public function __construct(string $target, ?string $operator, $value)
     {
