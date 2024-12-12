@@ -118,10 +118,10 @@ abstract class Criterion implements CriterionInterface
      *
      * Returns the combination of the Criterion's supported operator/value,
      * as an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications} objects
-     * - `$operator` is a supported {@see Operator} constant.
-     * - `$valueFormat is the type of input value this operator requires, either array ({@see Specifications::FORMAT_ARRAY}) or single ({@see Specifications::FORMAT_SINGLE}).
-     * - `$valueTypes` are bitwise flags of types the operator will accept ({@see Specifications::TYPE_BOOLEAN}, {@see Specifications::TYPE_INTEGER}, and/or {@see Specifications::TYPE_STRING}).
-     * - `$valueCount` is an integer saying how many values are expected.
+     * - {@see Specifications::$operator} is a supported {@see Operator} constant.
+     * - {@see Specifications::$valueFormat} is the type of input value this operator requires, either array ({@see Specifications::FORMAT_ARRAY}) or single ({@see Specifications::FORMAT_SINGLE}).
+     * - {@see Specifications::$valueTypes} are bitwise flags of types the operator will accept ({@see Specifications::TYPE_BOOLEAN}, {@see Specifications::TYPE_INTEGER}, and/or {@see Specifications::TYPE_STRING}).
+     * - {@see Specifications::$valueCount} is an integer saying how many values are expected.
      *
      * ```
      * // IN and EQ are supported
