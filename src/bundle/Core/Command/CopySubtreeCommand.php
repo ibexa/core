@@ -173,6 +173,6 @@ class CopySubtreeCommand extends Command
 
         $totalCount = $this->searchService->findLocations($query)->totalCount;
 
-        return $totalCount !== null ? (string) $totalCount : '∞';
+        return $totalCount !== null ? (string) $totalCount : '~';
     }
 }
