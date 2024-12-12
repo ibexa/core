@@ -41,6 +41,8 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     public const PUBLISHED = 'published';
 
     /**
+     * To search for contents based on when they have been sent to trash.
+     *
      * Applies to {@see \Ibexa\Contracts\Core\Repository\TrashService::findTrashItems() only.
      */
     public const TRASHED = 'trashed';
