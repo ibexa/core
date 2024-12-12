@@ -55,7 +55,7 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     ];
 
     /**
-     * Creates a new DateMetadata criterion on $metadata.
+     * Creates a new DateMetadata criterion.
      *
      * @throws \InvalidArgumentException If target is unknown
      *
