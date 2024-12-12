@@ -34,16 +34,12 @@ class CopySubtreeCommand extends Command
 
     private LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
     private UserService $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
     private ContentTypeService $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
     private SearchService $searchService;
 
     /**
