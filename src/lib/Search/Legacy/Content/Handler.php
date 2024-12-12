@@ -142,7 +142,7 @@ class Handler implements SearchHandlerInterface
         /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo> $result */
         $result = new SearchResult();
         $result->time = (int) (microtime(true) - $start) * 1000; // time expressed in ms
-        $result->totalCount = $data['count'] !== null ? (int)$data['count'] : 0;
+        $result->totalCount = $data['count'] !== null ? (int)$data['count'] : null;
         $contentInfoList = $this->contentMapper->extractContentInfoFromRows(
             $data['rows'],
             '',
@@ -228,7 +228,7 @@ class Handler implements SearchHandlerInterface
         /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\Location> $result */
         $result = new SearchResult();
         $result->time = (int) (microtime(true) - $start) * 1000; // time expressed in ms
-        $result->totalCount = $data['count'] !== null ? (int)$data['count'] : 0;
+        $result->totalCount = $data['count'] !== null ? (int)$data['count'] : null;
         $locationList = $this->locationMapper->createLocationsFromRows($data['rows']);
 
         foreach ($locationList as $index => $location) {
