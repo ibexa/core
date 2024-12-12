@@ -44,13 +44,15 @@ abstract class Criterion implements CriterionInterface
     public $valueData;
 
     /**
-     * Performs operator validation based on the Criterion specifications returned by {@see getSpecifications()}.
+     * Creates a Criterion.
+     *
+     * Performs operator validation based on the Criterion specifications returned by {@see Criterion::getSpecifications()}.
      *
      * @param string|null $target The target the Criterion applies to: metadata identifier, field identifier...
      * @param string|null $operator
-     *        The operator the Criterion uses. If null is given, will default to Operator::IN if $value is an array,
-     *        Operator::EQ if it is not.
-     * @param scalar[]|scalar $value
+     *        The operator the Criterion uses. If null is given, will default to {@see Operator::IN} if $value is an array,
+     *        {@see Operator::EQ} if it isn't.
+     * @param array<int, scalar>|scalar $value
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value|null $valueData
      *
      * @todo Add a dedicated exception
@@ -141,14 +143,14 @@ abstract class Criterion implements CriterionInterface
      * ]
      * ```
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications[]
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications>
      */
     abstract public function getSpecifications(): array;
 
     /**
      * Returns a callback that checks the values types depending on the operator specifications.
      *
-     * @param int $valueTypes The accepted values, as a bit field of Specifications::TYPE_* constants
+     * @param int $valueTypes The accepted values, as a bit field of {@see Specifications}::TYPE_* constants
      *
      * @return callable
      */
