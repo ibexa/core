@@ -19,7 +19,7 @@ use InvalidArgumentException;
  * group, modifier).
  *
  * Supported Operators:
- * - {@see Operator::EQ EQ}, {@see Operator::IN}: Matches the provided user ID(s) against the user IDs in the database.
+ * - {@see Operator::EQ EQ}, {@see Operator::IN IN}: Matches the provided user ID(s) against the user IDs in the database.
  *
  * The following example is a criterion for contents owned by a user with ID 10 or 14:
  * ```
