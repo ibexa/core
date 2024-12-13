@@ -61,9 +61,11 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
 
         $hits = [];
         for ($i = 0; $i < self::EXAMPLE_LIMIT; ++$i) {
-            $hits[] = new SearchHit([
-                                        'valueObject' => $this->createMock(APIContent::class),
-                                    ]);
+            $hits[] = new SearchHit(
+                [
+                    'valueObject' => $this->createMock(APIContent::class),
+                ]
+            );
         }
 
         $searchResult = new SearchResult(
