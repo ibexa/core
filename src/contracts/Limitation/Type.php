@@ -21,26 +21,57 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
 interface Type
 {
     /**
-     * Constants for return value of {@see evaluate()}.
+     * Access is granted.
      *
-     * Currently ACCESS_ABSTAIN must mean that evaluate does not support the provided $object or $targets,
-     * this is currently only supported by role limitations as policy limitations should not allow this.
+     * Constant for return value of {@see Type::evaluate()}.
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
      *
      * @since 5.3.2
      */
     public const ACCESS_GRANTED = true;
+
+    /**
+     * The type abstains from voting.
+     *
+     * Constant for return value of {@see Type::evaluate()}.
+     *
+     * Returning ACCESS_ABSTAIN must mean that evaluate does not support the provided $object or $targets,
+     * this is only supported by role limitations as policy limitations should not allow this.
+     *
+     * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
+     *
+     * @since 5.3.2
+     */
     public const ACCESS_ABSTAIN = null;
+
+    /**
+     * Access is denied.
+     *
+     * Constant for return value of {@see Type::evaluate()}.
+     *
+     * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
+     *
+     * @since 5.3.2
+     */
     public const ACCESS_DENIED = false;
 
     /**
-     * Constants for valueSchema() return values.
+     * Limitation's value must be an array of location IDs.
      *
-     * Used in cases where a certain value is accepted but the options are to many to return as a hash of options.
+     * Constant for {@see Type::valueSchema()} return values.
+     *
      * GUI should typically present option to browse content tree to select limitation value(s).
      */
     public const VALUE_SCHEMA_LOCATION_ID = 1;
+
+    /**
+     * Limitation's value must be an array of location paths.
+     *
+     * Constant for {@see Type::valueSchema()} return values.
+     *
+     * GUI should typically present option to browse content tree to select limitation value(s).
+     */
     public const VALUE_SCHEMA_LOCATION_PATH = 2;
 
     /**
@@ -92,7 +123,7 @@ interface Type
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
-     * @return bool|null Returns one of ACCESS_* constants
+     * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
      */
     public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, array $targets = null);
 
@@ -112,9 +143,10 @@ interface Type
     /**
      * Returns info on valid $limitationValues.
      *
-     * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
-     *                     of that option, in case of int on of VALUE_SCHEMA_* constants.
-     *                     Note: The hash might be an instance of Traversable, and not a native php array.
+     * @return array<string, string>|Traversable|int In case of array, a hash with key as valid limitations value and value as human-readable name
+     *                     of that option. Note: The hash might be an instance of Traversable instead of a native PHP array.
+     *                     In case of int, one of VALUE_SCHEMA_* constants. Used in cases where a certain value is accepted
+     *                     but the options are too many to return as a hash of options.
      */
     public function valueSchema();
 }
