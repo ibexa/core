@@ -267,9 +267,11 @@ interface LocationService
     public function find(Filter $filter, ?array $languages = null): LocationList;
 
     /**
-     * Count total number of items returned by {@see find} method.
+     * Counts total number of items matching the filter.
      *
-     * @param string[] $languages a list of language codes to be added as additional constraints.
+     * Return the count of items that would be returned by {@see LocationService::find()} method.
+     *
+     * @param array<int, string> $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
