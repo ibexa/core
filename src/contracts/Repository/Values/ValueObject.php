@@ -25,7 +25,7 @@ abstract class ValueObject
      * Readonly properties values must be set using $properties as they are not writable anymore
      * after object has been created.
      *
-     * @param array $properties
+     * @param array<string, mixed> $properties
      */
     public function __construct(array $properties = [])
     {
@@ -35,17 +35,18 @@ abstract class ValueObject
     }
 
     /**
-     * Function where list of properties are returned.
+     * Returns list of available properties' names.
      *
-     * Used by {@see attributes()}, override to add dynamic properties
+     * {@internal Used by {@see ValueObject::attributes()}}
+     * Override to add dynamic properties.
      *
-     * @uses ::__isset()
+     * @uses ValueObject::__isset()
      *
      * @todo Make object traversable and reuse this function there (hence why this is not exposed)
      *
-     * @param array $dynamicProperties Additional dynamic properties exposed on the object
+     * @param array<int, string> $dynamicProperties Additional dynamic properties exposed on the object
      *
-     * @return array
+     * @return array<int, string>
      */
     protected function getProperties($dynamicProperties = [])
     {
@@ -62,7 +63,7 @@ abstract class ValueObject
     /**
      * Magic set function handling writes to non public properties.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException When property does not exist
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException When property is readonly (protected)
@@ -83,7 +84,7 @@ abstract class ValueObject
      *
      * Returns value for all readonly (protected) properties.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException exception on all reads to undefined properties so typos are not silently accepted.
      *
@@ -104,7 +105,7 @@ abstract class ValueObject
      *
      * Returns true for all (public/)protected/private properties.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @param string $property Name of the property
      *
@@ -118,12 +119,12 @@ abstract class ValueObject
     /**
      * Magic unset function handling unset() to non public properties.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException exception on all writes to undefined properties so typos are not silently accepted and
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException exception on readonly (protected) properties.
      *
-     * @uses ::__set()
+     * @uses ValueObject::__set()
      *
      * @param string $property Name of the property
      *
@@ -144,7 +145,7 @@ abstract class ValueObject
      * var_export() generates code, that calls this method when it
      * is parsed with PHP.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @param mixed[] $array
      *
@@ -158,11 +159,11 @@ abstract class ValueObject
     /**
      * Internal function for Legacy template engine compatibility to get property value.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @deprecated Since 5.0, available purely for legacy eZTemplate compatibility
      *
-     * @uses ::__get()
+     * @uses ValueObject::__get()
      *
      * @param string $property
      *
@@ -176,11 +177,12 @@ abstract class ValueObject
     /**
      * Internal function for Legacy template engine compatibility to get properties.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @deprecated Since 5.0, available purely for legacy eZTemplate compatibility
      *
-     * @uses ::__isset()
+     * @uses ValueObject::getProperties()
+     * @uses ValueObject::__isset()
      *
      * @return array
      */
@@ -192,11 +194,11 @@ abstract class ValueObject
     /**
      * Internal function for Legacy template engine compatibility to check existence of property.
      *
-     * @ignore This method is for internal use
+     * @internal
      *
      * @deprecated Since 5.0, available purely for legacy eZTemplate compatibility
      *
-     * @uses ::__isset()
+     * @uses ValueObject::__isset()
      *
      * @param string $property
      *
