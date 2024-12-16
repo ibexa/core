@@ -12,13 +12,15 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class represents a SearchHit matching the query.
+ *
+ * @template-covariant T of \Ibexa\Contracts\Core\Repository\Values\ValueObject
  */
 class SearchHit extends ValueObject
 {
     /**
      * The value found by the search.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\ValueObject
+     * @phpstan-var T
      */
     public $valueObject;
 

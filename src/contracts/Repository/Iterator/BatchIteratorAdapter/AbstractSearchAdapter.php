@@ -14,20 +14,26 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Iterator;
 
+/**
+ * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
+ */
 abstract class AbstractSearchAdapter implements BatchIteratorAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    protected $searchService;
+    protected SearchService $searchService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query */
-    protected $query;
+    protected Query $query;
 
-    /** @var string[] */
-    protected $languageFilter;
+    /** @phpstan-var TSearchLanguageFilter */
+    protected array $languageFilter;
 
     /** @var bool */
-    protected $filterOnUserPermissions;
+    protected bool $filterOnUserPermissions;
 
+    /**
+     * @phpstan-param TSearchLanguageFilter $languageFilter
+     */
     public function __construct(
         SearchService $searchService,
         Query $query,
@@ -49,5 +55,10 @@ abstract class AbstractSearchAdapter implements BatchIteratorAdapter
         return $this->executeSearch($query)->getIterator();
     }
 
+    /**
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<TSearchHitValueObject>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     abstract protected function executeSearch(Query $query): SearchResult;
 }

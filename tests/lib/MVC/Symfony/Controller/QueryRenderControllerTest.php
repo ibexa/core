@@ -15,23 +15,32 @@ use Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInter
 use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
 use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 use Ibexa\Core\Query\QueryFactoryInterface;
-use Pagerfanta\Adapter\AdapterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
+ *
+ * @phpstan-import-type TOptionsArray from \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController
+ *
+ * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
+ */
 final class QueryRenderControllerTest extends TestCase
 {
-    private const EXAMPLE_CURRENT_PAGE = 3;
-    private const EXAMPLE_MAX_PER_PAGE = 100;
+    private const int EXAMPLE_CURRENT_PAGE = 3;
+    private const int EXAMPLE_MAX_PER_PAGE = 100;
 
-    private const MIN_OPTIONS = [
+    /** @phpstan-var TOptionsArray */
+    private const array MIN_OPTIONS = [
         'query' => [
             'query_type' => 'ExampleQuery',
         ],
         'template' => 'example.html.twig',
     ];
 
-    private const ALL_OPTIONS = [
+    /** @phpstan-var TOptionsArray */
+    private const array ALL_OPTIONS = [
         'query' => [
             'query_type' => 'ExampleQuery',
             'parameters' => [
@@ -49,14 +58,11 @@ final class QueryRenderControllerTest extends TestCase
         ],
     ];
 
-    /** @var \Ibexa\Core\Query\QueryFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $queryFactory;
+    private QueryFactoryInterface & MockObject $queryFactory;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $searchHitAdapterFactory;
+    private SearchHitAdapterFactoryInterface & MockObject $searchHitAdapterFactory;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Controller\QueryRenderController */
-    private $controller;
+    private QueryRenderController $controller;
 
     protected function setUp(): void
     {
@@ -84,6 +90,9 @@ final class QueryRenderControllerTest extends TestCase
         );
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
     public function testRenderQueryWithAllOptions(): void
     {
         $adapter = $this->configureMocks(self::ALL_OPTIONS);
@@ -102,7 +111,14 @@ final class QueryRenderControllerTest extends TestCase
         );
     }
 
-    private function configureMocks(array $options): AdapterInterface
+    /**
+     * @phpstan-param TOptionsArray $options
+     *
+     * @template TItem
+     *
+     * @phpstan-return \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<TItem>
+     */
+    private function configureMocks(array $options): SearchResultAdapter
     {
         $query = new Query();
 
@@ -124,6 +140,9 @@ final class QueryRenderControllerTest extends TestCase
         return $adapter;
     }
 
+    /**
+     * @phpstan-param TOptionsArray $options
+     */
     private function assertRenderQueryResult(
         QueryView $expectedView,
         array $options,

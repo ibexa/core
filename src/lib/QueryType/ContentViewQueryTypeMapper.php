@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\QueryType;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 
 /**
@@ -14,10 +15,5 @@ use Ibexa\Core\MVC\Symfony\View\ContentView;
  */
 interface ContentViewQueryTypeMapper
 {
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\View\ContentView $contentView
-     *
-     * @return \Ibexa\Core\QueryType\QueryType
-     */
-    public function map(ContentView $contentView);
+    public function map(ContentView $contentView): Query;
 }

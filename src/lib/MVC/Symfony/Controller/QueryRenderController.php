@@ -20,14 +20,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Controller used internally by ez_query_*_render and ez_query_*_render_* functions.
  *
  * @internal
+ *
+ * @phpstan-type TOptionsArray array<string, mixed>
  */
 final class QueryRenderController
 {
-    /** @var \Ibexa\Core\Query\QueryFactoryInterface */
-    private $queryFactory;
+    private QueryFactoryInterface $queryFactory;
 
-    /** @var \Ibexa\Core\Pagination\Pagerfanta\AdapterFactory\SearchHitAdapterFactoryInterface */
-    private $searchHitAdapterFactory;
+    private SearchHitAdapterFactoryInterface $searchHitAdapterFactory;
 
     public function __construct(
         QueryFactoryInterface $queryFactory,
@@ -37,6 +37,11 @@ final class QueryRenderController
         $this->searchHitAdapterFactory = $searchHitAdapterFactory;
     }
 
+    /**
+     * @phpstan-param TOptionsArray $options
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function renderQuery(Request $request, array $options): QueryView
     {
         $options = $this->resolveOptions($options);
@@ -57,6 +62,11 @@ final class QueryRenderController
         );
     }
 
+    /**
+     * @phpstan-param TOptionsArray $options
+     *
+     * @phpstan-return TOptionsArray
+     */
     private function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
@@ -92,6 +102,11 @@ final class QueryRenderController
         return $resolver->resolve($options);
     }
 
+    /**
+     * @phpstan-param TOptionsArray $options
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     private function getAdapter(array $options): SearchResultAdapter
     {
         $query = $this->queryFactory->create(

@@ -13,6 +13,11 @@ use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\ContentSearchA
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
+/**
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
+ *
+ * @extends \Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTest<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
+ */
 final class ContentSearchAdapterTest extends AbstractSearchAdapterTest
 {
     protected function createAdapterUnderTest(

@@ -14,21 +14,26 @@ use Pagerfanta\Adapter\AdapterInterface;
 
 /**
  * Pagerfanta adapter for content filtering.
+ *
+ * @implements \Pagerfanta\Adapter\AdapterInterface<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
+ *
+ * @phpstan-import-type TFilteringLanguageFilter from \Ibexa\Contracts\Core\Repository\ContentService
  */
 final class ContentFilteringAdapter implements AdapterInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
-    private $filter;
+    private Filter $filter;
 
-    /** @var array|null */
-    private $languageFilter;
+    /** @var TFilteringLanguageFilter|null */
+    private ?array $languageFilter;
 
-    /** @var int|null */
-    private $totalCount;
+    /** @phpstan-var int<0, max>|null */
+    private ?int $totalCount = null;
 
+    /**
+     * @param array<int, string>|null $languageFilter
+     */
     public function __construct(
         ContentService $contentService,
         Filter $filter,
@@ -48,6 +53,11 @@ final class ContentFilteringAdapter implements AdapterInterface
         return $this->totalCount;
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     *
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentList
+     */
     public function getSlice($offset, $length): iterable
     {
         $selectFilter = clone $this->filter;

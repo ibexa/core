@@ -82,26 +82,27 @@ class UserContext implements Context
      * Search User Groups with given name.
      *
      * @param string $name name of User Group to search for
-     * @param string $parentLocationId (optional) parent location id to search in
+     * @param int|null $parentLocationId (optional) parent location id to search in
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[] search results
+     * @phpstan-return list<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Repository\Values\Content\Content>>
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function searchUserGroups($name, $parentLocationId = null)
+    public function searchUserGroups(string $name, ?int $parentLocationId = null): array
     {
         $criterionArray = [
             new Criterion\Subtree(self::USERGROUP_ROOT_SUBTREE),
             new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
             new Criterion\Field('name', Criterion\Operator::EQ, $name),
         ];
-        if ($parentLocationId) {
+        if (null !== $parentLocationId) {
             $criterionArray[] = new Criterion\ParentLocationId($parentLocationId);
         }
         $query = new Query();
         $query->filter = new Criterion\LogicalAnd($criterionArray);
 
-        $result = $this->searchService->findContent($query, [], false);
-
-        return $result->searchHits;
+        return $this->searchService->findContent($query, [], false)->searchHits;
     }
 
     /**

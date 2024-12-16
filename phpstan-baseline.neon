@@ -41,16 +41,6 @@ parameters:
 			path: src/bundle/Core/Command/CopySubtreeCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\CopySubtreeCommand\\:\\:getAllChildrenCount\\(\\) should return int but returns int\\|null\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CopySubtreeCommand.php
-
-		-
-			message: "#^PHPDoc tag @return with type int\\|null is not subtype of native type int\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/CopySubtreeCommand.php
-
-		-
 			message: "#^Parameter \\#1 \\$messages of method Symfony\\\\Component\\\\Console\\\\Output\\\\OutputInterface\\:\\:write\\(\\) expects iterable\\<string\\>\\|string, string\\|false given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/DebugConfigResolverCommand.php
@@ -169,16 +159,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\Command\\\\ReindexCommand\\:\\:\\$phpPath \\(string\\) does not accept string\\|null\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$fields\\.$#"
-			count: 1
-			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
-
-		-
-			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:getVersionInfo\\(\\)\\.$#"
-			count: 2
-			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Helper\\\\HelperInterface\\:\\:ask\\(\\)\\.$#"
@@ -2631,11 +2611,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/RoleContext.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentInfo\\.$#"
-			count: 4
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
 			message: "#^Dead catch \\- Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Exceptions\\\\NotFoundException is never thrown in the try block\\.$#"
 			count: 1
 			path: src/bundle/Core/Features/Context/UserContext.php
@@ -2871,17 +2846,7 @@ parameters:
 			path: src/bundle/Core/Features/Context/UserContext.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\ParentLocationId constructor expects array\\<int\\>\\|int, string given\\.$#"
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
 			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\User\\\\User\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/Features/Context/UserContext.php
-
-		-
-			message: "#^Parameter \\#2 \\$parentLocationId of method Ibexa\\\\Bundle\\\\Core\\\\Features\\\\Context\\\\UserContext\\:\\:searchUserGroups\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: src/bundle/Core/Features/Context/UserContext.php
 
@@ -4836,26 +4801,6 @@ parameters:
 			path: src/contracts/Repository/Decorator/LocationServiceDecorator.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findContentInfo\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:suggest\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
@@ -6046,11 +5991,6 @@ parameters:
 			path: src/contracts/Repository/Iterator/BatchIterator.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\AbstractSearchAdapter\\:\\:__construct\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/AbstractSearchAdapter.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\ContentFilteringAdapter\\:\\:__construct\\(\\) has parameter \\$languages with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/ContentFilteringAdapter.php
@@ -6064,16 +6004,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\LocationFilteringAdapter\\:\\:fetch\\(\\) should return Iterator but returns iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>&Traversable\\.$#"
 			count: 1
 			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/LocationFilteringAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\LocationSearchAdapter\\:\\:__construct\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/LocationSearchAdapter.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findLocations\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationQuery, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query given\\.$#"
-			count: 1
-			path: src/contracts/Repository/Iterator/BatchIteratorAdapter/LocationSearchAdapter.php
 
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LanguageResolver\\:\\:getPrioritizedLanguages\\(\\) has parameter \\$forcedLanguages with no value type specified in iterable type array\\.$#"
@@ -6126,26 +6056,6 @@ parameters:
 			path: src/contracts/Repository/PermissionCriterionResolver.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findContentInfo\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:suggest\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Repository/SearchService.php
@@ -6194,11 +6104,6 @@ parameters:
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentDraftList implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/ContentDraftList.php
-
-		-
-			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/ContentList.php
 
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\DraftList\\\\Item\\\\UnauthorizedContentDraftListItem\\:\\:__construct\\(\\) has parameter \\$payload with no value type specified in iterable type array\\.$#"
@@ -6471,11 +6376,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/Facet/UserFacet.php
 
 		-
-			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
@@ -6657,21 +6557,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Handler\\:\\:deleteLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Search/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Handler\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Search/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Handler\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Search/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Handler\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Search/Handler.php
 
@@ -10126,16 +10011,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Controller/Content/QueryController.php
 
 		-
-			message: "#^Parameter \\#1 \\$adapter of class Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\Pagerfanta constructor expects Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\SearchResultAdapter, Pagerfanta\\\\Adapter\\\\AdapterInterface given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/QueryController.php
-
-		-
-			message: "#^Parameter \\#1 \\$query of method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\QueryController\\:\\:getAdapter\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query, Ibexa\\\\Core\\\\QueryType\\\\QueryType given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/QueryController.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\Content\\\\ViewController\\:\\:handleViewException\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
@@ -10227,31 +10102,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderController\\:\\:createQueryView\\(\\) has parameter \\$results with no value type specified in iterable type iterable\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/QueryRenderController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderController\\:\\:getAdapter\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/QueryRenderController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderController\\:\\:getAdapter\\(\\) should return Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\SearchResultAdapter but returns Pagerfanta\\\\Adapter\\\\AdapterInterface\\.$#"
-			count: 2
-			path: src/lib/MVC/Symfony/Controller/QueryRenderController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderController\\:\\:renderQuery\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/QueryRenderController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderController\\:\\:resolveOptions\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/QueryRenderController.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderController\\:\\:resolveOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Controller/QueryRenderController.php
 
@@ -11996,71 +11846,6 @@ parameters:
 			path: src/lib/MVC/Symfony/View/ViewManagerInterface.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AbstractSearchResultAdapter\\:\\:__construct\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AbstractSearchResultAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AbstractSearchResultAdapter\\:\\:executeQuery\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AbstractSearchResultAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AbstractSearchResultAdapter\\:\\:getNbResults\\(\\) should return int but returns int\\|null\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AbstractSearchResultAdapter.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AbstractSearchResultAdapter\\:\\:\\$languageFilter type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AbstractSearchResultAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AdapterFactory\\\\SearchHitAdapterFactory\\:\\:createAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AdapterFactory\\\\SearchHitAdapterFactory\\:\\:createFixedAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactory.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AdapterFactory\\\\SearchHitAdapterFactoryInterface\\:\\:createAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactoryInterface.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AdapterFactory\\\\SearchHitAdapterFactoryInterface\\:\\:createFixedAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactoryInterface.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\ContentFilteringAdapter\\:\\:__construct\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/ContentFilteringAdapter.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\ContentFilteringAdapter\\:\\:\\$languageFilter type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/ContentFilteringAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\ContentSearchAdapter\\:\\:getSlice\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\> but returns array\\<int\\<0, max\\>, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/ContentSearchAdapter.php
-
-		-
-			message: "#^Return type \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\) of method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\ContentSearchAdapter\\:\\:getSlice\\(\\) should be compatible with return type \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\>\\) of method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AbstractSearchResultAdapter\\:\\:getSlice\\(\\)$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/ContentSearchAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\ContentSearchHitAdapter\\:\\:executeQuery\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/ContentSearchHitAdapter.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\FixedSearchResultHitAdapter\\:\\:getAggregations\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\AggregationResultCollection but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\AggregationResultCollection\\|null\\.$#"
 			count: 1
 			path: src/lib/Pagination/Pagerfanta/FixedSearchResultHitAdapter.php
@@ -12069,56 +11854,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationFilteringAdapter\\:\\:__construct\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Pagination/Pagerfanta/LocationFilteringAdapter.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationFilteringAdapter\\:\\:\\$languageFilter type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/LocationFilteringAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationSearchAdapter\\:\\:getSlice\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> but returns array\\<int\\<0, max\\>, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/LocationSearchAdapter.php
-
-		-
-			message: "#^Return type \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\) of method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationSearchAdapter\\:\\:getSlice\\(\\) should be compatible with return type \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\>\\) of method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\AbstractSearchResultAdapter\\:\\:getSlice\\(\\)$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/LocationSearchAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationSearchHitAdapter\\:\\:__construct\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/LocationSearchHitAdapter.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationSearchHitAdapter\\:\\:executeQuery\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/LocationSearchHitAdapter.php
-
-		-
-			message: "#^Call to an undefined method Pagerfanta\\\\Adapter\\\\AdapterInterface\\:\\:getAggregations\\(\\)\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/Pagerfanta.php
-
-		-
-			message: "#^Call to an undefined method Pagerfanta\\\\Adapter\\\\AdapterInterface\\:\\:getMaxScore\\(\\)\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/Pagerfanta.php
-
-		-
-			message: "#^Call to an undefined method Pagerfanta\\\\Adapter\\\\AdapterInterface\\:\\:getTime\\(\\)\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/Pagerfanta.php
-
-		-
-			message: "#^Call to an undefined method Pagerfanta\\\\Adapter\\\\AdapterInterface\\:\\:getTimedOut\\(\\)\\.$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/Pagerfanta.php
-
-		-
-			message: "#^Class Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\Pagerfanta extends generic class Pagerfanta\\\\Pagerfanta but does not specify its types\\: T$#"
-			count: 1
-			path: src/lib/Pagination/Pagerfanta/Pagerfanta.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Cache\\\\AbstractHandler\\:\\:getMultipleCacheItems\\(\\) has parameter \\$ids with no value type specified in iterable type array\\.$#"
@@ -17601,16 +17336,6 @@ parameters:
 			path: src/lib/QueryType/QueryParameterContentViewQueryTypeMapper.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\QueryType\\\\QueryParameterContentViewQueryTypeMapper\\:\\:map\\(\\) should return Ibexa\\\\Core\\\\QueryType\\\\QueryType but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\.$#"
-			count: 1
-			path: src/lib/QueryType/QueryParameterContentViewQueryTypeMapper.php
-
-		-
-			message: "#^Parameter \\#2 \\$code of class InvalidArgumentException constructor expects int, string given\\.$#"
-			count: 1
-			path: src/lib/QueryType/QueryParameterContentViewQueryTypeMapper.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\QueryType\\\\QueryType\\:\\:getQuery\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/QueryType/QueryType.php
@@ -18566,11 +18291,6 @@ parameters:
 			path: src/lib/Repository/SearchService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SearchService\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SearchService.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SearchService\\:\\:findContentInfo\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/SearchService.php
@@ -18684,26 +18404,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\Repository\\:\\:\\$notificationService \\(Ibexa\\\\Core\\\\Repository\\\\NotificationService\\) does not accept Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\NotificationService\\.$#"
 			count: 1
 			path: src/lib/Repository/SiteAccessAware/Repository.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findContentInfo\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:suggest\\(\\) has no return type specified\\.$#"
@@ -18926,16 +18626,6 @@ parameters:
 			path: src/lib/Repository/URLService.php
 
 		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\URL\\\\UsageSearchResult\\:\\:\\$items \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\>\\) does not accept array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\.$#"
-			count: 1
-			path: src/lib/Repository/URLService.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\URL\\\\UsageSearchResult\\:\\:\\$totalCount \\(int\\) does not accept int\\|null\\.$#"
-			count: 1
-			path: src/lib/Repository/URLService.php
-
-		-
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\URLService\\:\\:\\$repository \\(Ibexa\\\\Core\\\\Repository\\\\Repository\\) does not accept Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Repository\\.$#"
 			count: 1
 			path: src/lib/Repository/URLService.php
@@ -18964,11 +18654,6 @@ parameters:
 			message: "#^Dead catch \\- Exception is never thrown in the try block\\.$#"
 			count: 1
 			path: src/lib/Repository/UserPreferenceService.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentInfo\\.$#"
-			count: 4
-			path: src/lib/Repository/UserService.php
 
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\ContentService\\:\\:internalLoadContentById\\(\\)\\.$#"
@@ -20351,26 +20036,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/Handler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Handler\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Handler\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Handler\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Handler\\:\\:findSingle\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\ContentInfo but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\.$#"
-			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\Handler\\:\\:indexContent\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/lib/Search/Legacy/Content/Handler.php
@@ -20393,16 +20058,6 @@ parameters:
 		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\:\\:\\$sortClauses \\(array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\SortClause\\>\\) does not accept null\\.$#"
 			count: 1
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:\\$time \\(int\\) does not accept float\\.$#"
-			count: 2
-			path: src/lib/Search/Legacy/Content/Handler.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:\\$totalCount \\(int\\|null\\) does not accept array\\.$#"
-			count: 2
 			path: src/lib/Search/Legacy/Content/Handler.php
 
 		-
@@ -30976,11 +30631,6 @@ parameters:
 			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$totalCount of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList constructor expects int, int\\|null given\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
-
-		-
 			message: "#^Parameter \\#1 \\$value of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\ParentLocationId constructor expects array\\<int\\>\\|int, int\\|null given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
@@ -31279,11 +30929,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$parentLocationId of method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\LocationService\\:\\:newLocationCreateStruct\\(\\) expects int, string given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceAuthorizationTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
 			message: "#^Cannot access property \\$id on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\|null\\.$#"
@@ -32381,11 +32026,6 @@ parameters:
 			path: tests/integration/Core/Repository/Regression/EZP20018ObjectStateTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$expectedCount of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertCount\\(\\) expects int, int\\|null given\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/Regression/EZP20018ObjectStateTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Regression\\\\EZP20018VisibilityTest\\:\\:testSearchForHiddenContent\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP20018VisibilityTest.php
@@ -33271,31 +32911,6 @@ parameters:
 			path: tests/integration/Core/Repository/RoleServiceTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentInfo\\.$#"
-			count: 4
-			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$hidden\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 17
-			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$invisible\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$versionInfo\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
-
-		-
 			message: "#^Access to an undefined property Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:\\$mainLocationId\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchEngineIndexingTest.php
@@ -33756,16 +33371,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchService/MultilingualContentSearchIndexingTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentInfo\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
-
-		-
 			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchService/RemoteIdIndexingTest.php
@@ -33859,11 +33464,6 @@ parameters:
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$values$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchService/SortClause/ScoreTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentInfo\\.$#"
-			count: 2
-			path: tests/integration/Core/Repository/SearchServiceAuthorizationTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceAuthorizationTest\\:\\:testFindContent\\(\\) has no return type specified\\.$#"
@@ -33997,7 +33597,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 19
+			count: 1
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
@@ -34156,18 +33756,8 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\:\\:\\$valueObject \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\) does not accept array\\<string, int\\|string\\>\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$contentId\\.$#"
-			count: 4
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
 			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 36
+			count: 3
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
@@ -34183,11 +33773,6 @@ parameters:
 		-
 			message: "#^Cannot access offset 'title' on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\.$#"
 			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Cannot access property \\$valueObject on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\|null\\.$#"
-			count: 3
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
@@ -35006,11 +34591,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\:\\:assertIndexName\\(\\) has parameter \\$indexMap with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\:\\:createContent\\(\\) has parameter \\$parentLocationIds with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
@@ -35027,16 +34607,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\:\\:createTestContent\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\:\\:getIndexName\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\:\\:getIndexName\\(\\) has parameter \\$indexMap with no type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
 
@@ -42346,21 +41916,6 @@ parameters:
 			path: tests/lib/MVC/Symfony/Controller/ControllerTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderControllerTest\\:\\:assertRenderQueryResult\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/QueryRenderControllerTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderControllerTest\\:\\:configureMocks\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/MVC/Symfony/Controller/QueryRenderControllerTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$adapter of class Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\Pagerfanta constructor expects Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\SearchResultAdapter, Pagerfanta\\\\Adapter\\\\AdapterInterface given\\.$#"
-			count: 2
-			path: tests/lib/MVC/Symfony/Controller/QueryRenderControllerTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Event\\\\RouteReferenceGenerationEventTest\\:\\:testConstruct\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/MVC/Symfony/Event/RouteReferenceGenerationEventTest.php
@@ -44759,66 +44314,6 @@ parameters:
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\AdapterFactory\\\\SearchHitAdapterFactoryTest\\:\\:dataProviderForCreateFixedAdapter\\(\\) return type has no value type specified in iterable type iterable\\.$#"
 			count: 1
 			path: tests/lib/Pagination/AdapterFactory/SearchHitAdapterFactoryTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\ContentSearchAdapterTest\\:\\:getAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\ContentSearchAdapterTest\\:\\:getExpectedFinalResultFromHits\\(\\) has parameter \\$hits with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\ContentSearchHitAdapterTest\\:\\:getAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\ContentSearchHitAdapterTest\\:\\:getExpectedFinalResultFromHits\\(\\) has parameter \\$hits with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\ContentSearchHitAdapterTest\\:\\:testGetNbResults\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\ContentSearchHitAdapterTest\\:\\:testGetSlice\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/ContentSearchHitAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchAdapterTest\\:\\:getAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchAdapterTest\\:\\:getExpectedFinalResultFromHits\\(\\) has parameter \\$hits with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchHitAdapterTest\\:\\:getAdapter\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchHitAdapterTest\\:\\:getExpectedFinalResultFromHits\\(\\) has parameter \\$hits with no type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchHitAdapterTest\\:\\:testGetNbResults\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\LocationSearchHitAdapterTest\\:\\:testGetSlice\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Pagination/LocationSearchHitAdapterTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Cache\\\\AbstractBaseHandlerTest\\:\\:getCacheItem\\(\\) has parameter \\$key with no type specified\\.$#"
@@ -53041,31 +52536,6 @@ parameters:
 			path: tests/lib/Repository/Helper/FieldTypeRegistryTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\AbstractSearchAdapterTest\\:\\:createAdapterUnderTest\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Iterator/BatchIteratorAdapter/AbstractSearchAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\ContentInfoSearchAdapterTest\\:\\:createAdapterUnderTest\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Iterator/BatchIteratorAdapter/ContentInfoSearchAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\ContentSearchAdapterTest\\:\\:createAdapterUnderTest\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Iterator/BatchIteratorAdapter/ContentSearchAdapterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\LocationSearchAdapterTest\\:\\:createAdapterUnderTest\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/lib/Repository/Iterator/BatchIteratorAdapter/LocationSearchAdapterTest.php
-
-		-
-			message: "#^Parameter \\#2 \\$query of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorAdapter\\\\LocationSearchAdapter constructor expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\LocationQuery, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query given\\.$#"
-			count: 1
-			path: tests/lib/Repository/Iterator/BatchIteratorAdapter/LocationSearchAdapterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Iterator\\\\BatchIteratorTestAdapter\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Repository/Iterator/BatchIteratorTestAdapter.php
@@ -54892,7 +54362,7 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Ibexa\\\\Contracts\\\\Core\\\\Search\\\\Handler\\:\\:expects\\(\\)\\.$#"
-			count: 8
+			count: 7
 			path: tests/lib/Repository/Service/Mock/SearchTest.php
 
 		-
@@ -54977,11 +54447,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\SearchTest\\:\\:testFindLocationsWithPermission\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/SearchTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\SearchTest\\:\\:testFindSingle\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/SearchTest.php
 
@@ -57131,11 +56596,6 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/AbstractTestCase.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 8
-			path: tests/lib/Search/Legacy/Content/HandlerContentSortTest.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\SortClause\\\\Field constructor invoked with 4 parameters, 2\\-3 required\\.$#"
 			count: 2
 			path: tests/lib/Search/Legacy/Content/HandlerContentSortTest.php
@@ -57194,11 +56654,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Tests\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\HandlerContentSortTest\\:\\:\\$fieldRegistry \\(Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\FieldValue\\\\ConverterRegistry\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerContentSortTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 2
-			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\HandlerContentTest\\:\\:getContentSearchHandler\\(\\) has parameter \\$fullTextSearchConfiguration with no value type specified in iterable type array\\.$#"
@@ -57541,11 +56996,6 @@ parameters:
 			path: tests/lib/Search/Legacy/Content/HandlerContentTest.php
 
 		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 3
-			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\SortClause\\\\Field constructor invoked with 4 parameters, 2\\-3 required\\.$#"
 			count: 2
 			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
@@ -57654,11 +57104,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$contentTypeHandler of method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\LanguageAwareTestCase\\:\\:getFullTextMapper\\(\\) expects Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\Handler, Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Handler given\\.$#"
 			count: 1
 			path: tests/lib/Search/Legacy/Content/HandlerLocationSortTest.php
-
-		-
-			message: "#^Access to an undefined property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:\\$id\\.$#"
-			count: 1
-			path: tests/lib/Search/Legacy/Content/HandlerLocationTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Search\\\\Legacy\\\\Content\\\\HandlerLocationTest\\:\\:getContentSearchHandler\\(\\) has parameter \\$fullTextSearchConfiguration with no value type specified in iterable type array\\.$#"

@@ -1,0 +1,241 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderController\\:\\:getAdapter\\(\\) return type with generic interface Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\SearchResultAdapter does not specify its types\\: T$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Controller/QueryRenderController.php
+
+		-
+			message: "#^Parameter \\#1 \\$searchResult of class Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\FixedSearchResultHitAdapter constructor expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			count: 1
+			path: src/lib/Pagination/Pagerfanta/AdapterFactory/SearchHitAdapterFactory.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\FixedSearchResultHitAdapter\\:\\:getNbResults\\(\\) should return int\\<0, max\\> but returns int\\<\\-1, max\\>\\.$#"
+			count: 1
+			path: src/lib/Pagination/Pagerfanta/FixedSearchResultHitAdapter.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationFilteringAdapter\\:\\:getNbResults\\(\\) should return int\\<0, max\\> but returns int\\.$#"
+			count: 1
+			path: src/lib/Pagination/Pagerfanta/LocationFilteringAdapter.php
+
+		-
+			message: "#^Property Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\LocationFilteringAdapter\\:\\:\\$totalCount \\(int\\<0, max\\>\\|null\\) does not accept int\\.$#"
+			count: 1
+			path: src/lib/Pagination/Pagerfanta/LocationFilteringAdapter.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\ContentService\\:\\:count\\(\\) should return int\\<0, max\\> but returns int\\.$#"
+			count: 1
+			path: src/lib/Repository/ContentService.php
+
+		-
+			message: "#^Parameter \\#1 \\$totalCount of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList constructor expects int\\<0, max\\>, int given\\.$#"
+			count: 1
+			path: src/lib/Repository/ContentService.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildContentDomainObjectsOnSearchResult\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Mapper\\\\ContentDomainMapper\\:\\:buildLocationDomainObjectsOnSearchResult\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
+			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\:\\:\\$totalCount \\(int\\<0, max\\>\\|null\\) does not accept int\\<\\-1, max\\>\\.$#"
+			count: 2
+			path: src/lib/Repository/Mapper/ContentDomainMapper.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SearchService\\:\\:findContentInfo\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: src/lib/Repository/SearchService.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SearchService\\:\\:findLocations\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: src/lib/Repository/SearchService.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SearchService\\:\\:internalFindContentInfo\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: src/lib/Repository/SearchService.php
+
+		-
+			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\URL\\\\UsageSearchResult\\:\\:\\$totalCount \\(int\\) does not accept int\\<0, max\\>\\|null\\.$#"
+			count: 1
+			path: src/lib/Repository/URLService.php
+
+		-
+			message: "#^Parameter \\#1 \\$totalCount of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList constructor expects int\\<0, max\\>, int given\\.$#"
+			count: 1
+			path: tests/bundle/Core/Command/Indexer/ContentIdList/ContentTypeInputGeneratorStrategyTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:assertSortResult\\(\\) has parameter \\$searchResult with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:findContent\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:findLocations\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:getResultContentIdList\\(\\) has parameter \\$searchResult with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:sortContent\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\FieldType\\\\SearchBaseIntegrationTest\\:\\:sortLocations\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$totalCount of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList constructor expects int\\<0, max\\>, int\\<0, max\\>\\|null given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/Filtering/ContentFilteringTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$expectedCount of static method PHPUnit\\\\Framework\\\\Assert\\:\\:assertCount\\(\\) expects int, int\\<0, max\\>\\|null given\\.$#"
+			count: 2
+			path: tests/integration/Core/Repository/Regression/EZP20018ObjectStateTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchService\\\\DeleteTranslationTest\\:\\:findContent\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchService/DeleteTranslationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchService\\\\SortClause\\\\AbstractSortClauseTest\\:\\:assertSearchResultOrderByRemoteId\\(\\) has parameter \\$actualSearchResults with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchService/SortClause/AbstractSortClauseTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceBookmarkTest\\:\\:extractRemoteIds\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceBookmarkTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceFulltextTest\\:\\:assertFulltextSearch\\(\\) has parameter \\$searchResult with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceFulltextTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceFulltextTest\\:\\:mapSearchResultToIds\\(\\) has parameter \\$searchResult with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceFulltextTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:mapResultLocationIds\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:printResult\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:simplifySearchResult\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
+			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\>\\:\\:\\$valueObject \\(Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\) does not accept array\\<string, int\\|string\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
+
+		-
+			message: "#^Cannot access property \\$valueObject on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\|null\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Cannot access property \\$valueObject on Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\|null\\.$#"
+			count: 2
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:assertSearchResultMatchTranslations\\(\\) has parameter \\$searchResult with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:find\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:mapResultContentIds\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:printResult\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:simplifySearchResult\\(\\) has parameter \\$result with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult but does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\>\\:\\:\\$totalCount \\(int\\<0, max\\>\\|null\\) does not accept int\\<\\-1, max\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\:\\:\\$totalCount \\(int\\<0, max\\>\\|null\\) does not accept int\\<\\-2, max\\>\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$searchHit of method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\<TSearchHitValueObject\\>\\:\\:assertIndexName\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<TSearchHitValueObject\\>, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\> given\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
+
+		-
+			message: "#^Parameter \\#2 \\$searchHit of method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\<TSearchHitValueObject\\>\\:\\:assertIndexName\\(\\) expects Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<TSearchHitValueObject\\>, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			count: 3
+			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
+
+		-
+			message: "#^Type mixed in generic type Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\<mixed\\> in PHPDoc tag @param for parameter \\$searchHit is not subtype of template type T of Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchHit\\.$#"
+			count: 1
+			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
+
+		-
+			message: "#^Template type TItem of method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Controller\\\\QueryRenderControllerTest\\:\\:configureMocks\\(\\) is not referenced in a parameter\\.$#"
+			count: 1
+			path: tests/lib/MVC/Symfony/Controller/QueryRenderControllerTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$totalCount of class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentList constructor expects int\\<0, max\\>, int given\\.$#"
+			count: 1
+			path: tests/lib/Pagination/ContentFilteringAdapterTest.php
+
+		-
+			message: "#^Parameter \\#3 \\$languageFilter of class Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\ContentFilteringAdapter constructor expects array\\<int, string\\>\\|null, array\\<string, array\\<int, string\\>\\|true\\> given\\.$#"
+			count: 2
+			path: tests/lib/Pagination/ContentFilteringAdapterTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\FixedSearchResultHitAdapterTest\\:\\:createExampleSearchResult\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
+			count: 1
+			path: tests/lib/Pagination/FixedSearchResultHitAdapterTest.php

@@ -13,10 +13,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 /**
  * The Search handler retrieves sets of of Content objects, based on a
  * set of criteria.
+ *
+ * @phpstan-import-type TSearchLanguageFilter from \Ibexa\Contracts\Core\Repository\SearchService
  */
 interface Handler
 {
@@ -25,45 +28,31 @@ interface Handler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Query criterion is not applicable to its target
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param array $languageFilter a map of language related filters specifying languages query will be performed on.
-     *        Also used to define which field languages are loaded for the returned content.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
+     * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findContent}
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult With ContentInfo as SearchHit->valueObject
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo>
      */
-    public function findContent(Query $query, array $languageFilter = []);
+    public function findContent(Query $query, array $languageFilter = []): SearchResult;
 
     /**
      * Performs a query for a single content object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface $filter
-     * @param array $languageFilter a map of language related filters specifying languages query will be performed on.
-     *        Also used to define which field languages are loaded for the returned content.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
-     *
-     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the object was not found by the query or due to permissions
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException if the object was not found by the query or due to permissions
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if Criterion is not applicable to its target
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than than one result matching the criterions
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than one result matching the criteria
+     *
+     * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findSingle()}
      */
-    public function findSingle(CriterionInterface $filter, array $languageFilter = []);
+    public function findSingle(CriterionInterface $filter, array $languageFilter = []): Content\ContentInfo;
 
     /**
      * Finds locations for the given $query.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
-     * @param array $languageFilter a map of language related filters specifying languages query will be performed on.
-     *        Also used to define which field languages are loaded for the returned content.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations
+     * @phpstan-param TSearchLanguageFilter $languageFilter {@see \Ibexa\Contracts\Core\Repository\SearchService::findSingle()}
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult With Location as SearchHit->valueObject
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\Location>
      */
-    public function findLocations(LocationQuery $query, array $languageFilter = []);
+    public function findLocations(LocationQuery $query, array $languageFilter = []): SearchResult;
 
     /**
      * Suggests a list of values for the given prefix.

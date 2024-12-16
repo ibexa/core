@@ -245,7 +245,7 @@ class SearchTest extends BaseServiceMockTest
             ->with(self::equalTo($result), self::equalTo([]))
             ->willReturnCallback(static function (SearchResult $spiResult) use ($info) {
                 unset($spiResult->searchHits[0]);
-                --$spiResult->totalCount;
+                $spiResult->totalCount = $spiResult->totalCount > 0 ? --$spiResult->totalCount : 0;
 
                 return [$info];
             });
@@ -583,16 +583,10 @@ class SearchTest extends BaseServiceMockTest
         $service->findSingle($criterionMock, [], true);
     }
 
-    /**
-     * Test for the findSingle() method.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::addPermissionsCriterion
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findSingle
-     */
-    public function testFindSingle()
+    public function testFindSingle(): void
     {
         $repositoryMock = $this->getRepositoryMock();
-        /** @var \Ibexa\Contracts\Core\Search\Handler $searchHandlerMock */
+        /** @var \Ibexa\Contracts\Core\Search\Handler&\PHPUnit\Framework\MockObject\MockObject $searchHandlerMock */
         $searchHandlerMock = $this->getSPIMockHandler('Search\\Handler');
         $domainMapperMock = $this->getContentDomainMapperMock();
         $permissionsCriterionResolverMock = $this->getPermissionCriterionResolverMock();
@@ -608,13 +602,11 @@ class SearchTest extends BaseServiceMockTest
         $repositoryMock
             ->expects(self::once())
             ->method('getContentService')
-            ->will(
-                self::returnValue(
-                    $contentServiceMock = $this
-                        ->getMockBuilder(ContentService::class)
-                        ->disableOriginalConstructor()
-                        ->getMock()
-                )
+            ->willReturn(
+                $contentServiceMock = $this
+                    ->getMockBuilder(ContentService::class)
+                    ->disableOriginalConstructor()
+                    ->getMock()
             );
 
         /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $criterionMock */
@@ -626,18 +618,17 @@ class SearchTest extends BaseServiceMockTest
         $permissionsCriterionResolverMock->expects(self::once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
-            ->will(self::returnValue(true));
+            ->willReturn(true);
 
         $languageFilter = [];
         $spiContentInfo = new SPIContentInfo(['id' => 123]);
         $contentMock = $this->getMockForAbstractClass(Content::class);
 
-        /* @var \PHPUnit\Framework\MockObject\MockObject $searchHandlerMock */
         $searchHandlerMock
             ->expects(self::once())
             ->method('findSingle')
             ->with(self::equalTo($criterionMock), self::equalTo($languageFilter))
-            ->will(self::returnValue($spiContentInfo));
+            ->willReturn($spiContentInfo);
 
         $domainMapperMock->expects(self::never())
             ->method(self::anything());
@@ -645,7 +636,7 @@ class SearchTest extends BaseServiceMockTest
         $contentServiceMock
             ->expects(self::once())
             ->method('internalLoadContentById')
-            ->will(self::returnValue($contentMock));
+            ->willReturn($contentMock);
 
         $result = $service->findSingle($criterionMock, $languageFilter, true);
 
@@ -829,7 +820,7 @@ class SearchTest extends BaseServiceMockTest
             ->with(self::equalTo($result))
             ->willReturnCallback(static function (SearchResult $spiResult) use ($location) {
                 unset($spiResult->searchHits[0]);
-                --$spiResult->totalCount;
+                $spiResult->totalCount = $spiResult->totalCount > 0 ? --$spiResult->totalCount : 0;
 
                 return [$location];
             });
