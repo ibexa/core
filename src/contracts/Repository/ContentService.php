@@ -28,6 +28,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * This class provides service methods for managing content.
+ *
+ * @phpstan-type TFilteringLanguageFilter array<int, string>
  */
 interface ContentService
 {
@@ -511,7 +513,7 @@ interface ContentService
     /**
      * Fetches Content items from the Repository filtered by the given conditions.
      *
-     * @param array<int, string> $languages A list of language codes to be added as additional constraints.
+     * @phpstan-param TFilteringLanguageFilter|null $languages A list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
@@ -522,9 +524,11 @@ interface ContentService
      *
      * Counts total number of items returned by {@see ContentService::find()} with the same parameters.
      *
-     * @param array<int, string> $languages A list of language codes to be added as additional constraints.
+     * @phpstan-param TFilteringLanguageFilter|null $languages $languages A list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
+     *
+     * @phpstan-return int<0, max>
      */
     public function count(Filter $filter, ?array $languages = null): int;
 }

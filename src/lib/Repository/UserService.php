@@ -251,11 +251,11 @@ class UserService implements UserServiceInterface
     /**
      * Returns (searches) subgroups of a user group described by its main location.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     * @param int $offset
-     * @param int $limit
+     * @phpstan-return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     protected function searchSubGroups(Location $location, int $offset = 0, int $limit = 25): SearchResult
     {

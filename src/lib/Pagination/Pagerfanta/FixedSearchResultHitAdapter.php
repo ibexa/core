@@ -11,11 +11,19 @@ namespace Ibexa\Core\Pagination\Pagerfanta;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
+/**
+ * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
+ *
+ * @implements \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<TSearchHitValueObject>>
+ */
 final class FixedSearchResultHitAdapter implements SearchResultAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult */
-    private $searchResult;
+    /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<TSearchHitValueObject> */
+    private SearchResult $searchResult;
 
+    /**
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<TSearchHitValueObject> $searchResult
+     */
     public function __construct(SearchResult $searchResult)
     {
         $this->searchResult = $searchResult;
@@ -26,7 +34,7 @@ final class FixedSearchResultHitAdapter implements SearchResultAdapter
         return $this->searchResult->totalCount ?? -1;
     }
 
-    public function getSlice($offset, $length)
+    public function getSlice(int $offset, int $length): iterable
     {
         return $this->searchResult->searchHits;
     }

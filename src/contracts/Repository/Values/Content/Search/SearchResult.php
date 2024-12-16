@@ -15,6 +15,10 @@ use IteratorAggregate;
 
 /**
  * This class represents a search result.
+ *
+ * @template TSearchHitValueObject of \Ibexa\Contracts\Core\Repository\Values\ValueObject
+ *
+ * @phpstan-implements \IteratorAggregate<array-key, \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit>
  */
 class SearchResult extends ValueObject implements IteratorAggregate, AggregationResultAwareInterface
 {
@@ -35,9 +39,9 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
     /**
      * The value objects found for the query.
      *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit[]
+     * @phpstan-var list<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<TSearchHitValueObject>>
      */
-    public $searchHits = [];
+    public array $searchHits = [];
 
     /**
      * If spellcheck is on this field contains a collated query suggestion where in the appropriate
@@ -77,9 +81,9 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
      *
      * `null` if Query->performCount was set to false and search engine avoids search lookup.
      *
-     * @var int|null
+     * @phpstan-var int<0, max>|null
      */
-    public $totalCount;
+    public ?int $totalCount;
 
     public function __construct(array $properties = [])
     {

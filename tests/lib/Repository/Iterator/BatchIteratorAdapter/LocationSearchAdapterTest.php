@@ -14,6 +14,9 @@ use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
+/**
+ * @extends \Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTest<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
+ */
 final class LocationSearchAdapterTest extends AbstractSearchAdapterTest
 {
     protected function createAdapterUnderTest(
@@ -22,6 +25,8 @@ final class LocationSearchAdapterTest extends AbstractSearchAdapterTest
         array $languageFilter,
         bool $filterOnPermissions
     ): AbstractSearchAdapter {
+        self::assertInstanceOf(LocationQuery::class, $query);
+
         return new LocationSearchAdapter(
             $searchService,
             $query,

@@ -210,7 +210,7 @@ class ResizeOriginalImagesCommand extends Command
         while ($query->offset <= $totalCount) {
             $results = $this->searchService->findContent($query);
 
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit $hit */
+            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Repository\Values\Content\Content> $hit */
             foreach ($results->searchHits as $hit) {
                 $this->resize($output, $hit, $imageFieldIdentifier, $filter);
                 $progressBar->advance();
@@ -232,10 +232,7 @@ class ResizeOriginalImagesCommand extends Command
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit $hit
-     * @param string $imageFieldIdentifier
-     * @param string $filter
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Repository\Values\Content\Content> $hit
      */
     private function resize(OutputInterface $output, SearchHit $hit, string $imageFieldIdentifier, string $filter): void
     {

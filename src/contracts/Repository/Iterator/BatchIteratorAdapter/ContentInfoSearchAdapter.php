@@ -11,8 +11,14 @@ namespace Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
+/**
+ * @extends \Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapter<\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo>
+ */
 final class ContentInfoSearchAdapter extends AbstractSearchAdapter
 {
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     protected function executeSearch(Query $query): SearchResult
     {
         return $this->searchService->findContentInfo(

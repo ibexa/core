@@ -14,10 +14,12 @@ use IteratorAggregate;
 
 /**
  * A filtered Content items list iterator.
+ *
+ * @implements \IteratorAggregate<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
  */
 final class ContentList implements IteratorAggregate, TotalCountAwareInterface
 {
-    /** @var int */
+    /** @phpstan-var int<0, max> */
     private int $totalCount;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content[] */
@@ -25,6 +27,8 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
 
     /**
      * @internal for internal use by Repository
+     *
+     * @phpstan-param int<0, max> $totalCount
      *
      * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Content> $contentItems
      */
@@ -34,6 +38,9 @@ final class ContentList implements IteratorAggregate, TotalCountAwareInterface
         $this->contentItems = $contentItems;
     }
 
+    /**
+     * @phpstan-return int<0, max>
+     */
     public function getTotalCount(): int
     {
         return $this->totalCount;

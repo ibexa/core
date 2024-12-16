@@ -13,6 +13,9 @@ use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\ContentInfoSea
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 
+/**
+ * @extends \Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapterTest<\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo>
+ */
 final class ContentInfoSearchAdapterTest extends AbstractSearchAdapterTest
 {
     protected function createAdapterUnderTest(

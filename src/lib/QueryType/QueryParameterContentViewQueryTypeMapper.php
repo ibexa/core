@@ -7,8 +7,9 @@
 
 namespace Ibexa\Core\QueryType;
 
+use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
-use InvalidArgumentException;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
@@ -16,28 +17,27 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
  */
 class QueryParameterContentViewQueryTypeMapper implements ContentViewQueryTypeMapper
 {
-    /** @var QueryTypeRegistry */
-    private $queryTypeRegistry;
+    private QueryTypeRegistry $queryTypeRegistry;
 
     public function __construct(QueryTypeRegistry $queryTypeRegistry)
     {
         $this->queryTypeRegistry = $queryTypeRegistry;
     }
 
-    public function map(ContentView $contentView)
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function map(ContentView $contentView): Query
     {
-        if (!$contentView instanceof ContentView) {
-            throw new InvalidArgumentException('ContentView expected');
-        }
-
         if (!$contentView->hasParameter('query')) {
             throw new InvalidArgumentException('query', "Required 'query' view parameter is missing");
         }
 
         $queryOptions = $contentView->getParameter('query');
-        $queryType = $this->queryTypeRegistry->getQueryType($queryOptions['query_type']);
 
-        return $queryType->getQuery($this->extractParametersFromContentView($contentView));
+        return $this->queryTypeRegistry
+            ->getQueryType($queryOptions['query_type'])
+            ->getQuery($this->extractParametersFromContentView($contentView));
     }
 
     /**

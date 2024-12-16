@@ -14,8 +14,8 @@ use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\Pagination\Pagerfanta\ContentSearchHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\LocationSearchHitAdapter;
 use Ibexa\Core\Pagination\Pagerfanta\Pagerfanta;
+use Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter;
 use Ibexa\Core\QueryType\ContentViewQueryTypeMapper;
-use Pagerfanta\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -132,11 +132,9 @@ class QueryController
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     *
-     * @return \Pagerfanta\Adapter\AdapterInterface
+     * @phpstan-return \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<\Ibexa\Contracts\Core\Repository\Values\ValueObject>
      */
-    private function getAdapter(Query $query): AdapterInterface
+    private function getAdapter(Query $query): SearchResultAdapter
     {
         if ($query instanceof LocationQuery) {
             return new LocationSearchHitAdapter($query, $this->searchService);
