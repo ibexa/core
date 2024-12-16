@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class represents a location in the repository.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
+ * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo Calls {@see Location::getContentInfo()}
  * @property-read int $contentId Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getContentId()} instead.
  * @property-read int $id Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getId()} instead.
  * @property-read int $priority Position of the Location among its siblings when sorted using priority
