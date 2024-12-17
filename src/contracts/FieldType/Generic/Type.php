@@ -260,15 +260,15 @@ abstract class Type extends FieldType
      * If given $inputValue could not be converted or is already an instance of dedicate value object,
      * the method should simply return it.
      *
-     * This is an operation method for {@see acceptValue()}.
+     * This is an operation method for {@see Type::acceptValue()}.
      *
      * Example implementation:
      * ```
-     *  protected function createValueFromInput( $inputValue )
+     *  protected function createValueFromInput($inputValue)
      *  {
      *      if (is_array($inputValue))
      *      {
-     *          $inputValue = \My\FieldType\CookieJar\Value( $inputValue );
+     *          $inputValue = \My\FieldType\CookieJar\Value($inputValue);
      *      }
      *
      *      return $inputValue;
@@ -304,7 +304,7 @@ abstract class Type extends FieldType
     /**
      * Throws an exception if the given $value is not an instance of the supported value subtype.
      *
-     * This is an operation method for {@see acceptValue()}.
+     * This is an operation method for {@see Type::acceptValue()}.
      *
      * Default implementation expects the value class to reside in the same namespace as its
      * FieldType class and is named "Value".
@@ -320,7 +320,7 @@ abstract class Type extends FieldType
      *  }
      * ```
      *
-     * @param mixed $value A value returned by {@see createValueFromInput()}.
+     * @param mixed $value A value returned by {@see Type::createValueFromInput()}.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the parameter is not an instance of the supported value subtype.
      */
