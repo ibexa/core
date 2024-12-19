@@ -26,11 +26,6 @@ parameters:
 			path: src/bundle/Core/Command/ResizeOriginalImagesCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$parameters of function call_user_func_array expects array\\<int, mixed\\>, array\\<int\\|string, array\\<int, Symfony\\\\Component\\\\DependencyInjection\\\\Reference\\>\\> given\\.$#"
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Compiler/ConsoleCacheWarmupPass.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\InjectEntityManagerMappingsPass\\:\\:getEntityMapForConfigurationService\\(\\) should return array but returns array\\|false\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Compiler/InjectEntityManagerMappingsPass.php
