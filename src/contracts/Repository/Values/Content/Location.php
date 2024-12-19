@@ -90,6 +90,7 @@ abstract class Location extends ValueObject
      * Location ID.
      *
      * @var int
+     * @internal Read-only property accessed through magic getter.
      */
     protected $id;
 
@@ -110,6 +111,7 @@ abstract class Location extends ValueObject
      * sort order.
      *
      * @var int
+     * @internal Read-only property accessed through magic getter.
      */
     protected $priority;
 
@@ -117,6 +119,7 @@ abstract class Location extends ValueObject
      * Indicates that the Location entity is hidden (explicitly or hidden by content).
      *
      * @var bool
+     * @internal Read-only property accessed through magic getter.
      */
     protected $hidden;
 
@@ -125,6 +128,7 @@ abstract class Location extends ValueObject
      * or implicitly hidden by its Content or an ancestor Location.
      *
      * @var bool
+     * @internal Read-only property accessed through magic getter.
      */
     protected $invisible;
 
@@ -132,6 +136,7 @@ abstract class Location extends ValueObject
      * Indicates that the Location entity has been explicitly marked as hidden.
      *
      * @var bool
+     * @internal Read-only property accessed through magic getter.
      */
     protected $explicitlyHidden;
 
@@ -141,6 +146,7 @@ abstract class Location extends ValueObject
      * A universally unique identifier.
      *
      * @var string
+     * @internal Read-only property accessed through magic getter.
      */
     protected $remoteId;
 
@@ -148,6 +154,7 @@ abstract class Location extends ValueObject
      * Parent ID.
      *
      * @var int Location ID.
+     * @internal Read-only property accessed through magic getter.
      */
     protected $parentLocationId;
 
@@ -155,6 +162,7 @@ abstract class Location extends ValueObject
      * The materialized path of the location entry, eg: /1/2/4/23/.
      *
      * @var string
+     * @internal Read-only property accessed through magic getter.
      */
     protected $pathString;
 
@@ -165,6 +173,7 @@ abstract class Location extends ValueObject
      * Same as {@see Location::$pathString} but as array, e.g.: `['1', '2', '4', '23']`.
      *
      * @var array <int, string>
+     * @internal Read-only property accessed through magic getter.
      */
     protected array $path;
 
@@ -172,6 +181,7 @@ abstract class Location extends ValueObject
      * Depth location has in the location tree.
      *
      * @var int
+     * @internal Read-only property accessed through magic getter.
      */
     protected $depth;
 
@@ -181,6 +191,7 @@ abstract class Location extends ValueObject
      * Valid values are found at {@link Location::SORT_FIELD_*}
      *
      * @var int
+     * @internal Read-only property accessed through magic getter.
      */
     protected $sortField;
 
@@ -190,6 +201,7 @@ abstract class Location extends ValueObject
      * Valid values are {@link Location::SORT_ORDER_*}
      *
      * @var int
+     * @internal Read-only property accessed through magic getter.
      */
     protected $sortOrder;
 
