@@ -15896,11 +15896,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Handler.php
 
 		-
-			message: "#^Parameter \\#1 \\$stateId of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\ObjectState\\\\Gateway\\:\\:updateObjectStatePriority\\(\\) expects int, int\\|string given\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/ObjectState/Handler.php
-
-		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\ObjectState\\\\Mapper\\:\\:createObjectStateFromData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Mapper.php
@@ -16481,7 +16476,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadContentTypeList\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\> but returns array\\<int\\|string, object\\>\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadContentTypeList\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\> but returns array\\<object\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
@@ -16511,7 +16506,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Group\\> but returns array\\<int\\|string, object\\>\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Group\\> but returns array\\<object\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
@@ -17931,7 +17926,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Handler.php
 
 		-
-			message: "#^Cannot access offset mixed on non\\-empty\\-array\\<int\\|string, mixed\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\RoleAssignment\\.$#"
+			message: "#^Cannot access offset mixed on non\\-empty\\-array\\|Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\RoleAssignment\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Mapper.php
 
@@ -19536,7 +19531,7 @@ parameters:
 			path: src/lib/Repository/RoleService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:validateRoleCreateStruct\\(\\) should return iterable\\<array\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\> but returns array\\<int\\|string, iterable\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\>\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:validateRoleCreateStruct\\(\\) should return iterable\\<array\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\> but returns array\\<iterable\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\>\\.$#"
 			count: 1
 			path: src/lib/Repository/RoleService.php
 
@@ -20132,11 +20127,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Values/Content/Content.php
-
-		-
-			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:\\$fieldDefinitionTranslationMap \\(array\\<string, array\\<string, eZ\\\\Publish\\\\API\\\\Repository\\\\Values\\\\Content\\\\Field\\>\\>\\) does not accept array\\<int\\|string, array\\<int\\|string, mixed\\>\\>\\.$#"
 			count: 1
 			path: src/lib/Repository/Values/Content/Content.php
 
@@ -51782,11 +51772,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\UrlAlias\\\\UrlAliasHandlerTest\\:\\:testPublishUrlAliasReuseNopCleanupCustomAliasIsDestroyed\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$url of method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\UrlAlias\\\\Handler\\:\\:lookup\\(\\) expects string, int\\|string given\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/UrlAlias/UrlAliasHandlerTest.php
 
