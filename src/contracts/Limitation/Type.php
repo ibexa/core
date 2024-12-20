@@ -92,17 +92,17 @@ interface Type
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return array<int, \Ibexa\Contracts\Core\FieldType\ValidationError>
      */
     public function validate(APILimitationValue $limitationValue);
 
     /**
      * Create the Limitation Value.
      *
-     * The is the method to create values as Limitation type needs value knowledge anyway in acceptValue,
+     * This is the method to create values as Limitation type needs value knowledge anyway in acceptValue,
      * the reverse relation is provided by means of identifier lookup (Value has identifier, and so does RoleService).
      *
-     * @param mixed[] $limitationValues
+     * @param array<int, mixed> $limitationValues
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
@@ -120,7 +120,7 @@ interface Type
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment"
+     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\ValueObject>|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
      * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
