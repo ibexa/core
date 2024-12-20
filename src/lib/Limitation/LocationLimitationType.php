@@ -224,9 +224,10 @@ class LocationLimitationType extends AbstractPersistenceLimitationType implement
     }
 
     /**
-     * Returns an integer code meaning that the value must be an array listing location IDs.
+     * Returns info on valid $limitationValues.
      *
-     * @return int {@see LocationLimitationType::VALUE_SCHEMA_LOCATION_ID}
+     * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
+     *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
     public function valueSchema()
     {
