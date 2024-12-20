@@ -28,6 +28,9 @@ use Symfony\Component\Process\Process;
 
 class ReindexCommand extends Command implements BackwardCompatibleCommand
 {
+    private const IBEXA_CLOUD_CONFIG_FILE = '/run/config.json';
+    private const LINUX_CPUINFO_FILE = '/proc/cpuinfo';
+
     /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
     private $searchIndexer;
 
@@ -450,9 +453,17 @@ class ReindexCommand extends Command implements BackwardCompatibleCommand
     private function getNumberOfCPUCores()
     {
         $cores = 1;
-        if (is_file('/proc/cpuinfo')) {
+        if (isset($_SERVER['PLATFORM_BRANCH']) && is_readable(self::IBEXA_CLOUD_CONFIG_FILE) && is_file(self::IBEXA_CLOUD_CONFIG_FILE)) {
+            // Ibexa Cloud: read #cpus from config
+            $configJsonEncoded = file_get_contents(self::IBEXA_CLOUD_CONFIG_FILE);
+            if ($configJsonEncoded === false) {
+                return 1;
+            }
+            $configJson = json_decode($configJsonEncoded);
+            $cores = isset($configJson->info->limits->cpu) ? max(1, (int) ($configJson->info->limits->cpu)) : 1;
+        } elseif (is_readable(self::LINUX_CPUINFO_FILE) && is_file(self::LINUX_CPUINFO_FILE)) {
             // Linux (and potentially Windows with linux sub systems)
-            $cpuinfo = file_get_contents('/proc/cpuinfo');
+            $cpuinfo = file_get_contents(self::LINUX_CPUINFO_FILE);
             preg_match_all('/^processor/m', $cpuinfo, $matches);
             $cores = count($matches[0]);
         } elseif (DIRECTORY_SEPARATOR === '\\') {
