@@ -258,9 +258,10 @@ class SubtreeLimitationType extends AbstractPersistenceLimitationType implements
     }
 
     /**
-     * Returns an integer code meaning that the value must be an array listing location paths.
+     * Returns info on valid $limitationValues.
      *
-     * @return int {@see SubtreeLimitationType::VALUE_SCHEMA_LOCATION_PATH}
+     * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
+     *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
     public function valueSchema()
     {
