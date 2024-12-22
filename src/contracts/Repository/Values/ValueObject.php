@@ -61,7 +61,7 @@ abstract class ValueObject
     }
 
     /**
-     * Magic set function handling writes to non public properties.
+     * Magic set function handling writes to non-public properties.
      *
      * @internal
      *
