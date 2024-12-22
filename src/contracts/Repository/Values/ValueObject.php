@@ -23,7 +23,7 @@ abstract class ValueObject
     /**
      * Construct object optionally with a set of properties.
      *
-     * Readonly properties values must be set using $properties as they are not writable anymore
+     * Readonly properties values must be set using `$properties` as they aren't writable anymore
      * after object has been created.
      *
      * @param array<string, mixed> $properties
