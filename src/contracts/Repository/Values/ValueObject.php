@@ -13,9 +13,9 @@ use Symfony\Component\Serializer\Annotation\Ignore as SerializerIgnore;
 /**
  * The base class for all value objects and structs.
  *
- * Supports readonly properties by marking them as protected.
+ * Supports read-only properties by marking them as protected.
  * In this case they will only be writable using constructor, and need to be documented
- * using property-read <type> <$var> annotation in class doc in addition to inline property doc.
+ * using `@property-read <type> <$var>` annotation in class doc in addition to inline property doc.
  * Writable properties must be public and must be documented inline.
  */
 abstract class ValueObject
