@@ -24,7 +24,8 @@ final class SerializationTest extends IbexaKernelTestCase
 
     public function testSerialization(): void
     {
-        $serializer = self::getServiceByClassName(SerializerInterface::class, 'serializer', false);
+        $serializer = $this->getContainer()->get(SerializerInterface::class);
+        self::assertInstanceOf(SerializerInterface::class, $serializer);
         $contentService = self::getContentService();
 
         $user = $contentService->loadContent(14);
