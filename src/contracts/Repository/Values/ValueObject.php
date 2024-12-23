@@ -8,6 +8,7 @@ namespace Ibexa\Contracts\Core\Repository\Values;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyReadOnlyException;
+use Symfony\Component\Serializer\Annotation\Ignore as SerializerIgnore;
 
 /**
  * The base class for all value objects and structs.
@@ -46,6 +47,8 @@ abstract class ValueObject
      * @param array $dynamicProperties Additional dynamic properties exposed on the object
      *
      * @return array
+     *
+     * @SerializerIgnore()
      */
     protected function getProperties($dynamicProperties = [])
     {
@@ -201,6 +204,8 @@ abstract class ValueObject
      * @param string $property
      *
      * @return bool
+     *
+     * @SerializerIgnore()
      */
     final public function hasAttribute($property)
     {

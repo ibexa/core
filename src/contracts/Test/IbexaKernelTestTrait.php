@@ -76,20 +76,23 @@ trait IbexaKernelTestTrait
      *
      * @return T
      */
-    final protected static function getServiceByClassName(string $className, ?string $id = null): object
-    {
+    final protected static function getServiceByClassName(
+        string $className,
+        ?string $id = null,
+        bool $prefix = true
+    ): object {
         if (!self::$booted) {
             static::bootKernel();
         }
 
-        $serviceId = self::getTestServiceId($id, $className);
+        $serviceId = self::getTestServiceId($id, $className, $prefix);
         $service = self::getContainer()->get($serviceId);
         assert(is_object($service) && is_a($service, $className));
 
         return $service;
     }
 
-    protected static function getTestServiceId(?string $id, string $className): string
+    protected static function getTestServiceId(?string $id, string $className, bool $prefix = true): string
     {
         $kernel = self::$kernel;
         if (!$kernel instanceof IbexaTestKernelInterface) {
@@ -102,7 +105,7 @@ trait IbexaKernelTestTrait
 
         $id = $id ?? $className;
 
-        return $kernel->getAliasServiceId($id);
+        return $prefix ? $kernel->getAliasServiceId($id) : $id;
     }
 
     protected static function getDoctrineConnection(): Connection
