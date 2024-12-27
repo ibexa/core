@@ -6481,11 +6481,6 @@ parameters:
 			path: src/contracts/Repository/Values/Notification/Notification.php
 
 		-
-			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Notification\\\\NotificationList implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/Notification/NotificationList.php
-
-		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ObjectState\\\\ObjectStateCreateStruct\\:\\:\\$priority \\(int\\) does not accept default value of type false\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/ObjectState/ObjectStateCreateStruct.php
