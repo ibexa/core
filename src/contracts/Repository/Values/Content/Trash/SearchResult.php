@@ -26,9 +26,9 @@ class SearchResult extends ValueObject implements \IteratorAggregate
     /**
      * The total number of Trash items.
      *
-     * @var int
+     * @phpstan-var int<0, max>
      */
-    public $totalCount = 0;
+    public int $totalCount = 0;
 
     /**
      * The total number of Trash items.
@@ -44,7 +44,7 @@ class SearchResult extends ValueObject implements \IteratorAggregate
      *
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem[]
      */
-    public $items = [];
+    public array $items = [];
 
     public function getIterator(): Traversable
     {
