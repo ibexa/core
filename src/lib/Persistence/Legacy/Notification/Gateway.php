@@ -44,7 +44,7 @@ abstract class Gateway
     /**
      * @param int $userId
      *
-     * @return int
+     * @phpstan-return int<0, max>
      */
     abstract public function countUserNotifications(int $userId): int;
 

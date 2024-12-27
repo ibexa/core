@@ -62,7 +62,7 @@ interface Handler
     /**
      * @param int $currentUserId
      *
-     * @return int
+     * @phpstan-return int<0, max>
      */
     public function countNotifications(int $currentUserId): int;
 
