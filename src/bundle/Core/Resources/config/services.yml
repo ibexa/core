@@ -1,13 +1,10 @@
 imports:
     - { resource: commands.yml }
+    - { resource: value_resolvers.yaml }
 
 parameters:
     ibexa.site_access.default.name: default
     ibexa.config.default_scope: ibexa.site_access.config
-
-    # Param converters
-    ibexa.param_converter.content.priority: -2
-    ibexa.param_converter.location.priority: -2
 
 services:
     # Siteaccess is injected in the container at runtime
@@ -182,21 +179,6 @@ services:
             $viewTemplateRenderer: '@Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer'
         tags:
             - { name: kernel.fragment_renderer, alias: !php/const Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer::NAME }
-
-    Ibexa\Bundle\Core\Converter\ContentParamConverter:
-        class: Ibexa\Bundle\Core\Converter\ContentParamConverter
-        arguments:
-            - '@ibexa.siteaccessaware.service.content'
-        tags:
-            - { name: request.param_converter, priority: '%ibexa.param_converter.content.priority%', converter: ez_content_converter }
-
-    Ibexa\Bundle\Core\Converter\LocationParamConverter:
-        class: Ibexa\Bundle\Core\Converter\LocationParamConverter
-        arguments:
-            $locationService: '@ibexa.siteaccessaware.service.location'
-            $contentPreviewHelper: '@Ibexa\Core\Helper\ContentPreviewHelper'
-        tags:
-            - { name: request.param_converter, priority: '%ibexa.param_converter.location.priority%', converter: ez_location_converter }
 
     Ibexa\Bundle\Core\ControllerArgumentResolver\LocationArgumentResolver:
         autowire: true

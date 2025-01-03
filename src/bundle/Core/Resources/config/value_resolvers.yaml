@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Ibexa\Bundle\Core\ValueResolver\:
+        resource: "../../ValueResolver/*"
+        tags:
+            -   name: controller.argument_value_resolver
+                priority: -2
