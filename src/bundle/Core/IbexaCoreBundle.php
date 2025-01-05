@@ -15,7 +15,6 @@ use Ibexa\Bundle\Core\DependencyInjection\Compiler\ConsoleCacheWarmupPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ConsoleCommandPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\EntityManagerFactoryServiceLocatorPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\FieldTypeParameterProviderRegistryPass;
-use Ibexa\Bundle\Core\DependencyInjection\Compiler\FragmentPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\ImaginePass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass;
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\LazyDoctrineRepositoriesPass;
@@ -71,7 +70,7 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new FieldRegistryPass());
         $container->addCompilerPass(new RouterPass());
         $container->addCompilerPass(new SecurityPass());
-        $container->addCompilerPass(new FragmentPass());
+        // $container->addCompilerPass(new FragmentPass());
         $container->addCompilerPass(new StorageConnectionPass());
         $container->addCompilerPass(new ImaginePass());
         $container->addCompilerPass(new URLHandlerPass());
