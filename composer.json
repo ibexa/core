@@ -34,7 +34,6 @@
         "oneup/flysystem-bundle": "^4.4.2",
         "pagerfanta/pagerfanta": "^3.6.2",
         "psr/event-dispatcher": "^1.0",
-        "sensio/framework-extra-bundle": "^6.1",
         "symfony-cmf/routing": "^3.0",
         "symfony/cache": "^6.4.0",
         "symfony/console": "^6.4.0",
