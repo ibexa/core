@@ -18,19 +18,19 @@ use InvalidArgumentException;
  * A criterion that matches content based on one of the date metadata (created or modified).
  *
  * Supported Operators:
- * EQ, IN: matches content whose date is or belongs to a list of timestamps
- * GT, GTE: matches content whose date is greater than/greater than or equals the given timestamp
- * LT, LTE: matches content whose date is lower than/lower than or equals the given timestamp
- * BETWEEN: matches content whose date is between (included) the TWO given timestamps
+ * - {@see Operator::EQ EQ}, {@see Operator::IN IN}: matches content whose date is or belongs to a list of timestamps.
+ * - {@see Operator::GT GT}, {@see Operator::GTE GTE}: matches content whose date is greater than/greater than or equals the given timestamp.
+ * - {@see Operator::LT LT}, {@see Operator::LTE LTE}: matches content whose date is lower than/lower than or equals the given timestamp.
+ * - {@see Operator::BETWEEN BETWEEN}: matches content whose date is between TWO (included) given timestamps.
  *
- * Example:
- * <code>
+ * The following example is a criterion for contents created yesterday or today:
+ * ```
  * $createdCriterion = new Criterion\DateMetadata(
  *     Criterion\DateMetadata::CREATED,
- *     Operator::GTE,
- *     strtotime( 'yesterday' )
+ *     Criterion\Operator::GTE,
+ *     strtotime('yesterday')
  * );
- * </code>
+ * ```
  */
 class DateMetadata extends Criterion implements TrashCriterion, FilteringCriterion
 {
@@ -41,7 +41,9 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     public const PUBLISHED = 'published';
 
     /**
-     * (applies to TrashService::findTrashItems only).
+     * To search for contents based on when they have been sent to trash.
+     *
+     * Applies to {@see \Ibexa\Contracts\Core\Repository\TrashService::findTrashItems()} only.
      */
     public const TRASHED = 'trashed';
 
@@ -53,12 +55,12 @@ class DateMetadata extends Criterion implements TrashCriterion, FilteringCriteri
     ];
 
     /**
-     * Creates a new DateMetadata criterion on $metadata.
+     * Creates a new DateMetadata criterion.
      *
      * @throws \InvalidArgumentException If target is unknown
      *
-     * @param string $target One of DateMetadata::CREATED, DateMetadata::MODIFIED or DateMetadata::TRASHED (applies to TrashService::findTrashItems only)
-     * @param string $operator One of the Operator constants
+     * @param string $target One of {@see DateMetadata::CREATED}, {@see DateMetadata::MODIFIED}, or {@see DateMetadata::TRASHED} (applies to {@see \Ibexa\Contracts\Core\Repository\TrashService::findTrashItems()} only)
+     * @param string $operator One of the {@see Operator} constants
      * @param mixed $value The match value, either as an array of as a single value, depending on the operator
      */
     public function __construct(string $target, string $operator, $value)
