@@ -30,6 +30,7 @@ use Ibexa\Contracts\Core\Repository\Events\Content\DeleteRelationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteTranslationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\HideContentEvent;
+use Ibexa\Contracts\Core\Repository\Events\Content\LoadContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\RevealContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\UpdateContentEvent;
@@ -1159,7 +1160,7 @@ class ContentServiceTest extends AbstractServiceTest
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeLoadContentEvent::class,
-            null
+            LoadContentEvent::class
         );
 
         $content = $this->createMock(Content::class);
@@ -1174,6 +1175,7 @@ class ContentServiceTest extends AbstractServiceTest
         $this->assertSame($content, $result);
         $this->assertSame($calledListeners, [
             [BeforeLoadContentEvent::class, 0],
+            [LoadContentEvent::class, 0],
         ]);
         $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
@@ -1182,15 +1184,8 @@ class ContentServiceTest extends AbstractServiceTest
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeLoadContentEvent::class,
-            null
+            LoadContentEvent::class
         );
-
-        $parameters = [
-            2,
-            [],
-            null,
-            true,
-        ];
 
         $content = $this->createMock(Content::class);
         $eventContent = $this->createMock(Content::class);
@@ -1210,6 +1205,7 @@ class ContentServiceTest extends AbstractServiceTest
         $this->assertSame($calledListeners, [
             [BeforeLoadContentEvent::class, 10],
             [BeforeLoadContentEvent::class, 0],
+            [LoadContentEvent::class, 0],
         ]);
         $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
@@ -1218,7 +1214,7 @@ class ContentServiceTest extends AbstractServiceTest
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeLoadContentEvent::class,
-            null
+            LoadContentEvent::class
         );
 
         $content = $this->createMock(Content::class);
@@ -1243,6 +1239,7 @@ class ContentServiceTest extends AbstractServiceTest
         ]);
         $this->assertSame($notCalledListeners, [
             [BeforeLoadContentEvent::class, 0],
+            [LoadContentEvent::class, 0],
         ]);
     }
 }
