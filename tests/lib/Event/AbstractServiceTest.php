@@ -15,14 +15,11 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 abstract class AbstractServiceTest extends TestCase
 {
-    public function getEventDispatcher(string $beforeEventName, ?string $eventName): TraceableEventDispatcher
+    public function getEventDispatcher(string $beforeEventName, string $eventName): TraceableEventDispatcher
     {
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addListener($beforeEventName, static function (BeforeEvent $event) {});
-        if ($eventName !== null) {
-            $eventDispatcher->addListener($eventName, static function (AfterEvent $event) {
-            });
-        }
+        $eventDispatcher->addListener($eventName, static function (AfterEvent $event) {});
 
         return new TraceableEventDispatcher(
             $eventDispatcher,

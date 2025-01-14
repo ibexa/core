@@ -33,6 +33,7 @@ use Ibexa\Contracts\Core\Repository\Events\Content\DeleteRelationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteTranslationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\DeleteVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\HideContentEvent;
+use Ibexa\Contracts\Core\Repository\Events\Content\LoadContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\PublishVersionEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\RevealContentEvent;
 use Ibexa\Contracts\Core\Repository\Events\Content\UpdateContentEvent;
@@ -402,9 +403,15 @@ class ContentService extends ContentServiceDecorator
             return $beforeEvent->getContent();
         }
 
-        return $beforeEvent->hasContent()
+        $content = $beforeEvent->hasContent()
             ? $beforeEvent->getContent()
             : $this->innerService->loadContent($contentId, $languages, $versionNo, $useAlwaysAvailable);
+
+        $this->eventDispatcher->dispatch(
+            new LoadContentEvent($content, ...$eventData)
+        );
+
+        return $content;
     }
 }
 
