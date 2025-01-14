@@ -1172,12 +1172,12 @@ class ContentServiceTest extends AbstractServiceTest
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($content, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($content, $result);
+        self::assertSame($calledListeners, [
             [BeforeLoadContentEvent::class, 0],
             [LoadContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testReturnLoadContentResultInBeforeEvents(): void
@@ -1192,22 +1192,26 @@ class ContentServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('loadContent')->willReturn($content);
 
-        $traceableEventDispatcher->addListener(BeforeLoadContentEvent::class, static function (BeforeLoadContentEvent $event) use ($eventContent) {
-            $event->setContent($eventContent);
-        }, 10);
+        $traceableEventDispatcher->addListener(
+            BeforeLoadContentEvent::class,
+            static function (BeforeLoadContentEvent $event) use ($eventContent) {
+                $event->setContent($eventContent);
+            },
+            10
+        );
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
         $result = $service->loadContent(2, []);
 
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeLoadContentEvent::class, 10],
             [BeforeLoadContentEvent::class, 0],
             [LoadContentEvent::class, 0],
         ]);
-        $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
+        self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
     public function testLoadContentStopPropagationInBeforeEvents(): void
@@ -1222,10 +1226,14 @@ class ContentServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(ContentServiceInterface::class);
         $innerServiceMock->method('loadContent')->willReturn($content);
 
-        $traceableEventDispatcher->addListener(BeforeLoadContentEvent::class, static function (BeforeLoadContentEvent $event) use ($eventContent) {
-            $event->setContent($eventContent);
-            $event->stopPropagation();
-        }, 10);
+        $traceableEventDispatcher->addListener(
+            BeforeLoadContentEvent::class,
+            static function (BeforeLoadContentEvent $event) use ($eventContent) {
+                $event->setContent($eventContent);
+                $event->stopPropagation();
+            },
+            10
+        );
 
         $service = new ContentService($innerServiceMock, $traceableEventDispatcher);
         $result = $service->loadContent(2, []);
@@ -1233,11 +1241,11 @@ class ContentServiceTest extends AbstractServiceTest
         $calledListeners = $this->getListenersStack($traceableEventDispatcher->getCalledListeners());
         $notCalledListeners = $this->getListenersStack($traceableEventDispatcher->getNotCalledListeners());
 
-        $this->assertSame($eventContent, $result);
-        $this->assertSame($calledListeners, [
+        self::assertSame($eventContent, $result);
+        self::assertSame($calledListeners, [
             [BeforeLoadContentEvent::class, 10],
         ]);
-        $this->assertSame($notCalledListeners, [
+        self::assertSame($notCalledListeners, [
             [BeforeLoadContentEvent::class, 0],
             [LoadContentEvent::class, 0],
         ]);
