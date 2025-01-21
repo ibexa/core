@@ -17,6 +17,9 @@ use Symfony\Contracts\Service\ServiceProviderInterface;
  */
 final readonly class StorageConnectionFactory
 {
+    /**
+     * @phpstan-param \Symfony\Contracts\Service\ServiceProviderInterface<\Doctrine\DBAL\Connection> $serviceLocator
+     */
     public function __construct(
         private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         private ServiceProviderInterface $serviceLocator,
@@ -28,8 +31,6 @@ final readonly class StorageConnectionFactory
      *
      * @throws \InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getConnection(): Connection
     {

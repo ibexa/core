@@ -18,8 +18,8 @@ use League\Flysystem\Visibility;
  */
 final class SiteAccessAwareVisibilityConverterTest extends BaseVisibilityConverterTest
 {
-    private const SITE_FILE_FLAGS = 0644;
-    private const SITE_DIRECTORY_FLAGS = 0755;
+    private const int SITE_FILE_FLAGS = 0644;
+    private const int SITE_DIRECTORY_FLAGS = 0755;
 
     protected function buildVisibilityConverter(): BaseVisibilityConverter
     {

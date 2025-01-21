@@ -40,8 +40,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 {
-    public const EXTENSION_NAME = 'ibexa';
-    private const ENTITY_MANAGER_TEMPLATE = [
+    public const string EXTENSION_NAME = 'ibexa';
+    private const array ENTITY_MANAGER_TEMPLATE = [
         'connection' => null,
         'mappings' => [],
     ];
@@ -97,11 +97,12 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param mixed[] $configs An array of configuration values
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container A ContainerBuilder instance
      *
+     * @throws \Exception
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
      *
      * @api
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader(
             $container,
@@ -183,10 +184,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         return $configuration;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $this->prependTranslatorConfiguration($container);
         $this->prependDoctrineConfiguration($container);

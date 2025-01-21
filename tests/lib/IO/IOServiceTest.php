@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\IO;
 
+use Closure;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
@@ -16,6 +17,7 @@ use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOService;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,19 +25,17 @@ use PHPUnit\Framework\TestCase;
  */
 class IOServiceTest extends TestCase
 {
-    public const PREFIX = 'test-prefix';
+    public const string PREFIX = 'test-prefix';
+    protected const string BINARY_FILE_ID_MY_PATH = 'my/path.png';
+    private const string MIME_TYPE_TEXT_PHP = 'text/x-php';
 
-    /** @var \Ibexa\Core\IO\IOService */
-    protected $IOService;
+    protected IOService $ioService;
 
-    /** @var \Ibexa\Core\IO\IOMetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $metadataHandlerMock;
+    protected IOMetadataHandler & MockObject $metadataHandlerMock;
 
-    /** @var \Ibexa\Core\IO\IOBinarydataHandler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $binarydataHandlerMock;
+    protected IOBinarydataHandler & MockObject $binarydataHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\IO\MimeTypeDetector|\PHPUnit\Framework\MockObject\MockObject */
-    protected $mimeTypeDetectorMock;
+    protected MimeTypeDetector & MockObject $mimeTypeDetectorMock;
 
     protected function setUp(): void
     {
@@ -45,7 +45,7 @@ class IOServiceTest extends TestCase
         $this->metadataHandlerMock = $this->createMock(IOMetadataHandler::class);
         $this->mimeTypeDetectorMock = $this->createMock(MimeTypeDetector::class);
 
-        $this->IOService = new IOService(
+        $this->ioService = new IOService(
             $this->metadataHandlerMock,
             $this->binarydataHandlerMock,
             $this->mimeTypeDetectorMock,
@@ -53,7 +53,7 @@ class IOServiceTest extends TestCase
         );
     }
 
-    public function testNewBinaryCreateStructFromLocalFile()
+    public function testNewBinaryCreateStructFromLocalFile(): BinaryFileCreateStruct
     {
         $file = __FILE__;
 
@@ -61,9 +61,9 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('getFromPath')
             ->with(self::equalTo($file))
-            ->will(self::returnValue('text/x-php'));
+            ->willReturn(self::MIME_TYPE_TEXT_PHP);
 
-        $binaryCreateStruct = $this->getIOService()->newBinaryCreateStructFromLocalFile(
+        $binaryCreateStruct = $this->getIoService()->newBinaryCreateStructFromLocalFile(
             $file
         );
 
@@ -71,7 +71,7 @@ class IOServiceTest extends TestCase
         self::assertNull($binaryCreateStruct->id);
         self::assertIsResource($binaryCreateStruct->inputStream);
         self::assertEquals(filesize(__FILE__), $binaryCreateStruct->size);
-        self::assertEquals('text/x-php', $binaryCreateStruct->mimeType);
+        self::assertEquals(self::MIME_TYPE_TEXT_PHP, $binaryCreateStruct->mimeType);
 
         return $binaryCreateStruct;
     }
@@ -79,7 +79,7 @@ class IOServiceTest extends TestCase
     /**
      * @depends testNewBinaryCreateStructFromLocalFile
      */
-    public function testCreateBinaryFile(BinaryFileCreateStruct $createStruct)
+    public function testCreateBinaryFile(BinaryFileCreateStruct $createStruct): BinaryFile
     {
         $createStruct->id = 'my/path.php';
         $id = $this->getPrefixedUri($createStruct->id);
@@ -87,7 +87,9 @@ class IOServiceTest extends TestCase
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $id;
         $spiBinaryFile->uri = $id;
-        $spiBinaryFile->size = filesize(__FILE__);
+        $filesize = filesize(__FILE__);
+        self::assertNotFalse($filesize);
+        $spiBinaryFile->size = $filesize;
 
         $this->binarydataHandlerMock
             ->expects(self::once())
@@ -99,7 +101,7 @@ class IOServiceTest extends TestCase
                             return false;
                         }
 
-                        return $subject->id == $id;
+                        return $subject->id === $id;
                     }
                 )
             );
@@ -108,9 +110,9 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('create')
             ->with(self::callback($this->getSPIBinaryFileCreateStructCallback($id)))
-            ->will(self::returnValue($spiBinaryFile));
+            ->willReturn($spiBinaryFile);
 
-        $binaryFile = $this->IOService->createBinaryFile($createStruct);
+        $binaryFile = $this->ioService->createBinaryFile($createStruct);
         self::assertInstanceOf(BinaryFile::class, $binaryFile);
         self::assertEquals($createStruct->id, $binaryFile->id);
         self::assertEquals($createStruct->size, $binaryFile->size);
@@ -118,9 +120,9 @@ class IOServiceTest extends TestCase
         return $binaryFile;
     }
 
-    public function testLoadBinaryFile()
+    public function testLoadBinaryFile(): BinaryFile
     {
-        $id = 'my/path.png';
+        $id = self::BINARY_FILE_ID_MY_PATH;
         $spiId = $this->getPrefixedUri($id);
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $spiId;
@@ -131,18 +133,22 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('load')
             ->with($spiId)
-            ->will(self::returnValue($spiBinaryFile));
+            ->willReturn($spiBinaryFile);
 
-        $binaryFile = $this->getIOService()->loadBinaryFile($id);
+        $binaryFile = $this->getIoService()->loadBinaryFile($id);
         self::assertEquals($id, $binaryFile->id);
 
         return $binaryFile;
     }
 
-    public function testLoadBinaryFileNoMetadataUri()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     */
+    public function testLoadBinaryFileNoMetadataUri(): BinaryFile
     {
-        $id = 'my/path.png';
+        $id = self::BINARY_FILE_ID_MY_PATH;
         $spiId = $this->getPrefixedUri($id);
+        $prefixedId = $this->mockGettingPrefixedUriFromDataHandler($id);
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $spiId;
         $spiBinaryFile->size = 12345;
@@ -151,17 +157,16 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('load')
             ->with($spiId)
-            ->will(self::returnValue($spiBinaryFile));
+            ->willReturn($spiBinaryFile);
 
-        $this->binarydataHandlerMock
-            ->expects(self::once())
-            ->method('getUri')
-            ->with($spiId)
-            ->will(self::returnValue("/$spiId"));
+        $binaryFile = $this->getIoService()->loadBinaryFile($id);
 
-        $binaryFile = $this->getIOService()->loadBinaryFile($id);
-
-        $expectedBinaryFile = new BinaryFile(['id' => $id, 'size' => 12345, 'uri' => "/$spiId"]);
+        $expectedBinaryFile = new BinaryFile(
+            [
+                'id' => $id,
+                'size' => 12345, 'uri' => $prefixedId, 'mtime' => null,
+            ]
+        );
 
         self::assertEquals($expectedBinaryFile, $binaryFile);
 
@@ -169,18 +174,19 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @return mixed Whatever loadBinaryFile returns
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testLoadBinaryFileNotFound()
+    public function testLoadBinaryFileNotFound(): BinaryFile
     {
         $this->expectException(BinaryFileNotFoundException::class);
 
         return $this->loadBinaryFileNotFound();
     }
 
-    public function testLoadBinaryFileByUri()
+    public function testLoadBinaryFileByUri(): BinaryFile
     {
-        $id = 'my/path.png';
+        $id = self::BINARY_FILE_ID_MY_PATH;
         $spiId = $this->getPrefixedUri($id);
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $spiId;
@@ -191,24 +197,25 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('getIdFromUri')
             ->with($spiId)
-            ->will(self::returnValue($spiId));
+            ->willReturn($spiId);
 
         $this->metadataHandlerMock
             ->expects(self::once())
             ->method('load')
             ->with($spiId)
-            ->will(self::returnValue($spiBinaryFile));
+            ->willReturn($spiBinaryFile);
 
-        $binaryFile = $this->getIOService()->loadBinaryFileByUri($spiId);
+        $binaryFile = $this->getIoService()->loadBinaryFileByUri($spiId);
         self::assertEquals($id, $binaryFile->id);
 
         return $binaryFile;
     }
 
     /**
-     * @return mixed Whatever loadBinaryFileByUri returns
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function testLoadBinaryFileByUriNotFound()
+    public function testLoadBinaryFileByUriNotFound(): BinaryFile
     {
         $this->expectException(BinaryFileNotFoundException::class);
 
@@ -216,17 +223,9 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @depends testCreateBinaryFile
-     */
-    public function testGetFileInputStream(BinaryFile $binaryFile)
-    {
-        self::markTestSkipped('Not implemented');
-    }
-
-    /**
      * @depends testLoadBinaryFile
      */
-    public function testGetFileContents(BinaryFile $binaryFile)
+    public function testGetFileContents(BinaryFile $binaryFile): void
     {
         $expectedContents = file_get_contents(__FILE__);
 
@@ -234,42 +233,42 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('getContents')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)))
-            ->will(self::returnValue($expectedContents));
+            ->willReturn($expectedContents);
 
         self::assertEquals(
             $expectedContents,
-            $this->getIOService()->getFileContents($binaryFile)
+            $this->getIoService()->getFileContents($binaryFile)
         );
     }
 
     /**
      * @depends testCreateBinaryFile
      */
-    public function testExists(BinaryFile $binaryFile)
+    public function testExists(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
             ->expects(self::once())
             ->method('exists')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)))
-            ->will(self::returnValue(true));
+            ->willReturn(true);
 
         self::assertTrue(
-            $this->getIOService()->exists(
+            $this->getIoService()->exists(
                 $binaryFile->id
             )
         );
     }
 
-    public function testExistsNot()
+    public function testExistsNot(): void
     {
         $this->metadataHandlerMock
             ->expects(self::once())
             ->method('exists')
             ->with(self::equalTo($this->getPrefixedUri(__METHOD__)))
-            ->will(self::returnValue(false));
+            ->willReturn(false);
 
         self::assertFalse(
-            $this->getIOService()->exists(
+            $this->getIoService()->exists(
                 __METHOD__
             )
         );
@@ -278,17 +277,17 @@ class IOServiceTest extends TestCase
     /**
      * @depends testCreateBinaryFile
      */
-    public function testGetMimeType(BinaryFile $binaryFile)
+    public function testGetMimeType(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
             ->expects(self::once())
             ->method('getMimeType')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)))
-            ->willReturn('text/x-php');
+            ->willReturn(self::MIME_TYPE_TEXT_PHP);
 
         self::assertEquals(
             'text/x-php',
-            $this->getIOService()->getMimeType(
+            $this->getIoService()->getMimeType(
                 $binaryFile->id
             )
         );
@@ -297,7 +296,7 @@ class IOServiceTest extends TestCase
     /**
      * @depends testCreateBinaryFile
      */
-    public function testDeleteBinaryFile(BinaryFile $binaryFile)
+    public function testDeleteBinaryFile(BinaryFile $binaryFile): void
     {
         $this->metadataHandlerMock
             ->expects(self::once())
@@ -309,10 +308,10 @@ class IOServiceTest extends TestCase
             ->method('delete')
             ->with(self::equalTo($this->getPrefixedUri($binaryFile->id)));
 
-        $this->getIOService()->deleteBinaryFile($binaryFile);
+        $this->getIoService()->deleteBinaryFile($binaryFile);
     }
 
-    public function testDeleteDirectory()
+    public function testDeleteDirectory(): void
     {
         $id = 'some/directory';
         $spiId = $this->getPrefixedUri($id);
@@ -327,9 +326,12 @@ class IOServiceTest extends TestCase
             ->method('deleteDirectory')
             ->with($spiId);
 
-        $this->getIOService()->deleteDirectory('some/directory');
+        $this->getIoService()->deleteDirectory('some/directory');
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     public function testDeleteBinaryFileNotFound(): void
     {
         $this->expectException(BinaryFileNotFoundException::class);
@@ -337,58 +339,55 @@ class IOServiceTest extends TestCase
         $this->deleteBinaryFileNotFound();
     }
 
-    public function getPrefixedUri($uri)
+    public function getPrefixedUri(string $uri): string
     {
         return self::PREFIX . '/' . $uri;
     }
 
-    /**
-     * @return \Ibexa\Core\IO\IOService
-     */
-    protected function getIOService()
+    protected function getIOService(): IOService
     {
-        return $this->IOService;
+        return $this->ioService;
     }
 
     /**
      * Asserts that the given $ioCreateStruct is of the right type and that id matches the expected value.
-     *
-     * @param int $spiId
      */
-    private function getSPIBinaryFileCreateStructCallback($spiId): \Closure
+    private function getSPIBinaryFileCreateStructCallback(string $spiId): Closure
     {
         return static function ($subject) use ($spiId): bool {
             if (!$subject instanceof SPIBinaryFileCreateStruct) {
                 return false;
             }
 
-            return $subject->id == $spiId;
+            return $subject->id === $spiId;
         };
     }
 
     /**
-     * @return bool|\Ibexa\Core\IO\Values\BinaryFile
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    protected function loadBinaryFileNotFound()
+    protected function loadBinaryFileNotFound(): BinaryFile
     {
         $id = 'id.ext';
         $prefixedUri = $this->getPrefixedUri($id);
+
         $this->metadataHandlerMock
             ->expects(self::once())
             ->method('load')
             ->with($prefixedUri)
-            ->will(self::throwException(new BinaryFileNotFoundException($prefixedUri)));
+            ->willThrowException(new BinaryFileNotFoundException($prefixedUri));
 
-        return $this->getIOService()->loadBinaryFile($id);
+        return $this->getIoService()->loadBinaryFile($id);
     }
 
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     protected function deleteBinaryFileNotFound(): void
     {
         $binaryFile = new BinaryFile(
-            ['id' => __METHOD__]
+            ['id' => __METHOD__, 'uri' => '/test-prefix/' . __METHOD__]
         );
 
         $prefixedId = $this->getPrefixedUri($binaryFile->id);
@@ -396,34 +395,44 @@ class IOServiceTest extends TestCase
             ->expects(self::once())
             ->method('delete')
             ->with(self::equalTo($prefixedId))
-            ->will(self::throwException(new BinaryFileNotFoundException($prefixedId)));
+            ->willThrowException(new BinaryFileNotFoundException($prefixedId));
 
-        $this->getIOService()->deleteBinaryFile($binaryFile);
+        $this->getIoService()->deleteBinaryFile($binaryFile);
     }
 
     /**
-     * @return bool|\Ibexa\Core\IO\Values\BinaryFile
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    protected function loadBinaryFileByUriNotFound()
+    protected function loadBinaryFileByUriNotFound(): BinaryFile
     {
-        $id = 'my/path.png';
+        $id = self::BINARY_FILE_ID_MY_PATH;
         $spiId = $this->getPrefixedUri($id);
 
         $this->binarydataHandlerMock
             ->expects(self::once())
             ->method('getIdFromUri')
             ->with($spiId)
-            ->will(self::returnValue($spiId));
+            ->willReturn($spiId);
 
         $this->metadataHandlerMock
             ->expects(self::once())
             ->method('load')
             ->with($spiId)
-            ->will(self::throwException(new BinaryFileNotFoundException($spiId)));
+            ->willThrowException(new BinaryFileNotFoundException($spiId));
 
-        return $this->getIOService()->loadBinaryFileByUri($spiId);
+        return $this->getIoService()->loadBinaryFileByUri($spiId);
+    }
+
+    protected function mockGettingPrefixedUriFromDataHandler(string $uri): string
+    {
+        $prefixedUri = $this->getPrefixedUri($uri);
+        $this->binarydataHandlerMock
+            ->expects(self::once())
+            ->method('getUri')
+            ->with($prefixedUri)
+            ->willReturn($prefixedUri);
+
+        return $prefixedUri;
     }
 }

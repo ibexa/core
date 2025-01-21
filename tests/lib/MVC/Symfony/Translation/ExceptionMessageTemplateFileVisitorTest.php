@@ -10,73 +10,27 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Translation;
 
 use Doctrine\Common\Annotations\DocParser;
 use Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor;
+use JMS\TranslationBundle\Logger\LoggerAwareInterface;
 use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
+use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
-use PhpParser\Lexer;
-use PhpParser\Parser;
-use PhpParser\ParserFactory;
-use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use SplFileInfo;
 
-final class ExceptionMessageTemplateFileVisitorTest extends TestCase
+/**
+ * @covers \Ibexa\Core\MVC\Symfony\Translation\ExceptionMessageTemplateFileVisitor
+ */
+final class ExceptionMessageTemplateFileVisitorTest extends BaseMessageExtractorPhpFileVisitorTestCase
 {
-    private const FIXTURES_DIR = __DIR__ . '/fixtures/';
-
-    private Parser $phpParser;
-
-    private ExceptionMessageTemplateFileVisitor $exceptionMessageTemplateFileVisitor;
-
-    protected function setUp(): void
+    public static function getDataForTestExtractTranslation(): iterable
     {
-        $docParser = new DocParser();
-        $fileSourceFactory = new FileSourceFactory(
-            self::FIXTURES_DIR,
-        );
-        $lexer = new Lexer();
-        $factory = new ParserFactory();
-        $this->phpParser = $factory->create(ParserFactory::PREFER_PHP7, $lexer);
-        $this->exceptionMessageTemplateFileVisitor = new ExceptionMessageTemplateFileVisitor(
-            $docParser,
-            $fileSourceFactory
-        );
-    }
-
-    public function testExtractTranslation(): void
-    {
-        $messageCatalogue = new MessageCatalogue();
-        $file = self::FIXTURES_DIR . 'SetMessageTemplate.php';
-        $fileInfo = new SplFileInfo($file);
-
-        $ast = $this->phpParser->parse(file_get_contents($file));
-        $this->exceptionMessageTemplateFileVisitor->visitPhpFile(
-            $fileInfo,
-            $messageCatalogue,
-            $ast
-        );
-
-        $expectedMessage = new Message('Foo exception', 'ibexa_repository_exceptions');
-
-        self::assertTrue(
-            $messageCatalogue->has($expectedMessage)
-        );
-    }
-
-    public function testNoTranslationToExtract(): void
-    {
-        $messageCatalogue = new MessageCatalogue();
-        $file = self::FIXTURES_DIR . 'NoTranslationToExtract.php';
-        $fileInfo = new SplFileInfo($file);
-
-        $ast = $this->phpParser->parse(file_get_contents($file));
-        $this->exceptionMessageTemplateFileVisitor->visitPhpFile(
-            $fileInfo,
-            $messageCatalogue,
-            $ast
-        );
-
-        self::assertEmpty($messageCatalogue->getDomains());
+        yield 'TranslatableBase::setMessageTemplate()' => [
+            'SetMessageTemplate.php',
+            [
+                new Message('Foo exception', 'ibexa_repository_exceptions'),
+            ],
+        ];
     }
 
     public function testWrongTranslationId(): void
@@ -85,18 +39,29 @@ final class ExceptionMessageTemplateFileVisitorTest extends TestCase
         $file = self::FIXTURES_DIR . 'WrongTranslationId.php';
         $fileInfo = new SplFileInfo($file);
 
-        $ast = $this->phpParser->parse(file_get_contents($file));
+        $ast = $this->getASTFromFile($file);
 
-        $logger = $this->createMock(LoggerInterface::class);
-        $logger
-            ->expects(self::once())
-            ->method('error');
+        if ($this->visitor instanceof LoggerAwareInterface) {
+            $logger = $this->createMock(LoggerInterface::class);
+            $logger
+                ->expects(self::once())
+                ->method('error');
 
-        $this->exceptionMessageTemplateFileVisitor->setLogger($logger);
-        $this->exceptionMessageTemplateFileVisitor->visitPhpFile(
+            $this->visitor->setLogger($logger);
+        }
+
+        $this->visitor->visitPhpFile(
             $fileInfo,
             $messageCatalogue,
             $ast
+        );
+    }
+
+    protected function buildVisitor(DocParser $docParser, FileSourceFactory $fileSourceFactory): FileVisitorInterface
+    {
+        return new ExceptionMessageTemplateFileVisitor(
+            $docParser,
+            $fileSourceFactory
         );
     }
 }

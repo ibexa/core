@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Validation;
 
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
@@ -25,17 +26,17 @@ final class StructWrapperValidator implements ValidatorInterface
         $this->inner = $inner;
     }
 
-    public function getMetadataFor($value): MetadataInterface
+    public function getMetadataFor(mixed $value): MetadataInterface
     {
         return $this->inner->getMetadataFor($value);
     }
 
-    public function hasMetadataFor($value): bool
+    public function hasMetadataFor(mixed $value): bool
     {
         return $this->inner->hasMetadataFor($value);
     }
 
-    public function validate($value, $constraints = null, $groups = null): ConstraintViolationListInterface
+    public function validate(mixed $value, Constraint|array|null $constraints = null, $groups = null): ConstraintViolationListInterface
     {
         $result = $this->inner->validate($value, $constraints, $groups);
 

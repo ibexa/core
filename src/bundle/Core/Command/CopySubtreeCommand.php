@@ -32,20 +32,15 @@ class CopySubtreeCommand extends Command
 
     protected static $defaultDescription = 'Copies a subtree from one Location to another';
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    private $userService;
+    private UserService $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    private $searchService;
+    private SearchService $searchService;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService
@@ -69,7 +64,7 @@ class CopySubtreeCommand extends Command
         $this->searchService = $searchService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument(
@@ -95,9 +90,10 @@ class CopySubtreeCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->permissionResolver->setCurrentUserReference(
@@ -106,11 +102,6 @@ class CopySubtreeCommand extends Command
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int|null
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
@@ -144,9 +135,9 @@ class CopySubtreeCommand extends Command
         $questionHelper = $this->getHelper('question');
         $question = new ConfirmationQuestion(
             sprintf(
-                'Are you sure you want to copy `%s` subtree (no. of children: %d) into `%s`? This may take a while for a big number of nested children [Y/n]? ',
+                'Are you sure you want to copy `%s` subtree (no. of children: %s) into `%s`? This may take a while for a big number of nested children [Y/n]? ',
                 $sourceLocation->contentInfo->name,
-                $this->getAllChildrenCount($sourceLocation),
+                $this->getAllChildrenCountExpr($sourceLocation),
                 $targetLocation->contentInfo->name
             )
         );
@@ -168,20 +159,16 @@ class CopySubtreeCommand extends Command
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
-     *
-     * @return int
-     *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    protected function getAllChildrenCount(Location $location): int
+    protected function getAllChildrenCountExpr(Location $location): string
     {
         $query = new LocationQuery([
             'filter' => new Criterion\Subtree($location->pathString),
         ]);
 
-        $searchResults = $this->searchService->findLocations($query);
+        $totalCount = $this->searchService->findLocations($query)->totalCount;
 
-        return $searchResults->totalCount;
+        return $totalCount !== null ? (string) $totalCount : '~';
     }
 }

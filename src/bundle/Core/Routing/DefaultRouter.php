@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\Core\Routing;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
@@ -16,30 +17,28 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  * Extension of Symfony default router implementing RequestMatcherInterface.
  */
-class DefaultRouter extends Router implements RequestMatcherInterface, SiteAccessAware
+class DefaultRouter extends Router implements SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    protected $siteAccess;
+    protected ?SiteAccess $siteAccess = null;
 
-    protected $nonSiteAccessAwareRoutes = [];
+    /** @var string[] */
+    protected array $nonSiteAccessAwareRoutes = [];
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface */
-    protected $siteAccessRouter;
+    protected SiteAccessRouterInterface $siteAccessRouter;
 
-    public function setConfigResolver(ConfigResolverInterface $configResolver)
+    public function setConfigResolver(ConfigResolverInterface $configResolver): void
     {
         $this->configResolver = $configResolver;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
@@ -48,22 +47,22 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
      * Injects route names that are not supposed to be SiteAccess aware.
      * i.e. Routes pointing to asset generation (like assetic).
      *
-     * @param array $routes
+     * @param string[] $routes
      */
-    public function setNonSiteAccessAwareRoutes(array $routes)
+    public function setNonSiteAccessAwareRoutes(array $routes): void
     {
         $this->nonSiteAccessAwareRoutes = $routes;
     }
 
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface $siteAccessRouter
-     */
-    public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter)
+    public function setSiteAccessRouter(SiteAccessRouterInterface $siteAccessRouter): void
     {
         $this->siteAccessRouter = $siteAccessRouter;
     }
 
-    public function matchRequest(Request $request)
+    /**
+     * @return array<string, mixed> An array of parameters
+     */
+    public function matchRequest(Request $request): array
     {
         if ($request->attributes->has('semanticPathinfo')) {
             $request = $request->duplicate();
@@ -76,7 +75,10 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
         return parent::matchRequest($request);
     }
 
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         $siteAccess = $this->siteAccess;
         $originalContext = $context = $this->getContext();
@@ -110,9 +112,9 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
             if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
                 $scheme = $context->getScheme();
                 $port = '';
-                if ($scheme === 'http' && $this->context->getHttpPort() != 80) {
+                if ($scheme === 'http' && $this->context->getHttpPort() !== 80) {
                     $port = ':' . $this->context->getHttpPort();
-                } elseif ($scheme === 'https' && $this->context->getHttpsPort() != 443) {
+                } elseif ($scheme === 'https' && $this->context->getHttpsPort() !== 443) {
                     $port = ':' . $this->context->getHttpsPort();
                 }
 
@@ -134,15 +136,11 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
     /**
      * Checks if $routeName is a siteAccess aware route, and thus needs to have siteAccess URI prepended.
      * Will be used for link generation, only in the case of URI SiteAccess matching.
-     *
-     * @param $routeName
-     *
-     * @return bool
      */
-    protected function isSiteAccessAwareRoute($routeName): bool
+    protected function isSiteAccessAwareRoute(string $routeName): bool
     {
         foreach ($this->nonSiteAccessAwareRoutes as $ignoredPrefix) {
-            if (strpos($routeName, $ignoredPrefix) === 0) {
+            if (str_starts_with($routeName, $ignoredPrefix)) {
                 return false;
             }
         }
@@ -152,37 +150,10 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
 
     /**
      * Merges context from $simplifiedRequest into a clone of the current context.
-     *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $simplifiedRequest
-     *
-     * @return \Symfony\Component\Routing\RequestContext
      */
-    public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest)
+    public function getContextBySimplifiedRequest(SimplifiedRequest $simplifiedRequest): RequestContext
     {
-        $context = clone $this->context;
-        if ($simplifiedRequest->getScheme()) {
-            $context->setScheme($simplifiedRequest->getScheme());
-        }
-
-        if ($simplifiedRequest->getPort()) {
-            switch ($simplifiedRequest->getScheme()) {
-                case 'https':
-                    $context->setHttpsPort($simplifiedRequest->getPort());
-                    break;
-                default:
-                    $context->setHttpPort($simplifiedRequest->getPort());
-                    break;
-            }
-        }
-
-        if ($simplifiedRequest->getHost()) {
-            $context->setHost($simplifiedRequest->getHost());
-        }
-
-        if ($simplifiedRequest->getPathInfo()) {
-            $context->setPathInfo($simplifiedRequest->getPathInfo());
-        }
-
-        return $context;
+        // inline-instantiated on purpose as it's lightweight and injecting it here through DI can be complicated
+        return (new RequestContextFactory($this->context))->getContextBySimplifiedRequest($simplifiedRequest);
     }
 }

@@ -10,37 +10,28 @@ namespace Ibexa\Core\MVC\Symfony\Routing;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\URLWildcardService;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Cmf\Component\Routing\ChainedRouterInterface;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection;
 
 class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterface
 {
-    public const URL_ALIAS_ROUTE_NAME = 'ibexa.url.alias';
+    public const string URL_ALIAS_ROUTE_NAME = 'ibexa.url.alias';
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLWildcardService */
-    private $wildcardService;
+    private URLWildcardService $wildcardService;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
-    private $generator;
+    private UrlAliasGenerator $generator;
 
-    /** @var \Symfony\Component\Routing\RequestContext */
-    private $requestContext;
+    private RequestContext $requestContext;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\URLWildcardService $wildcardService
-     * @param \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator $generator
-     * @param \Symfony\Component\Routing\RequestContext $requestContext
-     */
     public function __construct(
         URLWildcardService $wildcardService,
         UrlAliasGenerator $generator,
@@ -49,20 +40,16 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
         $this->wildcardService = $wildcardService;
         $this->generator = $generator;
         $this->requestContext = $requestContext;
+        $this->logger = new NullLogger();
     }
 
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     */
-    public function setLogger($logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return array An array of parameters
+     * @return array<string, mixed> An array of parameters
      *
      * @throws \Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
@@ -76,9 +63,7 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
             throw new ResourceNotFoundException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if ($this->logger !== null) {
-            $this->logger->info("UrlWildcard matched. Destination URL: {$urlWildcardTranslationResult->uri}");
-        }
+        $this->logger->info("UrlWildcard matched. Destination URL: $urlWildcardTranslationResult->uri");
 
         // set translated path for the next router
         $request->attributes->set('semanticPathinfo', $urlWildcardTranslationResult->uri);
@@ -97,29 +82,19 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     }
 
     /**
-     * @param string $name
-     * @param array $parameters
-     * @param int $referenceType
-     *
-     * @return string|void
+     * @param array<string, mixed> $parameters
      */
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         throw new RouteNotFoundException('Could not match route');
     }
 
-    /**
-     * @param \Symfony\Component\Routing\RequestContext $context
-     */
     public function setContext(RequestContext $context): void
     {
         $this->requestContext = $context;
         $this->generator->setRequestContext($context);
     }
 
-    /**
-     * @return \Symfony\Component\Routing\RequestContext
-     */
     public function getContext(): RequestContext
     {
         return $this->requestContext;
@@ -128,13 +103,11 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
     /**
      * Not supported. Please use matchRequest() instead.
      *
-     * @param string $pathinfo
-     *
-     * @return array
+     * @return array<string, mixed>
      *
      * @throws \RuntimeException
      */
-    public function match($pathinfo): array
+    public function match(string $pathinfo): array
     {
         throw new \RuntimeException("The UrlWildcardRouter doesn't support the match() method. Use matchRequest() instead.");
     }
@@ -145,29 +118,14 @@ class UrlWildcardRouter implements ChainedRouterInterface, RequestMatcherInterfa
      * This check does not need to look if the specific instance can be
      * resolved to a route, only whether the router can generate routes from
      * objects of this class.
-     *
-     * @param mixed $name The route name or route object
-     *
-     * @return bool
      */
-    public function supports($name): bool
+    public function supports(string $name): bool
     {
         return $name === static::URL_ALIAS_ROUTE_NAME;
     }
 
-    /**
-     * @see Symfony\Cmf\Component\Routing\VersatileGeneratorInterface::getRouteDebugMessage()
-     */
-    public function getRouteDebugMessage($name, array $parameters = []): string
+    public function getRouteDebugMessage(string $name, array $parameters = []): string
     {
-        if ($name instanceof RouteObjectInterface) {
-            return 'Route with key ' . $name->getRouteKey();
-        }
-
-        if ($name instanceof SymfonyRoute) {
-            return 'Route with pattern ' . $name->getPath();
-        }
-
         return $name;
     }
 }

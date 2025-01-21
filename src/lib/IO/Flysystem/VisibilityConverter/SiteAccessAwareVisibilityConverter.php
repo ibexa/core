@@ -24,8 +24,8 @@ use League\Flysystem\Visibility;
  */
 final class SiteAccessAwareVisibilityConverter extends BaseVisibilityConverter
 {
-    public const SITE_CONFIG_IO_FILE_PERMISSIONS_PARAM_NAME = 'io.permissions.files';
-    public const SITE_CONFIG_IO_DIR_PERMISSIONS_PARAM_NAME = 'io.permissions.directories';
+    public const string SITE_CONFIG_IO_FILE_PERMISSIONS_PARAM_NAME = 'io.permissions.files';
+    public const string SITE_CONFIG_IO_DIR_PERMISSIONS_PARAM_NAME = 'io.permissions.directories';
 
     private ConfigResolverInterface $configResolver;
 

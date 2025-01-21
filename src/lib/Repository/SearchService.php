@@ -81,19 +81,6 @@ class SearchService implements SearchServiceInterface
         $this->backgroundIndexer = $backgroundIndexer;
     }
 
-    /**
-     * Finds content objects for the given query.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
-     *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param array $languageFilter Configuration for specifying prioritized languages query will be performed on.
-     *        Currently supports: <code>array("languages" => array(<language1>,..), "useAlwaysAvailable" => bool)</code>
-     *                            useAlwaysAvailable defaults to true to avoid exceptions on missing translations.
-     * @param bool $filterOnUserPermissions if true only the objects which the user is allowed to read are returned.
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
-     */
     public function findContent(Query $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
     {
         $result = $this->internalFindContentInfo($query, $languageFilter, $filterOnUserPermissions);

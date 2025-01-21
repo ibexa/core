@@ -14,37 +14,34 @@ use Symfony\Component\Security\Http\HttpUtils as BaseHttpUtils;
 
 class HttpUtils extends BaseHttpUtils implements SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess;
 
-    /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess|null $siteAccess
-     */
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
 
-    private function analyzeLink($path)
+    private function analyzeLink(string $path): string
     {
-        if ($path[0] === '/' && $this->siteAccess->matcher instanceof SiteAccess\URILexer) {
-            $path = $this->siteAccess->matcher->analyseLink($path);
+        $matcher = $this->siteAccess?->matcher;
+        if ($path[0] === '/' && $matcher instanceof SiteAccess\URILexer) {
+            $path = $matcher->analyseLink($path);
         }
 
         return $path;
     }
 
-    public function generateUri($request, $path)
+    public function generateUri(Request $request, string $path): string
     {
         if ($this->isRouteName($path)) {
-            // Remove siteaccess attribute to avoid triggering reverse siteaccess lookup during link generation.
+            // Remove SiteAccess attribute to avoid triggering reverse SiteAccess lookup during link generation.
             $request->attributes->remove('siteaccess');
         }
 
         return parent::generateUri($request, $this->analyzeLink($path));
     }
 
-    public function checkRequestPath(Request $request, $path)
+    public function checkRequestPath(Request $request, string $path): bool
     {
         return parent::checkRequestPath($request, $this->analyzeLink($path));
     }
@@ -54,8 +51,8 @@ class HttpUtils extends BaseHttpUtils implements SiteAccessAware
      *
      * @return bool
      */
-    private function isRouteName($path): bool
+    private function isRouteName(string $path): bool
     {
-        return $path && strpos($path, 'http') !== 0 && strpos($path, '/') !== 0;
+        return !empty($path) && !str_starts_with($path, 'http') && !str_starts_with($path, '/');
     }
 }

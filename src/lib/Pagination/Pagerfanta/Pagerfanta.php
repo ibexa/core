@@ -11,30 +11,38 @@ namespace Ibexa\Core\Pagination\Pagerfanta;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Pagerfanta\Pagerfanta as BasePagerfanta;
 
+/**
+ * @template TSearchResultAdapter
+ *
+ * @extends \Pagerfanta\Pagerfanta<TSearchResultAdapter>
+ */
 final class Pagerfanta extends BasePagerfanta
 {
-    public function __construct(SearchResultAdapter $adapter)
+    /**
+     * @phpstan-param \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter<TSearchResultAdapter> $searchResultAdapter
+     */
+    public function __construct(private readonly SearchResultAdapter $searchResultAdapter)
     {
-        parent::__construct($adapter);
+        parent::__construct($this->searchResultAdapter);
     }
 
     public function getAggregations(): AggregationResultCollection
     {
-        return $this->getAdapter()->getAggregations();
+        return $this->searchResultAdapter->getAggregations();
     }
 
     public function getTime(): ?float
     {
-        return $this->getAdapter()->getTime();
+        return $this->searchResultAdapter->getTime();
     }
 
     public function getTimedOut(): ?bool
     {
-        return $this->getAdapter()->getTimedOut();
+        return $this->searchResultAdapter->getTimedOut();
     }
 
     public function getMaxScore(): ?float
     {
-        return $this->getAdapter()->getMaxScore();
+        return $this->searchResultAdapter->getMaxScore();
     }
 }

@@ -27,7 +27,7 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         $mappingDriverConfig = $this->prepareMappingDriverConfig($entityMappings, $container);
 
         foreach ($entityManagers as $entityManagerName => $serviceName) {
-            if (strpos($entityManagerName, 'ibexa_') !== 0) {
+            if (!str_starts_with($entityManagerName, 'ibexa_')) {
                 continue;
             }
 
@@ -46,10 +46,8 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
                 $metadataDriverServiceName = "doctrine.orm.{$entityManagerName}_{$driverType}_metadata_driver";
                 $metadataDriverDefinition = $this->createMetadataDriverDefinition($driverType, $driverPaths);
 
-                if (
-                    false !== strpos($metadataDriverDefinition->getClass(), 'yml')
-                    || false !== strpos($metadataDriverDefinition->getClass(), 'xml')
-                ) {
+                $class = $metadataDriverDefinition->getClass();
+                if (null !== $class && (str_contains($class, 'yml') || str_contains($class, 'xml'))) {
                     $metadataDriverDefinition->setArguments([array_flip($driverPaths)]);
                     $metadataDriverDefinition->addMethodCall('setGlobalBasename', ['mapping']);
                 }

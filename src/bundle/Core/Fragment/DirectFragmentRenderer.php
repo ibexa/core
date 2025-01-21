@@ -46,6 +46,7 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
     protected $viewTemplateRenderer;
 
     public function __construct(
+        FragmentRendererInterface $innerRenderer,
         KernelInterface $kernel,
         ViewControllerListener $controllerListener,
         ControllerResolverInterface $controllerResolver,
@@ -53,6 +54,7 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
         ArgumentValueResolverInterface $argumentValueResolver,
         TemplateRenderer $viewTemplateRenderer
     ) {
+        $this->innerRenderer = $innerRenderer;
         $this->kernel = $kernel;
         $this->controllerListener = $controllerListener;
         $this->controllerResolver = $controllerResolver;

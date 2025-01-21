@@ -157,9 +157,8 @@ class IOService implements IOServiceInterface
     {
         $this->checkBinaryFileId($binaryFileId);
 
-        // @todo An absolute path can in no case be loaded, but throwing an exception is too much (why ?)
         if ($this->isAbsolutePath($binaryFileId)) {
-            return false;
+            throw new InvalidArgumentValue('$binaryFileId', "$binaryFileId is an absolute path");
         }
 
         $spiBinaryFile = $this->metadataHandler->load($this->getPrefixedUri($binaryFileId));

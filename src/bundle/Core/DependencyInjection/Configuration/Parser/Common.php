@@ -21,7 +21,7 @@ class Common extends AbstractParser
      *
      * @param \Symfony\Component\Config\Definition\Builder\NodeBuilder $nodeBuilder Node just under ibexa.system.<siteaccess>
      */
-    public function addSemanticConfig(NodeBuilder $nodeBuilder)
+    public function addSemanticConfig(NodeBuilder $nodeBuilder): void
     {
         $nodeBuilder
             ->scalarNode('repository')->info('The repository to use. Choose among ibexa.repositories.')->end()

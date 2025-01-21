@@ -30,39 +30,21 @@ use Twig\Node\Node as TwigNode;
  */
 class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInterface, NodeVisitor
 {
-    /** @var \JMS\TranslationBundle\Translation\FileSourceFactory */
-    private $fileSourceFactory;
+    private FileSourceFactory $fileSourceFactory;
 
-    /** @var \PhpParser\NodeTraverser */
-    private $traverser;
+    private NodeTraverser $traverser;
 
-    /** @var \JMS\TranslationBundle\Model\MessageCatalogue */
-    private $catalogue;
+    private MessageCatalogue $catalogue;
 
-    /** @var \SplFileInfo */
-    private $file;
+    private \SplFileInfo $file;
 
-    /** @var \Doctrine\Common\Annotations\DocParser */
-    private $docParser;
+    private DocParser $docParser;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \PhpParser\Node */
-    private $previousNode;
+    private Node $previousNode;
 
-    /** @var string */
-    protected $defaultDomain = 'ibexa_repository_exceptions';
-
-    /**
-     * Methods and "domain" parameter offset to extract from PHP code.
-     *
-     * @var array method => position of the "domain" parameter
-     */
-    protected $classToExtractFrom = [
-        'contentvalidationexception',
-        'forbiddenexception',
-    ];
+    protected string $defaultDomain = 'ibexa_repository_exceptions';
 
     /**
      * DefaultPhpFileExtractor constructor.
@@ -86,25 +68,20 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
         $this->logger = $logger;
     }
 
-    /**
-     * @param \PhpParser\Node $node
-     */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): null
     {
         if (!$node instanceof Node\Expr\New_
-            || !is_string($node->class)
-            || strtolower($node->class) !== 'validationerror') {
+            || !$node->class instanceof Node\Name
+            || strtolower((string)$node->class) !== 'validationerror'
+        ) {
             $this->previousNode = $node;
 
-            return;
+            return null;
         }
 
         $ignore = false;
         $desc = $meaning = null;
         if (null !== $docComment = $this->getDocCommentForNode($node)) {
-            if ($docComment instanceof Doc) {
-                $docComment = $docComment->getText();
-            }
             foreach ($this->docParser->parse($docComment, 'file ' . $this->file . ' near line ' . $node->getLine()) as $annot) {
                 if ($annot instanceof Ignore) {
                     $ignore = true;
@@ -118,15 +95,15 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
 
         if (!$node->args[0]->value instanceof String_) {
             if ($ignore) {
-                return;
+                return null;
             }
 
             $message = sprintf('Can only extract the translation ID from a scalar string, but got "%s". Refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($node->args[0]->value), $this->file, $node->args[0]->value->getLine());
 
-            if ($this->logger) {
+            if (isset($this->logger)) {
                 $this->logger->error($message);
 
-                return;
+                return null;
             }
 
             throw new RuntimeException($message);
@@ -139,53 +116,49 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
         $this->catalogue->add($message);
 
         // plural
-        if ($node->args[1]->value instanceof String_) {
+        if (isset($node->args[1]) && $node->args[1]->value instanceof String_) {
             $message = new Message($node->args[1]->value->value, $this->defaultDomain);
             $message->setDesc($desc);
             $message->setMeaning($meaning);
             $message->addSource($this->fileSourceFactory->create($this->file, $node->getLine()));
             $this->catalogue->add($message);
         }
+
+        return null;
     }
 
     /**
      * @param \SplFileInfo $file
      * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
-     * @param array $ast
+     * @param \PhpParser\Node\Stmt[] $ast
      */
-    public function visitPhpFile(\SplFileInfo $file, MessageCatalogue $catalogue, array $ast)
+    public function visitPhpFile(\SplFileInfo $file, MessageCatalogue $catalogue, array $ast): void
     {
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);
     }
 
-    /**
-     * @param array $nodes
-     */
-    public function beforeTraverse(array $nodes)
+    public function beforeTraverse(array $nodes): null
     {
+        return null;
     }
 
-    /**
-     * @param \PhpParser\Node $node
-     */
-    public function leaveNode(Node $node)
+    public function leaveNode(Node $node): null
     {
+        return null;
     }
 
-    /**
-     * @param array $nodes
-     */
-    public function afterTraverse(array $nodes)
+    public function afterTraverse(array $nodes): null
     {
+        return null;
     }
 
     /**
      * @param \SplFileInfo $file
      * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
      */
-    public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue)
+    public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue): void
     {
     }
 
@@ -194,16 +167,16 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
      * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
      * @param \Twig\Node\Node $ast
      */
-    public function visitTwigFile(\SplFileInfo $file, MessageCatalogue $catalogue, TwigNode $ast)
+    public function visitTwigFile(\SplFileInfo $file, MessageCatalogue $catalogue, TwigNode $ast): void
     {
     }
 
     /**
-     * @param \PhpParser\Node $node
+     * @param \PhpParser\Node\Expr\New_ $node
      *
      * @return string|null
      */
-    private function getDocCommentForNode(Node $node)
+    private function getDocCommentForNode(Node $node): ?string
     {
         // check if there is a doc comment for the ID argument
         // ->trans(/** @Desc("FOO") */ 'my.id')
@@ -217,12 +190,11 @@ class ValidationErrorFileVisitor implements LoggerAwareInterface, FileVisitorInt
         // /** @Desc("FOO") */ $translator->trans('my.id')
         if (null !== $comment = $node->getDocComment()) {
             return $comment->getText();
-        } elseif (null !== $this->previousNode && $this->previousNode->getDocComment() !== null) {
-            $comment = $this->previousNode->getDocComment();
-
-            return is_object($comment) ? $comment->getText() : $comment;
         }
 
-        return null;
+        return
+            ($comment = $this->previousNode->getDocComment()) !== null
+            ? $comment->getText()
+            : null;
     }
 }

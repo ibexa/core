@@ -4,20 +4,21 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\MVC\Symfony\Security\UserWrapped;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
-class UserWrappedTest extends TestCase
+final class UserWrappedTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $apiUser;
+    private APIUser & MockObject $apiUser;
 
     protected function setUp(): void
     {
@@ -25,7 +26,7 @@ class UserWrappedTest extends TestCase
         $this->apiUser = $this->createMock(APIUser::class);
     }
 
-    public function testGetSetAPIUser()
+    public function testGetSetAPIUser(): void
     {
         $originalUser = $this->createMock(SymfonyUserInterface::class);
         $userWrapped = new UserWrapped($originalUser, $this->apiUser);
@@ -36,7 +37,7 @@ class UserWrappedTest extends TestCase
         self::assertSame($newApiUser, $userWrapped->getAPIUser());
     }
 
-    public function testGetSetWrappedUser()
+    public function testGetSetWrappedUser(): void
     {
         $originalUser = $this->createMock(SymfonyUserInterface::class);
         $userWrapped = new UserWrapped($originalUser, $this->apiUser);
@@ -47,7 +48,7 @@ class UserWrappedTest extends TestCase
         self::assertSame($newWrappedUser, $userWrapped->getWrappedUser());
     }
 
-    public function testRegularUser()
+    public function testRegularUser(): void
     {
         $originalUser = $this->createMock(SymfonyUserInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);
@@ -60,31 +61,19 @@ class UserWrappedTest extends TestCase
         $user->eraseCredentials();
 
         $username = 'lolautruche';
-        $password = 'NoThisIsNotMyRealPassword';
         $roles = ['ROLE_USER', 'ROLE_TEST'];
-        $salt = md5(microtime(true));
         $originalUser
             ->expects(self::exactly(2))
-            ->method('getUsername')
-            ->will(self::returnValue($username));
-        $originalUser
-            ->expects(self::once())
-            ->method('getPassword')
-            ->will(self::returnValue($password));
+            ->method('getUserIdentifier')
+            ->willReturn($username);
         $originalUser
             ->expects(self::once())
             ->method('getRoles')
-            ->will(self::returnValue($roles));
-        $originalUser
-            ->expects(self::once())
-            ->method('getSalt')
-            ->will(self::returnValue($salt));
+            ->willReturn($roles);
 
-        self::assertSame($username, $user->getUsername());
+        self::assertSame($username, $user->getUserIdentifier());
         self::assertSame($username, (string)$user);
-        self::assertSame($password, $user->getPassword());
         self::assertSame($roles, $user->getRoles());
-        self::assertSame($salt, $user->getSalt());
         self::assertSame($originalUser, $user->getWrappedUser());
     }
 

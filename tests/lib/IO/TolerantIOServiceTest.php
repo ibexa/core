@@ -8,7 +8,9 @@
 namespace Ibexa\Tests\Core\IO;
 
 use Ibexa\Core\IO\TolerantIOService;
+use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
+use Override;
 
 /**
  * @covers \Ibexa\Core\IO\IOService
@@ -19,7 +21,7 @@ class TolerantIOServiceTest extends IOServiceTest
     {
         parent::setUp();
 
-        $this->IOService = new TolerantIOService(
+        $this->ioService = new TolerantIOService(
             $this->metadataHandlerMock,
             $this->binarydataHandlerMock,
             $this->mimeTypeDetectorMock,
@@ -27,47 +29,56 @@ class TolerantIOServiceTest extends IOServiceTest
         );
     }
 
-    public function testLoadBinaryFileNotFound()
+    public function testLoadBinaryFileNotFound(): BinaryFile
     {
-        $binaryFile = parent::loadBinaryFileNotFound();
+        $prefixedUri = $this->mockGettingPrefixedUriFromDataHandler('id.ext');
+
+        $binaryFile = $this->loadBinaryFileNotFound();
 
         self::assertEquals(
-            new MissingBinaryFile(['id' => 'id.ext']),
+            new MissingBinaryFile(['id' => 'id.ext', 'uri' => $prefixedUri]),
             $binaryFile
         );
+
+        return $binaryFile;
     }
 
-    public function testCreateMissingBinaryFile()
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
+    public function testCreateMissingBinaryFile(): void
     {
         $id = 'id.ext';
-        $prefixedUri = $this->getPrefixedUri($id);
+        $prefixedUri = $this->mockGettingPrefixedUriFromDataHandler($id);
 
-        $this->binarydataHandlerMock
-            ->expects(self::once())
-            ->method('getUri')
-            ->with($prefixedUri)
-            ->will(self::returnValue("/$prefixedUri"));
-
-        $binaryFile = parent::loadBinaryFileNotFound();
+        $binaryFile = $this->loadBinaryFileNotFound();
         self::assertEquals(
-            new MissingBinaryFile(['id' => 'id.ext', 'uri' => "/$prefixedUri"]),
+            new MissingBinaryFile(['id' => 'id.ext', 'uri' => $prefixedUri]),
             $binaryFile
         );
     }
 
     /**
-     * Overridden to change the expected exception (none).
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
+    #[Override]
     public function testDeleteBinaryFileNotFound(): void
     {
+        $this->expectNotToPerformAssertions();
         $this->deleteBinaryFileNotFound();
     }
 
-    public function testLoadBinaryFileByUriNotFound()
+    public function testLoadBinaryFileByUriNotFound(): BinaryFile
     {
+        $prefixedUri = $this->mockGettingPrefixedUriFromDataHandler(self::BINARY_FILE_ID_MY_PATH);
+
+        $binaryFile = $this->loadBinaryFileByUriNotFound();
         self::assertEquals(
-            new MissingBinaryFile(['id' => 'my/path.png']),
-            $this->loadBinaryFileByUriNotFound()
+            new MissingBinaryFile(['id' => 'my/path.png', 'uri' => $prefixedUri]),
+            $binaryFile
         );
+
+        return $binaryFile;
     }
 }

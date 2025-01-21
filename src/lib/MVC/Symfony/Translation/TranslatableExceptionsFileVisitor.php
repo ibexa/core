@@ -17,12 +17,12 @@ use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
 use Psr\Log\LoggerInterface;
+use SplFileInfo;
 use Twig\Node\Node as TwigNode;
 
 /**
@@ -30,46 +30,28 @@ use Twig\Node\Node as TwigNode;
  */
 class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVisitorInterface, NodeVisitor
 {
-    /** @var \JMS\TranslationBundle\Translation\FileSourceFactory */
-    private $fileSourceFactory;
+    private FileSourceFactory $fileSourceFactory;
 
-    /** @var \PhpParser\NodeTraverser */
-    private $traverser;
+    private NodeTraverser $traverser;
 
-    /** @var \JMS\TranslationBundle\Model\MessageCatalogue */
-    private $catalogue;
+    private MessageCatalogue $catalogue;
 
-    /** @var \SplFileInfo */
-    private $file;
+    private SplFileInfo $file;
 
-    /** @var \Doctrine\Common\Annotations\DocParser */
-    private $docParser;
+    private DocParser $docParser;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private ?LoggerInterface $logger = null;
 
-    /** @var \PhpParser\Node */
-    private $previousNode;
+    private Node $previousNode;
 
-    /** @var string */
-    protected $defaultDomain = 'ibexa_repository_exceptions';
+    protected string $defaultDomain = 'ibexa_repository_exceptions';
 
-    /**
-     * Methods and "domain" parameter offset to extract from PHP code.
-     *
-     * @var array method => position of the "domain" parameter
-     */
-    protected $exceptionsToExtractFrom = [
+    /** @var string[] exception class names, lowercase */
+    protected array $exceptionsToExtractFrom = [
         'contentvalidationexception',
         'forbiddenexception',
     ];
 
-    /**
-     * DefaultPhpFileExtractor constructor.
-     *
-     * @param \Doctrine\Common\Annotations\DocParser $docParser
-     * @param \JMS\TranslationBundle\Translation\FileSourceFactory $fileSourceFactory
-     */
     public function __construct(DocParser $docParser, FileSourceFactory $fileSourceFactory)
     {
         $this->docParser = $docParser;
@@ -78,40 +60,33 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
         $this->traverser->addVisitor($this);
     }
 
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
-    /**
-     * @param \PhpParser\Node $node
-     */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): null
     {
-        if (!$node instanceof Node\Stmt\Throw_
-            || !$node->expr instanceof Node\Expr\New_) {
+        if (!$node instanceof Node\Expr\Throw_
+            || !$node->expr instanceof Node\Expr\New_
+            || !$node->expr->class instanceof Node\Name
+        ) {
             $this->previousNode = $node;
 
-            return;
+            return null;
         }
 
-        $exceptionClass = $node->expr->class->parts[0];
-        if (!in_array(strtolower($exceptionClass), array_map('strtolower', $this->exceptionsToExtractFrom))) {
+        $exceptionClass = $node->expr->class->getParts()[0];
+        if (!in_array(strtolower($exceptionClass), $this->exceptionsToExtractFrom, true)) {
             $this->previousNode = $node;
 
-            return;
+            return null;
         }
 
         $node = $node->expr;
         $ignore = false;
         $desc = $meaning = null;
         if (null !== $docComment = $this->getDocCommentForNode($node)) {
-            if ($docComment instanceof Doc) {
-                $docComment = $docComment->getText();
-            }
             foreach ($this->docParser->parse($docComment, 'file ' . $this->file . ' near line ' . $node->getLine()) as $annot) {
                 if ($annot instanceof Ignore) {
                     $ignore = true;
@@ -125,15 +100,15 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
 
         if (!$node->args[0]->value instanceof String_) {
             if ($ignore) {
-                return;
+                return null;
             }
 
             $message = sprintf('Can only extract the translation ID from a scalar string, but got "%s". Refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($node->args[0]->value), $this->file, $node->args[0]->value->getLine());
 
-            if ($this->logger) {
+            if (null !== $this->logger) {
                 $this->logger->error($message);
 
-                return;
+                return null;
             }
 
             throw new RuntimeException($message);
@@ -146,46 +121,42 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
         $message->setMeaning($meaning);
         $message->addSource($this->fileSourceFactory->create($this->file, $node->getLine()));
         $this->catalogue->add($message);
+
+        return null;
     }
 
     /**
      * @param \SplFileInfo $file
      * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
-     * @param array $ast
+     * @param array<\PhpParser\Node> $ast
      */
-    public function visitPhpFile(\SplFileInfo $file, MessageCatalogue $catalogue, array $ast)
+    public function visitPhpFile(SplFileInfo $file, MessageCatalogue $catalogue, array $ast): void
     {
         $this->file = $file;
         $this->catalogue = $catalogue;
         $this->traverser->traverse($ast);
     }
 
-    /**
-     * @param array $nodes
-     */
-    public function beforeTraverse(array $nodes)
+    public function beforeTraverse(array $nodes): null
     {
+        return null;
     }
 
-    /**
-     * @param \PhpParser\Node $node
-     */
-    public function leaveNode(Node $node)
+    public function leaveNode(Node $node): null
     {
+        return null;
     }
 
-    /**
-     * @param array $nodes
-     */
-    public function afterTraverse(array $nodes)
+    public function afterTraverse(array $nodes): null
     {
+        return null;
     }
 
     /**
      * @param \SplFileInfo $file
      * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
      */
-    public function visitFile(\SplFileInfo $file, MessageCatalogue $catalogue)
+    public function visitFile(SplFileInfo $file, MessageCatalogue $catalogue): void
     {
     }
 
@@ -194,16 +165,14 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
      * @param \JMS\TranslationBundle\Model\MessageCatalogue $catalogue
      * @param \Twig\Node\Node $ast
      */
-    public function visitTwigFile(\SplFileInfo $file, MessageCatalogue $catalogue, TwigNode $ast)
+    public function visitTwigFile(SplFileInfo $file, MessageCatalogue $catalogue, TwigNode $ast): void
     {
     }
 
     /**
-     * @param \PhpParser\Node $node
-     *
-     * @return string|null
+     * @param \PhpParser\Node\Expr\New_ $node
      */
-    private function getDocCommentForNode(Node $node)
+    private function getDocCommentForNode(Node $node): ?string
     {
         // check if there is a doc comment for the ID argument
         // ->trans(/** @Desc("FOO") */ 'my.id')
@@ -217,12 +186,10 @@ class TranslatableExceptionsFileVisitor implements LoggerAwareInterface, FileVis
         // /** @Desc("FOO") */ $translator->trans('my.id')
         if (null !== $comment = $node->getDocComment()) {
             return $comment->getText();
-        } elseif (null !== $this->previousNode && $this->previousNode->getDocComment() !== null) {
-            $comment = $this->previousNode->getDocComment();
-
-            return is_object($comment) ? $comment->getText() : $comment;
         }
 
-        return null;
+        return isset($this->previousNode) && ($comment = $this->previousNode->getDocComment()) !== null
+            ? $comment->getText()
+            : null;
     }
 }

@@ -21,11 +21,9 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
 {
-    /** @var \FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractorInterface */
-    private $innerExtractor;
+    private ExposedRoutesExtractorInterface $innerExtractor;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
-    private $requestStack;
+    private RequestStack $requestStack;
 
     public function __construct(ExposedRoutesExtractorInterface $innerExtractor, RequestStack $requestStack)
     {
@@ -39,11 +37,7 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * Will add the SiteAccess if configured in the URI.
-     *
-     * @return string
      */
     public function getBaseUrl(): string
     {
@@ -61,7 +55,7 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
         return $baseUrl;
     }
 
-    public function getPrefix($locale): string
+    public function getPrefix(string $locale): string
     {
         return $this->innerExtractor->getPrefix($locale);
     }
@@ -88,10 +82,10 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
 
     public function getPort(): string
     {
-        return $this->innerExtractor->getPort();
+        return $this->innerExtractor->getPort() ?? '';
     }
 
-    public function isRouteExposed(Route $route, $name): bool
+    public function isRouteExposed(Route $route, string $name): bool
     {
         return $this->innerExtractor->isRouteExposed($route, $name);
     }

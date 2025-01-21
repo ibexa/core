@@ -13,13 +13,14 @@ use Ibexa\Contracts\Core\Repository\Exceptions\PasswordInUnsupportedFormatExcept
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\EventSubscriber\RepositoryUserAuthenticationSubscriber;
 use Ibexa\Core\MVC\Symfony\Security\User;
+use Ibexa\Core\MVC\Symfony\Security\UserInterface as IbexaUserInterface;
 use Ibexa\Core\Repository\User\Exception\UnsupportedPasswordHashType;
 use Ibexa\Core\Repository\Values\User\User as APIUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
@@ -148,7 +149,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
     }
 
     private function getCheckPassportEvent(
-        ?UserInterface $user = null,
+        (User & MockObject)|null $user = null,
         ?Passport $passport = null,
     ): CheckPassportEvent {
         $authenticator = $this->createMock(AuthenticatorInterface::class);
@@ -158,12 +159,15 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
             $userProvider = $this->createMock(User\APIUserProviderInterface::class);
             $userProvider
                 ->expects(self::once())
-                ->method('loadUserByUsername')
+                ->method('loadUserByIdentifier')
                 ->willReturn($user);
 
             $passport = new Passport(
-                new UserBadge($user->getUsername(), [$userProvider, 'loadUserByUsername']),
-                new PasswordCredentials($user->getPassword() ?? '')
+                new UserBadge(
+                    $user->getUserIdentifier(),
+                    static fn (string $userIdentifier): IbexaUserInterface => $userProvider->loadUserByIdentifier($userIdentifier)
+                ),
+                new PasswordCredentials($user->getPassword())
             );
         }
 

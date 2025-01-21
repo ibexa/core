@@ -191,7 +191,7 @@ class SearchServiceLocationTest extends BaseTest
         $createStruct->alwaysAvailable = false;
         $createStruct->setField(
             'name',
-            utf8_decode("Non\x09Printable\x0EFolder")
+            mb_convert_encoding("Non\x09Printable\x0EFolder", 'ISO-8859-1', 'UTF-8')
         );
 
         $locationCreateStruct = $repository->getLocationService()->newLocationCreateStruct(2);
@@ -338,7 +338,7 @@ class SearchServiceLocationTest extends BaseTest
                 'query' => new Criterion\Field(
                     'name',
                     Criterion\Operator::EQ,
-                    utf8_decode("Non\x09Printable\x0EFolder")
+                    mb_convert_encoding("Non\x09Printable\x0EFolder", 'ISO-8859-1', 'UTF-8')
                 ),
             ]
         );
