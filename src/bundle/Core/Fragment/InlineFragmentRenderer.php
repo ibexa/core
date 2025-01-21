@@ -16,11 +16,11 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\Fragment\InlineFragmentRenderer as BaseRenderer;
 use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
-class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
+class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware, FragmentRendererInterface
 {
-    private FragmentRendererInterface $innerRenderer;
+    protected FragmentRendererInterface $innerRenderer;
 
-    private SiteAccess $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
     private SiteAccessSerializerInterface $siteAccessSerializer;
 
@@ -39,7 +39,7 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware
         }
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null): void
+    public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
