@@ -256,26 +256,6 @@ parameters:
 			path: src/bundle/Core/Command/VirtualFieldDuplicateFixCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverter\\:\\:loadValueObject\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Converter/ContentParamConverter.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\LocationParamConverter\\:\\:loadValueObject\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Converter/LocationParamConverter.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\RepositoryParamConverter\\:\\:getSupportedClass\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Converter/RepositoryParamConverter.php
-
-		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Converter\\\\RepositoryParamConverter\\:\\:loadValueObject\\(\\) has parameter \\$id with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Converter/RepositoryParamConverter.php
-
-		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\BinaryContentDownloadPass\\:\\:addCall\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Compiler/BinaryContentDownloadPass.php
@@ -2922,11 +2902,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Fragment\\\\InlineFragmentRenderer\\:\\:setFragmentPath\\(\\) has parameter \\$path with no type specified\\.$#"
-			count: 1
-			path: src/bundle/Core/Fragment/InlineFragmentRenderer.php
-
-		-
-			message: "#^Property Ibexa\\\\Bundle\\\\Core\\\\Fragment\\\\InlineFragmentRenderer\\:\\:\\$siteAccess \\(Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\) does not accept Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\SiteAccess\\|null\\.$#"
 			count: 1
 			path: src/bundle/Core/Fragment/InlineFragmentRenderer.php
 
@@ -20639,61 +20614,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$container of method Ibexa\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Configuration\\\\ConfigResolver\\:\\:setContainer\\(\\) expects Symfony\\\\Component\\\\DependencyInjection\\\\ContainerInterface\\|null, PHPUnit\\\\Framework\\\\MockObject\\\\MockObject given\\.$#"
 			count: 1
 			path: tests/bundle/Core/ConfigResolverTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\AbstractParamConverterTest\\:\\:createConfiguration\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/AbstractParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\AbstractParamConverterTest\\:\\:createConfiguration\\(\\) has parameter \\$class with no type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/AbstractParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\AbstractParamConverterTest\\:\\:createConfiguration\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/AbstractParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverterTest\\:\\:testApplyContent\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/ContentParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverterTest\\:\\:testApplyContentOptionalWithEmptyAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/ContentParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverterTest\\:\\:testSupports\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/ContentParamConverterTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\ContentParamConverterTest\\:\\:\\$contentServiceMock has no type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/ContentParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\LocationParamConverterTest\\:\\:testApplyLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/LocationParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\LocationParamConverterTest\\:\\:testApplyLocationOptionalWithEmptyAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/LocationParamConverterTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\LocationParamConverterTest\\:\\:testSupports\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/LocationParamConverterTest.php
-
-		-
-			message: "#^Property Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\Converter\\\\LocationParamConverterTest\\:\\:\\$locationServiceMock has no type specified\\.$#"
-			count: 1
-			path: tests/bundle/Core/Converter/LocationParamConverterTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Bundle\\\\Core\\\\DependencyInjection\\\\Compiler\\\\ChainConfigResolverPassTest\\:\\:addResolverProvider\\(\\) has no return type specified\\.$#"
