@@ -161,7 +161,6 @@ services:
             - [setRequestStack, ["@request_stack"]]
 
     Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer:
-        class: Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer
         # Arguments replaced at compile time
         arguments: []
         calls:
@@ -171,6 +170,7 @@ services:
 
     Ibexa\Bundle\Core\Fragment\DirectFragmentRenderer:
         arguments:
+            $innerRenderer: '@fragment.renderer.inline'
             $kernel: '@kernel'
             $controllerListener: '@Ibexa\Bundle\Core\EventListener\ViewControllerListener'
             $controllerResolver: '@controller_resolver'

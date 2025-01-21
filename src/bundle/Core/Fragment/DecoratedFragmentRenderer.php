@@ -19,7 +19,7 @@ class DecoratedFragmentRenderer implements FragmentRendererInterface, SiteAccess
 {
     private FragmentRendererInterface $innerRenderer;
 
-    private ?SiteAccess $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
     private SiteAccessSerializerInterface $siteAccessSerializer;
 
