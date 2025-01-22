@@ -30,7 +30,7 @@ final class LoadContentEvent extends AfterEvent
     public function __construct(
         Content $content,
         int $contentId,
-        array $languages = null,
+        ?array $languages = null,
         ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ) {

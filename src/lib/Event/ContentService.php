@@ -385,7 +385,7 @@ class ContentService extends ContentServiceDecorator
 
     public function loadContent(
         int $contentId,
-        array $languages = null,
+        ?array $languages = null,
         ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ): Content {

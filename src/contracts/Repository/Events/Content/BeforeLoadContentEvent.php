@@ -30,7 +30,7 @@ final class BeforeLoadContentEvent extends BeforeEvent
      */
     public function __construct(
         int $contentId,
-        array $languages = null,
+        ?array $languages = null,
         ?int $versionNo = null,
         bool $useAlwaysAvailable = true
     ) {
