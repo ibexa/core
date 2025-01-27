@@ -335,7 +335,7 @@ class ContentExtension extends AbstractExtension
         } elseif (!$data instanceof ValueObject) {
             throw new InvalidArgumentType(
                 '$data',
-                sprintf('%s', ValueObject::class),
+                sprintf('%s or %s', ValueObject::class, ContentAwareInterface::class),
                 $data
             );
         }
@@ -355,7 +355,7 @@ class ContentExtension extends AbstractExtension
         } elseif (!$data instanceof Content) {
             throw new InvalidArgumentType(
                 '$data',
-                sprintf('%s', Content::class),
+                sprintf('%s pr %s', Content::class, ContentAwareInterface::class),
                 $data
             );
         }

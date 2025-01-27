@@ -230,7 +230,7 @@ class FieldRenderingExtension extends AbstractExtension
         } elseif (!$content instanceof Content) {
             throw new InvalidArgumentType(
                 '$content',
-                sprintf('%s', Content::class),
+                sprintf('%s or %s', Content::class, ContentAwareInterface::class),
                 $content
             );
         }

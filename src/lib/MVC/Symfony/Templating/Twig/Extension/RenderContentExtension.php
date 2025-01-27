@@ -85,7 +85,7 @@ final class RenderContentExtension extends AbstractExtension
         } elseif (!$data instanceof Content) {
             throw new InvalidArgumentType(
                 '$data',
-                sprintf('%s', Content::class),
+                sprintf('%s or %s', Content::class, ContentAwareInterface::class),
                 $data
             );
         }
