@@ -68,8 +68,8 @@ class FieldRenderingExtension extends AbstractExtension
             ) {
                 $this->fieldBlockRenderer->setTwig($environment);
 
-            return $this->renderFieldDefinitionSettings($fieldDefinition, $params);
-        };
+                return $this->renderFieldDefinitionSettings($fieldDefinition, $params);
+            };
 
         return [
             new TwigFunction(
