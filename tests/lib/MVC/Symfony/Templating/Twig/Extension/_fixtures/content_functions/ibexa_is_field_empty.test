@@ -78,3 +78,21 @@ return array(
 )
 --EXPECT--
 empty
+
+--DATA--
+return array(
+    'content' => $this->getContentAwareObject(
+        'data',
+        array(
+            'ezdata' => array(
+                'id' => 5,
+                'fieldDefIdentifier' => 'testfield',
+                'value' => 'foo2',
+                'languageCode' => 'fre-FR'
+            )
+        )
+    ),
+    'field' => $this->getField( false )->fieldDefIdentifier
+)
+--EXPECT--
+not empty
