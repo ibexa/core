@@ -21,3 +21,21 @@ return [
 --EXPECT--
 YES
 NO
+
+--DATA--
+return [
+    'content' => $this->getContentAwareObject(
+         'test_content',
+         [
+            'ezstring' => [
+                 'id' => 125,
+                 'fieldDefIdentifier' => 'existing',
+                 'value' => 'value',
+                 'languageCode' => 'eng-GB',
+            ],
+         ]
+     ),
+];
+--EXPECT--
+YES
+NO
