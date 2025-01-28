@@ -4,7 +4,7 @@
 {% extends 'templates/base.html.twig' %}
 {% block content %}
 {{ ez_render_field( nooverride, 'testfield' ) }}
-{{ ibexa_render_field( contentaware, 'testfield' ) }}
+{{ ez_render_field( contentaware, 'testfield' ) }}
 {{ ez_render_field( overrides, 'testfield' ) }}
 {{ ez_render_field( notdefault, 'testfield' ) }}
 {{ ez_render_field( data, 'testfield' ) }}
