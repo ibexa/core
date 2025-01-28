@@ -96,12 +96,12 @@ class ContentExtension extends AbstractExtension
                 $this->getDeprecationOptions('ibexa_field_is_empty'),
             ),
             new TwigFunction(
-                'ibexa_field_is_empty',
-                [$this, 'isFieldEmpty']
-            ),
-            new TwigFunction(
                 'ibexa_has_field',
                 [$this, 'hasField']
+            ),
+            new TwigFunction(
+                'ibexa_field_is_empty',
+                [$this, 'isFieldEmpty']
             ),
             new TwigFunction(
                 'ez_field_name',
