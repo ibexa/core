@@ -479,3 +479,8 @@ parameters:
 			message: "#^Parameter \\#1 \\$array_arg of function key expects array\\|object, string given\\.$#"
 			count: 4
 			path: tests/lib/Search/FieldNameResolverTest.php
+
+		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\FileSystemTwigIntegrationTestCase\\:\\:doIntegrationTest\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSystemTwigIntegrationTestCase.php
