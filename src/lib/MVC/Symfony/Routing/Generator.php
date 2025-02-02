@@ -31,6 +31,8 @@ abstract class Generator implements SiteAccessAware
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
 
+    protected string $defaultSiteAccessName;
+
     /**
      * @param \Symfony\Component\Routing\RequestContext $requestContext
      */
@@ -53,6 +55,11 @@ abstract class Generator implements SiteAccessAware
     public function setSiteAccess(SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
+    }
+
+    public function setDefaultSiteAccessName(string $name): void
+    {
+        $this->defaultSiteAccessName = $name;
     }
 
     /**
@@ -93,7 +100,7 @@ abstract class Generator implements SiteAccessAware
         $url = $this->doGenerate($urlResource, $parameters);
 
         // Add the SiteAccess URI back if needed.
-        if ($siteAccess && $siteAccess->matcher instanceof SiteAccess\URILexer) {
+        if ($siteAccess && $siteAccess->matcher instanceof SiteAccess\URILexer && $siteAccess->name !== $this->defaultSiteAccessName) {
             $url = $siteAccess->matcher->analyseLink($url);
         }
 

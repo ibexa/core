@@ -37,6 +37,7 @@ services:
             - [setRequestContext, ["@router.request_context"]]
             - [setSiteAccess, ['@?Ibexa\Core\MVC\Symfony\SiteAccess']]
             - [setSiteAccessRouter, ['@Ibexa\Core\MVC\Symfony\SiteAccess\Router']]
+            - [setDefaultSiteAccessName, ['%ibexa.site_access.default%']]
             - [setLogger, ["@?logger"]]
 
     Ibexa\Bundle\Core\Routing\UrlAliasRouter:
