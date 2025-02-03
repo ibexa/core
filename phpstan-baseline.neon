@@ -34016,12 +34016,12 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			message: "#^Cannot access offset 1 on iterable\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Cannot access offset 5 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			message: "#^Cannot access offset 5 on iterable\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -34416,7 +34416,7 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_column expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_column expects array, iterable given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -57166,7 +57166,7 @@ parameters:
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
 
 		-
-			message: "#^Cannot access property \\$locations on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
+			message: "#^Cannot access property \\$locations on iterable\\.$#"
 			count: 2
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
 
