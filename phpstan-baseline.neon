@@ -11066,7 +11066,7 @@ parameters:
 			path: src/lib/Limitation/BlockingLimitationType.php
 
 		-
-			message: "#^Return type \\(void\\) of method Ibexa\\\\Core\\\\Limitation\\\\ChangeOwnerLimitationType\\:\\:valueSchema\\(\\) should be compatible with return type \\(array\\|int\\) of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:valueSchema\\(\\)$#"
+			message: "#^Return type \\(void\\) of method Ibexa\\\\Core\\\\Limitation\\\\ChangeOwnerLimitationType\\:\\:valueSchema\\(\\) should be compatible with return type \\(array<string, string>\\|int\\) of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:valueSchema\\(\\)$#"
 			count: 1
 			path: src/lib/Limitation/ChangeOwnerLimitationType.php
 
