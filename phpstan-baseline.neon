@@ -5271,11 +5271,6 @@ parameters:
 			path: src/contracts/Persistence/Content/Type.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\FieldDefinition\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Persistence/Content/Type/FieldDefinition.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Handler\\:\\:delete\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Persistence/Content/Type/Handler.php
