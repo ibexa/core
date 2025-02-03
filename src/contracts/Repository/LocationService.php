@@ -60,7 +60,7 @@ interface LocationService
      * @param array<int, string>|null $prioritizedLanguages Filter on and use as prioritized language code on translated properties of returned objects.
      * @param bool|null $useAlwaysAvailable Respect always available flag on content when filtering on $prioritizedLanguages.
      *
-     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Location>|iterable
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Location>|iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
      */
     public function loadLocationList(array $locationIds, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): iterable;
 
