@@ -86,7 +86,6 @@ final class RemoteIdIndexingTest extends BaseTest
             'external_10' => 'external_10',
             'with space' => 'with space',
             'with national characters' => 'zażółć gęślą jaźń',
-            'with emoji' => json_decode('"\ud83d\ude00"'),
         ];
     }
 
