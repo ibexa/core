@@ -5566,26 +5566,6 @@ parameters:
 			path: src/contracts/Repository/Decorator/LocationServiceDecorator.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findContentInfo\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Decorator\\\\SearchServiceDecorator\\:\\:suggest\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Repository/Decorator/SearchServiceDecorator.php
@@ -6856,26 +6836,6 @@ parameters:
 			path: src/contracts/Repository/PermissionCriterionResolver.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findContentInfo\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/SearchService.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\SearchService\\:\\:suggest\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Repository/SearchService.php
@@ -7256,17 +7216,7 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Trash\\\\SearchResult implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Trash/SearchResult.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Trash\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Trash/SearchResult.php
 
@@ -7406,22 +7356,7 @@ parameters:
 			path: src/contracts/Repository/Values/UserPreference/UserPreferenceList.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/ValueObject.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:attributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/ValueObject.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:getProperties\\(\\) has parameter \\$dynamicProperties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/ValueObject.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/ValueObject.php
 
@@ -11066,7 +11001,7 @@ parameters:
 			path: src/lib/Limitation/BlockingLimitationType.php
 
 		-
-			message: "#^Return type \\(void\\) of method Ibexa\\\\Core\\\\Limitation\\\\ChangeOwnerLimitationType\\:\\:valueSchema\\(\\) should be compatible with return type \\(array<string, string>\\|int\\) of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:valueSchema\\(\\)$#"
+			message: "#^Return type \\(void\\) of method Ibexa\\\\Core\\\\Limitation\\\\ChangeOwnerLimitationType\\:\\:valueSchema\\(\\) should be compatible with return type \\(array\\|int\\) of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:valueSchema\\(\\)$#"
 			count: 1
 			path: src/lib/Limitation/ChangeOwnerLimitationType.php
 
@@ -17466,8 +17401,8 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadContentTypeList\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\> but returns array\\<object\\>\\.$#"
-			count: 1
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadContentTypeList\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\> but returns array\\<int\\|string, object\\>\\.$#"
+			count: 2
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
 		-
@@ -17492,11 +17427,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) has parameter \\$groupIds with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Group\\> but returns array\\<object\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
@@ -18931,7 +18861,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Handler.php
 
 		-
-			message: "#^Cannot access offset mixed on non\\-empty\\-array\\|Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\RoleAssignment\\.$#"
+			message: "#^Cannot access offset mixed on non\\-empty\\-array\\<int\\|string, mixed\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\RoleAssignment\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Mapper.php
 
