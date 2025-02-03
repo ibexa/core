@@ -316,7 +316,7 @@ parameters:
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_values expects array\\<T\\>, iterable given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_values expects array\\<T\\>, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/ContentServiceTest.php
 
@@ -366,7 +366,7 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
 			count: 3
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 

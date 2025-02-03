@@ -241,7 +241,7 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
-			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\RegenerateUrlAliasesCommand\\:\\:loadSpecificLocations\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> but returns iterable.$#"
+			message: "#^Method Ibexa\\\\Bundle\\\\Core\\\\Command\\\\RegenerateUrlAliasesCommand\\:\\:loadSpecificLocations\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> but returns iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
@@ -251,7 +251,7 @@ parameters:
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
 		-
-			message: "#^Parameter \\#2 \\$array of function array_map expects array, iterable given\\.$#"
+			message: "#^Parameter \\#2 \\$array of function array_map expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
 			count: 1
 			path: src/bundle/Core/Command/RegenerateUrlAliasesCommand.php
 
@@ -34016,12 +34016,12 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Cannot access offset 1 on iterable\\.$#"
+			message: "#^Cannot access offset 1 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Cannot access offset 5 on iterable\\.$#"
+			message: "#^Cannot access offset 5 on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
 			count: 2
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -34416,7 +34416,7 @@ parameters:
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_column expects array, iterable given\\.$#"
+			message: "#^Parameter \\#1 \\$array of function array_column expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
 
@@ -57166,7 +57166,7 @@ parameters:
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
 
 		-
-			message: "#^Cannot access property \\$locations on iterable\\.$#"
+			message: "#^Cannot access property \\$locations on iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\>\\.$#"
 			count: 2
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
 
