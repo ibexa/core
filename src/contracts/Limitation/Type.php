@@ -143,7 +143,7 @@ interface Type
     /**
      * Returns info on valid $limitationValues.
      *
-     * @return array<string, string>|Traversable|int In case of array, a hash with key as valid limitations value and value as human-readable name
+     * @return array<string, string>|int In case of array, a hash with key as valid limitations value and value as human-readable name
      *                     of that option. Note: The hash might be an instance of Traversable instead of a native PHP array.
      *                     In case of int, one of VALUE_SCHEMA_* constants. Used in cases where a certain value is accepted
      *                     but the options are too many to return as a hash of options.
