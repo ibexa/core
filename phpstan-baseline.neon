@@ -5141,11 +5141,6 @@ parameters:
 			path: src/contracts/Limitation/Target/Builder/VersionBuilder.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Target\\\\DestinationLocation\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Limitation/Target/DestinationLocation.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:acceptValue\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Limitation/Type.php
