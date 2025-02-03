@@ -17402,7 +17402,7 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadContentTypeList\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\> but returns array\\<int\\|string, object\\>\\.$#"
-			count: 2
+			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
 		-
@@ -17427,6 +17427,11 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) has parameter \\$groupIds with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Group\\> but returns array\\<int\\|string, object\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
@@ -20061,7 +20066,7 @@ parameters:
 			path: src/lib/Repository/Mapper/RoleDomainMapper.php
 
 		-
-			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array, array\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array\\<int, mixed\\>, array\\|null given\\.$#"
 			count: 2
 			path: src/lib/Repository/Mapper/RoleDomainMapper.php
 
@@ -20241,7 +20246,7 @@ parameters:
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
 		-
-			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array, array\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array\\<int, mixed\\>, array\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
@@ -20511,7 +20516,7 @@ parameters:
 			path: src/lib/Repository/RoleService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:validateRoleCreateStruct\\(\\) should return iterable\\<array\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\> but returns array\\<iterable\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\>\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:validateRoleCreateStruct\\(\\) should return iterable\\<array\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\> but returns array\\<int\\|string, iterable\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\>\\.$#"
 			count: 1
 			path: src/lib/Repository/RoleService.php
 
@@ -20679,26 +20684,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\Repository\\:\\:\\$notificationService \\(Ibexa\\\\Core\\\\Repository\\\\NotificationService\\) does not accept Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\NotificationService\\.$#"
 			count: 1
 			path: src/lib/Repository/SiteAccessAware/Repository.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findContent\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findContentInfo\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findLocations\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:findSingle\\(\\) has parameter \\$languageFilter with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/SiteAccessAware/SearchService.php
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\SiteAccessAware\\\\SearchService\\:\\:suggest\\(\\) has no return type specified\\.$#"
@@ -21112,16 +21097,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:getField\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\|null but returns eZ\\\\Publish\\\\API\\\\Repository\\\\Values\\\\Content\\\\Field\\|null\\.$#"
-			count: 1
-			path: src/lib/Repository/Values/Content/Content.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:getProperties\\(\\) has parameter \\$dynamicProperties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Values/Content/Content.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Values/Content/Content.php
 
