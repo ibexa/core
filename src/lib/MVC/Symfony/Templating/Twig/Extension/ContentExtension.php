@@ -138,7 +138,7 @@ class ContentExtension extends AbstractExtension
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be a valid Content, ContentInfo or ContentAware object.
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be a valid Content, ContentInfo, or ContentAwareInterface object.
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType When $content is not a valid Content, ContentInfo, or ContentAwareInterface object.
