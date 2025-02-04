@@ -1,0 +1,59 @@
+--TEST--
+"ez_content_field_identifier_first_filled_image" function
+--TEMPLATE--
+{% if not ez_content_field_identifier_first_filled_image(content) %}
+    empty
+{% else %}
+    {{ ez_content_field_identifier_first_filled_image(content) }}
+{% endif %}
+
+--DATA--
+return [
+    'content' => $this->getContent(
+         'test_content',
+         [
+            'ezimage' => [
+                 'id' => 125,
+                 'fieldDefIdentifier' => 'photo',
+                 'value' => 'value',
+                 'languageCode' => 'fre-FR',
+            ],
+         ]
+     ),
+];
+--EXPECT--
+photo
+
+--DATA--
+return [
+    'content' => $this->getContent(
+         'test_content',
+         [
+            'ezstring' => [
+                 'id' => 125,
+                 'fieldDefIdentifier' => 'string',
+                 'value' => 'value',
+                 'languageCode' => 'fre-FR',
+            ],
+         ]
+     ),
+];
+--EXPECT--
+empty
+
+--DATA--
+return [
+    'content' => $this->getContentAwareObject(
+         'test_content',
+         [
+            'ezimage' => [
+                 'id' => 125,
+                 'fieldDefIdentifier' => 'photo',
+                 'value' => 'value',
+                 'languageCode' => 'fre-FR',
+            ],
+         ]
+     ),
+];
+--EXPECT--
+photo
