@@ -13,13 +13,16 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IteratorAggregate;
 use Traversable;
 
+/**
+ * @implements \IteratorAggregate<int, \Ibexa\Contracts\Core\Repository\Values\Notification\Notification>
+ */
 class NotificationList extends ValueObject implements IteratorAggregate
 {
-    /** @var int */
-    public $totalCount = 0;
+    /** @phpstan-var int<0, max> */
+    public int $totalCount = 0;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Notification[] */
-    public $items = [];
+    public array $items = [];
 
     /**
      * {@inheritdoc}

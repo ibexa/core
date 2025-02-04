@@ -16,23 +16,25 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
-class EntityManagerFactoryTest extends TestCase
+/**
+ * @covers \Ibexa\Bundle\Core\Entity\EntityManagerFactory
+ */
+final class EntityManagerFactoryTest extends TestCase
 {
-    private const DEFAULT_ENTITY_MANAGER = 'doctrine.orm.ibexa_default_entity_manager';
-    private const INVALID_ENTITY_MANAGER = 'doctrine.orm.ibexa_invalid_entity_manager';
-    private const DEFAULT_CONNECTION = 'default';
-    private const ENTITY_MANAGERS = [
+    private const string DEFAULT_ENTITY_MANAGER = 'doctrine.orm.ibexa_default_entity_manager';
+    private const string INVALID_ENTITY_MANAGER = 'doctrine.orm.ibexa_invalid_entity_manager';
+    private const string DEFAULT_CONNECTION = 'default';
+    private const array ENTITY_MANAGERS = [
         'ibexa_default' => self::DEFAULT_ENTITY_MANAGER,
         'ibexa_invalid' => self::INVALID_ENTITY_MANAGER,
     ];
 
     private RepositoryConfigurationProviderInterface & MockObject $repositoryConfigurationProvider;
 
-    /** @var \Doctrine\ORM\EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface & MockObject $entityManager;
 
-    /** @var \Symfony\Component\DependencyInjection\ServiceLocator */
-    private $serviceLocator;
+    /** @phpstan-var \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> & \PHPUnit\Framework\MockObject\MockObject */
+    private ServiceLocator & MockObject $serviceLocator;
 
     public function setUp(): void
     {
@@ -43,12 +45,11 @@ class EntityManagerFactoryTest extends TestCase
 
     public function testGetEntityManager(): void
     {
-        $serviceLocator = $this->getServiceLocator();
-        $serviceLocator
+        $this->serviceLocator
             ->method('has')
             ->with(self::DEFAULT_ENTITY_MANAGER)
             ->willReturn(true);
-        $serviceLocator
+        $this->serviceLocator
             ->method('get')
             ->with(self::DEFAULT_ENTITY_MANAGER)
             ->willReturn($this->getEntityManager());
@@ -64,7 +65,7 @@ class EntityManagerFactoryTest extends TestCase
 
         $entityManagerFactory = new EntityManagerFactory(
             $this->repositoryConfigurationProvider,
-            $serviceLocator,
+            $this->serviceLocator,
             self::DEFAULT_CONNECTION,
             self::ENTITY_MANAGERS
         );
@@ -138,17 +139,14 @@ class EntityManagerFactoryTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ServiceLocator|\PHPUnit\Framework\MockObject\MockObject
+     * @phpstan-return \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> & \PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getServiceLocator(): ServiceLocator
+    protected function getServiceLocator(): ServiceLocator & MockObject
     {
         return $this->createMock(ServiceLocator::class);
     }
 
-    /**
-     * @return \Doctrine\ORM\EntityManagerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected function getEntityManager(): EntityManagerInterface
+    protected function getEntityManager(): EntityManagerInterface & MockObject
     {
         return $this->createMock(EntityManagerInterface::class);
     }

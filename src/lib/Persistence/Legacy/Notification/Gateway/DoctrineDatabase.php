@@ -99,9 +99,6 @@ class DoctrineDatabase extends Gateway
         $query->execute();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countUserNotifications(int $userId): int
     {
         $query = $this->connection->createQueryBuilder();
@@ -111,7 +108,8 @@ class DoctrineDatabase extends Gateway
             ->where($query->expr()->eq(self::COLUMN_OWNER_ID, ':user_id'))
             ->setParameter(':user_id', $userId, PDO::PARAM_INT);
 
-        return (int)$query->execute()->fetchColumn();
+        /** @phpstan-var int<0, max> */
+        return (int)$query->execute()->fetchOne();
     }
 
     /**

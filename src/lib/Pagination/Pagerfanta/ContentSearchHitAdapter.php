@@ -14,9 +14,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 /**
  * Pagerfanta adapter for Ibexa content search.
  * Will return results as SearchHit objects.
+ *
+ * @extends \Ibexa\Core\Pagination\Pagerfanta\AbstractSearchResultAdapter<\Ibexa\Contracts\Core\Repository\Values\Content\Content>
  */
 class ContentSearchHitAdapter extends AbstractSearchResultAdapter
 {
+    /**
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     */
     protected function executeQuery(
         SearchService $searchService,
         Query $query,

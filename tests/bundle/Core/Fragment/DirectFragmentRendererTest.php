@@ -21,6 +21,7 @@ use Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestAttributeVal
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory;
+use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 final class DirectFragmentRendererTest extends TestCase
@@ -172,6 +173,7 @@ final class DirectFragmentRendererTest extends TestCase
         ?TemplateRenderer $templateRenderer = null
     ): DirectFragmentRenderer {
         return new DirectFragmentRenderer(
+            $this->createMock(FragmentRendererInterface::class),
             $this->createMock(KernelInterface::class),
             $this->createMock(ViewControllerListener::class),
             $controllerResolver,

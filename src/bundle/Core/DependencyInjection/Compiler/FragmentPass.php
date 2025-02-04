@@ -22,7 +22,7 @@ use Symfony\Component\HttpKernel\EventListener\FragmentListener;
  */
 class FragmentPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (
             !(
@@ -30,7 +30,7 @@ class FragmentPass implements CompilerPassInterface
                 && $container->hasDefinition(DecoratedFragmentRenderer::class)
             )
         ) {
-            return null;
+            return;
         }
 
         $fragmentListenerDef = $container->findDefinition('fragment.listener');

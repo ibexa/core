@@ -41,7 +41,8 @@ class FieldTypeRegistryPass extends AbstractFieldTypeBasedPass
                 );
 
                 // Add FieldType to the "concrete" list if it's not a fake.
-                if (!is_a($container->findDefinition($id)->getClass(), Type::class, true)) {
+                $class = $container->findDefinition($id)->getClass();
+                if ($class === null || !is_a($class, Type::class, true)) {
                     $fieldTypeRegistryDefinition->addMethodCall(
                         'registerConcreteFieldTypeIdentifier',
                         [$attribute['alias']]

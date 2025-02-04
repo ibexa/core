@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
  * Interface adding Ibexa API specific methods to Symfony UserProviderInterface.
+ *
+ * @extends \Symfony\Component\Security\Core\User\UserProviderInterface<\Ibexa\Core\MVC\Symfony\Security\UserInterface>
  */
 interface APIUserProviderInterface extends UserProviderInterface
 {

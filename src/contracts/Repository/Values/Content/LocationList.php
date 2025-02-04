@@ -18,7 +18,7 @@ use Traversable;
  * This class represents a queried location list holding a totalCount and a partial list of locations
  * (by offset/limit parameters and permission filters).
  *
- * @property-read int $totalCount - the total count of found locations (filtered by permissions)
+ * @property-read int<0, max> $totalCount - the total count of found locations (filtered by permissions)
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations - the partial list of
  *                Locations controlled by offset/limit.
  **/
@@ -29,7 +29,7 @@ class LocationList extends ValueObject implements IteratorAggregate, TotalCountA
      *
      * Use {@see getTotalCount} to fetch it.
      *
-     * @var int
+     * @phpstan-var int<0, max>
      */
     protected $totalCount = 0;
 
@@ -48,6 +48,9 @@ class LocationList extends ValueObject implements IteratorAggregate, TotalCountA
         return new ArrayIterator($this->locations);
     }
 
+    /**
+     * @phpstan-return int<0, max>
+     */
     public function getTotalCount(): int
     {
         return $this->totalCount;

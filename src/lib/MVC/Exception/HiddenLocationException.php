@@ -4,27 +4,25 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Exception;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class HiddenLocationException extends NotFoundHttpException
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
-    public function __construct(Location $location, $message = null, \Exception $previous = null, $code = 0)
+    public function __construct(Location $location, ?string $message = null, ?Throwable $previous = null, int $code = 0)
     {
         $this->location = $location;
-        parent::__construct($message, $previous, $code);
+        parent::__construct($message ?? 'HTTP Not Found', $previous, $code);
     }
 
-    /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
-     */
-    public function getLocation()
+    public function getLocation(): Location
     {
         return $this->location;
     }

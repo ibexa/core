@@ -49,7 +49,7 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         $this->traverser->addVisitor($this);
     }
 
-    public function enterNode(Node $node): void
+    public function enterNode(Node $node): null
     {
         $methodCallNodeName = null;
         if ($node instanceof Node\Expr\MethodCall) {
@@ -61,21 +61,24 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         ) {
             $this->previousNode = $node;
 
-            return;
+            return null;
         }
 
         $ignore = $this->isIgnore($node);
 
         if (!$node->args[0]->value instanceof String_) {
-            if ($ignore) {
-                return;
+            if (!$ignore) {
+                $message = sprintf(
+                    'Can only extract the translation id from a scalar string, but got "%s". Please refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).',
+                    get_class($node->args[0]->value),
+                    $this->file,
+                    $node->args[0]->value->getLine()
+                );
+
+                $this->logger?->error($message);
             }
 
-            $message = sprintf('Can only extract the translation id from a scalar string, but got "%s". Please refactor your code to make it extractable, or add the doc comment /** @Ignore */ to this code element (in %s on line %d).', get_class($node->args[0]->value), $this->file, $node->args[0]->value->getLine());
-
-            $this->logger->error($message);
-
-            return;
+            return null;
         }
 
         $id = $node->args[0]->value->value;
@@ -83,6 +86,8 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         $message = new Message($id, $this->defaultDomain);
         $message->addSource($this->fileSourceFactory->create($this->file, $node->getLine()));
         $this->catalogue->add($message);
+
+        return null;
     }
 
     public function visitPhpFile(SplFileInfo $file, MessageCatalogue $catalogue, array $ast): void

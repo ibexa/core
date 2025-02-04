@@ -18,6 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 
 /**
  * Location service, used for complex subtree operations.
+ *
+ * @phpstan-type TFilteringLanguageFilter array<int, string>
  */
 interface LocationService
 {
@@ -260,7 +262,7 @@ interface LocationService
     /**
      * Fetch a LocationList from the Repository filtered by the given conditions.
      *
-     * @param string[] $languages a list of language codes to be added as additional constraints.
+     * @phpstan-param TFilteringLanguageFilter|null $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
@@ -269,7 +271,7 @@ interface LocationService
     /**
      * Count total number of items returned by {@see find} method.
      *
-     * @param string[] $languages a list of language codes to be added as additional constraints.
+     * @phpstan-param TFilteringLanguageFilter|null $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */

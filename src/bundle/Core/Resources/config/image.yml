@@ -53,12 +53,12 @@ services:
             - '@ibexa.image_alias.imagine.cache_resolver_decorator.inner'
             - 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\ProxyResolver'
             - 'Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver'
+        lazy: true
 
     ibexa.image_alias.imagine.cache_resolver_decorator:
         class: Liip\ImagineBundle\Imagine\Cache\Resolver\ProxyResolver
         factory: ['@Ibexa\Bundle\Core\Imagine\Cache\ResolverFactory', 'createCacheResolver']
         decorates: ibexa.image_alias.imagine.cache_resolver
-        lazy: true
 
     Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator:
         class: Ibexa\Bundle\Core\Imagine\Cache\AliasGeneratorDecorator

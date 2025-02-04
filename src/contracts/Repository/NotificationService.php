@@ -59,7 +59,7 @@ interface NotificationService
     /**
      * Get count of total users notifications.
      *
-     * @return int
+     * @phpstan-return int<0, max>
      */
     public function getNotificationCount(): int;
 

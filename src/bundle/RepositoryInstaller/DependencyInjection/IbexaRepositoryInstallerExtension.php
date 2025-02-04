@@ -14,7 +14,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbexaRepositoryInstallerExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * @throws \Exception
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');

@@ -410,29 +410,26 @@ class AliasGeneratorTest extends TestCase
     /**
      * Prepare required Imagine-related mocks and assert that the Image Variation is as expected.
      *
-     * @param string $expectedUrl
-     * @param string $variationName
-     * @param string $imageId
-     * @param string $originalPath
-     * @param int $imageWidth
-     * @param int $imageHeight
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
     protected function assertImageVariationIsCorrect(
-        $expectedUrl,
-        $variationName,
-        $imageId,
-        $originalPath,
-        $imageWidth,
-        $imageHeight
-    ) {
+        string $expectedUrl,
+        string $variationName,
+        string $imageId,
+        string $originalPath,
+        int $imageWidth,
+        int $imageHeight
+    ): void {
         $imageValue = new ImageValue(['id' => $originalPath, 'imageId' => $imageId]);
         $field = new Field(['value' => $imageValue]);
 
         $binaryFile = new BinaryFile(
             [
+                'id' => 'foo/bar/image.jpg',
                 'uri' => "_aliases/{$variationName}/foo/bar/image.jpg",
+                'mtime' => null,
+                'size' => 123,
             ]
         );
 
@@ -440,7 +437,7 @@ class AliasGeneratorTest extends TestCase
             ->expects(self::once())
             ->method('resolve')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue($expectedUrl));
+            ->willReturn($expectedUrl);
 
         $this->variationPathGenerator
             ->expects(self::once())
@@ -464,25 +461,26 @@ class AliasGeneratorTest extends TestCase
             ->expects(self::once())
             ->method('load')
             ->with('file contents mock')
-            ->will(self::returnValue($this->image));
+            ->willReturn($this->image);
         $this->image
             ->expects(self::once())
             ->method('getSize')
-            ->will(self::returnValue($this->box));
+            ->willReturn($this->box);
 
         $this->box
             ->expects(self::once())
             ->method('getWidth')
-            ->will(self::returnValue($imageWidth));
+            ->willReturn($imageWidth);
         $this->box
             ->expects(self::once())
             ->method('getHeight')
-            ->will(self::returnValue($imageHeight));
+            ->willReturn($imageHeight);
 
         $expected = new ImageVariation(
             [
                 'name' => $variationName,
                 'fileName' => "image_$variationName.jpg",
+                'fileSize' => 123,
                 'dirPath' => 'http://localhost/foo/bar',
                 'uri' => $expectedUrl,
                 'imageId' => $imageId,
