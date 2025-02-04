@@ -37731,11 +37731,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testUserMetadataGroupHorizontalFilterContent\\(\\) has parameter \\$queryType with no type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testUserMetadataGroupHorizontalFilterLocation\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTest.php
