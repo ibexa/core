@@ -130,10 +130,8 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /**
      * @param array<string, mixed>  $fieldsData
      * @param array<mixed>  $namesData
-     *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): object
+    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): ContentAwareInterface
     {
         $content = $this->getContent($contentTypeIdentifier, $fieldsData, $namesData);
 
