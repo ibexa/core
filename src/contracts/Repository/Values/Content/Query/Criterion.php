@@ -44,13 +44,15 @@ abstract class Criterion implements CriterionInterface
     public $valueData;
 
     /**
-     * Performs operator validation based on the Criterion specifications returned by {@see getSpecifications()}.
+     * Creates a Criterion.
+     *
+     * Performs operator validation based on the Criterion specifications returned by {@see Criterion::getSpecifications()}.
      *
      * @param string|null $target The target the Criterion applies to: metadata identifier, field identifier...
      * @param string|null $operator
-     *        The operator the Criterion uses. If null is given, will default to Operator::IN if $value is an array,
-     *        Operator::EQ if it is not.
-     * @param scalar[]|scalar $value
+     *        The operator the Criterion uses. If null is given, will default to {@see Operator::IN} if $value is an array,
+     *        {@see Operator::EQ} if it isn't.
+     * @param array<int, scalar>|scalar $value
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Value|null $valueData
      *
      * @todo Add a dedicated exception
@@ -118,12 +120,12 @@ abstract class Criterion implements CriterionInterface
      *
      * Returns the combination of the Criterion's supported operator/value,
      * as an array of {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications} objects
-     * - Operator is one supported Operator, as an Operator::* constant
-     * - ValueType is the type of input value this operator requires, either array or single
-     * - SupportedTypes is an array of types the operator will accept
-     * - ValueCountLimitation is an integer saying how many values are expected.
+     * - {@see Specifications::$operator} is a supported {@see Operator} constant.
+     * - {@see Specifications::$valueFormat} is the type of input value this operator requires, either array ({@see Specifications::FORMAT_ARRAY}) or single ({@see Specifications::FORMAT_SINGLE}).
+     * - {@see Specifications::$valueTypes} are bitwise flags of types the operator will accept ({@see Specifications::TYPE_BOOLEAN}, {@see Specifications::TYPE_INTEGER}, and/or {@see Specifications::TYPE_STRING}).
+     * - {@see Specifications::$valueCount} is an integer saying how many values are expected.
      *
-     * <code>
+     * ```
      * // IN and EQ are supported
      * return [
      *     // The EQ operator expects a single value, either as an integer or a string
@@ -139,16 +141,16 @@ abstract class Criterion implements CriterionInterface
      *         Specifications::TYPE_INTEGER | Specifications::TYPE_STRING
      *     )
      * ]
-     * </code>
+     * ```
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications[]
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications>
      */
     abstract public function getSpecifications(): array;
 
     /**
      * Returns a callback that checks the values types depending on the operator specifications.
      *
-     * @param int $valueTypes The accepted values, as a bit field of Specifications::TYPE_* constants
+     * @param int $valueTypes The accepted values, as a bit field of {@see Specifications}::TYPE_* constants
      *
      * @return callable
      */

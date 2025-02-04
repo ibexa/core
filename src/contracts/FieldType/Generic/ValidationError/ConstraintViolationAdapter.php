@@ -14,8 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Translation\Message;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
- * {@see \Symfony\Component\Validator\ConstraintViolationInterface} to
- * {@see \Ibexa\Contracts\Core\FieldType\ValidationError} adapter.
+ * Constraint violation validation error.
+ *
+ * Adapts {@see \Symfony\Component\Validator\ConstraintViolationInterface} to
+ * {@see \Ibexa\Contracts\Core\FieldType\ValidationError}.
  */
 final class ConstraintViolationAdapter implements ValidationErrorInterface
 {

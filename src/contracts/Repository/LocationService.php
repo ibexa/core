@@ -57,10 +57,10 @@ interface LocationService
      * Returned list of Locations will be filtered by what is found and what current user has access to.
      *
      * @param array $locationIds
-     * @param string[]|null $prioritizedLanguages Filter on and use as prioritized language code on translated properties of returned objects.
+     * @param array<int, string>|null $prioritizedLanguages Filter on and use as prioritized language code on translated properties of returned objects.
      * @param bool|null $useAlwaysAvailable Respect always available flag on content when filtering on $prioritizedLanguages.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]|iterable
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Location>|iterable<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
      */
     public function loadLocationList(array $locationIds, ?array $prioritizedLanguages = null, ?bool $useAlwaysAvailable = null): iterable;
 
@@ -253,23 +253,25 @@ interface LocationService
      * @param int $limit
      * @param int $offset
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @return array<int, \Ibexa\Contracts\Core\Repository\Values\Content\Location>
      */
     public function loadAllLocations(int $offset = 0, int $limit = 25): array;
 
     /**
      * Fetch a LocationList from the Repository filtered by the given conditions.
      *
-     * @param string[] $languages a list of language codes to be added as additional constraints.
+     * @param array<int, string>|null $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
     public function find(Filter $filter, ?array $languages = null): LocationList;
 
     /**
-     * Count total number of items returned by {@see find} method.
+     * Counts total number of items matching the filter.
      *
-     * @param string[] $languages a list of language codes to be added as additional constraints.
+     * Return the count of items that would be returned by {@see LocationService::find()} method.
+     *
+     * @param array<int, string>|null $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
      */
