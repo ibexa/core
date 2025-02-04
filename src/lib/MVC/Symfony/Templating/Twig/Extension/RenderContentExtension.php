@@ -63,7 +63,7 @@ final class RenderContentExtension extends AbstractExtension
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
      */
-    public function renderContent($data, array $options = []): string
+    public function renderContent(object $data, array $options = []): string
     {
         $renderOptions = new RenderOptions($options);
         $event = $this->eventDispatcher->dispatch(
@@ -78,7 +78,7 @@ final class RenderContentExtension extends AbstractExtension
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    private function getContent($data): Content
+    private function getContent(object $data): Content
     {
         if ($data instanceof ContentAwareInterface) {
             $data = $data->getContent();

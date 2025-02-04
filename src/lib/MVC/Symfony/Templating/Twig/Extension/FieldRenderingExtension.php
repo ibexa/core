@@ -223,7 +223,7 @@ class FieldRenderingExtension extends AbstractExtension
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    private function getContent($content): Content
+    private function getContent(object $content): Content
     {
         if ($content instanceof ContentAwareInterface) {
             $content = $content->getContent();
