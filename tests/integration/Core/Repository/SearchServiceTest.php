@@ -4166,6 +4166,7 @@ class SearchServiceTest extends BaseTest
             $editorsUserGroupId
         );
 
+        /** @var string $queryType */
         $query = new LocationQuery(
             [
                 $queryType => new Criterion\LogicalAnd($criteria),
