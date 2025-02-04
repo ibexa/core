@@ -4049,7 +4049,7 @@ class SearchServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
      */
-    public function testUserMetadataGroupHorizontalFilterContent($queryType = null)
+    public function testUserMetadataGroupHorizontalFilterContent(string $queryType = null)
     {
         if ($queryType === null) {
             $queryType = 'filter';
@@ -4166,6 +4166,7 @@ class SearchServiceTest extends BaseTest
             $editorsUserGroupId
         );
 
+        /** @var string $queryType */
         $query = new LocationQuery(
             [
                 $queryType => new Criterion\LogicalAnd($criteria),
