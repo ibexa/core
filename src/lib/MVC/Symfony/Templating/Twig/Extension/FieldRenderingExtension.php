@@ -225,17 +225,18 @@ class FieldRenderingExtension extends AbstractExtension
      */
     private function getContent(object $content): Content
     {
+        if ($content instanceof Content) {
+            return $content;
+        }
         if ($content instanceof ContentAwareInterface) {
-            $content = $content->getContent();
-        } elseif (!$content instanceof Content) {
-            throw new InvalidArgumentType(
-                '$content',
-                sprintf('%s or %s', Content::class, ContentAwareInterface::class),
-                $content
-            );
+            return $content->getContent();
         }
 
-        return $content;
+        throw new InvalidArgumentType(
+            '$content',
+            sprintf('%s or %s', Content::class, ContentAwareInterface::class),
+            $content,
+        );
     }
 }
 

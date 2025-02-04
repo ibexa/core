@@ -330,17 +330,19 @@ class ContentExtension extends AbstractExtension
      */
     private function resolveData(object $data): ValueObject
     {
-        if ($data instanceof ContentAwareInterface) {
-            $data = $data->getContent();
-        } elseif (!$data instanceof Content && !$data instanceof ContentInfo) {
-            throw new InvalidArgumentType(
-                '$data',
-                sprintf('%s or %s or %s', Content::class, ContentInfo::class, ContentAwareInterface::class),
-                $data
-            );
+        if ($data instanceof Content || $data instanceof ContentInfo) {
+            return $data;
         }
 
-        return $data;
+        if ($data instanceof ContentAwareInterface) {
+            return $data->getContent();
+        }
+
+        throw new InvalidArgumentType(
+            '$content',
+            sprintf('%s or %s or %s', Content::class, ContentInfo::class, ContentAwareInterface::class),
+            $data,
+        );
     }
 
     /**
@@ -350,17 +352,19 @@ class ContentExtension extends AbstractExtension
      */
     private function getContent(object $data): Content
     {
-        if ($data instanceof ContentAwareInterface) {
-            $data = $data->getContent();
-        } elseif (!$data instanceof Content) {
-            throw new InvalidArgumentType(
-                '$data',
-                sprintf('%s pr %s', Content::class, ContentAwareInterface::class),
-                $data
-            );
+        if ($data instanceof Content) {
+            return $data;
         }
 
-        return $data;
+        if ($data instanceof ContentAwareInterface) {
+            return $data->getContent();
+        }
+
+        throw new InvalidArgumentType(
+            '$content',
+            sprintf('%s or %s', Content::class, ContentAwareInterface::class),
+            $data,
+        );
     }
 }
 

@@ -9,7 +9,6 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Repository;
-use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -131,24 +130,17 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
     /**
      * @param array<string, mixed>  $fieldsData
      * @param array<mixed>  $namesData
+     *
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): ContentAwareInterface
+    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): object
     {
         $content = $this->getContent($contentTypeIdentifier, $fieldsData, $namesData);
 
-        return new class($content) implements ContentAwareInterface {
-            private APIContent $content;
+        $mock = $this->createMock(ContentAwareInterface::class);
+        $mock->method('getContent')->willReturn($content);
 
-            public function __construct(APIContent $content)
-            {
-                $this->content = $content;
-            }
-
-            public function getContent(): APIContent
-            {
-                return $this->content;
-            }
-        };
+        return $mock;
     }
 
     private function getConfigResolverMock()
