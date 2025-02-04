@@ -137,10 +137,11 @@ interface SearchService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param array<int, string>|array<string, mixed> $languageFilter Configuration for specifying prioritized languages query will be performed on.
+     * @param array<string, mixed>|array<int, string> $languageFilter Configuration for specifying prioritized languages query will be performed on.
      *        Also used to define which field languages are loaded for the returned content.
-     *        Currently, supports `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`.
-     *                            `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
+     *        Currently, supports two syntaxes:
+     *        - `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`
+     *        - `[<language_code_string>,…]` where `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if `true` (default), only the objects which the user is allowed to read are returned.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
@@ -159,9 +160,10 @@ interface SearchService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query $query
-     * @param array<int, string>|array<string, mixed> $languageFilter Configuration for specifying prioritized languages query will be performed on.
-     *        Currently, supports `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`.
-     *                            `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
+     * @param array<string, mixed>|array<int, string> $languageFilter Configuration for specifying prioritized languages query will be performed on.
+     *        Currently, supports two syntaxes:
+     *        - `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`
+     *        - `[<language_code_string>,…]` where `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if `true` (default), only the objects which the user is allowed to read are returned.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
@@ -176,9 +178,10 @@ interface SearchService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if there is more than than one result matching the criterions
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion $filter
-     * @param array<int, string>|array<string, mixed> $languageFilter Configuration for specifying prioritized languages query will be performed on.
-     *        Currently, supports `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`.
-     *                            `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
+     * @param array<string, mixed>|array<int, string> $languageFilter Configuration for specifying prioritized languages query will be performed on.
+     *        Currently, supports two syntaxes:
+     *        - `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`
+     *        - `[<language_code_string>,…]` where `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if `true` (default), only the objects which the user is allowed to read are returned.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
@@ -201,10 +204,11 @@ interface SearchService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery $query
-     * @param array<int, string>|array<string, mixed> $languageFilter Configuration for specifying prioritized languages query will be performed on.
+     * @param array<string, mixed>|array<int, string> $languageFilter Configuration for specifying prioritized languages query will be performed on.
      *        Also used to define which field languages are loaded for the returned content.
-     *        Currently, supports `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`.
-     *                            `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
+     *        Currently, supports two syntaxeses:
+     *        - `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`
+     *        - `[<language_code_string>,…]` where `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if `true` (default), only the objects which the user is allowed to read are returned.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
