@@ -138,16 +138,16 @@ class ContentExtension extends AbstractExtension
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be a valid Content or ContentInfo object.
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be a valid Content, ContentInfo or ContentAware object.
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType When $content is not a valid Content, ContentInfo or ContentAwareInterface object.
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType When $content is not a valid Content, ContentInfo, or ContentAwareInterface object.
      *
      * @return string
      */
-    public function getTranslatedContentName($data, $forcedLanguage = null)
+    public function getTranslatedContentName(object $data, $forcedLanguage = null)
     {
-        $content = $this->getValueObject($data);
+        $content = $this->resolveData($data);
         if ($content instanceof Content) {
             return $this->translationHelper->getTranslatedContentName($content, $forcedLanguage);
         } elseif ($content instanceof ContentInfo) {
@@ -171,7 +171,7 @@ class ContentExtension extends AbstractExtension
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
      */
-    public function getTranslatedField($data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function getTranslatedField(object $data, $fieldDefIdentifier, $forcedLanguage = null)
     {
         return $this->translationHelper->getTranslatedField($this->getContent($data), $fieldDefIdentifier, $forcedLanguage);
     }
@@ -183,7 +183,7 @@ class ContentExtension extends AbstractExtension
      *
      * @return mixed A primitive type or a field type Value object depending on the field type.
      */
-    public function getTranslatedFieldValue($data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function getTranslatedFieldValue(object $data, $fieldDefIdentifier, $forcedLanguage = null)
     {
         return $this->translationHelper->getTranslatedField($this->getContent($data), $fieldDefIdentifier, $forcedLanguage)->value;
     }
@@ -191,17 +191,17 @@ class ContentExtension extends AbstractExtension
     /**
      * Gets name of a FieldDefinition name by loading ContentType based on Content/ContentInfo/ContentAwareInterface object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo or ContentAwareInterface object
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo or ContentAwareInterface object
      * @param string $fieldDefIdentifier Identifier for the field we want to get the name from
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType When $content is not a valid Content, ContentInfo or ContentAwareInterface object.
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType When $content is not a valid Content, ContentInfo, or ContentAwareInterface object.
      *
      * @return string|null
      */
-    public function getTranslatedFieldDefinitionName($data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function getTranslatedFieldDefinitionName(object $data, $fieldDefIdentifier, $forcedLanguage = null)
     {
-        if ($contentType = $this->getContentType($this->getValueObject($data))) {
+        if ($contentType = $this->getContentType($this->resolveData($data))) {
             return $this->translationHelper->getTranslatedFieldDefinitionProperty(
                 $contentType,
                 $fieldDefIdentifier,
@@ -220,15 +220,15 @@ class ContentExtension extends AbstractExtension
     /**
      * Gets name of a FieldDefinition description by loading ContentType based on Content/ContentInfo/ContentAwareInterface object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo or ContentAwareInterface object
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo or ContentAwareInterface object
      * @param string $fieldDefIdentifier Identifier for the field we want to get the name from
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *
      * @return string|null
      */
-    public function getTranslatedFieldDefinitionDescription($data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function getTranslatedFieldDefinitionDescription(object $data, $fieldDefIdentifier, $forcedLanguage = null)
     {
-        if ($contentType = $this->getContentType($this->getValueObject($data))) {
+        if ($contentType = $this->getContentType($this->resolveData($data))) {
             return $this->translationHelper->getTranslatedFieldDefinitionProperty(
                 $contentType,
                 $fieldDefIdentifier,
@@ -247,7 +247,7 @@ class ContentExtension extends AbstractExtension
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
      */
-    public function hasField($data, string $fieldDefIdentifier): bool
+    public function hasField(object $data, string $fieldDefIdentifier): bool
     {
         $content = $this->getContent($data);
 
@@ -271,7 +271,7 @@ class ContentExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function isFieldEmpty($data, $fieldDefIdentifier, $forcedLanguage = null)
+    public function isFieldEmpty(object $data, $fieldDefIdentifier, $forcedLanguage = null)
     {
         if ($fieldDefIdentifier instanceof Field) {
             $fieldDefIdentifier = $fieldDefIdentifier->fieldDefIdentifier;
@@ -301,7 +301,7 @@ class ContentExtension extends AbstractExtension
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
      */
-    public function getFirstFilledImageFieldIdentifier($data)
+    public function getFirstFilledImageFieldIdentifier(object $data)
     {
         $content = $this->getContent($data);
         foreach ($content->getFieldsByLanguage() as $field) {
@@ -324,18 +324,18 @@ class ContentExtension extends AbstractExtension
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    private function getValueObject($data): ValueObject
+    private function resolveData(object $data): ValueObject
     {
         if ($data instanceof ContentAwareInterface) {
             $data = $data->getContent();
-        } elseif (!$data instanceof ValueObject) {
+        } elseif (!$data instanceof Content && !$data instanceof ContentInfo) {
             throw new InvalidArgumentType(
                 '$data',
-                sprintf('%s or %s', ValueObject::class, ContentAwareInterface::class),
+                sprintf('%s or %s or %s', Content::class, ContentInfo::class, ContentAwareInterface::class),
                 $data
             );
         }
@@ -348,7 +348,7 @@ class ContentExtension extends AbstractExtension
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    private function getContent($data): Content
+    private function getContent(object $data): Content
     {
         if ($data instanceof ContentAwareInterface) {
             $data = $data->getContent();
