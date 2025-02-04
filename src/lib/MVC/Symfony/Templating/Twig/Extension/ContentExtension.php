@@ -191,7 +191,7 @@ class ContentExtension extends AbstractExtension
     /**
      * Gets name of a FieldDefinition name by loading ContentType based on Content/ContentInfo/ContentAwareInterface object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo or ContentAwareInterface object
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo, or ContentAwareInterface object
      * @param string $fieldDefIdentifier Identifier for the field we want to get the name from
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *
@@ -220,7 +220,7 @@ class ContentExtension extends AbstractExtension
     /**
      * Gets name of a FieldDefinition description by loading ContentType based on Content/ContentInfo/ContentAwareInterface object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo or ContentAwareInterface object
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data Must be Content, ContentInfo, or ContentAwareInterface object
      * @param string $fieldDefIdentifier Identifier for the field we want to get the name from
      * @param string $forcedLanguage Locale we want the content name translation in (e.g. "fre-FR"). Null by default (takes current locale)
      *
