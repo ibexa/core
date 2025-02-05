@@ -17401,7 +17401,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadContentTypeList\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\> but returns array\\<int\\|string, object\\>\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadContentTypeList\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\> but returns array\\<object\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
@@ -17431,7 +17431,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Group\\> but returns array\\<int\\|string, object\\>\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Type\\\\MemoryCachingHandler\\:\\:loadGroups\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Group\\> but returns array\\<object\\>\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Type/MemoryCachingHandler.php
 
@@ -18866,7 +18866,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Handler.php
 
 		-
-			message: "#^Cannot access offset mixed on non\\-empty\\-array\\<int\\|string, mixed\\>\\|Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\RoleAssignment\\.$#"
+			message: "#^Cannot access offset mixed on non\\-empty\\-array\\|Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\User\\\\RoleAssignment\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Mapper.php
 
@@ -20516,7 +20516,7 @@ parameters:
 			path: src/lib/Repository/RoleService.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:validateRoleCreateStruct\\(\\) should return iterable\\<array\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\> but returns array\\<int\\|string, iterable\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\>\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\RoleService\\:\\:validateRoleCreateStruct\\(\\) should return iterable\\<array\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\> but returns array\\<iterable\\<array\\<Ibexa\\\\Core\\\\FieldType\\\\ValidationError\\>\\>\\>\\.$#"
 			count: 1
 			path: src/lib/Repository/RoleService.php
 
