@@ -81,8 +81,22 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
             ],
             [],
             [
-                'eng-GB' => 'one - two (testString)',
-                'cro-HR' => 'jedan - dva (testString)',
+                [
+                    'eng-GB' => 'one (text)',
+                    'cro-HR' => 'jedan (text)',
+                ],
+                [
+                    'eng-GB' => 'one - two',
+                    'cro-HR' => 'jedan - dva',
+                ],
+                [
+                    'eng-GB' => 'one - two (two) two (text2)',
+                    'cro-HR' => 'jedan - dva (dva) dva (text2)',
+                ],
+                [
+                    'eng-GB' => 'one - two (EZMETAGROUP_0) two',
+                    'cro-HR' => 'jedan - dva (EZMETAGROUP_0) dva',
+                ],
             ],
         ];
 
@@ -98,8 +112,23 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
             ],
             ['eng-GB', 'cro-HR'],
             [
-                'eng-GB' => 'three (testString)',
-                'cro-HR' => ' - Dva (testString)',
+                [
+                    'eng-GB' => ' (text)',
+                    'cro-HR' => ' (text)',
+                ],
+                [
+                    'eng-GB' => 'three',
+                    'cro-HR' => ' - Dva',
+                ],
+                [
+                    'eng-GB' => 'three (two) two (text2)',
+                    'cro-HR' => ' - Dva (Dva) Dva (text2)',
+                ],
+                //known incorrect behavior - using the same group that was in two different statements (<text1> - <text2>)
+                [
+                    'eng-GB' => 'three (EZMETAGROUP_0) two',
+                    'cro-HR' => ' - Dva (EZMETAGROUP_0) Dva',
+                ],
             ],
         ];
     }
@@ -119,27 +148,38 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         array $expectedNames
     ): void {
         $content = $this->buildTestContentObject();
-        $nameSchema = '<text3|(<text1> - <text2>)> (testString)';
-        $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
-        $event = new ResolveContentNameSchemaEvent(
-            $content,
-            ['field' => ['text3', 'text2', 'text1']],
-            $contentType,
-            $fieldMap,
-            $languageCodes
-        );
-        $event->setTokenValues($tokenValues);
+        $schemas = [
+            '<text1> (text)',
+            '<text3|(<text1> - <text2>)>',
+            '<text3|(<text1> - <text2>)> (<text2>) <text2> (text2)',
+            '<text3|(<text1> - <text2>)> (<text1> - <text2>) <text2>',
+        ];
 
-        $nameSchemaService = $this->buildNameSchemaService(
-            $event
-        );
+        foreach ($schemas as $index => $nameSchema) {
+            $contentType = $this->buildTestContentTypeStub($nameSchema, $nameSchema);
+            $event = new ResolveContentNameSchemaEvent(
+                $content,
+                ['field' => ['text3', 'text2', 'text1']],
+                $contentType,
+                $fieldMap,
+                $languageCodes
+            );
+            $event->setTokenValues($tokenValues);
 
-        $result = $nameSchemaService->resolveContentNameSchema($content, $fieldMap, $languageCodes, $contentType);
+            $nameSchemaService = $this->buildNameSchemaService($event);
 
-        self::assertEquals(
-            $expectedNames,
-            $result
-        );
+            $result = $nameSchemaService->resolveContentNameSchema(
+                $content,
+                $fieldMap,
+                $languageCodes,
+                $contentType
+            );
+
+            self::assertEquals(
+                $expectedNames[$index],
+                $result
+            );
+        }
     }
 
     /**

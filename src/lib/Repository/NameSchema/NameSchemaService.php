@@ -245,7 +245,7 @@ class NameSchemaService implements NameSchemaServiceInterface
     protected function filterNameSchema(string $nameSchema): array
     {
         $retNamePattern = $nameSchema;
-        $foundGroups = preg_match_all('/\((.+)\)/U', $nameSchema, $groupArray);
+        $foundGroups = preg_match_all('/<.*\((.*<.+>.*)\).*>/U', $nameSchema, $groupArray);
         $groupLookupTable = [];
 
         if ($foundGroups) {
