@@ -285,7 +285,7 @@ class ContentViewBuilder implements ViewBuilder
      */
     private function isEmbed($parameters): bool
     {
-        if ($parameters['_controller'] === 'ibexa_content:embedAction') {
+        if ($parameters['_controller'] === 'ibexa_content::embedAction') {
             return true;
         }
         if (\in_array($parameters['viewType'], ['embed', 'embed-inline'])) {
