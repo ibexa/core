@@ -21,7 +21,7 @@ Feature: Query controller
                 template: "@IbexaBehat/tests/dump.html.twig"
                 match:
                     Id\Location: "%location_id(QueryControllerContainer/QueryControllerItem1)%"
-                controller: ibexa_query:locationQueryAction
+                controller: ibexa_query::locationQueryAction
                 params:
                     query:
                         query_type: 'LocationChildren'
@@ -32,7 +32,7 @@ Feature: Query controller
                 template: "@IbexaBehat/tests/dump.html.twig"
                 match:
                     Id\Location: "%location_id(QueryControllerContainer/QueryControllerItem2)%"
-                controller: ibexa_query:pagingQueryAction
+                controller: ibexa_query::pagingQueryAction
                 params:
                     query:
                         query_type: 'LocationChildren'
@@ -43,7 +43,7 @@ Feature: Query controller
                 template: tests.html.twig
                 match:
                     Id\Location: "%location_id(QueryControllerContainer/QueryControllerItem3)%"
-                controller: ibexa_query:pagingQueryAction
+                controller: ibexa_query::pagingQueryAction
                 params:
                     query:
                         query_type: 'LocationChildren'
@@ -55,7 +55,7 @@ Feature: Query controller
                 template: tests.html.twig
                 match:
                     Id\Location: "%location_id(QueryControllerContainer/QueryControllerItem4)%"
-                controller: ibexa_query:pagingQueryAction
+                controller: ibexa_query::pagingQueryAction
                 params:
                     query:
                         query_type: 'LocationChildren'
