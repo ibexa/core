@@ -83,6 +83,8 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
     }
 
     /**
+     * @deprecated The "BookmarkHandler::loadUserBookmarks()" method is deprecated, will be removed in 5.0.0. Use "LocationService::find()" and "Criterion\IsBookmarked" instead.
+     *
      * {@inheritdoc}
      */
     public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
@@ -97,6 +99,8 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
     }
 
     /**
+     * @deprecated The "BookmarkHandler::countUserBookmarks()" method is deprecated, will be removed in 5.0.0. Use "LocationService::count()" and "Criterion\IsBookmarked" instead.
+     *
      * {@inheritdoc}
      */
     public function countUserBookmarks(int $userId): int
