@@ -237,7 +237,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'embed',
-            '_controller' => 'ibexa_content:embedAction',
+            '_controller' => 'ibexa_content::embedAction',
             'contentId' => $contentId,
         ];
 
@@ -273,7 +273,7 @@ class ContentViewBuilderTest extends TestCase
 
         $parameters = [
             'viewType' => 'embed',
-            '_controller' => 'ez_content:embedAction',
+            '_controller' => 'ibexa_content::embedAction',
             'contentId' => $contentId,
         ];
 
