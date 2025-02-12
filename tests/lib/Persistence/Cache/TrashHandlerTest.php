@@ -10,10 +10,10 @@ use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 use Ibexa\Core\Persistence\Cache\LocationHandler;
-use Ibexa\Core\Persistence\Cache\VersionInfo;
 
 /**
  * Test case for Persistence\Cache\SectionHandler.

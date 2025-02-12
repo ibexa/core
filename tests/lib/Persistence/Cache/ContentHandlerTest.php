@@ -10,6 +10,7 @@ use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as SPILocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\MetadataUpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
@@ -481,11 +482,11 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         $handler->updateContent(2, 1, new UpdateStruct());
     }
 
-    public function testDeleteContent(): void
+    public function testDeleteContent()
     {
         $this->loggerMock->expects($this->once())->method('logCall');
 
-        $innerHandlerMock = $this->createMock(SPIContentHandler::class);
+        $innerContentHandlerMock = $this->createMock(SPIContentHandler::class);
         $innerLocationHandlerMock = $this->createMock(SPILocationHandler::class);
 
         $this->prepareHandlerMocks(
@@ -520,9 +521,13 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         $handler->deleteContent(2);
     }
 
+    /**
+     * @param SPIContentHandler|\PHPUnit\Framework\MockObject\MockObject $innerContentHandlerMock
+     * @param SPILocationHandler|\PHPUnit\Framework\MockObject\MockObject $innerLocationHandlerMock
+     */
     private function prepareHandlerMocks(
-        MockObject $innerContentHandlerMock,
-        MockObject $innerLocationHandlerMock,
+        SPIContentHandler $innerContentHandlerMock,
+        SPILocationHandler $innerLocationHandlerMock,
         int $contentHandlerCount = 1,
         int $locationHandlerCount = 1,
         int $loadReverseRelationsCount = 1,
