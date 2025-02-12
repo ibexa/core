@@ -159,12 +159,12 @@ abstract class Location extends ValueObject
     protected $pathString;
 
     /**
-     * The list of ancestor Locations' IDs, ordered in increasing depths,
+     * The list of ancestor locations' IDs, ordered by increasing depth,
      * starting with '1', and ending with the current Location's ID.
      *
      * Same as {@see Location::$pathString} but as array, e.g.: `['1', '2', '4', '23']`.
      *
-     * @var array <int, string>
+     * @var array<int, string>
      */
     protected array $path;
 
@@ -270,7 +270,7 @@ abstract class Location extends ValueObject
     }
 
     /**
-     * The list of ancestor Locations' IDs, ordered in increasing depths,
+     * The list of ancestor locations' IDs, ordered by increasing depth,
      * starting with 1, and ending with the current Location's ID.
      *
      * Same as {@see Location::getPathString()} but as array, e.g.: `['1', '2', '4', '23']`.
