@@ -7,9 +7,11 @@
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistryInterface;
 use Ibexa\Core\MVC\Symfony\Templating\FieldBlockRendererInterface;
@@ -52,17 +54,22 @@ class FieldRenderingExtension extends AbstractExtension
 
     public function getFunctions()
     {
-        $renderFieldCallable = function (Environment $environment, Content $content, $fieldIdentifier, array $params = []) {
+        $renderFieldCallable = function (Environment $environment, $data, $fieldIdentifier, array $params = []) {
             $this->fieldBlockRenderer->setTwig($environment);
 
-            return $this->renderField($content, $fieldIdentifier, $params);
+            return $this->renderField($this->getContent($data), $fieldIdentifier, $params);
         };
 
-        $renderFieldDefinitionSettingsCallable = function (Environment $environment, FieldDefinition $fieldDefinition, array $params = []) {
-            $this->fieldBlockRenderer->setTwig($environment);
+        $renderFieldDefinitionSettingsCallable =
+            function (
+                Environment $environment,
+                FieldDefinition $fieldDefinition,
+                array $params = []
+            ) {
+                $this->fieldBlockRenderer->setTwig($environment);
 
-            return $this->renderFieldDefinitionSettings($fieldDefinition, $params);
-        };
+                return $this->renderFieldDefinitionSettings($fieldDefinition, $params);
+            };
 
         return [
             new TwigFunction(
@@ -209,6 +216,27 @@ class FieldRenderingExtension extends AbstractExtension
         }
 
         return $this->fieldTypeIdentifiers[$key];
+    }
+
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $content
+     *
+     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     */
+    private function getContent(object $content): Content
+    {
+        if ($content instanceof Content) {
+            return $content;
+        }
+        if ($content instanceof ContentAwareInterface) {
+            return $content->getContent();
+        }
+
+        throw new InvalidArgumentType(
+            '$content',
+            sprintf('%s or %s', Content::class, ContentAwareInterface::class),
+            $content,
+        );
     }
 }
 
