@@ -522,8 +522,8 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
     }
 
     /**
-     * @param SPIContentHandler|\PHPUnit\Framework\MockObject\MockObject $innerContentHandlerMock
-     * @param SPILocationHandler|\PHPUnit\Framework\MockObject\MockObject $innerLocationHandlerMock
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit\Framework\MockObject\MockObject $innerContentHandlerMock
+     * @param \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject $innerLocationHandlerMock
      */
     private function prepareHandlerMocks(
         SPIContentHandler $innerContentHandlerMock,
