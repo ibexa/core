@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 use Ibexa\Core\Persistence\Cache\LocationHandler;
+use Ibexa\Core\Persistence\Cache\VersionInfo;
 
 /**
  * Test case for Persistence\Cache\SectionHandler.
@@ -118,10 +119,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
     {
         $locationId = 6;
         $contentId = 42;
+        $versionNo = 1;
 
         $tags = [
+            'c-' . $contentId . '-v-' . $versionNo,
             'c-' . $contentId,
             'lp-' . $locationId,
+            'l-' . $locationId,
         ];
 
         $handlerMethodName = $this->getHandlerMethodName();
@@ -149,6 +153,15 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
+        $contentHandlerMock
+            ->expects($this->once())
+            ->method('listVersions')
+            ->with($contentId)
+            ->willReturn(
+                [
+                    new VersionInfo(['versionNo' => $versionNo]),
+                ]
+            );
         $innerHandler
             ->expects($this->once())
             ->method('trashSubtree')
@@ -156,11 +169,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTest
             ->willReturn(null);
 
         $this->cacheIdentifierGeneratorMock
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('generateTag')
             ->withConsecutive(
+                ['content_version', [$contentId, $versionNo], false],
                 ['content', [$contentId], false],
-                ['location_path', [$locationId], false]
+                ['location_path', [$locationId], false],
+                ['location', [$locationId], false],
             )
             ->willReturnOnConsecutiveCalls(...$tags);
 

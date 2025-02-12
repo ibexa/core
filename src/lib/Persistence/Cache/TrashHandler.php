@@ -8,12 +8,15 @@ namespace Ibexa\Core\Persistence\Cache;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler as TrashHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Relation;
+use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
 class TrashHandler extends AbstractHandler implements TrashHandlerInterface
 {
     private const EMPTY_TRASH_BULK_SIZE = 100;
     private const CONTENT_IDENTIFIER = 'content';
+    private const CONTENT_VERSION_IDENTIFIER = 'content_version';
+    private const LOCATION_IDENTIFIER = 'location';
     private const LOCATION_PATH_IDENTIFIER = 'location_path';
 
     /**
@@ -34,8 +37,11 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
         $this->logger->logCall(__METHOD__, ['locationId' => $locationId]);
 
         $location = $this->persistenceHandler->locationHandler()->load($locationId);
-        $reverseRelations = $this->persistenceHandler->contentHandler()->loadRelations($location->contentId);
+        $contentId = $location->contentId;
 
+        $contentHandler = $this->persistenceHandler->contentHandler();
+        $reverseRelations = $contentHandler->loadRelations($contentId);
+        $versions = $contentHandler->listVersions($contentId);
         $return = $this->persistenceHandler->trashHandler()->trashSubtree($locationId);
 
         $relationTags = [];
@@ -48,12 +54,21 @@ class TrashHandler extends AbstractHandler implements TrashHandlerInterface
             }, $reverseRelations);
         }
 
+        $versionTags = array_map(function (VersionInfo $versionInfo) use ($contentId): string {
+            return $this->cacheIdentifierGenerator->generateTag(
+                self::CONTENT_VERSION_IDENTIFIER,
+                [$contentId, $versionInfo->versionNo]
+            );
+        }, $versions);
+
         $tags = array_merge(
+            $versionTags,
+            $relationTags,
             [
-                $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$location->contentId]),
+                $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$contentId]),
                 $this->cacheIdentifierGenerator->generateTag(self::LOCATION_PATH_IDENTIFIER, [$locationId]),
-            ],
-            $relationTags
+                $this->cacheIdentifierGenerator->generateTag(self::LOCATION_IDENTIFIER, [$locationId]),
+            ]
         );
         $this->cache->invalidateTags(array_values(array_unique($tags)));
 
