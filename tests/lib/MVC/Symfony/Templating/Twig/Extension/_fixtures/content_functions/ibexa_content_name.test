@@ -21,6 +21,21 @@ French
 
 --DATA--
 return array(
+    'content' => $this->getContentAwareObject(
+        'article',
+        array(),
+        array(
+            'eng-US' => 'American',
+            'fre-FR' => 'French'
+        )
+    )
+)
+--EXPECT--
+French
+French
+
+--DATA--
+return array(
     'content' => $this->getContent(
         'article',
         array(),

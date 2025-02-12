@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Templating\Twig\Extension;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -125,6 +126,20 @@ class ContentExtensionTest extends FileSystemTwigIntegrationTestCase
         );
 
         return $content;
+    }
+
+    /**
+     * @param array<string, mixed>  $fieldsData
+     * @param array<mixed>  $namesData
+     */
+    protected function getContentAwareObject(string $contentTypeIdentifier, array $fieldsData, array $namesData = []): ContentAwareInterface
+    {
+        $content = $this->getContent($contentTypeIdentifier, $fieldsData, $namesData);
+
+        $mock = $this->createMock(ContentAwareInterface::class);
+        $mock->method('getContent')->willReturn($content);
+
+        return $mock;
     }
 
     private function getConfigResolverMock()
