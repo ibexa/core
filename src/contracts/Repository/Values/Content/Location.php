@@ -16,17 +16,17 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * This class represents a location in the repository.
  *
  * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo Calls {@see Location::getContentInfo()}
- * @property-read int $contentId Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getContentId()} instead.
- * @property-read int $id Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getId()} instead.
+ * @property-read int $contentId Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getContentId()} instead.
+ * @property-read int $id Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getId()} instead.
  * @property-read int $priority Position of the Location among its siblings when sorted using priority
- * @property-read bool $hidden Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::isHidden()} instead.
- * @property-read bool $invisible Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::isInvisible()} instead.
+ * @property-read bool $hidden Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::isHidden()} instead.
+ * @property-read bool $invisible Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::isInvisible()} instead.
  * @property-read bool $explicitlyHidden Indicates that the Location entity has been explicitly marked as hidden.
  * @property-read string $remoteId A global unique ID of the content object
  * @property-read int $parentLocationId The ID of the parent location
- * @property-read string $pathString Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getPathString()} instead.
- * @property-read array $path Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getPath()} instead.
- * @property-read int $depth Since 4.6.7, accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getDepth()} instead.
+ * @property-read string $pathString Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getPathString()} instead.
+ * @property-read array $path Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getPath()} instead.
+ * @property-read int $depth Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getDepth()} instead.
  * @property-read int $sortField Specifies which property the child locations should be sorted on. Valid values are found at {@link Location::SORT_FIELD_*}
  * @property-read int $sortOrder Specifies whether the sort order should be ascending or descending. Valid values are {@link Location::SORT_ORDER_*}
  */
@@ -310,6 +310,7 @@ abstract class Location extends ValueObject
         return $this->depth;
     }
 
+    /** @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. */
     public function __isset($property)
     {
         if ($property === 'path') {
@@ -319,6 +320,7 @@ abstract class Location extends ValueObject
         return parent::__isset($property);
     }
 
+    /** @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. */
     public function __get($property)
     {
         if ($property === 'path') {
