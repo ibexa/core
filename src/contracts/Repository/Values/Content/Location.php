@@ -15,18 +15,18 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * This class represents a location in the repository.
  *
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
- * @property-read int $contentId @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getContentId()} instead.
- * @property-read int $id @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getId()} instead.
+ * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo Calls {@see Location::getContentInfo()}
+ * @property-read int $contentId Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getContentId()} instead.
+ * @property-read int $id Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getId()} instead.
  * @property-read int $priority Position of the Location among its siblings when sorted using priority
- * @property-read bool $hidden @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::isHidden()} instead.
- * @property-read bool $invisible @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::isInvisible()} instead.
+ * @property-read bool $hidden Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::isHidden()} instead.
+ * @property-read bool $invisible Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::isInvisible()} instead.
  * @property-read bool $explicitlyHidden Indicates that the Location entity has been explicitly marked as hidden.
- * @property-read string $remoteId a global unique id of the content object
- * @property-read int $parentLocationId the id of the parent location
- * @property-read string $pathString @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getPathString()} instead.
- * @property-read array $path @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getPath()} instead.
- * @property-read int $depth @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. Use {@see Location::getDepth()} instead.
+ * @property-read string $remoteId A global unique ID of the content object
+ * @property-read int $parentLocationId The ID of the parent location
+ * @property-read string $pathString Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getPathString()} instead.
+ * @property-read array $path Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getPath()} instead.
+ * @property-read int $depth Accessing magic getter is deprecated since 4.6.7 and will be removed in 5.0.0. Use {@see Location::getDepth()} instead.
  * @property-read int $sortField Specifies which property the child locations should be sorted on. Valid values are found at {@link Location::SORT_FIELD_*}
  * @property-read int $sortOrder Specifies whether the sort order should be ascending or descending. Valid values are {@link Location::SORT_ORDER_*}
  */
@@ -79,17 +79,15 @@ abstract class Location extends ValueObject
     ];
 
     /**
-     * Location ID.
-     *
-     * @var int Location ID.
+     * @var int
      */
     protected $id;
 
     /**
-     * the status of the location.
+     * The status of the location.
      *
-     * a location gets the status DRAFT on newly created content which is not published. When content is published the
-     * location gets the status STATUS_PUBLISHED
+     * A location gets the status {@see Location::STATUS_DRAFT} on newly created content which is not published.
+     * When content is published the location gets the status {@see Location::STATUS_PUBLISHED}.
      *
      * @var int
      */
@@ -144,16 +142,19 @@ abstract class Location extends ValueObject
     protected $parentLocationId;
 
     /**
-     * The materialized path of the location entry, eg: /1/2/.
+     * The materialized path of the location entry, eg: /1/2/4/23/.
      *
      * @var string
      */
     protected $pathString;
 
     /**
-     * Same as {@see Location::$pathString} but as array, e.g.: <code>[ '1', '2', '4', '23' ]</code>.
+     * The list of ancestor locations' IDs, ordered by increasing depth,
+     * starting with '1', and ending with the current Location's ID.
      *
-     * @var string[]
+     * Same as {@see Location::$pathString} but as array, e.g.: `['1', '2', '4', '23']`.
+     *
+     * @var array<int, string>
      */
     protected array $path;
 
@@ -251,7 +252,7 @@ abstract class Location extends ValueObject
 
     /**
      * The path to the Location represented by the current instance,
-     * e.g. /1/2/4/23 where 23 is current id.
+     * e.g. /1/2/4/23/ where 23 is current ID.
      */
     public function getPathString(): string
     {
@@ -259,9 +260,12 @@ abstract class Location extends ValueObject
     }
 
     /**
-     * Same as {@see Location::getPathString()} but as array, e.g.: <code>[ '1', '2', '4', '23' ]</code>.
+     * The list of ancestor locations' IDs, ordered by increasing depth,
+     * starting with 1, and ending with the current Location's ID.
      *
-     * @return string[]
+     * Same as {@see Location::getPathString()} but as array, e.g.: `['1', '2', '4', '23']`.
+     *
+     * @return array<int, string>
      */
     public function getPath(): array
     {
@@ -296,6 +300,7 @@ abstract class Location extends ValueObject
         return $this->depth;
     }
 
+    /** @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. */
     public function __isset($property)
     {
         if ($property === 'path') {
@@ -305,6 +310,7 @@ abstract class Location extends ValueObject
         return parent::__isset($property);
     }
 
+    /** @deprecated 4.6.7 accessing magic getter is deprecated and will be removed in 5.0.0. */
     public function __get($property)
     {
         if ($property === 'path') {

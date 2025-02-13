@@ -11,9 +11,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operato
 /**
  * This class is used by Criteria to describe which operators they support.
  *
- * Instances of this class are returned in an array by the Criterion::getSpecifications() method
- *
- * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion::getSpecifications()
+ * Instances of this class are returned in an array by the {@see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion::getSpecifications()} method.
  */
 class Specifications
 {

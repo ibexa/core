@@ -101,20 +101,20 @@ abstract class FieldType
      * It is considered best practice to return a hash map, which contains
      * rudimentary settings structures, like e.g. for the "ezstring" FieldType
      *
-     * <code>
-     *  array(
-     *      'stringLength' => array(
-     *          'minStringLength' => array(
-     *              'type'    => 'int',
-     *              'default' => 0,
-     *          ),
-     *          'maxStringLength' => array(
-     *              'type'    => 'int'
-     *              'default' => null,
-     *          )
-     *      ),
-     *  );
-     * </code>
+     * ```
+     * [
+     *     'stringLength' => [
+     *         'minStringLength' => [
+     *             'type'    => 'int',
+     *             'default' => 0,
+     *         ],
+     *         'maxStringLength' => [
+     *             'type'    => 'int'
+     *             'default' => null,
+     *         ],
+     *     ],
+     * ];
+     * ```
      *
      * @return mixed
      */
@@ -361,22 +361,22 @@ abstract class FieldType
      *
      * @param \Ibexa\Contracts\Core\FieldType\Value $value
      *
-     * @return array Hash with relation type as key and array of destination content ids as value.
+     * @return array Hash with relation type as key and array of destination content IDs as value.
      *
      * Example:
-     * <code>
-     *  array(
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => array(
-     *          "contentIds" => array( 12, 13, 14 ),
-     *          "locationIds" => array( 24 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => array(
-     *          "contentIds" => array( 12 ),
-     *          "locationIds" => array( 24, 45 )
-     *      ),
-     *      \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => array( 12 )
-     *  )
-     * </code>
+     * ```
+     * [
+     *     \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => [
+     *         'contentIds' => [12, 13, 14],
+     *         'locationIds' => [24]
+     *     ],
+     *     \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => [
+     *         'contentIds" => [12],
+     *         'locationIds' => [24, 45]
+     *     ],
+     *     \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => [12]
+     * ]
+     * ```
      */
     abstract public function getRelations(Value $value);
 }
