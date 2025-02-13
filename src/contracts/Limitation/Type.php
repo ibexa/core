@@ -21,26 +21,51 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject as APIValueObject;
 interface Type
 {
     /**
-     * Constants for return value of {@see evaluate()}.
+     * Access is granted.
      *
-     * Currently ACCESS_ABSTAIN must mean that evaluate does not support the provided $object or $targets,
-     * this is currently only supported by role limitations as policy limitations should not allow this.
+     * Constant for return value of {@see Type::evaluate()}.
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
-     *
-     * @since 5.3.2
      */
     public const ACCESS_GRANTED = true;
+
+    /**
+     * The type abstains from voting.
+     *
+     * Constant for return value of {@see Type::evaluate()}.
+     *
+     * Returning ACCESS_ABSTAIN must mean that evaluate does not support the provided $object or $targets,
+     * this is only supported by role limitations as policy limitations should not allow this.
+     *
+     * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
+     */
     public const ACCESS_ABSTAIN = null;
+
+    /**
+     * Access is denied.
+     *
+     * Constant for return value of {@see Type::evaluate()}.
+     *
+     * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
+     */
     public const ACCESS_DENIED = false;
 
     /**
-     * Constants for valueSchema() return values.
+     * Limitation's value must be an array of location IDs.
      *
-     * Used in cases where a certain value is accepted but the options are to many to return as a hash of options.
+     * Constant for {@see Type::valueSchema()} return values.
+     *
      * GUI should typically present option to browse content tree to select limitation value(s).
      */
     public const VALUE_SCHEMA_LOCATION_ID = 1;
+
+    /**
+     * Limitation's value must be an array of location paths.
+     *
+     * Constant for {@see Type::valueSchema()} return values.
+     *
+     * GUI should typically present option to browse content tree to select limitation value(s).
+     */
     public const VALUE_SCHEMA_LOCATION_PATH = 2;
 
     /**
@@ -61,17 +86,17 @@ interface Type
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return array<int, \Ibexa\Contracts\Core\FieldType\ValidationError>
      */
     public function validate(APILimitationValue $limitationValue);
 
     /**
      * Create the Limitation Value.
      *
-     * The is the method to create values as Limitation type needs value knowledge anyway in acceptValue,
+     * This is the method to create values as Limitation type needs value knowledge anyway in acceptValue,
      * the reverse relation is provided by means of identifier lookup (Value has identifier, and so does RoleService).
      *
-     * @param mixed[] $limitationValues
+     * @param array<int, mixed> $limitationValues
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
@@ -89,10 +114,10 @@ interface Type
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
      * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
      * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $object
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject[]|null $targets An array of location, parent or "assignment"
+     * @param array<int, \Ibexa\Contracts\Core\Repository\Values\ValueObject>|null $targets An array of location, parent or "assignment"
      *                                                                 objects, if null: none where provided by caller
      *
-     * @return bool|null Returns one of ACCESS_* constants
+     * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
      */
     public function evaluate(APILimitationValue $value, APIUserReference $currentUser, APIValueObject $object, array $targets = null);
 
