@@ -397,7 +397,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         foreach ($contentLocations as $location) {
             $tags[] = $this->cacheIdentifierGenerator->generateTag(self::LOCATION_IDENTIFIER, [$location->id]);
         }
-        
+
         $this->cache->invalidateTags($tags);
 
         return $return;
