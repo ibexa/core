@@ -87,8 +87,6 @@ abstract class Location extends ValueObject
     ];
 
     /**
-     * Location ID.
-     *
      * @var int
      */
     protected $id;
