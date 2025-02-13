@@ -26,8 +26,6 @@ interface Type
      * Constant for return value of {@see Type::evaluate()}.
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
-     *
-     * @since 5.3.2
      */
     public const ACCESS_GRANTED = true;
 
@@ -40,8 +38,6 @@ interface Type
      * this is only supported by role limitations as policy limitations should not allow this.
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
-     *
-     * @since 5.3.2
      */
     public const ACCESS_ABSTAIN = null;
 
@@ -51,8 +47,6 @@ interface Type
      * Constant for return value of {@see Type::evaluate()}.
      *
      * Note: In future version constant values might change to 1, 0 and -1 as used in Symfony.
-     *
-     * @since 5.3.2
      */
     public const ACCESS_DENIED = false;
 
