@@ -499,6 +499,10 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
             ->expects($this->once())
             ->method('deleteContent')
             ->with(2)
+            ->willReturn(true);
+
+        $this->cacheMock
+            ->expects($this->never())
             ->method('deleteItem');
 
         $this->cacheIdentifierGeneratorMock
