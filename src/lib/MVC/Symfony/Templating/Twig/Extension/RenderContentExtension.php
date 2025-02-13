@@ -10,7 +10,6 @@ namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
-use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\MVC\Symfony\Event\ResolveRenderOptionsEvent;
 use Ibexa\Core\MVC\Symfony\Templating\RenderContentStrategy;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
@@ -48,10 +47,7 @@ final class RenderContentExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
-     */
-    public function renderContent(object $data, array $options = []): string
+    public function renderContent(Content|ContentAwareInterface $data, array $options = []): string
     {
         $renderOptions = new RenderOptions($options);
         $event = $this->eventDispatcher->dispatch(
@@ -61,25 +57,12 @@ final class RenderContentExtension extends AbstractExtension
         return $this->renderContentStrategy->render($this->getContent($data), $event->getRenderOptions());
     }
 
-    /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $data
-     *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
-     */
-    private function getContent(object $data): Content
+    private function getContent(Content|ContentAwareInterface $data): Content
     {
         if ($data instanceof Content) {
             return $data;
         }
 
-        if ($data instanceof ContentAwareInterface) {
             return $data->getContent();
-        }
-
-        throw new InvalidArgumentType(
-            '$content',
-            sprintf('%s or %s', Content::class, ContentAwareInterface::class),
-            $data,
-        );
     }
 }
