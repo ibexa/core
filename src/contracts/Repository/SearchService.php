@@ -198,7 +198,7 @@ interface SearchService
      *   - `[<language_code_string>,…]` where `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if `true` (default), only the objects which the user is allowed to read are returned.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Repository\Values\Content\Location>
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if query is not valid
      */
