@@ -263,6 +263,7 @@ interface LocationService
      * Fetch a LocationList from the Repository filtered by the given conditions.
      *
      * @phpstan-param TFilteringLanguageFilter|null $languages
+     *
      * @param array<int, string>|null $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
@@ -275,6 +276,7 @@ interface LocationService
      * Return the count of items that would be returned by {@see LocationService::find()} method.
      *
      * @phpstan-param TFilteringLanguageFilter|null $languages
+     *
      * @param array<int, string>|null $languages a list of language codes to be added as additional constraints.
      *        If skipped, by default, unless SiteAccessAware layer has been disabled, languages set
      *        for a SiteAccess in a current context will be used.
