@@ -10,7 +10,7 @@
   >
   <php>
     <ini name="error_reporting" value="-1" />
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=82&amp;max[direct]=854&amp;max[indirect]=11&amp;verbose=0"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=82&amp;max[direct]=855&amp;max[indirect]=11&amp;verbose=0"/>
   </php>
   <testsuites>
     <testsuite name="unit_core">
