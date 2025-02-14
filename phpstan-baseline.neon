@@ -18091,6 +18091,11 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/AncestorQueryBuilder.php
 
 		-
+			message: "#^Cannot access offset 0 on array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string\\.$#"
+			count: 1
+			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/BookmarkQueryBuilder.php
+
+		-
 			message: "#^Parameter \\#2 \\$criterionValue of method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Filter\\\\Doctrine\\\\FilteringQueryBuilder\\:\\:buildOperatorBasedCriterionConstraint\\(\\) expects array, array\\<bool\\|float\\|int\\|string\\>\\|bool\\|float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/DepthQueryBuilder.php
@@ -57462,11 +57467,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\BookmarkTest\\:\\:testLoadBookmarks\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Repository\\\\Service\\\\Mock\\\\BookmarkTest\\:\\:testLoadBookmarksEmptyList\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
 
