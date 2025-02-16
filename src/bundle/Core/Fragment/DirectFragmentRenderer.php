@@ -14,9 +14,9 @@ use Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer;
 use Ibexa\Core\MVC\Symfony\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactoryInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
@@ -39,7 +39,7 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
     /** @var \Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactoryInterface */
     protected $argumentMetadataFactory;
 
-    /** @var \Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface */
+    /** @var \Symfony\Component\HttpKernel\Controller\ValueResolverInterface */
     protected $argumentValueResolver;
 
     /** @var \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer */
@@ -51,7 +51,7 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
         ViewControllerListener $controllerListener,
         ControllerResolverInterface $controllerResolver,
         ArgumentMetadataFactoryInterface $argumentMetadataFactory,
-        ArgumentValueResolverInterface $argumentValueResolver,
+        ValueResolverInterface $argumentValueResolver,
         TemplateRenderer $viewTemplateRenderer
     ) {
         $this->innerRenderer = $innerRenderer;
