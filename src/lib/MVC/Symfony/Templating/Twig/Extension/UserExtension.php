@@ -31,11 +31,11 @@ final class UserExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'ibexa_current_user',
-                [$this, 'getCurrentUser']
+                $this->getCurrentUser(...)
             ),
             new TwigFunction(
                 'ibexa_is_current_user',
-                [$this, 'isCurrentUser']
+                $this->isCurrentUser(...)
             ),
         ];
     }
