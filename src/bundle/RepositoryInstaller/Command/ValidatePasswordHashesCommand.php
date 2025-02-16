@@ -9,14 +9,14 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Core\FieldType\User\UserStorage;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'ibexa:user:validate-password-hashes')]
 final class ValidatePasswordHashesCommand extends Command
 {
-    protected static $defaultName = 'ibexa:user:validate-password-hashes';
-
     /** @var \Ibexa\Core\FieldType\User\UserStorage */
     private $userStorage;
 

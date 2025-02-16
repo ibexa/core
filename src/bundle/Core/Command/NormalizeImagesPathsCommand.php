@@ -16,6 +16,7 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,6 +26,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @internal
  */
+#[AsCommand(
+    name: 'ibexa:images:normalize-paths',
+    description: 'Normalizes stored paths for images.'
+)]
 final class NormalizeImagesPathsCommand extends Command
 {
     private const IMAGE_LIMIT = 100;
@@ -36,10 +41,6 @@ final class NormalizeImagesPathsCommand extends Command
 EOT;
 
     private const SKIP_HASHING_COMMAND_PARAMETER = 'no-hash';
-
-    protected static $defaultName = 'ibexa:images:normalize-paths';
-
-    protected static $defaultDescription = 'Normalizes stored paths for images.';
 
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
     private $imageGateway;

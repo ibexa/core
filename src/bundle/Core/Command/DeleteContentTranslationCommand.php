@@ -11,6 +11,7 @@ use Exception;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,12 +23,12 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Console Command which deletes a given Translation from all the Versions of a given Content Item.
  */
+#[AsCommand(
+    name: 'ibexa:delete-content-translation',
+    description: 'Deletes a translation from all versions of a Content item'
+)]
 class DeleteContentTranslationCommand extends Command
 {
-    protected static $defaultName = 'ibexa:delete-content-translation';
-
-    protected static $defaultDescription = 'Deletes a translation from all versions of a Content item';
-
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     private $repository;
 

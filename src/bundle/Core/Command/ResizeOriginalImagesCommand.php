@@ -24,6 +24,7 @@ use Liip\ImagineBundle\Binary\BinaryInterface;
 use Liip\ImagineBundle\Exception\Imagine\Filter\NonExistingFilterException;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
 use Liip\ImagineBundle\Model\Binary;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,12 +37,11 @@ use Symfony\Component\Mime\MimeTypesInterface;
 /**
  * This command resizes original images stored in ezimage FieldType in given ContentType using the selected filter.
  */
+#[AsCommand(name: 'ibexa:images:resize-original')]
 class ResizeOriginalImagesCommand extends Command
 {
     public const DEFAULT_ITERATION_COUNT = 25;
     public const DEFAULT_REPOSITORY_USER = 'admin';
-
-    protected static $defaultName = 'ibexa:images:resize-original';
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
     private $permissionResolver;

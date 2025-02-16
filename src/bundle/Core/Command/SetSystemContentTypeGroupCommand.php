@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,13 +23,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @internal
  */
+#[AsCommand(
+    name: 'ibexa:content-type-group:set-system',
+    description: 'Sets information if ContentTypeGroup is a system group'
+)]
 final class SetSystemContentTypeGroupCommand extends Command
 {
     private const DEFAULT_REPOSITORY_USER = 'admin';
-
-    protected static $defaultName = 'ibexa:content-type-group:set-system';
-
-    protected static $defaultDescription = 'Sets information if ContentTypeGroup is a system group';
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
     private $contentTypeService;

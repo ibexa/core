@@ -13,12 +13,17 @@ use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInte
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'ibexa:content:cleanup-versions',
+    description: 'Removes unwanted content versions. Keeps the published version untouched. By default, also keeps the last archived/draft version.'
+)]
 class CleanupVersionsCommand extends Command
 {
     public const DEFAULT_REPOSITORY_USER = 'admin';
@@ -41,10 +46,6 @@ EOT;
         self::VERSION_ARCHIVED => VersionInfo::STATUS_ARCHIVED,
         self::VERSION_PUBLISHED => VersionInfo::STATUS_PUBLISHED,
     ];
-
-    protected static $defaultName = 'ibexa:content:cleanup-versions';
-
-    protected static $defaultDescription = 'Removes unwanted content versions. Keeps the published version untouched. By default, also keeps the last archived/draft version.';
 
     private readonly Repository $repository;
 
