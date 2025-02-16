@@ -8,7 +8,7 @@
 namespace Ibexa\Bundle\Core\Fragment;
 
 use Ibexa\Core\MVC\Symfony\RequestStackAware;
-use Symfony\Component\HttpKernel\UriSigner;
+use Symfony\Component\HttpFoundation\UriSigner;
 
 /**
  * Custom factory for Symfony FragmentListener.
