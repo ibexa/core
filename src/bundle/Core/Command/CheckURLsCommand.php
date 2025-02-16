@@ -16,12 +16,17 @@ use Ibexa\Contracts\Core\Repository\Values\URL\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'ibexa:check-urls',
+    description: 'Checks validity of external URLs'
+)]
 class CheckURLsCommand extends Command
 {
     private const DEFAULT_ITERATION_COUNT = 50;
@@ -55,7 +60,6 @@ class CheckURLsCommand extends Command
 
     public function configure(): void
     {
-        $this->setDescription('Checks validity of external URLs');
         $this->addOption(
             'iteration-count',
             'c',

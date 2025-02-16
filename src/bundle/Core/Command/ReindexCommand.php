@@ -17,6 +17,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Search\Common\Indexer;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,14 +27,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+#[AsCommand(
+    name: 'ibexa:reindex',
+    description: 'Recreates or refreshes the search engine index'
+)]
 class ReindexCommand extends Command
 {
     private const string IBEXA_CLOUD_CONFIG_FILE = '/run/config.json';
     private const string LINUX_CPUINFO_FILE = '/proc/cpuinfo';
-
-    protected static $defaultName = 'ibexa:reindex';
-
-    protected static $defaultDescription = 'Recreates or refreshes the search engine index';
 
     /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
     private $searchIndexer;
