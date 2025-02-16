@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,12 +27,12 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 /**
  * Console command for deep copying subtree from one location to another.
  */
+#[AsCommand(
+    name: 'ibexa:copy-subtree',
+    description: 'Copies a subtree from one Location to another'
+)]
 class CopySubtreeCommand extends Command
 {
-    protected static $defaultName = 'ibexa:copy-subtree';
-
-    protected static $defaultDescription = 'Copies a subtree from one Location to another';
-
     private LocationService $locationService;
 
     private PermissionResolver $permissionResolver;
