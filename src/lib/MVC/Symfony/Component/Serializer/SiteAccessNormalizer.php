@@ -10,7 +10,6 @@ namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -21,7 +20,7 @@ use Symfony\Component\Serializer\SerializerAwareTrait;
 /**
  * @internal
  */
-final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerAwareInterface, NormalizerInterface, SerializerAwareInterface, ContextAwareDenormalizerInterface
+final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerAwareInterface, NormalizerInterface, SerializerAwareInterface
 {
     use DenormalizerAwareTrait;
     use SerializerAwareTrait;
@@ -48,6 +47,9 @@ final class SiteAccessNormalizer implements DenormalizerInterface, DenormalizerA
         );
     }
 
+    /**
+     * @phpstan-param array<string, mixed> $context
+     */
     public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
         return $type === SiteAccess::class;
