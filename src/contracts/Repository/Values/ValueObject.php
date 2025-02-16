@@ -49,9 +49,8 @@ abstract class ValueObject
      * @param array<int, string> $dynamicProperties Additional dynamic properties exposed on the object
      *
      * @return array<int, string>
-     *
-     * @SerializerIgnore()
      */
+    #[SerializerIgnore]
     protected function getProperties($dynamicProperties = [])
     {
         $properties = $dynamicProperties;
@@ -207,9 +206,8 @@ abstract class ValueObject
      * @param string $property
      *
      * @return bool
-     *
-     * @SerializerIgnore()
      */
+    #[SerializerIgnore]
     final public function hasAttribute($property)
     {
         return $this->__isset($property);
