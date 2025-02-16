@@ -77,7 +77,7 @@ class FileSizeExtension extends AbstractExtension
         return [
             new TwigFilter(
                 'ibexa_file_size',
-                [$this, 'sizeFilter']
+                $this->sizeFilter(...)
             ),
         ];
     }

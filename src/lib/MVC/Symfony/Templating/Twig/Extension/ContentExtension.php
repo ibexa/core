@@ -63,39 +63,39 @@ class ContentExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'ibexa_content_name',
-                [$this, 'getTranslatedContentName']
+                $this->getTranslatedContentName(...)
             ),
             new TwigFunction(
                 'ibexa_field_value',
-                [$this, 'getTranslatedFieldValue']
+                $this->getTranslatedFieldValue(...)
             ),
             new TwigFunction(
                 'ibexa_field',
-                [$this, 'getTranslatedField']
+                $this->getTranslatedField(...)
             ),
             new TwigFunction(
                 'ibexa_has_field',
-                [$this, 'hasField']
+                $this->hasField(...)
             ),
             new TwigFunction(
                 'ibexa_field_is_empty',
-                [$this, 'isFieldEmpty']
+                $this->isFieldEmpty(...)
             ),
             new TwigFunction(
                 'ibexa_field_name',
-                [$this, 'getTranslatedFieldDefinitionName']
+                $this->getTranslatedFieldDefinitionName(...)
             ),
             new TwigFunction(
                 'ibexa_field_description',
-                [$this, 'getTranslatedFieldDefinitionDescription']
+                $this->getTranslatedFieldDefinitionDescription(...)
             ),
             new TwigFunction(
                 'ibexa_field_group_name',
-                [$this, 'getFieldGroupName']
+                $this->getFieldGroupName(...)
             ),
             new TwigFunction(
                 'ibexa_content_field_identifier_first_filled_image',
-                [$this, 'getFirstFilledImageFieldIdentifier']
+                $this->getFirstFilledImageFieldIdentifier(...)
             ),
         ];
     }
