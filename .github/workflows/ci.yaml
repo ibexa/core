@@ -33,6 +33,31 @@ jobs:
             - name: Run code style check
               run: composer run-script check-cs -- --format=checkstyle | cs2pr
 
+    rector:
+        name: Run rector
+        runs-on: "ubuntu-22.04"
+        strategy:
+            matrix:
+                php:
+                    - '8.3'
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Setup PHP Action
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+                    extensions: 'pdo_sqlite, gd'
+                    tools: cs2pr
+
+            -   uses: ramsey/composer-install@v3
+                with:
+                    dependency-versions: highest
+
+            -   name: Run rector
+                run: vendor/bin/rector process --dry-run --ansi
+
     tests:
         name: Unit tests & SQLite integration tests
         runs-on: "ubuntu-22.04"
@@ -186,7 +211,7 @@ jobs:
                 image: redis
                 ports:
                     - 6379:6379
-                options: 
+                options:
                     --memory=60m
             solr:
                 image: ghcr.io/ibexa/core/solr
@@ -202,7 +227,7 @@ jobs:
             matrix:
                 php:
                     - '8.3'
-        steps:   
+        steps:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
@@ -212,7 +237,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php }}
                   coverage: none
-            
+
             - name: Add solr dependency
               run: |
                 VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
