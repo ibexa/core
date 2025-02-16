@@ -9,6 +9,7 @@ declare(strict_types=1);
 use Ibexa\Contracts\Rector\Sets\IbexaSetList;
 use Rector\Config\RectorConfig;
 use Rector\Symfony\Set\SymfonySetList;
+use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -19,4 +20,10 @@ return RectorConfig::configure()
         IbexaSetList::IBEXA_50->value,
         SymfonySetList::SYMFONY_60,
         SymfonySetList::SYMFONY_61,
+        SymfonySetList::SYMFONY_62,
+    ])
+    ->withSkip([
+        CommandConfigureToAttributeRector::class => [
+            __DIR__ . '/tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php',
+        ],
     ]);
