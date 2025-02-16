@@ -45,20 +45,20 @@ class RoutingExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'ibexa_route',
-                [$this, 'getRouteReference']
+                $this->getRouteReference(...)
             ),
             new TwigFunction(
                 'ibexa_path',
-                [$this, 'getPath'],
+                $this->getPath(...),
                 [
-                    'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
+                    'is_safe_callback' => $this->isUrlGenerationSafe(...),
                 ]
             ),
             new TwigFunction(
                 'ibexa_url',
-                [$this, 'getUrl'],
+                $this->getUrl(...),
                 [
-                    'is_safe_callback' => [$this, 'isUrlGenerationSafe'],
+                    'is_safe_callback' => $this->isUrlGenerationSafe(...),
                 ]
             ),
         ];

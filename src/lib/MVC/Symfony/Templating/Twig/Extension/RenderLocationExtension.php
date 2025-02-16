@@ -40,7 +40,7 @@ final class RenderLocationExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'ibexa_render_location',
-                [$this, 'renderLocation'],
+                $this->renderLocation(...),
                 ['is_safe' => ['html']]
             ),
         ];

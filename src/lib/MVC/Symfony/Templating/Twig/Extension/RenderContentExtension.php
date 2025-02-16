@@ -42,7 +42,7 @@ final class RenderContentExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'ibexa_render_content',
-                [$this, 'renderContent'],
+                $this->renderContent(...),
                 ['is_safe' => ['html']]
             ),
         ];
