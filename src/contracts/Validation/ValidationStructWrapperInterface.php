@@ -12,8 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 interface ValidationStructWrapperInterface
 {
-    /**
-     * @Assert\Valid()
-     */
+    #[Assert\Valid]
     public function getStruct(): object;
 }
