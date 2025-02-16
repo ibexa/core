@@ -36,12 +36,12 @@ class ImageExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'ibexa_image_alias',
-                [$this, 'getImageVariation'],
+                $this->getImageVariation(...),
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
                 'ibexa_content_field_identifier_image_asset',
-                [$this, 'getImageAssetContentFieldIdentifier'],
+                $this->getImageAssetContentFieldIdentifier(...),
                 ['is_safe' => ['html']]
             ),
         ];

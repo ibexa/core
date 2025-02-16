@@ -10,6 +10,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Command;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,14 +21,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+#[AsCommand(name: 'ibexa:install')]
 final class InstallPlatformCommand extends Command
 {
     public const int EXIT_GENERAL_DATABASE_ERROR = 4;
     public const int EXIT_PARAMETERS_NOT_FOUND = 5;
     public const int EXIT_UNKNOWN_INSTALL_TYPE = 6;
     public const int EXIT_MISSING_PERMISSIONS = 7;
-
-    protected static $defaultName = 'ibexa:install';
 
     /** @var \Doctrine\DBAL\Connection */
     private $connection;

@@ -19,18 +19,19 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'ibexa:user:expire-password',
+    description: 'Expire passwords for selected users.'
+)]
 final class ExpireUserPasswordsCommand extends Command
 {
-    protected static $defaultName = 'ibexa:user:expire-password';
-
-    protected static $defaultDescription = 'Expire passwords for selected users.';
-
     public const REQUIRE_NEW_PASSWORD_VALUE = true;
 
     public const DEFAULT_BATCH_SIZE = 50;

@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\IO\Command;
 
 use Ibexa\Bundle\IO\Migration\FileListerRegistry;
 use Ibexa\Bundle\IO\Migration\FileMigratorInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,12 +17,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
+#[AsCommand(
+    name: 'ibexa:io:migrate-files',
+    description: 'Migrates files from one IO repository to another'
+)]
 final class MigrateFilesCommand extends Command
 {
-    protected static $defaultName = 'ibexa:io:migrate-files';
-
-    protected static $defaultDescription = 'Migrates files from one IO repository to another';
-
     /** @var mixed Configuration for metadata handlers */
     private $configuredMetadataHandlers;
 

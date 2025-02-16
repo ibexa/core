@@ -12,13 +12,13 @@ use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 /**
  * @internal
  */
-final class LocationArgumentResolver implements ArgumentValueResolverInterface
+final class LocationArgumentResolver implements ValueResolverInterface
 {
     private LocationService $locationService;
 
@@ -27,14 +27,6 @@ final class LocationArgumentResolver implements ArgumentValueResolverInterface
     public function __construct(LocationService $locationService)
     {
         $this->locationService = $locationService;
-    }
-
-    public function supports(Request $request, ArgumentMetadata $argument): bool
-    {
-        return
-            Location::class === $argument->getType()
-            && !$request->attributes->has(self::PARAMETER_LOCATION_ID)
-            && $request->query->has(self::PARAMETER_LOCATION_ID);
     }
 
     /**
@@ -46,6 +38,10 @@ final class LocationArgumentResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
+        if (!$this->supports($request, $argument)) {
+            return [];
+        }
+
         $locationId = $request->query->get(self::PARAMETER_LOCATION_ID);
         if (!is_numeric($locationId)) {
             throw new InvalidArgumentException(
@@ -55,5 +51,13 @@ final class LocationArgumentResolver implements ArgumentValueResolverInterface
         }
 
         yield $this->locationService->loadLocation((int)$locationId);
+    }
+
+    private function supports(Request $request, ArgumentMetadata $argument): bool
+    {
+        return
+            Location::class === $argument->getType()
+            && !$request->attributes->has(self::PARAMETER_LOCATION_ID)
+            && $request->query->has(self::PARAMETER_LOCATION_ID);
     }
 }

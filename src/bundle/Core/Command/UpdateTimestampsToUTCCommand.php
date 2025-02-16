@@ -13,6 +13,7 @@ use DateTimeZone;
 use Doctrine\DBAL\Connection;
 use PDO;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,6 +24,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
+#[AsCommand(
+    name: 'ibexa:timestamps:to-utc',
+    description: 'Updates ezdate and ezdatetime timestamps to UTC'
+)]
 class UpdateTimestampsToUTCCommand extends Command
 {
     public const MAX_TIMESTAMP_VALUE = 2147483647;
@@ -33,10 +38,6 @@ class UpdateTimestampsToUTCCommand extends Command
         'datetime' => ['ezdatetime'],
         'all' => ['ezdate', 'ezdatetime'],
     ];
-
-    protected static $defaultName = 'ibexa:timestamps:to-utc';
-
-    protected static $defaultDescription = 'Updates ezdate and ezdatetime timestamps to UTC';
 
     /** @var int */
     protected $done = 0;

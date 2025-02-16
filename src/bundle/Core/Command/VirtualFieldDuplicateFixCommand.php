@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,6 +18,10 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Stopwatch\Stopwatch;
 
+#[AsCommand(
+    name: 'ibexa:content:remove-duplicate-fields',
+    description: 'Removes duplicate fields created as a result of faulty IBX-5388 performance fix.'
+)]
 final class VirtualFieldDuplicateFixCommand extends Command
 {
     private const DEFAULT_BATCH_SIZE = 10000;
@@ -24,10 +29,6 @@ final class VirtualFieldDuplicateFixCommand extends Command
     private const MAX_ITERATIONS_UNLIMITED = -1;
 
     private const DEFAULT_SLEEP = 0;
-
-    protected static $defaultName = 'ibexa:content:remove-duplicate-fields';
-
-    protected static $defaultDescription = 'Removes duplicate fields created as a result of faulty IBX-5388 performance fix.';
 
     /** @var \Doctrine\DBAL\Connection */
     private $connection;

@@ -33,20 +33,18 @@ final class LocationArgumentResolverTest extends TestCase
     }
 
     /**
-     * @dataProvider provideDataForTestSupports
+     * @dataProvider dataProviderForTestResolverForUnsupportedRequest
      */
-    public function testSupports(
-        bool $expected,
+    public function testResolveForUnsupportedRequest(
         Request $request,
         ArgumentMetadata $argumentMetadata
     ): void {
-        self::assertSame(
-            $expected,
-            $this->locationArgumentResolver->supports(
-                $request,
-                $argumentMetadata
-            )
+        $actualValue = $this->locationArgumentResolver->resolve(
+            $request,
+            $argumentMetadata
         );
+
+        self::assertEmpty(iterator_to_array($actualValue));
     }
 
     public function testResolveThrowsInvalidArgumentException(): void
@@ -60,7 +58,7 @@ final class LocationArgumentResolverTest extends TestCase
                     'locationId' => 'foo',
                 ]
             ),
-            $this->createMock(ArgumentMetadata::class)
+            $this->createArgumentMetadata(Location::class)
         );
 
         self::assertInstanceOf(Generator::class, $generator);
@@ -72,7 +70,7 @@ final class LocationArgumentResolverTest extends TestCase
     {
         $resolvedArgumentsGenerator = $this->locationArgumentResolver->resolve(
             $this->createRequest(true, false, 1),
-            $this->createMock(ArgumentMetadata::class)
+            $this->createArgumentMetadata(Location::class)
         );
 
         self::assertInstanceOf(Generator::class, $resolvedArgumentsGenerator);
@@ -89,35 +87,25 @@ final class LocationArgumentResolverTest extends TestCase
 
     /**
      * @return iterable<array{
-     *     bool,
      *     \Symfony\Component\HttpFoundation\Request,
      *     \Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata
      * }>
      */
-    public function provideDataForTestSupports(): iterable
+    public function dataProviderForTestResolverForUnsupportedRequest(): iterable
     {
         $locationBasedArgumentMetadata = $this->createArgumentMetadata(Location::class);
 
-        yield 'Supported - locationId passed to request query' => [
-            true,
-            $this->createRequest(true, false, 1),
-            $locationBasedArgumentMetadata,
-        ];
-
         yield 'Not supported - type different than Ibexa\Contracts\Core\Repository\Values\Content\Location' => [
-            false,
             $this->createRequest(true, false, 1),
             $this->createArgumentMetadata('foo'),
         ];
 
         yield 'Not supported - locationId passed to request attributes' => [
-            false,
             $this->createRequest(false, true, 1),
             $locationBasedArgumentMetadata,
         ];
 
         yield 'Not supported - locationId passed to request attributes and query' => [
-            false,
             $this->createRequest(true, true, 1),
             $locationBasedArgumentMetadata,
         ];

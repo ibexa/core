@@ -11,7 +11,6 @@ namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 use Ibexa\Bundle\Core\SiteAccess\SiteAccessMatcherRegistryInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -19,7 +18,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 /**
  * @internal
  */
-final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface, ContextAwareDenormalizerInterface
+final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     private const MATCHER_NORMALIZER_ALREADY_WORKED = self::class . '_ALREADY_CALLED';
 
@@ -46,6 +45,9 @@ final class MatcherDenormalizer implements DenormalizerInterface, DenormalizerAw
         ]);
     }
 
+    /**
+     * @phpstan-param array<string, mixed> $context
+     */
     public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
         if ($context[self::MATCHER_NORMALIZER_ALREADY_WORKED] ?? false) {
