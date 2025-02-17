@@ -31,20 +31,6 @@ interface SearchService
     public const CAPABILITY_SCORING = 1;
 
     /**
-     * Capability flag for facets feature.
-     *
-     * To use with {@see SearchService::supports()}.
-     *
-     * Faceted search: {@link https://en.wikipedia.org/wiki/Faceted_search}
-     *
-     * Note: Even if search engine tells you this is supported, beware:
-     * - It might not support all facets, by design it will only return facets for facet builders the search engine supports.
-     * - Some of the faceting features are still work in progress in API and won't be further matured before in 7   .x
-     *   releases
-     */
-    public const CAPABILITY_FACETS = 2;
-
-    /**
      * Capability flag for custom fields feature.
      *
      * To use with {@see SearchService::supports()}.

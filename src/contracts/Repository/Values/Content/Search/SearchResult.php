@@ -23,15 +23,6 @@ use IteratorAggregate;
 class SearchResult extends ValueObject implements IteratorAggregate, AggregationResultAwareInterface
 {
     /**
-     * The facets for this search.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\Facet[]
-     *
-     * @deprecated since eZ Platform 3.2.0, to be removed in Ibexa 4.0.0.
-     */
-    public $facets = [];
-
-    /**
      * @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection
      */
     public $aggregations;

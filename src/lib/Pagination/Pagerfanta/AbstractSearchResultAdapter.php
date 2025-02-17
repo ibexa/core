@@ -63,8 +63,7 @@ abstract class AbstractSearchResultAdapter implements AdapterInterface, SearchRe
 
         $countQuery = clone $this->query;
         $countQuery->limit = 0;
-        // Skip facets/aggregations & spellcheck computing
-        $countQuery->facetBuilders = [];
+        // Skip aggregations & spellcheck computing
         $countQuery->aggregations = [];
         $countQuery->spellcheck = null;
 

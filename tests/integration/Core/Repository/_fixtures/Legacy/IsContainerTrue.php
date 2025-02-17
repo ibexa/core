@@ -8,7 +8,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return new SearchResult([
-    'facets' => [],
     'searchHits' => [
             new SearchHit([
                 'valueObject' => [

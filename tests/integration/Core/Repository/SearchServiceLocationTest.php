@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Repository\Values\Content\Location;
-use Ibexa\Tests\Core\Repository\Common;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 
 /**
@@ -31,20 +30,6 @@ use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 class SearchServiceLocationTest extends BaseTest
 {
     public const QUERY_CLASS = LocationQuery::class;
-
-    use Common\FacetedSearchProvider;
-
-    /**
-     * Test for the findLocation() method.
-     *
-     * @dataProvider getFacetedSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findLocations
-     */
-    public function testFindFacetedLocation(LocationQuery $query, $fixture)
-    {
-        $this->assertQueryFixture($query, $fixture);
-    }
 
     /**
      * Create movie Content with subtitle field set to null.
