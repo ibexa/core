@@ -6206,41 +6206,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Query/Criterion/Operator/Specifications.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\FacetBuilder\\\\DateRangeFacetBuilder\\:\\:addRange\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/FacetBuilder/DateRangeFacetBuilder.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\FacetBuilder\\\\DateRangeFacetBuilder\\:\\:addUnboundedFrom\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/FacetBuilder/DateRangeFacetBuilder.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\FacetBuilder\\\\DateRangeFacetBuilder\\:\\:addUnboundedTo\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/FacetBuilder/DateRangeFacetBuilder.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\FacetBuilder\\\\DateRangeFacetBuilder\\:\\:\\$type has no type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/FacetBuilder/DateRangeFacetBuilder.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\FacetBuilder\\\\FieldRangeFacetBuilder\\:\\:addRange\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/FacetBuilder/FieldRangeFacetBuilder.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\FacetBuilder\\\\FieldRangeFacetBuilder\\:\\:addUnboundedFrom\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/FacetBuilder/FieldRangeFacetBuilder.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\FacetBuilder\\\\FieldRangeFacetBuilder\\:\\:addUnboundedTo\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Query/FacetBuilder/FieldRangeFacetBuilder.php
-
-		-
 			message: "#^PHPDoc tag @return with type mixed is not subtype of native type string\\|null\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Query/SortClause/Field.php
@@ -6309,6 +6274,11 @@ parameters:
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\AggregationResultCollection\\:\\:toArray\\(\\) should return array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\FieldDefinition\\> but returns array\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\AggregationResult\\>\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Search/AggregationResultCollection.php
+
+		-
+			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
 
 		-
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\ContentTypeFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
@@ -33501,11 +33471,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:getFacetedSearches\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:mapResultLocationIds\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
@@ -33532,16 +33497,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:testFieldIsNotEmptyInLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:testFindFacetedLocation\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:testFindFacetedLocation\\(\\) has parameter \\$fixture with no type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
@@ -33722,11 +33677,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:getContentQuerySearches\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:getFacetedSearches\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
@@ -33962,26 +33912,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testFindContentWithNonSearchableField\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testFindFacetedContent\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testFindFacetedContent\\(\\) has parameter \\$fixture with no type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testFindFacetedContentInfo\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testFindFacetedContentInfo\\(\\) has parameter \\$fixture with no type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 

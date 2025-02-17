@@ -9,7 +9,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state(
     [
-        'facets' => [],
         'searchHits' => [
                 0 => SearchHit::__set_state(
                     [

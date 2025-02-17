@@ -7,8 +7,6 @@
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state([
-   'facets' => [
-  ],
    'searchHits' => [
   ],
    'spellSuggestion' => null,
