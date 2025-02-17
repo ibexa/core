@@ -186,7 +186,7 @@ jobs:
                 image: redis
                 ports:
                     - 6379:6379
-                options: 
+                options:
                     --memory=60m
             solr:
                 image: ghcr.io/ibexa/core/solr
@@ -202,7 +202,7 @@ jobs:
             matrix:
                 php:
                     - '8.3'
-        steps:   
+        steps:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
@@ -215,9 +215,8 @@ jobs:
             
             - name: Add solr dependency
               run: |
-                VERSION=$(jq -r '.extra | ."branch-alias" | ."dev-main"' < composer.json)
-                composer require --no-update "ibexa/solr:$VERSION"
-
+                  composer require --no-update "ibexa/solr:dev-IBX-8532-drop-support-for-facets"
+            
             - uses: ramsey/composer-install@v3
               with:
                   dependency-versions: highest
