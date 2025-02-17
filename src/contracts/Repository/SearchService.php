@@ -193,7 +193,7 @@ interface SearchService
      *
      * @param array<string, mixed>|array<int, string> $languageFilter Configuration for specifying prioritized languages query will be performed on.
      *   Also used to define which field languages are loaded for the returned content.
-     *   Currently, supports two syntaxeses:
+     *   Currently, supports two syntaxes:
      *   - `['languages' => [<language_code_string>,…], 'useAlwaysAvailable' => <bool>]`
      *   - `[<language_code_string>,…]` where `useAlwaysAvailable` defaults to `true` to avoid exceptions on missing translations.
      * @param bool $filterOnUserPermissions if `true` (default), only the objects which the user is allowed to read are returned.
