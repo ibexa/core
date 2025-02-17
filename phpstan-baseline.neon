@@ -6276,41 +6276,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/AggregationResultCollection.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\ContentTypeFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/ContentTypeFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\FieldFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/FieldFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\LocationFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/LocationFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\SectionFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/SectionFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\TermFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/TermFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\UserFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/UserFacet.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Trash\\\\SearchResult implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Trash/SearchResult.php
@@ -23611,11 +23576,6 @@ parameters:
 			path: tests/integration/Core/Repository/BaseTest.php
 
 		-
-			message: "#^Call to method commit\\(\\) on an unknown class Ibexa\\\\Solr\\\\Handler\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/BaseTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\BaseTest\\:\\:assertPropertiesCorrect\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/BaseTest.php
@@ -23712,11 +23672,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$propertyNames$#"
-			count: 1
-			path: tests/integration/Core/Repository/BaseTest.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$searchHandler contains unknown class Ibexa\\\\Solr\\\\Handler\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/BaseTest.php
 
@@ -31831,11 +31786,6 @@ parameters:
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-
-			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/Regression/EZP20018LanguageTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\Regression\\\\EZP20018LanguageTest\\:\\:testSearchOnNotExistingLanguageGivesException\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/Regression/EZP20018LanguageTest.php
@@ -33456,11 +33406,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
 		-
-			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceLocationTest\\:\\:assertQueryFixture\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
@@ -33603,11 +33548,6 @@ parameters:
 		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Query\\\\Criterion\\\\ContentTypeIdentifier constructor invoked with 2 parameters, 1 required\\.$#"
 			count: 2
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
-			count: 5
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
@@ -34379,11 +34319,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 3
 			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Class Ibexa\\\\Tests\\\\Solr\\\\SetupFactory\\\\LegacySetupFactory not found\\.$#"
-			count: 3
-			path: tests/integration/Core/Repository/SearchServiceTranslationLanguageFallbackTest.php
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTranslationLanguageFallbackTest\\:\\:createContent\\(\\) has parameter \\$parentLocationIds with no value type specified in iterable type array\\.$#"
