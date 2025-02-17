@@ -4361,11 +4361,6 @@ parameters:
 			path: src/contracts/Limitation/Target/Builder/VersionBuilder.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Target\\\\DestinationLocation\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Limitation/Target/DestinationLocation.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:acceptValue\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/contracts/Limitation/Type.php
@@ -4489,11 +4484,6 @@ parameters:
 			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\:\\:\\$languageCodes type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Persistence/Content/Type.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\FieldDefinition\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Persistence/Content/Type/FieldDefinition.php
 
 		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Type\\\\Handler\\:\\:delete\\(\\) has no return type specified\\.$#"
@@ -6351,17 +6341,7 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/Facet/UserFacet.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Trash\\\\SearchResult implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Trash/SearchResult.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Trash\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Trash/SearchResult.php
 
@@ -6481,22 +6461,7 @@ parameters:
 			path: src/contracts/Repository/Values/UserPreference/UserPreferenceList.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/ValueObject.php
-
-		-
 			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:attributes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/ValueObject.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:getProperties\\(\\) has parameter \\$dynamicProperties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/ValueObject.php
-
-		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ValueObject\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/contracts/Repository/Values/ValueObject.php
 
@@ -17796,7 +17761,7 @@ parameters:
 			path: src/lib/Repository/Mapper/RoleDomainMapper.php
 
 		-
-			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array, array\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array\\<int, mixed\\>, array\\|null given\\.$#"
 			count: 2
 			path: src/lib/Repository/Mapper/RoleDomainMapper.php
 
@@ -17956,7 +17921,7 @@ parameters:
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
 		-
-			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array, array\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$limitationValues of method Ibexa\\\\Contracts\\\\Core\\\\Limitation\\\\Type\\:\\:buildValue\\(\\) expects array\\<int, mixed\\>, array\\|null given\\.$#"
 			count: 1
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
@@ -18757,16 +18722,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:getField\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\|null but returns eZ\\\\Publish\\\\API\\\\Repository\\\\Values\\\\Content\\\\Field\\|null\\.$#"
-			count: 1
-			path: src/lib/Repository/Values/Content/Content.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:getProperties\\(\\) has parameter \\$dynamicProperties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/lib/Repository/Values/Content/Content.php
-
-		-
-			message: "#^Method Ibexa\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Content\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/lib/Repository/Values/Content/Content.php
 
@@ -34457,11 +34412,6 @@ parameters:
 
 		-
 			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testUserMetadataGroupHorizontalFilterContent\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
-			message: "#^Method Ibexa\\\\Tests\\\\Integration\\\\Core\\\\Repository\\\\SearchServiceTest\\:\\:testUserMetadataGroupHorizontalFilterContent\\(\\) has parameter \\$queryType with no type specified\\.$#"
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
