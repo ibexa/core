@@ -11026,7 +11026,7 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
 
 		-
-			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getContentType\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\ContentType\\\\ContentType\\|null but return statement is missing\\.$#"
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getContentType\\(\\) never returns null so it can be removed from the return type\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
 
@@ -11036,7 +11036,22 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
 
 		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getTranslatedContentName\\(\\) should return string but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
+
+		-
 			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getTranslatedField\\(\\) should return Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field but returns Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Field\\|null\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getTranslatedFieldDefinitionDescription\\(\\) should return string\\|null but return statement is missing\\.$#"
+			count: 1
+			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
+
+		-
+			message: "#^Method Ibexa\\\\Core\\\\MVC\\\\Symfony\\\\Templating\\\\Twig\\\\Extension\\\\ContentExtension\\:\\:getTranslatedFieldDefinitionName\\(\\) should return string\\|null but return statement is missing\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/ContentExtension.php
 
