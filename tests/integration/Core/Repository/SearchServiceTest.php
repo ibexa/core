@@ -22,7 +22,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
-use Ibexa\Tests\Core\Repository\Common;
 use Ibexa\Tests\Solr\SetupFactory\LegacySetupFactory as LegacySolrSetupFactory;
 
 /**
@@ -44,8 +43,6 @@ class SearchServiceTest extends BaseTest
         self::FIND_CONTENT_METHOD,
         self::FIND_LOCATION_METHOD,
     ];
-
-    use Common\FacetedSearchProvider;
 
     public function getFilterContentSearches()
     {
@@ -2848,30 +2845,6 @@ class SearchServiceTest extends BaseTest
     {
         $query = new LocationQuery($queryData);
         $this->assertQueryFixture($query, $fixture, $closure);
-    }
-
-    /**
-     * Test for the findContent() method.
-     *
-     * @dataProvider getFacetedSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     */
-    public function testFindFacetedContent(Query $query, $fixture)
-    {
-        $this->assertQueryFixture($query, $fixture);
-    }
-
-    /**
-     * Test for the findContentInfo() method.
-     *
-     * @dataProvider getFacetedSearches
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContentInfo()
-     */
-    public function testFindFacetedContentInfo(Query $query, $fixture)
-    {
-        $this->assertQueryFixture($query, $fixture, $this->getContentInfoFixtureClosure(), true);
     }
 
     /**
