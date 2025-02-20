@@ -98,7 +98,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         AbstractPlatform $databasePlatform
     ): array {
         $existingSchema = $this->db->getSchemaManager()->createSchema();
-        $statements = [];
+        $statements = ['SET FOREIGN_KEY_CHECKS=0'];
         // reverse table order for clean-up (due to FKs)
         $tables = array_reverse($newSchema->getTables());
         // cleanup pre-existing database
