@@ -99,8 +99,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     ): array {
         $existingSchema = $this->db->getSchemaManager()->createSchema();
         $statements = [];
-        // reverse table order for clean-up (due to FKs)
-        $tables = array_reverse($newSchema->getTables());
+        $tables = $newSchema->getTables();
         if ($databasePlatform->supportsForeignKeyConstraints()) {
             // cleanup pre-existing database: drop foreign keys
             foreach ($tables as $table) {
