@@ -105,7 +105,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
             // cleanup pre-existing database: drop foreign keys
             foreach ($tables as $table) {
                 if ($existingSchema->hasTable($table->getName())) {
-                    foreach($this->db->getSchemaManager()->listTableForeignKeys($table->getName()) as $foreignKeyConstraint) {
+                    foreach ($this->db->getSchemaManager()->listTableForeignKeys($table->getName()) as $foreignKeyConstraint) {
                         $statements[] = $databasePlatform->getDropForeignKeySQL($foreignKeyConstraint->getName(), $table->getName());
                     }
                 }
