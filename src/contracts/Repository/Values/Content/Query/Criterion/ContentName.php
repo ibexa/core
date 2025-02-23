@@ -10,8 +10,9 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications;
+use Ibexa\Contracts\Core\Repository\Values\Trash\Query\Criterion as TrashCriterion;
 
-final class ContentName extends Criterion
+final class ContentName extends Criterion implements TrashCriterion
 {
     public function __construct(string $value)
     {
