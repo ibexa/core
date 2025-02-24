@@ -52,6 +52,8 @@ abstract class Gateway
     /**
      * Load data for all bookmarks owned by given $userId.
      *
+     * @deprecated Gateway::loadUserBookmarks()" method is deprecated, will be removed in 5.0.0. Use "LocationService::find()" and "Criterion\IsBookmarked" instead.
+     *
      * @param int $userId ID of user
      * @param int $offset Offset to start listing from, 0 by default
      * @param int $limit Limit for the listing. -1 by default (no limit)
@@ -62,6 +64,8 @@ abstract class Gateway
 
     /**
      * Count bookmarks owned by given $userId.
+     *
+     * @deprecated The "Gateway::countUserBookmarks()" method is deprecated, will be removed in 5.0.0. Use "LocationService::count()" and "Criterion\IsBookmarked" instead.
      *
      * @param int $userId ID of user
      *
