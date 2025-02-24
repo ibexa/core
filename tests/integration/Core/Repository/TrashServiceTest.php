@@ -764,7 +764,6 @@ class TrashServiceTest extends BaseTrashServiceTest
 
         // 4 trashed locations from the sub tree, but only 2 in results
         self::assertCount(2, $searchResult->items);
-        self::assertEquals(4, $searchResult->count);
         self::assertEquals(4, $searchResult->totalCount);
     }
 
@@ -811,7 +810,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         );
 
         // 0 trashed locations found, though 4 exist
-        self::assertEquals(0, $searchResult->count);
+        self::assertEquals(0, $searchResult->totalCount);
     }
 
     /**
@@ -893,7 +892,7 @@ class TrashServiceTest extends BaseTrashServiceTest
         $searchResult = $trashService->findTrashItems($query);
         /* END: Use Case */
 
-        self::assertEquals(0, $searchResult->count);
+        self::assertEquals(0, $searchResult->totalCount);
 
         // Try to load content
         $this->expectException(NotFoundException::class);
@@ -985,7 +984,7 @@ class TrashServiceTest extends BaseTrashServiceTest
             $searchResult->items
         );
 
-        self::assertEquals(4, $searchResult->count);
+        self::assertEquals(4, $searchResult->totalCount);
         self::assertTrue(
             in_array($demoDesignLocationId, $foundIds)
         );
