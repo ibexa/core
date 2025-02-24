@@ -6276,41 +6276,6 @@ parameters:
 			path: src/contracts/Repository/Values/Content/Search/AggregationResultCollection.php
 
 		-
-			message: "#^Method Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/SearchResult.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\ContentTypeFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/ContentTypeFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\FieldFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/FieldFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\LocationFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/LocationFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\SectionFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/SectionFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\TermFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/TermFacet.php
-
-		-
-			message: "#^Property Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\Facet\\\\UserFacet\\:\\:\\$entries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/contracts/Repository/Values/Content/Search/Facet/UserFacet.php
-
-		-
 			message: "#^Class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Trash\\\\SearchResult implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/contracts/Repository/Values/Content/Trash/SearchResult.php
