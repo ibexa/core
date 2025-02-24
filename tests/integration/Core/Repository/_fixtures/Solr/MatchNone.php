@@ -9,7 +9,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 return SearchResult::__set_state([
    'searchHits' => [
   ],
-   'spellSuggestion' => null,
+   'spellcheck' => null,
    'time' => 1,
    'timedOut' => null,
    'maxScore' => null,
