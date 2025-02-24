@@ -34,16 +34,6 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
      */
     public array $searchHits = [];
 
-    /**
-     * If spellcheck is on this field contains a collated query suggestion where in the appropriate
-     * criterions the wrong spelled value is replaced by a corrected one (TBD).
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
-     *
-     * @deprecated since Ibexa 4.6.0, to be removed in Ibexa 5.0.0.
-     */
-    public $spellSuggestion;
-
     public ?SpellcheckResult $spellcheck = null;
 
     /**

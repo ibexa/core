@@ -19,7 +19,7 @@ return SearchResult::__set_state([
        'highlight' => null,
     ]),
   ],
-   'spellSuggestion' => null,
+   'spellcheck' => null,
    'time' => 1,
    'timedOut' => null,
    'maxScore' => 1.3987858,

@@ -50,7 +50,7 @@ return new SearchResult([
                 'matchedTranslation' => 'eng-US',
             ]),
         ],
-    'spellSuggestion' => null,
+    'spellcheck' => null,
     'time' => 1,
     'timedOut' => null,
     'maxScore' => null,

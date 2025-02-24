@@ -33,7 +33,7 @@ return SearchResult::__set_state(
                     ]
                 ),
             ],
-        'spellSuggestion' => null,
+        'spellcheck' => null,
         'time' => 1,
         'timedOut' => null,
         'maxScore' => null,
