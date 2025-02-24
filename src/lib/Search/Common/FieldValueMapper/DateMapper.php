@@ -7,6 +7,7 @@
 namespace Ibexa\Core\Search\Common\FieldValueMapper;
 
 use DateTime;
+use DateTimeInterface;
 use Exception;
 use Ibexa\Contracts\Core\Search\Field;
 use Ibexa\Contracts\Core\Search\FieldType\DateField;
@@ -23,20 +24,31 @@ class DateMapper extends FieldValueMapper
         return $field->getType() instanceof DateField;
     }
 
-    public function map(Field $field)
+    public function map(Field $field): string
     {
-        $value = $field->getValue();
-        if (is_numeric($value)) {
-            $date = new DateTime("@{$value}");
-        } else {
-            try {
-                $date = new DateTime($value);
-            } catch (Exception $e) {
-                throw new InvalidArgumentException('Invalid date provided: ' . $value);
-            }
+        $date = $field->getValue();
+
+        if (!$date instanceof DateTimeInterface) {
+            $date = $this->convertToDateTime($date);
         }
 
         return $date->format('Y-m-d\\TH:i:s\\Z');
+    }
+
+    /**
+     * @param string|int $value
+     */
+    private function convertToDateTime($value): DateTimeInterface
+    {
+        if (is_numeric($value)) {
+            return new DateTime("@{$value}");
+        }
+
+        try {
+            return new DateTime($value);
+        } catch (Exception $e) {
+            throw new InvalidArgumentException('Invalid date provided: ' . $value);
+        }
     }
 }
 
