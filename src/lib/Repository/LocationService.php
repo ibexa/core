@@ -688,7 +688,7 @@ class LocationService implements LocationServiceInterface
             );
         }
         $contentTypeId = $newParentLocation->contentInfo->contentTypeId;
-        if (!$this->contentTypeService->loadContentType($contentTypeId)->isContainer) {
+        if (!$this->contentTypeService->loadContentType($contentTypeId)->isContainer()) {
             throw new InvalidArgumentException(
                 '$newParentLocation',
                 'Cannot move Location to a parent that is not a container'

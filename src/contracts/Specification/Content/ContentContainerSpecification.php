@@ -14,6 +14,6 @@ final class ContentContainerSpecification implements ContentSpecification
 {
     public function isSatisfiedBy(Content $content): bool
     {
-        return $content->getContentType()->isContainer;
+        return $content->getContentType()->isContainer();
     }
 }

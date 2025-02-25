@@ -27,7 +27,6 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @property-read string $remoteId a global unique id of the content object
  * @property-read string $urlAliasSchema URL alias schema. If nothing is provided, $nameSchema will be used instead.
  * @property-read string $nameSchema  The name schema.
- * @property-read bool $isContainer @deprecated use strict getter {@see ContentType::isContainer} instead.
  * @property-read string $mainLanguageCode the main language of the content type names and description used for fallback.
  * @property-read bool $defaultAlwaysAvailable if an instance of a content type is created the always available flag is set by default this this value.
  * @property-read string[] $languageCodes array of language codes used by content type translations.
