@@ -127,7 +127,7 @@ class CopySubtreeCommand extends Command
             $targetLocation->getContentInfo()->contentTypeId
         );
 
-        if (!$targetContentType->isContainer) {
+        if (!$targetContentType->isContainer()) {
             throw new InvalidArgumentException(
                 'target-location-id',
                 'The selected Location cannot contain children'

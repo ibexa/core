@@ -155,7 +155,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
 
         $updateStruct->isContainer = $contentTypeUpdateStruct->isContainer !== null ?
             $contentTypeUpdateStruct->isContainer :
-            $contentTypeDraft->isContainer;
+            $contentTypeDraft->isContainer();
         $updateStruct->sortField = $contentTypeUpdateStruct->defaultSortField !== null ?
             $contentTypeUpdateStruct->defaultSortField :
             $contentTypeDraft->defaultSortField;
