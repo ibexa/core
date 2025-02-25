@@ -183,6 +183,7 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
         return new ContentTypeDraft(
             [
                 'innerContentType' => $this->buildContentTypeDomainObject($spiContentType),
+                'isContainer' => false,
             ]
         );
     }
