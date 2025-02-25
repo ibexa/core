@@ -46,6 +46,7 @@ class ContentDownloadUrlGenerator extends PathGenerator implements RouteAwarePat
             'contentId' => $versionInfo->contentInfo->id,
             'fieldId' => $field->id,
             'version' => $versionInfo->versionNo,
+            'inLanguage' => $versionInfo->initialLanguageCode,
         ];
     }
 }
