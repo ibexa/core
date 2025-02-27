@@ -111,11 +111,6 @@ parameters:
 			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_filter expects array, array\\<int, string\\>\\|false given\\.$#"
-			count: 1
-			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
-
-		-
 			message: "#^Parameter \\#1 \\$object_or_class of function is_a expects object\\|string, string\\|null given\\.$#"
 			count: 1
 			path: src/lib/Base/Container/Compiler/FieldTypeRegistryPass.php
@@ -166,11 +161,6 @@ parameters:
 			path: src/lib/Limitation/LanguageLimitationType.php
 
 		-
-			message: "#^Parameter \\#1 \\$array of function array_keys expects array, array\\|ArrayObject\\<\\(int\\|string\\), mixed\\>\\|bool\\|float\\|int\\|string\\|null given\\.$#"
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<int, Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\ContentInfo\\> given\\.$#"
 			count: 1
 			path: src/lib/MVC/Symfony/FieldType/RelationList/ParameterProvider.php
@@ -194,11 +184,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, array\\|float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|true given\\.$#"
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/CountryConverter.php
-
-		-
-			message: "#^Parameter \\#1 \\$array of class Ibexa\\\\Core\\\\FieldType\\\\FieldSettings constructor expects array\\|object, array\\|null given\\.$#"
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SerializableConverter.php
 
 		-
 			message: "#^Parameter \\#1 \\$array of function array_keys expects array, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\> given\\.$#"
@@ -239,11 +224,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$callback of function spl_autoload_register expects \\(callable\\(string\\)\\: void\\)\\|null, ProxyManager\\\\Autoloader\\\\AutoloaderInterface given\\.$#"
 			count: 1
 			path: src/lib/Repository/ProxyFactory/ProxyGenerator.php
-
-		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$arrays of function array_diff expects array, array\\|null given\\.$#"
-			count: 1
-			path: src/lib/Repository/RoleService.php
 
 		-
 			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, iterable\\<Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Location\\> given\\.$#"

@@ -5851,12 +5851,6 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
 
 		-
-			message: '#^Parameter \#1 \$array of function array_filter expects array, list\<string\>\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
-
-		-
 			message: '#^Parameter \#2 \$subject of function preg_split expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
@@ -13717,12 +13711,6 @@ parameters:
 			path: src/lib/MVC/RepositoryAwareInterface.php
 
 		-
-			message: '#^Parameter \#1 \$array of function array_keys expects array, array\<mixed\>\|ArrayObject\<\(int\|string\), mixed\>\|bool\|float\|int\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/MVC/Symfony/Component/Serializer/AbstractPropertyWhitelistNormalizer.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Component\\Serializer\\MapNormalizer\:\:normalize\(\) never returns ArrayObject\<\(int\|string\), mixed\> so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
@@ -19055,12 +19043,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SelectionConverter.php
-
-		-
-			message: '#^Parameter \#1 \$array of class Ibexa\\Core\\FieldType\\FieldSettings constructor expects array\<mixed\>\|object, array\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/SerializableConverter.php
 
 		-
 			message: '#^Parameter \#1 \$data of method Ibexa\\Contracts\\Core\\FieldType\\ValueSerializerInterface\:\:encode\(\) expects array\|null, array\|bool\|float\|int\|string given\.$#'
@@ -25430,12 +25412,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$identifier of method Ibexa\\Core\\Repository\\Permission\\LimitationService\:\:getLimitationType\(\) expects string, int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Repository/RoleService.php
-
-		-
-			message: '#^Parameter \#2 \.\.\.\$arrays of function array_diff expects array, array\<mixed\>\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/lib/Repository/RoleService.php
@@ -42359,13 +42335,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
-
-		-
-			message: '#^Parameter \#1 \$array of function sort contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 1
-			path: tests/integration/Core/Repository/LocationServiceTest.php
-
 		-
 			message: '#^Parameter \#1 \$expectedLocations of method Ibexa\\Tests\\Integration\\Core\\Repository\\LocationServiceTest\:\:assertContentHasExpectedLocations\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>, array\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null\> given\.$#'
 			identifier: argument.type
