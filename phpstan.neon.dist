@@ -20,5 +20,5 @@ parameters:
         - tests
     excludePaths:
         analyse:
-            - tests/integration/Core/Repository/var
+            - tests/integration/Core/Repository/var?
             - */_fixtures/*.php

@@ -231,11 +231,6 @@ parameters:
 			path: tests/lib/Pagination/ContentFilteringAdapterTest.php
 
 		-
-			message: "#^Parameter \\#3 \\$languageFilter of class Ibexa\\\\Core\\\\Pagination\\\\Pagerfanta\\\\ContentFilteringAdapter constructor expects array\\<int, string\\>\\|null, array\\<string, array\\<int, string\\>\\|true\\> given\\.$#"
-			count: 2
-			path: tests/lib/Pagination/ContentFilteringAdapterTest.php
-
-		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Pagination\\\\FixedSearchResultHitAdapterTest\\:\\:createExampleSearchResult\\(\\) return type with generic class Ibexa\\\\Contracts\\\\Core\\\\Repository\\\\Values\\\\Content\\\\Search\\\\SearchResult does not specify its types\\: TSearchHitValueObject$#"
 			count: 1
 			path: tests/lib/Pagination/FixedSearchResultHitAdapterTest.php
