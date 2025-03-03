@@ -23,20 +23,6 @@ use SimpleXMLElement;
 class DateAndTimeConverter implements Converter
 {
     /**
-     * Factory for current class.
-     *
-     * Note: Class should instead be configured as service if it gains dependencies.
-     *
-     * @deprecated since 6.8, will be removed in 7.x, use default constructor instead.
-     *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\DateAndTimeConverter
-     */
-    public static function create()
-    {
-        return new self();
-    }
-
-    /**
      * Converts data from $value to $storageFieldValue.
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
