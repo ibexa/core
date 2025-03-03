@@ -71,7 +71,6 @@
         "phpstan/phpstan-symfony": "^2.0",
         "phpunit/phpunit": "^9.6",
         "symfony/phpunit-bridge": "^5.4",
-        "symfony/proxy-manager-bridge": "^6.4",
         "symfony/runtime": "^6.4.0"
     },
     "conflict": {
