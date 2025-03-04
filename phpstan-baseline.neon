@@ -15709,12 +15709,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/EmailAddressConverter.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\FloatConverter\:\:create\(\) should return static\(Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\FloatConverter\) but returns Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\FloatConverter\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/FloatConverter.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\FloatConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -15929,12 +15923,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/ImageConverter.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\IntegerConverter\:\:create\(\) should return static\(Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\IntegerConverter\) but returns Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\IntegerConverter\.$#'
-			identifier: return.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/IntegerConverter.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\IntegerConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
