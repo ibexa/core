@@ -46426,6 +46426,11 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
 
 		-
+			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Language\\\\MaskGeneratorTest\\:\\:getLanguageMaskData\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
+
+		-
 			message: "#^Method Ibexa\\\\Tests\\\\Core\\\\Persistence\\\\Legacy\\\\Content\\\\Language\\\\MaskGeneratorTest\\:\\:isAlwaysAvailableProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
@@ -46497,11 +46502,6 @@ parameters:
 
 		-
 			message: "#^Offset string does not exist on array\\{\\}\\|array\\{eng\\-US\\?\\: Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language, eng\\-GB\\?\\: Ibexa\\\\Contracts\\\\Core\\\\Persistence\\\\Content\\\\Language\\}\\.$#"
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(array\\<string mixed\\> \\$languages\\)\\: Unexpected token \"mixed\", expected '\\>' at offset 31$#"
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
 

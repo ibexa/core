@@ -15,7 +15,9 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 class MaskGeneratorTest extends LanguageAwareTestCase
 {
     /**
-     * @param array<string mixed> $languages
+     * @param array $languages
+     * @param bool $isAlwaysAvailable
+     * @param int $expectedMask
      *
      * @dataProvider getLanguageMaskData
      */
@@ -32,7 +34,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     /**
      * Returns test data for {@link testGenerateLanguageMaskFromLanguagesCodes()}.
      *
-     * @return array<string, array{array<string, bool>, bool, int}>
+     * @return array
      */
     public static function getLanguageMaskData()
     {
