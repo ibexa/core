@@ -15,37 +15,13 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 class MaskGeneratorTest extends LanguageAwareTestCase
 {
     /**
-     * @param array $languages
-     * @param int $expectedMask
+     * @param array<string mixed> $languages
      *
      * @dataProvider getLanguageMaskData
      */
-    public function testGenerateLanguageMask(array $languages, $expectedMask)
+    public function testGenerateLanguageMaskFromLanguagesCodes(array $languages, bool $isAlwaysAvailable, int $expectedMask): void
     {
         $generator = $this->getMaskGenerator();
-
-        self::assertSame(
-            $expectedMask,
-            $generator->generateLanguageMask($languages)
-        );
-    }
-
-    /**
-     * @param array $languages
-     * @param int $expectedMask
-     *
-     * @dataProvider getLanguageMaskData
-     */
-    public function testGenerateLanguageMaskFromLanguagesCodes(array $languages, $expectedMask)
-    {
-        $generator = $this->getMaskGenerator();
-
-        if (isset($languages['always-available'])) {
-            $isAlwaysAvailable = true;
-            unset($languages['always-available']);
-        } else {
-            $isAlwaysAvailable = false;
-        }
 
         self::assertSame(
             $expectedMask,
@@ -54,31 +30,36 @@ class MaskGeneratorTest extends LanguageAwareTestCase
     }
 
     /**
-     * Returns test data for {@link testGenerateLanguageMask()} and {@link testGenerateLanguageMaskFromLanguagesCodes()}.
+     * Returns test data for {@link testGenerateLanguageMaskFromLanguagesCodes()}.
      *
-     * @return array
+     * @return array<string, array{array<string, bool>, bool, int}>
      */
     public static function getLanguageMaskData()
     {
         return [
             'error' => [
                 [],
+                false,
                 0,
             ],
             'single_lang' => [
                 ['eng-GB' => true],
+                false,
                 4,
             ],
             'multi_lang' => [
                 ['eng-US' => true, 'eng-GB' => true],
+                false,
                 6,
             ],
             'always_available' => [
-                ['always-available' => 'eng-US', 'eng-US' => true],
+                ['eng-US' => true],
+                true,
                 3,
             ],
             'full' => [
-                ['always-available' => 'eng-US', 'eng-US' => true, 'eng-GB' => true],
+                ['eng-US' => true, 'eng-GB' => true],
+                true,
                 7,
             ],
         ];
