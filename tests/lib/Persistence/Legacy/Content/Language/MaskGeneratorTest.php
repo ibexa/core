@@ -33,7 +33,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      * Returns test data {@link testGenerateLanguageMaskFromLanguagesCodes()}.
      *
      * @return array<string, array{array<string, bool>, bool, int}>
- */
+     */
     public static function getLanguageMaskData(): array
     {
         return [
