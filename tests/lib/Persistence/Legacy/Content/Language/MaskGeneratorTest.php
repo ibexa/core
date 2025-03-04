@@ -21,7 +21,7 @@ class MaskGeneratorTest extends LanguageAwareTestCase
      *
      * @dataProvider getLanguageMaskData
      */
-    public function testGenerateLanguageMaskFromLanguagesCodes(array $languages, bool $isAlwaysAvailable, int $expectedMask): void
+    public function testGenerateLanguageMaskFromLanguagesCodes(array $languages, bool $isAlwaysAvailable, int $expectedMask)
     {
         $generator = $this->getMaskGenerator();
 
