@@ -21933,13 +21933,13 @@ parameters:
 		-
 			message: '#^PHPDoc tag @var has invalid value \(\$fieldType \\Ibexa\\Contracts\\Core\\FieldType\\FieldType\)\: Unexpected token "\$fieldType", expected type at offset 9 on line 1$#'
 			identifier: phpDoc.parseError
-			count: 3
+			count: 2
 			path: src/lib/Repository/Mapper/ContentTypeDomainMapper.php
 
 		-
 			message: '#^Parameter \#1 \$errors of class Ibexa\\Core\\Base\\Exceptions\\ContentTypeFieldDefinitionValidationException constructor expects array\<Ibexa\\Core\\FieldType\\ValidationError\>, array\<Ibexa\\Contracts\\Core\\FieldType\\ValidationError\> given\.$#'
 			identifier: argument.type
-			count: 2
+			count: 1
 			path: src/lib/Repository/Mapper/ContentTypeDomainMapper.php
 
 		-
