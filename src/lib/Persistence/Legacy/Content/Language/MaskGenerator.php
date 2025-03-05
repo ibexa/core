@@ -33,38 +33,6 @@ class MaskGenerator
     }
 
     /**
-     * Generates a language mask from the keys of $languages.
-     *
-     * @deprecated Move towards using {@see generateLanguageMaskFromLanguageCodes()} or the other generate* methods.
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If language(s) in $languageCodes was not be found
-     *
-     * @param array $languages
-     *
-     * @return int
-     */
-    public function generateLanguageMask(array $languages): int
-    {
-        $mask = 0;
-        if (isset($languages['always-available'])) {
-            $mask |= $languages['always-available'] ? 1 : 0;
-            unset($languages['always-available']);
-        }
-
-        $languageCodes = array_keys($languages);
-        $languageList = $this->languageHandler->loadListByLanguageCodes($languageCodes);
-        foreach ($languageList as $language) {
-            $mask |= $language->id;
-        }
-
-        if ($missing = array_diff($languageCodes, array_keys($languageList))) {
-            throw new NotFoundException('Language', implode(', ', $missing));
-        }
-
-        return $mask;
-    }
-
-    /**
      * Generates a language mask from pre-loaded Language Ids.
      *
      * @param int[] $languageIds
