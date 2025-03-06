@@ -23353,7 +23353,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Handler.php
 
 		-
-			message: '#^Cannot access offset mixed on non\-empty\-array\|Ibexa\\Contracts\\Core\\Persistence\\User\\RoleAssignment\.$#'
+			message: '#^Cannot access offset mixed on non\-empty\-array\<non\-empty\-array\<int, Ibexa\\Contracts\\Core\\Persistence\\User\\RoleAssignment\>\>\|Ibexa\\Contracts\\Core\\Persistence\\User\\RoleAssignment\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Mapper.php
@@ -42335,6 +42335,7 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/LocationServiceTest.php
+
 		-
 			message: '#^Parameter \#1 \$expectedLocations of method Ibexa\\Tests\\Integration\\Core\\Repository\\LocationServiceTest\:\:assertContentHasExpectedLocations\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>, array\<int, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\|null\> given\.$#'
 			identifier: argument.type
