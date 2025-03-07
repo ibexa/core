@@ -41635,12 +41635,6 @@ parameters:
 			path: tests/integration/Core/Repository/SearchServiceTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\SearchServiceTest\:\:testDeprecatedCriteriaProperty\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\SearchServiceTest\:\:testFieldCollectionContains\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
