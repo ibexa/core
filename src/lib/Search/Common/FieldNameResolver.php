@@ -84,35 +84,6 @@ class FieldNameResolver
     }
 
     /**
-     * For the given parameters returns a set of search backend field names to search on.
-     *
-     * The method will check for custom fields if given $criterion implements
-     * CustomFieldInterface. With optional parameters $fieldTypeIdentifier and
-     * $name specific field type and field from its Indexable implementation
-     * can be targeted.
-     *
-     * @deprecated since 6.2, use getFieldTypes instead
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\CustomFieldInterface
-     * @see \Ibexa\Contracts\Core\FieldType\Indexable
-     *
-     * @param string $fieldDefinitionIdentifier
-     * @param string|null $fieldTypeIdentifier
-     * @param string|null $name
-     *
-     * @return string[]
-     */
-    public function getFieldNames(
-        CriterionInterface $criterion,
-        $fieldDefinitionIdentifier,
-        $fieldTypeIdentifier = null,
-        $name = null
-    ): array {
-        $fieldTypeNameMap = $this->getFieldTypes($criterion, $fieldDefinitionIdentifier, $fieldTypeIdentifier, $name);
-
-        return array_keys($fieldTypeNameMap);
-    }
-
-    /**
      * For the given parameters returns a set of search backend field names/types to search on.
      *
      * The method will check for custom fields if given $criterion implements
