@@ -128,8 +128,8 @@ class FieldNameResolverTest extends TestCase
         self::assertIsArray($fieldNames);
         self::assertEquals(
             [
-                'index_field_name_1',
-                'index_field_name_2',
+                'index_field_name_1' => null,
+                'index_field_name_2' => null,
             ],
             $fieldNames
         );
@@ -204,8 +204,8 @@ class FieldNameResolverTest extends TestCase
         self::assertIsArray($fieldNames);
         self::assertEquals(
             [
-                'index_field_name_1',
-                'index_field_name_2',
+                'index_field_name_1' => null,
+                'index_field_name_2' => null,
             ],
             $fieldNames
         );
@@ -266,7 +266,7 @@ class FieldNameResolverTest extends TestCase
         self::assertIsArray($fieldNames);
         self::assertEquals(
             [
-                'index_field_name_1',
+                'index_field_name_1' => null,
             ],
             $fieldNames
         );
@@ -327,7 +327,7 @@ class FieldNameResolverTest extends TestCase
         self::assertIsArray($fieldNames);
         self::assertEquals(
             [
-                'index_field_name_1',
+                'index_field_name_1' => null,
             ],
             $fieldNames
         );
