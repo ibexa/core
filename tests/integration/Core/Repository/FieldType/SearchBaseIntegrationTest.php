@@ -1184,11 +1184,13 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
 
         /** @var \Ibexa\Core\Search\Common\FieldNameResolver $fieldNameResolver */
         $fieldNameResolver = $container->get(FieldNameResolver::class);
-        $resolvedFieldNames = $fieldNameResolver->getFieldNames(
-            $criterion,
-            'data',
-            $this->getTypeName(),
-            $fieldName
+        $resolvedFieldNames = array_keys(
+            $fieldNameResolver->getFieldTypes(
+                $criterion,
+                'data',
+                $this->getTypeName(),
+                $fieldName
+            )
         );
         $resolvedFieldName = reset($resolvedFieldNames);
         $criterion = [$criterion];
