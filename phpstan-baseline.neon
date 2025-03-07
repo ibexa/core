@@ -20497,7 +20497,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/User/Handler.php
 
 		-
-			message: '#^Cannot access offset mixed on non\-empty\-array\|Ibexa\\Contracts\\Core\\Persistence\\User\\RoleAssignment\.$#'
+			message: '#^Cannot access offset mixed on non\-empty\-array\<non\-empty\-array\<int, Ibexa\\Contracts\\Core\\Persistence\\User\\RoleAssignment\>\>\|Ibexa\\Contracts\\Core\\Persistence\\User\\RoleAssignment\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/lib/Persistence/Legacy/User/Mapper.php
@@ -68433,7 +68433,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Language\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/Content/LanguageTest.php
 
 		-
@@ -68475,7 +68475,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\Content\\Location\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/Content/LocationTest.php
 
 		-
@@ -68499,7 +68499,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Section\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/Content/SectionTest.php
 
 		-
@@ -68541,7 +68541,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\Content\\TrashItem\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/Content/TrashItemTest.php
 
 		-
@@ -68643,7 +68643,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
 
 		-
@@ -68709,7 +68709,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateTest.php
 
 		-
@@ -68775,7 +68775,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\Policy\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/User/PolicyTest.php
 
 		-
@@ -68817,7 +68817,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\Role\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/User/RoleTest.php
 
 		-
@@ -68859,7 +68859,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\UserGroup\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/User/UserGroupTest.php
 
 		-
@@ -68913,7 +68913,7 @@ parameters:
 		-
 			message: '#^Access to an undefined property Ibexa\\Core\\Repository\\Values\\User\\User\:\:\$notDefined\.$#'
 			identifier: property.notFound
-			count: 1
+			count: 2
 			path: tests/lib/Repository/Values/User/UserTest.php
 
 		-
