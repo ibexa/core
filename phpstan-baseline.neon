@@ -35605,7 +35605,7 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php
 
 		-
-			message: '#^Parameter \#2 \$fieldName of method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\SearchBaseIntegrationTest\:\:doModifyField\(\) expects string, string\|false given\.$#'
+			message: '#^Parameter \#2 \$fieldName of method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\SearchBaseIntegrationTest\:\:doModifyField\(\) expects string, Ibexa\\Contracts\\Core\\Search\\FieldType\|false given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/integration/Core/Repository/FieldType/SearchBaseIntegrationTest.php

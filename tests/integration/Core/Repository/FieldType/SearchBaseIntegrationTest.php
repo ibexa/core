@@ -1184,7 +1184,7 @@ abstract class SearchBaseIntegrationTest extends BaseIntegrationTest
 
         /** @var \Ibexa\Core\Search\Common\FieldNameResolver $fieldNameResolver */
         $fieldNameResolver = $container->get(FieldNameResolver::class);
-        $resolvedFieldNames = $fieldNameResolver->getFieldNames(
+        $resolvedFieldNames = $fieldNameResolver->getFieldTypes(
             $criterion,
             'data',
             $this->getTypeName(),

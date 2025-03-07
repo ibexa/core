@@ -50,7 +50,7 @@ class FieldNameResolverTest extends TestCase
                 )
             );
 
-        $fieldNames = $mockedFieldNameResolver->getFieldNames(
+        $fieldNames = $mockedFieldNameResolver->getFieldTypes(
             $criterionMock,
             'field_definition_identifier_1',
             'field_type_identifier_2',
@@ -120,7 +120,7 @@ class FieldNameResolverTest extends TestCase
             )
             ->will(self::returnValue(['index_field_name_2' => null]));
 
-        $fieldNames = $mockedFieldNameResolver->getFieldNames(
+        $fieldNames = $mockedFieldNameResolver->getFieldTypes(
             $criterionMock,
             'field_definition_identifier_1'
         );
@@ -194,7 +194,7 @@ class FieldNameResolverTest extends TestCase
             )
             ->will(self::returnValue(['index_field_name_2' => null]));
 
-        $fieldNames = $mockedFieldNameResolver->getFieldNames(
+        $fieldNames = $mockedFieldNameResolver->getFieldTypes(
             $criterionMock,
             'field_definition_identifier_1',
             null,
@@ -256,7 +256,7 @@ class FieldNameResolverTest extends TestCase
             )
             ->will(self::returnValue(['index_field_name_1' => null]));
 
-        $fieldNames = $mockedFieldNameResolver->getFieldNames(
+        $fieldNames = $mockedFieldNameResolver->getFieldTypes(
             $criterionMock,
             'field_definition_identifier_1',
             'field_type_identifier_2',
@@ -317,7 +317,7 @@ class FieldNameResolverTest extends TestCase
             )
             ->will(self::returnValue(['index_field_name_1' => null]));
 
-        $fieldNames = $mockedFieldNameResolver->getFieldNames(
+        $fieldNames = $mockedFieldNameResolver->getFieldTypes(
             $criterionMock,
             'field_definition_identifier_1',
             'field_type_identifier_2',
@@ -726,7 +726,7 @@ class FieldNameResolverTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(
-            ['getSortFieldName', 'getSearchableFieldMap', 'getFieldNames', 'getFieldTypes']
+            ['getSortFieldName', 'getSearchableFieldMap', 'getFieldTypes']
         );
         $indexFieldType = $this->getIndexFieldTypeMock();
         $searchFieldTypeMock = $this->getSearchFieldTypeMock();
