@@ -129,18 +129,6 @@ abstract class BaseTest extends TestCase
     }
 
     /**
-     * Tests if the currently tested api is based on a V4 implementation.
-     *
-     * @deprecated Not in use, will be removed.
-     *
-     * @return bool
-     */
-    protected function isVersion4()
-    {
-        return isset($_ENV['backendVersion']) && '4' === $_ENV['backendVersion'];
-    }
-
-    /**
      * @param bool $initialInitializeFromScratch Only has an effect if set in first call within a test
      */
     protected function getRepository(bool $initialInitializeFromScratch = true): Repository

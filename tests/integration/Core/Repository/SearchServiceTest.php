@@ -954,28 +954,6 @@ class SearchServiceTest extends BaseTest
     }
 
     /**
-     * Test for deprecated $criterion property on query object.
-     *
-     * @covers \Ibexa\Contracts\Core\Repository\SearchService::findContent()
-     *
-     * @deprecated
-     */
-    public function testDeprecatedCriteriaProperty()
-    {
-        $this->assertQueryFixture(
-            new Query(
-                [
-                    'query' => new Criterion\ContentId(
-                        [1, 4, 10]
-                    ),
-                    'sortClauses' => [new SortClause\ContentId()],
-                ]
-            ),
-            $this->getFixtureDir() . 'DeprecatedContentIdQuery.php'
-        );
-    }
-
-    /**
      * Test for the findContent() method.
      *
      * @dataProvider getContentQuerySearches
