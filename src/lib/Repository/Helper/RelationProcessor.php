@@ -124,7 +124,7 @@ class RelationProcessor
                 }
             }
 
-            if ($relation->type & Relation::ASSET) {
+            if ($relation->type & Relation::ASSET && null !== $relation->sourceFieldDefinitionIdentifier) {
                 $fieldDefinition = $contentType->getFieldDefinition($relation->sourceFieldDefinitionIdentifier);
                 if ($fieldDefinition !== null) {
                     $mappedRelations[Relation::ASSET][$fieldDefinition->id][$relation->destinationContentInfo->id] = $relation;
