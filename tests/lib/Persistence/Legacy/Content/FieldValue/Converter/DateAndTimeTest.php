@@ -246,9 +246,8 @@ class DateAndTimeTest extends TestCase
         $dateTimeFromString = new DateTime($fieldDef->defaultValue->data['timestring']);
 
         self::assertIsArray($fieldDef->defaultValue->data);
-        self::assertCount(3, $fieldDef->defaultValue->data);
+        self::assertCount(2, $fieldDef->defaultValue->data);
         self::assertNull($fieldDef->defaultValue->data['rfc850']);
-        self::assertGreaterThanOrEqual($time, $fieldDef->defaultValue->data['timestamp']);
         self::assertEqualsWithDelta($time + 1, $dateTimeFromString->getTimestamp(), 1, 'Time does not match within 1s delta');
     }
 
@@ -276,12 +275,10 @@ class DateAndTimeTest extends TestCase
         $dateTimeFromString = new DateTime($fieldDef->defaultValue->data['timestring']);
 
         self::assertIsArray($fieldDef->defaultValue->data);
-        self::assertCount(3, $fieldDef->defaultValue->data);
+        self::assertCount(2, $fieldDef->defaultValue->data);
         self::assertNull($fieldDef->defaultValue->data['rfc850']);
-        self::assertGreaterThanOrEqual($timestamp, $fieldDef->defaultValue->data['timestamp']);
         self::assertGreaterThanOrEqual($timestamp, $dateTimeFromString->getTimestamp());
         // Giving a margin of 1 second for test execution
-        self::assertLessThanOrEqual($timestamp + 1, $fieldDef->defaultValue->data['timestamp']);
         self::assertLessThanOrEqual($timestamp + 1, $dateTimeFromString->getTimestamp());
     }
 
@@ -311,12 +308,10 @@ class DateAndTimeTest extends TestCase
         $dateTimeFromString = new DateTime($fieldDef->defaultValue->data['timestring']);
 
         self::assertIsArray($fieldDef->defaultValue->data);
-        self::assertCount(3, $fieldDef->defaultValue->data);
+        self::assertCount(2, $fieldDef->defaultValue->data);
         self::assertNull($fieldDef->defaultValue->data['rfc850']);
-        self::assertGreaterThanOrEqual($timestamp, $fieldDef->defaultValue->data['timestamp']);
         self::assertGreaterThanOrEqual($timestamp, $dateTimeFromString->getTimestamp());
         // Giving a margin of 1 second for test execution
-        self::assertLessThanOrEqual($timestamp + 1, $fieldDef->defaultValue->data['timestamp']);
         self::assertLessThanOrEqual($timestamp + 1, $dateTimeFromString->getTimestamp());
     }
 

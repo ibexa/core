@@ -100,7 +100,6 @@ class DateAndTimeConverter implements Converter
             case DateAndTimeType::DEFAULT_CURRENT_DATE:
                 $data = [
                     'rfc850' => null,
-                    'timestamp' => time(), // @deprecated timestamp is no longer used and will be removed in a future version.
                     'timestring' => 'now',
                 ];
                 break;
@@ -113,7 +112,6 @@ class DateAndTimeConverter implements Converter
                 $date->add($dateInterval);
                 $data = [
                     'rfc850' => null,
-                    'timestamp' => $date->getTimestamp(), // @deprecated timestamp is no longer used and will be removed in a future version.
                     'timestring' => $dateInterval->format('%y years, %m months, %d days, %h hours, %i minutes, %s seconds'),
                 ];
                 break;
