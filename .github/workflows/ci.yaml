@@ -235,6 +235,8 @@ jobs:
                 env:
                     DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                    DATABASE_CHARSET: "utf8mb4"
+                    DATABASE_COLLATION: "utf8mb4_unicode_520_ci"
 
     solr-integration:
         name: "Solr integration tests"
