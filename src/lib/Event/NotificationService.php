@@ -12,9 +12,11 @@ use Ibexa\Contracts\Core\Repository\Decorator\NotificationServiceDecorator;
 use Ibexa\Contracts\Core\Repository\Events\Notification\BeforeCreateNotificationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Notification\BeforeDeleteNotificationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Notification\BeforeMarkNotificationAsReadEvent;
+use Ibexa\Contracts\Core\Repository\Events\Notification\BeforeMarkNotificationAsUnreadEvent;
 use Ibexa\Contracts\Core\Repository\Events\Notification\CreateNotificationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Notification\DeleteNotificationEvent;
 use Ibexa\Contracts\Core\Repository\Events\Notification\MarkNotificationAsReadEvent;
+use Ibexa\Contracts\Core\Repository\Events\Notification\MarkNotificationAsUnreadEvent;
 use Ibexa\Contracts\Core\Repository\NotificationService as NotificationServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
@@ -49,6 +51,24 @@ class NotificationService extends NotificationServiceDecorator
 
         $this->eventDispatcher->dispatch(
             new MarkNotificationAsReadEvent(...$eventData)
+        );
+    }
+
+    public function markNotificationAsUnread(Notification $notification): void
+    {
+        $eventData = [$notification];
+
+        $beforeEvent = new BeforeMarkNotificationAsUnreadEvent(...$eventData);
+
+        $this->eventDispatcher->dispatch($beforeEvent);
+        if ($beforeEvent->isPropagationStopped()) {
+            return;
+        }
+
+        $this->innerService->markNotificationAsUnread($notification);
+
+        $this->eventDispatcher->dispatch(
+            new MarkNotificationAsUnreadEvent(...$eventData)
         );
     }
 
