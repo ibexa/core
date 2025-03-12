@@ -128,6 +128,31 @@ class NotificationService implements NotificationServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function markNotificationAsUnread(APINotification $notification): void
+    {
+        $currentUserId = $this->getCurrentUserId();
+
+        if (!$notification->id) {
+            throw new NotFoundException('Notification', $notification->id);
+        }
+
+        if ($notification->ownerId !== $currentUserId) {
+            throw new UnauthorizedException($notification->id, 'Notification');
+        }
+
+        if ($notification->isPending) {
+            return;
+        }
+
+        $updateStruct = new UpdateStruct();
+        $updateStruct->isPending = true;
+
+        $this->persistenceHandler->updateNotification($notification, $updateStruct);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPendingNotificationCount(): int
     {
         return $this->persistenceHandler->countPendingNotifications(
