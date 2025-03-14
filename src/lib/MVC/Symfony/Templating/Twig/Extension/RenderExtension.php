@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Templating\Twig\Extension;
 
 use Ibexa\Contracts\Core\MVC\Templating\RenderStrategy;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\MVC\Symfony\Event\ResolveRenderOptionsEvent;
@@ -59,12 +60,27 @@ final class RenderExtension extends AbstractExtension
         ];
     }
 
-    public function render(ValueObject $valueObject, array $options = []): string
+    /**
+     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $object
+     * @param array<string, mixed> $options
+     */
+    public function render(object $object, array $options = []): string
     {
-        if (!$this->renderStrategy->supports($valueObject)) {
+        if ($object instanceof ContentAwareInterface) {
+            $object = $object->getContent();
+        }
+
+        if (!$object instanceof ValueObject) {
             throw new InvalidArgumentException(
                 'valueObject',
-                sprintf('%s is not supported.', get_class($valueObject))
+                sprintf('%s is not a valid value object.', get_class($object))
+            );
+        }
+
+        if (!$this->renderStrategy->supports($object)) {
+            throw new InvalidArgumentException(
+                'valueObject',
+                sprintf('%s is not supported.', get_class($object))
             );
         }
 
@@ -73,7 +89,7 @@ final class RenderExtension extends AbstractExtension
             new ResolveRenderOptionsEvent($renderOptions)
         );
 
-        return $this->renderStrategy->render($valueObject, $event->getRenderOptions());
+        return $this->renderStrategy->render($object, $event->getRenderOptions());
     }
 }
 
