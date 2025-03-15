@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 
@@ -11,8 +12,6 @@ use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ChildDefinition;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition as ServiceDefinition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -22,10 +21,8 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * Binarydata & metadata are identical, except for the parent service.
  */
-abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterface
+abstract class Flysystem implements ConfigurationFactory
 {
-    use ContainerAwareTrait;
-
     public function addConfiguration(ArrayNodeDefinition $node)
     {
         $node
@@ -45,9 +42,9 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
             ->end();
     }
 
-    public function configureHandler(ServiceDefinition $definition, array $config)
+    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config)
     {
-        $filesystemId = $this->createFilesystem($this->container, $config['name'], $config['adapter']);
+        $filesystemId = $this->createFilesystem($container, $config['name'], $config['adapter']);
         $definition->replaceArgument(0, new Reference($filesystemId));
     }
 
