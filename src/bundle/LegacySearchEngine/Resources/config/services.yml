@@ -1,9 +1,8 @@
 services:
     Ibexa\Bundle\LegacySearchEngine\ApiLoader\ConnectionFactory:
         arguments:
+            $container: '@service_container'
             $repositoryConfigurationProvider: '@Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface'
-        calls:
-            - [setContainer, ['@service_container']]
 
     ibexa.api.search_engine.legacy.connection:
         class: Doctrine\DBAL\Connection
