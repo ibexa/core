@@ -63,6 +63,16 @@ class NotificationService implements NotificationServiceInterface
     }
 
     /**
+     * Mark notification as unread so it no longer bother the user.
+     *
+     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
+     */
+    public function markNotificationAsUnread(Notification $notification): void
+    {
+        $this->service->markNotificationAsUnread($notification);
+    }
+
+    /**
      * Get count of unread users notifications.
      *
      * @return int

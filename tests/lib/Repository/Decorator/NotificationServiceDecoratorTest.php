@@ -67,6 +67,18 @@ class NotificationServiceDecoratorTest extends TestCase
         $decoratedService->markNotificationAsRead(...$parameters);
     }
 
+    public function testMarkNotificationAsUnreadDecorator()
+    {
+        $serviceMock = $this->createServiceMock();
+        $decoratedService = $this->createDecorator($serviceMock);
+
+        $parameters = [$this->createMock(Notification::class)];
+
+        $serviceMock->expects(self::once())->method('markNotificationAsunread')->with(...$parameters);
+
+        $decoratedService->markNotificationAsunread(...$parameters);
+    }
+
     public function testGetPendingNotificationCountDecorator()
     {
         $serviceMock = $this->createServiceMock();
