@@ -93,7 +93,7 @@ class IOConfigurationPass implements CompilerPassInterface
             $handlerServiceDefinition = new ChildDefinition($parentHandlerId);
             $definition = $container->setDefinition($handlerId, $handlerServiceDefinition);
 
-            $configurationFactory->configureHandler($definition, $config);
+            $configurationFactory->configureHandler($container, $definition, $config);
 
             $handlers[$name] = new Reference($handlerId);
         }
