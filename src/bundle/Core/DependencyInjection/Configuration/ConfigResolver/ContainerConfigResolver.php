@@ -10,19 +10,19 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class ContainerConfigResolver implements ConfigResolverInterface, ContainerAwareInterface
+abstract class ContainerConfigResolver implements ConfigResolverInterface
 {
-    use ContainerAwareTrait;
+    protected ContainerInterface $container;
 
     private string $scope;
 
     private string $defaultNamespace;
 
-    public function __construct(string $scope, string $defaultNamespace)
+    public function __construct(ContainerInterface $container, string $scope, string $defaultNamespace)
     {
+        $this->container = $container;
         $this->scope = $scope;
         $this->defaultNamespace = $defaultNamespace;
     }
