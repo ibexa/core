@@ -80,7 +80,6 @@ class DateConverter implements Converter
         switch ($fieldDef->fieldTypeConstraints->fieldSettings['defaultType']) {
             case DateType::DEFAULT_CURRENT_DATE:
                 $data = [
-                    'timestamp' => time(), // @deprecated timestamp is no longer used and will be removed in a future version.
                     'rfc850' => null,
                     'timestring' => 'now',
                 ];

@@ -71,7 +71,6 @@ class DateTest extends TestCase
             ],
             $fieldValue->data
         );
-        self::assertSame($storageFieldValue->dataInt, $fieldValue->data['timestamp']);
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
@@ -144,9 +143,8 @@ class DateTest extends TestCase
 
         $this->converter->toFieldDefinition($storageDef, $fieldDef);
         self::assertIsArray($fieldDef->defaultValue->data);
-        self::assertCount(3, $fieldDef->defaultValue->data);
+        self::assertCount(2, $fieldDef->defaultValue->data);
         self::assertNull($fieldDef->defaultValue->data['rfc850']);
-        self::assertSame($timestamp, $fieldDef->defaultValue->data['timestamp']);
         self::assertSame('now', $fieldDef->defaultValue->data['timestring']);
     }
 }
