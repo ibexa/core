@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Cannot call method get\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/ApiLoader/CacheFactory.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\ApiLoader\\RepositoryFactory\:\:__construct\(\) has parameter \$policyMap with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -655,24 +649,6 @@ parameters:
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigParser.php
 
 		-
-			message: '#^Cannot call method getParameter\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 7
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
-
-		-
-			message: '#^Cannot call method has\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
-
-		-
-			message: '#^Cannot call method hasParameter\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 8
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\:\:__construct\(\) has parameter \$groupsBySiteAccess with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -749,18 +725,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver.php
-
-		-
-			message: '#^Cannot call method getParameter\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver/ContainerConfigResolver.php
-
-		-
-			message: '#^Cannot call method hasParameter\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 2
-			path: src/bundle/Core/DependencyInjection/Configuration/ConfigResolver/ContainerConfigResolver.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\\ContainerConfigResolver\:\:resolveNamespaceAndScope\(\) return type has no value type specified in iterable type array\.$#'
@@ -4585,12 +4549,6 @@ parameters:
 			path: src/bundle/IO/DependencyInjection/ConfigurationFactory/Flysystem.php
 
 		-
-			message: '#^Parameter \#1 \$container of method Ibexa\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\Flysystem\:\:createFilesystem\(\) expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/IO/DependencyInjection/ConfigurationFactory/Flysystem.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\MetadataHandler\\LegacyDFSCluster\:\:addConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -4793,24 +4751,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: src/bundle/IO/Migration/MigrationHandler.php
-
-		-
-			message: '#^Cannot call method get\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
-
-		-
-			message: '#^Cannot call method getParameter\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
-
-		-
-			message: '#^Cannot call method has\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/LegacySearchEngine/ApiLoader/ConnectionFactory.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\LegacySearchEngine\\ApiLoader\\ConnectionFactory\:\:getConnection\(\) should return Doctrine\\DBAL\\Connection but returns object\.$#'
@@ -12163,12 +12103,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
 
 		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:\$authorizationChecker is never read, only written\.$#'
-			identifier: property.onlyWritten
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
 			message: '#^Call to an undefined method object\:\:getCurrentRequest\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -12178,12 +12112,6 @@ parameters:
 			message: '#^Call to an undefined method object\:\:isGranted\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: src/lib/MVC/Symfony/Controller/Controller.php
-
-		-
-			message: '#^Cannot call method get\(\) on Symfony\\Component\\DependencyInjection\\ContainerInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 7
 			path: src/lib/MVC/Symfony/Controller/Controller.php
 
 		-
@@ -25027,18 +24955,6 @@ parameters:
 			path: src/lib/Token/RandomBytesGenerator.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ApiLoader\\CacheFactoryTest\:\:providerGetService\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/ApiLoader/CacheFactoryTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ApiLoader\\CacheFactoryTest\:\:testGetService\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/ApiLoader/CacheFactoryTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ApiLoader\\CacheFactoryTest\:\:testGetService\(\) has parameter \$expected with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -25047,18 +24963,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\ApiLoader\\CacheFactoryTest\:\:testGetService\(\) has parameter \$name with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: tests/bundle/Core/ApiLoader/CacheFactoryTest.php
-
-		-
-			message: '#^Parameter \#1 \$configResolver of method Ibexa\\Bundle\\Core\\ApiLoader\\CacheFactory\:\:getCachePool\(\) expects Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/bundle/Core/ApiLoader/CacheFactoryTest.php
-
-		-
-			message: '#^Parameter \#1 \$container of method Ibexa\\Bundle\\Core\\ApiLoader\\CacheFactory\:\:setContainer\(\) expects Symfony\\Component\\DependencyInjection\\ContainerInterface\|null, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/ApiLoader/CacheFactoryTest.php
 
@@ -25345,7 +25249,7 @@ parameters:
 			path: tests/bundle/Core/ConfigResolverTest.php
 
 		-
-			message: '#^Parameter \#1 \$container of method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver\:\:setContainer\(\) expects Symfony\\Component\\DependencyInjection\\ContainerInterface\|null, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
+			message: '#^Parameter \#1 \$container of class Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ConfigResolver constructor expects Symfony\\Component\\DependencyInjection\\ContainerInterface, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/ConfigResolverTest.php
@@ -28689,12 +28593,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:provideHandlerConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\IO\\DependencyInjection\\ConfigurationFactoryTest\:\:provideHandlerConfiguration\(\) invoked with 1 parameter, 0 required\.$#'
-			identifier: arguments.count
 			count: 1
 			path: tests/bundle/IO/DependencyInjection/ConfigurationFactoryTest.php
 
