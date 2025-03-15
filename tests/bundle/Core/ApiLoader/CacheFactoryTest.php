@@ -4,23 +4,23 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\ApiLoader;
 
 use Ibexa\Bundle\Core\ApiLoader\CacheFactory;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CacheFactoryTest extends TestCase
+final class CacheFactoryTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private ConfigResolverInterface&MockObject $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $container;
+    private ContainerInterface&MockObject $container;
 
     protected function setUp(): void
     {
@@ -30,9 +30,9 @@ class CacheFactoryTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array<array{string, string}>
      */
-    public function providerGetService()
+    public function providerGetService(): array
     {
         return [
             ['default', 'default'],
@@ -44,7 +44,7 @@ class CacheFactoryTest extends TestCase
     /**
      * @dataProvider providerGetService
      */
-    public function testGetService($name, $expected)
+    public function testGetService($name, $expected): void
     {
         $this->configResolver
             ->expects(self::once())
@@ -58,8 +58,7 @@ class CacheFactoryTest extends TestCase
             ->with($expected)
             ->will(self::returnValue($this->createMock(AdapterInterface::class)));
 
-        $factory = new CacheFactory();
-        $factory->setContainer($this->container);
+        $factory = new CacheFactory($this->container);
 
         self::assertInstanceOf(TagAwareAdapter::class, $factory->getCachePool($this->configResolver));
     }
