@@ -215,22 +215,18 @@ class ChainConfigResolverTest extends TestCase
 
     private function getGlobalConfigResolver(string $defaultNamespace = self::DEFAULT_NAMESPACE): ConfigResolverInterface
     {
-        $configResolver = new GlobalScopeConfigResolver(
+        return new GlobalScopeConfigResolver(
+            $this->containerMock,
             $defaultNamespace
         );
-        $configResolver->setContainer($this->containerMock);
-
-        return $configResolver;
     }
 
     private function getDefaultConfigResolver(string $defaultNamespace = self::DEFAULT_NAMESPACE): ConfigResolverInterface
     {
-        $configResolver = new DefaultScopeConfigResolver(
+        return new DefaultScopeConfigResolver(
+            $this->containerMock,
             $defaultNamespace
         );
-        $configResolver->setContainer($this->containerMock);
-
-        return $configResolver;
     }
 
     protected function getSiteAccessGroupConfigResolver(string $defaultNamespace = self::DEFAULT_NAMESPACE): ConfigResolverInterface
@@ -239,11 +235,11 @@ class ChainConfigResolverTest extends TestCase
             self::FIRST_SA_NAME,
         );
         $configResolver = new SiteAccessGroupConfigResolver(
+            $this->containerMock,
             $this->getStaticSiteAccessProvider(),
             $defaultNamespace,
             []
         );
-        $configResolver->setContainer($this->containerMock);
         $configResolver->setSiteAccess($siteAccess);
 
         return $configResolver;
@@ -255,10 +251,10 @@ class ChainConfigResolverTest extends TestCase
             self::FIRST_SA_NAME,
         );
         $configResolver = new StaticSiteAccessConfigResolver(
+            $this->containerMock,
             $this->getStaticSiteAccessProvider(),
             $defaultNamespace
         );
-        $configResolver->setContainer($this->containerMock);
         $configResolver->setSiteAccess($siteAccess);
 
         return $configResolver;
