@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
@@ -58,14 +59,13 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
         $siteAccessProvider = $this->getSiteAccessProviderMock();
 
         $configResolvers = [
-            new DefaultScopeConfigResolver('default'),
-            new SiteAccessGroupConfigResolver($siteAccessProvider, 'default', [self::EMPTY_SA_GROUP => []]),
-            new StaticSiteAccessConfigResolver($siteAccessProvider, 'default'),
-            new GlobalScopeConfigResolver('default'),
+            new DefaultScopeConfigResolver($this->container, 'default'),
+            new SiteAccessGroupConfigResolver($this->container, $siteAccessProvider, 'default', [self::EMPTY_SA_GROUP => []]),
+            new StaticSiteAccessConfigResolver($this->container, $siteAccessProvider, 'default'),
+            new GlobalScopeConfigResolver($this->container, 'default'),
         ];
 
         foreach ($configResolvers as $priority => $configResolver) {
-            $configResolver->setContainer($this->container);
             $chainConfigResolver->addResolver($configResolver, $priority);
         }
 
