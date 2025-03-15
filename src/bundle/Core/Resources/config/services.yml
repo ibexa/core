@@ -89,8 +89,7 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Content\ViewController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
         arguments:
-            - '@Ibexa\Core\MVC\Symfony\View\ViewManagerInterface'
-            - "@security.authorization_checker"
+            $viewManager: '@Ibexa\Core\MVC\Symfony\View\ViewManagerInterface'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
             - { name: controller.service_arguments }
@@ -117,11 +116,9 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadController
         arguments:
-            - '@ibexa.api.service.content'
-            - '@ibexa.field_type.ezbinaryfile.io_service'
-            - '@Ibexa\Core\Helper\TranslationHelper'
-            - "@router"
-            - '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
+            $contentService: '@ibexa.api.service.content'
+            $ioService: '@ibexa.field_type.ezbinaryfile.io_service'
+            $translationHelper: '@Ibexa\Core\Helper\TranslationHelper'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
               - { name: controller.service_arguments }
@@ -129,9 +126,9 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\DownloadRedirectionController
         arguments:
-            - '@ibexa.api.service.content'
-            - "@router"
-            - '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
+            $contentService: '@ibexa.api.service.content'
+            $router: "@router"
+            $routeReferenceGenerator: '@Ibexa\Core\MVC\Symfony\Routing\Generator\RouteReferenceGenerator'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
               - { name: controller.service_arguments }

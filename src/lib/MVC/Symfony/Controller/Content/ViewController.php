@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
@@ -17,8 +18,8 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -28,16 +29,15 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ViewController extends Controller
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\ViewManagerInterface */
-    protected $viewManager;
+    protected ViewManagerInterface $viewManager;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface */
-    private $authorizationChecker;
+    public function __construct(
+        ContainerInterface $container,
+        ViewManagerInterface $viewManager,
+    ) {
+        parent::__construct($container);
 
-    public function __construct(ViewManagerInterface $viewManager, AuthorizationCheckerInterface $authorizationChecker)
-    {
         $this->viewManager = $viewManager;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
