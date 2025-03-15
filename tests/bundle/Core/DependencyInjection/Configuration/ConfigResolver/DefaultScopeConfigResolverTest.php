@@ -15,12 +15,10 @@ class DefaultScopeConfigResolverTest extends ConfigResolverTest
 {
     protected function getResolver(string $defaultNamespace = self::DEFAULT_NAMESPACE): ConfigResolverInterface
     {
-        $configResolver = new DefaultScopeConfigResolver(
+        return new DefaultScopeConfigResolver(
+            $this->containerMock,
             $defaultNamespace
         );
-        $configResolver->setContainer($this->containerMock);
-
-        return $configResolver;
     }
 
     protected function getScope(): string

@@ -11,26 +11,27 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @property-read \Symfony\Component\DependencyInjection\ContainerInterface $container
- *
  * @internal
  */
 class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
 {
-    use ContainerAwareTrait;
+    protected ContainerInterface $container;
 
     /** @var string[][] */
     protected $siteAccessGroups;
 
     public function __construct(
+        ContainerInterface $container,
         SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
         string $defaultNamespace,
         array $siteAccessGroups
     ) {
         parent::__construct($siteAccessProvider, $defaultNamespace);
+
+        $this->container = $container;
         $this->siteAccessGroups = $siteAccessGroups;
     }
 

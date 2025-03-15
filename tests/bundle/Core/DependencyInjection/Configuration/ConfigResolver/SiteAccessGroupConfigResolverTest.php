@@ -28,11 +28,11 @@ class SiteAccessGroupConfigResolverTest extends ConfigResolverTest
             $this->createMock(Matcher::class)
         );
         $configResolver = new SiteAccessGroupConfigResolver(
+            $this->containerMock,
             $staticSiteAccessProvider,
             $defaultNamespace,
             []
         );
-        $configResolver->setContainer($this->containerMock);
         $configResolver->setSiteAccess($siteAccess);
 
         return $configResolver;

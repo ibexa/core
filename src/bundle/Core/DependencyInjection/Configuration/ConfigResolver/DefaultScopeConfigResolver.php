@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * @internal
  */
@@ -15,9 +17,9 @@ class DefaultScopeConfigResolver extends ContainerConfigResolver
 {
     private const SCOPE_NAME = 'default';
 
-    public function __construct(string $defaultNamespace)
+    public function __construct(ContainerInterface $container, string $defaultNamespace)
     {
-        parent::__construct(self::SCOPE_NAME, $defaultNamespace);
+        parent::__construct($container, self::SCOPE_NAME, $defaultNamespace);
     }
 
     public function hasParameter(string $paramName, ?string $namespace = null, ?string $scope = null): bool
