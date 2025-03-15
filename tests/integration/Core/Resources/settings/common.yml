@@ -60,12 +60,12 @@ services:
     ibexa.config.resolver:
         class: Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver
         arguments:
+            - '@service_container'
             - '@logger'
             - []
             - 'ibexa.site_access.config'
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
-            - [setContainer, ['@service_container']]
             - [setDefaultScope, ['default']]
 
     Ibexa\Core\MVC\Symfony\SiteAccess:
