@@ -83,8 +83,8 @@ services:
     Ibexa\Core\MVC\Symfony\Controller\Controller:
         class: Ibexa\Core\MVC\Symfony\Controller\Controller
         abstract: true
-        calls:
-            - [ setContainer, ["@service_container"] ]
+        arguments:
+            $container: '@service_container'
 
     Ibexa\Core\MVC\Symfony\Controller\Content\ViewController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
