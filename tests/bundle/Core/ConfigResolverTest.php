@@ -38,13 +38,13 @@ class ConfigResolverTest extends TestCase
     private function getResolver($defaultNS = 'ibexa.site_access.config', $undefinedStrategy = ConfigResolver::UNDEFINED_STRATEGY_EXCEPTION, array $groupsBySiteAccess = [])
     {
         $configResolver = new ConfigResolver(
+            $this->containerMock,
             null,
             $groupsBySiteAccess,
             $defaultNS,
             $undefinedStrategy
         );
         $configResolver->setSiteAccess($this->siteAccess);
-        $configResolver->setContainer($this->containerMock);
 
         return $configResolver;
     }
