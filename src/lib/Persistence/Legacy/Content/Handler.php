@@ -483,6 +483,21 @@ class Handler implements BaseContentHandler
         return reset($versionInfo);
     }
 
+    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
+    {
+        $rows = $this->contentGateway->loadVersionNoArchivedWithin($contentId, $seconds);
+        if (empty($rows)) {
+            throw new NotFound('content', $contentId);
+        }
+
+        $archivedVersionNos = [];
+        foreach ($rows as $row) {
+            $archivedVersionNos[] = $row['ezcontentobject_version_version'];
+        }
+
+        return $archivedVersionNos;
+    }
+
     public function countDraftsForUser(int $userId): int
     {
         return $this->contentGateway->countVersionsForUser($userId, VersionInfo::STATUS_DRAFT);

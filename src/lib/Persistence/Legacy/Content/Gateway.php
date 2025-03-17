@@ -213,6 +213,11 @@ abstract class Gateway
     abstract public function loadVersionInfo(int $contentId, ?int $versionNo = null): array;
 
     /**
+     * @return array
+     */
+    abstract public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array;
+
+    /**
      * Return the number of all versions with given status created by the given $userId.
      */
     abstract public function countVersionsForUser(

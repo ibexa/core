@@ -129,6 +129,7 @@ class ContentService implements ContentServiceInterface
             // Version archive limit (0-50), only enforced on publish, not on un-publish.
             'default_version_archive_limit' => 5,
             'remove_archived_versions_on_publish' => true,
+            'grace_period_in_seconds' => 30,
         ];
         $this->contentFilteringHandler = $contentFilteringHandler;
         $this->permissionResolver = $permissionService;
@@ -381,7 +382,6 @@ class ContentService implements ContentServiceInterface
     public function loadContent(int $contentId, array $languages = null, ?int $versionNo = null, bool $useAlwaysAvailable = true): APIContent
     {
         $content = $this->internalLoadContentById($contentId, $languages, $versionNo, $useAlwaysAvailable);
-
         if (!$this->permissionResolver->canUser('content', 'read', $content)) {
             throw new UnauthorizedException('content', 'read', ['contentId' => $contentId]);
         }
@@ -389,10 +389,30 @@ class ContentService implements ContentServiceInterface
             !$content->getVersionInfo()->isPublished()
             && !$this->permissionResolver->canUser('content', 'versionread', $content)
         ) {
-            throw new UnauthorizedException('content', 'versionread', ['contentId' => $contentId, 'versionNo' => $versionNo]);
+            if (!$this->isInGracePeriod($content, $this->settings['grace_period_in_seconds'], $versionNo)) {
+                throw new UnauthorizedException('content', 'versionread', ['contentId' => $contentId, 'versionNo' => $versionNo]);
+            }
         }
 
         return $content;
+    }
+
+    private function isInGracePeriod(APIContent $content, int $graceSeconds, ?int $versionNo): bool
+    {
+        if ($graceSeconds <= 0 || $versionNo === null) {
+            return false;
+        }
+
+        try {
+            $lastArchivedVersionNos = $this->persistenceHandler->contentHandler()->loadVersionNoArchivedWithin(
+                $content->getId(),
+                $graceSeconds
+            );
+        } catch (APINotFoundException $e) {
+            return false;
+        }
+
+        return in_array($versionNo, $lastArchivedVersionNos);
     }
 
     public function internalLoadContentById(

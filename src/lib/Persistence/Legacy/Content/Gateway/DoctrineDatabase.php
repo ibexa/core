@@ -6,6 +6,7 @@
  */
 namespace Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
+use DateInterval;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
@@ -906,6 +907,50 @@ final class DoctrineDatabase extends Gateway
         } else {
             $queryBuilder->andWhere($expr->eq('v.version', 'c.current_version'));
         }
+
+        return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+    }
+
+    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
+    {
+        $now = new \DateTime();
+        $interval = DateInterval::createFromDateString($seconds . ' seconds');
+        if ($interval === false) {
+            return [];
+        }
+        $now->sub($interval);
+        $queryBuilder = $this->queryBuilder->createVersionInfoFindQueryBuilder();
+        $expr = $queryBuilder->expr();
+
+        $queryBuilder
+            ->where(
+                $expr->eq(
+                    'v.contentobject_id',
+                    $queryBuilder->createNamedParameter(
+                        $contentId,
+                        ParameterType::INTEGER,
+                        ':content_id'
+                    )
+                )
+            )->andWhere(
+                $expr->eq(
+                    'v.status',
+                    $queryBuilder->createNamedParameter(
+                        VersionInfo::STATUS_ARCHIVED,
+                        ParameterType::INTEGER,
+                        ':status'
+                    )
+                )
+            )->andWhere(
+                $expr->gt(
+                    'v.modified',
+                    $queryBuilder->createNamedParameter(
+                        $now->getTimestamp(),
+                        ParameterType::INTEGER,
+                        ':modified'
+                    )
+                )
+            )->orderBy('v.modified', 'DESC');
 
         return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }

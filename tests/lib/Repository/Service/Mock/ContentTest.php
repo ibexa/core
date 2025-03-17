@@ -491,9 +491,11 @@ class ContentTest extends BaseServiceMockTest
         $contentService->loadContent($contentId);
     }
 
-    public function testLoadContentNotPublishedStatusUnauthorized()
+    public function testLoadContentNotPublishedStatusUnauthorized(bool $expectException = true)
     {
-        $this->expectException(UnauthorizedException::class);
+        if ($expectException) {
+            $this->expectException(UnauthorizedException::class);
+        }
 
         $permissionResolver = $this->getPermissionResolverMock();
         $contentService = $this->getPartlyMockedContentService(['internalLoadContentById']);
@@ -3317,8 +3319,7 @@ class ContentTest extends BaseServiceMockTest
             ->expects($this->once())
             ->method('getCurrentUserReference')
             ->willReturn(new UserReference(169));
-        $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById'], $permissionResolverMock);
-        $permissionResolverMock = $this->getPermissionResolverMock();
+        $mockedService = $this->getPartlyMockedContentService(['internalLoadContentById']);
         /** @var \PHPUnit\Framework\MockObject\MockObject $contentHandlerMock */
         $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
         /** @var \PHPUnit\Framework\MockObject\MockObject $languageHandlerMock */
@@ -6271,7 +6272,7 @@ class ContentTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedContentService(array $methods = null)
+    protected function getPartlyMockedContentService(array $methods = null, int $gracePeriodInSeconds = 0)
     {
         if (!isset($this->partlyMockedContentService)) {
             $this->partlyMockedContentService = $this->getMockBuilder(ContentService::class)
@@ -6288,7 +6289,9 @@ class ContentTest extends BaseServiceMockTest
                         $this->getContentMapper(),
                         $this->getContentValidatorStrategy(),
                         $this->getContentFilteringHandlerMock(),
-                        [],
+                        [
+                            'grace_period_in_seconds' => $gracePeriodInSeconds,
+                        ],
                     ]
                 )
                 ->getMock();
