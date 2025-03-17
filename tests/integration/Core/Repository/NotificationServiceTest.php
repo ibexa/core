@@ -88,6 +88,11 @@ class NotificationServiceTest extends BaseTest
         $notificationService = $repository->getNotificationService();
 
         $notification = $notificationService->getNotification($notificationId);
+        $notificationService->markNotificationAsRead($notification);
+
+        $notification = $notificationService->getNotification($notificationId);
+        self::assertFalse($notification->isPending);
+
         $notificationService->markNotificationAsUnread($notification);
         $notification = $notificationService->getNotification($notificationId);
 

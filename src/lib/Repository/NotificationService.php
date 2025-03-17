@@ -112,7 +112,7 @@ class NotificationService implements NotificationServiceInterface
         }
 
         if ($notification->ownerId !== $currentUserId) {
-            throw new UnauthorizedException($notification->id, 'Notification');
+            throw new UnauthorizedException('notification', 'update', ['id' => $notification->id]);
         }
 
         if (!$notification->isPending) {
@@ -134,7 +134,7 @@ class NotificationService implements NotificationServiceInterface
         }
 
         if ($notification->ownerId !== $currentUserId) {
-            throw new UnauthorizedException($notification->id, 'Notification');
+            throw new UnauthorizedException('notification', 'update', ['id' => $notification->id]);
         }
 
         if ($notification->isPending) {
