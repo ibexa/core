@@ -147,7 +147,6 @@ jobs:
                     --health-timeout=5s
                     --health-retries=5
                     --tmpfs=/var/lib/mysql
-                    --character-set-server=utf8mb4
                     --collation-server=utf8mb4_unicode_ci
         runs-on: "ubuntu-20.04"
         timeout-minutes: 60
@@ -207,7 +206,6 @@ jobs:
                     --health-timeout=5s
                     --health-retries=5
                     --tmpfs=/var/lib/mysql
-                    --character-set-server=utf8mb4
                     --collation-server=utf8mb4_unicode_ci
         runs-on: "ubuntu-20.04"
         timeout-minutes: 60
