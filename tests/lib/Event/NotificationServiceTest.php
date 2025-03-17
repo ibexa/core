@@ -202,7 +202,7 @@ class NotificationServiceTest extends AbstractServiceTest
         $this->assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testMarkNotificationAsUnreadEvents()
+    public function testMarkNotificationAsUnreadEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMarkNotificationAsUnreadEvent::class,
@@ -259,7 +259,7 @@ class NotificationServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testMarkNotificationAsUnreadStopPropagationInBeforeEvents()
+    public function testMarkNotificationAsUnreadStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeMarkNotificationAsUnreadEvent::class,

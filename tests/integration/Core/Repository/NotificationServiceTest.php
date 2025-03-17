@@ -80,18 +80,16 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::markNotificationAsUnread()
      */
-    public function testMarkNotificationAsUnread()
+    public function testMarkNotificationAsUnread(): void
     {
         $repository = $this->getRepository();
 
         $notificationId = $this->generateId('notification', 5);
-        /* BEGIN: Use Case */
         $notificationService = $repository->getNotificationService();
 
         $notification = $notificationService->getNotification($notificationId);
         $notificationService->markNotificationAsUnread($notification);
         $notification = $notificationService->getNotification($notificationId);
-        /* END: Use Case */
 
         self::assertTrue($notification->isPending);
     }

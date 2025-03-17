@@ -125,9 +125,6 @@ class NotificationService implements NotificationServiceInterface
         $this->persistenceHandler->updateNotification($notification, $updateStruct);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function markNotificationAsUnread(APINotification $notification): void
     {
         $currentUserId = $this->getCurrentUserId();
