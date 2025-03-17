@@ -139,12 +139,16 @@ jobs:
                     MYSQL_USER: mysql
                     MYSQL_PASSWORD: mysql
                     MYSQL_DATABASE: testdb
+                    MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+                    MYSQL_CHARACTER_SET_SERVER: utf8mb4
                 options: >-
                     --health-cmd="mysqladmin ping"
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
                     --tmpfs=/var/lib/mysql
+                    --character-set-server=utf8mb4
+                    --collation-server=utf8mb4_unicode_ci
         runs-on: "ubuntu-20.04"
         timeout-minutes: 60
 
@@ -180,7 +184,7 @@ jobs:
                     DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE_CHARSET: "utf8mb4"
-                    DATABASE_COLLATION: "utf8mb4_unicode_520_ci"
+                    DATABASE_COLLATION: "utf8mb4_unicode_ci"
 
     integration-tests-mysql-84:
         name: MySQL integration tests (8.4)
@@ -195,12 +199,16 @@ jobs:
                     MYSQL_USER: mysql
                     MYSQL_PASSWORD: mysql
                     MYSQL_DATABASE: testdb
+                    MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+                    MYSQL_CHARACTER_SET_SERVER: utf8mb4
                 options: >-
                     --health-cmd="mysqladmin ping"
                     --health-interval=10s
                     --health-timeout=5s
                     --health-retries=5
                     --tmpfs=/var/lib/mysql
+                    --character-set-server=utf8mb4
+                    --collation-server=utf8mb4_unicode_ci
         runs-on: "ubuntu-20.04"
         timeout-minutes: 60
 
@@ -236,7 +244,7 @@ jobs:
                     DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE_CHARSET: "utf8mb4"
-                    DATABASE_COLLATION: "utf8mb4_unicode_520_ci"
+                    DATABASE_COLLATION: "utf8mb4_unicode_ci"
 
     solr-integration:
         name: "Solr integration tests"
