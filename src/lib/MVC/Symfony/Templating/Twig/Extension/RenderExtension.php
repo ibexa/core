@@ -61,7 +61,8 @@ final class RenderExtension extends AbstractExtension
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $object
+     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\ValueObject|\Ibexa\Contracts\Core\Repository\Values\Content\ContentAwareInterface $object
+     *
      * @param array<string, mixed> $options
      */
     public function render(object $object, array $options = []): string
