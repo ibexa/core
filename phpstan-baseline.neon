@@ -67345,7 +67345,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/SharedGateway/GatewayFactoryTest.php
 
 		-
-			message: '#^PHPDoc tag @var with type Doctrine\\DBAL\\Platforms\\AbstractPlatform is not subtype of native type Doctrine\\DBAL\\Platforms\\MySqlPlatform\|Doctrine\\DBAL\\Platforms\\PostgreSqlPlatform\|Doctrine\\DBAL\\Platforms\\SqlitePlatform\.$#'
+			message: '#^PHPDoc tag @var with type Doctrine\\DBAL\\Platforms\\AbstractPlatform is not subtype of native type Doctrine\\DBAL\\Platforms\\MySQL80Platform\|Doctrine\\DBAL\\Platforms\\MySqlPlatform\|Doctrine\\DBAL\\Platforms\\PostgreSqlPlatform\|Doctrine\\DBAL\\Platforms\\SqlitePlatform\.$#'
 			identifier: varTag.nativeType
 			count: 1
 			path: tests/lib/Persistence/Legacy/SharedGateway/GatewayFactoryTest.php
