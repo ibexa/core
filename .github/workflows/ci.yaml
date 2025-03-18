@@ -179,7 +179,7 @@ jobs:
             -   name: Run integration test suite vs MySQL
                 run: composer run-script integration
                 env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb?charset=utf8mb4&collation=utf8mb4_unicode_ci"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE_CHARSET: "utf8mb4"
                     DATABASE_COLLATION: "utf8mb4_unicode_ci"
@@ -237,7 +237,7 @@ jobs:
             -   name: Run integration test suite vs MySQL
                 run: composer run-script integration
                 env:
-                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                    DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb?charset=utf8mb4&collation=utf8mb4_unicode_ci"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE_CHARSET: "utf8mb4"
                     DATABASE_COLLATION: "utf8mb4_unicode_ci"
