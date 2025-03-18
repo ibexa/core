@@ -184,6 +184,10 @@ jobs:
                     DATABASE_CHARSET: "utf8mb4"
                     DATABASE_COLLATION: "utf8mb4_unicode_ci"
 
+            -   name: Verify Collation
+                run: |
+                    mysql -hmysql -umysql -pmysql -e "SELECT table_name, table_collation FROM information_schema.tables WHERE table_schema = 'testdb';"
+
     integration-tests-mysql-84:
         name: MySQL integration tests (8.4)
         needs: tests
