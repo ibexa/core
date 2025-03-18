@@ -18,7 +18,7 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
      *
      * @return \Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory
      */
-    public function provideTestedFactory()
+    public function provideTestedFactory(): LegacyDFSCluster
     {
         return new LegacyDFSCluster();
     }
@@ -28,12 +28,12 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
         return \Ibexa\Core\IO\IOMetadataHandler\LegacyDFSCluster::class;
     }
 
-    public function provideParentServiceDefinition()
+    public function provideParentServiceDefinition(): Definition
     {
         return new Definition(null, [null]);
     }
 
-    public function provideHandlerConfiguration()
+    public function provideHandlerConfiguration(): array
     {
         return ['connection' => 'doctrine.dbal.test_connection'];
     }
@@ -45,7 +45,7 @@ class LegacyDFSClusterTest extends ConfigurationFactoryTest
      *
      * @param string $handlerServiceId id of the service that was registered by the compiler pass
      */
-    public function validateConfiguredHandler($handlerServiceId)
+    public function validateConfiguredHandler($handlerServiceId): void
     {
         self::assertContainerBuilderHasServiceDefinitionWithArgument(
             $handlerServiceId,

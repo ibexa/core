@@ -23,7 +23,7 @@ class FieldTypeServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldTypes()
      */
-    public function testGetFieldTypes()
+    public function testGetFieldTypes(): void
     {
         $repository = $this->getRepository();
 
@@ -52,7 +52,7 @@ class FieldTypeServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldType()
      */
-    public function testGetFieldType()
+    public function testGetFieldType(): void
     {
         $repository = $this->getRepository();
 
@@ -78,7 +78,7 @@ class FieldTypeServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::getFieldType()
      */
-    public function testGetFieldTypeThrowsNotFoundException()
+    public function testGetFieldTypeThrowsNotFoundException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -97,7 +97,7 @@ class FieldTypeServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::hasFieldType()
      */
-    public function testHasFieldTypeReturnsTrue()
+    public function testHasFieldTypeReturnsTrue(): void
     {
         $repository = $this->getRepository();
 
@@ -116,7 +116,7 @@ class FieldTypeServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\FieldTypeService::hasFieldType()
      */
-    public function testHasFieldTypeReturnsFalse()
+    public function testHasFieldTypeReturnsFalse(): void
     {
         $repository = $this->getRepository();
 

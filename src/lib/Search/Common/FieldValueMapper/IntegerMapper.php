@@ -21,7 +21,7 @@ class IntegerMapper extends FieldValueMapper
         return $field->getType() instanceof IntegerField;
     }
 
-    public function map(Field $field)
+    public function map(Field $field): int
     {
         return $this->convert($field->getValue());
     }

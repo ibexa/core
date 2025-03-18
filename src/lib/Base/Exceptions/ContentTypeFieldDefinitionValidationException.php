@@ -29,7 +29,7 @@ class ContentTypeFieldDefinitionValidationException extends APIContentTypeFieldD
      *
      * @var \Ibexa\Core\FieldType\ValidationError[]
      */
-    protected $errors;
+    protected array $errors;
 
     /**
      * Generates: Content fields did not validate.

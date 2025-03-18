@@ -16,8 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
  */
 abstract class SortClauseHandler
 {
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
     protected $dbPlatform;

@@ -17,8 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
  */
 final class QueryBuilder
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {

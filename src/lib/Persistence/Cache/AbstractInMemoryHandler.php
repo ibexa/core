@@ -20,24 +20,18 @@ abstract class AbstractInMemoryHandler
 {
     /**
      * NOTE: Instance of this must be TransactionalInMemoryCacheAdapter in order for cache clearing to affect in-memory cache.
-     *
-     * @var \Ibexa\Core\Persistence\Cache\Adapter\TransactionAwareAdapterInterface
      */
-    protected $cache;
+    protected TransactionAwareAdapterInterface $cache;
 
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
-    protected $logger;
+    protected PersistenceLogger $logger;
 
     /**
      * NOTE: On purpose private as it's only supposed to be interacted with in tandem with symfony cache here,
      *       hence the cache decorator and the reusable methods here.
-     *
-     * @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
      */
-    private $inMemory;
+    private InMemoryCache $inMemory;
 
-    /** @var \Ibexa\Core\Persistence\Cache\CacheIndicesValidatorInterface */
-    private $cacheIndicesValidator;
+    private ?CacheIndicesValidatorInterface $cacheIndicesValidator;
 
     public function __construct(
         TransactionAwareAdapterInterface $cache,

@@ -14,14 +14,11 @@ use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
 
 final class UpdateUrlEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\URL\URL */
-    private $url;
+    private URL $url;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct */
-    private $struct;
+    private URLUpdateStruct $struct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\URL\URL */
-    private $updatedUrl;
+    private URL $updatedUrl;
 
     public function __construct(
         URL $updatedUrl,

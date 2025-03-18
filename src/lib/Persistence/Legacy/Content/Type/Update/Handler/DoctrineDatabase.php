@@ -19,8 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler;
  */
 final class DoctrineDatabase extends Handler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway */
-    protected $contentTypeGateway;
+    protected Gateway $contentTypeGateway;
 
     public function __construct(Gateway $contentTypeGateway)
     {

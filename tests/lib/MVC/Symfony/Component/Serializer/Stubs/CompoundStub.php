@@ -19,12 +19,12 @@ final class CompoundStub extends Compound
         $this->subMatchers = $subMatchers;
     }
 
-    public function match()
+    public function match(): never
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    public function reverseMatch($siteAccessName)
+    public function reverseMatch($siteAccessName): never
     {
         throw new NotImplementedException(__METHOD__);
     }

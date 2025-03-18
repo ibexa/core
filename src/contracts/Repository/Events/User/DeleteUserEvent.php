@@ -13,11 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 final class DeleteUserEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
-    private $user;
+    private User $user;
 
-    /** @var array */
-    private $locations;
+    private array $locations;
 
     public function __construct(
         array $locations,

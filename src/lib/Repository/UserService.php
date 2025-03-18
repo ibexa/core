@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct as SPIUserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -64,14 +65,11 @@ class UserService implements UserServiceInterface
 {
     private const USER_FIELD_TYPE_NAME = 'ezuser';
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
-    protected $userHandler;
+    protected Handler $userHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
-    private $locationHandler;
+    private LocationHandler $locationHandler;
 
     /** @var array */
     protected $settings;
@@ -79,18 +77,15 @@ class UserService implements UserServiceInterface
     /** @var \Psr\Log\LoggerInterface|null */
     protected $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
-    private $passwordHashService;
+    private PasswordHashService $passwordHashService;
 
-    /** @var \Ibexa\Core\Repository\User\PasswordValidatorInterface */
-    private $passwordValidator;
+    private PasswordValidatorInterface $passwordValidator;
 
     private ConfigResolverInterface $configResolver;
 
-    public function setLogger(LoggerInterface $logger = null)
+    public function setLogger(LoggerInterface $logger = null): void
     {
         $this->logger = $logger;
     }

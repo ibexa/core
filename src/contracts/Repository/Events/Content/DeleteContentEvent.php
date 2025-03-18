@@ -13,11 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 
 final class DeleteContentEvent extends AfterEvent
 {
-    /** @var array */
-    private $locations;
+    private array $locations;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
     public function __construct(
         array $locations,

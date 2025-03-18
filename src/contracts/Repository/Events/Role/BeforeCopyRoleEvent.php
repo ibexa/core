@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeCopyRoleEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
-    private $role;
+    private Role $role;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\RoleCopyStruct */
-    private $roleCopyStruct;
+    private RoleCopyStruct $roleCopyStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role|null */
-    private $copiedRole;
+    private ?Role $copiedRole = null;
 
     public function __construct(Role $role, RoleCopyStruct $roleCopyStruct)
     {

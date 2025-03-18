@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
@@ -27,17 +28,14 @@ use LogicException;
  */
 class LanguageService implements LanguageServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
-    protected $languageHandler;
+    protected Handler $languageHandler;
 
     /** @var array */
     protected $settings;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -394,7 +392,7 @@ class LanguageService implements LanguageServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Language
      */
-    protected function buildDomainObject(SPILanguage $spiLanguage)
+    protected function buildDomainObject(SPILanguage $spiLanguage): Language
     {
         return new Language(
             [

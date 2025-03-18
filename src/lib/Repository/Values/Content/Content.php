@@ -50,7 +50,7 @@ class Content extends APIContent
      *
      * @var array<string, array<string, \eZ\Publish\API\Repository\Values\Content\Field>>
      */
-    private $fieldDefinitionTranslationMap = [];
+    private array $fieldDefinitionTranslationMap = [];
 
     /**
      * The first matched field language among user provided prioritized languages.

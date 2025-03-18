@@ -43,7 +43,7 @@ class Value extends BaseValue
         $this->countries = $countries;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return implode(', ', array_column($this->countries, 'Name'));
     }

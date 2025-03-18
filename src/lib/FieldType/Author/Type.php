@@ -66,7 +66,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Author\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -108,7 +108,7 @@ class Type extends FieldType implements TranslationContainerInterface
     /**
      * {@inheritdoc}
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): false|string
     {
         if (empty($value->authors)) {
             return false;
@@ -131,11 +131,11 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Author\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         return new Value(
             array_map(
-                static function ($author) {
+                static function ($author): Author {
                     return new Author($author);
                 },
                 $hash
@@ -153,7 +153,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public function toHash(SPIValue $value): array
     {
         return array_map(
-            static function ($author) {
+            static function ($author): array {
                 return (array)$author;
             },
             $value->authors->getArrayCopy()
@@ -177,7 +177,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 
@@ -208,7 +208,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError|null
      */
-    private function validateSettingName($name)
+    private function validateSettingName($name): ?ValidationError
     {
         if (!isset($this->settingsSchema[$name])) {
             return new ValidationError(
@@ -232,7 +232,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError|null
      */
-    private function validateDefaultAuthorSetting($name, $value)
+    private function validateDefaultAuthorSetting(int|string $name, $value): ?ValidationError
     {
         $definedValues = [
             self::DEFAULT_VALUE_EMPTY,

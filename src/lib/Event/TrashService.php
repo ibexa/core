@@ -26,8 +26,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TrashService extends TrashServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         TrashServiceInterface $innerService,

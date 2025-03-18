@@ -10,8 +10,7 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 
 final class RawTermAggregation extends AbstractTermAggregation implements RawAggregation
 {
-    /** @var string */
-    private $fieldName;
+    private string $fieldName;
 
     public function __construct(
         string $name,

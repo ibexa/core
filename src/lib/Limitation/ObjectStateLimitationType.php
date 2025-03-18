@@ -16,8 +16,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation as APIObjectStateLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -41,7 +44,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APIObjectStateLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APIObjectStateLimitation', $limitationValue);
@@ -67,7 +70,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -95,7 +98,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): ObjectStateLimitation
     {
         return new APIObjectStateLimitation(['limitationValues' => $limitationValues]);
     }
@@ -211,7 +214,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface|\Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalOperator
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): ObjectStateId|LogicalAnd
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -220,23 +223,23 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
 
         if (!isset($value->limitationValues[1])) {
             // 1 limitation value: EQ operation
-            return new Criterion\ObjectStateId($value->limitationValues[0]);
+            return new ObjectStateId($value->limitationValues[0]);
         }
 
         $groupedLimitationValues = $this->groupLimitationValues($value->limitationValues);
 
         if (count($groupedLimitationValues) === 1) {
             // one group, several limitation values: IN operation
-            return new Criterion\ObjectStateId($groupedLimitationValues[0]);
+            return new ObjectStateId($groupedLimitationValues[0]);
         }
 
         // limitations from different groups require logical AND between them
         $criterions = [];
         foreach ($groupedLimitationValues as $limitationGroup) {
-            $criterions[] = new Criterion\ObjectStateId($limitationGroup);
+            $criterions[] = new ObjectStateId($limitationGroup);
         }
 
-        return new Criterion\LogicalAnd($criterions);
+        return new LogicalAnd($criterions);
     }
 
     /**
@@ -246,7 +249,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return int[][]
      */
-    private function groupLimitationValues(array $limitationValues)
+    private function groupLimitationValues(array $limitationValues): array
     {
         $objectStateHandler = $this->persistence->objectStateHandler();
         $stateGroups = $objectStateHandler->loadAllGroups();
@@ -268,7 +271,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 class FilteringQueryBuilderTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder */
-    private $queryBuilder;
+    private FilteringQueryBuilder $queryBuilder;
 
     protected function setUp(): void
     {

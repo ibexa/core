@@ -50,34 +50,29 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
 
     private const DEBUG_PARAM = 'kernel.debug';
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollector */
-    private $suggestionCollector;
+    private SuggestionCollector $suggestionCollector;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface */
-    private $mainConfigParser;
+    private ?ConfigParser $mainConfigParser = null;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParser */
-    private $mainRepositoryConfigParser;
+    private ?RepositoryConfigParser $mainRepositoryConfigParser = null;
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface[] */
-    private $siteAccessConfigParsers;
+    private array $siteAccessConfigParsers;
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface[] */
-    private $repositoryConfigParsers = [];
+    private array $repositoryConfigParsers = [];
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PolicyProviderInterface[] */
-    private $policyProviders = [];
+    private array $policyProviders = [];
 
     /**
      * Holds a collection of YAML files, as an array with directory path as a
      * key to the array of contained file names.
-     *
-     * @var array
      */
-    private $defaultSettingsCollection = [];
+    private array $defaultSettingsCollection = [];
 
     /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] */
-    private $siteaccessConfigurationFilters = [];
+    private array $siteaccessConfigurationFilters = [];
 
     public function __construct(array $siteAccessConfigParsers = [], array $repositoryConfigParsers = [])
     {
@@ -249,7 +244,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         }
     }
 
-    private function registerRepositoriesConfiguration(array $config, ContainerBuilder $container)
+    private function registerRepositoriesConfiguration(array $config, ContainerBuilder $container): void
     {
         if (!isset($config['repositories'])) {
             $config['repositories'] = [];
@@ -264,7 +259,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ibexa.repositories', $config['repositories']);
     }
 
-    private function registerSiteAccessConfiguration(array $config, ContainerBuilder $container)
+    private function registerSiteAccessConfiguration(array $config, ContainerBuilder $container): void
     {
         if (!isset($config['siteaccess'])) {
             $config['siteaccess'] = [];
@@ -318,7 +313,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
      */
-    private function handleRouting(array $config, ContainerBuilder $container, FileLoader $loader)
+    private function handleRouting(array $config, ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('routing.yml');
         $container->setAlias('router', ChainRouter::class);
@@ -395,7 +390,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
      */
-    private function handleTemplating(ContainerBuilder $container, FileLoader $loader)
+    private function handleTemplating(ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('templating.yml');
     }
@@ -406,7 +401,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
      */
-    private function handleSessionLoading(ContainerBuilder $container, FileLoader $loader)
+    private function handleSessionLoading(ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('session.yml');
     }
@@ -420,7 +415,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      *
      * @throws \InvalidArgumentException
      */
-    private function handleCache(array $config, ContainerBuilder $container, FileLoader $loader)
+    private function handleCache(array $config, ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('cache.yml');
 
@@ -446,7 +441,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
      */
-    private function handleLocale(array $config, ContainerBuilder $container, FileLoader $loader)
+    private function handleLocale(array $config, ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('locale.yml');
         $container->setParameter(
@@ -462,7 +457,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
      */
-    private function handleHelpers(array $config, ContainerBuilder $container, FileLoader $loader)
+    private function handleHelpers(array $config, ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('helpers.yml');
     }
@@ -472,7 +467,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
      */
-    private function handleImage(array $config, ContainerBuilder $container, FileLoader $loader)
+    private function handleImage(array $config, ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('image.yml');
 
@@ -490,12 +485,12 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ibexa.io.images.alias.placeholder_provider', $providers);
     }
 
-    private function handleUrlChecker($config, ContainerBuilder $container, FileLoader $loader)
+    private function handleUrlChecker(array $config, ContainerBuilder $container, FileLoader $loader): void
     {
         $loader->load('url_checker.yml');
     }
 
-    private function buildPolicyMap(ContainerBuilder $container)
+    private function buildPolicyMap(ContainerBuilder $container): void
     {
         $policiesBuilder = new PoliciesConfigBuilder($container);
         foreach ($this->policyProviders as $provider) {
@@ -519,7 +514,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      *
      * @param \Ibexa\Bundle\Core\DependencyInjection\Security\PolicyProvider\PolicyProviderInterface $policyProvider
      */
-    public function addPolicyProvider(PolicyProviderInterface $policyProvider)
+    public function addPolicyProvider(PolicyProviderInterface $policyProvider): void
     {
         $this->policyProviders[] = $policyProvider;
     }
@@ -540,7 +535,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      *
      * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface $configParser
      */
-    public function addConfigParser(ParserInterface $configParser)
+    public function addConfigParser(ParserInterface $configParser): void
     {
         $this->siteAccessConfigParsers[] = $configParser;
     }
@@ -570,12 +565,12 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param string $fileLocation
      * @param array $files
      */
-    public function addDefaultSettings($fileLocation, array $files)
+    public function addDefaultSettings($fileLocation, array $files): void
     {
         $this->defaultSettingsCollection[$fileLocation] = $files;
     }
 
-    public function addSiteAccessConfigurationFilter(SiteAccessConfigurationFilter $filter)
+    public function addSiteAccessConfigurationFilter(SiteAccessConfigurationFilter $filter): void
     {
         $this->siteaccessConfigurationFilters[] = $filter;
     }
@@ -584,7 +579,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param array $config
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    private function registerUrlAliasConfiguration(array $config, ContainerBuilder $container)
+    private function registerUrlAliasConfiguration(array $config, ContainerBuilder $container): void
     {
         if (!isset($config['url_alias'])) {
             $config['url_alias'] = ['slug_converter' => []];
@@ -596,7 +591,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    private function prependTranslatorConfiguration(ContainerBuilder $container)
+    private function prependTranslatorConfiguration(ContainerBuilder $container): void
     {
         if (!$container->hasExtension('framework')) {
             return;
@@ -679,7 +674,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      * @param \Symfony\Component\DependencyInjection\Loader\FileLoader $loader
      */
-    private function handleUrlWildcards(array $config, ContainerBuilder $container, Loader\YamlFileLoader $loader)
+    private function handleUrlWildcards(array $config, ContainerBuilder $container, Loader\YamlFileLoader $loader): void
     {
         if ($container->getParameter('ibexa.url_wildcards.enabled')) {
             $loader->load('url_wildcard.yml');

@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Cache\Adapter;
 
 use Ibexa\Core\Persistence\Cache\Adapter\TransactionalInMemoryCacheAdapter;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 use Symfony\Component\Cache\CacheItem;
@@ -23,13 +24,13 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     protected $cache;
 
     /** @var \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    protected $innerPool;
+    protected MockObject $innerPool;
 
     /** @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache|\PHPUnit\Framework\MockObject\MockObject */
-    protected $inMemory;
+    protected MockObject $inMemory;
 
     /** @var \Closure */
-    private $cacheItemsClosure;
+    private ?\Closure $cacheItemsClosure;
 
     /**
      * Setup the HandlerTest.
@@ -47,7 +48,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         );
 
         $this->cacheItemsClosure = \Closure::bind(
-            static function ($key, $value, $isHit, $defaultLifetime = 0, $tags = []) {
+            static function ($key, $value, $isHit, $defaultLifetime = 0, $tags = []): CacheItem {
                 $item = new CacheItem();
                 $item->isTaggable = true;
                 $item->key = $key;
@@ -75,7 +76,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetItem()
+    public function testGetItem(): void
     {
         $item = $this->createCacheItem('first');
 
@@ -91,7 +92,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         self::assertSame($item, $returnedItem);
     }
 
-    public function testGetItems()
+    public function testGetItems(): void
     {
         $items = [
             'first' => $this->createCacheItem('first'),
@@ -113,7 +114,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     /**
      * Symfony uses generators with getItems() so we need to make sure we handle that.
      */
-    public function testGetItemsWithGenerator()
+    public function testGetItemsWithGenerator(): void
     {
         $items = [
             'first' => $this->createCacheItem('first'),
@@ -132,7 +133,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
         self::assertSame($items, $returnedItems);
     }
 
-    public function testHasItem()
+    public function testHasItem(): void
     {
         $this->innerPool
             ->expects(self::once())
@@ -148,7 +149,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
     /**
      * @dataProvider providerForDelete
      */
-    public function testDelete(string $method, $argument)
+    public function testDelete(string $method, string|array $argument): void
     {
         $this->innerPool
             ->expects(self::once())
@@ -179,7 +180,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
      *
      * @dataProvider providerForClearAndInvalidation
      */
-    public function testClearAndInvalidation(string $method, $argument)
+    public function testClearAndInvalidation(string $method, string|array $argument): void
     {
         if ($argument) {
             $this->innerPool
@@ -218,7 +219,7 @@ class InMemoryClearingProxyAdapterTest extends TestCase
      *
      * @return \Symfony\Component\Cache\CacheItem
      */
-    private function createCacheItem($key, $tags = [], $value = true)
+    private function createCacheItem(string $key, $tags = [], $value = true)
     {
         $cacheItemsClosure = $this->cacheItemsClosure;
 

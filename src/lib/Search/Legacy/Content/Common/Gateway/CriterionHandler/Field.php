@@ -14,10 +14,12 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter as FieldValueConverter;
 
 /**
@@ -27,24 +29,18 @@ class Field extends FieldBase
 {
     /**
      * Field converter registry.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $fieldConverterRegistry;
+    protected ConverterRegistry $fieldConverterRegistry;
 
     /**
      * Field value converter.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldValue\Converter
      */
-    protected $fieldValueConverter;
+    protected Converter $fieldValueConverter;
 
     /**
      * Transformation processor.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $transformationProcessor;
+    protected TransformationProcessor $transformationProcessor;
 
     public function __construct(
         Connection $connection,
@@ -80,7 +76,7 @@ class Field extends FieldBase
      * @throws \RuntimeException if no converter is found
      * @throws \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound
      */
-    protected function getFieldsInformation($fieldIdentifier)
+    protected function getFieldsInformation($fieldIdentifier): array
     {
         $fieldMapArray = [];
         $fieldMap = $this->contentTypeHandler->getSearchableFieldMap();

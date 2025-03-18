@@ -40,7 +40,7 @@ abstract class Configuration implements ConfigurationInterface
      *
      * @return \Symfony\Component\Config\Definition\Builder\NodeBuilder
      */
-    public function generateScopeBaseNode(ArrayNodeDefinition $rootNode, $scopeNodeName = 'system')
+    public function generateScopeBaseNode(ArrayNodeDefinition $rootNode, string $scopeNodeName = 'system')
     {
         $contextNode = $rootNode
             ->children()

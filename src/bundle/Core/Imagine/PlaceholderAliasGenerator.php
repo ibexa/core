@@ -21,23 +21,17 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class PlaceholderAliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $aliasGenerator;
+    private VariationHandler $aliasGenerator;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $ioResolver;
+    private ResolverInterface $ioResolver;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider|null */
-    private $placeholderProvider;
+    private ?PlaceholderProvider $placeholderProvider = null;
 
-    /** @var array */
-    private $placeholderOptions = [];
+    private array $placeholderOptions = [];
 
-    /** @var bool */
-    private $verifyBinaryDataAvailability = false;
+    private bool $verifyBinaryDataAvailability = false;
 
     public function __construct(
         VariationHandler $aliasGenerator,
@@ -74,7 +68,7 @@ class PlaceholderAliasGenerator implements VariationHandler
         return $this->aliasGenerator->getVariation($field, $versionInfo, $variationName, $parameters);
     }
 
-    public function setPlaceholderProvider(PlaceholderProvider $provider, array $options = [])
+    public function setPlaceholderProvider(PlaceholderProvider $provider, array $options = []): void
     {
         $this->placeholderProvider = $provider;
         $this->placeholderOptions = $options;

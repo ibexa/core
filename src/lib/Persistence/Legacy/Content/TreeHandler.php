@@ -21,38 +21,28 @@ class TreeHandler
 {
     /**
      * Gateway for handling location data.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
-    protected $locationGateway;
+    protected LocationGateway $locationGateway;
 
     /**
      * Location Mapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected $locationMapper;
+    protected LocationMapper $locationMapper;
 
     /**
      * Content gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGateway;
+    protected ContentGateway $contentGateway;
 
     /**
      * Content handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
      */
-    protected $contentMapper;
+    protected ContentMapper $contentMapper;
 
     /**
      * FieldHandler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
      */
-    protected $fieldHandler;
+    protected FieldHandler $fieldHandler;
 
     /**
      * @param \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway $locationGateway
@@ -84,7 +74,7 @@ class TreeHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
      */
-    public function loadContentInfo($contentId)
+    public function loadContentInfo(int $contentId)
     {
         return $this->contentMapper->extractContentInfoFromRow(
             $this->contentGateway->loadContentInfo($contentId)
@@ -98,7 +88,7 @@ class TreeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function removeRawContent($contentId)
+    public function removeRawContent($contentId): void
     {
         $mainLocationId = $this->loadContentInfo($contentId)->mainLocationId;
         // there can be no Locations for Draft Content items
@@ -128,7 +118,7 @@ class TreeHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\VersionInfo[]
      */
-    public function listVersions($contentId, $status = null, $limit = -1)
+    public function listVersions(int $contentId, ?int $status = null, int $limit = -1): array
     {
         $rows = $this->contentGateway->listVersions($contentId, $status, $limit);
         if (empty($rows)) {
@@ -136,7 +126,7 @@ class TreeHandler
         }
 
         $idVersionPairs = array_map(
-            static function ($row) use ($contentId) {
+            static function (array $row) use ($contentId): array {
                 return [
                     'id' => $contentId,
                     'version' => $row['ezcontentobject_version_version'],
@@ -163,7 +153,7 @@ class TreeHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location
      */
-    public function loadLocation($locationId, array $translations = null, bool $useAlwaysAvailable = true)
+    public function loadLocation(int $locationId, array $translations = null, bool $useAlwaysAvailable = true)
     {
         $data = $this->locationGateway->getBasicNodeData($locationId, $translations, $useAlwaysAvailable);
 
@@ -185,7 +175,7 @@ class TreeHandler
      *
      * @return bool
      */
-    public function removeSubtree($locationId)
+    public function removeSubtree($locationId): void
     {
         $locationRow = $this->locationGateway->getBasicNodeData($locationId);
         $contentId = $locationRow['contentobject_id'];
@@ -244,7 +234,7 @@ class TreeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function setSectionForSubtree($locationId, $sectionId)
+    public function setSectionForSubtree(int $locationId, int $sectionId): void
     {
         $nodeData = $this->locationGateway->getBasicNodeData($locationId);
 
@@ -261,7 +251,7 @@ class TreeHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      */
-    public function changeMainLocation($contentId, $locationId)
+    public function changeMainLocation($contentId, $locationId): void
     {
         $parentLocationId = $this->loadLocation($locationId)->parentId;
 

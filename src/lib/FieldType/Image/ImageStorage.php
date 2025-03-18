@@ -22,23 +22,18 @@ use Ibexa\Core\IO\IOServiceInterface;
  */
 class ImageStorage extends GatewayBasedStorage
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    protected $ioService;
+    protected IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Core\FieldType\Image\PathGenerator */
-    protected $pathGenerator;
+    protected PathGenerator $pathGenerator;
 
-    /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface */
-    protected $aliasCleaner;
+    protected AliasCleanerInterface $aliasCleaner;
 
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
     protected $gateway;
 
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface */
-    protected $filePathNormalizer;
+    protected FilePathNormalizerInterface $filePathNormalizer;
 
-    /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator */
-    protected $fileExtensionBlackListValidator;
+    protected FileExtensionBlackListValidator $fileExtensionBlackListValidator;
 
     public function __construct(
         StorageGatewayInterface $gateway,
@@ -147,7 +142,7 @@ class ImageStorage extends GatewayBasedStorage
         return true;
     }
 
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         if ($field->value->data !== null) {
             $field->value->data['imageId'] = $this->buildImageId($versionInfo, $field);
@@ -158,7 +153,7 @@ class ImageStorage extends GatewayBasedStorage
         }
     }
 
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         $fieldXmls = $this->gateway->getXmlForImages($versionInfo->versionNo, $fieldIds);
 

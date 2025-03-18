@@ -12,6 +12,7 @@ use DateTime;
 use Ibexa\Contracts\Core\Persistence;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Role;
+use Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Role as APIRole;
@@ -43,7 +44,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    protected function getValidUser()
+    protected function getValidUser(): Persistence\User
     {
         $user = new Persistence\User();
         $user->id = self::TEST_USER_ID;
@@ -58,9 +59,9 @@ class UserHandlerTest extends TestCase
         return $user;
     }
 
-    protected function getValidUserToken($time = null)
+    protected function getValidUserToken($time = null): UserTokenUpdateStruct
     {
-        $userToken = new Persistence\User\UserTokenUpdateStruct();
+        $userToken = new UserTokenUpdateStruct();
         $userToken->userId = self::TEST_USER_ID;
         $userToken->hashKey = md5('hash');
         $userToken->time = $time ?? (new DateTime())->add(new DateInterval('P1D'))->getTimestamp();
@@ -68,7 +69,7 @@ class UserHandlerTest extends TestCase
         return $userToken;
     }
 
-    public function testCreateUser()
+    public function testCreateUser(): void
     {
         $handler = $this->getUserHandler();
 
@@ -104,7 +105,7 @@ class UserHandlerTest extends TestCase
         ];
     }
 
-    public function testLoadUser()
+    public function testLoadUser(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -124,7 +125,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadUnknownUser()
+    public function testLoadUnknownUser(): void
     {
         $this->expectException(NotFoundException::class);
         $gatewayMock = $this
@@ -140,7 +141,7 @@ class UserHandlerTest extends TestCase
         $handler->load(1337);
     }
 
-    public function testLoadUserByLogin()
+    public function testLoadUserByLogin(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -160,7 +161,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadMultipleUsersByLogin()
+    public function testLoadMultipleUsersByLogin(): void
     {
         $this->expectException(LogicException::class);
 
@@ -181,7 +182,7 @@ class UserHandlerTest extends TestCase
         $handler->loadByLogin($user->login);
     }
 
-    public function testLoadMultipleUsersByEmail()
+    public function testLoadMultipleUsersByEmail(): void
     {
         $this->expectException(LogicException::class);
 
@@ -202,7 +203,7 @@ class UserHandlerTest extends TestCase
         $handler->loadByEmail($user->email);
     }
 
-    public function testLoadUserByEmailNotFound()
+    public function testLoadUserByEmailNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -212,7 +213,7 @@ class UserHandlerTest extends TestCase
         $handler->loadByLogin($user->email);
     }
 
-    public function testLoadUserByEmail()
+    public function testLoadUserByEmail(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -232,7 +233,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadUsersByEmail()
+    public function testLoadUsersByEmail(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -252,7 +253,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadUserByTokenNotFound()
+    public function testLoadUserByTokenNotFound(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -262,7 +263,7 @@ class UserHandlerTest extends TestCase
         $handler->loadUserByToken('asd');
     }
 
-    public function testLoadUserByToken()
+    public function testLoadUserByToken(): void
     {
         $gatewayMock = $this
             ->createMock(User\Gateway::class);
@@ -284,7 +285,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testUpdateUserToken()
+    public function testUpdateUserToken(): void
     {
         $handler = $this->getUserHandler();
 
@@ -309,7 +310,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testExpireUserToken()
+    public function testExpireUserToken(): void
     {
         $handler = $this->getUserHandler();
 
@@ -334,7 +335,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeleteNonExistingUser()
+    public function testDeleteNonExistingUser(): void
     {
         $handler = $this->getUserHandler();
 
@@ -342,7 +343,7 @@ class UserHandlerTest extends TestCase
         $handler->delete(1337);
     }
 
-    public function testUpdateUser()
+    public function testUpdateUser(): void
     {
         $handler = $this->getUserHandler();
         $user = $this->getValidUser();
@@ -352,7 +353,7 @@ class UserHandlerTest extends TestCase
         $handler->update($user);
     }
 
-    public function testUpdateUserSettings()
+    public function testUpdateUserSettings(): void
     {
         $handler = $this->getUserHandler();
         $user = $this->getValidUser();
@@ -362,7 +363,7 @@ class UserHandlerTest extends TestCase
         $handler->update($user);
     }
 
-    public function testCreateNewRoleWithoutPolicies()
+    public function testCreateNewRoleWithoutPolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -378,7 +379,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testCreateRoleDraftWithoutPolicies()
+    public function testCreateRoleDraftWithoutPolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -401,7 +402,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testCreateNewRoleRoleId()
+    public function testCreateNewRoleRoleId(): void
     {
         $handler = $this->getUserHandler();
 
@@ -413,7 +414,7 @@ class UserHandlerTest extends TestCase
         self::assertSame(1, $roleDraft->id);
     }
 
-    public function testLoadRole()
+    public function testLoadRole(): void
     {
         $handler = $this->getUserHandler();
 
@@ -430,7 +431,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleWithPolicies()
+    public function testLoadRoleWithPolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -464,7 +465,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleWithPoliciesAndGroups()
+    public function testLoadRoleWithPoliciesAndGroups(): void
     {
         $handler = $this->getUserHandler();
 
@@ -502,7 +503,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleWithPolicyLimitations()
+    public function testLoadRoleWithPolicyLimitations(): void
     {
         $handler = $this->getUserHandler();
 
@@ -543,7 +544,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoles()
+    public function testLoadRoles(): void
     {
         $handler = $this->getUserHandler();
 
@@ -560,7 +561,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testUpdateRole()
+    public function testUpdateRole(): void
     {
         $handler = $this->getUserHandler();
 
@@ -579,7 +580,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeleteRole()
+    public function testDeleteRole(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -606,7 +607,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeleteRoleDraft()
+    public function testDeleteRoleDraft(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -634,7 +635,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddPolicyToRoleLimitations()
+    public function testAddPolicyToRoleLimitations(): void
     {
         $handler = $this->getUserHandler();
 
@@ -653,7 +654,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddPolicyPolicyId()
+    public function testAddPolicyPolicyId(): void
     {
         $handler = $this->getUserHandler();
 
@@ -668,7 +669,7 @@ class UserHandlerTest extends TestCase
         self::assertEquals(1, $policy->id);
     }
 
-    public function testAddPolicyLimitations()
+    public function testAddPolicyLimitations(): void
     {
         $this->createTestRoleWithTestPolicy();
 
@@ -682,7 +683,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddPolicyLimitationValues()
+    public function testAddPolicyLimitationValues(): void
     {
         $this->createTestRoleWithTestPolicy();
 
@@ -723,7 +724,7 @@ class UserHandlerTest extends TestCase
         return $handler->createRole($createStruct);
     }
 
-    public function testImplicitlyCreatePolicies()
+    public function testImplicitlyCreatePolicies(): void
     {
         $this->createRole();
 
@@ -737,7 +738,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeletePolicy()
+    public function testDeletePolicy(): void
     {
         $handler = $this->getUserHandler();
 
@@ -754,7 +755,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeletePolicyLimitations()
+    public function testDeletePolicyLimitations(): void
     {
         $handler = $this->getUserHandler();
 
@@ -767,7 +768,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testDeletePolicyLimitationValues()
+    public function testDeletePolicyLimitationValues(): void
     {
         $handler = $this->getUserHandler();
 
@@ -780,7 +781,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testUpdatePolicies()
+    public function testUpdatePolicies(): void
     {
         $handler = $this->getUserHandler();
 
@@ -810,7 +811,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddRoleToUser()
+    public function testAddRoleToUser(): void
     {
         $handler = $this->getUserHandler();
 
@@ -830,7 +831,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddRoleToUserWithLimitation()
+    public function testAddRoleToUserWithLimitation(): void
     {
         $handler = $this->getUserHandler();
 
@@ -856,7 +857,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testAddRoleToUserWithComplexLimitation()
+    public function testAddRoleToUserWithComplexLimitation(): void
     {
         $handler = $this->getUserHandler();
 
@@ -885,7 +886,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveUserRoleAssociation()
+    public function testRemoveUserRoleAssociation(): void
     {
         $handler = $this->getUserHandler();
 
@@ -912,7 +913,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleAssignmentsByGroupId()
+    public function testLoadRoleAssignmentsByGroupId(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -956,7 +957,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleAssignmentsByGroupIdInherited()
+    public function testLoadRoleAssignmentsByGroupIdInherited(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -975,7 +976,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadComplexRoleAssignments()
+    public function testLoadComplexRoleAssignments(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -1102,7 +1103,7 @@ class UserHandlerTest extends TestCase
         );
     }
 
-    public function testLoadRoleDraftByRoleId()
+    public function testLoadRoleDraftByRoleId(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();
@@ -1115,7 +1116,7 @@ class UserHandlerTest extends TestCase
         self::assertEquals($draft, $loadedDraft);
     }
 
-    public function testRoleDraftOnlyHavePolicyDraft()
+    public function testRoleDraftOnlyHavePolicyDraft(): void
     {
         $this->insertSharedDatabaseFixture();
         $handler = $this->getUserHandler();

@@ -18,8 +18,7 @@ use PDOException;
  */
 final class ExceptionConversion extends Gateway
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
-    private $innerGateway;
+    private Gateway $innerGateway;
 
     public function __construct(Gateway $innerGateway)
     {

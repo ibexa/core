@@ -12,8 +12,7 @@ use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 
 final class BeforeRemoveAliasesEvent extends BeforeEvent
 {
-    /** @var array */
-    private $aliasList;
+    private array $aliasList;
 
     public function __construct(array $aliasList)
     {

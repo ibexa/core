@@ -10,6 +10,7 @@ namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -29,21 +30,16 @@ final class DoctrineDatabase extends Gateway
      */
     public const MAX_LIMIT = 1073741824;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter */
-    private $criteriaConverter;
+    private CriteriaConverter $criteriaConverter;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
-    private $sortClauseConverter;
+    private SortClauseConverter $sortClauseConverter;
 
     /**
      * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    private $languageHandler;
+    private Handler $languageHandler;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;

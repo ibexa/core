@@ -17,7 +17,7 @@ class ImageValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validateConstraints($constraints, ?FieldDefinition $fieldDefinition = null)
+    public function validateConstraints($constraints, ?FieldDefinition $fieldDefinition = null): array
     {
         return [];
     }

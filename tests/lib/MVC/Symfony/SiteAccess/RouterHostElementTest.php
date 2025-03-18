@@ -73,7 +73,7 @@ class RouterHostElementTest extends RouterBaseTest
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new HostMapMatcher(['host' => 'foo'], []);
         self::assertSame('host:map', $matcher->getName());
@@ -85,7 +85,7 @@ class RouterHostElementTest extends RouterBaseTest
     /**
      * @dataProvider reverseMatchProvider
      */
-    public function testReverseMatch($siteAccessName, $elementNumber, SimplifiedRequest $request, $expectedHost)
+    public function testReverseMatch(string $siteAccessName, int $elementNumber, SimplifiedRequest $request, string $expectedHost): void
     {
         $matcher = new HostElement([$elementNumber]);
         $matcher->setRequest($request);
@@ -94,7 +94,7 @@ class RouterHostElementTest extends RouterBaseTest
         self::assertSame($expectedHost, $result->getRequest()->getHost());
     }
 
-    public function reverseMatchProvider()
+    public function reverseMatchProvider(): array
     {
         return [
             ['foo', 1, SimplifiedRequest::fromUrl('http://bar.example.com/'), 'foo.example.com'],
@@ -104,14 +104,14 @@ class RouterHostElementTest extends RouterBaseTest
         ];
     }
 
-    public function testReverseMatchFail()
+    public function testReverseMatchFail(): void
     {
         $matcher = new HostElement([3]);
         $matcher->setRequest(new SimplifiedRequest('http', 'ibexa.co'));
         self::assertNull($matcher->reverseMatch('foo'));
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $matcher = new HostElement([1]);
         $matcher->setRequest(new SimplifiedRequest('http', 'ibexa.co', 80, '/foo/bar'));

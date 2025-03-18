@@ -17,7 +17,7 @@ abstract class FilterLoaderWrapped implements LoaderInterface
     /**
      * @param \Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface $innerLoader
      */
-    public function setInnerLoader(LoaderInterface $innerLoader)
+    public function setInnerLoader(LoaderInterface $innerLoader): void
     {
         $this->innerLoader = $innerLoader;
     }

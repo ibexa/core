@@ -18,7 +18,7 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
     /**
      * @dataProvider testSetRequestsProvider
      */
-    public function testSetLocale(Request $request, $shouldHaveCustomLocale)
+    public function testSetLocale(Request $request, bool $shouldHaveCustomLocale): void
     {
         $event = new RequestEvent(
             $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
@@ -36,7 +36,7 @@ class CrowdinRequestLocaleSubscriberTest extends TestCase
         );
     }
 
-    public function testSetRequestsProvider()
+    public function testSetRequestsProvider(): array
     {
         return [
             'with_ez_in_context_translation_cookie' => [

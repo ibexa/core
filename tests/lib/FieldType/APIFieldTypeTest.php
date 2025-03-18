@@ -12,15 +12,16 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Core\FieldType\Value;
 use Ibexa\Core\Repository\Values\ContentType\FieldType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class APIFieldTypeTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerFieldType;
+    private MockObject $innerFieldType;
 
     /** @var \Ibexa\Core\Repository\Values\ContentType\FieldType */
-    private $fieldType;
+    private FieldType $fieldType;
 
     protected function setUp(): void
     {
@@ -29,7 +30,7 @@ class APIFieldTypeTest extends TestCase
         $this->fieldType = new FieldType($this->innerFieldType);
     }
 
-    public function testValidateValidatorConfigurationNoError()
+    public function testValidateValidatorConfigurationNoError(): void
     {
         $validatorConfig = ['foo' => 'bar'];
         $validationErrors = [];
@@ -42,7 +43,7 @@ class APIFieldTypeTest extends TestCase
         self::assertSame($validationErrors, $this->fieldType->validateValidatorConfiguration($validatorConfig));
     }
 
-    public function testValidateValidatorConfiguration()
+    public function testValidateValidatorConfiguration(): void
     {
         $validatorConfig = ['foo' => 'bar'];
         $validationErrors = [
@@ -59,7 +60,7 @@ class APIFieldTypeTest extends TestCase
         self::assertSame($validationErrors, $this->fieldType->validateValidatorConfiguration($validatorConfig));
     }
 
-    public function testValidateFieldSettingsNoError()
+    public function testValidateFieldSettingsNoError(): void
     {
         $fieldSettings = ['foo' => 'bar'];
         $validationErrors = [];
@@ -72,7 +73,7 @@ class APIFieldTypeTest extends TestCase
         self::assertSame($validationErrors, $this->fieldType->validateFieldSettings($fieldSettings));
     }
 
-    public function testValidateFieldSettings()
+    public function testValidateFieldSettings(): void
     {
         $fieldSettings = ['foo' => 'bar'];
         $validationErrors = [
@@ -89,7 +90,7 @@ class APIFieldTypeTest extends TestCase
         self::assertSame($validationErrors, $this->fieldType->validateFieldSettings($fieldSettings));
     }
 
-    public function testValidateValueNoError()
+    public function testValidateValueNoError(): void
     {
         $fieldDefinition = $this->getMockForAbstractClass(APIFieldDefinition::class);
         $value = $this->getMockForAbstractClass(Value::class);
@@ -103,7 +104,7 @@ class APIFieldTypeTest extends TestCase
         self::assertSame($validationErrors, $this->fieldType->validateValue($fieldDefinition, $value));
     }
 
-    public function testValidateValue()
+    public function testValidateValue(): void
     {
         $fieldDefinition = $this->getMockForAbstractClass(APIFieldDefinition::class);
         $value = $this->getMockForAbstractClass(Value::class);

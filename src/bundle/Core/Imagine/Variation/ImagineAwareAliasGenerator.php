@@ -22,20 +22,16 @@ use Imagine\Image\ImagineInterface;
  */
 class ImagineAwareAliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $aliasGenerator;
+    private VariationHandler $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator */
-    private $variationPathGenerator;
+    private VariationPathGenerator $variationPathGenerator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \Imagine\Image\ImagineInterface */
-    private $imagine;
+    private ImagineInterface $imagine;
 
     public function __construct(
         VariationHandler $aliasGenerator,

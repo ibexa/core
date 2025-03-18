@@ -22,10 +22,8 @@ class PolicyDraft extends APIPolicyDraft
 
     /**
      * Set of properties that are specific to PolicyDraft.
-     *
-     * @var array
      */
-    private $draftProperties = ['originalId' => true];
+    private array $draftProperties = ['originalId' => true];
 
     public function __get($property)
     {

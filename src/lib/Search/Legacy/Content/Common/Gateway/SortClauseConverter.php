@@ -45,7 +45,7 @@ class SortClauseConverter
      *
      * @param \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler $handler
      */
-    public function addHandler(SortClauseHandler $handler)
+    public function addHandler(SortClauseHandler $handler): void
     {
         $this->handlers[] = $handler;
     }

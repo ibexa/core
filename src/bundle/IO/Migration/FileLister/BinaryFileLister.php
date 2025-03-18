@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 class BinaryFileLister extends MigrationHandler implements FileListerInterface
 {
     /** @var \Ibexa\Bundle\IO\Migration\FileLister\FileIteratorInterface */
-    private $fileList;
+    private Iterator $fileList;
 
     /** @var string Directory where files are stored, within the storage dir. Example: 'original' */
     private $filesDir;
@@ -50,7 +50,10 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         return count($this->fileList);
     }
 
-    public function loadMetadataList($limit = null, $offset = null)
+    /**
+     * @return mixed[]
+     */
+    public function loadMetadataList($limit = null, $offset = null): array
     {
         $metadataList = [];
         $fileLimitList = new LimitIterator($this->fileList, $offset, $limit);

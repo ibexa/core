@@ -14,14 +14,11 @@ use UnexpectedValueException;
 
 final class BeforeCopySubtreeEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $subtree;
+    private Location $subtree;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $targetParentLocation;
+    private Location $targetParentLocation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location|null */
-    private $location;
+    private ?Location $location = null;
 
     public function __construct(Location $subtree, Location $targetParentLocation)
     {

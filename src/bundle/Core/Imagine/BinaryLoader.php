@@ -22,11 +22,9 @@ use Symfony\Component\Mime\MimeTypesInterface;
  */
 class BinaryLoader implements LoaderInterface
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Symfony\Component\Mime\MimeTypesInterface */
-    private $mimeTypes;
+    private MimeTypesInterface $mimeTypes;
 
     public function __construct(IOServiceInterface $ioService, MimeTypesInterface $mimeTypes)
     {

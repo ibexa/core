@@ -20,8 +20,7 @@ abstract class BaseView implements View
      */
     protected $templateIdentifier;
 
-    /** @var array */
-    protected $parameters = [];
+    protected array $parameters;
 
     /** @var array */
     protected $configHash = [];
@@ -29,14 +28,11 @@ abstract class BaseView implements View
     /** @var string */
     private $viewType = 'full';
 
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerReference */
-    private $controllerReference;
+    private ?ControllerReference $controllerReference = null;
 
-    /** @var \Symfony\Component\HttpFoundation\Response */
-    private $response;
+    private ?Response $response = null;
 
-    /** @var bool */
-    private $isCacheEnabled = true;
+    private bool $isCacheEnabled = true;
 
     /**
      * @phpstan-param string|(\Closure(array<string, mixed>):string) $templateIdentifier
@@ -60,7 +56,7 @@ abstract class BaseView implements View
     /**
      * @param array $parameters Hash of parameters to pass to the template/closure
      */
-    public function setParameters(array $parameters)
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }
@@ -70,7 +66,7 @@ abstract class BaseView implements View
      *
      * @param array $parameters
      */
-    public function addParameters(array $parameters)
+    public function addParameters(array $parameters): void
     {
         $this->parameters = array_replace($this->parameters, $parameters);
     }
@@ -121,7 +117,7 @@ abstract class BaseView implements View
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
      */
-    public function setTemplateIdentifier($templateIdentifier)
+    public function setTemplateIdentifier($templateIdentifier): void
     {
         if (!is_string($templateIdentifier) && !$templateIdentifier instanceof \Closure) {
             throw new InvalidArgumentType('templateIdentifier', 'string or \Closure', $templateIdentifier);
@@ -149,7 +145,7 @@ abstract class BaseView implements View
      *
      * @param array $config
      */
-    public function setConfigHash(array $config)
+    public function setConfigHash(array $config): void
     {
         $this->configHash = $config;
     }
@@ -164,7 +160,7 @@ abstract class BaseView implements View
         return $this->configHash;
     }
 
-    public function setViewType($viewType)
+    public function setViewType($viewType): void
     {
         $this->viewType = $viewType;
     }
@@ -174,7 +170,7 @@ abstract class BaseView implements View
         return $this->viewType;
     }
 
-    public function setControllerReference(ControllerReference $controllerReference)
+    public function setControllerReference(ControllerReference $controllerReference): void
     {
         $this->controllerReference = $controllerReference;
     }
@@ -197,7 +193,7 @@ abstract class BaseView implements View
         return [];
     }
 
-    public function setResponse(Response $response)
+    public function setResponse(Response $response): void
     {
         $this->response = $response;
     }
@@ -207,7 +203,7 @@ abstract class BaseView implements View
         return $this->response;
     }
 
-    public function setCacheEnabled($cacheEnabled)
+    public function setCacheEnabled($cacheEnabled): void
     {
         $this->isCacheEnabled = (bool)$cacheEnabled;
     }

@@ -81,7 +81,7 @@ class UrlWildcardHandler extends AbstractHandler implements UrlWildcardHandlerIn
         return $urlWildcard;
     }
 
-    public function remove($id)
+    public function remove($id): void
     {
         $this->logger->logCall(__METHOD__, ['id' => $id]);
 

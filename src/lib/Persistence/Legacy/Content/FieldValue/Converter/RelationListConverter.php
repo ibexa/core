@@ -23,8 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
 
 class RelationListConverter implements Converter
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -34,7 +33,7 @@ class RelationListConverter implements Converter
     /**
      * Converts data from $value to $storageFieldValue.
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         $doc = new DOMDocument('1.0', 'utf-8');
         $root = $doc->createElement('related-objects');
@@ -76,7 +75,7 @@ class RelationListConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         $fieldValue->data = ['destinationContentIds' => []];
         if ($value->dataText === null) {
@@ -103,7 +102,7 @@ class RelationListConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
         $validators = $fieldDef->fieldTypeConstraints->validators;
@@ -186,7 +185,7 @@ class RelationListConverter implements Converter
      *   </related-objects>
      * </code>
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         // default settings
         $fieldDef->fieldTypeConstraints->fieldSettings = [
@@ -276,7 +275,7 @@ class RelationListConverter implements Converter
      *
      * @return array
      */
-    protected function getRelationXmlHashFromDB(array $destinationContentIds)
+    protected function getRelationXmlHashFromDB(array $destinationContentIds): array
     {
         if (empty($destinationContentIds)) {
             return [];

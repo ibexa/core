@@ -12,15 +12,16 @@ use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ScalePercentFilterLoaderTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerLoader;
+    private MockObject $innerLoader;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScalePercentFilterLoader */
-    private $loader;
+    private ScalePercentFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -33,14 +34,14 @@ class ScalePercentFilterLoaderTest extends TestCase
     /**
      * @dataProvider loadInvalidProvider
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -49,7 +50,7 @@ class ScalePercentFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $widthPercent = 40;
         $heightPercent = 125;

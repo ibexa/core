@@ -17,8 +17,7 @@ use PHPUnit\Framework\Assert as Assertion;
  */
 class RoleContext implements Context
 {
-    /** @var \Ibexa\Contracts\Core\Repository\roleService */
-    protected $roleService;
+    protected RoleService $roleService;
 
     public function __construct(RoleService $roleService)
     {
@@ -32,7 +31,7 @@ class RoleContext implements Context
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
      */
-    public function ensureRoleExists($name)
+    public function ensureRoleExists(string $name)
     {
         try {
             $role = $this->roleService->loadRoleByIdentifier($name);
@@ -53,7 +52,7 @@ class RoleContext implements Context
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
      */
-    public function getRole($identifier)
+    public function getRole(string $identifier)
     {
         $role = null;
         try {
@@ -82,7 +81,7 @@ class RoleContext implements Context
      *
      * Verifies that a role with $name exists.
      */
-    public function iSeeRole($name)
+    public function iSeeRole($name): void
     {
         $role = $this->getRole($name);
         Assertion::assertNotNull(
@@ -94,7 +93,7 @@ class RoleContext implements Context
     /**
      * @Given :name do not have any assigned policies
      */
-    public function noAssginedPolicies($name)
+    public function noAssginedPolicies($name): void
     {
         $role = $this->getRole($name);
         Assertion::assertNotNull(
@@ -108,7 +107,7 @@ class RoleContext implements Context
     /**
      * @Given :name do not have any assigned Users and groups
      */
-    public function noAssigneGroups($name)
+    public function noAssigneGroups($name): void
     {
         $role = $this->getRole($name);
         Assertion::assertNotNull(
@@ -124,7 +123,7 @@ class RoleContext implements Context
      *
      * Verifies that a role with $name exists.
      */
-    public function iDontSeeRole($name)
+    public function iDontSeeRole($name): void
     {
         $role = $this->getRole($name);
         Assertion::assertNull(

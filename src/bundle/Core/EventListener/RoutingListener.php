@@ -19,14 +19,11 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class RoutingListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Symfony\Component\Routing\RouterInterface */
-    private $urlAliasRouter;
+    private RouterInterface $urlAliasRouter;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator */
-    private $urlAliasGenerator;
+    private Generator $urlAliasGenerator;
 
     public function __construct(ConfigResolverInterface $configResolver, RouterInterface $urlAliasRouter, Generator $urlAliasGenerator)
     {
@@ -42,7 +39,7 @@ class RoutingListener implements EventSubscriberInterface
         ];
     }
 
-    public function onSiteAccessMatch(PostSiteAccessMatchEvent $event)
+    public function onSiteAccessMatch(PostSiteAccessMatchEvent $event): void
     {
         $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id');
         $this->urlAliasRouter->setRootLocationId($rootLocationId);

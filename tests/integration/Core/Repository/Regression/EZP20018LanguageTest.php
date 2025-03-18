@@ -61,7 +61,7 @@ class EZP20018LanguageTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
      */
-    public function testSearchOnNotExistingLanguageGivesException()
+    public function testSearchOnNotExistingLanguageGivesException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -78,7 +78,7 @@ class EZP20018LanguageTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
      */
-    public function testSearchOnUsedLanguageGivesOneResult()
+    public function testSearchOnUsedLanguageGivesOneResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['por-PT'], false);
@@ -91,7 +91,7 @@ class EZP20018LanguageTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
      */
-    public function testSearchOnStandardLanguageGivesManyResult()
+    public function testSearchOnStandardLanguageGivesManyResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['eng-US'], false);
@@ -105,7 +105,7 @@ class EZP20018LanguageTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode
      */
-    public function testSearchOnNotUsedInstalledLanguageGivesNoResult()
+    public function testSearchOnNotUsedInstalledLanguageGivesNoResult(): void
     {
         $query = new Query();
         $query->filter = new LanguageCode(['eng-GB'], false);

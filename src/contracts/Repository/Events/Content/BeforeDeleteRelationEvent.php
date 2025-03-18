@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 final class BeforeDeleteRelationEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo */
-    private $sourceVersion;
+    private VersionInfo $sourceVersion;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $destinationContent;
+    private ContentInfo $destinationContent;
 
     public function __construct(VersionInfo $sourceVersion, ContentInfo $destinationContent)
     {

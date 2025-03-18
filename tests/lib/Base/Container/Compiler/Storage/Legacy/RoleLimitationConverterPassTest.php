@@ -36,7 +36,7 @@ class RoleLimitationConverterPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new RoleLimitationConverterPass());
     }
 
-    public function testRegisterRoleLimitationConverter()
+    public function testRegisterRoleLimitationConverter(): void
     {
         $serviceId = 'service_id';
         $def = new Definition();

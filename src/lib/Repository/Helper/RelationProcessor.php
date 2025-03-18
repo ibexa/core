@@ -26,8 +26,7 @@ class RelationProcessor
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -57,7 +56,7 @@ class RelationProcessor
         SPIFieldType $fieldType,
         BaseValue $fieldValue,
         $fieldDefinitionId
-    ) {
+    ): void {
         foreach ($fieldType->getRelations($fieldValue) as $relationType => $destinationIds) {
             if ($relationType & (Relation::FIELD | Relation::ASSET)) {
                 if (!isset($relations[$relationType][$fieldDefinitionId])) {
@@ -113,7 +112,7 @@ class RelationProcessor
         $sourceContentVersionNo,
         ContentType $contentType,
         array $existingRelations = []
-    ) {
+    ): void {
         // Map existing relations for easier handling
         $mappedRelations = [];
         foreach ($existingRelations as $relation) {

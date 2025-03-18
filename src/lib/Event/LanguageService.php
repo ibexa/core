@@ -26,8 +26,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class LanguageService extends LanguageServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         LanguageServiceInterface $innerService,

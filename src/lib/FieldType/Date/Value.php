@@ -56,7 +56,7 @@ class Value extends BaseValue
      *
      * @return \Ibexa\Core\FieldType\Date\Value
      */
-    public static function fromString($dateString)
+    public static function fromString($dateString): static
     {
         try {
             return new static(new DateTime($dateString, new DateTimeZone('UTC')));
@@ -74,7 +74,7 @@ class Value extends BaseValue
      *
      * @return \Ibexa\Core\FieldType\Date\Value
      */
-    public static function fromTimestamp($timestamp)
+    public static function fromTimestamp($timestamp): static
     {
         try {
             return new static(new DateTime("@{$timestamp}"));
@@ -83,7 +83,7 @@ class Value extends BaseValue
         }
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         if (!$this->date instanceof DateTime) {
             return '';

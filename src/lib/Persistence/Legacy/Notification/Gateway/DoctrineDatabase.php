@@ -25,8 +25,7 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_CREATED = 'created';
     public const COLUMN_DATA = 'data';
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /**
      * @param \Doctrine\DBAL\Connection $connection

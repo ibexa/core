@@ -26,7 +26,7 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTest
      *
      * @dataProvider searchContentQueryWithInvalidDataProvider
      */
-    public function testSearchContentSubtreeShouldThrowException($pathString)
+    public function testSearchContentSubtreeShouldThrowException(string|array $pathString): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -44,7 +44,7 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTest
      *
      * @dataProvider searchContentQueryProvider
      */
-    public function testSearchContentSubtree($pathString)
+    public function testSearchContentSubtree(string|array $pathString): void
     {
         $query = new Query(
             [
@@ -55,7 +55,7 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTest
         $result = $this->getRepository()->getSearchService()->findContent($query);
     }
 
-    public function searchContentQueryProvider()
+    public function searchContentQueryProvider(): array
     {
         return [
             [
@@ -70,7 +70,7 @@ class EZP22958SearchSubtreePathstringFormatTest extends BaseTest
         ];
     }
 
-    public function searchContentQueryWithInvalidDataProvider()
+    public function searchContentQueryWithInvalidDataProvider(): array
     {
         return [
             [

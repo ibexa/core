@@ -58,7 +58,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup()
      */
-    public function testLoadUserGroup()
+    public function testLoadUserGroup(): void
     {
         $repository = $this->getRepository();
 
@@ -104,7 +104,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadUserGroup()
      */
-    public function testLoadUserGroupWithNoAccessToParent()
+    public function testLoadUserGroupWithNoAccessToParent(): void
     {
         $repository = $this->getRepository();
 
@@ -141,7 +141,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserGroup
      */
-    public function testLoadUserGroupThrowsNotFoundException()
+    public function testLoadUserGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -180,7 +180,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserGroup
      */
-    public function testLoadSubUserGroups()
+    public function testLoadSubUserGroups(): void
     {
         $repository = $this->getRepository();
 
@@ -205,7 +205,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::loadSubUserGroups
      */
-    public function testLoadSubUserGroupsThrowsNotFoundException()
+    public function testLoadSubUserGroupsThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -265,7 +265,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testNewUserGroupCreateStruct
      */
-    public function testNewUserGroupCreateStructSetsMainLanguageCode($groupCreate)
+    public function testNewUserGroupCreateStructSetsMainLanguageCode($groupCreate): void
     {
         self::assertEquals('eng-US', $groupCreate->mainLanguageCode);
     }
@@ -279,7 +279,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testNewUserGroupCreateStruct
      */
-    public function testNewUserGroupCreateStructSetsContentType($groupCreate)
+    public function testNewUserGroupCreateStructSetsContentType($groupCreate): void
     {
         self::assertInstanceOf(
             ContentType::class,
@@ -294,7 +294,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testNewUserGroupCreateStruct
      */
-    public function testNewUserGroupCreateStructWithSecondParameter()
+    public function testNewUserGroupCreateStructWithSecondParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -353,7 +353,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupSetsExpectedProperties($userGroup)
+    public function testCreateUserGroupSetsExpectedProperties($userGroup): void
     {
         self::assertEquals(
             [
@@ -372,7 +372,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupThrowsInvalidArgumentException()
+    public function testCreateUserGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -408,7 +408,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupThrowsInvalidArgumentExceptionFieldTypeNotAccept()
+    public function testCreateUserGroupThrowsInvalidArgumentExceptionFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -443,7 +443,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUserGroup
      */
-    public function testCreateUserGroupWhenMissingField()
+    public function testCreateUserGroupWhenMissingField(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -526,7 +526,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUserGroup
      */
-    public function testDeleteUserGroup()
+    public function testDeleteUserGroup(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -549,7 +549,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::deleteUserGroup
      */
-    public function testDeleteUserGroupThrowsNotFoundException()
+    public function testDeleteUserGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -579,7 +579,7 @@ class UserServiceTest extends BaseTest
      * @depends testCreateUserGroup
      * @depends testLoadSubUserGroups
      */
-    public function testMoveUserGroup()
+    public function testMoveUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -624,7 +624,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::moveUserGroup
      */
-    public function testMoveUserGroupThrowsNotFoundException()
+    public function testMoveUserGroupThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -663,7 +663,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserGroupUpdateStruct
      */
-    public function testNewUserGroupUpdateStruct()
+    public function testNewUserGroupUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -690,7 +690,7 @@ class UserServiceTest extends BaseTest
      * @depends testCreateUserGroup
      * @depends testNewUserGroupUpdateStruct
      */
-    public function testUpdateUserGroup()
+    public function testUpdateUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -723,7 +723,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUserGroup
      */
-    public function testUpdateUserGroupWithSubContentUpdateStruct()
+    public function testUpdateUserGroupWithSubContentUpdateStruct(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -764,7 +764,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUserGroup
      */
-    public function testUpdateUserGroupWithSubContentMetadataUpdateStruct()
+    public function testUpdateUserGroupWithSubContentMetadataUpdateStruct(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -808,7 +808,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUserGroup
      */
-    public function testUpdateUserGroupThrowsInvalidArgumentExceptionOnFieldTypeNotAccept()
+    public function testUpdateUserGroupThrowsInvalidArgumentExceptionOnFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -869,7 +869,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUserGroup
      */
-    public function testUpdateUserGroupThrowsContentFieldValidationExceptionOnRequiredFieldEmpty()
+    public function testUpdateUserGroupThrowsContentFieldValidationExceptionOnRequiredFieldEmpty(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -894,7 +894,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testNewUserCreateStruct
      */
-    public function testNewUserCreateStructSetsExpectedProperties($userCreate)
+    public function testNewUserCreateStructSetsExpectedProperties($userCreate): void
     {
         self::assertEquals(
             [
@@ -919,7 +919,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testNewUserCreateStruct
      */
-    public function testNewUserCreateStructWithFifthParameter()
+    public function testNewUserCreateStructWithFifthParameter(): void
     {
         $repository = $this->getRepository();
 
@@ -987,7 +987,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUser
      */
-    public function testCreateUserSetsExpectedProperties(User $user)
+    public function testCreateUserSetsExpectedProperties(User $user): void
     {
         self::assertEquals(
             [
@@ -1010,7 +1010,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUser
      */
-    public function testCreateUserWhenMissingField()
+    public function testCreateUserWhenMissingField(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -1051,7 +1051,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUser
      */
-    public function testCreateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept()
+    public function testCreateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -1092,7 +1092,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUser
      */
-    public function testCreateUserThrowsInvalidArgumentException()
+    public function testCreateUserThrowsInvalidArgumentException(): void
     {
         $repository = $this->getRepository();
 
@@ -1286,7 +1286,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
      */
-    public function testCreateUserThrowsNotFoundException()
+    public function testCreateUserThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1319,7 +1319,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
      */
-    public function testCreateUserWithWeakPasswordThrowsUserPasswordValidationException()
+    public function testCreateUserWithWeakPasswordThrowsUserPasswordValidationException(): void
     {
         $userContentType = $this->createUserContentTypeWithStrongPassword();
 
@@ -1350,7 +1350,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::createUser
      */
-    public function testCreateUserWithStrongPassword()
+    public function testCreateUserWithStrongPassword(): void
     {
         $userContentType = $this->createUserContentTypeWithStrongPassword();
 
@@ -1395,7 +1395,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUser
      */
-    public function testLoadUserThrowsNotFoundException()
+    public function testLoadUserThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1460,7 +1460,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUser
      */
-    public function testLoadUserByLogin()
+    public function testLoadUserByLogin(): void
     {
         $repository = $this->getRepository();
 
@@ -1497,7 +1497,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserByLogin
      */
-    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLogin()
+    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLogin(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1521,7 +1521,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserByLogin
      */
-    public function testLoadUserByLoginWorksForLoginWithWrongCase()
+    public function testLoadUserByLoginWorksForLoginWithWrongCase(): void
     {
         $repository = $this->getRepository();
 
@@ -1560,7 +1560,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserByLogin
      */
-    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLoginByEmail()
+    public function testLoadUserByLoginThrowsNotFoundExceptionForUnknownLoginByEmail(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1603,7 +1603,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserByEmail
      */
-    public function testLoadUserByEmailReturnsEmptyInUnknownEmail()
+    public function testLoadUserByEmailReturnsEmptyInUnknownEmail(): void
     {
         $repository = $this->getRepository();
 
@@ -1628,7 +1628,7 @@ class UserServiceTest extends BaseTest
      * @depends testCreateUser
      * @depends testLoadUser
      */
-    public function testDeleteUser()
+    public function testDeleteUser(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -1655,7 +1655,7 @@ class UserServiceTest extends BaseTest
      * @depends testCreateUser
      * @depends testLoadUser
      */
-    public function testDeleteUserDeletesRelatedBookmarks()
+    public function testDeleteUserDeletesRelatedBookmarks(): void
     {
         $repository = $this->getRepository();
 
@@ -1688,7 +1688,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::newUserUpdateStruct()
      */
-    public function testNewUserUpdateStruct()
+    public function testNewUserUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1841,7 +1841,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUser
      */
-    public function testUpdateUserUpdatesExpectedProperties(User $user)
+    public function testUpdateUserUpdatesExpectedProperties(User $user): void
     {
         self::assertEquals(
             [
@@ -1876,7 +1876,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUser
      */
-    public function testUpdateUserReturnsPublishedVersion(User $user)
+    public function testUpdateUserReturnsPublishedVersion(User $user): void
     {
         self::assertEquals(
             APIVersionInfo::STATUS_PUBLISHED,
@@ -1891,7 +1891,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUser
      */
-    public function testUpdateUserWithContentMetadataUpdateStruct()
+    public function testUpdateUserWithContentMetadataUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1930,7 +1930,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUser
      */
-    public function testUpdateUserWithContentUpdateStruct()
+    public function testUpdateUserWithContentUpdateStruct(): void
     {
         $repository = $this->getRepository();
 
@@ -1973,7 +1973,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUser
      */
-    public function testUpdateUserWhenMissingField()
+    public function testUpdateUserWhenMissingField(): void
     {
         $this->expectException(ContentFieldValidationException::class);
 
@@ -2011,7 +2011,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUpdateUser
      */
-    public function testUpdateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept()
+    public function testUpdateUserThrowsInvalidArgumentExceptionOnFieldTypeNotAccept(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2047,7 +2047,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser
      */
-    public function testUpdateUserWithWeakPasswordThrowsUserPasswordValidationException()
+    public function testUpdateUserWithWeakPasswordThrowsUserPasswordValidationException(): void
     {
         $userService = $this->getRepository()->getUserService();
 
@@ -2082,7 +2082,7 @@ class UserServiceTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser
      */
-    public function testUpdateUserWithStrongPassword()
+    public function testUpdateUserWithStrongPassword(): void
     {
         $userService = $this->getRepository()->getUserService();
 
@@ -2191,7 +2191,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUser
      */
-    public function testLoadUserGroupsOfUser()
+    public function testLoadUserGroupsOfUser(): void
     {
         $repository = $this->getRepository();
 
@@ -2218,7 +2218,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testCreateUser
      */
-    public function testLoadUsersOfUserGroup()
+    public function testLoadUsersOfUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2247,7 +2247,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserGroupsOfUser
      */
-    public function testAssignUserToUserGroup()
+    public function testAssignUserToUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2290,7 +2290,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testAssignUserToUserGroup
      */
-    public function testAssignUserToUserGroupThrowsInvalidArgumentException()
+    public function testAssignUserToUserGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'user\' is invalid: User is already in the given User Group');
@@ -2353,7 +2353,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testLoadUserGroupsOfUser
      */
-    public function testUnAssignUserFromUserGroup()
+    public function testUnAssignUserFromUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2396,7 +2396,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUnAssignUserFromUserGroup
      */
-    public function testUnAssignUserFromUserGroupThrowsInvalidArgumentException()
+    public function testUnAssignUserFromUserGroupThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -2425,7 +2425,7 @@ class UserServiceTest extends BaseTest
      *
      * @depends testUnAssignUserFromUserGroup
      */
-    public function testUnAssignUserFromUserGroupThrowsBadStateArgumentException()
+    public function testUnAssignUserFromUserGroupThrowsBadStateArgumentException(): void
     {
         $this->expectException(BadStateException::class);
         $this->expectExceptionMessage('Argument \'user\' has a bad state: User only has one User Group, cannot unassign from last group');
@@ -2501,7 +2501,7 @@ class UserServiceTest extends BaseTest
     public function testLoadUserGroupWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2535,7 +2535,7 @@ class UserServiceTest extends BaseTest
     public function testLoadUserGroupWithPrioritizedLanguagesListAfterMainLanguageUpdate(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $contentService = $repository->getContentService();
@@ -2576,7 +2576,7 @@ class UserServiceTest extends BaseTest
     public function testLoadSubUserGroupsWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2618,7 +2618,7 @@ class UserServiceTest extends BaseTest
     public function testLoadUserWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2656,7 +2656,7 @@ class UserServiceTest extends BaseTest
     public function testLoadUserWithPrioritizedLanguagesListAfterMainLanguageUpdate(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $contentService = $repository->getContentService();
@@ -2701,7 +2701,7 @@ class UserServiceTest extends BaseTest
     public function testLoadUserByLoginWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $user = $this->createMultiLanguageUser();
@@ -2739,7 +2739,7 @@ class UserServiceTest extends BaseTest
     public function testLoadUsersByEmailWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $user = $this->createMultiLanguageUser();
@@ -2778,8 +2778,8 @@ class UserServiceTest extends BaseTest
      */
     public function testLoadUserGroupsOfUserWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
-        $expectedLanguageCode
-    ) {
+        ?string $expectedLanguageCode
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
         $userGroup = $this->createMultiLanguageUserGroup();
@@ -2812,7 +2812,7 @@ class UserServiceTest extends BaseTest
     public function testLoadUsersOfUserGroupWithPrioritizedLanguagesList(
         array $prioritizedLanguages,
         $expectedLanguageCode
-    ) {
+    ): void {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
 
@@ -2853,7 +2853,7 @@ class UserServiceTest extends BaseTest
      *
      * @return array
      */
-    public function getPrioritizedLanguageList()
+    public function getPrioritizedLanguageList(): array
     {
         return [
             [[], null],
@@ -2872,7 +2872,7 @@ class UserServiceTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
      */
-    private function createMultiLanguageUserGroup($parentGroupId = 4)
+    private function createMultiLanguageUserGroup($parentGroupId = 4): \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -2930,7 +2930,7 @@ class UserServiceTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    private function createMultiLanguageUser($userGroupId = 13)
+    private function createMultiLanguageUser(int $userGroupId = 13): User
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -3039,7 +3039,7 @@ class UserServiceTest extends BaseTest
      *
      * @param string $originalUserToken
      */
-    public function testUpdateUserToken($originalUserToken)
+    public function testUpdateUserToken(string $originalUserToken): void
     {
         $repository = $this->getRepository(false);
         $userService = $repository->getUserService();
@@ -3065,7 +3065,7 @@ class UserServiceTest extends BaseTest
      *
      * @param string $userToken
      */
-    public function testExpireUserToken($userToken)
+    public function testExpireUserToken(string $userToken): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -3098,7 +3098,7 @@ class UserServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\UserService::validatePassword()
      */
-    public function testValidatePasswordWithDefaultContext()
+    public function testValidatePasswordWithDefaultContext(): void
     {
         $userService = $this->getRepository()->getUserService();
 
@@ -3114,7 +3114,7 @@ class UserServiceTest extends BaseTest
      *
      * @dataProvider dataProviderForValidatePassword
      */
-    public function testValidatePassword(string $password, array $expectedErrors)
+    public function testValidatePassword(string $password, array $expectedErrors): void
     {
         $userService = $this->getRepository()->getUserService();
         $contentType = $this->createUserContentTypeWithStrongPassword();

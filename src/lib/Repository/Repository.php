@@ -11,6 +11,7 @@ namespace Ibexa\Core\Repository;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Filter\Content\Handler as ContentFilteringHandler;
 use Ibexa\Contracts\Core\Persistence\Filter\Location\Handler as LocationFilteringHandler;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
@@ -43,6 +44,10 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\FieldType\FieldTypeRegistry;
 use Ibexa\Core\Repository\Collector\ContentCollector;
 use Ibexa\Core\Repository\Helper\RelationProcessor;
+use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
+use Ibexa\Core\Repository\Mapper\ContentMapper;
+use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
+use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactoryInterface;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
@@ -59,17 +64,13 @@ class Repository implements RepositoryInterface
 {
     /**
      * Repository Handler object.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Handler
      */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
     /**
      * Instance of main Search Handler.
-     *
-     * @var \Ibexa\Contracts\Core\Search\Handler
      */
-    protected $searchHandler;
+    protected SearchHandler $searchHandler;
 
     /**
      * Instance of content service.
@@ -148,17 +149,14 @@ class Repository implements RepositoryInterface
      */
     protected $fieldTypeService;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    private $fieldTypeRegistry;
+    private FieldTypeRegistry $fieldTypeRegistry;
 
     protected NameSchemaServiceInterface $nameSchemaService;
 
     /**
      * Instance of relation processor service.
-     *
-     * @var \Ibexa\Core\Repository\Helper\RelationProcessor
      */
-    protected $relationProcessor;
+    protected RelationProcessor $relationProcessor;
 
     /**
      * Instance of URL alias service.
@@ -209,53 +207,39 @@ class Repository implements RepositoryInterface
      */
     protected $serviceSettings;
 
-    /** @var \Ibexa\Core\Repository\Permission\LimitationService */
-    protected $limitationService;
+    protected LimitationService $limitationService;
 
-    /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper */
-    protected $roleDomainMapper;
+    protected RoleDomainMapper $roleDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    protected $contentDomainMapper;
+    protected ContentDomainMapper $contentDomainMapper;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
-    protected $contentTypeDomainMapper;
+    protected ContentTypeDomainMapper $contentTypeDomainMapper;
 
-    /** @var \Ibexa\Core\Search\Common\BackgroundIndexer|null */
-    protected $backgroundIndexer;
+    protected BackgroundIndexer $backgroundIndexer;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
-    private $passwordHashService;
+    private PasswordHashService $passwordHashService;
 
     /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperFactory */
-    private $proxyDomainMapperFactory;
+    private ProxyDomainMapperFactoryInterface $proxyDomainMapperFactory;
 
     /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface|null */
     private $proxyDomainMapper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    private $languageResolver;
+    private LanguageResolver $languageResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionService */
-    private $permissionService;
+    private PermissionService $permissionService;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentMapper */
-    private $contentMapper;
+    private ContentMapper $contentMapper;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Validator\ContentValidator */
-    private $contentValidator;
+    private ContentValidator $contentValidator;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler */
-    private $contentFilteringHandler;
+    private ContentFilteringHandler $contentFilteringHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Location\Handler */
-    private $locationFilteringHandler;
+    private LocationFilteringHandler $locationFilteringHandler;
 
-    /** @var \Ibexa\Core\Repository\User\PasswordValidatorInterface */
-    private $passwordValidator;
+    private PasswordValidatorInterface $passwordValidator;
 
     private ConfigResolverInterface $configResolver;
 
@@ -271,10 +255,10 @@ class Repository implements RepositoryInterface
         FieldTypeRegistry $fieldTypeRegistry,
         PasswordHashService $passwordHashGenerator,
         ProxyDomainMapperFactoryInterface $proxyDomainMapperFactory,
-        Mapper\ContentDomainMapper $contentDomainMapper,
-        Mapper\ContentTypeDomainMapper $contentTypeDomainMapper,
-        Mapper\RoleDomainMapper $roleDomainMapper,
-        Mapper\ContentMapper $contentMapper,
+        ContentDomainMapper $contentDomainMapper,
+        ContentTypeDomainMapper $contentTypeDomainMapper,
+        RoleDomainMapper $roleDomainMapper,
+        ContentMapper $contentMapper,
         ContentValidator $contentValidator,
         LimitationService $limitationService,
         LanguageResolver $languageResolver,
@@ -674,7 +658,7 @@ class Repository implements RepositoryInterface
         return $this->roleService;
     }
 
-    protected function getRoleDomainMapper(): Mapper\RoleDomainMapper
+    protected function getRoleDomainMapper(): RoleDomainMapper
     {
         return $this->roleDomainMapper;
     }

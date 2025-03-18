@@ -13,10 +13,8 @@ class ComplexSettingParser extends DynamicSettingParser implements ComplexSettin
 {
     /**
      * Regular expression that matches a dynamic variable.
-     *
-     * @var string
      */
-    private $dynamicSettingRegex;
+    private string $dynamicSettingRegex;
 
     public function __construct()
     {

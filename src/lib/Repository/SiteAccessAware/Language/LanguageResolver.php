@@ -17,7 +17,7 @@ final class LanguageResolver extends AbstractLanguageResolver
      *
      * @var string[]
      */
-    private $configLanguages;
+    private array $configLanguages;
 
     public function __construct(
         array $configLanguages,

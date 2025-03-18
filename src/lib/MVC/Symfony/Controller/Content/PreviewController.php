@@ -40,26 +40,19 @@ class PreviewController
     public const PREVIEW_PARAMETER_NAME = 'isPreview';
     public const CONTENT_VIEW_ROUTE = 'ibexa.content.view';
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
-    /** @var \Ibexa\Core\Helper\PreviewLocationProvider */
-    private $locationProvider;
+    private PreviewLocationProvider $locationProvider;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface */
-    private $kernel;
+    private HttpKernelInterface $kernel;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper */
-    private $previewHelper;
+    private ContentPreviewHelper $previewHelper;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface */
-    private $authorizationChecker;
+    private AuthorizationCheckerInterface $authorizationChecker;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker */
-    private $controllerChecker;
+    private CustomLocationControllerChecker $controllerChecker;
 
     private bool $debugMode;
 

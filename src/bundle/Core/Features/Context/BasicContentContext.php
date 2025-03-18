@@ -26,16 +26,13 @@ class BasicContentContext implements Context
     /**
      * Content path mapping.
      */
-    private $contentPaths = [];
+    private array $contentPaths = [];
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
     public function __construct(
         Repository $repository,
@@ -68,7 +65,7 @@ class BasicContentContext implements Context
     /**
      * Publishes a content draft.
      */
-    public function publishDraft(Content $content)
+    public function publishDraft(Content $content): void
     {
         $this->contentService->publishVersion($content->versionInfo->id);
     }
@@ -83,7 +80,7 @@ class BasicContentContext implements Context
      *
      * @return \Ibexa\Core\Repository\Values\Content\Content an unpublished Content draft
      */
-    public function createContentDraft($parentLocationId, $contentTypeIdentifier, $fields, $languageCode = null)
+    public function createContentDraft(int $parentLocationId, $contentTypeIdentifier, array $fields, $languageCode = null): \Ibexa\Contracts\Core\Repository\Values\Content\Content
     {
         $languageCode = $languageCode ?: self::DEFAULT_LANGUAGE;
         $locationCreateStruct = $this->repository->getLocationService()->newLocationCreateStruct($parentLocationId);
@@ -137,7 +134,7 @@ class BasicContentContext implements Context
     /**
      * Maps the path of the content to it's name for later use.
      */
-    private function mapContentPath($path)
+    private function mapContentPath(string $path): void
     {
         $contentNames = explode('/', $path);
         $this->contentPaths[end($contentNames)] = $path;

@@ -19,6 +19,7 @@ use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RequestContext;
@@ -26,25 +27,25 @@ use Symfony\Component\Routing\RequestContext;
 class IORepositoryResolverTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private MockObject $ioService;
 
     /** @var \Symfony\Component\Routing\RequestContext */
-    private $requestContext;
+    private RequestContext $requestContext;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \Ibexa\Bundle\Core\Imagine\IORepositoryResolver */
-    private $imageResolver;
+    private IORepositoryResolver $imageResolver;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
     /** @var \Ibexa\Contracts\Core\Variation\VariationPurger|\PHPUnit\Framework\MockObject\MockObject */
-    protected $variationPurger;
+    protected MockObject $variationPurger;
 
     /** @var \Ibexa\Contracts\Core\Variation\VariationPathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $variationPathGenerator;
+    protected MockObject $variationPathGenerator;
 
     protected function setUp(): void
     {
@@ -68,7 +69,7 @@ class IORepositoryResolverTest extends TestCase
     /**
      * @dataProvider getFilePathProvider
      */
-    public function testGetFilePath($path, $filter, $expected)
+    public function testGetFilePath(string $path, string $filter, string $expected): void
     {
         $this->variationPathGenerator
             ->expects(self::once())
@@ -78,7 +79,7 @@ class IORepositoryResolverTest extends TestCase
         self::assertSame($expected, $this->imageResolver->getFilePath($path, $filter));
     }
 
-    public function getFilePathProvider()
+    public function getFilePathProvider(): array
     {
         return [
             ['Tardis/bigger/in-the-inside/RiverSong.jpg', 'thumbnail', 'Tardis/bigger/in-the-inside/RiverSong_thumbnail.jpg'],
@@ -88,7 +89,7 @@ class IORepositoryResolverTest extends TestCase
         ];
     }
 
-    public function testIsStoredImageExists()
+    public function testIsStoredImageExists(): void
     {
         $filter = 'thumbnail';
         $path = 'Tardis/bigger/in-the-inside/RiverSong.jpg';
@@ -109,7 +110,7 @@ class IORepositoryResolverTest extends TestCase
         self::assertTrue($this->imageResolver->isStored($path, $filter));
     }
 
-    public function testIsStoredImageDoesntExist()
+    public function testIsStoredImageDoesntExist(): void
     {
         $filter = 'thumbnail';
         $path = 'Tardis/bigger/in-the-inside/RiverSong.jpg';
@@ -133,7 +134,7 @@ class IORepositoryResolverTest extends TestCase
     /**
      * @dataProvider resolveProvider
      */
-    public function testResolve($path, $filter, $variationPath, $requestUrl, $expected)
+    public function testResolve(string $path, string $filter, string $variationPath, ?string $requestUrl, string $expected): void
     {
         if ($requestUrl) {
             $this->requestContext->fromRequest(Request::create($requestUrl));
@@ -153,7 +154,7 @@ class IORepositoryResolverTest extends TestCase
         self::assertSame($expected, $result);
     }
 
-    public function testResolveMissing()
+    public function testResolveMissing(): void
     {
         $this->expectException(NotResolvableException::class);
 
@@ -167,7 +168,7 @@ class IORepositoryResolverTest extends TestCase
         $this->imageResolver->resolve($path, 'some_filter');
     }
 
-    public function testResolveNotFound()
+    public function testResolveNotFound(): void
     {
         $this->expectException(NotResolvableException::class);
 
@@ -181,7 +182,7 @@ class IORepositoryResolverTest extends TestCase
         $this->imageResolver->resolve($path, 'some_filter');
     }
 
-    public function resolveProvider()
+    public function resolveProvider(): array
     {
         return [
             [
@@ -236,7 +237,7 @@ class IORepositoryResolverTest extends TestCase
         ];
     }
 
-    public function testStore()
+    public function testStore(): void
     {
         $filter = 'thumbnail';
         $path = 'Tardis/bigger/in-the-inside/RiverSong.jpg';
@@ -256,7 +257,7 @@ class IORepositoryResolverTest extends TestCase
         $this->imageResolver->store($binary, $path, $filter);
     }
 
-    public function testRemoveEmptyFilters()
+    public function testRemoveEmptyFilters(): void
     {
         $originalPath = 'foo/bar/test.jpg';
         $filters = ['filter1' => true, 'filter2' => true, 'chaud_cacao' => true];
@@ -309,7 +310,7 @@ class IORepositoryResolverTest extends TestCase
         $this->imageResolver->remove([$originalPath], []);
     }
 
-    public function testRemoveWithFilters()
+    public function testRemoveWithFilters(): void
     {
         $originalPath = 'foo/bar/test.jpg';
         $filters = ['filter1', 'filter2', 'chaud_cacao'];

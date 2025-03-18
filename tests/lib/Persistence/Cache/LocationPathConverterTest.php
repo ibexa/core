@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 final class LocationPathConverterTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Cache\LocationPathConverter */
-    private $locationPathConverter;
+    private LocationPathConverter $locationPathConverter;
 
     public function setUp(): void
     {

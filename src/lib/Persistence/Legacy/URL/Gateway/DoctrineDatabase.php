@@ -44,15 +44,12 @@ class DoctrineDatabase extends Gateway
         SortClause::SORT_DESC => 'DESC',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Criteria converter.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Query\CriteriaConverter
      */
-    protected $criteriaConverter;
+    protected CriteriaConverter $criteriaConverter;
 
     public function __construct(Connection $connection, CriteriaConverter $criteriaConverter)
     {
@@ -63,7 +60,7 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true)
+    public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true): array
     {
         $count = $doCount ? $this->doCount($criterion) : null;
         if (!$doCount && $limit === 0) {
@@ -137,7 +134,7 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function updateUrl(URL $url)
+    public function updateUrl(URL $url): void
     {
         $query = $this->connection->createQueryBuilder();
         $query

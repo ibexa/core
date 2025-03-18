@@ -18,7 +18,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 final class ContentValidatorStrategy implements ContentValidator
 {
     /** @var \Ibexa\Contracts\Core\Repository\Validator\ContentValidator[] */
-    private $contentValidators;
+    private iterable $contentValidators;
 
     public function __construct(iterable $contentValidators)
     {

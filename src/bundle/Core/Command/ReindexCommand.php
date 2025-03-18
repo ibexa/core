@@ -36,32 +36,24 @@ class ReindexCommand extends Command
     private const string IBEXA_CLOUD_CONFIG_FILE = '/run/config.json';
     private const string LINUX_CPUINFO_FILE = '/proc/cpuinfo';
 
-    /** @var \Ibexa\Core\Search\Common\Indexer|\Ibexa\Core\Search\Common\IncrementalIndexer */
-    private $searchIndexer;
+    private Indexer $searchIndexer;
 
-    /** @var string */
-    private $phpPath;
+    private string|null|bool $phpPath = null;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /** @var string */
     private $siteaccess;
 
-    /** @var string */
-    private $env;
+    private string $env;
 
-    /** @var bool */
-    private $isDebug;
+    private bool $isDebug;
 
-    /** @var string */
-    private $projectDir;
+    private string $projectDir;
 
-    /** @var \Ibexa\Contracts\Core\Search\Content\IndexerGateway */
-    private $gateway;
+    private IndexerGateway $gateway;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
-    private $locationHandler;
+    private Handler $locationHandler;
 
     private ContentIdListGeneratorStrategyInterface $contentIdListGeneratorStrategy;
 
@@ -97,7 +89,7 @@ class ReindexCommand extends Command
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    public function initialize(InputInterface $input, OutputInterface $output)
+    public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         if (!$this->searchIndexer instanceof Indexer) {
