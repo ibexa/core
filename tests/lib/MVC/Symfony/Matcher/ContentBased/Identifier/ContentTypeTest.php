@@ -16,7 +16,7 @@ use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 class ContentTypeTest extends BaseTest
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\ContentType */
-    private $matcher;
+    private ContentTypeIdentifierMatcher $matcher;
 
     protected function setUp(): void
     {
@@ -34,7 +34,7 @@ class ContentTypeTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -45,7 +45,7 @@ class ContentTypeTest extends BaseTest
         );
     }
 
-    public function matchLocationProvider()
+    public function matchLocationProvider(): array
     {
         $data = [];
 
@@ -106,7 +106,7 @@ class ContentTypeTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -119,7 +119,7 @@ class ContentTypeTest extends BaseTest
         );
     }
 
-    public function matchContentInfoProvider()
+    public function matchContentInfoProvider(): array
     {
         $data = [];
 
@@ -157,7 +157,7 @@ class ContentTypeTest extends BaseTest
      *
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateRepositoryMockForContentTypeIdentifier($contentTypeIdentifier)
+    private function generateRepositoryMockForContentTypeIdentifier(string $contentTypeIdentifier)
     {
         $contentTypeMock = $this
             ->getMockBuilder(ContentType::class)

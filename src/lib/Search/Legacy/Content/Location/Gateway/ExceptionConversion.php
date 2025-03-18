@@ -20,10 +20,8 @@ class ExceptionConversion extends Gateway
 {
     /**
      * The wrapped gateway.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Location\Gateway
      */
-    protected $innerGateway;
+    protected Gateway $innerGateway;
 
     /**
      * Creates a new exception conversion gateway around $innerGateway.

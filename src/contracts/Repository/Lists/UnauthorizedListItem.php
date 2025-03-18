@@ -13,14 +13,11 @@ namespace Ibexa\Contracts\Core\Repository\Lists;
  */
 abstract class UnauthorizedListItem
 {
-    /** @var string */
-    private $module;
+    private string $module;
 
-    /** @var string */
-    private $function;
+    private string $function;
 
-    /** @var array */
-    private $payload;
+    private array $payload;
 
     /**
      * @param string $module

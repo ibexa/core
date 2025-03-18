@@ -9,6 +9,7 @@ namespace Ibexa\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as BaseLanguageHandler;
 use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
@@ -27,17 +28,14 @@ class CachingHandler implements BaseLanguageHandler
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Handler
      */
-    protected $innerHandler;
+    protected Handler $innerHandler;
 
     /**
      * Language cache.
-     *
-     * @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
      */
-    protected $cache;
+    protected InMemoryCache $cache;
 
-    /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    protected $cacheIdentifierGenerator;
+    protected CacheIdentifierGeneratorInterface $cacheIdentifierGenerator;
 
     /**
      * Creates a caching handler around $innerHandler.
@@ -76,7 +74,7 @@ class CachingHandler implements BaseLanguageHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Language $language
      */
-    public function update(Language $language)
+    public function update(Language $language): void
     {
         $this->innerHandler->update($language);
         $this->storeCache([$language]);
@@ -213,7 +211,7 @@ class CachingHandler implements BaseLanguageHandler
      *
      * @param mixed $id
      */
-    public function delete($id)
+    public function delete($id): void
     {
         $this->innerHandler->delete($id);
         // Delete by primary key will remove the object, so we don't need to clear `ez-language-code-` here.
@@ -243,7 +241,7 @@ class CachingHandler implements BaseLanguageHandler
 
         $this->cache->setMulti(
             $languages,
-            static function (Language $language) use ($generator) {
+            static function (Language $language) use ($generator): array {
                 return [
                     $generator->generateKey(self::LANGUAGE_IDENTIFIER, [$language->id], true),
                     $generator->generateKey(self::LANGUAGE_CODE_IDENTIFIER, [$language->languageCode], true),

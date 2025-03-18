@@ -20,17 +20,13 @@ class Handler implements BaseLanguageHandler
 {
     /**
      * Language Gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
      */
-    protected $languageGateway;
+    protected Gateway $languageGateway;
 
     /**
      * Language Mapper.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Mapper
      */
-    protected $languageMapper;
+    protected Mapper $languageMapper;
 
     /**
      * Creates a new Language Handler.
@@ -66,7 +62,7 @@ class Handler implements BaseLanguageHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Language $language
      */
-    public function update(Language $language)
+    public function update(Language $language): void
     {
         $this->languageGateway->updateLanguage($language);
     }
@@ -141,7 +137,7 @@ class Handler implements BaseLanguageHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
      */
-    public function loadAll()
+    public function loadAll(): array
     {
         return $this->languageMapper->extractLanguagesFromRows(
             $this->languageGateway->loadAllLanguagesData()
@@ -155,7 +151,7 @@ class Handler implements BaseLanguageHandler
      *
      * @throws \LogicException If language could not be deleted
      */
-    public function delete($id)
+    public function delete($id): void
     {
         if (!$this->languageGateway->canDeleteLanguage($id)) {
             throw new LogicException('Cannot delete language: some content still references the language');

@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\FieldType\Date\Type;
+use Ibexa\Core\FieldType\Date\Value;
 use Ibexa\Core\FieldType\Date\Value as DateValue;
 
 /**
@@ -47,7 +48,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'defaultType' => [
@@ -62,7 +63,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'defaultType' => Type::DEFAULT_EMPTY,
@@ -74,7 +75,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -86,7 +87,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -96,7 +97,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -106,7 +107,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 42],
@@ -118,7 +119,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return DateValue::fromTimestamp(86400);
     }
@@ -141,7 +142,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             DateValue::class,
@@ -158,7 +159,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -173,7 +174,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return DateValue::fromTimestamp(86400);
     }
@@ -186,7 +187,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             DateValue::class,
@@ -215,7 +216,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         $this->assertFieldDataLoadedCorrect($field);
     }
@@ -240,7 +241,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         $timestamp = 186401;
         $dateTime = new DateTime("@{$timestamp}");
@@ -276,7 +277,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         $timestamp = 123456;
 
@@ -301,14 +302,14 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new DateValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -327,7 +328,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         return 172800;
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): int|string
     {
         // Handling Legacy Search Engine, which stores Date value as timestamp
         if ($this->getSetupFactory() instanceof Legacy) {
@@ -337,7 +338,7 @@ class DateIntegrationTest extends SearchBaseIntegrationTest
         return '1970-01-02T00:00:00Z';
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): int|string
     {
         // Handling Legacy Search Engine, which stores Date value as timestamp
         if ($this->getSetupFactory() instanceof Legacy) {

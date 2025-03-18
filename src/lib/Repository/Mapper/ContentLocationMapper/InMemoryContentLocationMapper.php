@@ -24,7 +24,7 @@ namespace Ibexa\Core\Repository\Mapper\ContentLocationMapper;
 final class InMemoryContentLocationMapper implements ContentLocationMapper
 {
     /** @var array<int, int> */
-    private $map;
+    private array $map;
 
     /**
      * @param int[] $map

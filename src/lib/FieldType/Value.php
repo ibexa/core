@@ -21,5 +21,5 @@ abstract class Value extends ValueObject implements ValueInterface
      *
      * @return string
      */
-    abstract public function __toString();
+    abstract public function __toString(): string;
 }

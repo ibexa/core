@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeTrashEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\TrashItem|null */
-    private $result;
+    private ?TrashItem $result = null;
 
-    /** @var bool */
-    private $resultSet = false;
+    private bool $resultSet = false;
 
     public function __construct(Location $location)
     {

@@ -12,10 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 
 final class ContentTypeSpecification implements ContentSpecification
 {
-    /**
-     * @var string
-     */
-    private $expectedType;
+    private string $expectedType;
 
     public function __construct(string $expectedType)
     {

@@ -43,32 +43,23 @@ class ResizeOriginalImagesCommand extends Command
     public const DEFAULT_ITERATION_COUNT = 25;
     public const DEFAULT_REPOSITORY_USER = 'admin';
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    private $userService;
+    private UserService $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    private $contentTypeService;
+    private ContentTypeService $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
-    private $searchService;
+    private SearchService $searchService;
 
-    /** @var \Liip\ImagineBundle\Imagine\Filter\FilterManager */
-    private $filterManager;
+    private FilterManager $filterManager;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Symfony\Component\Mime\MimeTypesInterface */
-    private $mimeTypes;
+    private MimeTypesInterface $mimeTypes;
 
-    /** @var \Imagine\Image\ImagineInterface */
-    private $imagine;
+    private ImagineInterface $imagine;
 
     public function __construct(
         PermissionResolver $permissionResolver,

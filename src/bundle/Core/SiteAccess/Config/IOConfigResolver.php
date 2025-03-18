@@ -15,8 +15,7 @@ use Ibexa\Core\IO\IOConfigProvider;
  */
 final class IOConfigResolver implements IOConfigProvider
 {
-    /** @var \Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor */
-    private $complexConfigProcessor;
+    private ComplexConfigProcessor $complexConfigProcessor;
 
     public function __construct(
         ComplexConfigProcessor $complexConfigProcessor

@@ -23,10 +23,8 @@ class MoreLikeThis extends Criterion
 
     /**
      * The type of the parameter from which terms are extracted for finding similar objects.
-     *
-     * @var int
      */
-    protected $type;
+    protected int $type;
 
     /**
      * Creates a new more like this criterion.

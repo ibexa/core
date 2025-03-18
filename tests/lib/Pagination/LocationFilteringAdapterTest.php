@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\Pagination\Pagerfanta\LocationFilteringAdapter;
 use Ibexa\Tests\Core\Search\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class LocationFilteringAdapterTest extends TestCase
 {
@@ -23,7 +24,7 @@ final class LocationFilteringAdapterTest extends TestCase
     ];
 
     /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationService;
+    private MockObject $locationService;
 
     protected function setUp(): void
     {

@@ -65,7 +65,7 @@ class AuthorCollection extends ArrayObject
      *
      * @param array $authorIds Author's Ids to remove from current collection
      */
-    public function removeAuthorsById(array $authorIds)
+    public function removeAuthorsById(array $authorIds): void
     {
         $aAuthors = $this->getArrayCopy();
         foreach ($aAuthors as $i => $author) {

@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,10 +24,10 @@ use PHPUnit\Framework\TestCase;
 final class PermissionAwareLocationResolverTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private MockObject $locationService;
 
     /** @var \Ibexa\Core\Repository\LocationResolver\LocationResolver */
-    private $locationResolver;
+    private PermissionAwareLocationResolver $locationResolver;
 
     public function setUp(): void
     {

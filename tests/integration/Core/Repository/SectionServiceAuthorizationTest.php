@@ -25,7 +25,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::createSection()
      */
-    public function testCreateSectionThrowsUnauthorizedException()
+    public function testCreateSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -55,7 +55,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSection()
      */
-    public function testLoadSectionThrowsUnauthorizedException()
+    public function testLoadSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -87,7 +87,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::updateSection()
      */
-    public function testUpdateSectionThrowsUnauthorizedException()
+    public function testUpdateSectionThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -123,7 +123,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
      */
-    public function testLoadSectionsLoadsEmptyListForAnonymousUser()
+    public function testLoadSectionsLoadsEmptyListForAnonymousUser(): void
     {
         $repository = $this->getRepository();
 
@@ -160,7 +160,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSections()
      */
-    public function testLoadSectionFiltersSections()
+    public function testLoadSectionFiltersSections(): void
     {
         $repository = $this->getRepository();
 
@@ -205,7 +205,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::loadSectionByIdentifier()
      */
-    public function testLoadSectionByIdentifierThrowsUnauthorizedException()
+    public function testLoadSectionByIdentifierThrowsUnauthorizedException(): void
     {
         $repository = $this->getRepository();
 
@@ -237,7 +237,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::assignSection()
      */
-    public function testAssignSectionThrowsUnauthorizedException()
+    public function testAssignSectionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -279,7 +279,7 @@ class SectionServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\SectionService::deleteSection()
      */
-    public function testDeleteSectionThrowsUnauthorizedException()
+    public function testDeleteSectionThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

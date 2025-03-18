@@ -14,6 +14,7 @@ use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -21,13 +22,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class RoutingListenerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $urlAliasRouter;
+    private MockObject $urlAliasRouter;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $urlAliasGenerator;
+    private MockObject $urlAliasGenerator;
 
     protected function setUp(): void
     {
@@ -37,7 +38,7 @@ class RoutingListenerTest extends TestCase
         $this->urlAliasGenerator = $this->createMock(UrlAliasGenerator::class);
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         $listener = new RoutingListener($this->configResolver, $this->urlAliasRouter, $this->urlAliasGenerator);
         self::assertSame(
@@ -48,7 +49,7 @@ class RoutingListenerTest extends TestCase
         );
     }
 
-    public function testOnSiteAccessMatch()
+    public function testOnSiteAccessMatch(): void
     {
         $rootLocationId = 123;
         $excludedUriPrefixes = ['/foo/bar', '/baz'];

@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -59,7 +60,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
      */
-    public function testFindLocationsFullTextIsSearchable(ContentInfo $contentInfo)
+    public function testFindLocationsFullTextIsSearchable(ContentInfo $contentInfo): void
     {
         $searchTerm = 'pamplemousse';
 
@@ -86,7 +87,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @depends testFindContentInfoFullTextIsSearchable
      */
-    public function testFindContentInfoFullTextIsNotSearchable()
+    public function testFindContentInfoFullTextIsNotSearchable(): void
     {
         $searchTerm = 'pamplemousse';
         $this->createFullTextIsSearchableContent($searchTerm, false);
@@ -110,7 +111,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @depends testFindLocationsFullTextIsSearchable
      */
-    public function testFindLocationsFullTextIsNotSearchable()
+    public function testFindLocationsFullTextIsNotSearchable(): void
     {
         $searchTerm = 'pamplemousse';
 
@@ -185,7 +186,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * EZP-26186: Make sure index is NOT deleted on removal of version draft (affected Solr).
      */
-    public function testDeleteVersion()
+    public function testDeleteVersion(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -213,7 +214,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * EZP-26186: Make sure affected child locations are deleted on content deletion (affected Solr).
      */
-    public function testDeleteContent()
+    public function testDeleteContent(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -236,7 +237,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * EZP-26186: Make sure index is deleted on removal of Users  (affected Solr).
      */
-    public function testDeleteUser()
+    public function testDeleteUser(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -259,7 +260,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * EZP-26186: Make sure index is deleted on removal of UserGroups  (affected Solr).
      */
-    public function testDeleteUserGroup()
+    public function testDeleteUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -282,7 +283,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that a newly created user is available for search.
      */
-    public function testCreateUser()
+    public function testCreateUser(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -318,7 +319,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that a newly updated user is available for search.
      */
-    public function testUpdateUser()
+    public function testUpdateUser(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -350,7 +351,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that a newly created user group is available for search.
      */
-    public function testCreateUserGroup()
+    public function testCreateUserGroup(): void
     {
         $repository = $this->getRepository();
         $userService = $repository->getUserService();
@@ -380,7 +381,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that a newly created Location is available for search.
      */
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -402,7 +403,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that hiding a Location makes it unavailable for search.
      */
-    public function testHideSubtree()
+    public function testHideSubtree(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -428,7 +429,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that hiding and revealing a Location makes it available for search.
      */
-    public function testRevealSubtree()
+    public function testRevealSubtree(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -456,7 +457,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that a copied subtree is available for search.
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -506,7 +507,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that moved subtree is available for search and found only under a specific parent Location.
      */
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -571,7 +572,7 @@ class SearchEngineIndexingTest extends BaseTest
      * Testing that content is indexed even when containing only fields with values
      * considered to be empty by the search engine.
      */
-    public function testIndexContentWithNullField()
+    public function testIndexContentWithNullField(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -627,7 +628,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that updated Location is available for search.
      */
-    public function testUpdateLocation()
+    public function testUpdateLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -665,7 +666,7 @@ class SearchEngineIndexingTest extends BaseTest
      * Testing that content will be deleted with all of its subitems but subitems with additional location will stay as
      * they are.
      */
-    public function testDeleteLocation()
+    public function testDeleteLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -700,7 +701,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test content is available for search after being published.
      */
-    public function testPublishVersion()
+    public function testPublishVersion(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -731,7 +732,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test recovered content is available for search.
      */
-    public function testRecoverLocation()
+    public function testRecoverLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -761,7 +762,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test copied content is available for search.
      */
-    public function testCopyContent()
+    public function testCopyContent(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -787,7 +788,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that setting object content state to locked and then unlocked does not affect search index.
      */
-    public function testSetContentState()
+    public function testSetContentState(): void
     {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
@@ -819,7 +820,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @dataProvider getSpecialFullTextCases
      */
-    public function testIndexingSpecialFullTextCases($text, $searchForText)
+    public function testIndexingSpecialFullTextCases(string $text, $searchForText): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -891,7 +892,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @return array
      */
-    public function getSpecialFullTextCases()
+    public function getSpecialFullTextCases(): array
     {
         return [
             ['UPPERCASE TEXT', 'uppercase text'],
@@ -918,7 +919,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @see https://issues.ibexa.co/browse/EZP-27250
      */
-    public function testUserFullTextSearch()
+    public function testUserFullTextSearch(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -940,7 +941,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test updating Content field value with empty value removes it from search index.
      */
-    public function testRemovedContentFieldValueIsNotFound()
+    public function testRemovedContentFieldValueIsNotFound(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -975,7 +976,7 @@ class SearchEngineIndexingTest extends BaseTest
      * @param int $parentLocationId parent location Id
      * @param bool $expected expected value of {invisible} property in subtree
      */
-    private function assertSubtreeInvisibleProperty(SearchService $searchService, $parentLocationId, $expected)
+    private function assertSubtreeInvisibleProperty(SearchService $searchService, $parentLocationId, $expected): void
     {
         $criterion = new Criterion\ParentLocationId($parentLocationId);
         $query = new LocationQuery(['filter' => $criterion]);
@@ -990,7 +991,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that swapping locations affects properly Search Engine Index.
      */
-    public function testSwapLocation()
+    public function testSwapLocation(): void
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
@@ -1023,7 +1024,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that updating Content metadata affects properly Search Engine Index.
      */
-    public function testUpdateContentMetadata()
+    public function testUpdateContentMetadata(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1037,7 +1038,7 @@ class SearchEngineIndexingTest extends BaseTest
 
         $newContentMetadataUpdateStruct = $contentService->newContentMetadataUpdateStruct();
         $newContentMetadataUpdateStruct->remoteId = md5('Test');
-        $newContentMetadataUpdateStruct->publishedDate = new \DateTime();
+        $newContentMetadataUpdateStruct->publishedDate = new DateTime();
         $newContentMetadataUpdateStruct->publishedDate->add(new \DateInterval('P1D'));
         $newContentMetadataUpdateStruct->mainLocationId = $newLocation->id;
 
@@ -1074,7 +1075,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that updating Content Draft metadata does not affect Search Engine Index.
      */
-    public function testUpdateContentDraftMetadataIsNotIndexed()
+    public function testUpdateContentDraftMetadataIsNotIndexed(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1099,7 +1100,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test that assigning section to content object properly affects Search Engine Index.
      */
-    public function testAssignSection()
+    public function testAssignSection(): void
     {
         $repository = $this->getRepository();
         $sectionService = $repository->getSectionService();
@@ -1123,7 +1124,7 @@ class SearchEngineIndexingTest extends BaseTest
     /**
      * Test search engine is updated after removal of the translation from all the Versions.
      */
-    public function testDeleteTranslation()
+    public function testDeleteTranslation(): void
     {
         $repository = $this->getRepository();
         $searchService = $repository->getSearchService();
@@ -1270,7 +1271,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    protected function createContentWithNameAndDescription($contentName, $contentDescription, array $parentLocationIdList = [])
+    protected function createContentWithNameAndDescription(string $contentName, $contentDescription, array $parentLocationIdList = []): Content
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1303,7 +1304,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    protected function createMultiLanguageContent(array $names, $parentLocationId, $alwaysAvailable)
+    protected function createMultiLanguageContent(array $names, int $parentLocationId, $alwaysAvailable)
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1363,7 +1364,7 @@ class SearchEngineIndexingTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
      */
-    protected function createNewTestLocation()
+    protected function createNewTestLocation(): Location
     {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();

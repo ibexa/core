@@ -18,7 +18,7 @@ use IteratorAggregate;
 class TermAggregationResult extends AggregationResult implements IteratorAggregate, Countable
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\TermAggregationResultEntry[] */
-    private $entries;
+    private iterable $entries;
 
     public function __construct(string $name, iterable $entries = [])
     {

@@ -52,7 +52,7 @@ class URLWildcardServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\URLWildcardServiceTest::testRemove
      */
-    public function testRemoveThrowsUnauthorizedException()
+    public function testRemoveThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

@@ -59,14 +59,11 @@ final class DoctrineGateway implements Gateway
         'content_main_location_id' => 'main_location.main_node_id',
     ];
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\CriterionVisitor */
-    private $criterionVisitor;
+    private CriterionVisitor $criterionVisitor;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor */
-    private $sortClauseVisitor;
+    private SortClauseVisitor $sortClauseVisitor;
 
     public function __construct(
         Connection $connection,

@@ -19,10 +19,10 @@ use Iterator;
 final class FieldDefinitionCollection implements FieldDefinitionCollectionInterface
 {
     /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] */
-    private $fieldDefinitions;
+    private array $fieldDefinitions;
 
     /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[] */
-    private $fieldDefinitionsByIdentifier;
+    private array $fieldDefinitionsByIdentifier;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition[]

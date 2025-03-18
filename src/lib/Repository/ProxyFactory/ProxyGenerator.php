@@ -21,11 +21,9 @@ use RuntimeException;
  */
 final class ProxyGenerator implements ProxyGeneratorInterface
 {
-    /** @var \ProxyManager\Factory\LazyLoadingValueHolderFactory|null */
-    private $lazyLoadingValueHolderFactory;
+    private ?LazyLoadingValueHolderFactory $lazyLoadingValueHolderFactory = null;
 
-    /** @var string */
-    private $proxyCacheDir;
+    private string $proxyCacheDir;
 
     public function __construct(string $proxyCacheDir)
     {
@@ -47,7 +45,7 @@ final class ProxyGenerator implements ProxyGeneratorInterface
     public function warmUp(iterable $classes): void
     {
         foreach ($classes as $class) {
-            $this->createProxy($class, static function () {});
+            $this->createProxy($class, static function (): void {});
         }
     }
 

@@ -21,7 +21,7 @@ class BorderFilterLoaderTest extends TestCase
     /**
      * @dataProvider loadInvalidProvider
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -29,7 +29,7 @@ class BorderFilterLoaderTest extends TestCase
         $loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -38,7 +38,7 @@ class BorderFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoadDefaultColor()
+    public function testLoadDefaultColor(): void
     {
         $image = $this->createMock(ImageInterface::class);
         $options = [10, 10];
@@ -85,7 +85,7 @@ class BorderFilterLoaderTest extends TestCase
     /**
      * @dataProvider loadProvider
      */
-    public function testLoad($thickX, $thickY, $color)
+    public function testLoad(int $thickX, int $thickY, string $color): void
     {
         $image = $this->createMock(ImageInterface::class);
         $options = [$thickX, $thickY, $color];
@@ -129,7 +129,7 @@ class BorderFilterLoaderTest extends TestCase
         self::assertSame($image, $loader->load($image, $options));
     }
 
-    public function loadProvider()
+    public function loadProvider(): array
     {
         return [
             [10, 10, '#fff'],

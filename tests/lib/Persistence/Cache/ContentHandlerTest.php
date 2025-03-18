@@ -437,7 +437,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 
-    public function testDeleteContent()
+    public function testDeleteContent(): void
     {
         $this->loggerMock->expects(self::once())->method('logCall');
 

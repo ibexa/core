@@ -23,32 +23,33 @@ use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
 {
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
-    private $gateway;
+    private DoctrineStorage $gateway;
 
     /** @var \Ibexa\Core\IO\UrlRedecoratorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $redecorator;
+    private MockObject $redecorator;
 
     /** @var \Ibexa\Core\FieldType\Image\PathGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    private $pathGenerator;
+    private MockObject $pathGenerator;
 
     /** @var \Ibexa\Core\FieldType\Image\AliasCleanerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $aliasCleaner;
+    private MockObject $aliasCleaner;
 
     /** @var \Ibexa\Core\IO\FilePathNormalizerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $filePathNormalizer;
+    private MockObject $filePathNormalizer;
 
     /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioService;
+    private MockObject $ioService;
 
     /** @var \Ibexa\Core\FieldType\Image\ImageStorage */
-    private $storage;
+    private ImageStorage $storage;
 
     /** @var \Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator&\PHPUnit\Framework\MockObject\MockObject */
-    private $fileExtensionBlackListValidator;
+    private MockObject $fileExtensionBlackListValidator;
 
     protected function setUp(): void
     {

@@ -15,8 +15,7 @@ final class CountryTermAggregation extends AbstractFieldTermAggregation
     public const TYPE_ALPHA_2 = 4;
     public const TYPE_ALPHA_3 = 8;
 
-    /** @var int */
-    private $type;
+    private int $type;
 
     public function __construct(
         string $name,

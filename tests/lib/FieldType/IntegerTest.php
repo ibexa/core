@@ -8,7 +8,9 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Integer\Type;
 use Ibexa\Core\FieldType\Integer\Type as Integer;
+use Ibexa\Core\FieldType\Integer\Value;
 use Ibexa\Core\FieldType\Integer\Value as IntegerValue;
 use Ibexa\Core\FieldType\ValidationError;
 
@@ -29,7 +31,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new Integer();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -42,7 +44,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [
             'IntegerValueValidator' => [
@@ -63,7 +65,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [];
     }
@@ -71,12 +73,12 @@ class IntegerTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new IntegerValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -123,7 +125,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -180,7 +182,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -229,7 +231,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -271,7 +273,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidValidatorConfiguration()
+    public function provideValidValidatorConfiguration(): array
     {
         return [
             [
@@ -358,7 +360,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidValidatorConfiguration()
+    public function provideInvalidValidatorConfiguration(): array
     {
         return [
             [
@@ -448,7 +450,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidDataForValidate()
+    public function provideValidDataForValidate(): array
     {
         return [
             [
@@ -529,7 +531,7 @@ class IntegerTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInvalidDataForValidate()
+    public function provideInvalidDataForValidate(): array
     {
         return [
             [

@@ -19,11 +19,9 @@ use Twig\TwigFunction;
 
 class ImageExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $imageVariationService;
+    private VariationHandler $imageVariationService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper */
-    protected $assetMapper;
+    protected AssetMapper $assetMapper;
 
     public function __construct(VariationHandler $imageVariationService, AssetMapper $assetMapper)
     {

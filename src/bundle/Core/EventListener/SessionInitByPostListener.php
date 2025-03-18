@@ -25,7 +25,7 @@ class SessionInitByPostListener implements EventSubscriberInterface
         ];
     }
 
-    public function onSiteAccessMatch(PostSiteAccessMatchEvent $event)
+    public function onSiteAccessMatch(PostSiteAccessMatchEvent $event): void
     {
         $request = $event->getRequest();
         $session = null;

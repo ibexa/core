@@ -15,14 +15,12 @@ use Iterator;
 
 final class LocationFilteringAdapter implements BatchIteratorAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
-    private $filter;
+    private Filter $filter;
 
     /** @var string[]|null */
-    private $languages;
+    private ?array $languages;
 
     public function __construct(LocationService $locationService, Filter $filter, ?array $languages = null)
     {

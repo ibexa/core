@@ -12,11 +12,9 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 final class LoginFormView extends BaseView
 {
-    /** @var string */
-    private $lastUsername;
+    private ?string $lastUsername = null;
 
-    /** @var \Symfony\Component\Security\Core\Exception\AuthenticationException|null */
-    private $lastAuthenticationException;
+    private ?AuthenticationException $lastAuthenticationException = null;
 
     public function getLastUsername(): ?string
     {

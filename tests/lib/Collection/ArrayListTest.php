@@ -72,7 +72,7 @@ class ArrayListTest extends AbstractCollectionTest
 
         self::assertEquals(
             $this->createCollection(['7', '9', '10']),
-            $list->filter(static fn (string $item) => ctype_digit($item))
+            $list->filter(static fn (string $item): bool => ctype_digit($item))
         );
     }
 

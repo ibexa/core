@@ -16,7 +16,9 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
+use Ibexa\Core\Search\Legacy\Content\Handler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway as LocationGateway;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Content Search test case for ContentSearchHandler.
@@ -28,7 +30,7 @@ class HandlerContentSortTest extends AbstractTestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $fieldRegistry;
+    protected ?MockObject $fieldRegistry = null;
 
     /**
      * Returns the content search handler to test.
@@ -40,11 +42,11 @@ class HandlerContentSortTest extends AbstractTestCase
      *
      * @return \Ibexa\Core\Search\Legacy\Content\Handler
      */
-    protected function getContentSearchHandler(array $fullTextSearchConfiguration = [])
+    protected function getContentSearchHandler(array $fullTextSearchConfiguration = []): Handler
     {
         $connection = $this->getDatabaseConnection();
 
-        return new Content\Handler(
+        return new Handler(
             new Content\Gateway\DoctrineDatabase(
                 $connection,
                 new Content\Common\Gateway\CriteriaConverter(
@@ -95,7 +97,7 @@ class HandlerContentSortTest extends AbstractTestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper
      */
-    protected function getContentMapperMock()
+    protected function getContentMapperMock(): MockObject
     {
         $mapperMock = $this->getMockBuilder(ContentMapper::class)
             ->setConstructorArgs(
@@ -153,7 +155,7 @@ class HandlerContentSortTest extends AbstractTestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
      */
-    protected function getContentFieldHandlerMock()
+    protected function getContentFieldHandlerMock(): MockObject
     {
         return $this->getMockBuilder(FieldHandler::class)
             ->disableOriginalConstructor()
@@ -161,7 +163,7 @@ class HandlerContentSortTest extends AbstractTestCase
             ->getMock();
     }
 
-    public function testNoSorting()
+    public function testNoSorting(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -188,7 +190,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDateModified()
+    public function testSortDateModified(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -216,7 +218,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortDatePublished()
+    public function testSortDatePublished(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -244,7 +246,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortSectionIdentifier()
+    public function testSortSectionIdentifier(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -289,7 +291,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortSectionName()
+    public function testSortSectionName(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -342,7 +344,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortContentName()
+    public function testSortContentName(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -370,7 +372,7 @@ class HandlerContentSortTest extends AbstractTestCase
         );
     }
 
-    public function testSortFieldText()
+    public function testSortFieldText(): void
     {
         $locator = $this->getContentSearchHandler();
 
@@ -439,7 +441,7 @@ class HandlerContentSortTest extends AbstractTestCase
         }
     }
 
-    public function testSortFieldNumeric()
+    public function testSortFieldNumeric(): void
     {
         $locator = $this->getContentSearchHandler();
 

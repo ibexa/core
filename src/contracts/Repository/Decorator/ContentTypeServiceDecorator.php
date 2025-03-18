@@ -23,8 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 abstract class ContentTypeServiceDecorator implements ContentTypeService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    protected $innerService;
+    protected ContentTypeService $innerService;
 
     public function __construct(ContentTypeService $innerService)
     {

@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Handler;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,13 +24,13 @@ class HandlerTest extends TestCase
     public const USER_PREFERENCE_ID = 1;
 
     /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway|\PHPUnit\Framework\MockObject\MockObject */
-    private $gateway;
+    private MockObject $gateway;
 
     /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper|\PHPUnit\Framework\MockObject\MockObject */
-    private $mapper;
+    private MockObject $mapper;
 
     /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Handler */
-    private $handler;
+    private Handler $handler;
 
     protected function setUp(): void
     {
@@ -38,7 +39,7 @@ class HandlerTest extends TestCase
         $this->handler = new Handler($this->gateway, $this->mapper);
     }
 
-    public function testSetUserPreference()
+    public function testSetUserPreference(): void
     {
         $setStruct = new UserPreferenceSetStruct([
             'userId' => 5,
@@ -64,7 +65,7 @@ class HandlerTest extends TestCase
         self::assertEquals($userPreference->id, self::USER_PREFERENCE_ID);
     }
 
-    public function testCountUserPreferences()
+    public function testCountUserPreferences(): void
     {
         $ownerId = 10;
         $expectedCount = 12;
@@ -78,7 +79,7 @@ class HandlerTest extends TestCase
         self::assertEquals($expectedCount, $this->handler->countUserPreferences($ownerId));
     }
 
-    public function testLoadUserPreferences()
+    public function testLoadUserPreferences(): void
     {
         $ownerId = 9;
         $limit = 5;

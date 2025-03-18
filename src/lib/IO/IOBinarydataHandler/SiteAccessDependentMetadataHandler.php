@@ -17,11 +17,9 @@ use Ibexa\Core\IO\IOMetadataHandler;
  */
 final class SiteAccessDependentMetadataHandler implements IOMetadataHandler
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $dataHandlerRegistry;
+    private HandlerRegistry $dataHandlerRegistry;
 
     public function __construct(
         ConfigResolverInterface $configResolver,

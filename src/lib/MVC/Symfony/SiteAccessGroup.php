@@ -12,8 +12,7 @@ use JsonSerializable;
 
 final class SiteAccessGroup implements JsonSerializable
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
     public function __construct(string $name)
     {
@@ -25,7 +24,7 @@ final class SiteAccessGroup implements JsonSerializable
         return $this->name;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }

@@ -21,7 +21,7 @@ class CustomParameters implements EventSubscriberInterface
         return [ViewEvents::FILTER_VIEW_PARAMETERS => 'injectCustomParameters'];
     }
 
-    public function injectCustomParameters(FilterViewParametersEvent $event)
+    public function injectCustomParameters(FilterViewParametersEvent $event): void
     {
         $builderParameters = $event->getBuilderParameters();
 

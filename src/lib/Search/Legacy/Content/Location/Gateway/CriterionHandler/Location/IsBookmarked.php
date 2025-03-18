@@ -47,7 +47,7 @@ final class IsBookmarked extends CriterionHandler
         QueryBuilder $queryBuilder,
         CriterionInterface $criterion,
         array $languageSettings
-    ) {
+    ): string {
         if (!is_array($criterion->value)) {
             throw new LogicException(sprintf(
                 'Expected %s Criterion value to be an array, %s received',

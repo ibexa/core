@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Templating\TemplateReferenceInterface;
 
 abstract class Controller implements ContainerAwareInterface
 {
@@ -41,7 +42,7 @@ abstract class Controller implements ContainerAwareInterface
      *
      * @return bool
      */
-    public function hasParameter($parameterName)
+    public function hasParameter(string $parameterName)
     {
         return $this->getConfigResolver()->hasParameter($parameterName);
     }
@@ -63,7 +64,7 @@ abstract class Controller implements ContainerAwareInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($view, array $parameters = [], Response $response = null)
+    public function render(string|TemplateReferenceInterface $view, array $parameters = [], Response $response = null)
     {
         if (!isset($response)) {
             $response = new Response();

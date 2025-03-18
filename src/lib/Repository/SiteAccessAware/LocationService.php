@@ -25,11 +25,9 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
  */
 class LocationService implements LocationServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    protected $service;
+    protected LocationServiceInterface $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    protected $languageResolver;
+    protected LanguageResolver $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.

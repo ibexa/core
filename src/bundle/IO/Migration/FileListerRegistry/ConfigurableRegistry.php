@@ -16,7 +16,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 final class ConfigurableRegistry implements FileListerRegistry
 {
     /** @var \Ibexa\Bundle\IO\Migration\FileListerInterface[] */
-    private $registry = [];
+    private array $registry;
 
     /**
      * @param \Ibexa\Bundle\IO\Migration\FileListerInterface[] $items Hash of FileListerInterfaces, with identifier string as key.

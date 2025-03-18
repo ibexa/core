@@ -21,7 +21,10 @@ class MultipleBooleanMapper extends FieldValueMapper
         return $field->getType() instanceof MultipleBooleanField;
     }
 
-    public function map(Field $field)
+    /**
+     * @return bool[]
+     */
+    public function map(Field $field): array
     {
         $values = [];
 

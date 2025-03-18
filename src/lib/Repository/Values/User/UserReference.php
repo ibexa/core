@@ -17,8 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReferenc
  */
 class UserReference implements APIUserReference
 {
-    /** @var int */
-    private $userId;
+    private int $userId;
 
     public function __construct(int $userId)
     {

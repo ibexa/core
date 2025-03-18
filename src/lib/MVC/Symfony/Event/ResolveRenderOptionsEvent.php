@@ -13,8 +13,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class ResolveRenderOptionsEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\RenderOptions */
-    private $renderOptions;
+    private RenderOptions $renderOptions;
 
     public function __construct(
         RenderOptions $renderOptions

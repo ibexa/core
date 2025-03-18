@@ -13,8 +13,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserMetadata;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation as APIOwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -37,7 +39,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APIOwnerLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APIOwnerLimitation', $limitationValue);
@@ -64,7 +66,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $value) {
@@ -90,7 +92,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): OwnerLimitation
     {
         return new APIOwnerLimitation(['limitationValues' => $limitationValues]);
     }
@@ -157,7 +159,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
      *
      * @todo Add support for $limitationValues[0] == 2 when session values can be injected somehow, or deprecate
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): UserMetadata
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -171,8 +173,8 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
             );
         }
 
-        return new Criterion\UserMetadata(
-            Criterion\UserMetadata::OWNER,
+        return new UserMetadata(
+            UserMetadata::OWNER,
             Criterion\Operator::EQ,
             $currentUser->getUserId()
         );
@@ -184,7 +186,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements S
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

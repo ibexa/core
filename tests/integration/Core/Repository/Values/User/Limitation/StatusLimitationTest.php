@@ -19,7 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation;
  */
 class StatusLimitationTest extends BaseLimitationTest
 {
-    public function testStatusLimitationAllow()
+    public function testStatusLimitationAllow(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -80,7 +80,7 @@ class StatusLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testStatusLimitationForbid()
+    public function testStatusLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

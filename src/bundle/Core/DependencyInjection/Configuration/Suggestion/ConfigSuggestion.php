@@ -24,10 +24,8 @@ class ConfigSuggestion
     /**
      * Suggested semantic configuration.
      * Hash as been used with Symfony Config component.
-     *
-     * @var array
      */
-    private $suggestion;
+    private array $suggestion;
 
     /** @var bool */
     private $mandatory;
@@ -42,7 +40,7 @@ class ConfigSuggestion
     /**
      * @param string $message
      */
-    public function setMessage($message)
+    public function setMessage($message): void
     {
         $this->message = $message;
     }
@@ -58,7 +56,7 @@ class ConfigSuggestion
     /**
      * @param array $suggestion
      */
-    public function setSuggestion(array $suggestion)
+    public function setSuggestion(array $suggestion): void
     {
         $this->suggestion = $suggestion;
     }
@@ -74,7 +72,7 @@ class ConfigSuggestion
     /**
      * @param bool $mandatory
      */
-    public function setMandatory($mandatory)
+    public function setMandatory($mandatory): void
     {
         $this->mandatory = $mandatory;
     }

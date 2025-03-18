@@ -18,7 +18,7 @@ class PrefixTest extends TestCase
     /**
      * @dataProvider provideData
      */
-    public function testDecorate($url, $prefix, $decoratedUrl)
+    public function testDecorate(string $url, string $prefix, string $decoratedUrl): void
     {
         $decorator = $this->buildDecorator($prefix);
 
@@ -31,7 +31,7 @@ class PrefixTest extends TestCase
     /**
      * @dataProvider provideData
      */
-    public function testUndecorate($url, $prefix, $decoratedUrl)
+    public function testUndecorate(string $url, string $prefix, string $decoratedUrl): void
     {
         $decorator = $this->buildDecorator($prefix);
 
@@ -51,7 +51,7 @@ class PrefixTest extends TestCase
         return new Prefix($ioConfigResolverMock);
     }
 
-    public function provideData()
+    public function provideData(): array
     {
         return [
             [

@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language;
 
 use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct as SPILanguageCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as SPILanguageHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
@@ -16,6 +17,7 @@ use Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface;
 use Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache;
 use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
@@ -34,19 +36,19 @@ class CachingLanguageHandlerTest extends TestCase
      *
      * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    protected $innerHandlerMock;
+    protected ?MockObject $innerHandlerMock = null;
 
     /**
      * Language cache mock.
      *
      * @var \Ibexa\Core\Persistence\Cache\InMemory\InMemoryCache
      */
-    protected $languageCacheMock;
+    protected ?MockObject $languageCacheMock = null;
 
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    protected $cacheIdentifierGeneratorMock;
+    protected ?MockObject $cacheIdentifierGeneratorMock = null;
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $handler = $this->getLanguageHandler();
         $innerHandlerMock = $this->getInnerLanguageHandlerMock();
@@ -81,9 +83,9 @@ class CachingLanguageHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct
      */
-    protected function getCreateStructFixture()
+    protected function getCreateStructFixture(): CreateStruct
     {
-        return new Language\CreateStruct();
+        return new CreateStruct();
     }
 
     /**
@@ -91,7 +93,7 @@ class CachingLanguageHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    protected function getLanguageFixture()
+    protected function getLanguageFixture(): Language
     {
         $language = new Language();
         $language->id = 8;
@@ -100,7 +102,7 @@ class CachingLanguageHandlerTest extends TestCase
         return $language;
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $handler = $this->getLanguageHandler();
 
@@ -119,7 +121,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->update($languageFixture);
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -143,7 +145,7 @@ class CachingLanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadFailure()
+    public function testLoadFailure(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -173,7 +175,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->load(2);
     }
 
-    public function testLoadByLanguageCode()
+    public function testLoadByLanguageCode(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -197,7 +199,7 @@ class CachingLanguageHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByLanguageCodeFailure()
+    public function testLoadByLanguageCodeFailure(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -227,7 +229,7 @@ class CachingLanguageHandlerTest extends TestCase
         $handler->loadByLanguageCode('eng-US');
     }
 
-    public function testLoadAll()
+    public function testLoadAll(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -248,7 +250,7 @@ class CachingLanguageHandlerTest extends TestCase
         self::assertIsArray($result);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $handler = $this->getLanguageHandler();
         $cacheMock = $this->getLanguageCacheMock();
@@ -340,7 +342,7 @@ class CachingLanguageHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
      */
-    protected function getLanguagesFixture()
+    protected function getLanguagesFixture(): array
     {
         $langUs = new Language();
         $langUs->id = 2;

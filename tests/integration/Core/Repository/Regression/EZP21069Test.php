@@ -84,7 +84,7 @@ class EZP21069Test extends BaseTest
         $this->refreshSearch($repository);
     }
 
-    public function testSearchOnPreviousAttributeContentGivesNoResult()
+    public function testSearchOnPreviousAttributeContentGivesNoResult(): void
     {
         $query = new Query();
         $query->filter = new Field('name', Operator::EQ, 'TheOriginalNews');
@@ -94,7 +94,7 @@ class EZP21069Test extends BaseTest
         self::assertEmpty($results->searchHits);
     }
 
-    public function testSearchOnCurrentAttributeContentGivesOnesResult()
+    public function testSearchOnCurrentAttributeContentGivesOnesResult(): void
     {
         $query = new Query();
         $query->filter = new Field('name', Operator::EQ, 'TheUpdatedNews');
@@ -104,7 +104,7 @@ class EZP21069Test extends BaseTest
         self::assertCount(1, $results->searchHits);
     }
 
-    public function testSearchOnDraftAttributeContentGivesNoResult()
+    public function testSearchOnDraftAttributeContentGivesNoResult(): void
     {
         $query = new Query();
         $query->filter = new Field('name', Operator::EQ, 'TheDraftNews');

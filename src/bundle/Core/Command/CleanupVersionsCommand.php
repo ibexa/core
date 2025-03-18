@@ -243,7 +243,7 @@ EOT
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    protected function getObjectsIds($keep, $status, $excludedContentTypes = [])
+    protected function getObjectsIds($keep, $status, $excludedContentTypes = []): array
     {
         $query = $this->connection->createQueryBuilder()
                 ->select('c.id')
@@ -286,7 +286,7 @@ EOT
      *
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    private function mapStatusToVersionInfoStatus($status)
+    private function mapStatusToVersionInfoStatus($status): int
     {
         if (array_key_exists($status, self::VERSION_STATUS)) {
             return self::VERSION_STATUS[$status];

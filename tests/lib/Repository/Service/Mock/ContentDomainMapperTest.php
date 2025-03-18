@@ -47,7 +47,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
     /**
      * @dataProvider providerForBuildVersionInfo
      */
-    public function testBuildVersionInfo(SPIVersionInfo $spiVersionInfo)
+    public function testBuildVersionInfo(SPIVersionInfo $spiVersionInfo): void
     {
         $languageHandlerMock = $this->getLanguageHandlerMock();
         $languageHandlerMock->expects(self::never())->method('load');
@@ -57,7 +57,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         self::assertInstanceOf(APIVersionInfo::class, $versionInfo);
     }
 
-    public function testBuildLocationWithContentForRootLocation()
+    public function testBuildLocationWithContentForRootLocation(): void
     {
         $spiRootLocation = new Location(['id' => 1, 'parentId' => 1]);
         $apiRootLocation = $this->getContentDomainMapper()->buildLocationWithContent($spiRootLocation, null);
@@ -100,7 +100,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         self::assertEquals($expectedContent, $apiRootLocation->getContent());
     }
 
-    public function testBuildLocationWithContentThrowsInvalidArgumentException()
+    public function testBuildLocationWithContentThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Argument \'$content\' is invalid: Location 2 has missing Content');
@@ -110,7 +110,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         $this->getContentDomainMapper()->buildLocationWithContent($nonRootLocation, null);
     }
 
-    public function testBuildLocationWithContentIsAlignedWithBuildLocation()
+    public function testBuildLocationWithContentIsAlignedWithBuildLocation(): void
     {
         $spiRootLocation = new Location(['id' => 1, 'parentId' => 1]);
 
@@ -148,7 +148,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         $this->getContentDomainMapper()->buildDomainFields($persistenceFields, $persistenceContentType);
     }
 
-    public function providerForBuildVersionInfo()
+    public function providerForBuildVersionInfo(): array
     {
         $properties = [
             'contentInfo' => new SPIContentInfo([
@@ -202,7 +202,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         ];
     }
 
-    public function providerForBuildLocationDomainObjectsOnSearchResult()
+    public function providerForBuildLocationDomainObjectsOnSearchResult(): array
     {
         $properties = [
             'contentTypeId' => self::EXAMPLE_CONTENT_TYPE_ID,
@@ -262,7 +262,7 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
         array $languageFilter,
         array $contentInfoList,
         int $missing
-    ) {
+    ): void {
         $contentHandlerMock = $this->getContentHandlerMock();
         $contentHandlerMock
             ->expects(self::once())

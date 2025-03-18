@@ -18,8 +18,7 @@ class DoctrineStorage extends Gateway
     public const KEYWORD_TABLE = 'ezkeyword';
     public const KEYWORD_ATTRIBUTE_LINK_TABLE = 'ezkeyword_attribute_link';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -32,7 +31,7 @@ class DoctrineStorage extends Gateway
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field
      * @param int $contentTypeId
      */
-    public function storeFieldData(Field $field, $contentTypeId)
+    public function storeFieldData(Field $field, $contentTypeId): void
     {
         if (empty($field->value->externalData) && !empty($field->id)) {
             $this->deleteFieldData($field->id, $field->versionNo);
@@ -67,7 +66,7 @@ class DoctrineStorage extends Gateway
      *
      * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
      */
-    public function getFieldData(Field $field)
+    public function getFieldData(Field $field): void
     {
         $field->value->externalData = $this->getAssignedKeywords($field->id, $field->versionNo);
     }
@@ -79,7 +78,7 @@ class DoctrineStorage extends Gateway
      *
      * @return int
      */
-    public function getContentTypeId(Field $field)
+    public function getContentTypeId(Field $field): int
     {
         return $this->loadContentTypeId($field->fieldDefinitionId);
     }
@@ -90,7 +89,7 @@ class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      */
-    public function deleteFieldData($fieldId, $versionNo)
+    public function deleteFieldData($fieldId, $versionNo): void
     {
         $this->deleteOldKeywordAssignments($fieldId, $versionNo);
         $this->deleteOrphanedKeywords();
@@ -184,7 +183,7 @@ class DoctrineStorage extends Gateway
      *
      * @return int[]
      */
-    protected function getExistingKeywords($keywordList, $contentTypeId)
+    protected function getExistingKeywords($keywordList, $contentTypeId): array
     {
         // Retrieving potentially existing keywords
         $query = $this->connection->createQueryBuilder();
@@ -240,7 +239,7 @@ class DoctrineStorage extends Gateway
      *
      * @return int[]
      */
-    protected function insertKeywords(array $keywordsToInsert, $contentTypeId)
+    protected function insertKeywords(array $keywordsToInsert, $contentTypeId): array
     {
         $keywordIdMap = [];
         // Inserting keywords not yet registered

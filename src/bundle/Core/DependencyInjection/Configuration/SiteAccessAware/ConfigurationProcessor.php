@@ -61,7 +61,7 @@ class ConfigurationProcessor
      *
      * @param string[] $availableSiteAccesses
      */
-    public static function setAvailableSiteAccesses(array $availableSiteAccesses)
+    public static function setAvailableSiteAccesses(array $availableSiteAccesses): void
     {
         static::$availableSiteAccesses = $availableSiteAccesses;
     }
@@ -74,7 +74,7 @@ class ConfigurationProcessor
      *
      * @param array $groupsBySiteAccess Registered scope groups names, indexed by scope.
      */
-    public static function setGroupsBySiteAccess(array $groupsBySiteAccess)
+    public static function setGroupsBySiteAccess(array $groupsBySiteAccess): void
     {
         static::$groupsBySiteAccess = $groupsBySiteAccess;
     }
@@ -83,7 +83,7 @@ class ConfigurationProcessor
      * @param array<string, array<string>> $availableSiteAccessGroups keys are Site Access group names and values are
      * an array of Site Access name which belongs to this group
      */
-    public static function setAvailableSiteAccessGroups(array $availableSiteAccessGroups)
+    public static function setAvailableSiteAccessGroups(array $availableSiteAccessGroups): void
     {
         static::$availableSiteAccessGroups = $availableSiteAccessGroups;
     }
@@ -102,7 +102,7 @@ class ConfigurationProcessor
      *
      * @throws \InvalidArgumentException
      */
-    public function mapConfig(array $config, $mapper)
+    public function mapConfig(array $config, $mapper): void
     {
         $mapperCallable = is_callable($mapper);
         if (!$mapperCallable && !$mapper instanceof ConfigurationMapperInterface) {
@@ -135,7 +135,7 @@ class ConfigurationProcessor
      * @param string $id Id of the setting to map.
      * @param array $config Full semantic configuration array for current bundle.
      */
-    public function mapSetting($id, array $config)
+    public function mapSetting($id, array $config): void
     {
         $this->contextualizer->mapSetting($id, $config);
     }
@@ -149,7 +149,7 @@ class ConfigurationProcessor
      * @param array $config Full semantic configuration array for current bundle.
      * @param int $options Bit mask of options (See constants of `ContextualizerInterface`)
      */
-    public function mapConfigArray($id, array $config, $options = 0)
+    public function mapConfigArray($id, array $config, $options = 0): void
     {
         $this->contextualizer->mapConfigArray($id, $config, $options);
     }
@@ -165,7 +165,7 @@ class ConfigurationProcessor
      *
      * @return \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface
      */
-    protected function buildContextualizer(ContainerInterface $containerBuilder, $namespace, $siteAccessNodeName)
+    protected function buildContextualizer(ContainerInterface $containerBuilder, $namespace, $siteAccessNodeName): Contextualizer
     {
         return new Contextualizer(
             $containerBuilder,
@@ -180,7 +180,7 @@ class ConfigurationProcessor
     /**
      * @param \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface $contextualizer
      */
-    public function setContextualizer(ContextualizerInterface $contextualizer)
+    public function setContextualizer(ContextualizerInterface $contextualizer): void
     {
         $this->contextualizer = $contextualizer;
     }

@@ -48,20 +48,19 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 abstract class Base extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private ?Repository $repository = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\Repository|\PHPUnit\Framework\MockObject\MockObject */
-    private $repositoryMock;
+    private ?MockObject $repositoryMock = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\PermissionService|\PHPUnit\Framework\MockObject\MockObject */
-    private $permissionServiceMock;
+    private ?MockObject $permissionServiceMock = null;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $persistenceMock;
+    private ?MockObject $persistenceMock = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy|\PHPUnit\Framework\MockObject\MockObject */
-    private $thumbnailStrategyMock;
+    private ?MockObject $thumbnailStrategyMock = null;
 
     /**
      * The Content / Location / Search ... handlers for the persistence / Search / .. handler mocks.
@@ -70,22 +69,22 @@ abstract class Base extends TestCase
      *
      * @see getPersistenceMockHandler()
      */
-    private $spiMockHandlers = [];
+    private array $spiMockHandlers = [];
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
-    private $contentTypeDomainMapperMock;
+    private ?MockObject $contentTypeDomainMapperMock = null;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    private $contentDomainMapperMock;
+    private ?MockObject $contentDomainMapperMock = null;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Repository\Permission\LimitationService */
-    private $limitationServiceMock;
+    private ?MockObject $limitationServiceMock = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $languageResolverMock;
+    private ?MockObject $languageResolverMock = null;
 
     /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $roleDomainMapperMock;
+    protected ?MockObject $roleDomainMapperMock = null;
 
     /** @var \Ibexa\Core\Repository\Mapper\ContentMapper|\PHPUnit\Framework\MockObject\MockObject */
     protected $contentMapperMock;
@@ -94,10 +93,10 @@ abstract class Base extends TestCase
     protected $contentValidatorStrategyMock;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Content\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentFilteringHandlerMock;
+    private ?MockObject $contentFilteringHandlerMock = null;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Filter\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationFilteringHandlerMock;
+    private ?MockObject $locationFilteringHandlerMock = null;
 
     private TransactionHandler&MockObject $transactionHandlerMock;
 
@@ -146,7 +145,7 @@ abstract class Base extends TestCase
         return $this->repository;
     }
 
-    protected $fieldTypeServiceMock;
+    protected ?MockObject $fieldTypeServiceMock = null;
 
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\FieldTypeService
@@ -160,7 +159,7 @@ abstract class Base extends TestCase
         return $this->fieldTypeServiceMock;
     }
 
-    protected $fieldTypeRegistryMock;
+    protected ?MockObject $fieldTypeRegistryMock = null;
 
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\FieldType\FieldTypeRegistry

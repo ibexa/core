@@ -19,8 +19,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class CoreInstaller extends DbBasedInstaller implements Installer
 {
-    /** @var \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface */
-    protected $schemaBuilder;
+    protected SchemaBuilderInterface $schemaBuilder;
 
     /**
      * @param \Doctrine\DBAL\Connection $db
@@ -43,7 +42,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      *
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function importSchema()
+    public function importSchema(): void
     {
         // note: schema is built using Schema Builder event-driven API
         $schema = $this->schemaBuilder->buildSchema();
@@ -82,7 +81,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function importData()
+    public function importData(): void
     {
         $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
     }

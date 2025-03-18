@@ -13,9 +13,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 abstract class BaseFlysystemTest extends ConfigurationFactoryTest
 {
-    private $flysystemAdapterServiceId = 'oneup_flysystem.test_adapter';
+    private string $flysystemAdapterServiceId = 'oneup_flysystem.test_adapter';
 
-    private $filesystemServiceId = 'ezpublish.core.io.flysystem.my_test_handler_filesystem';
+    private string $filesystemServiceId = 'ezpublish.core.io.flysystem.my_test_handler_filesystem';
 
     public function provideHandlerConfiguration()
     {
@@ -31,7 +31,7 @@ abstract class BaseFlysystemTest extends ConfigurationFactoryTest
         return new Definition(null, [null]);
     }
 
-    public function validateConfiguredHandler($handlerDefinitionId)
+    public function validateConfiguredHandler($handlerDefinitionId): void
     {
         self::assertContainerBuilderHasServiceDefinitionWithArgument(
             $handlerDefinitionId,
@@ -40,7 +40,7 @@ abstract class BaseFlysystemTest extends ConfigurationFactoryTest
         );
     }
 
-    public function validateConfiguredContainer()
+    public function validateConfiguredContainer(): void
     {
         self::assertContainerBuilderHasService(
             $this->filesystemServiceId

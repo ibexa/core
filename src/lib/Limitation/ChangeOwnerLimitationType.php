@@ -113,7 +113,7 @@ final class ChangeOwnerLimitationType extends AbstractPersistenceLimitationType 
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function valueSchema(): void
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

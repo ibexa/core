@@ -21,8 +21,7 @@ use RuntimeException;
  */
 abstract class Handler
 {
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     /**
      * Map of criterion operators to the respective function names
@@ -40,10 +39,8 @@ abstract class Handler
 
     /**
      * Transformation processor.
-     *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
      */
-    protected $transformationProcessor;
+    protected TransformationProcessor $transformationProcessor;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform|null */
     protected $dbPlatform;
@@ -76,7 +73,7 @@ abstract class Handler
         Criterion $criterion,
         string $column
     ) {
-        if (is_array($criterion->value) && Criterion\Operator::isUnary($criterion->operator)) {
+        if (is_array($criterion->value) && CriterionOperator::isUnary($criterion->operator)) {
             if (count($criterion->value) > 1) {
                 throw new InvalidArgumentException('$criterion->value', "Too many arguments for unary operator '$criterion->operator'");
             }
@@ -85,7 +82,7 @@ abstract class Handler
         }
 
         switch ($criterion->operator) {
-            case Criterion\Operator::IN:
+            case CriterionOperator::IN:
                 $values = array_map([$this, 'prepareParameter'], $criterion->value);
                 $filter = $subQuery->expr()->in(
                     $column,
@@ -96,7 +93,7 @@ abstract class Handler
                 );
                 break;
 
-            case Criterion\Operator::BETWEEN:
+            case CriterionOperator::BETWEEN:
                 $filter = $this->dbPlatform->getBetweenExpression(
                     $column,
                     $outerQuery->createNamedParameter($this->lowerCase($criterion->value[0])),
@@ -104,11 +101,11 @@ abstract class Handler
                 );
                 break;
 
-            case Criterion\Operator::EQ:
-            case Criterion\Operator::GT:
-            case Criterion\Operator::GTE:
-            case Criterion\Operator::LT:
-            case Criterion\Operator::LTE:
+            case CriterionOperator::EQ:
+            case CriterionOperator::GT:
+            case CriterionOperator::GTE:
+            case CriterionOperator::LT:
+            case CriterionOperator::LTE:
                 $operatorFunction = $this->comparatorMap[$criterion->operator];
                 $filter = $subQuery->expr()->{$operatorFunction}(
                     $column,
@@ -116,7 +113,7 @@ abstract class Handler
                 );
                 break;
 
-            case Criterion\Operator::LIKE:
+            case CriterionOperator::LIKE:
                 $value = str_replace('*', '%', $this->prepareLikeString($criterion->value));
 
                 $filter = $subQuery->expr()->like(
@@ -125,7 +122,7 @@ abstract class Handler
                 );
                 break;
 
-            case Criterion\Operator::CONTAINS:
+            case CriterionOperator::CONTAINS:
                 $filter = $subQuery->expr()->like(
                     $column,
                     $outerQuery->createNamedParameter(

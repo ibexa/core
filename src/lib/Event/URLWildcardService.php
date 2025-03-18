@@ -25,8 +25,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class URLWildcardService extends URLWildcardServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         URLWildcardServiceInterface $innerService,
@@ -41,7 +40,7 @@ class URLWildcardService extends URLWildcardServiceDecorator
         string $sourceUrl,
         string $destinationUrl,
         bool $forward = false
-    ): UrlWildcard {
+    ): URLWildcard {
         $eventData = [
             $sourceUrl,
             $destinationUrl,

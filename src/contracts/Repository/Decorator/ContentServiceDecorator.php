@@ -29,8 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 abstract class ContentServiceDecorator implements ContentService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    protected $innerService;
+    protected ContentService $innerService;
 
     public function __construct(ContentService $innerService)
     {

@@ -21,8 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
  */
 final class DecoratedLocationService extends LocationServiceDecorator
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper */
-    private $contentLocationMapper;
+    private ContentLocationMapper $contentLocationMapper;
 
     public function __construct(
         RepositoryLocationService $innerService,

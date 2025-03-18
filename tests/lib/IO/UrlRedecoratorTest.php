@@ -9,18 +9,19 @@ namespace Ibexa\Tests\Core\IO;
 
 use Ibexa\Core\IO\UrlDecorator;
 use Ibexa\Core\IO\UrlRedecorator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UrlRedecoratorTest extends TestCase
 {
     /** @var \Ibexa\Core\IO\UrlRedecorator|\PHPUnit\Framework\MockObject\MockObject */
-    private $redecorator;
+    private UrlRedecorator $redecorator;
 
     /** @var \Ibexa\Core\IO\UrlDecorator|\PHPUnit\Framework\MockObject\MockObject */
-    private $sourceDecoratorMock;
+    private ?MockObject $sourceDecoratorMock = null;
 
     /** @var \Ibexa\Core\IO\UrlDecorator|\PHPUnit\Framework\MockObject\MockObject */
-    private $targetDecoratorMock;
+    private ?MockObject $targetDecoratorMock = null;
 
     protected function setUp(): void
     {
@@ -30,7 +31,7 @@ class UrlRedecoratorTest extends TestCase
         );
     }
 
-    public function testRedecorateFromSource()
+    public function testRedecorateFromSource(): void
     {
         $this->sourceDecoratorMock
             ->expects(self::once())
@@ -50,7 +51,7 @@ class UrlRedecoratorTest extends TestCase
         );
     }
 
-    public function testRedecorateFromTarget()
+    public function testRedecorateFromTarget(): void
     {
         $this->targetDecoratorMock
             ->expects(self::once())

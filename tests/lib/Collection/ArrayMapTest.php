@@ -82,16 +82,16 @@ class ArrayMapTest extends AbstractCollectionTest
     {
         $map = $this->createCollection(self::EXAMPLE_DATA);
 
-        self::assertTrue($map->exists(static fn ($value, $key) => $value === 'foo'));
-        self::assertFalse($map->exists(static fn ($value, $key) => $value === 'non-existing'));
+        self::assertTrue($map->exists(static fn ($value, $key): bool => $value === 'foo'));
+        self::assertFalse($map->exists(static fn ($value, $key): bool => $value === 'non-existing'));
     }
 
     public function testForAll(): void
     {
         $map = $this->createCollection(self::EXAMPLE_DATA);
 
-        self::assertTrue($map->forAll(static fn ($value, $key) => strlen($value) > 2));
-        self::assertFalse($map->forAll(static fn ($value, $key) => $value === 'foo'));
+        self::assertTrue($map->forAll(static fn ($value, $key): bool => strlen($value) > 2));
+        self::assertFalse($map->forAll(static fn ($value, $key): bool => $value === 'foo'));
     }
 
     protected function getExampleData(): array

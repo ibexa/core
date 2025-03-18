@@ -26,7 +26,7 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
 {
     use ContainerAwareTrait;
 
-    public function addConfiguration(ArrayNodeDefinition $node)
+    public function addConfiguration(ArrayNodeDefinition $node): void
     {
         $node
             ->info(
@@ -45,7 +45,7 @@ abstract class Flysystem implements ConfigurationFactory, ContainerAwareInterfac
             ->end();
     }
 
-    public function configureHandler(ServiceDefinition $definition, array $config)
+    public function configureHandler(ServiceDefinition $definition, array $config): void
     {
         $filesystemId = $this->createFilesystem($this->container, $config['name'], $config['adapter']);
         $definition->replaceArgument(0, new Reference($filesystemId));

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Helper;
 
+use Ibexa\Contracts\Core\Persistence\Content\Location\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as PersistenceLocationHandler;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
@@ -18,11 +19,9 @@ use Ibexa\Core\Repository\Values\Content\Location;
  */
 class PreviewLocationProvider
 {
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $locationService;
+    private LocationService $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
-    private $locationHandler;
+    private Handler $locationHandler;
 
     /**
      * @param \Ibexa\Contracts\Core\Repository\LocationService $locationService

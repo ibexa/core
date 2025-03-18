@@ -14,8 +14,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResultList;
 use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Handler as LocationHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 
 /**
@@ -27,31 +29,23 @@ class Handler implements BaseTrashHandler
 
     /**
      * Location handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
      */
-    protected $locationHandler;
+    protected LocationHandler $locationHandler;
 
     /**
      * Gateway for handling location data.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
-    protected $locationGateway;
+    protected Gateway $locationGateway;
 
     /**
      * Mapper for handling location data.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected $locationMapper;
+    protected Mapper $locationMapper;
 
     /**
      * Content handler.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
      */
-    protected $contentHandler;
+    protected ContentHandler $contentHandler;
 
     public function __construct(
         LocationHandler $locationHandler,
@@ -161,7 +155,7 @@ class Handler implements BaseTrashHandler
     /**
      * {@inheritdoc}.
      */
-    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null)
+    public function findTrashItems(CriterionInterface $criterion = null, $offset = 0, $limit = null, array $sort = null): TrashResult
     {
         $totalCount = $this->locationGateway->countTrashed($criterion);
         if ($totalCount === 0) {
@@ -184,7 +178,7 @@ class Handler implements BaseTrashHandler
     /**
      * {@inheritdoc}
      */
-    public function emptyTrash()
+    public function emptyTrash(): TrashItemDeleteResultList
     {
         $resultList = new TrashItemDeleteResultList();
         do {
@@ -220,7 +214,7 @@ class Handler implements BaseTrashHandler
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult
      */
-    protected function delete(Trashed $trashItem)
+    protected function delete(Trashed $trashItem): TrashItemDeleteResult
     {
         $result = new TrashItemDeleteResult();
         $result->trashItemId = $trashItem->id;

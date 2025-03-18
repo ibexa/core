@@ -24,7 +24,7 @@ class UrlAliasServiceTest extends AbstractServiceTest
         return URLAliasService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public function providerForPassTroughMethods(): array
     {
         $location = new Location();
         $urlAlias = new URLAlias();
@@ -42,12 +42,12 @@ class UrlAliasServiceTest extends AbstractServiceTest
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public function providerForLanguagesLookupMethods(): array
     {
         $location = new Location();
         $urlAlias = new URLAlias();
 
-        $callback = function ($languageLookup) {
+        $callback = function ($languageLookup): void {
             $this->languageResolverMock
                 ->expects($this->once())
                 ->method('getShowAllTranslations')
@@ -62,7 +62,7 @@ class UrlAliasServiceTest extends AbstractServiceTest
         ];
     }
 
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
+    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages): array
     {
         $arguments[$languageArgumentIndex] = $languages;
         $arguments[$languageArgumentIndex - 1] = true;

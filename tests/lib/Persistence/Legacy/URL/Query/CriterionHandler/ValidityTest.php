@@ -20,7 +20,7 @@ class ValidityTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new ValidityHandler();
 
@@ -31,7 +31,7 @@ class ValidityTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testHandle()
+    public function testHandle(): void
     {
         $criterion = new Validity(true);
         $expected = 'is_valid = :is_valid';

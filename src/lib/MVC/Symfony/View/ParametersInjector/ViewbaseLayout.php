@@ -20,8 +20,7 @@ class ViewbaseLayout implements EventSubscriberInterface
     /** @var string */
     private $viewbaseLayout;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct($viewbaseLayout, ConfigResolverInterface $configResolver)
     {
@@ -39,7 +38,7 @@ class ViewbaseLayout implements EventSubscriberInterface
         return $this->configResolver->getParameter('page_layout');
     }
 
-    public function injectViewbaseLayout(FilterViewParametersEvent $event)
+    public function injectViewbaseLayout(FilterViewParametersEvent $event): void
     {
         $pageLayout = $this->getPageLayout();
 

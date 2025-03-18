@@ -18,19 +18,20 @@ use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SudoMainLocationLoaderTest extends TestCase
 {
     /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader */
-    private $loader;
+    private SudoMainLocationLoader $loader;
 
     protected function setUp(): void
     {
         $this->loader = new SudoMainLocationLoader($this->getRepositoryMock());
     }
 
-    public function testLoadLocationNoMainLocation()
+    public function testLoadLocationNoMainLocation(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -43,7 +44,7 @@ class SudoMainLocationLoaderTest extends TestCase
         $this->loader->loadLocation($contentInfo);
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $contentInfo = new ContentInfo(['mainLocationId' => 42]);
         $location = new Location();
@@ -67,7 +68,7 @@ class SudoMainLocationLoaderTest extends TestCase
         self::assertSame($location, $this->loader->loadLocation($contentInfo));
     }
 
-    public function testLoadLocationError()
+    public function testLoadLocationError(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -139,7 +140,7 @@ class SudoMainLocationLoaderTest extends TestCase
     /**
      * @return \Ibexa\Core\Repository\Permission\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function getPermissionResolverMock()
+    private function getPermissionResolverMock(): MockObject
     {
         $configResolverMock = $this->createMock(ConfigResolverInterface::class);
         $configResolverMock
