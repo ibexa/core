@@ -911,19 +911,20 @@ final class DoctrineDatabase extends Gateway
         return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
     {
-        $now = new \DateTime();
-        $interval = DateInterval::createFromDateString($seconds . ' seconds');
-        if ($interval === false) {
+        $cutoffTimestamp = strtotime(sprintf('-%d seconds', $seconds));
+        if (!$cutoffTimestamp) {
             return [];
         }
-        $now->sub($interval);
         $queryBuilder = $this->queryBuilder->createVersionInfoFindQueryBuilder();
         $expr = $queryBuilder->expr();
 
         $queryBuilder
-            ->where(
+            ->andWhere(
                 $expr->eq(
                     'v.contentobject_id',
                     $queryBuilder->createNamedParameter(
@@ -945,14 +946,14 @@ final class DoctrineDatabase extends Gateway
                 $expr->gt(
                     'v.modified',
                     $queryBuilder->createNamedParameter(
-                        $now->getTimestamp(),
+                        $cutoffTimestamp,
                         ParameterType::INTEGER,
                         ':modified'
                     )
                 )
             )->orderBy('v.modified', 'DESC');
 
-        return $queryBuilder->execute()->fetchAll(FetchMode::ASSOCIATIVE);
+        return $queryBuilder->execute()->fetchAllAssociative();
     }
 
     public function countVersionsForUser(int $userId, int $status = VersionInfo::STATUS_DRAFT): int

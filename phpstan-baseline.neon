@@ -19297,12 +19297,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\:\:loadVersionNoArchivedWithin\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\:\:loadVersionedNameData\(\) has parameter \$rows with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -19335,7 +19329,7 @@ parameters:
 		-
 			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
 			identifier: method.nonObject
-			count: 17
+			count: 16
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
@@ -19436,12 +19430,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:loadVersionInfoList\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:loadVersionNoArchivedWithin\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
