@@ -6,7 +6,6 @@
  */
 namespace Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
-use DateInterval;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\FetchMode;
