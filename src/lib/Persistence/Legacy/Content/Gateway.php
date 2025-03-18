@@ -213,7 +213,7 @@ abstract class Gateway
     abstract public function loadVersionInfo(int $contentId, ?int $versionNo = null): array;
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     abstract public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array;
 
