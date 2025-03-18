@@ -32,17 +32,13 @@ class CheckURLsCommand extends Command
     private const DEFAULT_ITERATION_COUNT = 50;
     private const DEFAULT_REPOSITORY_USER = 'admin';
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    private $userService;
+    private UserService $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
-    private $urlService;
+    private URLService $urlService;
 
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLCheckerInterface */
-    private $urlChecker;
+    private URLCheckerInterface $urlChecker;
 
     public function __construct(
         UserService $userService,

@@ -17,11 +17,9 @@ use ProxyManager\Proxy\LazyLoadingInterface;
 
 final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrategy
 {
-    /** @var \Ibexa\Core\FieldType\Image\ImageThumbnailStrategy */
-    private $imageThumbnailStrategy;
+    private ImageThumbnailStrategy $imageThumbnailStrategy;
 
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface */
-    private $proxyGenerator;
+    private ProxyGeneratorInterface $proxyGenerator;
 
     public function __construct(
         ImageThumbnailStrategy $imageThumbnailStrategy,

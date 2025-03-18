@@ -17,13 +17,14 @@ use Ibexa\Contracts\Core\Search\FieldType as SPIFieldType;
 use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldNameResolver;
 use Ibexa\Core\Search\Common\FieldRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Search\Common\FieldNameResolver
  */
 class FieldNameResolverTest extends TestCase
 {
-    public function testGetFieldNamesReturnsEmptyArray()
+    public function testGetFieldNamesReturnsEmptyArray(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -61,7 +62,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEmpty($fieldNames);
     }
 
-    public function testGetFieldNames()
+    public function testGetFieldNames(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -135,7 +136,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetFieldNamesWithNamedField()
+    public function testGetFieldNamesWithNamedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -211,7 +212,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetFieldNamesWithTypedField()
+    public function testGetFieldNamesWithTypedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -272,7 +273,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetFieldNamesWithTypedAndNamedField()
+    public function testGetFieldNamesWithTypedAndNamedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $criterionMock = $this->getCriterionMock();
@@ -333,7 +334,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetSortFieldName()
+    public function testGetSortFieldName(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $sortClauseMock = $this->getSortClauseMock();
@@ -378,7 +379,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('index_field_name', $fieldName);
     }
 
-    public function testGetSortFieldNameReturnsNull()
+    public function testGetSortFieldNameReturnsNull(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap', 'getIndexFieldName']);
         $sortClauseMock = $this->getSortClauseMock();
@@ -409,7 +410,7 @@ class FieldNameResolverTest extends TestCase
         self::assertNull($fieldName);
     }
 
-    public function testGetIndexFieldNameCustomField()
+    public function testGetIndexFieldNameCustomField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
 
@@ -437,7 +438,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('custom_field_name', key($customFieldName));
     }
 
-    public function testGetIndexFieldNameNamedField()
+    public function testGetIndexFieldNameNamedField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
         $indexFieldType = $this->getIndexFieldTypeMock();
@@ -499,7 +500,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
-    public function testGetIndexFieldNameDefaultMatchField()
+    public function testGetIndexFieldNameDefaultMatchField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
         $indexFieldType = $this->getIndexFieldTypeMock();
@@ -566,7 +567,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
-    public function testGetIndexFieldNameDefaultSortField()
+    public function testGetIndexFieldNameDefaultSortField(): void
     {
         $mockedFieldNameResolver = $this->getMockedFieldNameResolver(['getSearchableFieldMap']);
         $indexFieldType = $this->getIndexFieldTypeMock();
@@ -633,7 +634,7 @@ class FieldNameResolverTest extends TestCase
         self::assertEquals('generated_typed_field_name', key($fieldName));
     }
 
-    public function testGetIndexFieldNameDefaultMatchFieldThrowsRuntimeException()
+    public function testGetIndexFieldNameDefaultMatchFieldThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -677,7 +678,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetIndexFieldNameDefaultSortFieldThrowsRuntimeException()
+    public function testGetIndexFieldNameDefaultSortFieldThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -721,7 +722,7 @@ class FieldNameResolverTest extends TestCase
         );
     }
 
-    public function testGetIndexFieldNameNamedFieldThrowsRuntimeException()
+    public function testGetIndexFieldNameNamedFieldThrowsRuntimeException(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -767,7 +768,7 @@ class FieldNameResolverTest extends TestCase
      *
      * @return \Ibexa\Core\Search\Common\FieldNameResolver|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getMockedFieldNameResolver(array $methods = [])
+    protected function getMockedFieldNameResolver(array $methods = []): MockObject
     {
         $fieldNameResolver = $this
             ->getMockBuilder(FieldNameResolver::class)
@@ -785,7 +786,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /** @var \Ibexa\Core\Search\Common\FieldRegistry|\PHPUnit\Framework\MockObject\MockObject */
-    protected $fieldRegistryMock;
+    protected ?MockObject $fieldRegistryMock = null;
 
     /**
      * @return \Ibexa\Core\Search\Common\FieldRegistry|\PHPUnit\Framework\MockObject\MockObject
@@ -802,7 +803,7 @@ class FieldNameResolverTest extends TestCase
     /**
      * @return \Ibexa\Contracts\Core\FieldType\Indexable|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getIndexFieldTypeMock()
+    protected function getIndexFieldTypeMock(): MockObject
     {
         return $this->createMock(Indexable::class);
     }
@@ -810,13 +811,13 @@ class FieldNameResolverTest extends TestCase
     /**
      * @return \Ibexa\Contracts\Core\Search\FieldType|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getSearchFieldTypeMock()
+    protected function getSearchFieldTypeMock(): MockObject
     {
         return $this->createMock(SPIFieldType::class);
     }
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject */
-    protected $contentTypeHandlerMock;
+    protected ?MockObject $contentTypeHandlerMock = null;
 
     /**
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit\Framework\MockObject\MockObject
@@ -831,7 +832,7 @@ class FieldNameResolverTest extends TestCase
     }
 
     /** @var \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $fieldNameGeneratorMock;
+    protected ?MockObject $fieldNameGeneratorMock = null;
 
     /**
      * @return \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject
@@ -848,7 +849,7 @@ class FieldNameResolverTest extends TestCase
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getCriterionMock()
+    protected function getCriterionMock(): MockObject
     {
         return $this->createMock(APICriterion::class);
     }
@@ -856,7 +857,7 @@ class FieldNameResolverTest extends TestCase
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getSortClauseMock()
+    protected function getSortClauseMock(): MockObject
     {
         return $this->createMock(APISortClause::class);
     }

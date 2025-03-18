@@ -19,11 +19,10 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 final class SettingHandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Setting\Handler */
-    private $settingHandler;
+    private ?Handler $settingHandler = null;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Setting\Gateway */
-    private $gatewayMock;
+    private ?MockObject $gatewayMock = null;
 
     public function testCreate(): void
     {

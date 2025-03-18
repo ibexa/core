@@ -23,7 +23,7 @@ class LanguagesTest extends AbstractParserTestCase
         return Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_minimal.yml'));
     }
 
-    public function testLanguagesSingleSiteaccess()
+    public function testLanguagesSingleSiteaccess(): void
     {
         $langDemoSite = ['eng-GB'];
         $langFre = ['fre-FR', 'eng-GB'];
@@ -58,7 +58,7 @@ class LanguagesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('languages', [], 'ibexa_demo_site_admin');
     }
 
-    public function testLanguagesSiteaccessGroup()
+    public function testLanguagesSiteaccessGroup(): void
     {
         $langDemoSite = ['eng-US', 'eng-GB'];
         $config = [
@@ -83,7 +83,7 @@ class LanguagesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('languages', [], 'ibexa_demo_site_admin');
     }
 
-    public function testTranslationSiteAccesses()
+    public function testTranslationSiteAccesses(): void
     {
         $translationSAsDemoSite = ['foo', 'bar'];
         $translationSAsFre = ['foo2', 'bar2'];
@@ -101,7 +101,7 @@ class LanguagesTest extends AbstractParserTestCase
         $this->assertConfigResolverParameterValue('translation_siteaccesses', [], self::EMPTY_SA_GROUP);
     }
 
-    public function testTranslationSiteAccessesWithGroup()
+    public function testTranslationSiteAccessesWithGroup(): void
     {
         $translationSAsDemoSite = ['ibexa_demo_site', 'fre'];
         $config = [

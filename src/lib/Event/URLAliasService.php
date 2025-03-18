@@ -24,8 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class URLAliasService extends URLAliasServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         URLAliasServiceInterface $innerService,

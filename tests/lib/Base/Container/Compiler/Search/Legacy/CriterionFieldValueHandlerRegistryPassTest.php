@@ -36,7 +36,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         $container->addCompilerPass(new CriterionFieldValueHandlerRegistryPass());
     }
 
-    public function testRegisterValueHandler()
+    public function testRegisterValueHandler(): void
     {
         $fieldTypeIdentifier = 'field_type_identifier';
         $serviceId = 'service_id';
@@ -56,7 +56,7 @@ class CriterionFieldValueHandlerRegistryPassTest extends AbstractCompilerPassTes
         );
     }
 
-    public function testRegisterValueHandlerNoAlias()
+    public function testRegisterValueHandlerNoAlias(): void
     {
         $this->expectException(\LogicException::class);
 

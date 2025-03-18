@@ -61,7 +61,7 @@ abstract class Map implements VersatileMatcher
         return ['map', 'reverseMap', 'key'];
     }
 
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         $this->request = $request;
     }
@@ -76,7 +76,7 @@ abstract class Map implements VersatileMatcher
      *
      * @param string $key
      */
-    public function setMapKey($key)
+    public function setMapKey($key): void
     {
         $this->key = $key;
     }

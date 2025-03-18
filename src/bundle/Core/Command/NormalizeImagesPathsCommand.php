@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Driver\Connection;
+use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway as ImageStorageGateway;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
@@ -42,17 +43,13 @@ EOT;
 
     private const SKIP_HASHING_COMMAND_PARAMETER = 'no-hash';
 
-    /** @var \Ibexa\Core\FieldType\Image\ImageStorage\Gateway */
-    private $imageGateway;
+    private Gateway $imageGateway;
 
-    /** @var \Ibexa\Core\IO\FilePathNormalizerInterface */
-    private $filePathNormalizer;
+    private FilePathNormalizerInterface $filePathNormalizer;
 
-    /** @var \Doctrine\DBAL\Driver\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
     /** @var bool */
     private $skipHashing;
@@ -71,7 +68,7 @@ EOT;
         $this->ioService = $ioService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $beforeRunningHints = self::BEFORE_RUNNING_HINTS;
 
@@ -205,7 +202,7 @@ EOT
     }
 
     protected function updateImagePathsToNormalize(
-        $imageData,
+        array $imageData,
         array $imagePathsToNormalize
     ): array {
         $filePath = $imageData['filepath'];

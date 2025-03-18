@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\UserPreferenceService;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,13 +26,13 @@ class UserLanguagePreferenceProviderTest extends TestCase
     private const LANGUAGE_PREFERENCE_VALUE = 'no';
 
     /** @var \Ibexa\Core\MVC\Symfony\Locale\UserLanguagePreferenceProviderInterface */
-    private $userLanguagePreferenceProvider;
+    private UserLanguagePreferenceProvider $userLanguagePreferenceProvider;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\HttpFoundation\RequestStack */
-    private $requestStackMock;
+    private MockObject $requestStackMock;
 
     /** @var \Ibexa\Contracts\Core\Repository\UserPreferenceService */
-    private $userPreferenceServiceMock;
+    private MockObject $userPreferenceServiceMock;
 
     protected function setUp(): void
     {

@@ -51,13 +51,13 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
      */
     protected function init(): void
     {
-        $this->getGroupTags = function (Type\Group $group) {
+        $this->getGroupTags = function (Type\Group $group): array {
             return [
                 $this->cacheIdentifierGenerator->generateTag(self::TYPE_GROUP_IDENTIFIER, [$group->id]),
             ];
         };
 
-        $this->getGroupKeys = function (Type\Group $group) {
+        $this->getGroupKeys = function (Type\Group $group): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_GROUP_IDENTIFIER, [$group->id]),
                 $this->cacheIdentifierGenerator->generateKey(
@@ -68,13 +68,13 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
             ];
         };
 
-        $this->getTypeTags = function (Type $type) {
+        $this->getTypeTags = function (Type $type): array {
             return [
                 $this->cacheIdentifierGenerator->generateTag(self::TYPE_IDENTIFIER), // For use by deleteByUserAndStatus() as it currently lacks return value for affected type ids
                 $this->cacheIdentifierGenerator->generateTag(self::TYPE_IDENTIFIER, [$type->id]),
             ];
         };
-        $this->getTypeKeys = function (Type $type, int $status = Type::STATUS_DEFINED) {
+        $this->getTypeKeys = function (Type $type, int $status = Type::STATUS_DEFINED): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_IDENTIFIER, [$type->id], true),
                 $this->cacheIdentifierGenerator->generateKey(self::CONTENT_TYPE_IDENTIFIER, [$type->id], true) . '-' . $status,
@@ -160,7 +160,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function loadGroups(array $groupIds)
+    public function loadGroups(array $groupIds): array
     {
         return $this->getMultipleCacheValues(
             $groupIds,
@@ -224,7 +224,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
             $this->getTypeTags,
             $this->getTypeKeys,
             // Add tag in case of empty list
-            function () use ($groupId) {
+            function () use ($groupId): array {
                 return [
                     $this->cacheIdentifierGenerator->generateTag(self::TYPE_GROUP_IDENTIFIER, [$groupId]),
                 ];
@@ -528,7 +528,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function updateFieldDefinition($typeId, $status, FieldDefinition $struct)
+    public function updateFieldDefinition($typeId, $status, FieldDefinition $struct): void
     {
         $this->logger->logCall(__METHOD__, ['type' => $typeId, 'status' => $status, 'struct' => $struct]);
         $this->persistenceHandler->contentTypeHandler()->updateFieldDefinition(
@@ -549,7 +549,7 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
     /**
      * {@inheritdoc}
      */
-    public function publish($typeId)
+    public function publish($typeId): void
     {
         $this->logger->logCall(__METHOD__, ['type' => $typeId]);
         $this->persistenceHandler->contentTypeHandler()->publish($typeId);
@@ -587,9 +587,9 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
             function () {
                 return $this->persistenceHandler->contentTypeHandler()->getSearchableFieldMap();
             },
-            static function () {return [];},
-            static function () {return [];},
-            function () {
+            static function (): array {return [];},
+            static function (): array {return [];},
+            function (): array {
                 return [
                     $this->cacheIdentifierGenerator->generateTag(self::TYPE_MAP_IDENTIFIER),
                 ];

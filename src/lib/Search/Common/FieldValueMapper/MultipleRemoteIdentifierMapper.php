@@ -20,7 +20,10 @@ final class MultipleRemoteIdentifierMapper extends RemoteIdentifierMapper
         return $field->getType() instanceof MultipleRemoteIdentifierField;
     }
 
-    public function map(Field $field)
+    /**
+     * @return string[]
+     */
+    public function map(Field $field): array
     {
         $values = [];
 

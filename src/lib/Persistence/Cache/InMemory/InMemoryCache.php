@@ -27,13 +27,13 @@ namespace Ibexa\Core\Persistence\Cache\InMemory;
 class InMemoryCache
 {
     /** @var float Cache Time to Live, in seconds. This is only for how long we keep cache object around in-memory. */
-    private $ttl;
+    private int|float $ttl;
 
     /** @var int The limit of objects in cache pool at a given time */
-    private $limit;
+    private int $limit;
 
     /** @var bool Switch for enabeling/disabling in-memory cache */
-    private $enabled;
+    private bool $enabled;
 
     /**
      * Cache objects by primary key.
@@ -46,14 +46,14 @@ class InMemoryCache
     private $cacheExpiryTime = [];
 
     /** @var int[] Access counter for individual cache (by primary key), to order by by popularity on vacuum(). */
-    private $cacheAccessCount = [];
+    private array $cacheAccessCount = [];
 
     /**
      * Mapping of secondary index to primary key.
      *
      * @var string[]
      */
-    private $cacheIndex = [];
+    private array $cacheIndex = [];
 
     /**
      * In Memory Cache constructor.

@@ -30,7 +30,10 @@ class FileSizeValidator extends Validator
         ],
     ];
 
-    public function validateConstraints($constraints)
+    /**
+     * @return \Ibexa\Core\FieldType\ValidationError[]
+     */
+    public function validateConstraints($constraints): array
     {
         $validationErrors = [];
 

@@ -17,8 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\UsageSearchResult;
 
 abstract class URLServiceDecorator implements URLService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLService */
-    protected $innerService;
+    protected URLService $innerService;
 
     public function __construct(URLService $innerService)
     {

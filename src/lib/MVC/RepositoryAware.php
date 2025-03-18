@@ -17,7 +17,7 @@ abstract class RepositoryAware implements RepositoryAwareInterface
     /**
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      */
-    public function setRepository(Repository $repository)
+    public function setRepository(Repository $repository): void
     {
         $this->repository = $repository;
     }

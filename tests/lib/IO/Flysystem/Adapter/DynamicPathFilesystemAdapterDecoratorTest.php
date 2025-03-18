@@ -376,7 +376,7 @@ final class DynamicPathFilesystemAdapterDecoratorTest extends TestCase
     /**
      * @param string|int $returnValue
      */
-    private function createFileAttributesMock(string $methodName, $returnValue): MockObject
+    private function createFileAttributesMock(string $methodName, int|string $returnValue): MockObject
     {
         $fileAttributesMock = $this->createMock(FileAttributes::class);
         $fileAttributesMock

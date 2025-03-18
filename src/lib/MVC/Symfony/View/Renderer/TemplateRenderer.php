@@ -18,11 +18,9 @@ use Twig\Environment;
 
 class TemplateRenderer implements Renderer
 {
-    /** @var \Twig\Environment */
-    protected $templateEngine;
+    protected Environment $templateEngine;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(Environment $templateEngine, EventDispatcherInterface $eventDispatcher)
     {

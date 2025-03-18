@@ -38,13 +38,13 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         array $commandsToAdd,
         array $existingOldParameters,
         array $expectedCommands
-    ) {
+    ): void {
         $definition = new Definition(SlugConverter::class);
         $definition->setArgument(0, $this->createMock(TransformationProcessor::class));
         $definition->setArgument(1, $existingOldParameters);
         $definition->setPublic(true);
 
-        $this->setDefinition(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class, $definition);
+        $this->setDefinition(SlugConverter::class, $definition);
 
         $this->setParameter('ibexa.url_alias.slug_converter', [
             'transformation' => 'urlalias',
@@ -62,7 +62,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         $slugConverterRef = new ReflectionClass(SlugConverter::class);
         $configurationPropertyRef = $slugConverterRef->getProperty('configuration');
         $configurationPropertyRef->setAccessible(true);
-        $configuration = $configurationPropertyRef->getValue($this->container->get(\Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter::class));
+        $configuration = $configurationPropertyRef->getValue($this->container->get(SlugConverter::class));
 
         self::assertEquals('urlalias', $configuration['transformation']);
         self::assertEquals('underscore', $configuration['wordSeparatorName']);
@@ -70,7 +70,7 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
         self::assertEquals('url_cleanup', $configuration['transformationGroups']['urlalias']['cleanupMethod']);
     }
 
-    public function configurationProvider()
+    public function configurationProvider(): array
     {
         $injectedBySemanticCommands = [
             'new_command_to_add',

@@ -36,11 +36,9 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
         self::EDIT => 'fieldDefinitionEditResources',
     ];
 
-    /** @var \Twig\Environment */
-    private $twig;
+    private Environment $twig;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\Twig\ResourceProviderInterface */
-    private $resourceProvider;
+    private ResourceProviderInterface $resourceProvider;
 
     /**
      * A \Twig\Template instance used to render template blocks, or path to the template to use.
@@ -51,10 +49,8 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
 
     /**
      * Template blocks.
-     *
-     * @var array
      */
-    private $blocks;
+    private array $blocks;
 
     /**
      * @param \Twig\Environment $twig
@@ -77,7 +73,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
     /**
      * @param \Twig\Environment $twig
      */
-    public function setTwig(Environment $twig)
+    public function setTwig(Environment $twig): void
     {
         $this->twig = $twig;
     }
@@ -102,7 +98,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return string
      */
-    private function renderContentField(Field $field, $fieldTypeIdentifier, array $params, $type): string
+    private function renderContentField(Field $field, $fieldTypeIdentifier, array $params, int $type): string
     {
         $localTemplate = null;
         if (isset($params['template'])) {
@@ -149,7 +145,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return string
      */
-    private function renderFieldDefinition(FieldDefinition $fieldDefinition, array $params, $type): string
+    private function renderFieldDefinition(FieldDefinition $fieldDefinition, array $params, int $type): string
     {
         if (is_string($this->baseTemplate)) {
             $this->baseTemplate = $this->twig->loadTemplate(
@@ -208,7 +204,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return array
      */
-    private function getBlocksByField($fieldTypeIdentifier, $type, $localTemplate = null): array
+    private function getBlocksByField($fieldTypeIdentifier, int $type, $localTemplate = null): array
     {
         $fieldBlockName = $this->getRenderFieldBlockName($fieldTypeIdentifier, $type);
         if ($localTemplate !== null) {
@@ -237,7 +233,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return array
      */
-    private function getBlocksByFieldDefinition(FieldDefinition $definition, $type): array
+    private function getBlocksByFieldDefinition(FieldDefinition $definition, int $type): array
     {
         return $this->getBlockByName(
             $this->getRenderFieldDefinitionBlockName($definition->fieldTypeIdentifier, $type),
@@ -254,7 +250,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return array
      */
-    private function getBlockByName($name, $resourcesName): array
+    private function getBlockByName(string $name, string $resourcesName): array
     {
         if (isset($this->blocks[$name])) {
             return [$name => $this->blocks[$name]];
@@ -289,7 +285,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return string
      */
-    private function getRenderFieldBlockName($fieldTypeIdentifier, $type): string
+    private function getRenderFieldBlockName(string $fieldTypeIdentifier, $type): string
     {
         $suffix = $type === self::EDIT ? self::FIELD_EDIT_SUFFIX : self::FIELD_VIEW_SUFFIX;
 
@@ -305,7 +301,7 @@ class FieldBlockRenderer implements FieldBlockRendererInterface
      *
      * @return string
      */
-    private function getRenderFieldDefinitionBlockName($fieldTypeIdentifier, $type): string
+    private function getRenderFieldDefinitionBlockName(string $fieldTypeIdentifier, $type): string
     {
         $suffix = $type === self::EDIT ? self::FIELD_DEFINITION_EDIT_SUFFIX : self::FIELD_DEFINITION_VIEW_SUFFIX;
 

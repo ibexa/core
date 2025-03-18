@@ -29,7 +29,7 @@ class RejectExplicitFrontControllerRequestsListener implements EventSubscriberIn
         ];
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;

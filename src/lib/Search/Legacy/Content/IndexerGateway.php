@@ -22,8 +22,7 @@ use Ibexa\Contracts\Core\Search\Content\IndexerGateway as SPIIndexerGateway;
  */
 final class IndexerGateway implements SPIIndexerGateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {

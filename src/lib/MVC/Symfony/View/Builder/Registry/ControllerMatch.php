@@ -16,7 +16,7 @@ use Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilderRegistry;
 class ControllerMatch implements ViewBuilderRegistry
 {
     /** @var \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder[] */
-    private $registry = [];
+    private array $registry = [];
 
     public function __construct(iterable $viewBuilders = [])
     {
@@ -30,7 +30,7 @@ class ControllerMatch implements ViewBuilderRegistry
     /**
      * @param \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder[] $viewBuilders
      */
-    public function addToRegistry(array $viewBuilders)
+    public function addToRegistry(array $viewBuilders): void
     {
         $this->registry = array_merge($this->registry, $viewBuilders);
     }

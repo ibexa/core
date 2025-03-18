@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 class RouteReference
 {
-    /** @var \Symfony\Component\HttpFoundation\ParameterBag */
-    private $params;
+    private ParameterBag $params;
 
     /** @var mixed Route name or resource (e.g. Location object). */
     private $route;
@@ -26,7 +25,7 @@ class RouteReference
     /**
      * @param mixed $route
      */
-    public function setRoute($route)
+    public function setRoute($route): void
     {
         $this->route = $route;
     }
@@ -42,7 +41,7 @@ class RouteReference
     /**
      * @return array
      */
-    public function getParams()
+    public function getParams(): array
     {
         return $this->params->all();
     }
@@ -53,7 +52,7 @@ class RouteReference
      * @param string $parameterName
      * @param mixed $value
      */
-    public function set($parameterName, $value)
+    public function set(string $parameterName, $value): void
     {
         $this->params->set($parameterName, $value);
     }
@@ -67,12 +66,12 @@ class RouteReference
      *
      * @return mixed
      */
-    public function get($parameterName, $defaultValue = null, $deep = false)
+    public function get(string $parameterName, $defaultValue = null, $deep = false): mixed
     {
         return $this->params->get($parameterName, $defaultValue, $deep);
     }
 
-    public function has($parameterName)
+    public function has(string $parameterName): bool
     {
         return $this->params->has($parameterName);
     }
@@ -82,7 +81,7 @@ class RouteReference
      *
      * @param string $parameterName
      */
-    public function remove($parameterName)
+    public function remove(string $parameterName): void
     {
         $this->params->remove($parameterName);
     }

@@ -144,7 +144,7 @@ final class RepositoryFactory implements LoggerAwareInterface
      *
      * @return mixed
      */
-    public function buildService(Repository $repository, $serviceName)
+    public function buildService(Repository $repository, string $serviceName)
     {
         $methodName = 'get' . $serviceName . 'Service';
         if (!method_exists($repository, $methodName)) {

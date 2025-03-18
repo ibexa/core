@@ -20,7 +20,10 @@ class MultipleIntegerMapper extends IntegerMapper
         return $field->getType() instanceof MultipleIntegerField;
     }
 
-    public function map(Field $field)
+    /**
+     * @return int[]
+     */
+    public function map(Field $field): array
     {
         $values = [];
 

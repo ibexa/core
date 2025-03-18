@@ -20,6 +20,7 @@ use Ibexa\Core\Repository\Helper\RelationProcessor;
 use Ibexa\Core\Repository\Values\Content\Relation as RelationValue;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,7 +28,7 @@ use Psr\Log\LoggerInterface;
  */
 class RelationProcessorTest extends BaseServiceMockTest
 {
-    public function providerForTestAppendRelations()
+    public function providerForTestAppendRelations(): array
     {
         return [
             [
@@ -164,7 +165,7 @@ class RelationProcessorTest extends BaseServiceMockTest
      *
      * @dataProvider providerForTestAppendRelations
      */
-    public function testAppendFieldRelations(array $fieldRelations, array $expected)
+    public function testAppendFieldRelations(array $fieldRelations, array $expected): void
     {
         $locationHandler = $this->getPersistenceMock()->locationHandler();
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
@@ -207,7 +208,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Assert loading Locations to find Content id in {@link RelationProcessor::appendFieldRelations()} method.
      */
-    protected function assertLocationHandlerExpectation($locationHandlerMock, $fieldRelations, $type, &$callCounter)
+    protected function assertLocationHandlerExpectation($locationHandlerMock, array $fieldRelations, $type, int &$callCounter)
     {
         if (isset($fieldRelations[$type]['locationIds'])) {
             foreach ($fieldRelations[$type]['locationIds'] as $locationId) {
@@ -230,7 +231,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the appendFieldRelations() method.
      */
-    public function testAppendFieldRelationsLocationMappingWorks()
+    public function testAppendFieldRelationsLocationMappingWorks(): void
     {
         $locationHandler = $this->getPersistenceMock()->locationHandler();
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
@@ -290,7 +291,7 @@ class RelationProcessorTest extends BaseServiceMockTest
         );
     }
 
-    public function testAppendFieldRelationsLogsMissingLocations()
+    public function testAppendFieldRelationsLogsMissingLocations(): void
     {
         $fieldValueMock = $this->getMockForAbstractClass(Value::class);
         $fieldTypeMock = $this->createMock(FieldType::class);
@@ -345,7 +346,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsNoChanges()
+    public function testProcessFieldRelationsNoChanges(): void
     {
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $contentHandlerMock = $this->getPersistenceMockHandler('Content\\Handler');
@@ -415,7 +416,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsAddsRelations()
+    public function testProcessFieldRelationsAddsRelations(): void
     {
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $contentHandlerMock = $this->getPersistenceMockHandler('Content\\Handler');
@@ -523,7 +524,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsRemovesRelations()
+    public function testProcessFieldRelationsRemovesRelations(): void
     {
         $relationProcessor = $this->getPartlyMockedRelationProcessor();
         $contentHandlerMock = $this->getPersistenceMockHandler('Content\\Handler');
@@ -621,7 +622,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * Test for the processFieldRelations() method.
      */
-    public function testProcessFieldRelationsWhenRelationFieldNoLongerExists()
+    public function testProcessFieldRelationsWhenRelationFieldNoLongerExists(): void
     {
         $existingRelations = [
             $this->getStubbedRelation(2, Relation::FIELD, 43, 17),
@@ -645,7 +646,7 @@ class RelationProcessorTest extends BaseServiceMockTest
         $relationProcessor->processFieldRelations([], 24, 2, $contentTypeMock, $existingRelations);
     }
 
-    protected function getStubbedRelation($id, $type, $fieldDefinitionId, $contentId)
+    protected function getStubbedRelation($id, $type, ?string $fieldDefinitionId, $contentId): RelationValue
     {
         return new RelationValue(
             [
@@ -668,7 +669,7 @@ class RelationProcessorTest extends BaseServiceMockTest
      *
      * @return \Ibexa\Core\Repository\Helper\RelationProcessor|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getPartlyMockedRelationProcessor(array $methods = null)
+    protected function getPartlyMockedRelationProcessor(array $methods = null): MockObject
     {
         return $this->getMockBuilder(RelationProcessor::class)
             ->setMethods($methods)
@@ -683,7 +684,7 @@ class RelationProcessorTest extends BaseServiceMockTest
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    protected function getFieldTypeServiceMock()
+    protected function getFieldTypeServiceMock(): MockObject
     {
         return $this->createMock(FieldTypeService::class);
     }

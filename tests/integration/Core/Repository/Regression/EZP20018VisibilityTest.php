@@ -20,7 +20,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  */
 class EZP20018VisibilityTest extends BaseTest
 {
-    public function testSearchForHiddenContent()
+    public function testSearchForHiddenContent(): void
     {
         $repository = $this->getRepository();
 
@@ -44,7 +44,7 @@ class EZP20018VisibilityTest extends BaseTest
         self::assertCount(1, $results2->searchHits);
     }
 
-    public function testSearchForVisibleContent()
+    public function testSearchForVisibleContent(): void
     {
         $repository = $this->getRepository();
 

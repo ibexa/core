@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\FieldType;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\AuthorCollection;
+use Ibexa\Core\FieldType\Author\Type;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
 use Ibexa\Core\FieldType\Value;
@@ -21,7 +22,7 @@ use Ibexa\Core\FieldType\Value;
 class AuthorTest extends FieldTypeTest
 {
     /** @var \Ibexa\Core\FieldType\Author\Author[] */
-    private $authors;
+    private array $authors;
 
     protected function setUp(): void
     {
@@ -44,7 +45,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return \Ibexa\Contracts\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new AuthorType();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -57,7 +58,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -67,7 +68,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'defaultAuthor' => [
@@ -82,12 +83,12 @@ class AuthorTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\Author\Value
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): AuthorValue
     {
         return new AuthorValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -134,7 +135,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -201,7 +202,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -268,7 +269,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -322,7 +323,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -364,7 +365,7 @@ class AuthorTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [
@@ -391,7 +392,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\FieldType::getValidatorConfigurationSchema
      */
-    public function testValidatorConfigurationSchema()
+    public function testValidatorConfigurationSchema(): void
     {
         $ft = $this->createFieldTypeUnderTest();
         self::assertEmpty(
@@ -403,7 +404,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
      */
-    public function testAcceptValueInvalidType()
+    public function testAcceptValueInvalidType(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -414,7 +415,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
      */
-    public function testAcceptValueInvalidFormat()
+    public function testAcceptValueInvalidFormat(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -427,7 +428,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\Type::acceptValue
      */
-    public function testAcceptValueValidFormat()
+    public function testAcceptValueValidFormat(): void
     {
         $ft = $this->createFieldTypeUnderTest();
         $author = new Author();
@@ -441,7 +442,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\Value::__construct
      */
-    public function testBuildFieldValueWithoutParam()
+    public function testBuildFieldValueWithoutParam(): void
     {
         $value = new AuthorValue();
         self::assertInstanceOf(AuthorCollection::class, $value->authors);
@@ -451,7 +452,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\Value::__construct
      */
-    public function testBuildFieldValueWithParam()
+    public function testBuildFieldValueWithParam(): void
     {
         $value = new AuthorValue($this->authors);
         self::assertInstanceOf(AuthorCollection::class, $value->authors);
@@ -461,7 +462,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\Value::__toString
      */
-    public function testFieldValueToString()
+    public function testFieldValueToString(): void
     {
         $value = new AuthorValue($this->authors);
 
@@ -476,7 +477,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\AuthorCollection::offsetSet
      */
-    public function testAddAuthor()
+    public function testAddAuthor(): void
     {
         $value = new AuthorValue();
         $value->authors[] = $this->authors[0];
@@ -496,7 +497,7 @@ class AuthorTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Author\AuthorCollection::removeAuthorsById
      */
-    public function testRemoveAuthors()
+    public function testRemoveAuthors(): void
     {
         $existingIds = [];
         foreach ($this->authors as $author) {

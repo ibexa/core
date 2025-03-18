@@ -467,7 +467,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
         ];
     }
 
-    public function testPublishRoleDraftFromExistingRole()
+    public function testPublishRoleDraftFromExistingRole(): void
     {
         $this->loggerMock->expects(self::once())->method('logCall');
         $innerHandlerMock = $this->createMock(SPIUserHandler::class);
@@ -512,7 +512,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
         $handler->publishRoleDraft($roleDraftId);
     }
 
-    public function testPublishNewRoleDraft()
+    public function testPublishNewRoleDraft(): void
     {
         $this->loggerMock->expects(self::once())->method('logCall');
         $innerHandlerMock = $this->createMock(SPIUserHandler::class);
@@ -537,7 +537,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTest
         $handler->publishRoleDraft($roleDraftId);
     }
 
-    public function testAssignRole()
+    public function testAssignRole(): void
     {
         $innerUserHandlerMock = $this->createMock(SPIUserHandler::class);
         $innerLocationHandlerMock = $this->createMock(SPILocationHandler::class);

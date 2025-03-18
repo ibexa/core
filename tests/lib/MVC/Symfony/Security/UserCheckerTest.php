@@ -18,6 +18,7 @@ use Ibexa\Core\MVC\Symfony\Security\UserChecker;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\User as APIUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Throwable;
@@ -27,10 +28,10 @@ final class UserCheckerTest extends TestCase
     private const EXAMPLE_USER_ID = 14;
 
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $userServiceMock;
+    private MockObject $userServiceMock;
 
     /** @var \Ibexa\Core\MVC\Symfony\Security\UserChecker */
-    private $userChecker;
+    private UserChecker $userChecker;
 
     protected function setUp(): void
     {

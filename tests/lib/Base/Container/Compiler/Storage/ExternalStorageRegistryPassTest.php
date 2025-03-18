@@ -31,7 +31,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider externalStorageHandlerTagsProvider
      */
-    public function testRegisterExternalStorageHandler(string $tag)
+    public function testRegisterExternalStorageHandler(string $tag): void
     {
         $def = new Definition();
         $fieldTypeIdentifier = 'field_type_identifier';
@@ -51,7 +51,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider externalStorageHandlerTagsProvider
      */
-    public function testRegisterExternalStorageHandlerNoAlias(string $tag)
+    public function testRegisterExternalStorageHandlerNoAlias(string $tag): void
     {
         $this->expectException(\LogicException::class);
 
@@ -73,7 +73,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider externalStorageHandlerGatewayTagsProvider
      */
-    public function testRegisterExternalStorageHandlerWithGateway(string $tag)
+    public function testRegisterExternalStorageHandlerWithGateway(string $tag): void
     {
         $handlerDef = new Definition();
         $handlerDef->setClass(GatewayBasedStorageHandler::class);
@@ -105,7 +105,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider externalStorageHandlerGatewayTagsProvider
      */
-    public function testRegisterExternalStorageHandlerWithoutRegisteredGateway(string $tag)
+    public function testRegisterExternalStorageHandlerWithoutRegisteredGateway(string $tag): void
     {
         $this->expectException(\LogicException::class);
 
@@ -130,7 +130,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider externalStorageHandlerGatewayTagsProvider
      */
-    public function testRegisterExternalStorageHandlerWithGatewayNoAlias(string $tag)
+    public function testRegisterExternalStorageHandlerWithGatewayNoAlias(string $tag): void
     {
         $this->expectException(\LogicException::class);
 
@@ -161,7 +161,7 @@ class ExternalStorageRegistryPassTest extends AbstractCompilerPassTestCase
     /**
      * @dataProvider externalStorageHandlerGatewayTagsProvider
      */
-    public function testRegisterExternalStorageHandlerWithGatewayNoIdentifier(string $tag)
+    public function testRegisterExternalStorageHandlerWithGatewayNoIdentifier(string $tag): void
     {
         $this->expectException(\LogicException::class);
 

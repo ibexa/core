@@ -24,7 +24,7 @@ class FragmentPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new FragmentPass());
     }
 
-    public function testProcess()
+    public function testProcess(): void
     {
         $inlineRendererDef = new Definition(InlineFragmentRenderer::class);
         $inlineRendererDef->addTag('kernel.fragment_renderer');

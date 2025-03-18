@@ -20,10 +20,8 @@ class FieldType implements FieldTypeInterface
 {
     /**
      * Holds internal FieldType object.
-     *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType
      */
-    protected $internalFieldType;
+    protected SPIFieldType $internalFieldType;
 
     /**
      * Creates a new FieldType object.

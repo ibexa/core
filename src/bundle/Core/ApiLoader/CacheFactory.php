@@ -31,7 +31,7 @@ class CacheFactory
      *
      * @return \Symfony\Component\Cache\Adapter\TagAwareAdapterInterface
      */
-    public function getCachePool(ConfigResolverInterface $configResolver)
+    public function getCachePool(ConfigResolverInterface $configResolver): TagAwareAdapterInterface|TagAwareAdapter
     {
         /** @var \Symfony\Component\Cache\Adapter\AdapterInterface $cacheService */
         $cacheService = $this->container->get($configResolver->getParameter('cache_service_name'));

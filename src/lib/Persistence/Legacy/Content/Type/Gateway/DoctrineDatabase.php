@@ -36,10 +36,8 @@ final class DoctrineDatabase extends Gateway
 {
     /**
      * Columns of database tables.
-     *
-     * @var array
      */
-    private $columns = [
+    private array $columns = [
         'ezcontentclass' => [
             'id',
             'always_available',
@@ -95,23 +93,18 @@ final class DoctrineDatabase extends Gateway
      * The native Doctrine connection.
      *
      * Meant to be used to transition from eZ/Zeta interface to Doctrine.
-     *
-     * @var \Doctrine\DBAL\Connection
      */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $sharedGateway;
+    private SharedGateway $sharedGateway;
 
     /**
      * Language mask generator.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
      */
-    private $languageMaskGenerator;
+    private MaskGenerator $languageMaskGenerator;
 
     /**
      * @throws \Doctrine\DBAL\DBALException

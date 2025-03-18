@@ -19,15 +19,13 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 abstract class Compound implements CompoundInterface, URILexer
 {
     /** @var array Collection of rules using the Compound matcher. */
-    protected $config;
+    protected array $config;
 
     /**
      * Matchers map.
      * Consists of an array of matchers, grouped by ruleset (so array of array of matchers).
-     *
-     * @var array
      */
-    protected $matchersMap = [];
+    protected array $matchersMap;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] */
     protected $subMatchers = [];
@@ -44,7 +42,7 @@ abstract class Compound implements CompoundInterface, URILexer
         $this->matchersMap = [];
     }
 
-    public function setMatcherBuilder(MatcherBuilderInterface $matcherBuilder)
+    public function setMatcherBuilder(MatcherBuilderInterface $matcherBuilder): void
     {
         $this->matcherBuilder = $matcherBuilder;
         foreach ($this->config as $i => $rule) {
@@ -54,7 +52,7 @@ abstract class Compound implements CompoundInterface, URILexer
         }
     }
 
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         $this->request = $request;
         foreach ($this->matchersMap as $ruleset) {
@@ -96,7 +94,7 @@ abstract class Compound implements CompoundInterface, URILexer
         return $this->subMatchers;
     }
 
-    public function setSubMatchers(array $subMatchers)
+    public function setSubMatchers(array $subMatchers): void
     {
         $this->subMatchers = $subMatchers;
     }

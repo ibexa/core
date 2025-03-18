@@ -20,7 +20,7 @@ class InMemoryVariationHandler implements VariationHandler
         VersionInfo $versionInfo,
         $variationName,
         array $parameters = []
-    ) {
+    ): Variation {
         return new Variation([
             'uri' => $field->value . '-in-memory-test',
         ]);

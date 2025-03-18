@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 final class CacheIdentifierGeneratorTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface */
-    private $cacheIdentifierGenerator;
+    private CacheIdentifierGenerator $cacheIdentifierGenerator;
 
     public function setUp(): void
     {

@@ -24,10 +24,10 @@ final class ChainSiteAccessProviderTest extends TestCase
     private const SA_GROUP = 'group';
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface[] */
-    private $providers;
+    private array $providers;
 
     /** @var array */
-    private $groupsBySiteAccess;
+    private array $groupsBySiteAccess;
 
     protected function setUp(): void
     {
@@ -163,7 +163,7 @@ final class ChainSiteAccessProviderTest extends TestCase
             StaticSiteAccessProvider::class
         );
         $undefinedSiteAccess->groups = array_map(
-            static function (string $groupName) {
+            static function (string $groupName): SiteAccessGroup {
                 return new SiteAccessGroup($groupName);
             },
             $groupNames

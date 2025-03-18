@@ -17,7 +17,7 @@ use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTest;
 class SectionTest extends BaseTest
 {
     /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section */
-    private $matcher;
+    private SectionIdentifierMatcher $matcher;
 
     protected function setUp(): void
     {
@@ -32,7 +32,7 @@ class SectionTest extends BaseTest
      *
      * @return \PHPUnit\Framework\MockObject\MockObject
      */
-    private function generateRepositoryMockForSectionIdentifier($sectionIdentifier)
+    private function generateRepositoryMockForSectionIdentifier(string $sectionIdentifier)
     {
         $sectionServiceMock = $this->createMock(SectionService::class);
         $sectionServiceMock->expects(self::once())
@@ -74,7 +74,7 @@ class SectionTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchLocation(string|array $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
@@ -95,7 +95,7 @@ class SectionTest extends BaseTest
         );
     }
 
-    public function matchSectionProvider()
+    public function matchSectionProvider(): array
     {
         return [
             [
@@ -132,7 +132,7 @@ class SectionTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository\Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
+    public function testMatchContentInfo(string|array $matchingConfig, Repository $repository, bool $expectedResult): void
     {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);

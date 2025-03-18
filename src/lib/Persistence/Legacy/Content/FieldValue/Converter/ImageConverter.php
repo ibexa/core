@@ -18,11 +18,9 @@ use SimpleXMLElement;
 
 class ImageConverter extends BinaryFileConverter
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $imageIoService;
+    private IOServiceInterface $imageIoService;
 
-    /** @var \Ibexa\Core\IO\UrlRedecoratorInterface */
-    private $urlRedecorator;
+    private UrlRedecoratorInterface $urlRedecorator;
 
     public function __construct(IOServiceInterface $imageIoService, UrlRedecoratorInterface $urlRedecorator)
     {
@@ -36,7 +34,7 @@ class ImageConverter extends BinaryFileConverter
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         if (isset($value->data)) {
             // Determine what needs to be stored
@@ -60,7 +58,7 @@ class ImageConverter extends BinaryFileConverter
      *
      * @return string
      */
-    protected function createEmptyLegacyXml($contentMetaData)
+    protected function createEmptyLegacyXml($contentMetaData): string
     {
         return $this->fillXml(
             array_merge(
@@ -92,7 +90,7 @@ class ImageConverter extends BinaryFileConverter
      *
      * @return string
      */
-    protected function createLegacyXml(array $data)
+    protected function createLegacyXml(array $data): string
     {
         $data['uri'] = $this->urlRedecorator->redecorateFromSource($data['uri']);
         $pathInfo = pathinfo($data['uri']);
@@ -109,7 +107,7 @@ class ImageConverter extends BinaryFileConverter
      *
      * @return string
      */
-    protected function fillXml($imageData, $pathInfo, $timestamp): string
+    protected function fillXml($imageData, array $pathInfo, $timestamp): string
     {
         $additionalData = $this->buildAdditionalDataTag($imageData['additionalData'] ?? []);
 
@@ -171,7 +169,7 @@ EOT;
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         if (empty($value->dataText)) {
             // Special case for anonymous user
@@ -235,7 +233,7 @@ EOT;
      *
      * @return array
      */
-    protected function parseLegacyXml($xml)
+    protected function parseLegacyXml($xml): ?array
     {
         $extractedData = [];
 

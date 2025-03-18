@@ -16,8 +16,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserPreferenceService extends UserPreferenceServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         UserPreferenceServiceInterface $innerService,

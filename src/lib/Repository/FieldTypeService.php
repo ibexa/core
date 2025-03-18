@@ -20,8 +20,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldType;
  */
 class FieldTypeService implements FieldTypeServiceInterface
 {
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
     /**
      * Holds an array of FieldType objects to avoid re creating them all the time from SPI variants.

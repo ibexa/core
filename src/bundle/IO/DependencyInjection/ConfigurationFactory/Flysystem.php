@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 abstract class Flysystem implements ConfigurationFactory
 {
-    public function addConfiguration(ArrayNodeDefinition $node)
+    public function addConfiguration(ArrayNodeDefinition $node): void
     {
         $node
             ->info(
@@ -42,7 +42,7 @@ abstract class Flysystem implements ConfigurationFactory
             ->end();
     }
 
-    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config)
+    public function configureHandler(ContainerBuilder $container, ServiceDefinition $definition, array $config): void
     {
         $filesystemId = $this->createFilesystem($container, $config['name'], $config['adapter']);
         $definition->replaceArgument(0, new Reference($filesystemId));

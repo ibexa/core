@@ -20,7 +20,7 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider setRequestProvider
      */
-    public function testSetGetRequest($config, $pathinfo, $expectedMapKey)
+    public function testSetGetRequest(array $config, string $pathinfo, string $expectedMapKey): void
     {
         $request = new SimplifiedRequest('http', '', 80, $pathinfo);
         $matcher = new URIMapMatcher($config);
@@ -35,7 +35,7 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider fixupURIProvider
      */
-    public function testAnalyseURI($uri, $expectedFixedUpURI)
+    public function testAnalyseURI(string $uri, string $expectedFixedUpURI): void
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
@@ -53,7 +53,7 @@ class RouterMapURITest extends TestCase
      *
      * @dataProvider fixupURIProvider
      */
-    public function testAnalyseLink($fullUri, $linkUri)
+    public function testAnalyseLink(string $fullUri, string $linkUri): void
     {
         $matcher = new URIMapMatcher([]);
         $matcher->setRequest(
@@ -65,7 +65,7 @@ class RouterMapURITest extends TestCase
         self::assertSame($fullUri, $unserializedMatcher->analyseLink($linkUri));
     }
 
-    public function setRequestProvider()
+    public function setRequestProvider(): array
     {
         return [
             [['foo' => 'bar'], '/bar/baz', 'bar'],
@@ -73,7 +73,7 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public function fixupURIProvider()
+    public function fixupURIProvider(): array
     {
         return [
             ['/foo', '/'],
@@ -86,14 +86,14 @@ class RouterMapURITest extends TestCase
         ];
     }
 
-    public function testReverseMatchFail()
+    public function testReverseMatchFail(): void
     {
         $config = ['foo' => 'bar'];
         $matcher = new URIMapMatcher($config);
         self::assertNull($matcher->reverseMatch('non_existent'));
     }
 
-    public function testReverseMatch()
+    public function testReverseMatch(): void
     {
         $config = [
             'some_uri' => 'some_siteaccess',

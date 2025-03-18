@@ -56,7 +56,7 @@ class Type extends FieldType
      *
      * @return \Ibexa\Core\FieldType\Null\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value(null);
     }
@@ -88,7 +88,7 @@ class Type extends FieldType
     /**
      * {@inheritdoc}
      */
-    protected function getSortInfo(BaseValue $value)
+    protected function getSortInfo(BaseValue $value): null
     {
         return null;
     }
@@ -100,7 +100,7 @@ class Type extends FieldType
      *
      * @return \Ibexa\Core\FieldType\Null\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         return new Value($hash);
     }

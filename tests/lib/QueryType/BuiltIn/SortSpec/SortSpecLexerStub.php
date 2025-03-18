@@ -17,13 +17,11 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\Token;
 final class SortSpecLexerStub implements SortSpecLexerInterface
 {
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token[] */
-    private $tokens;
+    private array $tokens;
 
-    /** @var string|null */
-    private $input;
+    private ?string $input = null;
 
-    /** @var int */
-    private $position;
+    private int $position;
 
     public function __construct(array $tokens = [])
     {

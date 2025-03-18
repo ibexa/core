@@ -12,23 +12,21 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserIn
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configuration as SiteAccessConfiguration;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class Configuration extends SiteAccessConfiguration
 {
     public const CUSTOM_TAG_ATTRIBUTE_TYPES = ['number', 'string', 'boolean', 'choice'];
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ParserInterface */
-    private $mainSiteAccessConfigParser;
+    private ParserInterface $mainSiteAccessConfigParser;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\RepositoryConfigParserInterface */
-    private $mainRepositoryConfigParser;
+    private RepositoryConfigParserInterface $mainRepositoryConfigParser;
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\Suggestion\Collector\SuggestionCollectorInterface */
-    private $suggestionCollector;
+    private SuggestionCollectorInterface $suggestionCollector;
 
     /** @var \Ibexa\Bundle\Core\SiteAccess\SiteAccessConfigurationFilter[] */
-    private $siteAccessConfigurationFilters;
+    private ?array $siteAccessConfigurationFilters = null;
 
     public function __construct(
         ParserInterface $mainConfigParser,
@@ -40,7 +38,7 @@ class Configuration extends SiteAccessConfiguration
         $this->suggestionCollector = $suggestionCollector;
     }
 
-    public function setSiteAccessConfigurationFilters(array $filters)
+    public function setSiteAccessConfigurationFilters(array $filters): void
     {
         $this->siteAccessConfigurationFilters = $filters;
     }
@@ -73,7 +71,7 @@ class Configuration extends SiteAccessConfiguration
         return $treeBuilder;
     }
 
-    public function addRepositoriesSection(ArrayNodeDefinition $rootNode)
+    public function addRepositoriesSection(ArrayNodeDefinition $rootNode): void
     {
         $repositoriesNode = $rootNode
             ->children()
@@ -153,7 +151,7 @@ class Configuration extends SiteAccessConfiguration
         );
     }
 
-    public function addSiteaccessSection(ArrayNodeDefinition $rootNode)
+    public function addSiteaccessSection(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -204,7 +202,7 @@ class Configuration extends SiteAccessConfiguration
                                 ->useAttributeAsKey('key')
                                 ->beforeNormalization()
                                     ->always(
-                                        static function ($v) {
+                                        static function ($v): array {
                                             // Value passed to the matcher should always be an array.
                                             // If value is not an array, we transform it to a hash, with 'value' as key.
                                             if (!is_array($v)) {
@@ -253,7 +251,7 @@ class Configuration extends SiteAccessConfiguration
             ->end();
     }
 
-    private function addImageMagickSection(ArrayNodeDefinition $rootNode)
+    private function addImageMagickSection(ArrayNodeDefinition $rootNode): void
     {
         $filtersInfo =
 <<<EOT
@@ -299,7 +297,7 @@ EOT;
             ->end();
     }
 
-    private function addHttpCacheSection(ArrayNodeDefinition $rootNode)
+    private function addHttpCacheSection(ArrayNodeDefinition $rootNode): void
     {
         $purgeTypeInfo = <<<EOT
 Http cache purge type.
@@ -349,7 +347,7 @@ EOT;
             ->end();
     }
 
-    private function addRouterSection(ArrayNodeDefinition $rootNode)
+    private function addRouterSection(ArrayNodeDefinition $rootNode): void
     {
         $nonSAAwareInfo = <<<EOT
 Route names that are not supposed to be SiteAccess aware, i.e. Routes pointing to asset generation (like assetic).
@@ -381,7 +379,7 @@ EOT;
      *
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
      */
-    private function addImagePlaceholderSection(ArrayNodeDefinition $rootNode)
+    private function addImagePlaceholderSection(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -466,7 +464,7 @@ EOT;
      *
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addUrlWildcardsSection($rootNode): ArrayNodeDefinition
+    private function addUrlWildcardsSection(NodeDefinition $rootNode): ArrayNodeDefinition
     {
         return $rootNode
             ->children()
@@ -501,7 +499,7 @@ EOT;
      *
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addOrmSection($rootNode): ArrayNodeDefinition
+    private function addOrmSection(NodeDefinition $rootNode): ArrayNodeDefinition
     {
         return $rootNode
             ->children()
@@ -546,7 +544,7 @@ EOT;
      *
      * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
      */
-    private function addUITranslationsSection($rootNode): ArrayNodeDefinition
+    private function addUITranslationsSection(NodeDefinition $rootNode): ArrayNodeDefinition
     {
         return $rootNode
             ->children()

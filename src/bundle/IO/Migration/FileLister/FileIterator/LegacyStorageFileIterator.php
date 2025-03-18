@@ -21,10 +21,10 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     private $item;
 
     /** @var int Iteration cursor on statement. */
-    private $cursor;
+    private ?int $cursor = null;
 
     /** @var \Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface Used to get file rows. */
-    private $rowReader;
+    private FileRowReaderInterface $rowReader;
 
     /**
      * @param \Ibexa\Bundle\IO\Migration\FileLister\FileRowReaderInterface $rowReader
@@ -71,7 +71,7 @@ final class LegacyStorageFileIterator implements FileIteratorInterface
     /**
      * Fetches the next item from the resultset and moves the cursor forward.
      */
-    private function fetchRow()
+    private function fetchRow(): void
     {
         ++$this->cursor;
         $fileId = $this->rowReader->getRow();

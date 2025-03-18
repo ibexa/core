@@ -15,8 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\Setting\SettingUpdateStruct;
 
 abstract class SettingServiceDecorator implements SettingService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SettingService */
-    protected $innerService;
+    protected SettingService $innerService;
 
     public function __construct(
         SettingService $innerService

@@ -14,11 +14,9 @@ use Iterator;
 
 final class BatchIteratorTestAdapter implements BatchIteratorAdapter
 {
-    /** @var array */
-    private $data;
+    private array $data;
 
-    /** @var int */
-    private $fetchCounter;
+    private int $fetchCounter;
 
     public function __construct(array $data)
     {

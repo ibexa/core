@@ -17,15 +17,14 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 class PersistenceCacheCollector extends DataCollector
 {
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
-    private $logger;
+    private PersistenceLogger $logger;
 
     public function __construct(PersistenceLogger $logger)
     {
         $this->logger = $logger;
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $this->data = [
             'stats' => $this->logger->getStats(),
@@ -69,7 +68,7 @@ class PersistenceCacheCollector extends DataCollector
      *
      * @return array
      */
-    public function getCalls()
+    public function getCalls(): array
     {
         if (empty($this->data['calls'])) {
             return [];
@@ -110,7 +109,7 @@ class PersistenceCacheCollector extends DataCollector
      *
      * @return array
      */
-    public function getHandlers()
+    public function getHandlers(): array
     {
         $handlers = [];
         foreach ($this->data['handlers'] as $handler => $count) {

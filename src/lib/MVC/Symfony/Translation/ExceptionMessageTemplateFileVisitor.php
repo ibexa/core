@@ -116,7 +116,7 @@ class ExceptionMessageTemplateFileVisitor extends DefaultPhpFileExtractor
         return null;
     }
 
-    private function isIgnore($node): bool
+    private function isIgnore(Node $node): bool
     {
         if (null !== $docComment = $this->getDocCommentForNode($node)) {
             $annotations = $this->docParser->parse(

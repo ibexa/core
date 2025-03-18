@@ -18,7 +18,7 @@ class EZP28799SubtreeSearchTest extends BaseTest
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
      */
-    public function createTestContent()
+    public function createTestContent(): array
     {
         $rootLocationId = 2;
         $contentService = $this->getRepository()->getContentService();
@@ -61,7 +61,7 @@ class EZP28799SubtreeSearchTest extends BaseTest
         return [$leftFolder, $rightFolder, $targetFolder];
     }
 
-    public function testConflictingConditions()
+    public function testConflictingConditions(): void
     {
         list($leftFolder, $rightFolder, $targetFolder) = $this->createTestContent();
         $locationService = $this->getRepository()->getLocationService();
@@ -83,7 +83,7 @@ class EZP28799SubtreeSearchTest extends BaseTest
         self::assertSame(0, $result->totalCount);
     }
 
-    public function testNegativeSubtree()
+    public function testNegativeSubtree(): void
     {
         list($leftFolder, $rightFolder, $targetFolder) = $this->createTestContent();
         $locationService = $this->getRepository()->getLocationService();

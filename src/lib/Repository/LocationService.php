@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\LocationService as LocationServiceInterface;
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
@@ -56,33 +57,25 @@ use Psr\Log\NullLogger;
 class LocationService implements LocationServiceInterface
 {
     /** @var \Ibexa\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentDomainMapper */
-    protected $contentDomainMapper;
+    protected ContentDomainMapper $contentDomainMapper;
 
     protected NameSchemaServiceInterface $nameSchemaService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
-    protected $permissionCriterionResolver;
+    protected PermissionCriterionResolver $permissionCriterionResolver;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Filter\Location\Handler */
-    private $locationFilteringHandler;
+    private LocationFilteringHandler $locationFilteringHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService */
-    protected $contentTypeService;
+    protected ContentTypeService $contentTypeService;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.

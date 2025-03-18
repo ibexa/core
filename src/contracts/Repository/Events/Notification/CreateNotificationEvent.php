@@ -14,11 +14,9 @@ use Ibexa\Contracts\Core\Repository\Values\Notification\Notification;
 
 final class CreateNotificationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Notification */
-    private $notification;
+    private Notification $notification;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\CreateStruct */
-    private $createStruct;
+    private CreateStruct $createStruct;
 
     public function __construct(
         Notification $notification,

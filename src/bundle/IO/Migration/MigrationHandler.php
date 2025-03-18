@@ -15,14 +15,11 @@ use Psr\Log\LoggerInterface;
  */
 abstract class MigrationHandler implements MigrationHandlerInterface
 {
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $metadataHandlerRegistry;
+    private HandlerRegistry $metadataHandlerRegistry;
 
-    /** @var \Ibexa\Bundle\IO\ApiLoader\HandlerRegistry */
-    private $binarydataHandlerRegistry;
+    private HandlerRegistry $binarydataHandlerRegistry;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private ?LoggerInterface $logger;
 
     /** @var \Ibexa\Core\IO\IOMetadataHandler */
     protected $fromMetadataHandler;
@@ -60,14 +57,14 @@ abstract class MigrationHandler implements MigrationHandlerInterface
         return $this;
     }
 
-    final protected function logError($message)
+    final protected function logError(string|\Stringable $message)
     {
         if (isset($this->logger)) {
             $this->logger->error($message);
         }
     }
 
-    final protected function logInfo($message)
+    final protected function logInfo(string|\Stringable $message)
     {
         if (isset($this->logger)) {
             $this->logger->info($message);

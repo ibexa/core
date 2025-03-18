@@ -33,7 +33,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
     ];
 
     /** @var \Ibexa\Bundle\Core\EventListener\BackwardCompatibleCommandListener */
-    private $listener;
+    private BackwardCompatibleCommandListener $listener;
 
     protected function setUp(): void
     {
@@ -115,7 +115,7 @@ final class BackwardCompatibleCommandListenerTest extends TestCase
     {
         return new class($name, $aliases) extends Command implements BackwardCompatibleCommand {
             /** @var string[] */
-            private $deprecatedAliases;
+            private array $deprecatedAliases;
 
             public function __construct(string $name, array $deprecatedAliases)
             {

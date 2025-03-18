@@ -10,9 +10,11 @@ namespace Ibexa\Core\Repository\Mapper;
 use DateTime;
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct as SPILocationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
@@ -54,26 +56,19 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     public const MAX_LOCATION_PRIORITY = 2147483647;
     public const MIN_LOCATION_PRIORITY = -2147483648;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
-    protected $contentHandler;
+    protected Handler $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
-    protected $locationHandler;
+    protected LocationHandler $locationHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
-    protected $contentTypeHandler;
+    protected TypeHandler $contentTypeHandler;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
-    protected $contentTypeDomainMapper;
+    protected ContentTypeDomainMapper $contentTypeDomainMapper;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
-    protected $contentLanguageHandler;
+    protected LanguageHandler $contentLanguageHandler;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
-    protected $fieldTypeRegistry;
+    protected FieldTypeRegistry $fieldTypeRegistry;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy */
-    private $thumbnailStrategy;
+    private ThumbnailStrategy $thumbnailStrategy;
 
     public function __construct(
         ContentHandler $contentHandler,
@@ -112,7 +107,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         ContentType $contentType,
         array $prioritizedLanguages = [],
         string $fieldAlwaysAvailableLanguage = null
-    ) {
+    ): Content {
         $prioritizedFieldLanguageCode = null;
         if (!empty($prioritizedLanguages)) {
             $availableFieldLanguageMap = array_fill_keys($spiContent->versionInfo->languageCodes, true);
@@ -177,7 +172,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * Builds a Content proxy object (lazy loaded, loads as soon as used).
      */
     public function buildContentProxy(
-        SPIContent\ContentInfo $info,
+        SPIContentInfo $info,
         array $prioritizedLanguages = [],
         bool $useAlwaysAvailable = true
     ): APIContent {
@@ -305,7 +300,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return \Ibexa\Core\Repository\Values\Content\VersionInfo
      */
-    public function buildVersionInfoDomainObject(SPIVersionInfo $spiVersionInfo, array $prioritizedLanguages = [])
+    public function buildVersionInfoDomainObject(SPIVersionInfo $spiVersionInfo, array $prioritizedLanguages = []): VersionInfo
     {
         // Map SPI statuses to API
         switch ($spiVersionInfo->status) {
@@ -358,7 +353,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
      */
-    public function buildContentInfoDomainObject(SPIContentInfo $spiContentInfo)
+    public function buildContentInfoDomainObject(SPIContentInfo $spiContentInfo): ContentInfo
     {
         // Map SPI statuses to API
         switch ($spiContentInfo->status) {
@@ -418,7 +413,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         SPIRelation $spiRelation,
         ContentInfo $sourceContentInfo,
         ContentInfo $destinationContentInfo
-    ) {
+    ): Relation {
         $sourceFieldDefinitionIdentifier = null;
         if ($spiRelation->sourceFieldDefinitionId !== null) {
             $contentType = $this->contentTypeHandler->load($sourceContentInfo->contentTypeId);
@@ -449,7 +444,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     public function buildLocationDomainObject(
         SPILocation $spiLocation,
         SPIContentInfo $contentInfo = null
-    ) {
+    ): APILocation {
         if ($contentInfo === null) {
             return $this->buildLocation($spiLocation);
         }
@@ -568,7 +563,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     private function mapLocation(
         SPILocation $spiLocation,
         ContentInfo $contentInfo,
-        APIContent $content,
+        APIContent|Content $content,
         ?APILocation $parentLocation = null
     ): APILocation {
         return new Location(
@@ -601,7 +596,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] ContentInfo we did not find content for is returned.
      */
-    public function buildContentDomainObjectsOnSearchResult(SearchResult $result, array $languageFilter)
+    public function buildContentDomainObjectsOnSearchResult(SearchResult $result, array $languageFilter): array
     {
         if (empty($result->searchHits)) {
             return [];
@@ -660,7 +655,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Location[] Locations we did not find content info for is returned.
      */
-    public function buildLocationDomainObjectsOnSearchResult(SearchResult $result, array $languageFilter)
+    public function buildLocationDomainObjectsOnSearchResult(SearchResult $result, array $languageFilter): array
     {
         if (empty($result->searchHits)) {
             return [];
@@ -715,7 +710,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         $contentId,
         $contentVersionNo,
         bool $isContentHidden
-    ) {
+    ): CreateStruct {
         if (!$this->isValidLocationPriority($locationCreateStruct->priority)) {
             throw new InvalidArgumentValue('priority', $locationCreateStruct->priority, 'LocationCreateStruct');
         }
@@ -840,7 +835,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * @param mixed $list
      * @param string $argumentName
      */
-    public function validateTranslatedList($list, $argumentName)
+    public function validateTranslatedList($list, string $argumentName): void
     {
         if (!is_array($list)) {
             throw new InvalidArgumentType($argumentName, 'array', $list);
@@ -865,7 +860,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @return \DateTime
      */
-    public function getDateTime($timestamp)
+    public function getDateTime($timestamp): DateTime
     {
         $dateTime = new DateTime();
         $dateTime->setTimestamp((int)$timestamp);

@@ -19,10 +19,8 @@ class ExceptionConversion extends Gateway
 {
     /**
      * The wrapped gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Notification\Gateway
      */
-    protected $innerGateway;
+    protected Gateway $innerGateway;
 
     /**
      * ExceptionConversion constructor.

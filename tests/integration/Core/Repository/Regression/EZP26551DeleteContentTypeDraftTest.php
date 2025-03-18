@@ -18,7 +18,7 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTest;
  */
 class EZP26551DeleteContentTypeDraftTest extends BaseTest
 {
-    public function testDeleteContentTypeGroup()
+    public function testDeleteContentTypeGroup(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();

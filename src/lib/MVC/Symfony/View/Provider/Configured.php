@@ -18,8 +18,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  */
 class Configured implements ViewProvider
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface */
-    protected $matcherFactory;
+    protected MatcherFactoryInterface $matcherFactory;
 
     /**
      * @param \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface $matcherFactory
@@ -45,7 +44,7 @@ class Configured implements ViewProvider
      *
      * @return \Ibexa\Core\MVC\Symfony\View\ContentView
      */
-    protected function buildContentView(array $viewConfig)
+    protected function buildContentView(array $viewConfig): ContentView
     {
         $view = new ContentView();
         $view->setConfigHash($viewConfig);

@@ -36,12 +36,12 @@ class PersistenceLoggerTest extends TestCase
         parent::tearDown();
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         self::assertEquals(PersistenceLogger::NAME, $this->logger->getName());
     }
 
-    public function testGetCalls()
+    public function testGetCalls(): void
     {
         self::assertEquals([], $this->logger->getCalls());
     }
@@ -61,7 +61,7 @@ class PersistenceLoggerTest extends TestCase
      *
      * @param \Ibexa\Core\Persistence\Cache\PersistenceLogger $logger
      */
-    public function testGetCallValues($logger)
+    public function testGetCallValues($logger): void
     {
         $calls = $logger->getCalls();
         // As we don't care about the hash index we get the array values instead

@@ -18,7 +18,7 @@ class MatchAllTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new MatchAllHandler();
 
@@ -29,7 +29,7 @@ class MatchAllTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testHandle()
+    public function testHandle(): void
     {
         $criterion = new MatchAll();
         $expected = '1 = 1';

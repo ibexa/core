@@ -19,8 +19,7 @@ use Ibexa\Core\MVC\Symfony\View\View;
  */
 class ViewProvider implements Configurator
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Provider\Registry */
-    private $providerRegistry;
+    private Registry $providerRegistry;
 
     /**
      * ViewProvider constructor.
@@ -32,7 +31,7 @@ class ViewProvider implements Configurator
         $this->providerRegistry = $providersRegistry;
     }
 
-    public function configure(View $view)
+    public function configure(View $view): void
     {
         foreach ($this->providerRegistry->getViewProviders($view) as $viewProvider) {
             if ($providerView = $viewProvider->getView($view)) {

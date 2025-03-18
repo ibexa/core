@@ -18,7 +18,7 @@ final class ContentValidationExceptionUsageStub
     /**
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
      */
-    public function foo(): void
+    public function foo(): never
     {
         throw new ContentValidationException(
             'Content with ID %contentId% could not be found',

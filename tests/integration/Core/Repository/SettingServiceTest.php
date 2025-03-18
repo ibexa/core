@@ -51,7 +51,7 @@ final class SettingServiceTest extends BaseTest
      *
      * @dataProvider dataProviderForCreateSetting
      */
-    public function testCreateSetting(string $identifier, $value): void
+    public function testCreateSetting(string $identifier, bool|string|int|float|array|null $value): void
     {
         $settingService = $this->getSettingService();
 

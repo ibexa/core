@@ -18,9 +18,11 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\NullStorage;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -53,7 +55,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => null,
             'fieldDefinitionId' => 123,
             'type' => 'some_type',
@@ -114,7 +116,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => null,
             'fieldDefinitionId' => 678,
             'type' => 'external_type_virtual',
@@ -148,7 +150,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
 
         $storage->expects(self::once())
             ->method('getFieldData')
-            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
+            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field): void {
                 $field->value->externalData = [
                     'some_default' => 'external_data',
                 ];
@@ -176,7 +178,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => 567,
             'fieldDefinitionId' => 123,
             'type' => 'external_type',
@@ -212,7 +214,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
         $storage = $this->createMock(FieldStorage::class);
         $storage->expects(self::once())
             ->method('storeFieldData')
-            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field) {
+            ->willReturnCallback(static function (VersionInfo $versionInfo, Field $field): void {
                 $field->value->externalData = $field->value->data;
             });
 
@@ -242,7 +244,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
             ])
         );
 
-        $expected = new Content\Field([
+        $expected = new Field([
             'id' => 456,
             'fieldDefinitionId' => 123,
             'type' => 'external_type',
@@ -296,7 +298,7 @@ final class ResolveVirtualFieldSubscriberTest extends TestCase
     private function getEventDispatcher(
         ConverterRegistry $converterRegistry,
         StorageRegistry $storageRegistry,
-        ContentGateway $contentGateway
+        Gateway&MockObject $contentGateway
     ): TraceableEventDispatcher {
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addSubscriber(

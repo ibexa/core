@@ -22,11 +22,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class StreamFileListener implements EventSubscriberInterface
 {
-    /** @var \Ibexa\Core\IO\IOServiceInterface */
-    private $ioService;
+    private IOServiceInterface $ioService;
 
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
-    private $ioConfigResolver;
+    private IOConfigProvider $ioConfigResolver;
 
     public function __construct(IOServiceInterface $ioService, IOConfigProvider $ioConfigResolver)
     {
@@ -41,7 +39,7 @@ class StreamFileListener implements EventSubscriberInterface
         ];
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
@@ -82,7 +80,7 @@ class StreamFileListener implements EventSubscriberInterface
      *
      * @return bool
      */
-    private function isIoUri($uri, $urlPrefix): bool
+    private function isIoUri(string $uri, $urlPrefix): bool
     {
         return strpos(ltrim($uri, '/'), $urlPrefix) === 0;
     }

@@ -15,14 +15,11 @@ use UnexpectedValueException;
 
 final class BeforeCreateUserGroupEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct */
-    private $userGroupCreateStruct;
+    private UserGroupCreateStruct $userGroupCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup */
-    private $parentGroup;
+    private UserGroup $parentGroup;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\UserGroup|null */
-    private $userGroup;
+    private ?UserGroup $userGroup = null;
 
     public function __construct(UserGroupCreateStruct $userGroupCreateStruct, UserGroup $parentGroup)
     {

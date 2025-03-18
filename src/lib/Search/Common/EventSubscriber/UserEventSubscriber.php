@@ -38,7 +38,7 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         ];
     }
 
-    public function onCreateUser(CreateUserEvent $event)
+    public function onCreateUser(CreateUserEvent $event): void
     {
         $userContentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getUser()->id
@@ -60,7 +60,7 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         }
     }
 
-    public function onCreateUserGroup(CreateUserGroupEvent $event)
+    public function onCreateUserGroup(CreateUserGroupEvent $event): void
     {
         $userGroupContentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getUserGroup()->id
@@ -82,7 +82,7 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         }
     }
 
-    public function onDeleteUser(DeleteUserEvent $event)
+    public function onDeleteUser(DeleteUserEvent $event): void
     {
         $this->searchHandler->deleteContent($event->getUser()->id);
 
@@ -91,7 +91,7 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         }
     }
 
-    public function onDeleteUserGroup(DeleteUserGroupEvent $event)
+    public function onDeleteUserGroup(DeleteUserGroupEvent $event): void
     {
         $this->searchHandler->deleteContent($event->getUserGroup()->id);
 
@@ -100,7 +100,7 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         }
     }
 
-    public function onMoveUserGroup(MoveUserGroupEvent $event)
+    public function onMoveUserGroup(MoveUserGroupEvent $event): void
     {
         $userGroupContentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getUserGroup()->id
@@ -109,7 +109,7 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         $this->indexSubtree($userGroupContentInfo->mainLocationId);
     }
 
-    public function onUpdateUser(UpdateUserEvent $event)
+    public function onUpdateUser(UpdateUserEvent $event): void
     {
         $userContentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getUser()->id
@@ -131,7 +131,7 @@ class UserEventSubscriber extends AbstractSearchEventSubscriber implements Event
         }
     }
 
-    public function onUpdateUserGroup(UpdateUserGroupEvent $event)
+    public function onUpdateUserGroup(UpdateUserGroupEvent $event): void
     {
         $userContentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo(
             $event->getUserGroup()->id

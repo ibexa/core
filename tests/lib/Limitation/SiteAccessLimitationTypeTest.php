@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\SiteAccessLimitationType;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -22,7 +23,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 class SiteAccessLimitationTypeTest extends Base
 {
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $siteAccessServiceMock;
+    private MockObject $siteAccessServiceMock;
 
     protected function setUp(): void
     {
@@ -40,7 +41,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return \Ibexa\Core\Limitation\SiteAccessLimitationType
      */
-    public function testConstruct()
+    public function testConstruct(): SiteAccessLimitationType
     {
         return new SiteAccessLimitationType(
             $this->siteAccessServiceMock
@@ -50,7 +51,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValue()
+    public function providerForTestAcceptValue(): array
     {
         return [
             [new SiteAccessLimitation()],
@@ -88,7 +89,7 @@ class SiteAccessLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\SiteAccessLimitation $limitation
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
-    public function testAcceptValue(SiteAccessLimitation $limitation, SiteAccessLimitationType $limitationType)
+    public function testAcceptValue(SiteAccessLimitation $limitation, SiteAccessLimitationType $limitationType): void
     {
         $limitationType->acceptValue($limitation);
     }
@@ -96,7 +97,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestAcceptValueException()
+    public function providerForTestAcceptValueException(): array
     {
         return [
             [new ObjectStateLimitation()],
@@ -112,7 +113,7 @@ class SiteAccessLimitationTypeTest extends Base
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, SiteAccessLimitationType $limitationType)
+    public function testAcceptValueException(Limitation $limitation, SiteAccessLimitationType $limitationType): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -122,7 +123,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestValidateError()
+    public function providerForTestValidateError(): array
     {
         return [
             [new SiteAccessLimitation(), 0],
@@ -171,7 +172,7 @@ class SiteAccessLimitationTypeTest extends Base
      * @param int $errorCount
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
-    public function testValidateError(SiteAccessLimitation $limitation, $errorCount, SiteAccessLimitationType $limitationType)
+    public function testValidateError(SiteAccessLimitation $limitation, int $errorCount, SiteAccessLimitationType $limitationType): void
     {
         $validationErrors = $limitationType->validate($limitation);
         self::assertCount($errorCount, $validationErrors);
@@ -182,7 +183,7 @@ class SiteAccessLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
-    public function testBuildValue(SiteAccessLimitationType $limitationType)
+    public function testBuildValue(SiteAccessLimitationType $limitationType): void
     {
         $expected = ['test', 'test' => 9];
         $value = $limitationType->buildValue($expected);
@@ -195,7 +196,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluate()
+    public function providerForTestEvaluate(): array
     {
         return [
             // SiteAccess, no access
@@ -229,7 +230,7 @@ class SiteAccessLimitationTypeTest extends Base
         ValueObject $object,
         $expected,
         SiteAccessLimitationType $limitationType
-    ) {
+    ): void {
         $userMock = $this->getUserMock();
         $userMock->expects(self::never())->method(self::anything());
 
@@ -246,7 +247,7 @@ class SiteAccessLimitationTypeTest extends Base
     /**
      * @return array
      */
-    public function providerForTestEvaluateInvalidArgument()
+    public function providerForTestEvaluateInvalidArgument(): array
     {
         return [
             // invalid limitation
@@ -271,7 +272,7 @@ class SiteAccessLimitationTypeTest extends Base
         Limitation $limitation,
         ValueObject $object,
         SiteAccessLimitationType $limitationType
-    ) {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         $userMock = $this->getUserMock();
@@ -289,7 +290,7 @@ class SiteAccessLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
-    public function testGetCriterion(SiteAccessLimitationType $limitationType)
+    public function testGetCriterion(SiteAccessLimitationType $limitationType): void
     {
         $this->expectException(NotImplementedException::class);
 
@@ -301,7 +302,7 @@ class SiteAccessLimitationTypeTest extends Base
      *
      * @param \Ibexa\Core\Limitation\SiteAccessLimitationType $limitationType
      */
-    public function testValueSchema(SiteAccessLimitationType $limitationType)
+    public function testValueSchema(SiteAccessLimitationType $limitationType): void
     {
         self::markTestSkipped('Method valueSchema() is not implemented');
     }

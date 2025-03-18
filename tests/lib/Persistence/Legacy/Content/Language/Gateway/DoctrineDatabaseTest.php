@@ -35,7 +35,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsertLanguage()
+    public function testInsertLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -62,7 +62,7 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    protected function getLanguageFixture()
+    protected function getLanguageFixture(): Language
     {
         $language = new Language();
 
@@ -73,7 +73,7 @@ class DoctrineDatabaseTest extends TestCase
         return $language;
     }
 
-    public function testUpdateLanguage()
+    public function testUpdateLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -98,7 +98,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadLanguageListData()
+    public function testLoadLanguageListData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -117,7 +117,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadAllLanguagesData()
+    public function testLoadAllLanguagesData(): void
     {
         $gateway = $this->getDatabaseGateway();
 
@@ -142,7 +142,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testDeleteLanguage()
+    public function testDeleteLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
 

@@ -14,8 +14,7 @@ use Twig\Extension\GlobalsInterface;
 
 final class ContextAwareTwigVariablesExtension extends AbstractExtension implements GlobalsInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(
         ConfigResolverInterface $configResolver

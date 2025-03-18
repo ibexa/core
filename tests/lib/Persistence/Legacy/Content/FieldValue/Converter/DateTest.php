@@ -39,12 +39,12 @@ class DateTest extends TestCase
         $this->date = new DateTime('@1362614400');
     }
 
-    public function testToStorageValue()
+    public function testToStorageValue(): void
     {
         $value = new FieldValue();
         $value->data = [
             'timestamp' => $this->date->getTimestamp(),
-            'rfc850' => $this->date->format(\DateTime::RFC850),
+            'rfc850' => $this->date->format(DateTime::RFC850),
         ];
         $value->sortKey = $this->date->getTimestamp();
         $storageFieldValue = new StorageFieldValue();
@@ -55,7 +55,7 @@ class DateTest extends TestCase
         self::assertSame('', $storageFieldValue->sortKeyString);
     }
 
-    public function testToFieldValue()
+    public function testToFieldValue(): void
     {
         $storageFieldValue = new StorageFieldValue();
         $storageFieldValue->dataInt = $this->date->getTimestamp();
@@ -74,7 +74,7 @@ class DateTest extends TestCase
         self::assertSame($storageFieldValue->sortKeyInt, $fieldValue->sortKey);
     }
 
-    public function testToStorageFieldDefinitionDefaultEmpty()
+    public function testToStorageFieldDefinitionDefaultEmpty(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -96,7 +96,7 @@ class DateTest extends TestCase
         );
     }
 
-    public function testToStorageFieldDefinitionDefaultCurrentDate()
+    public function testToStorageFieldDefinitionDefaultCurrentDate(): void
     {
         $storageFieldDef = new StorageFieldDefinition();
         $fieldTypeConstraints = new FieldTypeConstraints();
@@ -118,7 +118,7 @@ class DateTest extends TestCase
         );
     }
 
-    public function testToFieldDefinitionDefaultEmpty()
+    public function testToFieldDefinitionDefaultEmpty(): void
     {
         $fieldDef = new PersistenceFieldDefinition();
         $storageDef = new StorageFieldDefinition(
@@ -131,7 +131,7 @@ class DateTest extends TestCase
         self::assertNull($fieldDef->defaultValue->data);
     }
 
-    public function testToFieldDefinitionDefaultCurrentDate()
+    public function testToFieldDefinitionDefaultCurrentDate(): void
     {
         $timestamp = time();
         $fieldDef = new PersistenceFieldDefinition();

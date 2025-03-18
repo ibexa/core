@@ -86,7 +86,7 @@ final class Orientation extends Criterion
     /**
      * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
      */
-    private function throwException(string $whatIsWrong): void
+    private function throwException(string $whatIsWrong): never
     {
         throw new InvalidArgumentException(
             '$orientation',

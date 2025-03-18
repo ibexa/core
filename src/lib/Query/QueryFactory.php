@@ -13,8 +13,7 @@ use Ibexa\Core\QueryType\QueryTypeRegistry;
 
 final class QueryFactory implements QueryFactoryInterface
 {
-    /** @var \Ibexa\Core\QueryType\QueryTypeRegistry */
-    private $queryTypeRegistry;
+    private QueryTypeRegistry $queryTypeRegistry;
 
     public function __construct(QueryTypeRegistry $queryTypeRegistry)
     {

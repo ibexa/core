@@ -15,6 +15,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,14 +28,14 @@ class ContentUpdaterTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGatewayMock;
+    protected ?MockObject $contentGatewayMock = null;
 
     /**
      * FieldValue converter registry mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $converterRegistryMock;
+    protected ?MockObject $converterRegistryMock = null;
 
     /**
      * Search handler mock.
@@ -48,7 +49,7 @@ class ContentUpdaterTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
      */
-    protected $contentStorageHandlerMock;
+    protected ?MockObject $contentStorageHandlerMock = null;
 
     /**
      * Content Updater to test.
@@ -58,9 +59,9 @@ class ContentUpdaterTest extends TestCase
     protected $contentUpdater;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
-    protected $contentMapperMock;
+    protected ?MockObject $contentMapperMock = null;
 
-    public function testDetermineActions()
+    public function testDetermineActions(): void
     {
         $fromType = $this->getFromTypeFixture();
         $toType = $this->getToTypeFixture();
@@ -81,13 +82,13 @@ class ContentUpdaterTest extends TestCase
 
         self::assertEquals(
             [
-                new ContentUpdater\Action\RemoveField(
+                new Action\RemoveField(
                     $this->getContentGatewayMock(),
                     $fromType->fieldDefinitions[0],
                     $this->getContentStorageHandlerMock(),
                     $this->getContentMapperMock()
                 ),
-                new ContentUpdater\Action\AddField(
+                new Action\AddField(
                     $this->getContentGatewayMock(),
                     $toType->fieldDefinitions[2],
                     $converterMock,
@@ -99,7 +100,7 @@ class ContentUpdaterTest extends TestCase
         );
     }
 
-    public function testApplyUpdates()
+    public function testApplyUpdates(): void
     {
         $updater = $this->getContentUpdater();
 
@@ -146,7 +147,7 @@ class ContentUpdaterTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type
      */
-    protected function getFromTypeFixture()
+    protected function getFromTypeFixture(): Type
     {
         $type = new Type();
 

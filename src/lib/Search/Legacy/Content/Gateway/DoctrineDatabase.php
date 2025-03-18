@@ -12,6 +12,7 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
@@ -27,32 +28,25 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;
 
     /**
      * Criteria converter.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter
      */
-    private $criteriaConverter;
+    private CriteriaConverter $criteriaConverter;
 
     /**
      * Sort clause converter.
-     *
-     * @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter
      */
-    private $sortClauseConverter;
+    private SortClauseConverter $sortClauseConverter;
 
     /**
      * Language handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
      */
-    private $languageHandler;
+    private Handler $languageHandler;
 
     /**
      * @throws \Doctrine\DBAL\DBALException

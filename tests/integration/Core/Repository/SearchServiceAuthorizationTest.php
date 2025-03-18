@@ -31,7 +31,7 @@ class SearchServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFindContentFiltered
      */
-    public function testFindContent()
+    public function testFindContent(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -62,7 +62,7 @@ class SearchServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFindContentFiltered
      */
-    public function testFindContentEmptyResult()
+    public function testFindContentEmptyResult(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -96,7 +96,7 @@ class SearchServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceTest::testFindSingle
      */
-    public function testFindSingleThrowsNotFoundException()
+    public function testFindSingleThrowsNotFoundException(): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -129,7 +129,7 @@ class SearchServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceAuthorizationTest::testFindContent
      */
-    public function testFindContentWithUserPermissionFilter()
+    public function testFindContentWithUserPermissionFilter(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -168,7 +168,7 @@ class SearchServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceAuthorizationTest::testFindContent
      */
-    public function testFindSingleWithUserPermissionFilter()
+    public function testFindSingleWithUserPermissionFilter(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();
@@ -200,7 +200,7 @@ class SearchServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\SearchServiceAuthorizationTest::testFindContent
      */
-    public function testFindSingleThrowsNotFoundExceptionWithUserPermissionFilter()
+    public function testFindSingleThrowsNotFoundExceptionWithUserPermissionFilter(): void
     {
         $this->expectException(NotFoundException::class);
 

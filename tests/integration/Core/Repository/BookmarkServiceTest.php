@@ -24,7 +24,7 @@ class BookmarkServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
      */
-    public function testIsBookmarked()
+    public function testIsBookmarked(): void
     {
         $repository = $this->getRepository();
 
@@ -39,7 +39,7 @@ class BookmarkServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::isBookmarked
      */
-    public function testIsNotBookmarked()
+    public function testIsNotBookmarked(): void
     {
         $repository = $this->getRepository();
 
@@ -54,7 +54,7 @@ class BookmarkServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::createBookmark
      */
-    public function testCreateBookmark()
+    public function testCreateBookmark(): void
     {
         $repository = $this->getRepository();
 
@@ -77,7 +77,7 @@ class BookmarkServiceTest extends BaseTest
      *
      * @depends testCreateBookmark
      */
-    public function testCreateBookmarkThrowsInvalidArgumentException()
+    public function testCreateBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -95,7 +95,7 @@ class BookmarkServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
      */
-    public function testDeleteBookmark()
+    public function testDeleteBookmark(): void
     {
         $repository = $this->getRepository();
 
@@ -119,7 +119,7 @@ class BookmarkServiceTest extends BaseTest
      *
      * @depends testDeleteBookmark
      */
-    public function testDeleteBookmarkThrowsInvalidArgumentException()
+    public function testDeleteBookmarkThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -137,7 +137,7 @@ class BookmarkServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::loadBookmarks
      */
-    public function testLoadBookmarks()
+    public function testLoadBookmarks(): void
     {
         $repository = $this->getRepository();
 

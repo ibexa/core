@@ -21,7 +21,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLang
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Handler;
 use Ibexa\Core\Repository\Values\User\UserReference;
-use Ibexa\Tests\Core\Repository\IdManager;
+use Ibexa\Tests\Core\Repository\IdManager\Php;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -70,10 +70,8 @@ class Legacy extends SetupFactory
 
     /**
      * Cached in-memory initial database data fixture.
-     *
-     * @var \Ibexa\Contracts\Core\Test\Persistence\Fixture
      */
-    private static $initialDataFixture;
+    private static ?YamlFixture $initialDataFixture = null;
 
     /**
      * Cached in-memory post insert SQL statements.
@@ -183,9 +181,9 @@ class Legacy extends SetupFactory
      *
      * @return \Ibexa\Tests\Integration\Core\Repository\IdManager
      */
-    public function getIdManager()
+    public function getIdManager(): Php
     {
-        return new IdManager\Php();
+        return new Php();
     }
 
     /**
@@ -207,7 +205,7 @@ class Legacy extends SetupFactory
         return __DIR__ . '/../../../../../var';
     }
 
-    protected function cleanupVarDir($sourceDir)
+    protected function cleanupVarDir(string $sourceDir)
     {
         $fs = new Filesystem();
         $varDir = self::$ioRootDir . '/var';

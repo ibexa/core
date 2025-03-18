@@ -17,7 +17,7 @@ class TransactionHandler extends AbstractInMemoryPersistenceHandler implements T
     /**
      * {@inheritdoc}
      */
-    public function beginTransaction()
+    public function beginTransaction(): void
     {
         $this->cache->beginTransaction();
 
@@ -28,7 +28,7 @@ class TransactionHandler extends AbstractInMemoryPersistenceHandler implements T
     /**
      * {@inheritdoc}
      */
-    public function commit()
+    public function commit(): void
     {
         $this->logger->logCall(__METHOD__);
         $this->persistenceHandler->transactionHandler()->commit();
@@ -39,7 +39,7 @@ class TransactionHandler extends AbstractInMemoryPersistenceHandler implements T
     /**
      * {@inheritdoc}
      */
-    public function rollback()
+    public function rollback(): void
     {
         $this->logger->logCall(__METHOD__);
         $this->persistenceHandler->transactionHandler()->rollback();

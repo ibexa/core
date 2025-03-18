@@ -23,6 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler as ObjectStateHandler;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
@@ -34,35 +35,35 @@ class LocationHandlerTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
      */
-    protected $locationGateway;
+    protected MockObject $locationGateway;
 
     /**
      * Mocked location mapper instance.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
      */
-    protected $locationMapper;
+    protected MockObject $locationMapper;
 
     /**
      * Mocked content handler instance.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
      */
-    protected $contentHandler;
+    protected MockObject $contentHandler;
 
     /**
      * Mocked object state handler instance.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $objectStateHandler;
+    protected ?MockObject $objectStateHandler = null;
 
     /**
      * Mocked Tree handler instance.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $treeHandler;
+    protected MockObject $treeHandler;
 
     protected function setUp(): void
     {
@@ -74,7 +75,7 @@ class LocationHandlerTest extends TestCase
         $this->contentHandler = $this->createMock(ContentHandler::class);
     }
 
-    protected function getLocationHandler()
+    protected function getLocationHandler(): LocationHandler
     {
         return new Handler(
             $this->locationGateway,
@@ -85,7 +86,7 @@ class LocationHandlerTest extends TestCase
         );
     }
 
-    public function testLoadLocation()
+    public function testLoadLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -100,7 +101,7 @@ class LocationHandlerTest extends TestCase
         self::assertInstanceOf(Location::class, $location);
     }
 
-    public function testLoadLocationSubtree()
+    public function testLoadLocationSubtree(): void
     {
         $this->locationGateway
             ->expects(self::once())
@@ -118,7 +119,7 @@ class LocationHandlerTest extends TestCase
         self::assertCount(2, $this->getLocationHandler()->loadSubtreeIds(77));
     }
 
-    public function testLoadLocationByRemoteId()
+    public function testLoadLocationByRemoteId(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -143,7 +144,7 @@ class LocationHandlerTest extends TestCase
         self::assertInstanceOf(Location::class, $location);
     }
 
-    public function testLoadLocationsByContent()
+    public function testLoadLocationsByContent(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -168,7 +169,7 @@ class LocationHandlerTest extends TestCase
         self::assertIsArray($locations);
     }
 
-    public function loadParentLocationsForDraftContent()
+    public function loadParentLocationsForDraftContent(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -193,7 +194,7 @@ class LocationHandlerTest extends TestCase
         self::assertIsArray($locations);
     }
 
-    public function testMoveSubtree()
+    public function testMoveSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -269,7 +270,7 @@ class LocationHandlerTest extends TestCase
         $handler->move(69, 77);
     }
 
-    public function testHideUpdateHidden()
+    public function testHideUpdateHidden(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -298,7 +299,7 @@ class LocationHandlerTest extends TestCase
     /**
      * @depends testHideUpdateHidden
      */
-    public function testHideUnhideUpdateHidden()
+    public function testHideUnhideUpdateHidden(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -324,7 +325,7 @@ class LocationHandlerTest extends TestCase
         $handler->unhide(69);
     }
 
-    public function testSwapLocations()
+    public function testSwapLocations(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -336,7 +337,7 @@ class LocationHandlerTest extends TestCase
         $handler->swap(70, 78);
     }
 
-    public function testCreateLocation()
+    public function testCreateLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -374,7 +375,7 @@ class LocationHandlerTest extends TestCase
         $handler->create($createStruct);
     }
 
-    public function testUpdateLocation()
+    public function testUpdateLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -389,7 +390,7 @@ class LocationHandlerTest extends TestCase
         $handler->update($updateStruct, 23);
     }
 
-    public function testSetSectionForSubtree()
+    public function testSetSectionForSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -401,7 +402,7 @@ class LocationHandlerTest extends TestCase
         $handler->setSectionForSubtree(69, 3);
     }
 
-    public function testChangeMainLocation()
+    public function testChangeMainLocation(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -416,7 +417,7 @@ class LocationHandlerTest extends TestCase
     /**
      * Test for the removeSubtree() method.
      */
-    public function testRemoveSubtree()
+    public function testRemoveSubtree(): void
     {
         $handler = $this->getLocationHandler();
 
@@ -443,7 +444,7 @@ class LocationHandlerTest extends TestCase
     /**
      * Test for the copySubtree() method.
      */
-    public function testCopySubtree()
+    public function testCopySubtree(): void
     {
         $handler = $this->getPartlyMockedHandler(
             [
@@ -675,7 +676,7 @@ class LocationHandlerTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
      */
-    protected function getPartlyMockedHandler(array $methods)
+    protected function getPartlyMockedHandler(array $methods): MockObject
     {
         return $this->getMockBuilder(LocationHandler::class)
             ->setMethods($methods)

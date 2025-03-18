@@ -16,14 +16,11 @@ use UnexpectedValueException;
 
 final class BeforeUpdateContentMetadataEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentMetadataUpdateStruct */
-    private $contentMetadataUpdateStruct;
+    private ContentMetadataUpdateStruct $contentMetadataUpdateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content|null */
-    private $content;
+    private ?Content $content = null;
 
     public function __construct(ContentInfo $contentInfo, ContentMetadataUpdateStruct $contentMetadataUpdateStruct)
     {

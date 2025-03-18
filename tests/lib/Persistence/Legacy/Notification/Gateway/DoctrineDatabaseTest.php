@@ -38,7 +38,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testInsert()
+    public function testInsert(): void
     {
         $id = $this->getGateway()->insert(new CreateStruct([
             'ownerId' => 14,
@@ -60,7 +60,7 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
-    public function testGetNotificationById()
+    public function testGetNotificationById(): void
     {
         $data = $this->getGateway()->getNotificationById(self::EXISTING_NOTIFICATION_ID);
 
@@ -69,7 +69,7 @@ class DoctrineDatabaseTest extends TestCase
         ], $data);
     }
 
-    public function testUpdateNotification()
+    public function testUpdateNotification(): void
     {
         $notification = new Notification([
             'id' => self::EXISTING_NOTIFICATION_ID,
@@ -92,14 +92,14 @@ class DoctrineDatabaseTest extends TestCase
         ], $this->loadNotification(self::EXISTING_NOTIFICATION_ID));
     }
 
-    public function testCountUserNotifications()
+    public function testCountUserNotifications(): void
     {
         self::assertEquals(5, $this->getGateway()->countUserNotifications(
             self::EXISTING_NOTIFICATION_DATA['owner_id']
         ));
     }
 
-    public function testCountUserPendingNotifications()
+    public function testCountUserPendingNotifications(): void
     {
         self::assertEquals(
             3,
@@ -109,7 +109,7 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
-    public function testLoadUserNotifications()
+    public function testLoadUserNotifications(): void
     {
         $userId = 14;
         $offset = 1;
@@ -145,7 +145,7 @@ class DoctrineDatabaseTest extends TestCase
         ], $results);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->getGateway()->delete(self::EXISTING_NOTIFICATION_ID);
 

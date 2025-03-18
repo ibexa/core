@@ -13,6 +13,8 @@ use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Persistence\User\Role as SPIRole;
 use Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct as SPIRoleUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\RoleService as RoleServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\RoleLimitation;
@@ -34,6 +36,8 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\LimitationValidationException;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
+use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Values\User\PolicyCreateStruct;
 use Ibexa\Core\Repository\Values\User\PolicyUpdateStruct;
 use Ibexa\Core\Repository\Values\User\Role;
@@ -47,23 +51,18 @@ use Ibexa\Core\Repository\Values\User\RoleCreateStruct;
  */
 class RoleService implements RoleServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\User\Handler */
-    protected $userHandler;
+    protected Handler $userHandler;
 
-    /** @var \Ibexa\Core\Repository\Permission\LimitationService */
-    protected $limitationService;
+    protected LimitationService $limitationService;
 
-    /** @var \Ibexa\Core\Repository\Mapper\RoleDomainMapper */
-    protected $roleDomainMapper;
+    protected RoleDomainMapper $roleDomainMapper;
 
     /** @phpstan-var array{policyMap: TPolicyMap}|array{} */
     protected array $settings;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -73,8 +72,8 @@ class RoleService implements RoleServiceInterface
     public function __construct(
         RepositoryInterface $repository,
         Handler $userHandler,
-        Permission\LimitationService $limitationService,
-        Mapper\RoleDomainMapper $roleDomainMapper,
+        LimitationService $limitationService,
+        RoleDomainMapper $roleDomainMapper,
         array $settings = []
     ) {
         $this->repository = $repository;
@@ -230,7 +229,7 @@ class RoleService implements RoleServiceInterface
         try {
             $spiRole = $this->userHandler->copyRole($spiRoleCopyStruct);
             $this->repository->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->repository->rollback();
             throw $e;
         }

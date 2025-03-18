@@ -47,7 +47,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Keyword\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value([]);
     }
@@ -105,7 +105,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Keyword\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         return new Value($hash);
     }
@@ -139,7 +139,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
      */
-    public function toPersistenceValue(SPIValue $value)
+    public function toPersistenceValue(SPIValue $value): FieldValue
     {
         return new FieldValue(
             [
@@ -157,7 +157,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Keyword\Value
      */
-    public function fromPersistenceValue(FieldValue $fieldValue)
+    public function fromPersistenceValue(FieldValue $fieldValue): Value
     {
         return new Value($fieldValue->externalData);
     }

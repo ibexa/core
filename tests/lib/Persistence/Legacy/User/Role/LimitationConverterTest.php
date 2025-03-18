@@ -18,7 +18,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class LimitationConverterTest extends TestCase
 {
-    protected function getLimitationConverter()
+    protected function getLimitationConverter(): LimitationConverter
     {
         $connection = $this->getDatabaseConnection();
 
@@ -28,7 +28,7 @@ class LimitationConverterTest extends TestCase
     /**
      * Test Object State from SPI value (supported by API) to legacy value (database).
      */
-    public function testObjectStateToLegacy()
+    public function testObjectStateToLegacy(): void
     {
         $this->insertSharedDatabaseFixture();
 
@@ -81,7 +81,7 @@ class LimitationConverterTest extends TestCase
     /**
      * Test Object State from legacy value (database) to SPI value (supported by API).
      */
-    public function testObjectStateToSPI()
+    public function testObjectStateToSPI(): void
     {
         $this->insertSharedDatabaseFixture();
 

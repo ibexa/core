@@ -12,6 +12,7 @@ use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard as SPIUrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
@@ -31,17 +32,13 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
  */
 class URLWildcardService implements URLWildcardServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler */
-    protected $urlWildcardHandler;
+    protected Handler $urlWildcardHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -77,7 +74,7 @@ class URLWildcardService implements URLWildcardServiceInterface
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\UrlWildcard
      */
-    public function create(string $sourceUrl, string $destinationUrl, bool $forward = false): UrlWildcard
+    public function create(string $sourceUrl, string $destinationUrl, bool $forward = false): URLWildcard
     {
         if (false === $this->permissionResolver->hasAccess('content', 'urltranslator')) {
             throw new UnauthorizedException('content', 'urltranslator');
@@ -177,7 +174,7 @@ class URLWildcardService implements URLWildcardServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
      */
-    public function load(int $id): UrlWildcard
+    public function load(int $id): URLWildcard
     {
         return $this->buildUrlWildcardDomainObject(
             $this->urlWildcardHandler->load($id)

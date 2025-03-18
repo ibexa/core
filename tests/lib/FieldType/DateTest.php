@@ -10,7 +10,9 @@ namespace Ibexa\Tests\Core\FieldType;
 use DateTime;
 use DateTimeZone;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Date\Type;
 use Ibexa\Core\FieldType\Date\Type as Date;
+use Ibexa\Core\FieldType\Date\Value;
 use Ibexa\Core\FieldType\Date\Value as DateValue;
 
 /**
@@ -30,7 +32,7 @@ class DateTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new Date();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -43,7 +45,7 @@ class DateTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -53,7 +55,7 @@ class DateTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [
             'defaultType' => [
@@ -66,12 +68,12 @@ class DateTest extends FieldTypeTest
     /**
      * Returns the empty value expected from the field type.
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new DateValue();
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -110,7 +112,7 @@ class DateTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -173,7 +175,7 @@ class DateTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -225,7 +227,7 @@ class DateTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         $dateTime = new DateTime();
 
@@ -277,7 +279,7 @@ class DateTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidFieldSettings()
+    public function provideValidFieldSettings(): array
     {
         return [
             [
@@ -319,7 +321,7 @@ class DateTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInValidFieldSettings()
+    public function provideInValidFieldSettings(): array
     {
         return [
             [

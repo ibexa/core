@@ -11,15 +11,16 @@ use Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CropFilterLoaderTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerLoader;
+    private MockObject $innerLoader;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader */
-    private $loader;
+    private CropFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -32,14 +33,14 @@ class CropFilterLoaderTest extends TestCase
     /**
      * @dataProvider loadInvalidProvider
      */
-    public function testLoadInvalidOptions(array $options)
+    public function testLoadInvalidOptions(array $options): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), $options);
     }
 
-    public function loadInvalidProvider()
+    public function loadInvalidProvider(): array
     {
         return [
             [[]],
@@ -50,7 +51,7 @@ class CropFilterLoaderTest extends TestCase
         ];
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $width = 123;
         $height = 789;

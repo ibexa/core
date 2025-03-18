@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException as APIUnaut
 use Ibexa\Contracts\Core\Repository\NameSchema\NameSchemaServiceInterface;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\TrashService as TrashServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -43,24 +44,19 @@ use Ibexa\Core\Repository\Values\Content\TrashItem;
 class TrashService implements TrashServiceInterface
 {
     /** @var \Ibexa\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
-    /** @var array */
-    protected $settings;
+    protected array $settings;
 
     protected NameSchemaServiceInterface $nameSchemaService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
-    private $permissionCriterionResolver;
+    private PermissionCriterionResolver $permissionCriterionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface */
-    private $proxyDomainMapper;
+    private ProxyDomainMapperInterface $proxyDomainMapper;
 
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
@@ -386,7 +382,7 @@ class TrashService implements TrashServiceInterface
      *
      * @return \DateTime
      */
-    protected function getDateTime($timestamp)
+    protected function getDateTime($timestamp): DateTime
     {
         $dateTime = new DateTime();
         $dateTime->setTimestamp($timestamp);

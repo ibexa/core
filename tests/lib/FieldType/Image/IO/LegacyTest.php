@@ -14,6 +14,7 @@ use Ibexa\Core\FieldType\Image\IO\OptionsProvider;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LegacyTest extends TestCase
@@ -26,14 +27,14 @@ class LegacyTest extends TestCase
      *
      * @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $publishedIoServiceMock;
+    protected MockObject $publishedIoServiceMock;
 
     /**
      * Internal IOService instance for draft images.
      *
      * @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $draftIoServiceMock;
+    protected MockObject $draftIoServiceMock;
 
     protected function setUp(): void
     {
@@ -47,7 +48,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testNewBinaryCreateStructFromLocalFile()
+    public function testNewBinaryCreateStructFromLocalFile(): void
     {
         $path = '/tmp/file.png';
         $struct = new BinaryFileCreateStruct();
@@ -65,7 +66,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testExists()
+    public function testExists(): void
     {
         $path = 'path/file.png';
         $this->publishedIoServiceMock
@@ -84,7 +85,7 @@ class LegacyTest extends TestCase
     /**
      * Standard binary file, with regular id.
      */
-    public function testLoadBinaryFile()
+    public function testLoadBinaryFile(): void
     {
         $id = 'path/file.jpg';
         $binaryFile = new BinaryFile(['id' => $id]);
@@ -106,7 +107,7 @@ class LegacyTest extends TestCase
     /**
      * Load from internal draft binary file path.
      */
-    public function testLoadBinaryFileDraftInternalPath()
+    public function testLoadBinaryFileDraftInternalPath(): void
     {
         $internalId = 'var/test/storage/images-versioned/path/file.jpg';
         $id = 'path/file.jpg';
@@ -129,7 +130,7 @@ class LegacyTest extends TestCase
     /**
      * Load from internal published binary file path.
      */
-    public function testLoadBinaryFilePublishedInternalPath()
+    public function testLoadBinaryFilePublishedInternalPath(): void
     {
         $internalId = 'var/test/storage/images/path/file.jpg';
         $id = 'path/file.jpg';
@@ -152,7 +153,7 @@ class LegacyTest extends TestCase
     /**
      * Load from external draft binary file path.
      */
-    public function testLoadBinaryFileDraftExternalPath()
+    public function testLoadBinaryFileDraftExternalPath(): void
     {
         $id = 'path/file.jpg';
         $binaryFile = new BinaryFile(['id' => $id]);
@@ -175,7 +176,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testLoadBinaryFileByUriWithPublishedFile()
+    public function testLoadBinaryFileByUriWithPublishedFile(): void
     {
         $binaryFileUri = 'var/test/images/an/image.png';
         $binaryFile = new BinaryFile(['id' => 'an/image.png']);
@@ -191,7 +192,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testLoadBinaryFileByUriWithDraftFile()
+    public function testLoadBinaryFileByUriWithDraftFile(): void
     {
         $binaryFileUri = 'var/test/images-versioned/an/image.png';
         $binaryFile = new BinaryFile(['id' => 'an/image.png']);
@@ -214,7 +215,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testGetFileContents()
+    public function testGetFileContents(): void
     {
         $contents = 'some contents';
         $path = 'path/file.png';
@@ -240,7 +241,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testGetFileContentsOfDraft()
+    public function testGetFileContentsOfDraft(): void
     {
         $contents = 'some contents';
         $path = 'path/file.png';
@@ -266,7 +267,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testGetMimeType()
+    public function testGetMimeType(): void
     {
         $path = 'path/file.png';
         $mimeType = 'image/png';
@@ -291,7 +292,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testGetMimeTypeOfDraft()
+    public function testGetMimeTypeOfDraft(): void
     {
         $path = 'path/file.png';
         $mimeType = 'image/png';
@@ -316,7 +317,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testCreateBinaryFile()
+    public function testCreateBinaryFile(): void
     {
         $createStruct = new BinaryFileCreateStruct();
         $binaryFile = new BinaryFile();
@@ -335,7 +336,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
@@ -352,7 +353,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testGetFileInputStream()
+    public function testGetFileInputStream(): void
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
@@ -369,7 +370,7 @@ class LegacyTest extends TestCase
         );
     }
 
-    public function testDeleteBinaryFile()
+    public function testDeleteBinaryFile(): void
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
@@ -382,7 +383,7 @@ class LegacyTest extends TestCase
         $this->service->deleteBinaryFile($binaryFile);
     }
 
-    public function testNewBinaryCreateStructFromUploadedFile()
+    public function testNewBinaryCreateStructFromUploadedFile(): void
     {
         $struct = new BinaryFileCreateStruct();
         $this->publishedIoServiceMock

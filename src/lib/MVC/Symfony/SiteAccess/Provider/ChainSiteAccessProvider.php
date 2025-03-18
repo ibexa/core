@@ -16,7 +16,7 @@ use Traversable;
 final class ChainSiteAccessProvider implements SiteAccessProviderInterface
 {
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface[] */
-    private $providers;
+    private iterable $providers;
 
     /**
      * @param \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface[] $providers

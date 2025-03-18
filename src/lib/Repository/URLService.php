@@ -11,11 +11,13 @@ namespace Ibexa\Core\Repository;
 use DateTime;
 use DateTimeInterface;
 use Exception;
+use Ibexa\Contracts\Core\Persistence\URL\Handler;
 use Ibexa\Contracts\Core\Persistence\URL\Handler as URLHandler;
 use Ibexa\Contracts\Core\Persistence\URL\URL as SPIUrl;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct as SPIUrlUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\URLService as URLServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -32,13 +34,11 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 class URLService implements URLServiceInterface
 {
     /** @var \Ibexa\Core\Repository\Repository */
-    protected $repository;
+    protected Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\URL\Handler */
-    protected $urlHandler;
+    protected Handler $urlHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
     public function __construct(
         RepositoryInterface $repository,

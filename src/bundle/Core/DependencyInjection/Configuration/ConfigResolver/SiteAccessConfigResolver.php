@@ -12,11 +12,11 @@ use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
 use Ibexa\Core\MVC\Symfony\Configuration\VersatileScopeInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 
 abstract class SiteAccessConfigResolver implements VersatileScopeInterface, SiteAccessAware
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
-    protected $siteAccessProvider;
+    protected SiteAccessProviderInterface $siteAccessProvider;
 
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     protected $currentSiteAccess;
@@ -24,11 +24,10 @@ abstract class SiteAccessConfigResolver implements VersatileScopeInterface, Site
     /** @var string */
     protected $defaultScope;
 
-    /** @var string */
-    protected $defaultNamespace;
+    protected string $defaultNamespace;
 
     public function __construct(
-        SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
+        SiteAccessProviderInterface $siteAccessProvider,
         string $defaultNamespace
     ) {
         $this->siteAccessProvider = $siteAccessProvider;

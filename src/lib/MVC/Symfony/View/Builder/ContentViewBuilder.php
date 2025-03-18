@@ -8,6 +8,7 @@
 namespace Ibexa\Core\MVC\Symfony\View\Builder;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -28,20 +29,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class ContentViewBuilder implements ViewBuilder
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
-    private $repository;
+    private Repository $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator */
-    private $viewConfigurator;
+    private Configurator $viewConfigurator;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\ParametersInjector */
-    private $viewParametersInjector;
+    private ParametersInjector $viewParametersInjector;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
-    private $requestStack;
+    private RequestStack $requestStack;
 
     /**
      * Default templates, indexed per viewType (full, line, ...).
@@ -50,8 +46,7 @@ class ContentViewBuilder implements ViewBuilder
      */
     private $defaultTemplates;
 
-    /** @var \Ibexa\Core\Helper\ContentInfoLocationLoader */
-    private $locationLoader;
+    private ?ContentInfoLocationLoader $locationLoader;
 
     public function __construct(
         Repository $repository,
@@ -83,7 +78,7 @@ class ContentViewBuilder implements ViewBuilder
      *         If both contentId and locationId parameters are missing
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
      */
-    public function buildView(array $parameters)
+    public function buildView(array $parameters): ContentView
     {
         $view = new ContentView(null, [], $parameters['viewType']);
         $view->setIsEmbed($this->isEmbed($parameters));
@@ -185,7 +180,7 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
      */
-    private function loadContent($contentId, ?string $languageCode = null)
+    private function loadContent(int $contentId, ?string $languageCode = null): Content
     {
         return $this->repository->getContentService()->loadContent(
             $contentId,
@@ -205,10 +200,10 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @throws \Ibexa\Core\Base\Exceptions\UnauthorizedException
      */
-    private function loadEmbeddedContent($contentId, Location $location = null, ?string $languageCode = null)
+    private function loadEmbeddedContent(int $contentId, Location $location = null, ?string $languageCode = null)
     {
         $content = $this->repository->sudo(
-            static function (Repository $repository) use ($contentId, $languageCode) {
+            static function (Repository $repository) use ($contentId, $languageCode): \Ibexa\Contracts\Core\Repository\Values\Content\Content {
                 return $repository->getContentService()->loadContent($contentId, $languageCode ? [$languageCode] : null);
             }
         );
@@ -239,10 +234,10 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
      */
-    private function loadLocation($locationId)
+    private function loadLocation(int $locationId)
     {
         $location = $this->repository->sudo(
-            static function (Repository $repository) use ($locationId) {
+            static function (Repository $repository) use ($locationId): \Ibexa\Contracts\Core\Repository\Values\Content\Location {
                 return $repository->getLocationService()->loadLocation($locationId);
             }
         );
@@ -283,7 +278,7 @@ class ContentViewBuilder implements ViewBuilder
      *
      * @return bool
      */
-    private function isEmbed($parameters): bool
+    private function isEmbed(array $parameters): bool
     {
         if ($parameters['_controller'] === 'ibexa_content::embedAction') {
             return true;

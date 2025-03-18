@@ -23,7 +23,7 @@ class AuthorConverter implements Converter
      * @throws \DOMException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         $storageFieldValue->dataText = $this->generateXmlString($value->data);
         $storageFieldValue->sortKeyString = $value->sortKey;
@@ -35,7 +35,7 @@ class AuthorConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         $fieldValue->data = $this->restoreValueFromXmlString($value->dataText);
         $fieldValue->sortKey = $value->sortKeyString;
@@ -47,7 +47,7 @@ class AuthorConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
 
@@ -62,7 +62,7 @@ class AuthorConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             [
@@ -138,7 +138,7 @@ class AuthorConverter implements Converter
      *
      * @return \Ibexa\Core\FieldType\Author\Value[]
      */
-    private function restoreValueFromXmlString($xmlString)
+    private function restoreValueFromXmlString($xmlString): array
     {
         $dom = new DOMDocument('1.0', 'utf-8');
         $authors = [];

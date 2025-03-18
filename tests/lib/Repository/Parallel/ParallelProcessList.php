@@ -13,7 +13,7 @@ use Jenner\SimpleFork\Process;
 final class ParallelProcessList implements \IteratorAggregate
 {
     /** @var \Jenner\SimpleFork\Process[] */
-    private $pool = [];
+    private array $pool = [];
 
     public function addProcess(Process $process): void
     {

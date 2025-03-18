@@ -36,20 +36,16 @@ use function time;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $languageMaskGenerator;
+    private MaskGenerator $languageMaskGenerator;
 
     /** @var \Doctrine\DBAL\Platforms\AbstractPlatform */
     private $dbPlatform;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter */
-    private $trashCriteriaConverter;
+    private CriteriaConverter $trashCriteriaConverter;
 
-    /** @var \Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter */
-    private $trashSortClauseConverter;
+    private SortClauseConverter $trashSortClauseConverter;
 
     /**
      * @throws \Doctrine\DBAL\DBALException

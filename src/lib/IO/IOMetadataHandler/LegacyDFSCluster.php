@@ -10,6 +10,7 @@ namespace Ibexa\Core\IO\IOMetadataHandler;
 use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Ibexa\Contracts\Core\IO\BinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -24,11 +25,9 @@ use Ibexa\Core\IO\UrlDecorator;
  */
 class LegacyDFSCluster implements IOMetadataHandler
 {
-    /** @var \Doctrine\DBAL\Connection */
-    private $db;
+    private Connection $db;
 
-    /** @var \Ibexa\Core\IO\UrlDecorator */
-    private $urlDecorator;
+    private ?UrlDecorator $urlDecorator;
 
     /**
      * @param \Doctrine\DBAL\Connection $connection Doctrine DBAL connection
@@ -92,7 +91,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @param string $spiBinaryFileId
      */
-    public function delete($spiBinaryFileId)
+    public function delete($spiBinaryFileId): void
     {
         $path = (string)$this->addPrefix($spiBinaryFileId);
 
@@ -277,7 +276,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @param string $spiPath SPI Path, not prefixed by URL decoration
      */
-    public function deleteDirectory($spiPath)
+    public function deleteDirectory($spiPath): void
     {
         $query = $this->db->createQueryBuilder();
         $query
@@ -298,7 +297,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      */
-    protected function mapArrayToSPIBinaryFile(array $properties)
+    protected function mapArrayToSPIBinaryFile(array $properties): BinaryFile
     {
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $properties['id'];
@@ -313,7 +312,7 @@ class LegacyDFSCluster implements IOMetadataHandler
      *
      * @return \Ibexa\Contracts\Core\IO\BinaryFile
      */
-    protected function mapSPIBinaryFileCreateStructToSPIBinaryFile(SPIBinaryFileCreateStruct $binaryFileCreateStruct)
+    protected function mapSPIBinaryFileCreateStructToSPIBinaryFile(SPIBinaryFileCreateStruct $binaryFileCreateStruct): BinaryFile
     {
         $spiBinaryFile = new SPIBinaryFile();
         $spiBinaryFile->id = $binaryFileCreateStruct->id;

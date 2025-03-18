@@ -39,7 +39,7 @@ class FileExtensionBlackListValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validateConstraints($constraints)
+    public function validateConstraints($constraints): array
     {
         return [];
     }

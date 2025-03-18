@@ -16,11 +16,9 @@ abstract class ContainerConfigResolver implements ConfigResolverInterface
 {
     protected ContainerInterface $container;
 
-    /** @var string */
-    private $scope;
+    private string $scope;
 
-    /** @var string */
-    private $defaultNamespace;
+    private string $defaultNamespace;
 
     public function __construct(ContainerInterface $container, string $scope, string $defaultNamespace)
     {

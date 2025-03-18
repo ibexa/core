@@ -22,7 +22,7 @@ class ContentTypeGroup extends MultipleValued
      *
      * @return bool
      */
-    public function matchLocation(APILocation $location)
+    public function matchLocation(APILocation $location): bool
     {
         return $this->matchContentTypeId($location->getContentInfo()->contentTypeId);
     }
@@ -34,7 +34,7 @@ class ContentTypeGroup extends MultipleValued
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
+    public function matchContentInfo(ContentInfo $contentInfo): bool
     {
         return $this->matchContentTypeId($contentInfo->contentTypeId);
     }
@@ -51,7 +51,7 @@ class ContentTypeGroup extends MultipleValued
     /**
      * @return bool
      */
-    private function matchContentTypeId($contentTypeId): bool
+    private function matchContentTypeId(int $contentTypeId): bool
     {
         $contentTypeGroups = $this->repository
             ->getContentTypeService()

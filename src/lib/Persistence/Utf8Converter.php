@@ -84,7 +84,7 @@ class Utf8Converter
      *
      * @return int
      */
-    public static function toUnicodeCodepoint($char)
+    public static function toUnicodeCodepoint(string $char): false|int
     {
         $charCode = false;
         // 7bits, 1 char

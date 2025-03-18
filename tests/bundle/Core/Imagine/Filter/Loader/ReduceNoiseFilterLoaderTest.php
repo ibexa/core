@@ -11,15 +11,16 @@ use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader;
 use Imagine\Exception\NotSupportedException;
 use Imagine\Image\ImageInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ReduceNoiseFilterLoaderTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $filter;
+    private MockObject $filter;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader */
-    private $loader;
+    private ReduceNoiseFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -28,7 +29,7 @@ class ReduceNoiseFilterLoaderTest extends TestCase
         $this->loader = new ReduceNoiseFilterLoader($this->filter);
     }
 
-    public function testLoadInvalidDriver()
+    public function testLoadInvalidDriver(): void
     {
         $this->expectException(NotSupportedException::class);
 

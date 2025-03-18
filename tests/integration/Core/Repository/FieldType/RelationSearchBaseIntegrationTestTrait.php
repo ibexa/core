@@ -42,7 +42,7 @@ trait RelationSearchBaseIntegrationTestTrait
     /**
      * Tests relation processing on field create.
      */
-    public function testCreateContentRelationsProcessedCorrect()
+    public function testCreateContentRelationsProcessedCorrect(): void
     {
         $content = $this->createContent($this->getValidCreationFieldData());
 
@@ -61,7 +61,7 @@ trait RelationSearchBaseIntegrationTestTrait
     /**
      * Tests relation processing on field update.
      */
-    public function testUpdateContentRelationsProcessedCorrect()
+    public function testUpdateContentRelationsProcessedCorrect(): void
     {
         $content = $this->updateContent($this->getValidUpdateFieldData());
 
@@ -84,7 +84,7 @@ trait RelationSearchBaseIntegrationTestTrait
      *
      * @return \Ibexa\Core\Repository\Values\Content\Relation[]
      */
-    protected function normalizeRelations(array $relations)
+    protected function normalizeRelations(array $relations): array
     {
         usort(
             $relations,
@@ -97,7 +97,7 @@ trait RelationSearchBaseIntegrationTestTrait
             }
         );
         $normalized = array_map(
-            static function (RelationContract $relation) {
+            static function (RelationContract $relation): Relation {
                 $newRelation = new Relation(
                     [
                         'id' => null,
@@ -116,7 +116,7 @@ trait RelationSearchBaseIntegrationTestTrait
         return $normalized;
     }
 
-    public function testCopyContentCopiesFieldRelations()
+    public function testCopyContentCopiesFieldRelations(): void
     {
         $content = $this->updateContent($this->getValidUpdateFieldData());
         $contentService = $this->getRepository()->getContentService();
@@ -151,7 +151,7 @@ trait RelationSearchBaseIntegrationTestTrait
         );
     }
 
-    public function testSubtreeCopyContentCopiesFieldRelations()
+    public function testSubtreeCopyContentCopiesFieldRelations(): void
     {
         $contentService = $this->getRepository()->getContentService();
         $locationService = $this->getRepository()->getLocationService();

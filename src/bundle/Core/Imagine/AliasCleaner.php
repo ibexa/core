@@ -12,15 +12,14 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class AliasCleaner implements AliasCleanerInterface
 {
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $aliasResolver;
+    private ResolverInterface $aliasResolver;
 
     public function __construct(ResolverInterface $aliasResolver)
     {
         $this->aliasResolver = $aliasResolver;
     }
 
-    public function removeAliases($originalPath)
+    public function removeAliases($originalPath): void
     {
         $this->aliasResolver->remove([$originalPath], []);
     }

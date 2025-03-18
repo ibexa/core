@@ -27,10 +27,8 @@ final class UserMetadataTermAggregation extends AbstractTermAggregation
 
     /**
      * The type of the user facet.
-     *
-     * @var string
      */
-    private $type;
+    private string $type;
 
     public function __construct(
         string $name,

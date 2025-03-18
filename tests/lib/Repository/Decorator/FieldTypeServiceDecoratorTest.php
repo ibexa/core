@@ -26,7 +26,7 @@ class FieldTypeServiceDecoratorTest extends TestCase
         return $this->createMock(FieldTypeService::class);
     }
 
-    public function testGetFieldTypesDecorator()
+    public function testGetFieldTypesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -38,7 +38,7 @@ class FieldTypeServiceDecoratorTest extends TestCase
         $decoratedService->getFieldTypes(...$parameters);
     }
 
-    public function testGetFieldTypeDecorator()
+    public function testGetFieldTypeDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -50,7 +50,7 @@ class FieldTypeServiceDecoratorTest extends TestCase
         $decoratedService->getFieldType(...$parameters);
     }
 
-    public function testHasFieldTypeDecorator()
+    public function testHasFieldTypeDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

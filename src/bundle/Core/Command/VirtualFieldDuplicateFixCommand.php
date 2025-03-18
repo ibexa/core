@@ -30,8 +30,7 @@ final class VirtualFieldDuplicateFixCommand extends Command
 
     private const DEFAULT_SLEEP = 0;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(
         Connection $connection

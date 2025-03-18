@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\Float\Value;
 use Ibexa\Core\FieldType\Float\Value as FloatValue;
 
 /**
@@ -35,7 +36,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [];
     }
@@ -45,7 +46,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [];
     }
@@ -55,7 +56,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -67,7 +68,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [
             'FloatValueValidator' => [
@@ -88,7 +89,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [
             'FloatValueValidator' => [
@@ -103,7 +104,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'FloatValueValidator' => [
@@ -117,7 +118,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new FloatValue(23.5);
     }
@@ -140,7 +141,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             FloatValue::class,
@@ -156,7 +157,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -177,7 +178,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
     /**
      * Get update field externals data.
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new FloatValue(42.5);
     }
@@ -189,7 +190,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             FloatValue::class,
@@ -218,7 +219,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             FloatValue::class,
@@ -254,7 +255,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -271,7 +272,7 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -281,14 +282,14 @@ class FloatIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new FloatValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [

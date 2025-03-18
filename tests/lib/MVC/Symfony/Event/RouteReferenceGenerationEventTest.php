@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RouteReferenceGenerationEventTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $routeReference = new RouteReference('foo');
         $request = new Request();
@@ -23,7 +23,7 @@ class RouteReferenceGenerationEventTest extends TestCase
         self::assertSame($request, $event->getRequest());
     }
 
-    public function testGetSet()
+    public function testGetSet(): void
     {
         $routeReference = new RouteReference('foo');
         $request = new Request();

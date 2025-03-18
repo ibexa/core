@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
@@ -18,7 +19,7 @@ class FieldValueConverterRegistryTest extends TestCase
 {
     private const TYPE_NAME = 'some-type';
 
-    public function testRegister()
+    public function testRegister(): void
     {
         $converter = $this->getFieldValueConverterMock();
         $registry = new Registry([self::TYPE_NAME => $converter]);
@@ -26,7 +27,7 @@ class FieldValueConverterRegistryTest extends TestCase
         self::assertSame($converter, $registry->getConverter(self::TYPE_NAME));
     }
 
-    public function testGetStorage()
+    public function testGetStorage(): void
     {
         $converter = $this->getFieldValueConverterMock();
         $registry = new Registry([self::TYPE_NAME => $converter]);
@@ -39,7 +40,7 @@ class FieldValueConverterRegistryTest extends TestCase
         );
     }
 
-    public function testGetNotFound()
+    public function testGetNotFound(): void
     {
         $this->expectException(Converter\Exception\NotFound::class);
 
@@ -51,7 +52,7 @@ class FieldValueConverterRegistryTest extends TestCase
     /**
      * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
      */
-    protected function getFieldValueConverterMock()
+    protected function getFieldValueConverterMock(): MockObject
     {
         return $this->createMock(Converter::class);
     }

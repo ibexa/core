@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class InMemoryContentLocationMapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper */
-    private $mapper;
+    private InMemoryContentLocationMapper $mapper;
 
     protected function setUp(): void
     {

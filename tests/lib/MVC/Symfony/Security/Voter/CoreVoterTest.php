@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\Controller\Content\ViewController;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Voter\CoreVoter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -19,7 +20,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 class CoreVoterTest extends TestCase
 {
     /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
-    private $permissionResolver;
+    private MockObject $permissionResolver;
 
     protected function setUp(): void
     {
@@ -30,13 +31,13 @@ class CoreVoterTest extends TestCase
     /**
      * @dataProvider supportsAttributeProvider
      */
-    public function testSupportsAttribute($attribute, $expectedResult)
+    public function testSupportsAttribute(string|Attribute|\stdClass|array $attribute, bool $expectedResult): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
 
-    public function supportsAttributeProvider()
+    public function supportsAttributeProvider(): array
     {
         return [
             ['foo', false],
@@ -58,13 +59,13 @@ class CoreVoterTest extends TestCase
     /**
      * @dataProvider supportsClassProvider
      */
-    public function testSupportsClass($class)
+    public function testSupportsClass(string $class): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertTrue($voter->supportsClass($class));
     }
 
-    public function supportsClassProvider()
+    public function supportsClassProvider(): array
     {
         return [
             ['foo'],
@@ -77,7 +78,7 @@ class CoreVoterTest extends TestCase
     /**
      * @dataProvider voteInvalidAttributeProvider
      */
-    public function testVoteInvalidAttribute(array $attributes)
+    public function testVoteInvalidAttribute(array $attributes): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame(
@@ -90,7 +91,7 @@ class CoreVoterTest extends TestCase
         );
     }
 
-    public function voteInvalidAttributeProvider()
+    public function voteInvalidAttributeProvider(): array
     {
         return [
             [[]],
@@ -113,7 +114,7 @@ class CoreVoterTest extends TestCase
     /**
      * @dataProvider voteProvider
      */
-    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult)
+    public function testVote(Attribute $attribute, ?bool $repositoryCanUser, int $expectedResult): void
     {
         $voter = new CoreVoter($this->permissionResolver);
         if ($repositoryCanUser !== null) {
@@ -138,7 +139,7 @@ class CoreVoterTest extends TestCase
         );
     }
 
-    public function voteProvider()
+    public function voteProvider(): array
     {
         return [
             [

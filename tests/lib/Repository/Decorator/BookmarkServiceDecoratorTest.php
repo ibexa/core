@@ -27,7 +27,7 @@ class BookmarkServiceDecoratorTest extends TestCase
         return $this->createMock(BookmarkService::class);
     }
 
-    public function testCreateBookmarkDecorator()
+    public function testCreateBookmarkDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -39,7 +39,7 @@ class BookmarkServiceDecoratorTest extends TestCase
         $decoratedService->createBookmark(...$parameters);
     }
 
-    public function testDeleteBookmarkDecorator()
+    public function testDeleteBookmarkDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -51,7 +51,7 @@ class BookmarkServiceDecoratorTest extends TestCase
         $decoratedService->deleteBookmark(...$parameters);
     }
 
-    public function testLoadBookmarksDecorator()
+    public function testLoadBookmarksDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -66,7 +66,7 @@ class BookmarkServiceDecoratorTest extends TestCase
         $decoratedService->loadBookmarks(...$parameters);
     }
 
-    public function testIsBookmarkedDecorator()
+    public function testIsBookmarkedDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

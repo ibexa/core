@@ -68,7 +68,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
 
             return $tags;
         };
-        $this->getContentInfoKeys = function (ContentInfo $info) {
+        $this->getContentInfoKeys = function (ContentInfo $info): array {
             return [
                 $this->cacheIdentifierGenerator->generateKey(self::CONTENT_INFO_IDENTIFIER, [$info->id], true),
                 $this->cacheIdentifierGenerator->generateKey(
@@ -79,7 +79,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
             ];
         };
 
-        $this->getContentTags = function (Content $content) {
+        $this->getContentTags = function (Content $content): array {
             $versionInfo = $content->versionInfo;
             $tags = [
                 $this->cacheIdentifierGenerator->generateTag(
@@ -146,7 +146,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
                 return $this->persistenceHandler->contentHandler()->load($id, $versionNo, $translations);
             },
             $this->getContentTags,
-            function (Content $content) use ($keySuffix) {
+            function (Content $content) use ($keySuffix): array {
                 // Version number & translations is part of keySuffix here and depends on what user asked for
                 return [
                     $this->cacheIdentifierGenerator->generateKey(
@@ -172,7 +172,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
                 return $this->persistenceHandler->contentHandler()->loadContentList($cacheMissIds, $translations);
             },
             $this->getContentTags,
-            function (Content $content) use ($keySuffix) {
+            function (Content $content) use ($keySuffix): array {
                 // Translations is part of keySuffix here and depends on what user asked for
                 return [
                     $this->cacheIdentifierGenerator->generateKey(
@@ -205,7 +205,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         );
     }
 
-    public function loadContentInfoList(array $contentIds)
+    public function loadContentInfoList(array $contentIds): array
     {
         return $this->getMultipleCacheValues(
             $contentIds,
@@ -691,7 +691,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function deleteTranslationFromContent($contentId, $languageCode)
+    public function deleteTranslationFromContent($contentId, $languageCode): void
     {
         $this->logger->logCall(
             __METHOD__,
@@ -764,7 +764,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
             function (VersionInfo $versionInfo): array {
                 return $this->getCacheTagsForVersion($versionInfo);
             },
-            function (VersionInfo $versionInfo) {
+            function (VersionInfo $versionInfo): array {
                 return [
                     $this->cacheIdentifierGenerator->generateKey(
                         self::CONTENT_VERSION_INFO_IDENTIFIER,

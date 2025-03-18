@@ -14,11 +14,9 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ContentDownloadUrlGenerator implements RouteAwarePathGenerator
 {
-    /** @var \Symfony\Component\Routing\RouterInterface */
-    private $router;
+    private RouterInterface $router;
 
-    /** @var string */
-    private $route = 'ibexa.content.download.field_id';
+    private string $route = 'ibexa.content.download.field_id';
 
     public function __construct(RouterInterface $router)
     {

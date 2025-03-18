@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Common;
 
+use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -22,24 +23,18 @@ class FieldNameResolver
 {
     /**
      * Field registry.
-     *
-     * @var \Ibexa\Core\Search\Common\FieldRegistry
      */
-    protected $fieldRegistry;
+    protected FieldRegistry $fieldRegistry;
 
     /**
      * Content type handler.
-     *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
      */
-    protected $contentTypeHandler;
+    protected Handler $contentTypeHandler;
 
     /**
      * Field name generator.
-     *
-     * @var \Ibexa\Core\Search\Common\FieldNameGenerator
      */
-    protected $nameGenerator;
+    protected FieldNameGenerator $nameGenerator;
 
     /**
      * Create from search field registry, content type handler and field name generator.
@@ -105,7 +100,7 @@ class FieldNameResolver
         $fieldDefinitionIdentifier,
         $fieldTypeIdentifier = null,
         $name = null
-    ) {
+    ): array {
         $fieldMap = $this->getSearchableFieldMap();
         $fieldTypeNameMap = [];
 
@@ -166,7 +161,7 @@ class FieldNameResolver
         $contentTypeIdentifier,
         $fieldDefinitionIdentifier,
         $name = null
-    ) {
+    ): ?false {
         $fieldMap = $this->getSearchableFieldMap();
 
         // First check if field exists in type, there is nothing to do if it doesn't
@@ -202,10 +197,10 @@ class FieldNameResolver
         $criterionOrSortClause,
         $contentTypeIdentifier,
         $fieldDefinitionIdentifier,
-        $fieldTypeIdentifier,
+        string $fieldTypeIdentifier,
         $name,
         $isSortField
-    ) {
+    ): array {
         // If criterion or sort clause implements CustomFieldInterface and custom field is set for
         // ContentType/FieldDefinition, return it
         if (

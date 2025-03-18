@@ -14,11 +14,9 @@ use UnexpectedValueException;
 
 final class BeforeDeleteContentEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
-    private $contentInfo;
+    private ContentInfo $contentInfo;
 
-    /** @var array|null */
-    private $locations;
+    private ?array $locations = null;
 
     public function __construct(ContentInfo $contentInfo)
     {

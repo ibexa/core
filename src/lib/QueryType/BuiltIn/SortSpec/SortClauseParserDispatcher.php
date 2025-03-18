@@ -14,7 +14,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\Exception\UnsupportedSortClauseExcepti
 final class SortClauseParserDispatcher implements SortClauseParserInterface
 {
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface[] */
-    private $parsers;
+    private iterable $parsers;
 
     public function __construct(iterable $parsers = [])
     {

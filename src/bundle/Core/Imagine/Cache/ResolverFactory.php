@@ -12,11 +12,9 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 
 class ResolverFactory
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
-    private $resolver;
+    private ResolverInterface $resolver;
 
     /** @var string|null */
     private $resolverDecoratorClass;

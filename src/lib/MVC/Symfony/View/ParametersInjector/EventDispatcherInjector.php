@@ -18,15 +18,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class EventDispatcherInjector implements ParametersInjector
 {
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function injectViewParameters(View $view, array $parameters)
+    public function injectViewParameters(View $view, array $parameters): void
     {
         $event = new FilterViewParametersEvent($view, $parameters);
         $this->eventDispatcher->dispatch($event, ViewEvents::FILTER_VIEW_PARAMETERS);

@@ -17,7 +17,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
  */
 class MapperTest extends TestCase
 {
-    public function testCreateLanguageFromCreateStruct()
+    public function testCreateLanguageFromCreateStruct(): void
     {
         $mapper = new Mapper();
 
@@ -32,7 +32,7 @@ class MapperTest extends TestCase
         );
     }
 
-    public function testExtractLanguagesFromRows()
+    public function testExtractLanguagesFromRows(): void
     {
         $mapper = new Mapper();
 
@@ -51,7 +51,7 @@ class MapperTest extends TestCase
      *
      * @return string[][]
      */
-    protected function getRowsFixture()
+    protected function getRowsFixture(): array
     {
         return [
             ['disabled' => '0', 'id' => '2', 'locale' => 'eng-US', 'name' => 'English (American)'],
@@ -64,7 +64,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language[]
      */
-    protected function getExtractReference()
+    protected function getExtractReference(): array
     {
         $langUs = new Language();
         $langUs->id = 2;
@@ -86,7 +86,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct
      */
-    protected function getCreateStructFixture()
+    protected function getCreateStructFixture(): CreateStruct
     {
         $struct = new CreateStruct();
 
@@ -102,7 +102,7 @@ class MapperTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Language
      */
-    protected function getLanguageFixture()
+    protected function getLanguageFixture(): Language
     {
         $struct = new Language();
 

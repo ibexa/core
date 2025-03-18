@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class StaticStrategyTest extends TestCase
 {
-    public function testStaticStrategy()
+    public function testStaticStrategy(): void
     {
         $resource = 'static-test-resource';
 

@@ -11,13 +11,14 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Configur
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\HookableConfigurationMapperInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigurationProcessorTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $namespace = 'ibexa_test';
         $siteAccessNodeName = 'foo';
@@ -43,7 +44,7 @@ class ConfigurationProcessorTest extends TestCase
         self::assertSame($groupsBySa, $contextualizer->getGroupsBySiteAccess());
     }
 
-    public function testGetSetContextualizer()
+    public function testGetSetContextualizer(): void
     {
         $namespace = 'ibexa_test';
         $siteAccessNodeName = 'foo';
@@ -60,7 +61,7 @@ class ConfigurationProcessorTest extends TestCase
         self::assertSame($newContextualizer, $processor->getContextualizer());
     }
 
-    public function testMapConfigWrongMapper()
+    public function testMapConfigWrongMapper(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -72,7 +73,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfig([], new stdClass());
     }
 
-    public function testMapConfigClosure()
+    public function testMapConfigClosure(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -103,7 +104,7 @@ class ConfigurationProcessorTest extends TestCase
             ],
         ];
 
-        $mapperClosure = static function (array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config, $availableSAs, $saNodeName, $expectedContextualizer) {
+        $mapperClosure = static function (array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config, $availableSAs, $saNodeName, $expectedContextualizer): void {
             self::assertTrue(isset($availableSAs[$currentScope]));
             self::assertSame($config[$saNodeName][$currentScope], $scopeSettings);
             self::assertSame($expectedContextualizer, $contextualizer);
@@ -111,7 +112,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfig($config, $mapperClosure);
     }
 
-    public function testMapConfigMapperObject()
+    public function testMapConfigMapperObject(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -157,7 +158,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfig($config, $mapper);
     }
 
-    public function testMapConfigHookableMapperObject()
+    public function testMapConfigHookableMapperObject(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -211,7 +212,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfig($config, $mapper);
     }
 
-    public function testMapSetting()
+    public function testMapSetting(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -247,7 +248,7 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapSetting('foo', $config);
     }
 
-    public function testMapConfigArray()
+    public function testMapConfigArray(): void
     {
         $namespace = 'ibexa_test';
         $saNodeName = 'foo';
@@ -283,12 +284,12 @@ class ConfigurationProcessorTest extends TestCase
         $processor->mapConfigArray('hello', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
     }
 
-    protected function getContainerMock()
+    protected function getContainerMock(): MockObject
     {
         return $this->createMock(ContainerInterface::class);
     }
 
-    protected function getContextualizerMock()
+    protected function getContextualizerMock(): MockObject
     {
         return $this->createMock(ContextualizerInterface::class);
     }

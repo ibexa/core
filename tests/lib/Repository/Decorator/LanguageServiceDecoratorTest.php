@@ -28,7 +28,7 @@ class LanguageServiceDecoratorTest extends TestCase
         return $this->createMock(LanguageService::class);
     }
 
-    public function testCreateLanguageDecorator()
+    public function testCreateLanguageDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -40,7 +40,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->createLanguage(...$parameters);
     }
 
-    public function testUpdateLanguageNameDecorator()
+    public function testUpdateLanguageNameDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -55,7 +55,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->updateLanguageName(...$parameters);
     }
 
-    public function testEnableLanguageDecorator()
+    public function testEnableLanguageDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -67,7 +67,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->enableLanguage(...$parameters);
     }
 
-    public function testDisableLanguageDecorator()
+    public function testDisableLanguageDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -79,7 +79,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->disableLanguage(...$parameters);
     }
 
-    public function testLoadLanguageDecorator()
+    public function testLoadLanguageDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -91,7 +91,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->loadLanguage(...$parameters);
     }
 
-    public function testLoadLanguagesDecorator()
+    public function testLoadLanguagesDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -103,7 +103,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->loadLanguages(...$parameters);
     }
 
-    public function testLoadLanguageByIdDecorator()
+    public function testLoadLanguageByIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -115,7 +115,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->loadLanguageById(...$parameters);
     }
 
-    public function testLoadLanguageListByCodeDecorator()
+    public function testLoadLanguageListByCodeDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -127,7 +127,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->loadLanguageListByCode(...$parameters);
     }
 
-    public function testLoadLanguageListByIdDecorator()
+    public function testLoadLanguageListByIdDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -139,7 +139,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->loadLanguageListById(...$parameters);
     }
 
-    public function testDeleteLanguageDecorator()
+    public function testDeleteLanguageDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -151,7 +151,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->deleteLanguage(...$parameters);
     }
 
-    public function testGetDefaultLanguageCodeDecorator()
+    public function testGetDefaultLanguageCodeDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
@@ -163,7 +163,7 @@ class LanguageServiceDecoratorTest extends TestCase
         $decoratedService->getDefaultLanguageCode(...$parameters);
     }
 
-    public function testNewLanguageCreateStructDecorator()
+    public function testNewLanguageCreateStructDecorator(): void
     {
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);

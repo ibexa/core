@@ -15,8 +15,10 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation as APIContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -38,7 +40,7 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APIContentTypeLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APIContentTypeLimitation', $limitationValue);
@@ -62,7 +64,7 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $id) {
@@ -90,7 +92,7 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): ContentTypeLimitation
     {
         return new APIContentTypeLimitation(['limitationValues' => $limitationValues]);
     }
@@ -165,7 +167,7 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): ContentTypeId
     {
         if (empty($value->limitationValues)) {
             // A Policy should not have empty limitationValues stored
@@ -174,11 +176,11 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
 
         if (!isset($value->limitationValues[1])) {
             // 1 limitation value: EQ operation
-            return new Criterion\ContentTypeId($value->limitationValues[0]);
+            return new ContentTypeId($value->limitationValues[0]);
         }
 
         // several limitation values: IN operation
-        return new Criterion\ContentTypeId($value->limitationValues);
+        return new ContentTypeId($value->limitationValues);
     }
 
     /**
@@ -187,7 +189,7 @@ class ContentTypeLimitationType extends AbstractPersistenceLimitationType implem
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

@@ -32,10 +32,9 @@ abstract class Type extends FieldType
     ];
 
     /** @var \Ibexa\Core\FieldType\Validator[] */
-    private $validators;
+    private array $validators;
 
-    /** @var \Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator|null */
-    protected $routeAwarePathGenerator;
+    protected ?RouteAwarePathGenerator $routeAwarePathGenerator;
 
     /**
      * @param \Ibexa\Core\FieldType\Validator[] $validators

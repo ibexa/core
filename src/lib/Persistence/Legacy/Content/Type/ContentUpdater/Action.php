@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 
+use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 
 /**
@@ -16,10 +17,8 @@ abstract class Action
 {
     /**
      * Content gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
      */
-    protected $contentGateway;
+    protected Gateway $contentGateway;
 
     /**
      * Creates a new action.

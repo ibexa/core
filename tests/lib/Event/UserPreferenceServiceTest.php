@@ -14,7 +14,7 @@ use Ibexa\Core\Event\UserPreferenceService;
 
 class UserPreferenceServiceTest extends AbstractServiceTest
 {
-    public function testSetUserPreferenceEvents()
+    public function testSetUserPreferenceEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSetUserPreferenceEvent::class,
@@ -39,7 +39,7 @@ class UserPreferenceServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testSetUserPreferenceStopPropagationInBeforeEvents()
+    public function testSetUserPreferenceStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeSetUserPreferenceEvent::class,
@@ -52,7 +52,7 @@ class UserPreferenceServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(UserPreferenceServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeSetUserPreferenceEvent::class, static function (BeforeSetUserPreferenceEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeSetUserPreferenceEvent::class, static function (BeforeSetUserPreferenceEvent $event): void {
             $event->stopPropagation();
         }, 10);
 

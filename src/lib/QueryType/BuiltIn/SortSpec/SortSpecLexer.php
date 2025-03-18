@@ -17,14 +17,12 @@ final class SortSpecLexer implements SortSpecLexerInterface
     private const FLOAT_PATTERN = '-?[0-9]+\.[0-9]+';
     private const INT_PATTERN = '-?[0-9]+';
 
-    /** @var string */
-    private $input;
+    private ?string $input = null;
 
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token[] */
-    private $tokens = [];
+    private array $tokens = [];
 
-    /** @var int|null */
-    private $position;
+    private ?int $position = null;
 
     /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\Token|null */
     private $current;

@@ -8,7 +8,9 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\Checkbox\Type;
 use Ibexa\Core\FieldType\Checkbox\Type as Checkbox;
+use Ibexa\Core\FieldType\Checkbox\Value;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
 
 /**
@@ -28,7 +30,7 @@ class CheckboxTest extends FieldTypeTest
      *
      * @return \Ibexa\Contracts\Core\FieldType\FieldType
      */
-    protected function createFieldTypeUnderTest()
+    protected function createFieldTypeUnderTest(): Type
     {
         $fieldType = new Checkbox();
         $fieldType->setTransformationProcessor($this->getTransformationProcessorMock());
@@ -41,7 +43,7 @@ class CheckboxTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getValidatorConfigurationSchemaExpectation()
+    protected function getValidatorConfigurationSchemaExpectation(): array
     {
         return [];
     }
@@ -51,7 +53,7 @@ class CheckboxTest extends FieldTypeTest
      *
      * @return array
      */
-    protected function getSettingsSchemaExpectation()
+    protected function getSettingsSchemaExpectation(): array
     {
         return [];
     }
@@ -61,12 +63,12 @@ class CheckboxTest extends FieldTypeTest
      *
      * @return \Ibexa\Core\FieldType\Checkbox\Value
      */
-    protected function getEmptyValueExpectation()
+    protected function getEmptyValueExpectation(): Value
     {
         return new CheckboxValue(false);
     }
 
-    public function provideInvalidInputForAcceptValue()
+    public function provideInvalidInputForAcceptValue(): array
     {
         return [
             [
@@ -109,7 +111,7 @@ class CheckboxTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideValidInputForAcceptValue()
+    public function provideValidInputForAcceptValue(): array
     {
         return [
             [
@@ -158,7 +160,7 @@ class CheckboxTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForToHash()
+    public function provideInputForToHash(): array
     {
         return [
             [
@@ -207,7 +209,7 @@ class CheckboxTest extends FieldTypeTest
      *
      * @return array
      */
-    public function provideInputForFromHash()
+    public function provideInputForFromHash(): array
     {
         return [
             [
@@ -224,7 +226,7 @@ class CheckboxTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Checkbox\Type::toPersistenceValue
      */
-    public function testToPersistenceValue()
+    public function testToPersistenceValue(): void
     {
         $ft = $this->createFieldTypeUnderTest();
         $fieldValue = $ft->toPersistenceValue(new CheckboxValue(true));
@@ -236,7 +238,7 @@ class CheckboxTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Checkbox\Value::__construct
      */
-    public function testBuildFieldValueWithParam()
+    public function testBuildFieldValueWithParam(): void
     {
         $bool = true;
         $value = new CheckboxValue($bool);
@@ -246,7 +248,7 @@ class CheckboxTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Checkbox\Value::__construct
      */
-    public function testBuildFieldValueWithoutParam()
+    public function testBuildFieldValueWithoutParam(): void
     {
         $value = new CheckboxValue();
         self::assertFalse($value->bool);
@@ -255,7 +257,7 @@ class CheckboxTest extends FieldTypeTest
     /**
      * @covers \Ibexa\Core\FieldType\Checkbox\Value::__toString
      */
-    public function testFieldValueToString()
+    public function testFieldValueToString(): void
     {
         $valueTrue = new CheckboxValue(true);
         $valueFalse = new CheckboxValue(false);

@@ -19,7 +19,7 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
      *
      * Based on https://www.onlineaspect.com/2009/01/26/how-to-use-curl_multi-without-blocking/
      */
-    public function validate(array $urls)
+    public function validate(array $urls): void
     {
         $options = $this->getOptions();
 
@@ -149,12 +149,12 @@ class HTTPHandler extends AbstractConfigResolverBasedURLHandler
      * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL $url
      * @param resource $handler CURL handler
      */
-    private function doValidate(URL $url, $handler)
+    private function doValidate(URL $url, $handler): void
     {
         $this->setUrlStatus($url, $this->isSuccessful(curl_getinfo($handler, CURLINFO_HTTP_CODE)));
     }
 
-    private function isSuccessful($statusCode): bool
+    private function isSuccessful(int $statusCode): bool
     {
         return $statusCode >= 200 && $statusCode < 300;
     }

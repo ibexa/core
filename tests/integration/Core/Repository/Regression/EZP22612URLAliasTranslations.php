@@ -35,7 +35,7 @@ class EZP22612URLAliasTranslations extends BaseTest
         $contentService->publishVersion($draft->versionInfo);
     }
 
-    private function getFolderCreateStruct($name)
+    private function getFolderCreateStruct(string $name)
     {
         $createStruct = $this->getRepository()->getContentService()->newContentCreateStruct(
             $this->getRepository()->getContentTypeService()->loadContentTypeByIdentifier('folder'),
@@ -50,7 +50,7 @@ class EZP22612URLAliasTranslations extends BaseTest
     /**
      * Test that alias is found (ie. NotFoundException is not thrown).
      */
-    public function testURLAliasLoadedInRightLanguage()
+    public function testURLAliasLoadedInRightLanguage(): void
     {
         $aliasService = $this->getRepository()->getURLAliasService();
         $alias = $aliasService->lookup('common/alias');

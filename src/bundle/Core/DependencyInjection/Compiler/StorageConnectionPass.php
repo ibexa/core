@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class StorageConnectionPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $taggedServiceIds = $container->findTaggedServiceIds(
             RegisterStorageEnginePass::STORAGE_ENGINE_TAG

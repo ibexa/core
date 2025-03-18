@@ -13,11 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class BeforeMoveSubtreeEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $newParentLocation;
+    private Location $newParentLocation;
 
     public function __construct(Location $location, Location $newParentLocation)
     {

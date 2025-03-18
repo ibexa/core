@@ -22,7 +22,7 @@ use Traversable;
 final class GatewayFactoryTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory */
-    private $factory;
+    private GatewayFactory $factory;
 
     /**
      * @throws \Doctrine\DBAL\DBALException

@@ -21,7 +21,7 @@ class SimplifiedRequestTest extends TestCase
      *
      * @dataProvider fromUrlProvider
      */
-    public function testFromUrl($url, $expectedRequest)
+    public function testFromUrl(string $url, SimplifiedRequest $expectedRequest): void
     {
         self::assertEquals(
             $expectedRequest,
@@ -49,7 +49,7 @@ class SimplifiedRequestTest extends TestCase
         self::assertSame(['param' => 'bar', 'param2' => 'bar2'], $request->getQueryParams());
     }
 
-    public function fromUrlProvider()
+    public function fromUrlProvider(): array
     {
         return [
             [

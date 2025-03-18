@@ -7,13 +7,15 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Tests\Integration\Core\Repository\BaseTest;
 
 class EZP22408DeleteRelatedObjectTest extends BaseTest
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
-    private $testContentType;
+    private ?ContentTypeDraft $testContentType = null;
 
     protected function setUp(): void
     {
@@ -22,7 +24,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         $this->createTestContentType();
     }
 
-    public function testRelationListIsUpdatedWhenRelatedObjectIsDeleted()
+    public function testRelationListIsUpdatedWhenRelatedObjectIsDeleted(): void
     {
         $targetObject1 = $this->createTargetObject('Relation list target object 1');
         $targetObject2 = $this->createTargetObject('Relation list target object 2');
@@ -43,7 +45,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         self::assertSame([$targetObject2->id], $relationListValue->destinationContentIds);
     }
 
-    public function testSingleRelationIsUpdatedWhenRelatedObjectIsDeleted()
+    public function testSingleRelationIsUpdatedWhenRelatedObjectIsDeleted(): void
     {
         $targetObject = $this->createTargetObject('Single relation target object');
         $referenceObject = $this->createReferenceObject(
@@ -61,7 +63,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
         self::assertEmpty($relationValue->destinationContentId);
     }
 
-    private function createTestContentType()
+    private function createTestContentType(): void
     {
         $languageCode = $this->getMainLanguageCode();
         $contentTypeService = $this->getRepository()->getContentTypeService();
@@ -120,7 +122,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    private function createTargetObject($name)
+    private function createTargetObject(string $name): Content
     {
         $contentService = $this->getRepository()->getContentService();
         $createStruct = $contentService->newContentCreateStruct(
@@ -146,7 +148,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
-    private function createReferenceObject($name, array $relationListTarget = [], $singleRelationTarget = null)
+    private function createReferenceObject(string $name, array $relationListTarget = [], $singleRelationTarget = null): Content
     {
         $contentService = $this->getRepository()->getContentService();
         $createStruct = $contentService->newContentCreateStruct(
@@ -176,7 +178,7 @@ class EZP22408DeleteRelatedObjectTest extends BaseTest
     /**
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct
      */
-    private function getLocationCreateStruct()
+    private function getLocationCreateStruct(): LocationCreateStruct
     {
         return $this->getRepository()->getLocationService()->newLocationCreateStruct(2);
     }

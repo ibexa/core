@@ -26,7 +26,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroup
      */
-    public function testLoadUserGroupThrowsUnauthorizedException()
+    public function testLoadUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -80,7 +80,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadSubUserGroups
      */
-    public function testLoadSubUserGroupsThrowsUnauthorizedException()
+    public function testLoadSubUserGroupsThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -108,7 +108,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUserGroup
      */
-    public function testCreateUserGroupThrowsUnauthorizedException()
+    public function testCreateUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -143,7 +143,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testDeleteUserGroup
      */
-    public function testDeleteUserGroupThrowsUnauthorizedException()
+    public function testDeleteUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -171,7 +171,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testMoveUserGroup
      */
-    public function testMoveUserGroupThrowsUnauthorizedException()
+    public function testMoveUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -206,7 +206,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUpdateUserGroup
      */
-    public function testUpdateUserGroupThrowsUnauthorizedException()
+    public function testUpdateUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -244,7 +244,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testCreateUser
      */
-    public function testCreateUserThrowsUnauthorizedException()
+    public function testCreateUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -288,7 +288,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testDeleteUser
      */
-    public function testDeleteUserThrowsUnauthorizedException()
+    public function testDeleteUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -312,7 +312,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\UserService::updateUser()
      */
-    public function testUpdateUserThrowsUnauthorizedException()
+    public function testUpdateUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -367,7 +367,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testAssignUserToUserGroup
      */
-    public function testAssignUserToUserGroupThrowsUnauthorizedException()
+    public function testAssignUserToUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -400,7 +400,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testUnAssignUserFromUserGroup
      */
-    public function testUnAssignUserFromUserGroupThrowsUnauthorizedException()
+    public function testUnAssignUserFromUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -441,7 +441,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUserGroupsOfUser
      */
-    public function testLoadUserGroupsOfUserThrowsUnauthorizedException()
+    public function testLoadUserGroupsOfUserThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -468,7 +468,7 @@ class UserServiceAuthorizationTest extends BaseTest
      *
      * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadUsersOfUserGroup
      */
-    public function testLoadUsersOfUserGroupThrowsUnauthorizedException()
+    public function testLoadUsersOfUserGroupThrowsUnauthorizedException(): void
     {
         $this->expectException(UnauthorizedException::class);
 

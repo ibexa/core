@@ -24,17 +24,13 @@ use Psr\Log\LoggerInterface;
  */
 class TranslationHelper
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    protected $configResolver;
+    protected ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    protected $contentService;
+    protected ContentService $contentService;
 
-    /** @var array */
-    private $siteAccessesByLanguage;
+    private array $siteAccessesByLanguage;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private ?LoggerInterface $logger;
 
     public function __construct(ConfigResolverInterface $configResolver, ContentService $contentService, array $siteAccessesByLanguage, LoggerInterface $logger = null)
     {
@@ -53,7 +49,7 @@ class TranslationHelper
      *
      * @return string
      */
-    public function getTranslatedContentName(Content $content, $forcedLanguage = null): string
+    public function getTranslatedContentName(Content $content, ?string $forcedLanguage = null): string
     {
         return $this->getTranslatedContentNameByVersionInfo(
             $content->getVersionInfo(),
@@ -117,7 +113,7 @@ class TranslationHelper
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field|null
      */
-    public function getTranslatedField(Content $content, $fieldDefIdentifier, $forcedLanguage = null)
+    public function getTranslatedField(Content $content, string $fieldDefIdentifier, $forcedLanguage = null)
     {
         // Loop over prioritized languages to get the appropriate translated field.
         foreach ($this->getLanguages($forcedLanguage) as $lang) {
@@ -146,7 +142,7 @@ class TranslationHelper
     public function getTranslatedFieldDefinitionProperty(
         ContentType $contentType,
         $fieldDefIdentifier,
-        $property = 'name',
+        string $property = 'name',
         $forcedLanguage = null
     ) {
         $fieldDefinition = $contentType->getFieldDefinition($fieldDefIdentifier);
@@ -274,7 +270,7 @@ class TranslationHelper
      *
      * @return array
      */
-    public function getAvailableLanguages()
+    public function getAvailableLanguages(): array
     {
         $translationSiteAccesses = $this->configResolver->getParameter('translation_siteaccesses');
         $relatedSiteAccesses = $translationSiteAccesses ?: $this->configResolver->getParameter('related_siteaccesses');

@@ -19,10 +19,8 @@ class Handler implements BaseSectionHandler
 {
     /**
      * Section Gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
      */
-    protected $sectionGateway;
+    protected Gateway $sectionGateway;
 
     /**
      * Creates a new Section Handler.
@@ -42,7 +40,7 @@ class Handler implements BaseSectionHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Section
      */
-    public function create($name, $identifier)
+    public function create($name, $identifier): Section
     {
         $section = new Section();
 
@@ -63,7 +61,7 @@ class Handler implements BaseSectionHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Section
      */
-    public function update($id, $name, $identifier)
+    public function update($id, $name, $identifier): Section
     {
         $this->sectionGateway->updateSection($id, $name, $identifier);
 
@@ -134,7 +132,7 @@ class Handler implements BaseSectionHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Section
      */
-    protected function createSectionFromArray(array $data)
+    protected function createSectionFromArray(array $data): Section
     {
         $section = new Section();
 
@@ -152,7 +150,7 @@ class Handler implements BaseSectionHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Section[]
      */
-    protected function createSectionsFromArray(array $data)
+    protected function createSectionsFromArray(array $data): array
     {
         $sections = [];
         foreach ($data as $sectionData) {
@@ -171,7 +169,7 @@ class Handler implements BaseSectionHandler
      *
      * @param mixed $id
      */
-    public function delete($id)
+    public function delete($id): void
     {
         $contentCount = $this->sectionGateway->countContentObjectsInSection($id);
 
@@ -189,7 +187,7 @@ class Handler implements BaseSectionHandler
      * @param mixed $sectionId
      * @param mixed $contentId
      */
-    public function assign($sectionId, $contentId)
+    public function assign($sectionId, $contentId): void
     {
         $this->sectionGateway->assignSectionToContent($sectionId, $contentId);
     }
@@ -201,7 +199,7 @@ class Handler implements BaseSectionHandler
      *
      * @return int
      */
-    public function assignmentsCount($sectionId)
+    public function assignmentsCount($sectionId): int
     {
         return $this->sectionGateway->countContentObjectsInSection($sectionId);
     }
@@ -213,7 +211,7 @@ class Handler implements BaseSectionHandler
      *
      * @return int
      */
-    public function policiesCount($sectionId)
+    public function policiesCount($sectionId): int
     {
         return $this->sectionGateway->countPoliciesUsingSection($sectionId);
     }
@@ -225,7 +223,7 @@ class Handler implements BaseSectionHandler
      *
      * @return int
      */
-    public function countRoleAssignmentsUsingSection($sectionId)
+    public function countRoleAssignmentsUsingSection($sectionId): int
     {
         return $this->sectionGateway->countRoleAssignmentsUsingSection($sectionId);
     }

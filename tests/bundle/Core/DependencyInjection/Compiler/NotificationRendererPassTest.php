@@ -31,7 +31,7 @@ class NotificationRendererPassTest extends AbstractCompilerPassTestCase
         $container->addCompilerPass(new NotificationRendererPass());
     }
 
-    public function testAddRenderer()
+    public function testAddRenderer(): void
     {
         $definition = new Definition();
         $definition->addTag(NotificationRendererPass::TAG_NAME, [
@@ -48,7 +48,7 @@ class NotificationRendererPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testAddRendererWithoutAliasThrowsLogicException()
+    public function testAddRendererWithoutAliasThrowsLogicException(): void
     {
         $this->expectException(\LogicException::class);
 

@@ -17,11 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'ibexa:user:validate-password-hashes')]
 final class ValidatePasswordHashesCommand extends Command
 {
-    /** @var \Ibexa\Core\FieldType\User\UserStorage */
-    private $userStorage;
+    private UserStorage $userStorage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PasswordHashService */
-    private $passwordHashService;
+    private PasswordHashService $passwordHashService;
 
     public function __construct(
         UserStorage $userStorage,

@@ -9,15 +9,16 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Filter;
 
 use Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FilterConfigurationTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private MockObject $configResolver;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterConfiguration */
-    private $filterConfiguration;
+    private FilterConfiguration $filterConfiguration;
 
     protected function setUp(): void
     {
@@ -27,7 +28,7 @@ class FilterConfigurationTest extends TestCase
         $this->filterConfiguration->setConfigResolver($this->configResolver);
     }
 
-    public function testGetOnlyImagineFilters()
+    public function testGetOnlyImagineFilters(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -44,7 +45,7 @@ class FilterConfigurationTest extends TestCase
         self::assertSame($barConfig, $this->filterConfiguration->get('bar'));
     }
 
-    public function testGetNoEzVariationInvalidImagineFilter()
+    public function testGetNoEzVariationInvalidImagineFilter(): void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -90,7 +91,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationNoReference()
+    public function testGetEzVariationNoReference(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -119,7 +120,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationWithReference()
+    public function testGetEzVariationWithReference(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];
@@ -149,7 +150,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationImagineFilters()
+    public function testGetEzVariationImagineFilters(): void
     {
         $filters = ['some_filter' => []];
         $imagineConfig = ['filters' => $filters];
@@ -177,7 +178,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testGetEzVariationImagineOptions()
+    public function testGetEzVariationImagineOptions(): void
     {
         $imagineConfig = [
             'foo_option' => 'foo',
@@ -210,7 +211,7 @@ class FilterConfigurationTest extends TestCase
         );
     }
 
-    public function testAll()
+    public function testAll(): void
     {
         $fooConfig = ['fooconfig'];
         $barConfig = ['barconfig'];

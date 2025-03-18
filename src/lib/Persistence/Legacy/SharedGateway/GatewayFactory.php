@@ -17,11 +17,10 @@ use Doctrine\DBAL\Connection;
  */
 final class GatewayFactory
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
-    private $fallbackGateway;
+    private Gateway $fallbackGateway;
 
     /** @var \iterable|\Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway[] */
-    private $gateways;
+    private iterable $gateways;
 
     public function __construct(Gateway $fallbackGateway, iterable $gateways)
     {

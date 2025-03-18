@@ -14,13 +14,12 @@ use const DIRECTORY_SEPARATOR;
  */
 class GlobCollector implements Collector
 {
-    /** @var string */
-    private $tranlationPattern;
+    private string $tranlationPattern;
 
     /**
      * @param string $kernelRootDir
      */
-    public function __construct($kernelRootDir)
+    public function __construct(string $kernelRootDir)
     {
         $this->tranlationPattern = $kernelRootDir . sprintf('%1$svendor%1$sibexa%1$si18n%1$stranslations%1$s*%1$s*%1$s*.xlf', DIRECTORY_SEPARATOR);
     }
@@ -28,7 +27,7 @@ class GlobCollector implements Collector
     /**
      * @return array
      */
-    public function collect()
+    public function collect(): array
     {
         $meta = [];
         foreach (glob($this->tranlationPattern) as $file) {

@@ -16,14 +16,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
  */
 class UnauthorizedContentDraftListItem implements ContentDraftListItemInterface
 {
-    /** @var string */
-    private $module;
+    private string $module;
 
-    /** @var string */
-    private $function;
+    private string $function;
 
-    /** @var array */
-    private $payload;
+    private array $payload;
 
     /**
      * @param string $module

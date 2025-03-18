@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class FieldTypeMockTest extends TestCase
 {
-    public function testApplyDefaultSettingsThrowsInvalidArgumentException()
+    public function testApplyDefaultSettingsThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -35,7 +35,7 @@ class FieldTypeMockTest extends TestCase
      *
      * @covers \Ibexa\Core\FieldType\FieldType::applyDefaultSettings
      */
-    public function testApplyDefaultSettings($initialSettings, $expectedSettings)
+    public function testApplyDefaultSettings(array $initialSettings, array $expectedSettings): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
         $stub = $this->getMockForAbstractClass(
@@ -94,7 +94,7 @@ class FieldTypeMockTest extends TestCase
         );
     }
 
-    public function providerForTestApplyDefaultSettings()
+    public function providerForTestApplyDefaultSettings(): array
     {
         return [
             [
@@ -161,7 +161,7 @@ class FieldTypeMockTest extends TestCase
         ];
     }
 
-    public function testApplyDefaultValidatorConfigurationEmptyThrowsInvalidArgumentException()
+    public function testApplyDefaultValidatorConfigurationEmptyThrowsInvalidArgumentException(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -178,7 +178,7 @@ class FieldTypeMockTest extends TestCase
         $stub->applyDefaultValidatorConfiguration($validatorConfiguration);
     }
 
-    public function testApplyDefaultValidatorConfigurationEmpty()
+    public function testApplyDefaultValidatorConfigurationEmpty(): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
         $stub = $this->getMockForAbstractClass(
@@ -208,7 +208,7 @@ class FieldTypeMockTest extends TestCase
     /**
      * @dataProvider providerForTestApplyDefaultValidatorConfiguration
      */
-    public function testApplyDefaultValidatorConfiguration($initialConfiguration, $expectedConfiguration)
+    public function testApplyDefaultValidatorConfiguration(?array $initialConfiguration, array $expectedConfiguration): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType|\PHPUnit\Framework\MockObject\MockObject $stub */
         $stub = $this->getMockForAbstractClass(
@@ -247,7 +247,7 @@ class FieldTypeMockTest extends TestCase
         );
     }
 
-    public function providerForTestApplyDefaultValidatorConfiguration()
+    public function providerForTestApplyDefaultValidatorConfiguration(): array
     {
         $defaultConfiguration = [
             'TestValidator' => [

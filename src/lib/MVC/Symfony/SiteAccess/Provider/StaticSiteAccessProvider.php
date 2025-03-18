@@ -22,10 +22,10 @@ use Traversable;
 final class StaticSiteAccessProvider implements SiteAccessProviderInterface
 {
     /** @var string[] */
-    private $siteAccessList;
+    private array $siteAccessList;
 
     /** @var string[] */
-    private $groupsBySiteAccess;
+    private array $groupsBySiteAccess;
 
     /**
      * @param string[] $siteAccessList
@@ -66,7 +66,7 @@ final class StaticSiteAccessProvider implements SiteAccessProviderInterface
     {
         $siteAccess = new SiteAccess($name, SiteAccess::DEFAULT_MATCHING_TYPE, null, self::class);
         $siteAccess->groups = array_map(
-            static function ($groupName) {
+            static function ($groupName): SiteAccessGroup {
                 return new SiteAccessGroup($groupName);
             },
             $this->groupsBySiteAccess[$name] ?? []

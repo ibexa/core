@@ -37,7 +37,7 @@ class SearchEngineFactory
      * @param \Ibexa\Contracts\Core\Search\Handler $searchHandler
      * @param string $searchEngineIdentifier
      */
-    public function registerSearchEngine(SearchHandler $searchHandler, $searchEngineIdentifier)
+    public function registerSearchEngine(SearchHandler $searchHandler, $searchEngineIdentifier): void
     {
         $this->searchEngines[$searchEngineIdentifier] = $searchHandler;
     }

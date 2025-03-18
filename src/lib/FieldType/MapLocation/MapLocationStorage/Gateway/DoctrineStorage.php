@@ -17,8 +17,7 @@ class DoctrineStorage extends Gateway
 {
     public const MAP_LOCATION_TABLE = 'ezgmaplocation';
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -134,7 +133,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
+    public function getFieldData(VersionInfo $versionInfo, Field $field): void
     {
         $field->value->externalData = $this->loadFieldData($field->id, $versionInfo->versionNo);
     }
@@ -208,7 +207,7 @@ class DoctrineStorage extends Gateway
      * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
      * @param int[] $fieldIds
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
+    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds): void
     {
         if (empty($fieldIds)) {
             // Nothing to do

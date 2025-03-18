@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -19,24 +20,19 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAware
 {
-    /** @var string */
-    private $defaultSiteAccessName;
+    private string $defaultSiteAccessName;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface */
-    private $siteAccessProvider;
+    private SiteAccessProviderInterface $siteAccessProvider;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess|null */
-    private $siteAccess;
+    private ?SiteAccess $siteAccess = null;
 
-    /** @var bool */
-    private $debug;
+    private bool $debug;
 
     public function __construct(
         string $defaultSiteAccessName,
-        SiteAccess\SiteAccessProviderInterface $siteAccessProvider,
+        SiteAccessProviderInterface $siteAccessProvider,
         EventDispatcherInterface $eventDispatcher,
         bool $debug = false
     ) {
@@ -55,7 +51,7 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
         ];
     }
 
-    public function onConsoleCommand(ConsoleCommandEvent $event)
+    public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $this->siteAccess->name = $event->getInput()->getParameterOption('--siteaccess', $this->defaultSiteAccessName);
         $this->siteAccess->matchingType = 'cli';
@@ -72,12 +68,12 @@ class ConsoleCommandListener implements EventSubscriberInterface, SiteAccessAwar
         $this->eventDispatcher->dispatch(new ScopeChangeEvent($this->siteAccess), MVCEvents::CONFIG_SCOPE_CHANGE);
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
 
-    public function setDebug($debug = false)
+    public function setDebug($debug = false): void
     {
         $this->debug = $debug;
     }

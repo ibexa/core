@@ -24,7 +24,7 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::loadNotifications()
      */
-    public function testLoadNotifications()
+    public function testLoadNotifications(): void
     {
         $repository = $this->getRepository();
 
@@ -42,7 +42,7 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getNotification()
      */
-    public function testGetNotification()
+    public function testGetNotification(): void
     {
         $repository = $this->getRepository();
 
@@ -61,7 +61,7 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::markNotificationAsRead()
      */
-    public function testMarkNotificationAsRead()
+    public function testMarkNotificationAsRead(): void
     {
         $repository = $this->getRepository();
 
@@ -102,7 +102,7 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getPendingNotificationCount()
      */
-    public function testGetPendingNotificationCount()
+    public function testGetPendingNotificationCount(): void
     {
         $repository = $this->getRepository();
 
@@ -117,7 +117,7 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::getNotificationCount()
      */
-    public function testGetNotificationCount()
+    public function testGetNotificationCount(): void
     {
         $repository = $this->getRepository();
 
@@ -132,7 +132,7 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::deleteNotification()
      */
-    public function testDeleteNotification()
+    public function testDeleteNotification(): void
     {
         $repository = $this->getRepository();
 
@@ -153,7 +153,7 @@ class NotificationServiceTest extends BaseTest
     /**
      * @covers \Ibexa\Contracts\Core\Repository\NotificationService::createNotification()
      */
-    public function testCreateNotification()
+    public function testCreateNotification(): void
     {
         $repository = $this->getRepository();
 
@@ -183,7 +183,7 @@ class NotificationServiceTest extends BaseTest
      *
      * @depends testCreateNotification
      */
-    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner()
+    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingOwner(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -206,7 +206,7 @@ class NotificationServiceTest extends BaseTest
      *
      * @depends testCreateNotification
      */
-    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType()
+    public function testCreateNotificationThrowsInvalidArgumentExceptionOnMissingType(): void
     {
         $this->expectException(InvalidArgumentException::class);
 

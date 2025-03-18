@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class BeforeCreateBookmarkEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
     public function __construct(Location $location)
     {

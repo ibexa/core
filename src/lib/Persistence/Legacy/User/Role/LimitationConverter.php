@@ -34,7 +34,7 @@ class LimitationConverter
      *
      * @param \Ibexa\Core\Persistence\Legacy\User\Role\LimitationHandler $handler
      */
-    public function addHandler(LimitationHandler $handler)
+    public function addHandler(LimitationHandler $handler): void
     {
         $this->limitationHandlers[] = $handler;
     }
@@ -42,7 +42,7 @@ class LimitationConverter
     /**
      * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
      */
-    public function toLegacy(Policy $policy)
+    public function toLegacy(Policy $policy): void
     {
         foreach ($this->limitationHandlers as $limitationHandler) {
             $limitationHandler->toLegacy($policy);
@@ -52,7 +52,7 @@ class LimitationConverter
     /**
      * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
      */
-    public function toSPI(Policy $policy)
+    public function toSPI(Policy $policy): void
     {
         foreach ($this->limitationHandlers as $limitationHandler) {
             $limitationHandler->toSPI($policy);

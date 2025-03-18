@@ -24,7 +24,7 @@ class LanguageServiceTest extends AbstractServiceTest
         return LanguageService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public function providerForPassTroughMethods(): array
     {
         $languageCreateStruct = new LanguageCreateStruct();
         $language = new Language();
@@ -55,7 +55,7 @@ class LanguageServiceTest extends AbstractServiceTest
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public function providerForLanguagesLookupMethods(): array
     {
         // string $method, array $arguments, bool $return, int $languageArgumentIndex
         return [];

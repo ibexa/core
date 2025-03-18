@@ -29,27 +29,20 @@ class Handler implements BaseUserHandler
 {
     /**
      * Gateway for storing user data.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Gateway
      */
-    protected $userGateway;
+    protected Gateway $userGateway;
 
     /**
      * Gateway for storing role data.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Role\Gateway
      */
-    protected $roleGateway;
+    protected RoleGateway $roleGateway;
 
     /**
      * Mapper for user related objects.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\User\Mapper
      */
-    protected $mapper;
+    protected Mapper $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\User\Role\LimitationConverter */
-    protected $limitationConverter;
+    protected LimitationConverter $limitationConverter;
 
     /**
      * Construct from userGateway.
@@ -77,7 +70,7 @@ class Handler implements BaseUserHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function create(User $user)
+    public function create(User $user): never
     {
         throw new NotImplementedException('This method should not be called, creation is done via content handler.');
     }
@@ -195,7 +188,7 @@ class Handler implements BaseUserHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function update(User $user)
+    public function update(User $user): never
     {
         throw new NotImplementedException('This method should not be called, update is done via content handler.');
     }
@@ -210,7 +203,7 @@ class Handler implements BaseUserHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\User\UserTokenUpdateStruct $userTokenUpdateStruct
      */
-    public function updateUserToken(UserTokenUpdateStruct $userTokenUpdateStruct)
+    public function updateUserToken(UserTokenUpdateStruct $userTokenUpdateStruct): void
     {
         $this->userGateway->updateUserToken($userTokenUpdateStruct);
     }
@@ -220,7 +213,7 @@ class Handler implements BaseUserHandler
      *
      * @param string $hash
      */
-    public function expireUserToken($hash)
+    public function expireUserToken($hash): void
     {
         $this->userGateway->expireUserToken($hash);
     }
@@ -232,7 +225,7 @@ class Handler implements BaseUserHandler
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
      */
-    public function delete($userId)
+    public function delete($userId): never
     {
         throw new NotImplementedException('This method should not be called, delete is done via content handler.');
     }
@@ -415,7 +408,7 @@ class Handler implements BaseUserHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\User\RoleUpdateStruct $role
      */
-    public function updateRole(RoleUpdateStruct $role)
+    public function updateRole(RoleUpdateStruct $role): void
     {
         $this->roleGateway->updateRole($role);
     }
@@ -426,7 +419,7 @@ class Handler implements BaseUserHandler
      * @param mixed $roleId
      * @param int $status One of Role::STATUS_DEFINED|Role::STATUS_DRAFT
      */
-    public function deleteRole($roleId, $status = Role::STATUS_DEFINED)
+    public function deleteRole($roleId, $status = Role::STATUS_DEFINED): void
     {
         $role = $this->loadRole($roleId, $status);
 
@@ -442,7 +435,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleDraftId
      */
-    public function publishRoleDraft($roleDraftId)
+    public function publishRoleDraft($roleDraftId): void
     {
         $roleDraft = $this->loadRole($roleDraftId, Role::STATUS_DRAFT);
 
@@ -478,7 +471,7 @@ class Handler implements BaseUserHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Policy
      */
-    public function addPolicyByRoleDraft($roleId, Policy $policy)
+    public function addPolicyByRoleDraft($roleId, Policy $policy): Policy
     {
         $legacyPolicy = clone $policy;
         $legacyPolicy->originalId = $policy->id;
@@ -500,7 +493,7 @@ class Handler implements BaseUserHandler
      *
      * @return \Ibexa\Contracts\Core\Persistence\User\Policy
      */
-    public function addPolicy($roleId, Policy $policy)
+    public function addPolicy($roleId, Policy $policy): Policy
     {
         $legacyPolicy = clone $policy;
         $this->limitationConverter->toLegacy($legacyPolicy);
@@ -519,7 +512,7 @@ class Handler implements BaseUserHandler
      *
      * @param \Ibexa\Contracts\Core\Persistence\User\Policy $policy
      */
-    public function updatePolicy(Policy $policy)
+    public function updatePolicy(Policy $policy): void
     {
         $policy = clone $policy;
         $this->limitationConverter->toLegacy($policy);
@@ -534,7 +527,7 @@ class Handler implements BaseUserHandler
      * @param mixed $policyId
      * @param mixed $roleId
      */
-    public function deletePolicy($policyId, $roleId)
+    public function deletePolicy($policyId, $roleId): void
     {
         // Each policy can only be associated to exactly one role. Thus it is
         // sufficient to use the policyId for identification and just remove
@@ -564,7 +557,7 @@ class Handler implements BaseUserHandler
      * @param mixed $roleId
      * @param array $limitation
      */
-    public function assignRole($contentId, $roleId, array $limitation = null)
+    public function assignRole($contentId, $roleId, array $limitation = null): void
     {
         $limitation = $limitation ?: ['' => ['']];
         $this->userGateway->assignRole($contentId, $roleId, $limitation);
@@ -576,7 +569,7 @@ class Handler implements BaseUserHandler
      * @param mixed $contentId The user or user group Id to un-assign the role from.
      * @param mixed $roleId
      */
-    public function unassignRole($contentId, $roleId)
+    public function unassignRole($contentId, $roleId): void
     {
         $this->userGateway->removeRole($contentId, $roleId);
     }
@@ -586,7 +579,7 @@ class Handler implements BaseUserHandler
      *
      * @param mixed $roleAssignmentId The assignment ID.
      */
-    public function removeRoleAssignment($roleAssignmentId)
+    public function removeRoleAssignment($roleAssignmentId): void
     {
         $this->userGateway->removeRoleAssignmentById($roleAssignmentId);
     }

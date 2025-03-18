@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Selection\Value;
 use Ibexa\Core\FieldType\Selection\Value as SelectionValue;
 
 /**
@@ -25,7 +26,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getTypeName()
+    public function getTypeName(): string
     {
         return 'ezselection';
     }
@@ -35,7 +36,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * If Selection is improved to be able to index + search for string also with LegacySearch, then adapt this too.
      */
-    protected function supportsLikeWildcard($value)
+    protected function supportsLikeWildcard($value): bool
     {
         parent::supportsLikeWildcard($value);
 
@@ -47,7 +48,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'isMultiple' => [
@@ -70,7 +71,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'isMultiple' => true,
@@ -98,7 +99,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -112,7 +113,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -122,7 +123,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -132,7 +133,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 23],
@@ -144,7 +145,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new SelectionValue([0, 2]);
     }
@@ -154,7 +155,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return string
      */
-    public function getFieldName()
+    public function getFieldName(): string
     {
         return 'A first' . ' ' . 'Sindelfingen';
     }
@@ -167,7 +168,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             SelectionValue::class,
@@ -183,7 +184,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -202,7 +203,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new SelectionValue([1]);
     }
@@ -214,7 +215,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             SelectionValue::class,
@@ -243,7 +244,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             SelectionValue::class,
@@ -279,7 +280,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -296,7 +297,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -306,7 +307,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new SelectionValue()],
@@ -314,7 +315,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -326,27 +327,27 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): array
     {
         return [1];
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): array
     {
         return [2];
     }
 
-    protected function getSearchTargetValueOne()
+    protected function getSearchTargetValueOne(): int
     {
         return 1;
     }
 
-    protected function getSearchTargetValueTwo()
+    protected function getSearchTargetValueTwo(): int
     {
         return 2;
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected function getAdditionallyIndexedFieldData(): array
     {
         return [
             [
@@ -362,17 +363,17 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected function getValidMultivaluedSearchValuesOne(): array
     {
         return [0, 1];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected function getValidMultivaluedSearchValuesTwo(): array
     {
         return [2, 3, 4];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected function getAdditionallyIndexedMultivaluedFieldData(): array
     {
         return [
             [
@@ -383,7 +384,7 @@ class SelectionIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected function getFullTextIndexedFieldData(): array
     {
         return [
             ['Bielefeld', 'Sindelfingen'],

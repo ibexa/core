@@ -14,8 +14,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CoreVoter implements VoterInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $permissionResolver;
+    private PermissionResolver $permissionResolver;
 
     public function __construct(PermissionResolver $permissionResolver)
     {

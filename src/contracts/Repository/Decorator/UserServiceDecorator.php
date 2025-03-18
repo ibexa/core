@@ -27,8 +27,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 
 abstract class UserServiceDecorator implements UserService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
-    protected $innerService;
+    protected UserService $innerService;
 
     public function __construct(UserService $innerService)
     {

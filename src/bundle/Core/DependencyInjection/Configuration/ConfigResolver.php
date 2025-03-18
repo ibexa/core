@@ -46,11 +46,10 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
     /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
     protected $siteAccess;
 
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /** @var array Siteaccess groups, indexed by siteaccess name */
-    protected $groupsBySiteAccess;
+    protected array $groupsBySiteAccess;
 
     /** @var string */
     protected $defaultNamespace;
@@ -62,7 +61,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
     protected $undefinedStrategy;
 
     /** @var array[] List of blame => [params] loaded while siteAccess->matchingType was 'uninitialized' */
-    private $tooEarlyLoadedList = [];
+    private array $tooEarlyLoadedList = [];
 
     /**
      * @param \Psr\Log\LoggerInterface|null $logger
@@ -87,7 +86,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
         $this->undefinedStrategy = $undefinedStrategy;
     }
 
-    public function setSiteAccess(SiteAccess $siteAccess = null)
+    public function setSiteAccess(SiteAccess $siteAccess = null): void
     {
         $this->siteAccess = $siteAccess;
     }
@@ -102,7 +101,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
      *
      * @param int $undefinedStrategy
      */
-    public function setUndefinedStrategy($undefinedStrategy)
+    public function setUndefinedStrategy($undefinedStrategy): void
     {
         $this->undefinedStrategy = $undefinedStrategy;
     }
@@ -229,7 +228,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
         }
     }
 
-    private function warnAboutTooEarlyLoadedParams()
+    private function warnAboutTooEarlyLoadedParams(): void
     {
         if (empty($this->tooEarlyLoadedList)) {
             return;
@@ -255,7 +254,7 @@ class ConfigResolver implements VersatileScopeInterface, SiteAccessAware
      *
      * @return string
      */
-    private function logTooEarlyLoadedListIfNeeded($paramName)
+    private function logTooEarlyLoadedListIfNeeded(string $paramName): void
     {
         if ($this->container instanceof ContainerBuilder) {
             return;

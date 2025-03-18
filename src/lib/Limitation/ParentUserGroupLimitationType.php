@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentUserGroupLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentUserGroupLimitation as APIParentUserGroupLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
@@ -36,7 +37,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
      */
-    public function acceptValue(APILimitationValue $limitationValue)
+    public function acceptValue(APILimitationValue $limitationValue): void
     {
         if (!$limitationValue instanceof APIParentUserGroupLimitation) {
             throw new InvalidArgumentType('$limitationValue', 'APIParentUserGroupLimitation', $limitationValue);
@@ -66,7 +67,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validate(APILimitationValue $limitationValue)
+    public function validate(APILimitationValue $limitationValue): array
     {
         $validationErrors = [];
         foreach ($limitationValue->limitationValues as $key => $value) {
@@ -92,7 +93,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
      */
-    public function buildValue(array $limitationValues)
+    public function buildValue(array $limitationValues): ParentUserGroupLimitation
     {
         return new APIParentUserGroupLimitation(['limitationValues' => $limitationValues]);
     }
@@ -198,7 +199,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser)
+    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): never
     {
         throw new NotImplementedException(__METHOD__);
     }
@@ -209,7 +210,7 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
      * @return mixed[]|int In case of array, a hash with key as valid limitations value and value as human readable name
      *                     of that option, in case of int on of VALUE_SCHEMA_ constants.
      */
-    public function valueSchema()
+    public function valueSchema(): never
     {
         throw new NotImplementedException(__METHOD__);
     }

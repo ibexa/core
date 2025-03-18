@@ -15,8 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
 final class StaticStrategy implements ThumbnailStrategy
 {
-    /** @var string */
-    private $staticThumbnail;
+    private string $staticThumbnail;
 
     public function __construct(string $staticThumbnail)
     {

@@ -43,8 +43,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserService extends UserServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
-    protected $eventDispatcher;
+    protected EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
         UserServiceInterface $innerService,

@@ -17,11 +17,9 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 class Handler implements HandlerInterface
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Gateway */
-    protected $gateway;
+    protected Gateway $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Mapper */
-    protected $mapper;
+    protected Mapper $mapper;
 
     /**
      * @param \Ibexa\Core\Persistence\Legacy\Notification\Gateway $gateway

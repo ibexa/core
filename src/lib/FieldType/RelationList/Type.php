@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\RelationList;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -71,11 +72,9 @@ class Type extends FieldType implements TranslationContainerInterface
         ],
     ];
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
-    private $handler;
+    private Handler $handler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidatorInterface */
-    private $targetContentValidator;
+    private TargetContentValidatorInterface $targetContentValidator;
 
     public function __construct(
         SPIContentHandler $handler,
@@ -85,7 +84,10 @@ class Type extends FieldType implements TranslationContainerInterface
         $this->targetContentValidator = $targetContentValidator;
     }
 
-    public function validateFieldSettings($fieldSettings)
+    /**
+     * @return \Ibexa\Core\FieldType\ValidationError[]
+     */
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 
@@ -193,7 +195,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateValidatorConfiguration($validatorConfiguration)
+    public function validateValidatorConfiguration($validatorConfiguration): array
     {
         $validationErrors = [];
 
@@ -335,7 +337,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\RelationList\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -412,7 +414,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\RelationList\Value $value
      */
-    public function fromHash($hash)
+    public function fromHash($hash): Value
     {
         return new Value($hash['destinationContentIds']);
     }
@@ -424,7 +426,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *
      * @return mixed
      */
-    public function toHash(SPIValue $value)
+    public function toHash(SPIValue $value): array
     {
         return ['destinationContentIds' => $value->destinationContentIds];
     }
@@ -464,7 +466,7 @@ class Type extends FieldType implements TranslationContainerInterface
      *  )
      * </code>
      */
-    public function getRelations(SPIValue $value)
+    public function getRelations(SPIValue $value): array
     {
         /* @var \Ibexa\Core\FieldType\RelationList\Value $value */
         return [

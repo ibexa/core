@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    public function providerForTestGetViewParameters(): array
     {
         return [
             [ContentInfo::STATUS_DRAFT, ['available' => true]],
@@ -30,7 +30,7 @@ class ParameterProviderTest extends TestCase
     /**
      * @dataProvider providerForTestGetViewParameters
      */
-    public function testGetViewParameters($status, array $expected)
+    public function testGetViewParameters(int $status, array $expected): void
     {
         $contentServiceMock = $this->createMock(ContentService::class);
         $contentServiceMock
@@ -47,7 +47,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, $expected);
     }
 
-    public function testNotFoundGetViewParameters()
+    public function testNotFoundGetViewParameters(): void
     {
         $contentId = 123;
 
@@ -64,7 +64,7 @@ class ParameterProviderTest extends TestCase
         TestCase::assertSame($parameters, ['available' => false]);
     }
 
-    public function testUnauthorizedGetViewParameters()
+    public function testUnauthorizedGetViewParameters(): void
     {
         $contentId = 123;
 

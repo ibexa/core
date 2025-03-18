@@ -259,7 +259,7 @@ abstract class BaseIntegrationTest extends BaseTest
      * @param \Ibexa\Contracts\Core\Repository $repository
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
      */
-    public function postCreationHook(Repository\Repository $repository, Repository\Values\Content\Content $content)
+    public function postCreationHook(Repository\Repository $repository, Content $content): void
     {
         // Do nothing by default
     }
@@ -387,7 +387,7 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @dataProvider providerForTestIsEmptyValue
      */
-    public function testIsEmptyValue($value)
+    public function testIsEmptyValue($value): void
     {
         self::assertTrue($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
@@ -399,7 +399,7 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @dataProvider providerForTestIsNotEmptyValue
      */
-    public function testIsNotEmptyValue($value)
+    public function testIsNotEmptyValue($value): void
     {
         self::assertFalse($this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName())->isEmptyValue($value));
     }
@@ -409,7 +409,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testCreateContentType
      */
-    public function testContentTypeField($contentType)
+    public function testContentTypeField($contentType): void
     {
         self::assertSame(
             $this->getTypeName(),
@@ -443,7 +443,7 @@ abstract class BaseIntegrationTest extends BaseTest
         return $contentType->fieldDefinitions[1];
     }
 
-    public function testSettingsSchema()
+    public function testSettingsSchema(): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -458,7 +458,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testLoadContentTypeFieldType
      */
-    public function testLoadContentTypeFieldData(FieldDefinition $fieldDefinition)
+    public function testLoadContentTypeFieldData(FieldDefinition $fieldDefinition): void
     {
         self::assertEquals(
             $this->getTypeName(),
@@ -480,7 +480,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testCreateContentType
      */
-    public function testCreateContentTypeFailsWithInvalidFieldSettings()
+    public function testCreateContentTypeFailsWithInvalidFieldSettings(): void
     {
         $this->expectException(ContentTypeFieldDefinitionValidationException::class);
 
@@ -490,7 +490,7 @@ abstract class BaseIntegrationTest extends BaseTest
         );
     }
 
-    public function testValidatorSchema()
+    public function testValidatorSchema(): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -505,7 +505,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testCreateContentType
      */
-    public function testCreateContentTypeFailsWithInvalidValidatorConfiguration()
+    public function testCreateContentTypeFailsWithInvalidValidatorConfiguration(): void
     {
         $this->expectException(ContentTypeFieldDefinitionValidationException::class);
 
@@ -645,7 +645,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testPublishContent
      */
-    public function testPublishedName(Content $content)
+    public function testPublishedName(Content $content): void
     {
         self::assertEquals(
             $content->getFieldValue('name') . ' ' . $this->getFieldName(),
@@ -685,7 +685,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testLoadFieldType
      */
-    public function testLoadExternalData()
+    public function testLoadExternalData(): void
     {
         $this->assertFieldDataLoadedCorrect($this->testLoadFieldType());
     }
@@ -705,7 +705,7 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $contentDraft
      */
-    public function testPublishContentWithEmptyFieldValue(Content $contentDraft)
+    public function testPublishContentWithEmptyFieldValue(Content $contentDraft): void
     {
         $this->getRepository(false)->getContentService()->publishVersion(
             $contentDraft->versionInfo
@@ -758,7 +758,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testLoadEmptyFieldValueType
      */
-    public function testLoadEmptyFieldValueData($field)
+    public function testLoadEmptyFieldValueData($field): void
     {
         /** @var \Ibexa\Core\FieldType\FieldType $fieldType */
         $fieldType = $this->getRepository()->getFieldTypeService()->getFieldType($this->getTypeName());
@@ -828,7 +828,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testUpdateTypeFieldStillAvailable
      */
-    public function testUpdatedDataCorrect(Field $field)
+    public function testUpdatedDataCorrect(Field $field): void
     {
         $this->assertUpdatedFieldDataLoadedCorrect($field);
     }
@@ -858,7 +858,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testUpdateNoNewContentTypeFieldStillAvailable
      */
-    public function testUpdatedNoNewContentDataCorrect(Field $field)
+    public function testUpdatedNoNewContentDataCorrect(Field $field): void
     {
         $this->assertFieldDataLoadedCorrect($field);
     }
@@ -904,7 +904,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testCopiedFieldType
      */
-    public function testCopiedExternalData(Field $field)
+    public function testCopiedExternalData(Field $field): void
     {
         $this->assertCopiedFieldDataLoadedCorrectly($field);
     }
@@ -912,7 +912,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @depends testCopyField
      */
-    public function testDeleteContent($content)
+    public function testDeleteContent($content): void
     {
         $this->expectException(NotFoundException::class);
 
@@ -947,7 +947,7 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException)
+    public function testUpdateContentFails($failingValue, string $expectedException): void
     {
         $this->expectException($expectedException);
         $this->updateContent($failingValue);
@@ -973,7 +973,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * Tests removal of field definition from the ContentType of the Content.
      */
-    public function testRemoveFieldDefinition()
+    public function testRemoveFieldDefinition(): void
     {
         $content = $this->removeFieldDefinition();
 
@@ -1010,7 +1010,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * Tests addition of field definition from the ContentType of the Content.
      */
-    public function testAddFieldDefinition()
+    public function testAddFieldDefinition(): void
     {
         $content = $this->addFieldDefinition();
 
@@ -1028,7 +1028,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * @dataProvider provideToHashData
      */
-    public function testToHash($value, $expectedHash)
+    public function testToHash($value, $expectedHash): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -1048,7 +1048,7 @@ abstract class BaseIntegrationTest extends BaseTest
      * @todo: Requires correct registered FieldTypeService, needs to be
      *        maintained!
      */
-    public function testFromHash($hash, $expectedValue)
+    public function testFromHash($hash, $expectedValue): void
     {
         $repository = $this->getRepository();
         $fieldTypeService = $repository->getFieldTypeService();
@@ -1063,7 +1063,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * Test that exceeding default version archive limit has no effect on a published content.
      */
-    public function testExceededVersionArchiveLimitHasNoEffectOnContent()
+    public function testExceededVersionArchiveLimitHasNoEffectOnContent(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1088,7 +1088,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * Test that deleting new draft does not affect data of published version.
      */
-    public function testDeleteDraftOfPublishedContentDoesNotDeleteData()
+    public function testDeleteDraftOfPublishedContentDoesNotDeleteData(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1110,7 +1110,7 @@ abstract class BaseIntegrationTest extends BaseTest
     /**
      * Test creating new translation from existing content with empty field.
      */
-    public function testUpdateContentWithNewTranslationOnEmptyField()
+    public function testUpdateContentWithNewTranslationOnEmptyField(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
@@ -1152,7 +1152,7 @@ abstract class BaseIntegrationTest extends BaseTest
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::deleteTranslation
      */
-    public function testDeleteTranslation()
+    public function testDeleteTranslation(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();

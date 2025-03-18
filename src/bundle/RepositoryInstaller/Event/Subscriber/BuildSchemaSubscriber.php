@@ -14,8 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BuildSchemaSubscriber implements EventSubscriberInterface
 {
-    /** @var string */
-    private $schemaFilePath;
+    private string $schemaFilePath;
 
     /**
      * @param string $schemaFilePath Path to Yaml schema definition supported by SchemaBuilder

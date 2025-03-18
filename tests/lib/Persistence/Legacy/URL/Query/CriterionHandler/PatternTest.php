@@ -20,7 +20,7 @@ class PatternTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testAccept()
+    public function testAccept(): void
     {
         $handler = new PatternHandler();
 
@@ -31,7 +31,7 @@ class PatternTest extends CriterionHandlerTest
     /**
      * {@inheritdoc}
      */
-    public function testHandle()
+    public function testHandle(): void
     {
         $criterion = new Pattern('google.com');
         $expected = 'url LIKE :pattern';

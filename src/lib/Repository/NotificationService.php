@@ -24,11 +24,9 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 
 class NotificationService implements NotificationServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Notification\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    protected $permissionResolver;
+    protected PermissionResolver $permissionResolver;
 
     /**
      * @param \Ibexa\Contracts\Core\Persistence\Notification\Handler $persistenceHandler
@@ -50,7 +48,7 @@ class NotificationService implements NotificationServiceInterface
         $list = new NotificationList();
         $list->totalCount = $this->persistenceHandler->countNotifications($currentUserId);
         if ($list->totalCount > 0) {
-            $list->items = array_map(function (Notification $spiNotification) {
+            $list->items = array_map(function (Notification $spiNotification): APINotification {
                 return $this->buildDomainObject($spiNotification);
             }, $this->persistenceHandler->loadUserNotifications($currentUserId, $offset, $limit));
         }

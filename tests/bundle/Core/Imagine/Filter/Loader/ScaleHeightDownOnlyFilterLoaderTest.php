@@ -11,15 +11,16 @@ use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ScaleHeightDownOnlyFilterLoaderTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $innerLoader;
+    private MockObject $innerLoader;
 
     /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleHeightDownOnlyFilterLoader */
-    private $loader;
+    private ScaleHeightDownOnlyFilterLoader $loader;
 
     protected function setUp(): void
     {
@@ -29,14 +30,14 @@ class ScaleHeightDownOnlyFilterLoaderTest extends TestCase
         $this->loader->setInnerLoader($this->innerLoader);
     }
 
-    public function testLoadInvalid()
+    public function testLoadInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $this->loader->load($this->createMock(ImageInterface::class), []);
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $height = 123;
         $image = $this->createMock(ImageInterface::class);

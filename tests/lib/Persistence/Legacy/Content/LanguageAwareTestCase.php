@@ -13,6 +13,7 @@ use Ibexa\Core\Search\Common\FieldNameGenerator;
 use Ibexa\Core\Search\Common\FieldRegistry;
 use Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Language aware classes.
@@ -82,7 +83,7 @@ abstract class LanguageAwareTestCase extends TestCase
     }
 
     /** @var \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject */
-    protected $fieldNameGeneratorMock;
+    protected ?MockObject $fieldNameGeneratorMock = null;
 
     /**
      * @return \Ibexa\Core\Search\Common\FieldNameGenerator|\PHPUnit\Framework\MockObject\MockObject

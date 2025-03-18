@@ -13,8 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Role;
 
 final class DeleteRoleEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\Role */
-    private $role;
+    private Role $role;
 
     public function __construct(
         Role $role

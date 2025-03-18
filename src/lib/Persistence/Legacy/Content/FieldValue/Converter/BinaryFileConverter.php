@@ -42,7 +42,7 @@ class BinaryFileConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         $storageDef->dataInt1 = (isset($fieldDef->fieldTypeConstraints->validators['FileSizeValidator']['maxFileSize'])
             ? $fieldDef->fieldTypeConstraints->validators['FileSizeValidator']['maxFileSize']
@@ -55,7 +55,7 @@ class BinaryFileConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         $fieldDef->fieldTypeConstraints = new FieldTypeConstraints(
             [
@@ -79,7 +79,7 @@ class BinaryFileConverter implements Converter
      *
      * @return string
      */
-    public function getIndexColumn()
+    public function getIndexColumn(): string
     {
         // @todo: Correct?
         return 'sort_key_string';

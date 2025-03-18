@@ -27,13 +27,10 @@ class Mapper
 {
     /**
      * Converter registry.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
      */
-    protected $converterRegistry;
+    protected ConverterRegistry $converterRegistry;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
-    private $maskGenerator;
+    private MaskGenerator $maskGenerator;
 
     private StorageDispatcherInterface $storageDispatcher;
 
@@ -62,7 +59,7 @@ class Mapper
      *
      * @todo $description is not supported by database, yet
      */
-    public function createGroupFromCreateStruct(GroupCreateStruct $struct)
+    public function createGroupFromCreateStruct(GroupCreateStruct $struct): Group
     {
         $group = new Group();
 
@@ -87,7 +84,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\Group[]
      */
-    public function extractGroupsFromRows(array $rows)
+    public function extractGroupsFromRows(array $rows): array
     {
         $groups = [];
 
@@ -115,7 +112,7 @@ class Mapper
      *
      * @return array (Type)
      */
-    public function extractTypesFromRows(array $rows, bool $keepTypeIdAsKey = false)
+    public function extractTypesFromRows(array $rows, bool $keepTypeIdAsKey = false): array
     {
         $types = [];
         $fields = [];
@@ -166,7 +163,7 @@ class Mapper
 
     public function extractMultilingualData(array $fieldDefinitionRows): array
     {
-        return array_map(static function (array $fieldData) {
+        return array_map(static function (array $fieldData): array {
             return [
                 'ezcontentclass_attribute_multilingual_name' => $fieldData['ezcontentclass_attribute_multilingual_name'] ?? null,
                 'ezcontentclass_attribute_multilingual_description' => $fieldData['ezcontentclass_attribute_multilingual_description'] ?? null,
@@ -184,7 +181,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type
      */
-    protected function extractTypeFromRow(array $row)
+    protected function extractTypeFromRow(array $row): Type
     {
         $type = new Type();
 
@@ -228,7 +225,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
      */
-    public function extractFieldFromRow(array $row, array $multilingualData = [], int $status = Type::STATUS_DEFINED)
+    public function extractFieldFromRow(array $row, array $multilingualData = [], int $status = Type::STATUS_DEFINED): FieldDefinition
     {
         $storageFieldDef = $this->extractStorageFieldFromRow($row, $multilingualData);
 
@@ -271,7 +268,7 @@ class Mapper
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition
      */
-    protected function extractStorageFieldFromRow(array $row, array $multilingualDataRow = [])
+    protected function extractStorageFieldFromRow(array $row, array $multilingualDataRow = []): StorageFieldDefinition
     {
         $storageFieldDef = new StorageFieldDefinition();
 
@@ -339,7 +336,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type
      */
-    public function createTypeFromCreateStruct(CreateStruct $createStruct)
+    public function createTypeFromCreateStruct(CreateStruct $createStruct): Type
     {
         $type = new Type();
 
@@ -373,7 +370,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
      */
-    public function createCreateStructFromType(Type $type)
+    public function createCreateStructFromType(Type $type): CreateStruct
     {
         $createStruct = new CreateStruct();
 
@@ -406,7 +403,7 @@ class Mapper
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct
      */
-    public function createUpdateStructFromType(Type $type)
+    public function createUpdateStructFromType(Type $type): UpdateStruct
     {
         $updateStruct = new UpdateStruct();
 
@@ -436,7 +433,7 @@ class Mapper
     public function toStorageFieldDefinition(
         FieldDefinition $fieldDef,
         StorageFieldDefinition $storageFieldDef
-    ) {
+    ): void {
         foreach (array_keys($fieldDef->name) as $languageCode) {
             $multilingualData = new MultilingualStorageFieldDefinition();
             $multilingualData->name = $fieldDef->name[$languageCode];
@@ -467,7 +464,7 @@ class Mapper
         StorageFieldDefinition $storageFieldDef,
         FieldDefinition $fieldDef,
         int $status = Type::STATUS_DEFINED
-    ) {
+    ): void {
         $converter = $this->converterRegistry->getConverter(
             $fieldDef->fieldType
         );

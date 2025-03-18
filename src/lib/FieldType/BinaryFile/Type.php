@@ -37,7 +37,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\BinaryFile\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -49,7 +49,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\BinaryFile\Value
      */
-    protected function createValue(array $inputValue)
+    protected function createValue(array $inputValue): Value
     {
         $inputValue = $this->regenerateUri($inputValue);
 
@@ -61,7 +61,7 @@ class Type extends BinaryBaseType implements TranslationContainerInterface
      *
      * @param \Ibexa\Core\FieldType\BinaryFile\Value|\Ibexa\Core\FieldType\Value $value
      */
-    protected function completeValue(Basevalue $value)
+    protected function completeValue(BaseValue $value)
     {
         parent::completeValue($value);
 

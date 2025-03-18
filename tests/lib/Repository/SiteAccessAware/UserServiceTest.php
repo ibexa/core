@@ -34,7 +34,7 @@ class UserServiceTest extends AbstractServiceTest
         return UserService::class;
     }
 
-    public function providerForPassTroughMethods()
+    public function providerForPassTroughMethods(): array
     {
         $userGroupCreateStruct = new UserGroupCreateStruct();
         $userGroupUpdateStruct = new UserGroupUpdateStruct();
@@ -84,7 +84,7 @@ class UserServiceTest extends AbstractServiceTest
         ];
     }
 
-    public function providerForLanguagesLookupMethods()
+    public function providerForLanguagesLookupMethods(): array
     {
         $userGroup = new UserGroup();
         $user = new User();

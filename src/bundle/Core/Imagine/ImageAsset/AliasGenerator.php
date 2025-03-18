@@ -22,14 +22,11 @@ use Ibexa\Core\FieldType\ImageAsset\Value as ImageAssetValue;
  */
 class AliasGenerator implements VariationHandler
 {
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler */
-    private $innerAliasGenerator;
+    private VariationHandler $innerAliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Core\FieldType\ImageAsset\AssetMapper */
-    private $assetMapper;
+    private AssetMapper $assetMapper;
 
     /**
      * @param \Ibexa\Contracts\Core\Variation\VariationHandler $innerAliasGenerator

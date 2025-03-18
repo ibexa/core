@@ -22,7 +22,7 @@ use Ibexa\Core\Event\URLAliasService;
 
 class URLAliasServiceTest extends AbstractServiceTest
 {
-    public function testCreateGlobalUrlAliasEvents()
+    public function testCreateGlobalUrlAliasEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateGlobalUrlAliasEvent::class,
@@ -54,7 +54,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateGlobalUrlAliasResultInBeforeEvents()
+    public function testReturnCreateGlobalUrlAliasResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateGlobalUrlAliasEvent::class,
@@ -74,7 +74,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createGlobalUrlAlias')->willReturn($urlAlias);
 
-        $traceableEventDispatcher->addListener(BeforeCreateGlobalUrlAliasEvent::class, static function (BeforeCreateGlobalUrlAliasEvent $event) use ($eventUrlAlias) {
+        $traceableEventDispatcher->addListener(BeforeCreateGlobalUrlAliasEvent::class, static function (BeforeCreateGlobalUrlAliasEvent $event) use ($eventUrlAlias): void {
             $event->setUrlAlias($eventUrlAlias);
         }, 10);
 
@@ -92,7 +92,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateGlobalUrlAliasStopPropagationInBeforeEvents()
+    public function testCreateGlobalUrlAliasStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateGlobalUrlAliasEvent::class,
@@ -112,7 +112,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createGlobalUrlAlias')->willReturn($urlAlias);
 
-        $traceableEventDispatcher->addListener(BeforeCreateGlobalUrlAliasEvent::class, static function (BeforeCreateGlobalUrlAliasEvent $event) use ($eventUrlAlias) {
+        $traceableEventDispatcher->addListener(BeforeCreateGlobalUrlAliasEvent::class, static function (BeforeCreateGlobalUrlAliasEvent $event) use ($eventUrlAlias): void {
             $event->setUrlAlias($eventUrlAlias);
             $event->stopPropagation();
         }, 10);
@@ -133,7 +133,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testRefreshSystemUrlAliasesForLocationEvents()
+    public function testRefreshSystemUrlAliasesForLocationEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRefreshSystemUrlAliasesForLocationEvent::class,
@@ -158,7 +158,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRefreshSystemUrlAliasesForLocationStopPropagationInBeforeEvents()
+    public function testRefreshSystemUrlAliasesForLocationStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRefreshSystemUrlAliasesForLocationEvent::class,
@@ -171,7 +171,7 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeRefreshSystemUrlAliasesForLocationEvent::class, static function (BeforeRefreshSystemUrlAliasesForLocationEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeRefreshSystemUrlAliasesForLocationEvent::class, static function (BeforeRefreshSystemUrlAliasesForLocationEvent $event): void {
             $event->stopPropagation();
         }, 10);
 
@@ -190,7 +190,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testCreateUrlAliasEvents()
+    public function testCreateUrlAliasEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUrlAliasEvent::class,
@@ -222,7 +222,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testReturnCreateUrlAliasResultInBeforeEvents()
+    public function testReturnCreateUrlAliasResultInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUrlAliasEvent::class,
@@ -242,7 +242,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createUrlAlias')->willReturn($urlAlias);
 
-        $traceableEventDispatcher->addListener(BeforeCreateUrlAliasEvent::class, static function (BeforeCreateUrlAliasEvent $event) use ($eventUrlAlias) {
+        $traceableEventDispatcher->addListener(BeforeCreateUrlAliasEvent::class, static function (BeforeCreateUrlAliasEvent $event) use ($eventUrlAlias): void {
             $event->setUrlAlias($eventUrlAlias);
         }, 10);
 
@@ -260,7 +260,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testCreateUrlAliasStopPropagationInBeforeEvents()
+    public function testCreateUrlAliasStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeCreateUrlAliasEvent::class,
@@ -280,7 +280,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
         $innerServiceMock->method('createUrlAlias')->willReturn($urlAlias);
 
-        $traceableEventDispatcher->addListener(BeforeCreateUrlAliasEvent::class, static function (BeforeCreateUrlAliasEvent $event) use ($eventUrlAlias) {
+        $traceableEventDispatcher->addListener(BeforeCreateUrlAliasEvent::class, static function (BeforeCreateUrlAliasEvent $event) use ($eventUrlAlias): void {
             $event->setUrlAlias($eventUrlAlias);
             $event->stopPropagation();
         }, 10);
@@ -301,7 +301,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         ]);
     }
 
-    public function testRemoveAliasesEvents()
+    public function testRemoveAliasesEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveAliasesEvent::class,
@@ -326,7 +326,7 @@ class URLAliasServiceTest extends AbstractServiceTest
         self::assertSame([], $traceableEventDispatcher->getNotCalledListeners());
     }
 
-    public function testRemoveAliasesStopPropagationInBeforeEvents()
+    public function testRemoveAliasesStopPropagationInBeforeEvents(): void
     {
         $traceableEventDispatcher = $this->getEventDispatcher(
             BeforeRemoveAliasesEvent::class,
@@ -339,7 +339,7 @@ class URLAliasServiceTest extends AbstractServiceTest
 
         $innerServiceMock = $this->createMock(URLAliasServiceInterface::class);
 
-        $traceableEventDispatcher->addListener(BeforeRemoveAliasesEvent::class, static function (BeforeRemoveAliasesEvent $event) {
+        $traceableEventDispatcher->addListener(BeforeRemoveAliasesEvent::class, static function (BeforeRemoveAliasesEvent $event): void {
             $event->stopPropagation();
         }, 10);
 

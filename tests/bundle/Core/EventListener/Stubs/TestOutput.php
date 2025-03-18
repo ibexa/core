@@ -16,7 +16,7 @@ class TestOutput extends Output
 {
     public $output = '';
 
-    public function clear()
+    public function clear(): void
     {
         $this->output = '';
     }

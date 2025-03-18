@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\AuthorCollection;
 use Ibexa\Core\FieldType\Author\Type;
+use Ibexa\Core\FieldType\Author\Value;
 use Ibexa\Core\FieldType\Author\Value as AuthorValue;
 
 /**
@@ -37,7 +38,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'defaultAuthor' => [
@@ -52,7 +53,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'defaultAuthor' => Type::DEFAULT_VALUE_EMPTY,
@@ -64,7 +65,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'somethingUnknown' => 0,
@@ -76,7 +77,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -86,7 +87,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -96,7 +97,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return [
             'unknown' => ['value' => 42],
@@ -108,7 +109,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return \Ibexa\Core\FieldType\Author\Value
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new AuthorValue(
             [
@@ -141,7 +142,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             AuthorValue::class,
@@ -188,7 +189,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array[]
      */
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             ['Sindelfingen', InvalidArgumentException::class],
@@ -200,7 +201,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return \Ibexa\Core\FieldType\Author\Value
      */
-    public function getValidUpdateFieldData()
+    public function getValidUpdateFieldData(): Value
     {
         return new AuthorValue(
             [
@@ -222,7 +223,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function assertUpdatedFieldDataLoadedCorrect(Field $field)
+    public function assertUpdatedFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             AuthorValue::class,
@@ -261,7 +262,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertCopiedFieldDataLoadedCorrectly(Field $field)
+    public function assertCopiedFieldDataLoadedCorrectly(Field $field): void
     {
         self::assertInstanceOf(
             AuthorValue::class,
@@ -307,7 +308,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -340,7 +341,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -366,7 +367,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new AuthorValue()],
@@ -374,7 +375,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [
@@ -396,7 +397,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueOne()
+    protected function getValidSearchValueOne(): array
     {
         return [
             new Author(
@@ -409,7 +410,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidSearchValueTwo()
+    protected function getValidSearchValueTwo(): array
     {
         return [
             new Author(
@@ -432,7 +433,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         return 'Greta';
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected function getAdditionallyIndexedFieldData(): array
     {
         return [
             [
@@ -453,7 +454,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesOne()
+    protected function getValidMultivaluedSearchValuesOne(): array
     {
         return [
             new Author(
@@ -473,7 +474,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getValidMultivaluedSearchValuesTwo()
+    protected function getValidMultivaluedSearchValuesTwo(): array
     {
         return [
             new Author(
@@ -500,17 +501,17 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getMultivaluedSearchTargetValuesOne()
+    protected function getMultivaluedSearchTargetValuesOne(): array
     {
         return ['Antoinette', 'Ferdinand'];
     }
 
-    protected function getMultivaluedSearchTargetValuesTwo()
+    protected function getMultivaluedSearchTargetValuesTwo(): array
     {
         return ['Greta', 'Leopold', 'Maximilian'];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected function getAdditionallyIndexedMultivaluedFieldData(): array
     {
         return [
             [
@@ -526,7 +527,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTest
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected function getFullTextIndexedFieldData(): array
     {
         return [
             ['Ferdinand', 'Greta'],

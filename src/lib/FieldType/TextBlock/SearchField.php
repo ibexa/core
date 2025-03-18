@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Search;
  */
 class SearchField implements Indexable
 {
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition)
+    public function getIndexData(Field $field, FieldDefinition $fieldDefinition): array
     {
         return [
             new Search\Field(
@@ -45,7 +45,7 @@ class SearchField implements Indexable
         return mb_substr(strtok(trim((string)$string), "\r\n"), 0, 255);
     }
 
-    public function getIndexDefinition()
+    public function getIndexDefinition(): array
     {
         return [
             'value' => new Search\FieldType\StringField(),
@@ -75,7 +75,7 @@ class SearchField implements Indexable
      *
      * @return string
      */
-    public function getDefaultSortField()
+    public function getDefaultSortField(): string
     {
         return $this->getDefaultMatchField();
     }

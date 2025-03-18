@@ -18,11 +18,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
  */
 class URLAliasService implements URLAliasServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLAliasService */
-    protected $service;
+    protected URLAliasServiceInterface $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    protected $languageResolver;
+    protected LanguageResolver $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.

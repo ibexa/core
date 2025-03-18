@@ -23,6 +23,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AssetMapperTest extends TestCase
@@ -30,19 +31,18 @@ class AssetMapperTest extends TestCase
     public const EXAMPLE_CONTENT_ID = 487;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentService;
+    private MockObject $contentService;
 
     /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
-    private $locationService;
+    private MockObject $locationService;
 
     /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
-    private $contentTypeService;
+    private MockObject $contentTypeService;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var array */
-    private $mappings = [
+    private array $mappings = [
         'content_type_identifier' => 'image',
         'content_field_identifier' => 'image',
         'name_field_identifier' => 'name',

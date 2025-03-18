@@ -22,6 +22,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler as UpdateHandler;
 use Ibexa\Core\Persistence\Legacy\Exception;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,26 +35,26 @@ class ContentTypeHandlerTest extends TestCase
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
      */
-    protected $gatewayMock;
+    protected ?MockObject $gatewayMock = null;
 
     /**
      * Mapper mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
      */
-    protected $mapperMock;
+    protected ?MockObject $mapperMock = null;
 
     /**
      * Update\Handler mock.
      *
      * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler
      */
-    protected $updateHandlerMock;
+    protected ?MockObject $updateHandlerMock = null;
 
     /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject */
-    protected $storageDispatcherMock;
+    protected ?MockObject $storageDispatcherMock = null;
 
-    public function testCreateGroup()
+    public function testCreateGroup(): void
     {
         $createStruct = new GroupCreateStruct();
 
@@ -94,7 +95,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testUpdateGroup()
+    public function testUpdateGroup(): void
     {
         $updateStruct = new GroupUpdateStruct();
         $updateStruct->id = 23;
@@ -138,7 +139,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testDeleteGroupSuccess()
+    public function testDeleteGroupSuccess(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -153,7 +154,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler->deleteGroup(23);
     }
 
-    public function testDeleteGroupFailure()
+    public function testDeleteGroupFailure(): void
     {
         $this->expectException(Exception\GroupNotEmpty::class);
         $this->expectExceptionMessage('Group with ID "23" is not empty.');
@@ -170,7 +171,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler->deleteGroup(23);
     }
 
-    public function testLoadGroup()
+    public function testLoadGroup(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -193,7 +194,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLoadGroupByIdentifier()
+    public function testLoadGroupByIdentifier(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -216,7 +217,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLoadAllGroups()
+    public function testLoadAllGroups(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -238,7 +239,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLoadContentTypes()
+    public function testLoadContentTypes(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -309,7 +310,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -340,7 +341,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLoadNotFound()
+    public function testLoadNotFound(): void
     {
         $this->expectException(Exception\TypeNotFound::class);
 
@@ -367,7 +368,7 @@ class ContentTypeHandlerTest extends TestCase
         $type = $handler->load(23, 1);
     }
 
-    public function testLoadDefaultVersion()
+    public function testLoadDefaultVersion(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -397,7 +398,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByIdentifier()
+    public function testLoadByIdentifier(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -427,7 +428,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLoadByRemoteId()
+    public function testLoadByRemoteId(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -457,7 +458,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $createStructFix = $this->getContentTypeCreateStructFixture();
         $createStructClone = clone $createStructFix;
@@ -534,7 +535,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -573,7 +574,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testDeleteSuccess()
+    public function testDeleteSuccess(): void
     {
         $gatewayMock = $this->getGatewayMock();
 
@@ -607,7 +608,7 @@ class ContentTypeHandlerTest extends TestCase
         self::assertTrue($res);
     }
 
-    public function testDeleteThrowsBadStateException()
+    public function testDeleteThrowsBadStateException(): void
     {
         $this->expectException(BadStateException::class);
 
@@ -629,7 +630,7 @@ class ContentTypeHandlerTest extends TestCase
         $res = $handler->delete(23, 0);
     }
 
-    public function testCreateVersion()
+    public function testCreateVersion(): void
     {
         $userId = 42;
         $contentTypeId = 23;
@@ -685,7 +686,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testCopy()
+    public function testCopy(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $mapperMock = $this->getMapperMock(['createCreateStructFromType']);
@@ -756,7 +757,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testLink()
+    public function testLink(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -775,7 +776,7 @@ class ContentTypeHandlerTest extends TestCase
         self::assertTrue($res);
     }
 
-    public function testUnlinkSuccess()
+    public function testUnlinkSuccess(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -801,7 +802,7 @@ class ContentTypeHandlerTest extends TestCase
         self::assertTrue($res);
     }
 
-    public function testUnlinkFailure()
+    public function testUnlinkFailure(): void
     {
         $this->expectException(Exception\RemoveLastGroupFromType::class);
         $this->expectExceptionMessage('Type with ID "23" in status "1" cannot be unlinked from its last group.');
@@ -822,7 +823,7 @@ class ContentTypeHandlerTest extends TestCase
         $res = $handler->unlink(3, 23, 1);
     }
 
-    public function testGetFieldDefinition()
+    public function testGetFieldDefinition(): void
     {
         $mapperMock = $this->getMapperMock(
             [
@@ -869,7 +870,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testAddFieldDefinition()
+    public function testAddFieldDefinition(): void
     {
         $mapperMock = $this->getMapperMock(
             ['toStorageFieldDefinition']
@@ -918,7 +919,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testGetContentCount()
+    public function testGetContentCount(): void
     {
         $gatewayMock = $this->getGatewayMock();
         $gatewayMock->expects(self::once())
@@ -937,7 +938,7 @@ class ContentTypeHandlerTest extends TestCase
         );
     }
 
-    public function testRemoveFieldDefinition()
+    public function testRemoveFieldDefinition(): void
     {
         $storageDispatcherMock = $this->getStorageDispatcherMock();
         $storageDispatcherMock
@@ -958,7 +959,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler->removeFieldDefinition(23, 1, new FieldDefinition(['id' => 42, 'fieldType' => 'ezstring']));
     }
 
-    public function testUpdateFieldDefinition()
+    public function testUpdateFieldDefinition(): void
     {
         $fieldDef = new FieldDefinition();
 
@@ -991,7 +992,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler->updateFieldDefinition(23, 1, $fieldDef);
     }
 
-    public function testPublish()
+    public function testPublish(): void
     {
         $handler = $this->getPartlyMockedHandler(['load']);
         $updateHandlerMock = $this->getUpdateHandlerMock();
@@ -1025,7 +1026,7 @@ class ContentTypeHandlerTest extends TestCase
         $handler->publish(23);
     }
 
-    public function testPublishNoOldType()
+    public function testPublishNoOldType(): void
     {
         $handler = $this->getPartlyMockedHandler(['load']);
         $updateHandlerMock = $this->getUpdateHandlerMock();
@@ -1067,7 +1068,7 @@ class ContentTypeHandlerTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
      */
-    protected function getHandler()
+    protected function getHandler(): Handler
     {
         return new Handler(
             $this->getGatewayMock(),
@@ -1084,7 +1085,7 @@ class ContentTypeHandlerTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Handler
      */
-    protected function getPartlyMockedHandler(array $methods)
+    protected function getPartlyMockedHandler(array $methods): MockObject
     {
         return $this->getMockBuilder(Handler::class)
             ->setMethods($methods)
@@ -1122,7 +1123,7 @@ class ContentTypeHandlerTest extends TestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Mapper
      */
-    protected function getMapperMock($methods = [])
+    protected function getMapperMock(?array $methods = [])
     {
         if (!isset($this->mapperMock)) {
             $this->mapperMock = $this->getMockBuilder(Mapper::class)
@@ -1168,7 +1169,7 @@ class ContentTypeHandlerTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct
      */
-    protected function getContentTypeCreateStructFixture()
+    protected function getContentTypeCreateStructFixture(): CreateStruct
     {
         $struct = new CreateStruct();
         $struct->status = 1;
@@ -1190,7 +1191,7 @@ class ContentTypeHandlerTest extends TestCase
         return $struct;
     }
 
-    public function testRemoveContentTypeTranslation()
+    public function testRemoveContentTypeTranslation(): void
     {
         $mapperMock = $this->getMapperMock();
         $mapperMock->expects(self::once())

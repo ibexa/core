@@ -31,36 +31,27 @@ class Legacy implements IOServiceInterface
 {
     /**
      * Published images IO Service.
-     *
-     * @var \Ibexa\Core\IO\IOServiceInterface
      */
-    private $publishedIOService;
+    private IOServiceInterface $publishedIOService;
 
     /**
      * Draft images IO Service.
-     *
-     * @var \Ibexa\Core\IO\IOServiceInterface
      */
-    private $draftIOService;
+    private IOServiceInterface $draftIOService;
 
     /**
      * Prefix for published images.
      * Example: var/ibexa_demo_site/storage/images.
-     *
-     * @var string
      */
-    private $publishedPrefix;
+    private string $publishedPrefix;
 
     /**
      * Prefix for draft images.
      * Example: var/ibexa_demo_site/storage/images-versioned.
-     *
-     * @var string
      */
-    private $draftPrefix;
+    private string $draftPrefix;
 
-    /** @var \Ibexa\Core\FieldType\Image\IO\OptionsProvider */
-    private $optionsProvider;
+    private OptionsProvider $optionsProvider;
 
     /**
      * @param \Ibexa\Core\FieldType\Image\IO\OptionsProvider $optionsProvider Path options. Known keys: var_dir, storage_dir, draft_images_dir, published_images_dir.
@@ -81,7 +72,7 @@ class Legacy implements IOServiceInterface
     /**
      * Sets the IOService prefix.
      */
-    public function setPrefix($prefix)
+    public function setPrefix($prefix): void
     {
         $this->publishedIOService->setPrefix($prefix);
         $this->draftIOService->setPrefix($prefix);
@@ -90,7 +81,7 @@ class Legacy implements IOServiceInterface
     /**
      * Computes the paths to published & draft images path using the options from the provider.
      */
-    private function setPrefixes()
+    private function setPrefixes(): void
     {
         $pathArray = [$this->optionsProvider->getVarDir()];
 
@@ -211,7 +202,7 @@ class Legacy implements IOServiceInterface
         return $this->publishedIOService->getFileInputStream($binaryFile);
     }
 
-    public function deleteBinaryFile(BinaryFile $binaryFile)
+    public function deleteBinaryFile(BinaryFile $binaryFile): void
     {
         $this->publishedIOService->deleteBinaryFile($binaryFile);
     }
@@ -221,7 +212,7 @@ class Legacy implements IOServiceInterface
      *
      * @param string $path
      */
-    public function deleteDirectory($path)
+    public function deleteDirectory($path): void
     {
         $this->publishedIOService->deleteDirectory($path);
     }

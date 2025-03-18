@@ -17,7 +17,7 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
     /**
      * @Given /^that I am not logged in$/
      */
-    public function iAmNotLoggedIn()
+    public function iAmNotLoggedIn(): void
     {
         $this->visitPath('/logout');
     }
@@ -25,7 +25,7 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
     /**
      * @Given /^that I am logged in$/
      */
-    public function iAmLoggedIn()
+    public function iAmLoggedIn(): void
     {
         $this->visitPath('/login');
         $this->getSession()->getPage()->fillField('Username', 'admin');
@@ -36,7 +36,7 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
     /**
      * @When /^a repository UnauthorizedException is thrown during an HTTP request$/
      */
-    public function anExceptionIsThrownDuringAnHTTPRequest()
+    public function anExceptionIsThrownDuringAnHTTPRequest(): void
     {
         $this->visitPath('/platform-behat/exceptions/repository-unauthorized');
     }
@@ -44,7 +44,7 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
     /**
      * @Then /^it is converted to a Symfony Security AccessDeniedException$/
      */
-    public function itIsConvertedToAnSymfonyComponentSecurityCoreExceptionAccessDeniedException()
+    public function itIsConvertedToAnSymfonyComponentSecurityCoreExceptionAccessDeniedException(): void
     {
         // unsure how to assert this :)
     }
@@ -52,7 +52,7 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
     /**
      * @Given /^the login form is shown$/
      */
-    public function theLoginFormIsShown()
+    public function theLoginFormIsShown(): void
     {
         $this->assertSession()->addressEquals('/login');
     }
@@ -60,7 +60,7 @@ class ExceptionContext extends RawMinkContext implements Context, SnippetAccepti
     /**
      * @Then /^(?:a|an) ([\w\\]+Exception) is displayed$/
      */
-    public function anAccessDeniedExceptionIsThrown($exceptionString)
+    public function anAccessDeniedExceptionIsThrown($exceptionString): void
     {
         $this->assertSession()->elementExists('xpath', "//abbr[@title='$exceptionString']");
     }

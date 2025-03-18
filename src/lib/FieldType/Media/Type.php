@@ -37,7 +37,7 @@ class Type extends BaseType implements TranslationContainerInterface
     /**
      * Type constants for validation.
      */
-    private static $availableTypes = [
+    private static array $availableTypes = [
         self::TYPE_FLASH,
         self::TYPE_QUICKTIME,
         self::TYPE_REALPLAYER,
@@ -71,7 +71,7 @@ class Type extends BaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Media\Value
      */
-    public function getEmptyValue()
+    public function getEmptyValue(): Value
     {
         return new Value();
     }
@@ -83,7 +83,7 @@ class Type extends BaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
-    public function validateFieldSettings($fieldSettings)
+    public function validateFieldSettings($fieldSettings): array
     {
         $validationErrors = [];
 
@@ -125,7 +125,7 @@ class Type extends BaseType implements TranslationContainerInterface
      *
      * @return \Ibexa\Core\FieldType\Media\Value
      */
-    protected function createValue(array $inputValue)
+    protected function createValue(array $inputValue): Value
     {
         $inputValue = $this->regenerateUri($inputValue);
 

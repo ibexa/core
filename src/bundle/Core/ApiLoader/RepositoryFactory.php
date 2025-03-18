@@ -40,21 +40,16 @@ use Psr\Log\NullLogger;
  */
 class RepositoryFactory
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     /**
      * Map of system configured policies.
-     *
-     * @var array
      */
-    private $policyMap;
+    private array $policyMap;
 
-    /** @var \Psr\Log\LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
-    private $languageResolver;
+    private LanguageResolver $languageResolver;
 
     public function __construct(
         ConfigResolverInterface $configResolver,

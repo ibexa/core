@@ -17,8 +17,7 @@ use Ibexa\Core\IO\UrlDecorator;
  */
 class Prefix implements UrlDecorator
 {
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
-    protected $ioConfigResolver;
+    protected IOConfigProvider $ioConfigResolver;
 
     public function __construct(IOConfigProvider $IOConfigResolver)
     {

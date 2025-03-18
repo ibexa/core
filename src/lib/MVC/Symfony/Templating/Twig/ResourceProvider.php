@@ -15,8 +15,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
  */
 final class ResourceProvider implements ResourceProviderInterface
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(ConfigResolverInterface $configResolver)
     {

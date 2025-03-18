@@ -31,7 +31,7 @@ class ContentFieldValidationException extends APIContentFieldValidationException
      *
      * @var array<int, array<string, \Ibexa\Contracts\Core\FieldType\ValidationError|\Ibexa\Contracts\Core\FieldType\ValidationError[]>>
      */
-    protected $errors;
+    protected array $errors;
 
     /** @var string|null */
     protected $contentName;

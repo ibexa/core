@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\FieldType\View\ParameterProvider;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProvider\LocaleParameterProvider;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class LocaleParameterProviderTest extends TestCase
 {
-    public function providerForTestGetViewParameters()
+    public function providerForTestGetViewParameters(): array
     {
         return [
             [true, 'fr_FR'],
@@ -28,7 +29,7 @@ class LocaleParameterProviderTest extends TestCase
     /**
      * @dataProvider providerForTestGetViewParameters
      */
-    public function testGetViewParameters($hasRequestLocale, $expectedLocale)
+    public function testGetViewParameters(bool $hasRequestLocale, string $expectedLocale): void
     {
         $field = new Field(['languageCode' => 'cro-HR']);
         $parameterProvider = new LocaleParameterProvider($this->getLocaleConverterMock());
@@ -39,7 +40,7 @@ class LocaleParameterProviderTest extends TestCase
         );
     }
 
-    protected function getRequestStackMock($hasLocale)
+    protected function getRequestStackMock($hasLocale): RequestStack
     {
         $requestStack = new RequestStack();
         $parameterBagMock = $this->createMock(ParameterBag::class);
@@ -62,7 +63,7 @@ class LocaleParameterProviderTest extends TestCase
         return $requestStack;
     }
 
-    protected function getLocaleConverterMock()
+    protected function getLocaleConverterMock(): MockObject
     {
         $mock = $this->createMock(LocaleConverterInterface::class);
 

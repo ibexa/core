@@ -25,11 +25,9 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 )]
 class DebugConfigResolverCommand extends Command
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
-    private $siteAccess;
+    private SiteAccess $siteAccess;
 
     public function __construct(
         ConfigResolverInterface $configResolver,
@@ -44,7 +42,7 @@ class DebugConfigResolverCommand extends Command
     /**
      * {@inheritdoc}.
      */
-    public function configure()
+    public function configure(): void
     {
         $this->addArgument(
             'parameter',

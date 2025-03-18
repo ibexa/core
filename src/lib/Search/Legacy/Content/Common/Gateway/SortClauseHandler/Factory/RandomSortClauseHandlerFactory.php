@@ -15,10 +15,9 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRa
 class RandomSortClauseHandlerFactory
 {
     /** @var iterable|\Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler\AbstractRandom[] */
-    private $randomSortClauseGateways = [];
+    private iterable $randomSortClauseGateways;
 
-    /** @var \Doctrine\DBAL\Connection */
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection, iterable $randomSortClauseGateways)
     {

@@ -49,12 +49,12 @@ class UrlAlias extends MultipleValued
      *
      * @return bool
      */
-    public function matchContentInfo(ContentInfo $contentInfo)
+    public function matchContentInfo(ContentInfo $contentInfo): never
     {
         throw new \RuntimeException('matchContentInfo() is not supported by the UrlAlias matcher');
     }
 
-    public function setMatchingConfig($matchingConfig)
+    public function setMatchingConfig($matchingConfig): void
     {
         if (!is_array($matchingConfig)) {
             $matchingConfig = [$matchingConfig];
@@ -62,7 +62,7 @@ class UrlAlias extends MultipleValued
 
         array_walk(
             $matchingConfig,
-            static function (&$item) {
+            static function (&$item): void {
                 $item = trim($item, '/ ');
             }
         );

@@ -17,8 +17,7 @@ use Ibexa\Core\QueryType\BuiltIn\SortSpec\SortSpecParser;
  */
 final class SortClausesFactory implements SortClausesFactoryInterface
 {
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParserInterface */
-    private $sortClauseParser;
+    private SortClauseParserInterface $sortClauseParser;
 
     public function __construct(SortClauseParserInterface $sortClauseArgsParser)
     {

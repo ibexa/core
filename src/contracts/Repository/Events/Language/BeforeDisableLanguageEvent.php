@@ -14,11 +14,9 @@ use UnexpectedValueException;
 
 final class BeforeDisableLanguageEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
-    private $language;
+    private Language $language;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language|null */
-    private $disabledLanguage;
+    private ?Language $disabledLanguage = null;
 
     public function __construct(Language $language)
     {

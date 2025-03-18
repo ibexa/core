@@ -15,7 +15,7 @@ class QueryControllerContext extends RawMinkContext
     /**
      * @Given /^the Query results are assigned to the "([^"]*)" twig variable$/
      */
-    public function theQueryResultsAreAssignedToTheTwigVariable($twigVariableName)
+    public function theQueryResultsAreAssignedToTheTwigVariable($twigVariableName): void
     {
         $variableTypes = $this->getVariableTypesFromTemplate();
 
@@ -25,7 +25,7 @@ class QueryControllerContext extends RawMinkContext
     /**
      * @Then the Query results assigned to the :arg1 twig variable is a :arg2 object
      */
-    public function theQueryResultsAssignedToTheTwigVariableIsAObject($twigVariableName, $className)
+    public function theQueryResultsAssignedToTheTwigVariableIsAObject($twigVariableName, $className): void
     {
         $variableTypes = $this->getVariableTypesFromTemplate();
 
@@ -36,7 +36,7 @@ class QueryControllerContext extends RawMinkContext
     /**
      * @Then the Query results assigned to the twig variable is a Pagerfanta object and has limit :arg1 and selected page :arg2
      */
-    public function theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams($pageLimit, $pageValue)
+    public function theQueryResultsAssignedToTheTwigVariableIsAObjectAndHasLimitAndCountParams($pageLimit, $pageValue): void
     {
         $pageLimitFound = false;
         $currentPageFound = false;

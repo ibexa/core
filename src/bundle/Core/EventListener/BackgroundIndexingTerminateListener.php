@@ -9,6 +9,7 @@ namespace Ibexa\Bundle\Core\EventListener;
 
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
@@ -26,11 +27,9 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
-    protected $persistenceHandler;
+    protected Handler $persistenceHandler;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
-    protected $searchHandler;
+    protected SearchHandler $searchHandler;
 
     /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] */
     protected $contentInfo = [];
@@ -56,7 +55,7 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
     /**
      * {@inheritdoc}
      */
-    public function registerContent(ContentInfo $contentInfo)
+    public function registerContent(ContentInfo $contentInfo): void
     {
         $this->contentInfo[] = $contentInfo;
     }
@@ -64,12 +63,12 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
     /**
      * {@inheritdoc}
      */
-    public function registerLocation(Location $location)
+    public function registerLocation(Location $location): void
     {
         $this->locations[] = $location;
     }
 
-    public function reindex()
+    public function reindex(): void
     {
         $contentHandler = $this->persistenceHandler->contentHandler();
         $contentIndexed = [];

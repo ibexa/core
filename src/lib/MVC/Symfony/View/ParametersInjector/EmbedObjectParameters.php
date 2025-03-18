@@ -21,7 +21,7 @@ class EmbedObjectParameters implements EventSubscriberInterface
         return [ViewEvents::FILTER_VIEW_PARAMETERS => 'injectEmbedObjectParameters'];
     }
 
-    public function injectEmbedObjectParameters(FilterViewParametersEvent $event)
+    public function injectEmbedObjectParameters(FilterViewParametersEvent $event): void
     {
         $viewType = $event->getView()->getViewType();
         if ($viewType == 'embed' || $viewType == 'embed-inline') {

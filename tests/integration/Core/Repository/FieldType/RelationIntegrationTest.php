@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
+use Ibexa\Core\FieldType\Relation\Value;
 use Ibexa\Core\FieldType\Relation\Value as RelationValue;
 use Ibexa\Core\Repository\Values\Content\Relation;
 
@@ -49,7 +50,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    public function getCreateExpectedRelations(Content $content)
+    public function getCreateExpectedRelations(Content $content): array
     {
         $contentService = $this->getRepository()->getContentService();
 
@@ -70,7 +71,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array|\Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
      */
-    public function getUpdateExpectedRelations(Content $content)
+    public function getUpdateExpectedRelations(Content $content): array
     {
         $contentService = $this->getRepository()->getContentService();
 
@@ -86,7 +87,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return [
             'selectionMethod' => [
@@ -111,7 +112,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
     /**
      * @covers \Ibexa\Tests\Integration\Core\Repository\FieldType\BaseIntegrationTest::getValidatorSchema()
      */
-    public function getValidatorSchema()
+    public function getValidatorSchema(): array
     {
         return [];
     }
@@ -123,7 +124,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return [
             'selectionMethod' => 0,
@@ -140,7 +141,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidValidatorConfiguration()
+    public function getValidValidatorConfiguration(): array
     {
         return [];
     }
@@ -152,7 +153,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidFieldSettings()
+    public function getInvalidFieldSettings(): array
     {
         return [
             'selectionMethod' => 'a',
@@ -169,7 +170,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getInvalidValidatorConfiguration()
+    public function getInvalidValidatorConfiguration(): array
     {
         return ['noValidator' => true];
     }
@@ -179,7 +180,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return mixed
      */
-    public function getValidCreationFieldData()
+    public function getValidCreationFieldData(): Value
     {
         return new RelationValue(4);
     }
@@ -202,7 +203,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
      */
-    public function assertFieldDataLoadedCorrect(Field $field)
+    public function assertFieldDataLoadedCorrect(Field $field): void
     {
         self::assertInstanceOf(
             RelationValue::class,
@@ -218,7 +219,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
         );
     }
 
-    public function provideInvalidCreationFieldData()
+    public function provideInvalidCreationFieldData(): array
     {
         return [
             [
@@ -304,7 +305,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideToHashData()
+    public function provideToHashData(): array
     {
         return [
             [
@@ -323,7 +324,7 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
      *
      * @return array
      */
-    public function provideFromHashData()
+    public function provideFromHashData(): array
     {
         return [
             [
@@ -333,14 +334,14 @@ class RelationIntegrationTest extends SearchBaseIntegrationTest
         ];
     }
 
-    public function providerForTestIsEmptyValue()
+    public function providerForTestIsEmptyValue(): array
     {
         return [
             [new RelationValue()],
         ];
     }
 
-    public function providerForTestIsNotEmptyValue()
+    public function providerForTestIsNotEmptyValue(): array
     {
         return [
             [

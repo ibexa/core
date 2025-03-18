@@ -21,7 +21,7 @@ class CriteriaConverterPass implements CompilerPassInterface
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (
             !$container->hasDefinition('ibexa.search.legacy.gateway.criteria_converter.content') &&

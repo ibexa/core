@@ -18,7 +18,7 @@ use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
  */
 class MapperTest extends LanguageAwareTestCase
 {
-    public function testCreateObjectStateFromData()
+    public function testCreateObjectStateFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -33,7 +33,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateListFromData()
+    public function testCreateObjectStateListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -48,7 +48,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupFromData()
+    public function testCreateObjectStateGroupFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -63,7 +63,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupListFromData()
+    public function testCreateObjectStateGroupListFromData(): void
     {
         $mapper = $this->getMapper();
 
@@ -78,7 +78,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateFromInputStruct()
+    public function testCreateObjectStateFromInputStruct(): void
     {
         $mapper = $this->getMapper();
 
@@ -93,7 +93,7 @@ class MapperTest extends LanguageAwareTestCase
         );
     }
 
-    public function testCreateObjectStateGroupFromInputStruct()
+    public function testCreateObjectStateGroupFromInputStruct(): void
     {
         $mapper = $this->getMapper();
 
@@ -113,7 +113,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper
      */
-    protected function getMapper()
+    protected function getMapper(): Mapper
     {
         return new Mapper(
             $this->getLanguageHandler()
@@ -125,7 +125,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return array[][]
      */
-    protected function getObjectStateRowsFixture()
+    protected function getObjectStateRowsFixture(): array
     {
         return [
             [
@@ -147,7 +147,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return array[][]
      */
-    protected function getObjectStateGroupRowsFixture()
+    protected function getObjectStateGroupRowsFixture(): array
     {
         return [
             [
@@ -168,7 +168,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
      */
-    protected function getObjectStateFixture()
+    protected function getObjectStateFixture(): ObjectState
     {
         $objectState = new ObjectState();
         $objectState->identifier = 'not_locked';
@@ -185,7 +185,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
      */
-    protected function getObjectStateGroupFixture()
+    protected function getObjectStateGroupFixture(): Group
     {
         $group = new Group();
         $group->identifier = 'ez_lock';
@@ -202,7 +202,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
      */
-    protected function getObjectStateInputStructFixture()
+    protected function getObjectStateInputStructFixture(): InputStruct
     {
         $inputStruct = new InputStruct();
 
@@ -219,7 +219,7 @@ class MapperTest extends LanguageAwareTestCase
      *
      * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct
      */
-    protected function getObjectStateGroupInputStructFixture()
+    protected function getObjectStateGroupInputStructFixture(): InputStruct
     {
         $inputStruct = new InputStruct();
 

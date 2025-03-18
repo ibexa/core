@@ -32,7 +32,7 @@ class RelationTest extends TestCase
      * @group fieldType
      * @group relationlist
      */
-    public function testToStorageFieldDefinition()
+    public function testToStorageFieldDefinition(): void
     {
         $fieldDefinition = new PersistenceFieldDefinition(
             [

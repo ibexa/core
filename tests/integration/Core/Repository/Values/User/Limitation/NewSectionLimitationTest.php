@@ -18,7 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\NewSectionLimitation;
  */
 class NewSectionLimitationTest extends BaseLimitationTest
 {
-    public function testNewSectionLimitationAllow()
+    public function testNewSectionLimitationAllow(): void
     {
         $repository = $this->getRepository();
 
@@ -69,7 +69,7 @@ class NewSectionLimitationTest extends BaseLimitationTest
         );
     }
 
-    public function testNewSectionLimitationForbid()
+    public function testNewSectionLimitationForbid(): void
     {
         $this->expectException(UnauthorizedException::class);
 

@@ -16,6 +16,7 @@ use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,14 +24,14 @@ use Symfony\Component\HttpFoundation\Request;
 class ContentDownloadRouteReferenceListenerTest extends TestCase
 {
     /** @var \Ibexa\Core\Helper\TranslationHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $translationHelperMock;
+    protected MockObject $translationHelperMock;
 
     protected function setUp(): void
     {
         $this->translationHelperMock = $this->createMock(TranslationHelper::class);
     }
 
-    public function testIgnoresOtherRoutes()
+    public function testIgnoresOtherRoutes(): void
     {
         $routeReference = new RouteReference('some_route');
         $event = new RouteReferenceGenerationEvent($routeReference, new Request());
@@ -41,7 +42,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         self::assertEquals('some_route', $routeReference->getRoute());
     }
 
-    public function testThrowsExceptionOnBadContentParameter()
+    public function testThrowsExceptionOnBadContentParameter(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -58,7 +59,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         $eventListener->onRouteReferenceGeneration($event);
     }
 
-    public function testThrowsExceptionOnBadFieldIdentifier()
+    public function testThrowsExceptionOnBadFieldIdentifier(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -86,7 +87,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         $eventListener->onRouteReferenceGeneration($event);
     }
 
-    public function testGeneratesCorrectRouteReference()
+    public function testGeneratesCorrectRouteReference(): void
     {
         $content = $this->getCompleteContent();
 
@@ -112,7 +113,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         self::assertEquals('Test-file.pdf', $routeReference->get(ContentDownloadRouteReferenceListener::OPT_DOWNLOAD_NAME));
     }
 
-    public function testDownloadNameOverrideWorks()
+    public function testDownloadNameOverrideWorks(): void
     {
         $content = $this->getCompleteContent();
 
@@ -135,7 +136,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
     /**
      * @return \Ibexa\Core\Repository\Values\Content\Content
      */
-    protected function getCompleteContent()
+    protected function getCompleteContent(): Content
     {
         return new Content(
             [
@@ -157,7 +158,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         );
     }
 
-    protected function getListener()
+    protected function getListener(): ContentDownloadRouteReferenceListener
     {
         return new ContentDownloadRouteReferenceListener($this->translationHelperMock);
     }

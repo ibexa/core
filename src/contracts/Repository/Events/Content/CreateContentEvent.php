@@ -14,17 +14,14 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 
 final class CreateContentEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct */
-    private $contentCreateStruct;
+    private ContentCreateStruct $contentCreateStruct;
 
-    /** @var array */
-    private $locationCreateStructs;
+    private array $locationCreateStructs;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content */
-    private $content;
+    private Content $content;
 
     /** @var string[]|null */
-    private $fieldIdentifiersToValidate;
+    private ?array $fieldIdentifiersToValidate;
 
     public function __construct(
         Content $content,

@@ -15,16 +15,14 @@ use Symfony\Component\Process\Process;
 
 class ConsoleContext implements Context
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     /** @var string[] */
-    private $siteaccessList;
+    private array $siteaccessList;
 
-    /** @var string */
-    private $defaultSiteaccess;
+    private string $defaultSiteaccess;
 
-    private $scriptOutput = null;
+    private ?string $scriptOutput = null;
 
     /**
      * Elements referenced by 'it' in sentences.
@@ -51,7 +49,7 @@ class ConsoleContext implements Context
     /**
      * @When I run a console script without specifying a siteaccess
      */
-    public function iRunAConsoleScript()
+    public function iRunAConsoleScript(): void
     {
         $this->iRunTheCommand('ibexa:behat:test-siteaccess');
     }
@@ -59,7 +57,7 @@ class ConsoleContext implements Context
     /**
      * @When I run a console script with the siteaccess option :siteaccessOption
      */
-    public function iRunAConsoleScriptWithSiteaccess($siteaccessOption)
+    public function iRunAConsoleScriptWithSiteaccess($siteaccessOption): void
     {
         $this->iRunTheCommand('ibexa:behat:test-siteaccess', $siteaccessOption);
     }
@@ -67,7 +65,7 @@ class ConsoleContext implements Context
     /**
      * @Then It is executed with the siteaccess :siteaccess
      */
-    public function iExpectItToBeExecutedWithTheSiteaccess($siteaccess)
+    public function iExpectItToBeExecutedWithTheSiteaccess($siteaccess): void
     {
         $actualSiteaccess = trim($this->scriptOutput);
         Assertion::assertEquals(
@@ -82,7 +80,7 @@ class ConsoleContext implements Context
      *
      * default one: default siteaccess.
      */
-    public function iExpectItToBeExecutedWithTheDefaultOne()
+    public function iExpectItToBeExecutedWithTheDefaultOne(): void
     {
         $this->iExpectItToBeExecutedWithTheSiteaccess($this->getDefaultSiteaccessName());
     }
@@ -90,7 +88,7 @@ class ConsoleContext implements Context
     /**
      * @Given /^that there is a "([^"]*)" siteaccess$/
      */
-    public function thereIsASiteaccess($expectedSiteaccessName, $default = false)
+    public function thereIsASiteaccess($expectedSiteaccessName, $default = false): void
     {
         $found = false;
 
@@ -108,7 +106,7 @@ class ConsoleContext implements Context
     /**
      * @Given /^that there is a default "([^"]*)" siteaccess$/
      */
-    public function thereIsADefaultSiteaccess($expectedSiteaccessName)
+    public function thereIsADefaultSiteaccess($expectedSiteaccessName): void
     {
         $this->thereIsASiteaccess($expectedSiteaccessName, true);
         Assertion::assertEquals(
@@ -122,7 +120,7 @@ class ConsoleContext implements Context
      *
      * it: the siteaccess referenced above.
      */
-    public function iRunAConsoleScriptWithIt()
+    public function iRunAConsoleScriptWithIt(): void
     {
         $this->iRunTheCommand(
             'ibexa:behat:test-siteaccess',
@@ -131,7 +129,7 @@ class ConsoleContext implements Context
         $this->it['siteaccess'] = $this->scriptOutput;
     }
 
-    private function iRunTheCommand($command, $siteaccess = null)
+    private function iRunTheCommand(string $command, $siteaccess = null): void
     {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
@@ -164,7 +162,7 @@ class ConsoleContext implements Context
     /**
      * @Given /^that there is a siteaccess that is not the default one$/
      */
-    public function thereIsASiteaccessThatIsNotTheDefaultOne()
+    public function thereIsASiteaccessThatIsNotTheDefaultOne(): void
     {
         $siteaccessName = $this->getNonDefaultSiteaccessName();
         Assertion::assertNotNull($siteaccessName, 'There is no siteaccess other than the default one');
@@ -174,7 +172,7 @@ class ConsoleContext implements Context
     /**
      * @Then /^I expect it to be executed with it$/
      */
-    public function iExpectItToBeExecutedWithIt()
+    public function iExpectItToBeExecutedWithIt(): void
     {
         Assertion::assertEquals($this->it['siteaccess'], $this->scriptOutput);
     }

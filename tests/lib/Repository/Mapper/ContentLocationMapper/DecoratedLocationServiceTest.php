@@ -14,18 +14,19 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
 use Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper;
 use Ibexa\Core\Repository\Mapper\ContentLocationMapper\DecoratedLocationService;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class DecoratedLocationServiceTest extends TestCase
 {
     /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\DecoratedLocationService */
-    private $locationService;
+    private DecoratedLocationService $locationService;
 
     /** @var \Ibexa\Contracts\Core\Repository\LocationService */
-    private $innerLocationService;
+    private MockObject $innerLocationService;
 
     /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper */
-    private $mapper;
+    private MockObject $mapper;
 
     protected function setUp(): void
     {

@@ -42,8 +42,7 @@ abstract class BaseTest extends TestCase
      */
     public const DB_INT_MAX = 2147483647;
 
-    /** @var \Ibexa\Contracts\Core\Test\Repository\SetupFactory */
-    private $setupFactory;
+    private ?object $setupFactory = null;
 
     /** @var \Ibexa\Contracts\Core\Repository\Repository */
     private $repository;
@@ -261,7 +260,7 @@ abstract class BaseTest extends TestCase
      *
      * @param array $items An array of scalar values
      */
-    private function sortItems(array &$items)
+    private function sortItems(array &$items): void
     {
         $sorter = function ($a, $b): int {
             if (!is_scalar($a) || !is_scalar($b)) {
@@ -273,7 +272,7 @@ abstract class BaseTest extends TestCase
         usort($items, $sorter);
     }
 
-    private function assertPropertiesEqual($propertyName, $expectedValue, $actualValue, $sortArray = false)
+    private function assertPropertiesEqual($propertyName, $expectedValue, $actualValue, bool $sortArray = false): void
     {
         if ($expectedValue instanceof ArrayObject) {
             $expectedValue = $expectedValue->getArrayCopy();
@@ -326,7 +325,7 @@ abstract class BaseTest extends TestCase
         $userCreate->setField('first_name', 'Example');
         $userCreate->setField('last_name', 'User');
 
-        if (!empty($contentType)) {
+        if ($contentType instanceof ContentType) {
             $userCreate->contentType = $contentType;
         }
 
@@ -388,10 +387,10 @@ abstract class BaseTest extends TestCase
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
     protected function createCustomUserWithLogin(
-        $login,
-        $email,
+        string $login,
+        string $email,
         $userGroupName,
-        $roleIdentifier,
+        string $roleIdentifier,
         RoleLimitation $roleLimitation = null
     ) {
         $repository = $this->getRepository();
@@ -448,7 +447,7 @@ abstract class BaseTest extends TestCase
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\User\User
      */
-    protected function createUser($login, $firstName, $lastName, UserGroup $userGroup = null)
+    protected function createUser(string $login, $firstName, $lastName, UserGroup $userGroup = null)
     {
         $repository = $this->getRepository();
 
@@ -487,7 +486,7 @@ abstract class BaseTest extends TestCase
      */
     public function createDateTime($timestamp = null)
     {
-        $dateTime = new \DateTime();
+        $dateTime = new DateTime();
         if ($timestamp !== null) {
             $dateTime->setTimestamp($timestamp);
         }
@@ -545,7 +544,7 @@ abstract class BaseTest extends TestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function createRoleWithPolicies($roleName, array $policiesData)
+    public function createRoleWithPolicies(string $roleName, array $policiesData)
     {
         $repository = $this->getRepository(false);
         $roleService = $repository->getRoleService();
@@ -586,7 +585,7 @@ abstract class BaseTest extends TestCase
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
      */
-    public function createUserWithPolicies($login, array $policiesData, RoleLimitation $roleLimitation = null)
+    public function createUserWithPolicies(string $login, array $policiesData, RoleLimitation $roleLimitation = null)
     {
         $repository = $this->getRepository(false);
         $roleService = $repository->getRoleService();
@@ -646,7 +645,7 @@ abstract class BaseTest extends TestCase
      *
      * @return mixed the return result of the given callback
      */
-    public function performRawDatabaseOperation(callable $callback)
+    public function performRawDatabaseOperation(callable $callback): void
     {
         $repository = $this->getRepository(false);
         $repository->beginTransaction();

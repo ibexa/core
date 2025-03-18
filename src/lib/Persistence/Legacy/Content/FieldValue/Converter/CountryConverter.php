@@ -22,7 +22,7 @@ class CountryConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $value
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $storageFieldValue
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
+    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue): void
     {
         $storageFieldValue->dataText = empty($value->data) ? '' : implode(',', $value->data);
         $storageFieldValue->sortKeyString = $value->sortKey;
@@ -34,7 +34,7 @@ class CountryConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
      * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
+    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue): void
     {
         $fieldValue->data = empty($value->dataText) ? null : explode(',', $value->dataText);
         $fieldValue->sortKey = $value->sortKeyString;
@@ -46,7 +46,7 @@ class CountryConverter implements Converter
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
+    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef): void
     {
         if (isset($fieldDef->fieldTypeConstraints->fieldSettings['isMultiple'])) {
             $storageDef->dataInt1 = (int)$fieldDef->fieldTypeConstraints->fieldSettings['isMultiple'];
@@ -63,7 +63,7 @@ class CountryConverter implements Converter
      * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
      * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
+    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef): void
     {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             [

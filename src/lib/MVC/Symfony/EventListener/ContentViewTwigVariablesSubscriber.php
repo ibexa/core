@@ -23,14 +23,11 @@ final class ContentViewTwigVariablesSubscriber implements EventSubscriberInterfa
 
     public const PARAMETERS_KEY = 'params';
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\VariableProviderRegistry */
-    private $parameterProviderRegistry;
+    private VariableProviderRegistry $parameterProviderRegistry;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
-    /** @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage */
-    private $expressionLanguage;
+    private ExpressionLanguage $expressionLanguage;
 
     public function __construct(
         VariableProviderRegistry $parameterProviderRegistry,

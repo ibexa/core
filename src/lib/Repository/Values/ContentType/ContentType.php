@@ -51,10 +51,8 @@ class ContentType extends APIContentType
 
     /**
      * Contains the content type field definitions from this type.
-     *
-     * @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection
      */
-    protected $fieldDefinitions;
+    protected FieldDefinitionCollection $fieldDefinitions;
 
     public function __construct(array $data = [])
     {

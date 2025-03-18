@@ -20,7 +20,7 @@ class EZP22840RoleLimitations extends BaseTest
     /**
      * Test Subtree Role Assignment Limitation against state/assign.
      */
-    public function testSubtreeRoleAssignLimitation()
+    public function testSubtreeRoleAssignLimitation(): void
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -66,7 +66,7 @@ class EZP22840RoleLimitations extends BaseTest
     /**
      * Test Section Role Assignment Limitation against user/login.
      */
-    public function testSectionRoleAssignLimitation()
+    public function testSectionRoleAssignLimitation(): void
     {
         $repository = $this->getRepository();
         $permissionResolver = $repository->getPermissionResolver();

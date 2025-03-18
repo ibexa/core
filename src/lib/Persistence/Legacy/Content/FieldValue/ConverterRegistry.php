@@ -13,10 +13,8 @@ class ConverterRegistry
 {
     /**
      * Map of converters.
-     *
-     * @var array
      */
-    protected $converterMap = [];
+    protected array $converterMap;
 
     /**
      * Create converter registry with converter map.
@@ -43,7 +41,7 @@ class ConverterRegistry
      * @param string $typeName
      * @param mixed $converter Callable or converter instance
      */
-    public function register($typeName, $converter)
+    public function register($typeName, $converter): void
     {
         $this->converterMap[$typeName] = $converter;
     }

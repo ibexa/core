@@ -21,7 +21,7 @@ class SiteAccessGroupConfigResolver extends SiteAccessConfigResolver
     protected ContainerInterface $container;
 
     /** @var string[][] */
-    protected $siteAccessGroups;
+    protected array $siteAccessGroups;
 
     public function __construct(
         ContainerInterface $container,

@@ -12,21 +12,22 @@ use Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader;
 use Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOConfigProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class LegacyStorageImageFileListTest extends TestCase
 {
     /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader|\PHPUnit\Framework\MockObject\MockObject */
-    protected $rowReaderMock;
+    protected MockObject $rowReaderMock;
 
     /** @var \Ibexa\Bundle\Core\Imagine\VariationPurger\LegacyStorageImageFileList */
     protected $fileList;
 
     /** @var \Ibexa\Core\IO\IOConfigProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $ioConfigResolverMock;
+    private MockObject $ioConfigResolverMock;
 
     /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $configResolverMock;
+    private MockObject $configResolverMock;
 
     protected function setUp(): void
     {
@@ -48,7 +49,7 @@ class LegacyStorageImageFileListTest extends TestCase
         );
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $expected = [
             'path/to/1st/image.jpg',
@@ -64,7 +65,7 @@ class LegacyStorageImageFileListTest extends TestCase
     /**
      * Tests that the iterator transforms the ezimagefile value into a binaryfile id.
      */
-    public function testImageIdTransformation()
+    public function testImageIdTransformation(): void
     {
         $this->configureRowReaderMock(['var/ibexa_demo_site/storage/images/path/to/1st/image.jpg']);
         foreach ($this->fileList as $file) {
@@ -72,7 +73,7 @@ class LegacyStorageImageFileListTest extends TestCase
         }
     }
 
-    private function configureRowReaderMock(array $fileList)
+    private function configureRowReaderMock(array $fileList): void
     {
         $mockInvocator = $this->rowReaderMock->expects(self::any())->method('getRow');
         call_user_func_array([$mockInvocator, 'willReturnOnConsecutiveCalls'], $fileList);

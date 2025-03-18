@@ -45,7 +45,7 @@ class QueryParameterContentViewQueryTypeMapper implements ContentViewQueryTypeMa
      *
      * @return array
      */
-    private function extractParametersFromContentView(ContentView $contentView)
+    private function extractParametersFromContentView(ContentView $contentView): array
     {
         $queryParameters = [];
 

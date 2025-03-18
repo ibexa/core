@@ -18,10 +18,8 @@ class ExceptionConversion extends Gateway
 {
     /**
      * The wrapped gateway.
-     *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Gateway
      */
-    protected $innerGateway;
+    protected Gateway $innerGateway;
 
     /**
      * ExceptionConversion constructor.

@@ -11,6 +11,7 @@ namespace Ibexa\Core\FieldType\ImageAsset;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy;
+use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy as ContentThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
@@ -18,14 +19,11 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 
 class ImageAssetThumbnailStrategy implements FieldTypeBasedThumbnailStrategy
 {
-    /** @var string */
-    private $fieldTypeIdentifier;
+    private string $fieldTypeIdentifier;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy */
-    private $thumbnailStrategy;
+    private ThumbnailStrategy $thumbnailStrategy;
 
     public function __construct(
         string $fieldTypeIdentifier,

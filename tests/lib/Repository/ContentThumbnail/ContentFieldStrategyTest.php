@@ -22,8 +22,7 @@ class ContentFieldStrategyTest extends TestCase
     private function getFieldTypeBasedThumbnailStrategy(string $fieldTypeIdentifier): FieldTypeBasedThumbnailStrategy
     {
         return new class($fieldTypeIdentifier) implements FieldTypeBasedThumbnailStrategy {
-            /** @var string */
-            private $fieldTypeIdentifier;
+            private string $fieldTypeIdentifier;
 
             public function __construct(string $fieldTypeIdentifier)
             {

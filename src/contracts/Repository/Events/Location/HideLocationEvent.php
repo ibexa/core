@@ -13,11 +13,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
 final class HideLocationEvent extends AfterEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $hiddenLocation;
+    private Location $hiddenLocation;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Location */
-    private $location;
+    private Location $location;
 
     public function __construct(
         Location $hiddenLocation,

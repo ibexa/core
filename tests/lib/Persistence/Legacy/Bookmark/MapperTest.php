@@ -19,14 +19,14 @@ use PHPUnit\Framework\TestCase;
 class MapperTest extends TestCase
 {
     /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper */
-    private $mapper;
+    private Mapper $mapper;
 
     protected function setUp(): void
     {
         $this->mapper = new Mapper();
     }
 
-    public function testCreateBookmarkFromCreateStruct()
+    public function testCreateBookmarkFromCreateStruct(): void
     {
         $createStruct = new CreateStruct([
             'locationId' => 54,
@@ -39,7 +39,7 @@ class MapperTest extends TestCase
         ]), $this->mapper->createBookmarkFromCreateStruct($createStruct));
     }
 
-    public function testExtractBookmarksFromRows()
+    public function testExtractBookmarksFromRows(): void
     {
         $rows = [
             [

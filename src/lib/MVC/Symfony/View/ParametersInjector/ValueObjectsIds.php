@@ -23,7 +23,7 @@ class ValueObjectsIds implements EventSubscriberInterface
         return [View\ViewEvents::FILTER_VIEW_PARAMETERS => 'injectValueObjectsIds'];
     }
 
-    public function injectValueObjectsIds(View\Event\FilterViewParametersEvent $event)
+    public function injectValueObjectsIds(View\Event\FilterViewParametersEvent $event): void
     {
         $view = $event->getView();
         $parameterBag = $event->getParameterBag();

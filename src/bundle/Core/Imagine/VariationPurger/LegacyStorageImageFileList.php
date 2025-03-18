@@ -26,23 +26,17 @@ class LegacyStorageImageFileList implements ImageFileList
 
     /**
      * Iteration cursor on $statement.
-     *
-     * @var int
      */
-    private $cursor;
+    private ?int $cursor = null;
 
     /**
      * Used to get ezimagefile rows.
-     *
-     * @var \Ibexa\Bundle\Core\Imagine\VariationPurger\ImageFileRowReader
      */
-    private $rowReader;
+    private ImageFileRowReader $rowReader;
 
-    /** @var \Ibexa\Core\IO\IOConfigProvider */
-    private $ioConfigResolver;
+    private IOConfigProvider $ioConfigResolver;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
-    private $configResolver;
+    private ConfigResolverInterface $configResolver;
 
     public function __construct(
         ImageFileRowReader $rowReader,

@@ -100,12 +100,12 @@ class EZP22409RelationListTypeStateTest extends BaseTest
         $contentTypeService->publishContentTypeDraft($type);
     }
 
-    public function testCreateObjectWithRelationToContentType()
+    public function testCreateObjectWithRelationToContentType(): void
     {
         $this->createContentWithRelationList();
     }
 
-    public function testCreateObjectWithRelationToContentTypeWithExistingDraft()
+    public function testCreateObjectWithRelationToContentTypeWithExistingDraft(): void
     {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
@@ -120,7 +120,7 @@ class EZP22409RelationListTypeStateTest extends BaseTest
     /**
      * Creates content #2 of type 'test-type' with a relation list to new content #1 of type 'folder'.
      */
-    private function createContentWithRelationList()
+    private function createContentWithRelationList(): void
     {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();

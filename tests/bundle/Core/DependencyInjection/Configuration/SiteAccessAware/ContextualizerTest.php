@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\SiteAccessAw
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ConfigResolver;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextualizer;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -17,32 +18,27 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ContextualizerTest extends TestCase
 {
     /** @var \PHPUnit\Framework\MockObject\MockObject */
-    private $container;
+    private MockObject $container;
 
-    /** @var string */
-    private $namespace = 'ibexa_test';
+    private string $namespace = 'ibexa_test';
 
-    /** @var string */
-    private $saNodeName = 'heyho';
+    private string $saNodeName = 'heyho';
 
-    /** @var array */
-    private $availableSAs = ['sa1', 'sa2', 'sa3'];
+    private array $availableSAs = ['sa1', 'sa2', 'sa3'];
 
-    /** @var array */
-    private $availableSiteAccessGroups = [
+    private array $availableSiteAccessGroups = [
         'sa_group1' => ['sa1', 'sa2', 'sa3'],
         'sa_group2' => ['sa1'],
     ];
 
-    /** @var array */
-    private $groupsBySA = [
+    private array $groupsBySA = [
         'sa1' => ['sa_group1', 'sa_group2'],
         'sa2' => ['sa_group1'],
         'sa3' => ['sa_group1'],
     ];
 
     /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextualizer */
-    private $contextualizer;
+    private Contextualizer $contextualizer;
 
     protected function setUp(): void
     {
@@ -61,7 +57,7 @@ class ContextualizerTest extends TestCase
     /**
      * @dataProvider setContextualParameterProvider
      */
-    public function testSetContextualParameter($parameterName, $scope, $value)
+    public function testSetContextualParameter(string $parameterName, string $scope, string|int|bool|array $value): void
     {
         $this->container
             ->expects(self::once())
@@ -71,7 +67,7 @@ class ContextualizerTest extends TestCase
         $this->contextualizer->setContextualParameter($parameterName, $scope, $value);
     }
 
-    public function setContextualParameterProvider()
+    public function setContextualParameterProvider(): array
     {
         return [
             ['my_parameter', 'sa1', 'foobar'],
@@ -83,7 +79,7 @@ class ContextualizerTest extends TestCase
         ];
     }
 
-    public function testMapSetting()
+    public function testMapSetting(): void
     {
         $fooSa1 = 'bar';
         $planetsSa1 = ['Earth'];
@@ -131,7 +127,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($boolSa2, $container->getParameter("$this->namespace.sa2.a_bool"));
     }
 
-    public function testMapConfigArray()
+    public function testMapConfigArray(): void
     {
         $containerBuilder = new ContainerBuilder();
         $this->contextualizer->setContainer($containerBuilder);
@@ -233,7 +229,7 @@ class ContextualizerTest extends TestCase
         );
     }
 
-    public function testMapConfigArraySecondLevel()
+    public function testMapConfigArraySecondLevel(): void
     {
         $containerBuilder = new ContainerBuilder();
         $this->contextualizer->setContainer($containerBuilder);
@@ -343,7 +339,7 @@ class ContextualizerTest extends TestCase
         );
     }
 
-    public function testMapConfigArrayUnique()
+    public function testMapConfigArrayUnique(): void
     {
         $containerBuilder = new ContainerBuilder();
         $this->contextualizer->setContainer($containerBuilder);
@@ -396,7 +392,7 @@ class ContextualizerTest extends TestCase
         );
     }
 
-    public function testGetSetContainer()
+    public function testGetSetContainer(): void
     {
         self::assertSame($this->container, $this->contextualizer->getContainer());
         $containerBuilder = new ContainerBuilder();
@@ -404,7 +400,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($containerBuilder, $this->contextualizer->getContainer());
     }
 
-    public function testGetSetSANodeName()
+    public function testGetSetSANodeName(): void
     {
         $nodeName = 'foobarbaz';
         self::assertSame($this->saNodeName, $this->contextualizer->getSiteAccessNodeName());
@@ -412,7 +408,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($nodeName, $this->contextualizer->getSiteAccessNodeName());
     }
 
-    public function testGetSetNamespace()
+    public function testGetSetNamespace(): void
     {
         $ns = 'ibexa';
         self::assertSame($this->namespace, $this->contextualizer->getNamespace());
@@ -420,7 +416,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($ns, $this->contextualizer->getNamespace());
     }
 
-    public function testGetSetAvailableSiteAccesses()
+    public function testGetSetAvailableSiteAccesses(): void
     {
         self::assertSame($this->availableSAs, $this->contextualizer->getAvailableSiteAccesses());
         $sa = ['foo', 'bar', 'baz'];
@@ -428,7 +424,7 @@ class ContextualizerTest extends TestCase
         self::assertSame($sa, $this->contextualizer->getAvailableSiteAccesses());
     }
 
-    public function testGetSetGroupsBySA()
+    public function testGetSetGroupsBySA(): void
     {
         self::assertSame($this->groupsBySA, $this->contextualizer->getGroupsBySiteAccess());
         $groups = ['foo' => ['bar', 'baz'], 'group2' => ['some', 'thing']];
@@ -443,7 +439,7 @@ class ContextualizerTest extends TestCase
      * @dataProvider fullMapConfigArrayProvider
      */
     public function testFullMapConfigArray(
-        $testId,
+        string $testId,
         $siteaccess,
         array $groups,
         array $defaultValue,
@@ -452,7 +448,7 @@ class ContextualizerTest extends TestCase
         $options,
         array $expected,
         $customSANodeKey = null
-    ) {
+    ): void {
         $this->contextualizer->setAvailableSiteAccesses($config['siteaccess']['list']);
         $this->contextualizer->setGroupsBySiteAccess([$siteaccess => $groups]);
 
@@ -502,7 +498,10 @@ class ContextualizerTest extends TestCase
         $this->contextualizer->mapConfigArray($testId, $config, $options);
     }
 
-    public function fullMapConfigArrayProvider()
+    /**
+     * @return \non-empty-list<non-empty-array<int<0, max>, (0|1|2|'customBaseKey'|'krondor'|'location_view'|'wizards'|array<(array<(literal-string&non-falsy-string), non-empty-array<(int<0, max>|(literal-string&lowercase-string&non-falsy-string)), ('dwarve.html.twig'|'krondor'|'moredhel.html.twig'|'moredhel2.html.twig'|'sorcerer.html.twig'|'sorcerer2.html.twig'|'sorcerer3.html.twig'|'warrior.html.twig'|'wizard.html.twig'|non-empty-array<(int<0, max>|(literal-string&lowercase-string&non-falsy-string)), ('krondor'|'Kulgan'|'Macros the Black'|'Pug'|'Rogen'|'William'|non-empty-array<(literal-string&non-falsy-string), non-empty-array<(literal-string&lowercase-string&non-falsy-string), ('dwarve.html.twig'|'moredhel.html.twig'|'moredhel2.html.twig'|'sorcerer.html.twig'|'sorcerer2.html.twig'|'sorcerer3.html.twig'|'warrior.html.twig'|'wizard.html.twig')>>)>)>>|non-empty-string)>)>>
+     */
+    public function fullMapConfigArrayProvider(): array
     {
         $testId = 'wizards';
         $siteaccess = 'krondor';

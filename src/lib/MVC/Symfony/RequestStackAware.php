@@ -29,7 +29,7 @@ trait RequestStackAware
     /**
      * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
      */
-    public function setRequestStack(RequestStack $requestStack)
+    public function setRequestStack(RequestStack $requestStack): void
     {
         $this->requestStack = $requestStack;
     }

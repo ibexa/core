@@ -18,8 +18,7 @@ class DoctrineStorage extends Gateway
     public const URL_TABLE = DoctrineDatabase::URL_TABLE;
     public const URL_LINK_TABLE = DoctrineDatabase::URL_LINK_TABLE;
 
-    /** @var \Doctrine\DBAL\Connection */
-    protected $connection;
+    protected Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -35,7 +34,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array An array of URLs, with ids as keys
      */
-    public function getIdUrlMap(array $ids)
+    public function getIdUrlMap(array $ids): array
     {
         $map = [];
 
@@ -68,7 +67,7 @@ class DoctrineStorage extends Gateway
      *
      * @return array An array of URL ids, with URLs as keys
      */
-    public function getUrlIdMap(array $urls)
+    public function getUrlIdMap(array $urls): array
     {
         $map = [];
 
@@ -137,7 +136,7 @@ class DoctrineStorage extends Gateway
      * @param int $fieldId
      * @param int $versionNo
      */
-    public function linkUrl($urlId, $fieldId, $versionNo)
+    public function linkUrl($urlId, $fieldId, $versionNo): void
     {
         $query = $this->connection->createQueryBuilder();
 

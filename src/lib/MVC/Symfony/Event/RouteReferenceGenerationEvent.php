@@ -16,11 +16,9 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class RouteReferenceGenerationEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\RouteReference */
-    private $routeReference;
+    private RouteReference $routeReference;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
-    private $request;
+    private Request $request;
 
     public function __construct(RouteReference $routeReference, Request $request)
     {
@@ -47,7 +45,7 @@ class RouteReferenceGenerationEvent extends Event
     /**
      * @param \Ibexa\Core\MVC\Symfony\Routing\RouteReference $routeReference
      */
-    public function setRouteReference($routeReference)
+    public function setRouteReference($routeReference): void
     {
         $this->routeReference = $routeReference;
     }

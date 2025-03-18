@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Permission;
 
 use Exception;
+use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermissionCriterionResolver;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as APIPermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionService;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
@@ -31,21 +33,16 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  */
 class CachedPermissionService implements PermissionService
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
-    private $innerPermissionResolver;
+    private PermissionResolver $innerPermissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionCriterionResolver */
-    private $permissionCriterionResolver;
+    private PermissionCriterionResolver $permissionCriterionResolver;
 
-    /** @var int */
-    private $cacheTTL;
+    private int $cacheTTL;
 
     /**
      * Counter for the current sudo nesting level {@see sudo()}.
-     *
-     * @var int
      */
-    private $sudoNestingLevel = 0;
+    private int $sudoNestingLevel = 0;
 
     /**
      * Cached value for current user's getCriterion() result.

@@ -27,7 +27,7 @@ final class VariableProviderRegistryTest extends TestCase
     private function getProvider(string $identifier): VariableProvider
     {
         return new class($identifier) implements VariableProvider {
-            private $identifier;
+            private string $identifier;
 
             public function __construct(string $identifier)
             {

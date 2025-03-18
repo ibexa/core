@@ -20,7 +20,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
      *
      * @return array
      */
-    public function getSettingsSchema()
+    public function getSettingsSchema(): array
     {
         return array_merge(
             parent::getSettingsSchema(),
@@ -38,7 +38,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
      *
      * @return mixed
      */
-    public function getValidFieldSettings()
+    public function getValidFieldSettings(): array
     {
         return
             [
@@ -90,7 +90,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         return 'Arkansas' . ' ' . 'Mississippi';
     }
 
-    protected function getAdditionallyIndexedFieldData()
+    protected function getAdditionallyIndexedFieldData(): array
     {
         return [
             [
@@ -106,7 +106,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         ];
     }
 
-    protected function getAdditionallyIndexedMultivaluedFieldData()
+    protected function getAdditionallyIndexedMultivaluedFieldData(): array
     {
         return [
             [
@@ -117,7 +117,7 @@ class SelectionMultilingualIntegrationTest extends SelectionIntegrationTest
         ];
     }
 
-    protected function getFullTextIndexedFieldData()
+    protected function getFullTextIndexedFieldData(): array
     {
         return [
             ['Hudson', 'Mississippi'],

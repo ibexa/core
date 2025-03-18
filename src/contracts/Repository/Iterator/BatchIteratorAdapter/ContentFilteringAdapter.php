@@ -15,14 +15,12 @@ use Iterator;
 
 final class ContentFilteringAdapter implements BatchIteratorAdapter
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
-    private $contentService;
+    private ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Filter\Filter */
-    private $filter;
+    private Filter $filter;
 
     /** @var string[]|null */
-    private $languages;
+    private ?array $languages;
 
     public function __construct(ContentService $contentService, Filter $filter, ?array $languages = null)
     {

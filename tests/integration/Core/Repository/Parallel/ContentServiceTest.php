@@ -29,14 +29,14 @@ final class ContentServiceTest extends BaseParallelTestCase
         $version2 = $contentService->createContentDraft($content->contentInfo, $content->versionInfo);
 
         $processList = new ParallelProcessList();
-        $this->addParallelProcess($processList, static function () use ($version1, $contentService) {
+        $this->addParallelProcess($processList, static function () use ($version1, $contentService): void {
             try {
                 $contentService->publishVersion($version1->versionInfo);
             } catch (BadStateException $e) {
             }
         });
 
-        $this->addParallelProcess($processList, static function () use ($version2, $contentService) {
+        $this->addParallelProcess($processList, static function () use ($version2, $contentService): void {
             try {
                 $contentService->publishVersion($version2->versionInfo);
             } catch (BadStateException $e) {

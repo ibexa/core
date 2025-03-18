@@ -19,7 +19,7 @@ class SectionEventSubscriber extends AbstractSearchEventSubscriber implements Ev
         ];
     }
 
-    public function onAssignSection(AssignSectionEvent $event)
+    public function onAssignSection(AssignSectionEvent $event): void
     {
         $contentInfo = $this->persistenceHandler->contentHandler()->loadContentInfo($event->getContentInfo()->id);
         $this->searchHandler->indexContent(

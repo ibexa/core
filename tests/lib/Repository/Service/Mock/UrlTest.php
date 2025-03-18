@@ -25,6 +25,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\URLService;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UrlTest extends BaseServiceMockTest
 {
@@ -45,7 +46,7 @@ class UrlTest extends BaseServiceMockTest
         $this->permissionResolver = $this->getPermissionResolverMock();
     }
 
-    public function testFindUrlsUnauthorized()
+    public function testFindUrlsUnauthorized(): void
     {
         $this->configureUrlViewPermissionForHasAccess(false);
 
@@ -53,7 +54,7 @@ class UrlTest extends BaseServiceMockTest
         $this->createUrlService()->findUrls(new URLQuery());
     }
 
-    public function testFindUrlsNonNumericOffset()
+    public function testFindUrlsNonNumericOffset(): void
     {
         $this->expectException(InvalidArgumentValue::class);
 
@@ -63,7 +64,7 @@ class UrlTest extends BaseServiceMockTest
         $this->createUrlService()->findUrls($query);
     }
 
-    public function testFindUrlsNonNumericLimit()
+    public function testFindUrlsNonNumericLimit(): void
     {
         $this->expectException(InvalidArgumentValue::class);
 
@@ -73,7 +74,7 @@ class UrlTest extends BaseServiceMockTest
         $this->createUrlService()->findUrls($query);
     }
 
-    public function testFindUrls()
+    public function testFindUrls(): void
     {
         $url = $this->getApiUrl();
 
@@ -102,7 +103,7 @@ class UrlTest extends BaseServiceMockTest
         self::assertEquals($expected, $this->createUrlService()->findUrls($query));
     }
 
-    public function testUpdateUrlUnauthorized()
+    public function testUpdateUrlUnauthorized(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -113,7 +114,7 @@ class UrlTest extends BaseServiceMockTest
         $this->createUrlService()->updateUrl($url, new URLUpdateStruct());
     }
 
-    public function testUpdateUrlNonUnique()
+    public function testUpdateUrlNonUnique(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -135,7 +136,7 @@ class UrlTest extends BaseServiceMockTest
         $urlService->updateUrl($url, $struct);
     }
 
-    public function testUpdateUrl()
+    public function testUpdateUrl(): void
     {
         $apiUrl = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
         $apiStruct = new URLUpdateStruct([
@@ -160,7 +161,7 @@ class UrlTest extends BaseServiceMockTest
         $this->urlHandler
             ->expects(self::once())
             ->method('updateUrl')
-            ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct) {
+            ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct): void {
                 $this->assertEquals($apiUrl->id, $id);
 
                 $this->assertEquals($apiStruct->url, $struct->url);
@@ -194,7 +195,7 @@ class UrlTest extends BaseServiceMockTest
         ]), $urlService->updateUrl($apiUrl, $apiStruct));
     }
 
-    public function testUpdateUrlStatus()
+    public function testUpdateUrlStatus(): void
     {
         $apiUrl = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
         $apiStruct = new URLUpdateStruct([
@@ -220,7 +221,7 @@ class UrlTest extends BaseServiceMockTest
         $this->urlHandler
             ->expects(self::once())
             ->method('updateUrl')
-            ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct) {
+            ->willReturnCallback(function ($id, $struct) use ($apiUrl, $apiStruct): void {
                 $this->assertEquals($apiUrl->id, $id);
 
                 $this->assertEquals($apiUrl->url, $struct->url);
@@ -254,7 +255,7 @@ class UrlTest extends BaseServiceMockTest
         ]), $urlService->updateUrl($apiUrl, $apiStruct));
     }
 
-    public function testLoadByIdUnauthorized()
+    public function testLoadByIdUnauthorized(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -276,7 +277,7 @@ class UrlTest extends BaseServiceMockTest
         $this->createUrlService()->loadById(self::URL_ID);
     }
 
-    public function testLoadById()
+    public function testLoadById(): void
     {
         $url = new URL([
             'id' => self::URL_ID,
@@ -295,7 +296,7 @@ class UrlTest extends BaseServiceMockTest
         self::assertEquals($url, $this->createUrlService()->loadById(self::URL_ID));
     }
 
-    public function testLoadByUrlUnauthorized()
+    public function testLoadByUrlUnauthorized(): void
     {
         $this->expectException(UnauthorizedException::class);
 
@@ -319,7 +320,7 @@ class UrlTest extends BaseServiceMockTest
         $this->createUrlService()->loadByUrl(self::URL_IBEXA_CO);
     }
 
-    public function testLoadByUrl()
+    public function testLoadByUrl(): void
     {
         $url = self::URL_IBEXA_CO;
 
@@ -343,7 +344,7 @@ class UrlTest extends BaseServiceMockTest
     /**
      * @dataProvider dateProviderForFindUsages
      */
-    public function testFindUsages($offset, $limit, ContentQuery $expectedQuery, array $usages)
+    public function testFindUsages(int $offset, int $limit, ContentQuery $expectedQuery, array $usages): void
     {
         $url = $this->getApiUrl(self::URL_ID, self::URL_IBEXA_CO);
 
@@ -352,11 +353,11 @@ class UrlTest extends BaseServiceMockTest
             $searchService
                 ->expects(self::once())
                 ->method('findContentInfo')
-                ->willReturnCallback(function ($query) use ($expectedQuery, $usages) {
+                ->willReturnCallback(function ($query) use ($expectedQuery, $usages): \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult {
                     $this->assertEquals($expectedQuery, $query);
 
                     return new ContentSearchResults([
-                        'searchHits' => array_map(static function ($id) {
+                        'searchHits' => array_map(static function ($id): SearchHit {
                             return new SearchHit([
                                 'valueObject' => new ContentInfo([
                                     'id' => $id,
@@ -388,7 +389,7 @@ class UrlTest extends BaseServiceMockTest
         }
     }
 
-    public function dateProviderForFindUsages()
+    public function dateProviderForFindUsages(): array
     {
         return [
             [
@@ -419,7 +420,7 @@ class UrlTest extends BaseServiceMockTest
         ];
     }
 
-    public function testCreateUpdateStruct()
+    public function testCreateUpdateStruct(): void
     {
         self::assertEquals(new URLUpdateStruct(), $this->createUrlService()->createUpdateStruct());
     }
@@ -471,7 +472,7 @@ class UrlTest extends BaseServiceMockTest
     /**
      * @return \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject
      */
-    private function createUrlService(array $methods = null)
+    private function createUrlService(array $methods = null): MockObject
     {
         return $this
             ->getMockBuilder(URLService::class)
@@ -480,7 +481,7 @@ class UrlTest extends BaseServiceMockTest
             ->getMock();
     }
 
-    private function getApiUrl($id = null, $url = null)
+    private function getApiUrl($id = null, $url = null): URL
     {
         return new URL(['id' => $id, 'url' => $url]);
     }

@@ -46,7 +46,7 @@ abstract class AbstractParserTestCase extends AbstractExtensionTestCase
      * @param string $scope SiteAccess name, group, default or global
      * @param bool $assertSame Set to false if you want to use assertEquals() instead of assertSame()
      */
-    protected function assertConfigResolverParameterValue($parameterName, $expectedValue, $scope, $assertSame = true)
+    protected function assertConfigResolverParameterValue(string $parameterName, $expectedValue, ?string $scope, $assertSame = true)
     {
         $chainConfigResolver = $this->getConfigResolver();
         $assertMethod = $assertSame ? 'assertSame' : 'assertEquals';

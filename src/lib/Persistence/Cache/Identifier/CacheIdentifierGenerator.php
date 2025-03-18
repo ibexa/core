@@ -22,14 +22,13 @@ final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterfac
 
     use LoggerAwareTrait;
 
-    /** @var string */
-    private $prefix;
+    private string $prefix;
 
     /** @var array<string,string> */
-    private $tagPatterns;
+    private array $tagPatterns;
 
     /** @var array<string,string> */
-    private $keyPatterns;
+    private array $keyPatterns;
 
     public function __construct(string $prefix, array $tagPatterns, array $keyPatterns)
     {

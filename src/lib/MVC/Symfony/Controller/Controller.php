@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Symfony\Component\Templating\TemplateReferenceInterface;
 
 abstract class Controller implements ServiceSubscriberInterface
 {
@@ -53,7 +54,7 @@ abstract class Controller implements ServiceSubscriberInterface
      *
      * @return bool
      */
-    public function hasParameter($parameterName)
+    public function hasParameter(string $parameterName)
     {
         return $this->getConfigResolver()->hasParameter($parameterName);
     }
@@ -75,7 +76,7 @@ abstract class Controller implements ServiceSubscriberInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($view, array $parameters = [], Response $response = null)
+    public function render(string|TemplateReferenceInterface $view, array $parameters = [], Response $response = null)
     {
         if (!isset($response)) {
             $response = new Response();

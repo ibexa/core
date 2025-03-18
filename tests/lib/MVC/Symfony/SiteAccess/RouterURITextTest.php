@@ -73,13 +73,13 @@ class RouterURITextTest extends RouterBaseTest
         ];
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $matcher = new URITextMatcher([], []);
         self::assertSame('uri:text', $matcher->getName());
     }
 
-    public function testAnalyseURI()
+    public function testAnalyseURI(): void
     {
         $siteAccessURI = '/footestbar';
         $semanticURI = '/something/hoho';
@@ -94,7 +94,7 @@ class RouterURITextTest extends RouterBaseTest
         self::assertSame($semanticURI, $matcher->analyseURI($siteAccessURI . $semanticURI));
     }
 
-    public function testAnalyseLink()
+    public function testAnalyseLink(): void
     {
         $siteAccessURI = '/footestbar';
         $semanticURI = '/something/hoho';
@@ -109,7 +109,7 @@ class RouterURITextTest extends RouterBaseTest
         self::assertSame($siteAccessURI . $semanticURI, $matcher->analyseLink($semanticURI));
     }
 
-    public function testReverseMatch()
+    public function testReverseMatch(): void
     {
         $semanticURI = '/hihi/hoho';
         $matcher = new URITextMatcher(

@@ -88,7 +88,7 @@ abstract class Regex implements Matcher
      *
      * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
      */
-    public function setRequest(SimplifiedRequest $request)
+    public function setRequest(SimplifiedRequest $request): void
     {
         $this->request = $request;
     }
@@ -98,7 +98,7 @@ abstract class Regex implements Matcher
      *
      * @param string $element
      */
-    public function setMatchElement($element)
+    public function setMatchElement($element): void
     {
         $this->element = $element;
     }
